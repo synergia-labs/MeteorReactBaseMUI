@@ -1,0 +1,44 @@
+const plugins = [
+    [
+        'babel-plugin-import',
+        {
+            'libraryName': '@material-ui/core',
+            // Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
+            'libraryDirectory': 'esm',
+            'camel2DashComponentName': false
+        },
+        'core'
+    ],
+    [
+        'babel-plugin-import',
+        {
+            'libraryName': '@material-ui/icons',
+            // Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
+            'libraryDirectory': 'esm',
+            'camel2DashComponentName': false
+        },
+        'icons'
+    ],
+    [
+        'babel-plugin-import',
+        {
+            'libraryName': '@material-ui/lab',
+            // Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
+            'libraryDirectory': 'esm',
+            'camel2DashComponentName': false
+        },
+        'lab'
+    ],
+    [
+        'babel-plugin-import',
+        {
+            'libraryName': '@material-ui/styles',
+            // Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
+            'libraryDirectory': 'esm',
+            'camel2DashComponentName': false
+        },
+        'styles'
+    ]
+];
+
+module.exports = {plugins};
