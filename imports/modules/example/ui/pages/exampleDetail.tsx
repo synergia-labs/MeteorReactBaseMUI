@@ -2,11 +2,14 @@ import React from 'react';
 import {withTracker} from "meteor/react-meteor-data";
 import {exampleApi} from "../../api/exampleApi";
 import SimpleForm from "../../../../ui/components/SimpleForm/SimpleForm";
-import SimpleImageUploadBase64 from "../../../../ui/components/ImageUpload/SimpleImageUploadBase64";
+import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
-import TextField from '@material-ui/core/TextField';
+import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
+import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
+import uploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
@@ -49,6 +52,20 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     <TextField
                         placeholder='Descrição'
                         name='description'
+                    />
+                </FormGroup>
+                <FormGroup key={'fields'}>
+                    <SelectField
+                        placeholder='Tipo'
+                        options={[
+                            {value:'normal',label:'Normal'},
+                            {value:'extra',label:'Extra'},
+                        ]}
+                        name='type'
+                    />
+                    <DatePickerField
+                        placeholder='Data'
+                        name='date'
                     />
                 </FormGroup>
                 <FormGroup key={'fields'} formType={'subform'} name={'contacts'}>

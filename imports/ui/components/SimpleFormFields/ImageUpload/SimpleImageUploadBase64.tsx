@@ -4,7 +4,7 @@ import FileInputComponent from 'react-file-input-previews-base64'
 
 
 
-import {hasValue} from "../../../libs/hasValue";
+import {hasValue} from "../../../../libs/hasValue";
 
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{

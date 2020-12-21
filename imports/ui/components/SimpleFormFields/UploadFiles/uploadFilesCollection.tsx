@@ -4,11 +4,26 @@ import Dropzone from 'react-dropzone';
 import _ from "lodash";
 import {attachmentsCollection} from '/imports/api/attachmentsCollection';
 
-import { List, Icon} from 'semantic-ui-react'
-
-import Progress from "semantic-ui-react/dist/commonjs/modules/Progress";
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
+import LibraryMusic from '@material-ui/icons/LibraryMusic';
+import Image from '@material-ui/icons/Image';
+import VideoLibrary from '@material-ui/icons/VideoLibrary';
+import Book from '@material-ui/icons/Book';
+import AttachFile from '@material-ui/icons/AttachFile';
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import {hasValue} from "/imports/libs/hasValue";
 import { Meteor } from 'meteor/meteor';
+
+import withTracker from 'meteor/react-meteor-data/withTracker';
+import React from 'react';
+
+import IconButton from '@material-ui/core/IconButton';
+
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Delete from '@material-ui/icons/Delete';
+import CloudUpload from '@material-ui/icons/CloudUpload';
 
 const {grey100, grey500, grey700} = ['#eeeeee','#c9c9c9','#a1a1a1'];
 
@@ -162,7 +177,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
         this.props.onChange(event);
     };
 
-    getIcon = (mimeType: string | null) => {
+    getIcon = (mimeType) => {
         if (!mimeType) {
             return '-';
         }
@@ -174,25 +189,25 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
         switch (type.base) {
             case 'text':
-                return <Icon name="book"/>;
+                return <LibraryBooks/>;
             case 'audio':
-                return <Icon name="music"/>;
+                return <LibraryMusic/>;
             case 'image':
-                return <Icon name="image"/>;
+                return <Image/>;
             case 'video':
-                return <Icon name="file video"/>;
+                return <VideoLibrary/>;
 
             case 'application':
                 if (type.fileType === 'pdf') {
-                    return <Icon name="book"/>;
+                    return <Book/>;
                 }
                 if (type.fileType.indexOf('msword') !== -1) {
-                    return <Icon name="book"/>;
+                    return <Book/>;
                 }
-                return <Icon name="paperclip"/>;
+                return <AttachFile/>;
 
             default:
-                return <Icon name="paperclip"/>;
+                return <AttachFile/>;
         }
     };
 
@@ -354,62 +369,63 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
     getList = () => {
         return (this.state.links.length > 0
-            ? <List divided relaxed>
-                {this.state.links.map((item:IArquivo) => {
-                    const filetype = item.type ? item.type.split('/')[0] : null;
+            ? this.state.links.map(item => {
+                const filetype = item.type ? item.type.split('/')[0] : null;
+                return (
+                    <ListItem
+                        dense
+                        button
+                        divider
+                        key={item.id}
+                    >
+                        <Avatar alt={item.name}>
 
-                    return (
-                        <List.Item
-                            key={item.id}
-                            onClick={() => {
-                                if ((filetype === 'video' || filetype === 'audio') && this.props.doc &&
-                                    this.props.doc._id) {
-                                    window.open(`/media/${this.props.doc._id}/${item.id}`, item.name);
-                                } else {
-                                    this.downloadURI(item.link, item.name);
-                                }
-                            }}
-                        >
-                            <List.Icon size='large' verticalAlign='middle'>
-                                {filetype ? (item.status && item.status === 'InProgress' ? (
-                                    this.getIcon(this.state.uploadFileMimeType || null)
-                                ) : (
-                                    this.getIcon(item.type || null)
-                                )) : (
-                                    <Icon name="cloud upload"/>
-                                )}
-                            </List.Icon>
-                            <List.Content style={{width:'100%'}}>
-                                <List.Header as='a'>
-                                    {item.name}
-                                </List.Header>
-                                <List.Description as='a'>
-                                    {item.status && item.status === 'InProgress' ? (
-                                        <Progress percent={item.status && item.status === 'InProgress' && item.index ===
-                                        this.currentFileUpload ? this.state.progress : (item.status && item.status ===
-                                        'InProgress' ? 0 : 100)} success>
-                                            The progress was successful
-                                        </Progress>
-                                    ) : (
-                                        item.size / 1024 < 1000 ? `${(item.size / 1024).toFixed(2)}KB` : `${(item.size /
-                                            (1024 * 1024)).toFixed(2)}MB`
-                                    )}
-                                </List.Description>
-                            </List.Content>
-                            <List.Icon size='large' verticalAlign='middle'
-                                       name="trash alternate"
-                                       onClick={(e:React.SyntheticEvent) => {
-                                           e&&e.preventDefault&&e.preventDefault();
-                                           e&&e.stopPropagation&&e.stopPropagation();                                           
-                                           return item.id ? this.excluirArquivo(item.id): false;
-                                       }}
+                            {filetype ? (item.status && item.status === 'InProgress' ? (
+                                this.getIcon(this.state.uploadFileMimeType || null)
+                            ) : (
+                                this.getIcon(item.type)
+                            )) : (
+                                <CloudUpload/>
+                            )}
+                        </Avatar>
+                        <ListItemText
+                            primary={
+                                <span style={{color: appStyle.primaryColor}}>{item.name}</span>
+                            }
+                            secondary={
+                                <span style={{color: appStyle.textColorGray}}>
+
+                        {item.status && item.status === 'InProgress' ? (
+                            <LinearProgress
+                                color={item.status && item.status === 'InProgress' ? 'secondary' : 'primary'}
+                                classes={item.status && item.status === 'InProgress'
+                                    ? {barColorSecondary: this.props.classes.barColorSecondary}
+                                    : undefined}
+                                variant="determinate"
+                                value={item.status && item.status === 'InProgress' && item.index ===
+                                this.currentFileUpload ? this.state.progress : (item.status && item.status ===
+                                'InProgress' ? 0 : 100)}
                             />
-                        </List.Item>
-                    )
-                })
-                }
-            </List>
-            : <span style={{color: '#AAAAAA'}}>{'Não há arquivos'}</span>)
+                        ) : (
+                            item.size / 1024 < 1000 ? `${(item.size / 1024).toFixed(2)}KB` : `${(item.size /
+                                (1024 * 1024)).toFixed(2)}MB`
+                        )}
+                      </span>
+                            }
+                            style={{
+                                padding: '0px 8px',
+                            }}
+                        />
+                        <IconButton onClick={() => {
+                            return this.excluirArquivo(item.id);
+                        }}
+                        >
+                            <Delete/>
+                        </IconButton>
+                    </ListItem>
+                )
+            })
+            : null)
 
 
     };
@@ -434,7 +450,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                 }}
                  {...getRootProps()}>
                 <input {...getInputProps()} />
-                <Icon name="cloud upload"/>
+                <CloudUpload/> {'Solte um arquivo aqui'}
 
                 {isDragReject? 'Arquivo não permitido!' :
                     isDragActive ? 'Arquivo permitido!' : 'Clique aqui para adicionar uma arquivo'}

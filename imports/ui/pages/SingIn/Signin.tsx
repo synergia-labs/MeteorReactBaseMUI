@@ -138,7 +138,7 @@ export default class Signin extends React.Component {
                 />
                 <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                   <Button onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
-                  <Button variant={'outlined'}>{"Entrar"}</Button>
+                  <Button variant={'outlined'} submit>{"Entrar"}</Button>
                 </div>
 
               </div>

@@ -86,6 +86,9 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
             }
             return false;
         },
+        setError:(value)=>{
+            setError(value);
+        },
     })
 
 
@@ -318,6 +321,9 @@ const SubFormComponent = ({reactElement,childrensElements,name,...props}:ISubFor
             }
             return false;
         },
+        setError:(value)=>{
+            setError(value);
+        },
     })
 
 
@@ -454,6 +460,9 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
                 return true;
             }
             return false;
+        },
+        setError:(value)=>{
+            setError(value);
         },
     })
 
@@ -615,6 +624,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 
         if(this.props.schema) {
             Object.keys(this.fields).forEach(field=>{
+
                 if(this.props.schema[field]&&this.props.schema[field].subSchema){
                     if(this.props.schema[field]&&!this.props.schema[field].optional&&!this.fields[field].validateRequired()
                         &&fielsWithError.indexOf(this.props.schema[field].label)===-1){
@@ -630,6 +640,14 @@ class SimpleForm extends Component<ISimpleFormProps> {
                     &&fielsWithError.indexOf(this.props.schema[field].label)===-1){
                     fielsWithError.push(this.props.schema[field].label);
                 }
+
+
+                //Validate Date Format
+                if(this.props.schema[field]&&this.props.schema[field].type===Date&&!(this.getDoc()[field] instanceof Date && !isNaN(this.getDoc()[field].valueOf()))) {
+                    fielsWithError.push(this.props.schema[field].label)
+                    this.fields[field]&&this.fields[field].setError&&this.fields[field].setError(true);
+                }
+
             })
         }
 

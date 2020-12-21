@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '@material-ui/core/TextField';
 
-import SimpleImageUploadBase64 from "../../../../ui/components/ImageUpload/SimpleImageUploadBase64";
+import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 
 
 const UserProfileDetail = ({screenState,loading,user,save,history}) => {

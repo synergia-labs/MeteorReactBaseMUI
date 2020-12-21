@@ -24,12 +24,12 @@ const FixedMenuLayout = (props) => (
             </Toolbar>
             </div>
         </AppBar>
-        <Container style={{
+        <div style={{
             display:'flex',flexDirection:'column',alignItems:'center',
             overflowY:'auto',
-            width:'100%',height:'100%',margin:0,padding:4 }}>
+            width:'100%',height:'calc(100% - 47px)',margin:0,padding:4 }}>
             <AppRouterSwitch {...props} />
-        </Container>
+        </div>
     </Router>
 )
 

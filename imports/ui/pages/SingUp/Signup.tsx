@@ -66,7 +66,7 @@ export default class Signup extends React.Component {
                   onChange={this.handleChange}
                 />
                 <div style={{marginTop:30,display:'flex',flexDirection:'row',justifyContent:'flex-end'}}>
-                  <Button variant={'outlined'}>{'Cadastrar'}</Button>
+                  <Button variant={'outlined'} submit>{'Cadastrar'}</Button>
                 </div>
 
             </SimpleForm>

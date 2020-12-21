@@ -2,7 +2,7 @@ import React from 'react';
 import {withTracker} from "meteor/react-meteor-data";
 import {exampleApi} from "../../api/exampleApi";
 import SimpleForm from "../../../../ui/components/SimpleForm/SimpleForm";
-import SimpleImageUploadBase64 from "../../../../ui/components/ImageUpload/SimpleImageUploadBase64";
+import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';

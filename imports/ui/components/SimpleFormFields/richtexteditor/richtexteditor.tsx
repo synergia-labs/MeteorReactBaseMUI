@@ -1,7 +1,7 @@
 import ReactQuill, {Quill} from 'react-quill'; // ES6
 import './quill.snow.css';
 import React from "react";
-import {hasValue} from "../../../libs/hasValue";
+import {hasValue} from "../../../../libs/hasValue";
 import { Button } from 'semantic-ui-react'
 .
 // configure Quill to use inline styles so the email's format properly

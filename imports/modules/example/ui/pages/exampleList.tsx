@@ -8,6 +8,7 @@ import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
 
 import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
@@ -95,11 +96,11 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 actions={[{icon:<Delete />,onClick:callRemove}]}
             />
             <div style={{position:'fixed',bottom:30,right:30}}>
-                <Button
+                <Fab
                     onClick={()=>history.push('/example/create')}
                     color={'prmary'}>
                     +
-                </Button>
+                </Fab>
             </div>
         </Container>
         )
