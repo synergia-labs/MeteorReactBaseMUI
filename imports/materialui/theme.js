@@ -54,12 +54,15 @@ export const theme = createMuiTheme({
     },
     overrides: {
         MuiButton: { // Name of the component ⚛️ / style sheet
+            root: {
+                margin: 4,
+            },
             text: { // Name of the rule
                 color: '#222222', // Some CSS
             },
         },
         MuiIconButton: {
-            sizeSmall: {
+            root: {
                 // Ajusta o espaçamento para atingir o mínimo de toque
                 marginLeft: 4,
                 marginRight: 4,
@@ -69,13 +72,5 @@ export const theme = createMuiTheme({
     },
 });
 
-export const generalClasses = makeStyles((theme) => ({
-    root: {
-        color: theme.status.danger,
-        '&$checked': {
-            color: theme.status.danger,
-        },
-    },
-    checked: {},
-}));
+
 
