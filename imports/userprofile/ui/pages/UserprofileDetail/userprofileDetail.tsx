@@ -19,7 +19,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history}) => {
     }
 
     return (
-        <Container text fluid>
+        <Container>
             <Typography as='h2'>{screenState==='view'?'Visualizar usuário':(screenState==='edit'?'Editar Usuário':'Criar usuário')}</Typography>
             <SimpleForm
                 mode={screenState}

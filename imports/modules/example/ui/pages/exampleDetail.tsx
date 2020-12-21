@@ -30,7 +30,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
     }
 
     return (
-        <Container text fluid>
+        <Container>
             <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
             <SimpleForm
                 mode={screenState}
@@ -94,19 +94,20 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     doc={exampleDoc}/>
                 <div key={'Buttons'}>
                     <Button
+                        key={'b1'}
                         onClick={screenState === 'edit' ? () => history.push(`/example/view/${exampleDoc._id}`) : () => history.push(`/example/list`)}
                         color={'secondary'} variant="contained">
                         {screenState === 'view' ? 'Voltar' : 'Cancelar'}
                     </Button>
 
                     {screenState === 'view' ? (
-                        <Button onClick={() => history.push(`/example/edit/${exampleDoc._id}`)}
+                        <Button key={'b2'} onClick={() => history.push(`/example/edit/${exampleDoc._id}`)}
                                 color={'primary'} variant="contained">
                             {'Editar'}
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button color={'primary'} variant="contained" submit>
+                        <Button key={'b3'} color={'primary'} variant="contained" submit>
                             {'Salvar'}
                         </Button>
                     ) : null}

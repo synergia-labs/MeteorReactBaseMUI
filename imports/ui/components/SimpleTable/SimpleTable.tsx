@@ -38,7 +38,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
 
     const renderType = (type:string,data:any) => {
         if(type==='image') {
-            return <img src={data} size='tiny' style={{maxHeight:70,maxWidth:80}} circular />
+            return <img src={data} size='tiny' style={{maxHeight:70,maxWidth:80}} />
         } else if(type==='text'||type==='number') {
             return data;
         } else if(type==='html') {

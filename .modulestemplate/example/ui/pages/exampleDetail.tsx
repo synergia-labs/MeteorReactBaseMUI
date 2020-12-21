@@ -27,7 +27,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
     }
 
     return (
-        <Container text fluid>
+        <Container>
             <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
             <SimpleForm
                 mode={screenState}

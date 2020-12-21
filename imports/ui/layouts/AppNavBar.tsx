@@ -66,11 +66,11 @@ const AppNavBar = ({ currentUser,history }) => {
                 onClose={handleClose}
             >
                 {!currentUser||!currentUser._id? (
-                    [<MenuItem as={NavLink} onClick={()=>history.push("/signin")}>Entrar</MenuItem>,
-                    <MenuItem as={NavLink} onClick={()=>history.push("/signup")}>Cadastrar-se</MenuItem>]
+                    [<MenuItem key={'signin'} as={NavLink} onClick={()=>history.push("/signin")}>Entrar</MenuItem>,
+                    <MenuItem key={'signup'} as={NavLink} onClick={()=>history.push("/signup")}>Cadastrar-se</MenuItem>]
                 ) : (
-                    [<MenuItem as={NavLink} onClick={()=>history.push(`/userprofile/view/${currentUser._id}`)}>Meus dados</MenuItem>,
-                    <MenuItem as={NavLink} onClick={()=>history.push("/signout")}>Sair</MenuItem>]
+                    [<MenuItem key={'userprofile'} as={NavLink} onClick={()=>history.push(`/userprofile/view/${currentUser._id}`)}>Meus dados</MenuItem>,
+                    <MenuItem key={'signout'} as={NavLink} onClick={()=>history.push("/signout")}>Sair</MenuItem>]
                 )}
             </Menu>
             </div>

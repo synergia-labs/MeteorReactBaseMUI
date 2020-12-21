@@ -39,7 +39,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
                     disabled={!!readOnly}
                     {...(_.omit(otherProps,['options']))}
                 >
-                    {(otherProps.options||[]).map(opt=><MenuItem value={opt.value?opt.value:opt}>{opt.label?opt.label:opt}</MenuItem>)}
+                    {(otherProps.options||[]).map(opt=><MenuItem key={opt.value||opt} value={opt.value?opt.value:opt}>{opt.label?opt.label:opt}</MenuItem>)}
                 </Select>
                 {/*<FormHelperText>Without label</FormHelperText>                */}
             </FormControl>

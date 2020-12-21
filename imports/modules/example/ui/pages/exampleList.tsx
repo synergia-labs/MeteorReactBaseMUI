@@ -97,8 +97,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
             />
             <div style={{position:'fixed',bottom:30,right:30}}>
                 <Fab
-                    onClick={()=>history.push('/example/create')}
-                    color={'prmary'}>
+                    onClick={()=>history.push('/example/create')}>
                     +
                 </Fab>
             </div>

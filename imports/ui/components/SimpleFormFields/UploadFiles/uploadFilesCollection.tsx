@@ -638,7 +638,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
         }
 
         return (
-            <div style={{marginTop:5,flex: 1, flexWrap: 'wrap', flexDirection: 'column',marginBottom:8,
+            <div key={name} style={{marginTop:5,flex: 1, flexWrap: 'wrap', flexDirection: 'column',marginBottom:8,
             backgroundColor:this.props.error?'#FFF6F6':undefined
             }}>
                 {hasValue(this.props.label)?(<label

@@ -42,7 +42,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
         onChange({},{name,value: '-'})
     }
 
-    return (<>
+    return (<div key={name}>
         {hasValue(label)?(<label style={{
             display: 'block',
             margin: '0em 0em 0.28571429rem 0em',
@@ -62,7 +62,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
             accept="image/*"
             buttonComponent={<a style={{cursor:'pointer'}}>{'Selecionar imagem'}</a>}
         />
-        </>
+        </div>
     );
 
 }

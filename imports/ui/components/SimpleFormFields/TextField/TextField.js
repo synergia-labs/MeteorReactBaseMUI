@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
-        return (<>
+        return (<div key={name}>
             {hasValue(label)?(<label
                 style={{
                     color: 'rgba(0, 0, 0, 0.54)',
@@ -18,7 +18,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
                 }}
             >{label}</label>):null}
             <div style={{color:'#222',padding:5,height:35,marginTop:4,marginBottom:8}}>{(value+'')}</div>
-        </>)
+        </div>)
     }
     const deleteImage = () => {
         onChange({},{name,value: '-'})

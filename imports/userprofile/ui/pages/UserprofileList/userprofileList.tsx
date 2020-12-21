@@ -15,7 +15,7 @@ const UserProfileList = ({users,history}) => {
     }
 
     return (
-        <Container text fluid>
+        <Container>
             <Typography as='h2'>{'Lista de Usuários'}</Typography>
             <SimpleTable
                 schema={_.pick(userprofileApi.schema,['photo','username','email'])}
