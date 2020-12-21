@@ -175,16 +175,18 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
     }
 
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
+
     return (
-        <div style={{marginTop:5,width:'100%',backgroundColor:error?'#FFF6F6':undefined}}>
+        <div style={{marginTop:5,width:'100%',backgroundColor:error?'#FFF6F6':undefined,marginBottom:16}}>
             {hasValue(label)?(<label
                 style={{
-                    display: 'block',
-                    margin: '0em 0em 0.28571429rem 0em',
-                    color: error?'#9F3A38':'#212121',
-                    fontSize: '0.92857143em',
-                    fontWeight: 'bold',
-                    textTransform: 'none',
+                    color: 'rgba(0, 0, 0, 0.54)',
+                    padding: 0,
+                    fontSize: '1rem',
+                    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                    fontWeight: 400,
+                    lineHeight: 1,
+                    letterSpacing: '0.00938em',
                 }}
             >{label}</label>):null}
             <div style={{width:'100%',marginLeft:10}}>
@@ -227,8 +229,11 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                             return <div/>
                         }
                     })}
-                </ReactSortable>
 
+                </ReactSortable>
+                {!value||value.length===0||Object.keys(value[0]).length===0?(
+                    <div style={{color:'#BBB'}}>{'Não há itens'}</div>
+                ):null}
 
 
             </div>
@@ -368,15 +373,16 @@ const SubFormComponent = ({reactElement,childrensElements,name,...props}:ISubFor
 
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
     return (
-        <div style={{marginTop:5,width:'100%'}}>
+        <div style={{marginTop:5,width:'100%',marginBottom:16}}>
             {hasValue(label)?(<label
                 style={{
-                    display: 'block',
-                    margin: '0em 0em 0.28571429rem 0em',
-                    color: error?'#9F3A38':'#212121',
-                    fontSize: '0.92857143em',
-                    fontWeight: 'bold',
-                    textTransform: 'none',
+                    color: 'rgba(0, 0, 0, 0.54)',
+                    padding: 0,
+                    fontSize: '1rem',
+                    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                    fontWeight: 400,
+                    lineHeight: 1,
+                    letterSpacing: '0.00938em',
                 }}
             >{label}</label>):null}
             <div style={{margin:3,marginLeft:10}}>

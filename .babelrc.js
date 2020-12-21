@@ -38,6 +38,25 @@ const plugins = [
             'camel2DashComponentName': false
         },
         'styles'
+    ],
+    [
+        'babel-plugin-import',
+        {
+            'libraryName': '@material-ui/pickers',
+            // Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
+            'libraryDirectory': 'esm',
+            'camel2DashComponentName': false
+        },
+        'pickers'
+    ],
+    [
+        'babel-plugin-import',
+        {
+            "libraryName": "lodash",
+            "libraryDirectory": "",
+            "camel2DashComponentName": false,  // default: true
+        },
+        "lodash"
     ]
 ];
 

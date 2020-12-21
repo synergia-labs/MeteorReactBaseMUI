@@ -9,7 +9,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
-import uploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
+import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
@@ -88,10 +88,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
-                {/*<UploadFilesCollection*/}
-                {/*    name='files'*/}
-                {/*    label={'Arquivos'}*/}
-                {/*    doc={exampleDoc}/>*/}
+                <UploadFilesCollection
+                    name='files'
+                    label={'Arquivos'}
+                    doc={exampleDoc}/>
                 <div key={'Buttons'}>
                     <Button
                         onClick={screenState === 'edit' ? () => history.push(`/example/view/${exampleDoc._id}`) : () => history.push(`/example/list`)}

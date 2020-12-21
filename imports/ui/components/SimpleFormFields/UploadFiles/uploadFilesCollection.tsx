@@ -303,65 +303,71 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
     getListReadOnly = () => {
         return (this.state.links.length > 0
-            ? <List divided relaxed>
-                {this.state.links.map((item:IArquivo) => {
-                    const filetype = item.type ? item.type.split('/')[0] : null;
+            ? this.state.links.map(item => {
+                const filetype = item.type ? item.type.split('/')[0] : null;
+                return (
+                    <ListItem
+                        dense
+                        button
+                        divider
+                        key={item.id}
+                        onClick={() => {
+                            if ((filetype === 'video' || filetype === 'audio') && this.props.doc &&
+                                this.props.doc._id) {
+                                window.open(`/media/${this.props.doc._id}/${item.id}`, item.name);
+                            } else {
+                                this.downloadURI(item.link, item.name);
+                            }
+                        }}
+                    >
+                        <Avatar alt={item.name}>
 
-                    return (
-                        <List.Item
-                            key={item.id}
-                            onClick={() => {
-                                if ((filetype === 'video' || filetype === 'audio') && this.props.doc &&
-                                    this.props.doc._id) {
-                                    window.open(`/media/${this.props.doc._id}/${item.id}`, item.name);
-                                } else {
-                                    this.downloadURI(item.link, item.name);
-                                }
-                            }}
-                        >
-                            <List.Icon size='large' verticalAlign='middle'>
-                                {filetype ? (item.status && item.status === 'InProgress' ? (
-                                    this.getIcon(this.state.uploadFileMimeType || null)
-                                ) : (
-                                    this.getIcon(item.type || null)
-                                )) : (
-                                    <Icon name="cloud upload"/>
-                                )}
-                            </List.Icon>
-                            <List.Content style={{width:'100%'}}>
-                                <List.Header as='a'>
-                                    {item.name}
-                                </List.Header>
-                                <List.Description as='a'>
-                                    {item.status && item.status === 'InProgress' ? (
-                                        <Progress percent={item.status && item.status === 'InProgress' && item.index ===
-                                        this.currentFileUpload ? this.state.progress : (item.status && item.status ===
-                                        'InProgress' ? 0 : 100)} success>
-                                            The progress was successful
-                                        </Progress>
-                                    ) : (
-                                        item.size / 1024 < 1000 ? `${(item.size / 1024).toFixed(2)}KB` : `${(item.size /
-                                            (1024 * 1024)).toFixed(2)}MB`
-                                    )}
-                                </List.Description>
-                            </List.Content>
-                            <List.Icon size='large' verticalAlign='middle'
-                                       name="cloud download"
-                                       onClick={() => {
-                                           if ((filetype === 'video' || filetype === 'audio') && this.props.doc &&
-                                               this.props.doc._id) {
-                                               window.open(`/media/${this.props.doc._id}/${item.id}`, item.name);
-                                           } else {
-                                               this.downloadURI(item.link, item.name);
-                                           }
-                                       }}
+                            {filetype ? (item.status && item.status === 'InProgress' ? (
+                                this.getIcon(this.state.uploadFileMimeType || null)
+                            ) : (
+                                this.getIcon(item.type)
+                            )) : (
+                                <CloudUpload/>
+                            )}
+                        </Avatar>
+                        <ListItemText
+                            primary={
+                                item.name
+                            }
+                            secondary={
+                                <span>
+
+                        {item.status && item.status === 'InProgress' ? (
+                            <LinearProgress
+                                color={item.status && item.status === 'InProgress' ? 'secondary' : 'primary'}
+                                classes={item.status && item.status === 'InProgress'
+                                    ? {barColorSecondary: '#DDF'}
+                                    : undefined}
+                                variant="determinate"
+                                value={item.status && item.status === 'InProgress' && item.index ===
+                                this.currentFileUpload ? this.state.progress : (item.status && item.status ===
+                                'InProgress' ? 0 : 100)}
                             />
-                        </List.Item>
-                    )
-                })
-                }
-            </List>
-            : <span style={{color: '#AAAAAA'}}>{'Não há arquivos'}</span>)
+                        ) : (
+                            item.size / 1024 < 1000 ? `${(item.size / 1024).toFixed(2)}KB` : `${(item.size /
+                                (1024 * 1024)).toFixed(2)}MB`
+                        )}
+                      </span>
+                            }
+                            style={{
+                                padding: '0px 8px',
+                            }}
+                        />
+                        <IconButton onClick={() => {
+                            return this.excluirArquivo(item.id);
+                        }}
+                        >
+                            <Delete/>
+                        </IconButton>
+                    </ListItem>
+                )
+            })
+            : <div style={{color: '#BBB'}}>{'Não há arquivos'}</div>)
 
 
     };
@@ -390,16 +396,16 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                         </Avatar>
                         <ListItemText
                             primary={
-                                <span style={{color: appStyle.primaryColor}}>{item.name}</span>
+                                item.name
                             }
                             secondary={
-                                <span style={{color: appStyle.textColorGray}}>
+                                <span>
 
                         {item.status && item.status === 'InProgress' ? (
                             <LinearProgress
                                 color={item.status && item.status === 'InProgress' ? 'secondary' : 'primary'}
                                 classes={item.status && item.status === 'InProgress'
-                                    ? {barColorSecondary: this.props.classes.barColorSecondary}
+                                    ? {barColorSecondary: '#DDF'}
                                     : undefined}
                                 variant="determinate"
                                 value={item.status && item.status === 'InProgress' && item.index ===
@@ -632,17 +638,18 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
         }
 
         return (
-            <div style={{flex: 1, flexWrap: 'wrap', flexDirection: 'column',marginBottom:10,
+            <div style={{marginTop:5,flex: 1, flexWrap: 'wrap', flexDirection: 'column',marginBottom:8,
             backgroundColor:this.props.error?'#FFF6F6':undefined
             }}>
                 {hasValue(this.props.label)?(<label
                     style={{
-                        display: 'block',
-                        margin: '0em 0em 0.28571429rem 0em',
-                        color: this.props.error?'#9F3A38':'#212121',
-                        fontSize: '0.92857143em',
-                        fontWeight: 'bold',
-                        textTransform: 'none',
+                        color: 'rgba(0, 0, 0, 0.54)',
+                        padding: 0,
+                        fontSize: '1rem',
+                        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                        fontWeight: 400,
+                        lineHeight: 1,
+                        letterSpacing: '0.00938em',
                     }}
                 >{this.props.label}</label>):null}
                 {this.props.readOnly?(this.getListReadOnly()):(
