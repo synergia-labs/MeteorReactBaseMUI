@@ -158,6 +158,7 @@ class PersistentMinimongoStorage {
                         callback(null,true);
                     }
 
+
                 } else {
                     if(callback) {
                         callback(e,null)
