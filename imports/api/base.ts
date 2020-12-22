@@ -68,6 +68,10 @@ export class ApiBase {
 
         this.counts = Counts;
 
+        this.initCollection = this.initCollection.bind(this);
+        this.subscribe = this.subscribe.bind(this);
+        this.findOne = this.findOne.bind(this);
+        this.find = this.find.bind(this);
 
         this.addPublication = this.addPublication.bind(this);
         this.registerAllMethods = this.registerAllMethods.bind(this);
@@ -78,6 +82,7 @@ export class ApiBase {
         this.afterInsert = this.afterInsert.bind(this);
         this.beforeUpdate = this.beforeUpdate.bind(this);
         this.beforeRemove = this.beforeRemove.bind(this);
+
         this.countDocuments = this.countDocuments.bind(this);
         this.callMethod = this.callMethod.bind(this);
 
@@ -118,7 +123,7 @@ export class ApiBase {
     }
 
 
-    initCollection = (apiName) => {
+    initCollection(apiName) {
         const self = this;
         this.collectionName = apiName;
         if (Meteor.isClient) {
@@ -992,7 +997,7 @@ export class ApiBase {
      * @param  {} api='default'
      * @param  {} ...param
      */
-    subscribe = (api = 'default', ...param) => {
+    subscribe (api = 'default', ...param) {
         const self = this;
         if (Meteor.isClient) {
             return Meteor.subscribe(
