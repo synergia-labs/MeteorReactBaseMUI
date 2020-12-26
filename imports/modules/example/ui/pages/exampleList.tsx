@@ -82,6 +82,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     }
 
+    console.log(examples);
 
     return (
         <Container>

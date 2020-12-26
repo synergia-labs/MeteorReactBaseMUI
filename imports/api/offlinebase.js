@@ -20,30 +20,60 @@ class PersistentMinimongoStorage {
 
         self.cachedCollection.insert_ = self.cachedCollection.insert;
         delete self.cachedCollection.insert;
-        self.cachedCollection.insert=(doc)=>{
+        self.cachedCollection.insert=(doc,callback=()=>{})=>{
+            console.log('CC - Insert',doc);
+            if(!doc||Object.keys(doc).length===0) {
+                return;
+            }
+            try {
             const id = self.cachedCollection.insert_(doc);
             doc._id = id;
             if(self.list.indexOf(doc._id)===-1) {
                 self.list.push(doc._id);
             }
-            set(doc._id,stringify(doc,{detectUtcTimestamps:true}),self.customStore);
+            set(doc._id,stringify(doc),self.customStore);
+            callback(null,id);
+            } catch (e) {
+                callback(e,null);
+            }
         };
 
         self.cachedCollection.update_ = self.cachedCollection.update;
-        self.cachedCollection.update;
-        self.cachedCollection.update=(selector,doc)=>{
-            self.cachedCollection.update_(selector,{...doc},{upsert:true});
-            const newDOc = self.cachedCollection.findOne(selector);
-            set(newDOc._id,stringify(newDOc,{detectUtcTimestamps:true}),self.customStore);
-
+        delete self.cachedCollection.update;
+        self.cachedCollection.update=(selector,doc,options,callback=()=>{})=>{
+            console.log('CC - update',selector,'doc>',doc,'Op>',options,'calb>>',callback);
+            if(!doc||Object.keys(doc).length===0) {
+                return;
+            }
+            try {
+            self.cachedCollection.update_(selector,{...doc},{...(options||{}),upsert:true});
+            const newDoc = self.cachedCollection.findOne(selector);
+            set(newDoc._id,stringify(newDoc),self.customStore);
+            callback(null,{...selector,...newDoc})
+            } catch (e) {
+                console.log('Error:',e)
+                callback(e,null);
+            }
         };
 
         self.cachedCollection.remove_ = self.cachedCollection.remove;
-        self.cachedCollection.remove;
-        self.cachedCollection.remove=(id)=>{
-            self.cachedCollection.remove_(id);
-            self.list = self.list.filter(key=>key!==id);
-            del(id,self.customStore);
+        delete self.cachedCollection.remove;
+        self.cachedCollection.remove=(doc,callback=()=>{})=>{
+            console.log('CC - delete',doc);
+            if(!doc||Object.keys(doc).length===0) {
+                return;
+            }
+            try {
+            self.cachedCollection.remove_(doc._id);
+            if(!doc.removeOnly) {
+                self.list = self.list.filter(key=>key!==doc._id);
+                del(doc._id,self.customStore);
+            }
+
+            callback(null,true)
+            } catch (e) {
+                callback(e,null);
+            }
         }
 
         self.cachedCollection.clear = () => {
@@ -82,12 +112,12 @@ class PersistentMinimongoStorage {
                     // add document id to tracking list and store
                     if (!_.includes(self.list, doc._id)) {
                         self.list.push(doc._id);
-                        set(doc._id,stringify(doc,{detectUtcTimestamps:true}),self.customStore);
+                        set(doc._id,stringify(doc),self.customStore);
                     }
 
                     self.cachedCollection.upsert({_id:doc._id},
                         {$set:doc},{upsert:true});
-                    console.log(self.collectionName,'Add',doc)
+                    console.log(self.collectionName,'Observer - add',doc)
                     ++self.stats.added;
                 },
 
@@ -99,25 +129,24 @@ class PersistentMinimongoStorage {
                     // }
                     // del(doc._id,self.customStore);
                     // self.list = self.list.filter(key=>key!==doc._id);
-                    // self.cachedCollection.remove({_id:doc._id});
-                    // console.log(self.collectionName,'Remove',doc)
-                    // ++self.stats.removed;
+                    self.cachedCollection.remove({_id:doc._id,removeOnly:true});
+                    console.log(self.collectionName,'Observer - del',doc)
+                    ++self.stats.removed;
                 },
 
                 changed: function (newDoc, oldDoc) {
-                    if(!_.isEqual(newDoc, oldDoc)) {
+                    const doc = _.merge(oldDoc,newDoc);
                         // update document in local storage
-                        if (_.includes(self.list, newDoc._id)) {
-                            set(newDoc._id,stringify(newDoc,{detectUtcTimestamps:true}),self.customStore);
+                        if (_.includes(self.list, doc._id)) {
+                            set(doc._id,stringify(doc),self.customStore);
                         } else {
-                            self.list.push(newDoc._id);
-                            set(doc._id,stringify(doc,{detectUtcTimestamps:true}),self.customStore);
+                            self.list.push(doc._id);
+                            set(doc._id,stringify(doc),self.customStore);
                         }
-                        console.log(self.collectionName,'Update',doc)
+                    console.log(self.collectionName,'Observer - update',doc)
                         self.cachedCollection.update({_id:doc._id},
                             {$set:doc},{upsert:true});
                         ++self.stats.changed;
-                    }
 
                 }
             });
@@ -126,9 +155,12 @@ class PersistentMinimongoStorage {
 
     updateDateOnJson = (object) => {
         function reviver(key, value) {
-            if (Date.parse(value)) {
+            console.log(key, value)
+            if ((value+'').length===24&&!!Date.parse(value)) {
+                console.log('IS DATE')
                 return new Date(value);
             }
+            console.log('IsNotDate',(value+'').length===24,'>',!!Date.parse(value),'>',isNaN(parseInt(value)))
             return value;
         }
         return JSON.parse(JSON.stringify(object),reviver);
@@ -195,6 +227,7 @@ export class OfflineBaseApi extends ApiBase {
         this.subscribe = this.subscribe.bind(this);
         this.findOne = this.findOne.bind(this);
         this.find = this.find.bind(this);
+        this.callMethod = this.callMethod.bind(this);
 
         if(Meteor.isClient) {
             //Init chached collection
@@ -244,9 +277,10 @@ export class OfflineBaseApi extends ApiBase {
      * @param  {} ...param
      */
     subscribe (api = 'default', ...param) {
+        console.log('Meteor.status()',Meteor.status())
         const self = this;
         if (Meteor.isClient) {
-            if (Meteor.status().status === 'connected') {
+            if (Meteor.status().status !== 'waiting') {
 
                 return Meteor.subscribe(
                     `${this.collectionName}.${api}`,
@@ -260,5 +294,60 @@ export class OfflineBaseApi extends ApiBase {
         }
         return null;
     };
+
+
+    callOfflineMethod = (name,docObj,callback=()=>{}) => {
+        console.log('Offline METHOD -',name,'>>>',docObj,'Calback>>',callback)
+        if(name==='update') {
+            const oldDoc = Meteor.status().connected?this.getCollectionInstance().findOne({_id:docObj._id})
+                :this.persistentCollectionInstance.findOne({_id:docObj._id})
+            this.persistentCollectionInstance[name]({_id:docObj._id},{...(oldDoc||{}),...docObj},{},callback);
+        } else {
+            this.persistentCollectionInstance[name](docObj,callback);
+        }
+
+    }
+
+    /**
+     * Wrapper to the Meteor call. This check if the user has
+     * connection with the server, in this way we can return the result from
+     * a cached collection or from the server.
+     * @param  {String} name - Meteor method name defin
+     * @param  {Object} ...params - Parameters for this meteor method.
+     */
+    callMethod(name, ...params) {
+        const self = this;
+
+        if (Meteor.status().connected) {
+            // if(name==='insert'||name==='update'||name==='remove') {
+            //     Meteor.call(`${this.collectionName}.${name}`, params[0],(e,r)=>{
+            //
+            //         if(!e) {
+            //             self.callOfflineMethod(name,params[0]);
+            //         }
+            //
+            //
+            //         if(!!params[1] && typeof params[1] === 'function' ) {
+            //             params[1](e,r);
+            //         }
+            //     });
+            // } else {
+                Meteor.call(`${this.collectionName}.${name}`, ...params);
+            // }
+
+        } else if(Meteor.status().status === 'waiting'){
+            if(name==='insert'||name==='update'||name==='remove') {
+
+                self.callOfflineMethod(name,...params);
+
+
+            } else {
+                console.log('Sem Conexão com o Servidor');
+            }
+
+            //window.$app.globalFunctions.openSnackBar('SEM CONEXÃO COM O SERVIDOR:Sua operçaão não será registrada. Verifique sua conexão com a internet.', 'info');
+        }
+
+    }
 
 }

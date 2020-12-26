@@ -29,6 +29,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
         save(doc);
     }
 
+    console.log('Detail',exampleDoc)
     return (
         <Container>
             <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
