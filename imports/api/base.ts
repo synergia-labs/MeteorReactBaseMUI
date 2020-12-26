@@ -3,7 +3,9 @@ import {noAvatarBase64, noImageBase64} from './noimage';
 import _ from 'lodash';
 import {hasValue} from "../libs/hasValue";
 import {getUser} from "/imports/libs/getUser";
+import {difference} from "/imports/libs/diffObjs";
 
+)
 
 //Conters
 const Counts = new Mongo.Collection("counts");
@@ -82,6 +84,7 @@ export class ApiBase {
         this.afterInsert = this.afterInsert.bind(this);
         this.beforeUpdate = this.beforeUpdate.bind(this);
         this.beforeRemove = this.beforeRemove.bind(this);
+        this.sync = this.sync.bind(this);
 
         this.countDocuments = this.countDocuments.bind(this);
         this.callMethod = this.callMethod.bind(this);
@@ -608,26 +611,29 @@ export class ApiBase {
      * return {Object} doc inserted or updated
      */
     serverSync = (dataObj, context) => {
+
         if (dataObj.needSync) {
             delete dataObj.needSync;
         }
         const oldDoc = this.collectionInstance.findOne({_id: dataObj._id});
 
+        if(!(((!oldDoc || !oldDoc._id)&&this.beforeInsert(dataObj, context))||(this.beforeUpdate(dataObj, context)))) {
+            return;
+        }
+
+
         if (!oldDoc || !oldDoc._id) {
             // const insert = this.serverInsert(dataObj, context);
             dataObj = this.checkDataBySchema(dataObj)
             this.includeAuditData(dataObj, 'insert');
-            const insert = this.collectionInstance.insert(dataObj);
-
+            const insertId = this.collectionInstance.insert(dataObj);
             //console.log('Inser >>>', insert);
-            const newDoc = this.collectionInstance.findOne({_id: dataObj._id});
-
-            return newDoc;
+            return insertId;
         }
         // const update = this.serverUpdate(dataObj, context);
         let docToSave = null;
         //console.log('DOC', dataObj, oldDoc);
-        if (new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
+        if (!!dataObj.lastupdate&&!!oldDoc.lastupdate&&new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
             //console.log('APP MAIOR');
             docToSave = difference(dataObj, oldDoc);
         } else {
@@ -967,6 +973,15 @@ export class ApiBase {
      */
     remove(docObj, callback=()=>{}) {
         this.callMethod('remove', docObj, callback);
+    }
+
+    /**
+     * Sync one object.
+     * @param  {Object} docObj - Document from a collection.
+     * @param  {Function} callback - Callback Function
+     */
+    sync(docObj, callback=()=>{}) {
+        this.callMethod('sync', docObj, callback);
     }
 
     /**

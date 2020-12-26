@@ -26,6 +26,7 @@ class PersistentMinimongoStorage {
                 return;
             }
             try {
+            doc.needSync = true;
             const id = self.cachedCollection.insert_(doc);
             doc._id = id;
             if(self.list.indexOf(doc._id)===-1) {
@@ -46,6 +47,7 @@ class PersistentMinimongoStorage {
                 return;
             }
             try {
+            doc.needSync = true;
             self.cachedCollection.update_(selector,{...doc},{...(options||{}),upsert:true});
             const newDoc = self.cachedCollection.findOne(selector);
             set(newDoc._id,stringify(newDoc),self.customStore);
@@ -228,6 +230,7 @@ export class OfflineBaseApi extends ApiBase {
         this.findOne = this.findOne.bind(this);
         this.find = this.find.bind(this);
         this.callMethod = this.callMethod.bind(this);
+        this.syncAll = this.syncAll.bind(this);
 
         if(Meteor.isClient) {
             //Init chached collection
@@ -295,7 +298,6 @@ export class OfflineBaseApi extends ApiBase {
         return null;
     };
 
-
     callOfflineMethod = (name,docObj,callback=()=>{}) => {
         console.log('Offline METHOD -',name,'>>>',docObj,'Calback>>',callback)
         if(name==='update') {
@@ -349,5 +351,19 @@ export class OfflineBaseApi extends ApiBase {
         }
 
     }
+
+
+    /**
+     * Sync one object.
+     * @param  {Object} docObj - Document from a collection.
+     * @param  {Function} callback - Callback Function
+     */
+    syncAll(docObj, callback=()=>{},processCalback = () => {}) {
+        //this.callMethod('sync', docObj, callback);
+
+        //Sync all changed docs
+
+    }
+
 
 }
