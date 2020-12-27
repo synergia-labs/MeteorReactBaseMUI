@@ -81,6 +81,8 @@ export class ApiBase {
         this.serverInsert = this.serverInsert.bind(this);
         this.serverRemove = this.serverRemove.bind(this);
         this.serverUpsert = this.serverUpsert.bind(this);
+        this.serverGetDocs = this.serverGetDocs.bind(this);
+
         this.afterInsert = this.afterInsert.bind(this);
         this.beforeUpdate = this.beforeUpdate.bind(this);
         this.beforeRemove = this.beforeRemove.bind(this);
@@ -400,6 +402,7 @@ export class ApiBase {
         if (!options.disableDefaultPublications) {
             this.addPublication('default', this.defaultCollectionPublication);
             this.addPublication('defaultCounter', this.defaultCounterCollectionPublication(this));
+
             
         }
     }
@@ -479,6 +482,7 @@ export class ApiBase {
 }
 
 
+
     /**
      * Get the collection instance.
      * @returns {Object} - Collection.
@@ -498,6 +502,8 @@ export class ApiBase {
         this.registerMethod('upsert', this.serverUpsert);
         this.registerMethod('sync', this.serverSync);
         this.registerMethod('countDocuments', this.countDocuments);
+        this.registerMethod('getDocs', this.serverGetDocs);
+
 
     }
 
@@ -612,13 +618,17 @@ export class ApiBase {
      */
     serverSync = (dataObj, context) => {
 
+        if(!dataObj||!dataObj._id) {
+            return false;
+        }
+
         if (dataObj.needSync) {
             delete dataObj.needSync;
         }
         const oldDoc = this.collectionInstance.findOne({_id: dataObj._id});
 
         if(!(((!oldDoc || !oldDoc._id)&&this.beforeInsert(dataObj, context))||(this.beforeUpdate(dataObj, context)))) {
-            return;
+            return false;
         }
 
 
@@ -891,6 +901,22 @@ export class ApiBase {
 
 
     /**
+     * Get docs with Meteor.call.
+     * @param  {publicationName} publicationName - Publication Name
+     * @param  {filter} filter - Collection Filter
+     * @param  {optionsPub} optionsPub - Options Publication, like publications.
+     * @returns {Array} - Array of documents.
+     */
+    serverGetDocs(publicationName='default',filter = {}, optionsPub) {
+        const result = this.publications[publicationName](filter,optionsPub);
+        if(result) {
+            return result.fetch()
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Wrapper to the Meteor call. This check if the user has
      * connection with the server, in this way we can return the result from
      * a cached collection or from the server.
@@ -973,6 +999,15 @@ export class ApiBase {
      */
     remove(docObj, callback=()=>{}) {
         this.callMethod('remove', docObj, callback);
+    }
+
+    /**
+     * Get Docs
+     * @param  {Object} docObj - Document from a collection.
+     * @param  {Function} callback - Callback Function
+     */
+    getDocs(apiName='default',filter={},optionsPub={}, callback=()=>{}) {
+        this.callMethod('getDocs', apiName,filter,optionsPub, callback);
     }
 
     /**

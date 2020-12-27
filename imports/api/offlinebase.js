@@ -6,13 +6,12 @@ import { _ } from 'lodash';
 import settings from '../../settings.json';
 
 
-
-
 class PersistentMinimongoStorage {
     constructor(collectionName,collectionInstance) {
         var self = this;
         self.collectionName = collectionName;
         self.customStore = new Store(settings.name+'_'+collectionName, collectionName+'-store');
+        self.controlStore = new Store(settings.name+'_'+collectionName, collectionName+'-control');
         self.collection = collectionInstance;
 
         self.inited = new ReactiveVar(false);
@@ -169,8 +168,36 @@ class PersistentMinimongoStorage {
 
     }
 
+    initControlStore = (callback=()=>{}) => {
+        const self = this;
+        if(!!self.controlStoreData) {
+            return self.controlStoreData;
+        }
+        get('config',self.controlStore).then(result=>{
+            if(!result) {
+
+            }
+            self.controlStoreData = result||{};
+            callback(null,result||{});
+        });
+
+    }
+
+    getControlStoreData = () => {
+        return this.controlStoreData;
+    }
+
+    updateControlStoreData = (newData) => {
+        const self = this;
+        const newControlStoreDate = {...(this.controlStoreData||{}),...(newData||{}) };
+        set('config',newControlStoreDate,self.controlStore);
+        return newControlStoreDate;
+    }
+
     initCachedMinimongo = (callback) => {
         const self = this;
+
+        self.initControlStore();
 
         var seconds = self.lastCallInit?(((new Date()).getTime()-self.lastCallInit.getTime()) / 1000):61;
 
@@ -208,6 +235,7 @@ class PersistentMinimongoStorage {
     }
 
     updateKeys = (callback=(e)=>{
+
         if(e){
             // console.log('Erro:',this.collectionName,':',e)
         }}) => {
@@ -218,6 +246,27 @@ class PersistentMinimongoStorage {
         }).catch(err=>callback(err,null));
     }
 
+    getDocs = (filter={},callback=()=>{}) => {
+        const self = this;
+        const matchFilter = (o1, o2) => {
+            return Object.keys(o1).map(k=>_.isEqual(o1[k],o2[k]).filter(o=>!!o).length===Object.keys(o1).length;
+        }
+        this.updateKeys((e,r)=> {
+            const result = [];
+            if (!!r) {
+                self.list.forEach(async (key, i) => {
+                    const res = await get(key, self.customStore).then(result => {
+                        const docR = parse(result);
+                        if(matchFilter(filter,docR)) {
+                            result.push(self.updateDateOnJson(docR))
+                        }
+                    })
+                });
+            }
+
+            callback(e,result);
+        });
+    }
 
 
 };
@@ -231,6 +280,7 @@ export class OfflineBaseApi extends ApiBase {
         this.find = this.find.bind(this);
         this.callMethod = this.callMethod.bind(this);
         this.syncAll = this.syncAll.bind(this);
+        this.registerMethod('GetDocsForSync', this.serverGetDocsForSync);
 
         if(Meteor.isClient) {
             //Init chached collection
@@ -240,7 +290,6 @@ export class OfflineBaseApi extends ApiBase {
 
 
     }
-
 
     /**
      * Wrapper to find items on an collection.
@@ -358,8 +407,15 @@ export class OfflineBaseApi extends ApiBase {
      * @param  {Object} docObj - Document from a collection.
      * @param  {Function} callback - Callback Function
      */
-    syncAll(docObj, callback=()=>{},processCalback = () => {}) {
-        //this.callMethod('sync', docObj, callback);
+    syncAll(options={publicationName:'default',filter:{},limit:100,sort:null,skip:null,projection:null}, callback=()=>{},processCalback = () => {}) {
+        const self = this;
+        this.minimongoStorage.getDocs({needSync:true},(e,docsToSync)=>{
+            docsToSync.forEach(doc=>{
+                self.sync(doc);
+            })
+        })
+
+
 
         //Sync all changed docs
 
