@@ -32,6 +32,7 @@ class PersistentMinimongoStorage {
                 self.list.push(doc._id);
             }
             set(doc._id,stringify(doc),self.customStore);
+            self.addUpdatedDocsIntoControlStoreData(doc);
             callback(null,id);
             } catch (e) {
                 callback(e,null);
@@ -40,7 +41,7 @@ class PersistentMinimongoStorage {
 
         self.cachedCollection.update_ = self.cachedCollection.update;
         delete self.cachedCollection.update;
-        self.cachedCollection.update=(selector,doc,options,callback=()=>{})=>{
+        self.cachedCollection.update=(selector,doc,options,callback=()=>{},updateFromSync:false)=>{
             console.log('CC - update',selector,'doc>',doc,'Op>',options,'calb>>',callback);
             if(!doc||Object.keys(doc).length===0) {
                 return;
@@ -50,7 +51,9 @@ class PersistentMinimongoStorage {
             self.cachedCollection.update_(selector,{...doc},{...(options||{}),upsert:true});
             const newDoc = self.cachedCollection.findOne(selector);
             set(newDoc._id,stringify(newDoc),self.customStore);
-            self.addUpdatedDocsIntoControlStoreData(doc);
+            if(!updateFromSync) {
+                self.addUpdatedDocsIntoControlStoreData(doc);
+            }
             callback(null,{...selector,...newDoc})
             } catch (e) {
                 console.log('Error:',e)
@@ -60,7 +63,7 @@ class PersistentMinimongoStorage {
 
         self.cachedCollection.remove_ = self.cachedCollection.remove;
         delete self.cachedCollection.remove;
-        self.cachedCollection.remove=(doc,callback=()=>{})=>{
+        self.cachedCollection.remove=(doc,callback=()=>{},removeFromSync:false)=>{
             console.log('CC - delete',doc);
             if(!doc||Object.keys(doc).length===0) {
                 return;
@@ -71,7 +74,10 @@ class PersistentMinimongoStorage {
                 self.list = self.list.filter(key=>key!==doc._id);
                 del(doc._id,self.customStore);
                 self.delUpdatedDocsIntoControlStoreData(doc);
-                self.addRemovedDocIntoControlStoreData(doc);
+                if(!removeFromSync) {
+                    self.addRemovedDocIntoControlStoreData(doc);
+                }
+
             }
             callback(null,true)
             } catch (e) {
@@ -176,8 +182,8 @@ class PersistentMinimongoStorage {
             return self.controlStoreData;
         }
         get('config',self.controlStore).then(result=>{
-            self.controlStoreData = {removedDocs:[],...(result||{})};
-            callback(null,{removedDocs:[],...(result||{})});
+            self.controlStoreData = {removedDocs:[],updatedDocs:[],syncHistory:[],...(result||{})};
+            callback(null,{removedDocs:[],updatedDocs:[],syncHistory:[],...(result||{})});
         });
 
     }
@@ -194,37 +200,87 @@ class PersistentMinimongoStorage {
         return newControlStoreDate;
     }
 
-    addUpdatedDocsIntoControlStoreData = (doc) => {
+    addUpdatedDocsIntoControlStoreData = (doc,historyItem) => {
         const self = this;
         const controlStore = self.getControlStoreData();
         if(!controlStore.updatedDocs) {
-            controlStore.updatedDocs = [{_id:doc._id}]
+            controlStore.updatedDocs = [doc]
+            if(!!historyItem) {
+                controlStore.syncHistory.push(historyItem)
+            }
+            self.updateControlStoreData(controlStore);
+            return true;
         } else {
-            controlStore.updatedDocs.push({_id:doc._id});
+            controlStore.updatedDocs = controlStore.updatedDocs.filter(d=>d._id!==doc._id);
+            controlStore.updatedDocs.push(doc);
+            if(!!historyItem) {
+                controlStore.syncHistory.push(historyItem)
+            }
+
         }
         self.updateControlStoreData(controlStore);
+        return true;
+
     }
 
-    delUpdatedDocsIntoControlStoreData = (doc) => {
+    delUpdatedDocsIntoControlStoreData = (doc,historyItem) => {
         const self = this;
         const controlStore = self.getControlStoreData();
         if(!controlStore.updatedDocs) {
-            return;
+            return false;
         }
         controlStore.updatedDocs = controlStore.updatedDocs.filter(d=>d._id!==doc._id);
+        if(!!historyItem) {
+            controlStore.syncHistory.push(historyItem)
+        }
         self.updateControlStoreData(controlStore);
+        return true;
     }
 
-    addRemovedDocIntoControlStoreData = (doc) => {
+    addRemovedDocIntoControlStoreData = (doc,historyItem) => {
         const self = this;
         const controlStore = self.getControlStoreData();
         if(!controlStore.removedDocs) {
-            controlStore.removedDocs = [{_id:doc._id}]
+            controlStore.removedDocs = [doc._id]
         } else {
-            controlStore.removedDocs.push({_id:doc._id});
+            controlStore.removedDocs.push(doc._id);
         }
-
+        if(!!historyItem) {
+            controlStore.syncHistory.push(historyItem)
+        }
         self.updateControlStoreData(controlStore);
+        return true;
+    }
+    delRemovedDocIntoControlStoreData = (doc,historyItem) => {
+        const self = this;
+        const controlStore = self.getControlStoreData();
+        if(!controlStore.removedDocs) {
+            return false;
+        }
+        controlStore.removedDocs = controlStore.removedDocs.filter(d=>d!==doc._id);
+        if(!!historyItem) {
+            controlStore.syncHistory.push(historyItem)
+        }
+        self.updateControlStoreData(controlStore);
+        return true;
+    }
+
+    updateSyncHistory = (historyItem) => {
+        const self = this;
+        const controlStore = self.getControlStoreData();
+        if(!!historyItem) {
+            controlStore.syncHistory.push(historyItem)
+        }
+        self.updateControlStoreData(controlStore);
+        return true;
+    }
+
+
+    needSync = () => {
+        const self = this;
+        const controlStore = self.getControlStoreData();
+        return !!controlStore.removedDocs&&controlStore.removedDocs.length>0
+            ||!!controlStore.updatedDocs&&controlStore.updatedDocs.length>0;
     }
 
     initCachedMinimongo = (callback) => {
@@ -301,6 +357,42 @@ class PersistentMinimongoStorage {
         });
     }
 
+    syncRemovedDocs = (removeDocFunc:()=>{},dosToRemoveFunc:()=>[]) => {
+        const self = this;
+        const controlStoreData = this.getControlStoreData();
+        (controlStoreData.removedDocs||[]).forEach(docId=>{
+            removeDocFunc({_id:docId},(e,r)=>{
+                if(!e) {
+                    self.delRemovedDocIntoControlStoreData({_id:docId},{date:new Date(),type:'remove',status:'success',docId:docId});
+                } else {
+                    self.updateSyncHistory({date:new Date(),type:'remove',status:'error',error:e,docId:docId});
+                }
+            });
+        });
+
+        (dosToRemoveFunc()||[]).forEach(doc=>{
+            this.cachedCollection.remove(doc,undefined,true);
+        });
+
+    }
+    syncUpdatedDocs = (updateDocFunc:()=>{},dosToUpdateFunc:()=>[]) => {
+        const self = this;
+        const controlStoreData = this.getControlStoreData();
+        (controlStoreData.updatedDocs||[]).forEach(doc=>{
+            updateDocFunc(doc,(e,r)=>{
+                if(!e) {
+                    self.delUpdatedDocsIntoControlStoreData(doc,{date:new Date(),type:'update',status:'success',docId:doc._id});
+                } else {
+                    self.updateSyncHistory({date:new Date(),type:'update',status:'error',error:e,docId:doc._id});
+                }
+            });
+        })
+
+        (dosToUpdateFunc()||[]).forEach(doc=>{
+            this.cachedCollection.update({_id:doc._id},doc,{},undefined,true);
+        });
+
+    }
 
 };
 
