@@ -50,6 +50,7 @@ class PersistentMinimongoStorage {
             self.cachedCollection.update_(selector,{...doc},{...(options||{}),upsert:true});
             const newDoc = self.cachedCollection.findOne(selector);
             set(newDoc._id,stringify(newDoc),self.customStore);
+            self.addUpdatedDocsIntoControlStoreData(doc);
             callback(null,{...selector,...newDoc})
             } catch (e) {
                 console.log('Error:',e)
@@ -69,8 +70,9 @@ class PersistentMinimongoStorage {
             if(!doc.removeOnly) {
                 self.list = self.list.filter(key=>key!==doc._id);
                 del(doc._id,self.customStore);
+                self.delUpdatedDocsIntoControlStoreData(doc);
+                self.addRemovedDocIntoControlStoreData(doc);
             }
-
             callback(null,true)
             } catch (e) {
                 callback(e,null);
@@ -174,11 +176,8 @@ class PersistentMinimongoStorage {
             return self.controlStoreData;
         }
         get('config',self.controlStore).then(result=>{
-            if(!result) {
-
-            }
-            self.controlStoreData = result||{};
-            callback(null,result||{});
+            self.controlStoreData = {removedDocs:[],...(result||{})};
+            callback(null,{removedDocs:[],...(result||{})});
         });
 
     }
@@ -191,7 +190,41 @@ class PersistentMinimongoStorage {
         const self = this;
         const newControlStoreDate = {...(this.controlStoreData||{}),...(newData||{}) };
         set('config',newControlStoreDate,self.controlStore);
+        this.controlStoreData = newControlStoreDate;
         return newControlStoreDate;
+    }
+
+    addUpdatedDocsIntoControlStoreData = (doc) => {
+        const self = this;
+        const controlStore = self.getControlStoreData();
+        if(!controlStore.updatedDocs) {
+            controlStore.updatedDocs = [{_id:doc._id}]
+        } else {
+            controlStore.updatedDocs.push({_id:doc._id});
+        }
+        self.updateControlStoreData(controlStore);
+    }
+
+    delUpdatedDocsIntoControlStoreData = (doc) => {
+        const self = this;
+        const controlStore = self.getControlStoreData();
+        if(!controlStore.updatedDocs) {
+            return;
+        }
+        controlStore.updatedDocs = controlStore.updatedDocs.filter(d=>d._id!==doc._id);
+        self.updateControlStoreData(controlStore);
+    }
+
+    addRemovedDocIntoControlStoreData = (doc) => {
+        const self = this;
+        const controlStore = self.getControlStoreData();
+        if(!controlStore.removedDocs) {
+            controlStore.removedDocs = [{_id:doc._id}]
+        } else {
+            controlStore.removedDocs.push({_id:doc._id});
+        }
+
+        self.updateControlStoreData(controlStore);
     }
 
     initCachedMinimongo = (callback) => {
