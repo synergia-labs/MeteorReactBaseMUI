@@ -82,8 +82,6 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     }
 
-    console.log(examples);
-
     return (
         <Container>
             <h1>{'Lista de Exemplos'}</h1>

@@ -11,7 +11,7 @@ class PersistentMinimongoStorage {
         var self = this;
         self.collectionName = collectionName;
         self.customStore = new Store(settings.name + '_' + collectionName, collectionName + '-store');
-        self.controlStore = new Store(settings.name + '_' + collectionName, collectionName + '-control');
+        self.controlStore = new Store(settings.name + '_' + collectionName+'_Control', collectionName + '-control');
         self.collection = collectionInstance;
 
         self.inited = new ReactiveVar(false);
@@ -20,20 +20,21 @@ class PersistentMinimongoStorage {
         self.cachedCollection.insert_ = self.cachedCollection.insert;
         delete self.cachedCollection.insert;
         self.cachedCollection.insert = (doc, callback = () => {
-        }) => {
-            console.log('CC - Insert', doc);
+        }, updateFromSync = false) => {
             if (!doc || Object.keys(doc).length === 0) {
                 return;
             }
             try {
-                doc.needSync = true;
                 const id = self.cachedCollection.insert_(doc);
                 doc._id = id;
                 if (self.list.indexOf(doc._id) === -1) {
                     self.list.push(doc._id);
                 }
                 set(doc._id, stringify(doc), self.customStore);
-                self.addUpdatedDocsIntoControlStoreData(doc);
+                if (!updateFromSync) {
+                    self.addUpdatedDocsIntoControlStoreData(doc);
+                }
+
                 callback(null, id);
             } catch (e) {
                 callback(e, null);
@@ -42,19 +43,17 @@ class PersistentMinimongoStorage {
 
         self.cachedCollection.update_ = self.cachedCollection.update;
         delete self.cachedCollection.update;
-        self.cachedCollection.update = (selector, doc, options, callback = () => {
-        }, updateFromSync: false) => {
-            console.log('CC - update', selector, 'doc>', doc, 'Op>', options, 'calb>>', callback);
-            if (!doc || Object.keys(doc).length === 0) {
+        self.cachedCollection.update = (selector, modifier, options, callback = () => {
+        }, updateFromSync = false) => {
+            if (!modifier || Object.keys(modifier).length === 0) {
                 return;
             }
             try {
-                doc.needSync = true;
-                self.cachedCollection.update_(selector, {...doc}, {...(options || {}), upsert: true});
+                self.cachedCollection.update_(selector, modifier,{...options,upsert:true});
                 const newDoc = self.cachedCollection.findOne(selector);
                 set(newDoc._id, stringify(newDoc), self.customStore);
                 if (!updateFromSync) {
-                    self.addUpdatedDocsIntoControlStoreData(doc);
+                    self.addUpdatedDocsIntoControlStoreData(newDoc);
                 }
                 callback(null, {...selector, ...newDoc})
             } catch (e) {
@@ -66,8 +65,7 @@ class PersistentMinimongoStorage {
         self.cachedCollection.remove_ = self.cachedCollection.remove;
         delete self.cachedCollection.remove;
         self.cachedCollection.remove = (doc, callback = () => {
-        }, removeFromSync: false) => {
-            console.log('CC - delete', doc);
+        }, removeFromSync = false) => {
             if (!doc || Object.keys(doc).length === 0) {
                 return;
             }
@@ -106,6 +104,7 @@ class PersistentMinimongoStorage {
 
         self.initObserver();
 
+        self.initControlStore();
 
     }
 
@@ -127,14 +126,12 @@ class PersistentMinimongoStorage {
                         set(doc._id, stringify(doc), self.customStore);
                     }
 
-                    self.cachedCollection.upsert({_id: doc._id},
-                        {$set: doc}, {upsert: true});
-                    console.log(self.collectionName, 'Observer - add', doc)
+                    self.cachedCollection.update({_id: doc._id},
+                        {$set: doc}, {upsert: true},undefined,true);
                     ++self.stats.added;
                 },
 
                 removed: function (doc, ...params) {
-                    console.log(doc, '>', params)
                     // if not in list, nothing to do
                     // if(!_.includes(self.list, doc._id)) {
                     //     return;
@@ -142,7 +139,6 @@ class PersistentMinimongoStorage {
                     // del(doc._id,self.customStore);
                     // self.list = self.list.filter(key=>key!==doc._id);
                     self.cachedCollection.remove({_id: doc._id, removeOnly: true});
-                    console.log(self.collectionName, 'Observer - del', doc)
                     ++self.stats.removed;
                 },
 
@@ -155,9 +151,8 @@ class PersistentMinimongoStorage {
                         self.list.push(doc._id);
                         set(doc._id, stringify(doc), self.customStore);
                     }
-                    console.log(self.collectionName, 'Observer - update', doc)
                     self.cachedCollection.update({_id: doc._id},
-                        {$set: doc}, {upsert: true});
+                        {$set: doc}, {upsert: true},undefined,true);
                     ++self.stats.changed;
 
                 }
@@ -167,12 +162,9 @@ class PersistentMinimongoStorage {
 
     updateDateOnJson = (object) => {
         function reviver(key, value) {
-            console.log(key, value)
             if ((value + '').length === 24 && !!Date.parse(value)) {
-                console.log('IS DATE')
                 return new Date(value);
             }
-            console.log('IsNotDate', (value + '').length === 24, '>', !!Date.parse(value), '>', isNaN(parseInt(value)))
             return value;
         }
 
@@ -186,21 +178,23 @@ class PersistentMinimongoStorage {
         if (!!self.controlStoreData) {
             return self.controlStoreData;
         }
-        get('config', self.controlStore).then(result => {
-            self.controlStoreData = {removedDocs: [], updatedDocs: [], syncHistory: [], ...(result || {})};
-            callback(null, {removedDocs: [], updatedDocs: [], syncHistory: [], ...(result || {})});
+        get('config', self.controlStore).then(resultString => {
+            const result = self.updateDateOnJson(resultString?parse(resultString):{});
+
+            self.controlStoreData = {removedDocs: [], updatedDocs: [], syncHistory: [],lastClientSync:new Date(), ...(result || {})};
+            callback(null, {removedDocs: [], updatedDocs: [], syncHistory: [],lastClientSync:new Date(), ...(result || {})});
         });
 
     }
 
     getControlStoreData = () => {
-        return this.controlStoreData;
+        return this.controlStoreData||{removedDocs: [], updatedDocs: [], syncHistory: [],lastClientSync:new Date()};
     }
 
     updateControlStoreData = (newData) => {
         const self = this;
         const newControlStoreDate = {...(this.controlStoreData || {}), ...(newData || {})};
-        set('config', newControlStoreDate, self.controlStore);
+        set('config', stringify(newControlStoreDate), self.controlStore);
         this.controlStoreData = newControlStoreDate;
         return newControlStoreDate;
     }
@@ -284,14 +278,17 @@ class PersistentMinimongoStorage {
     needSync = () => {
         const self = this;
         const controlStore = self.getControlStoreData();
+        if(!controlStore) {
+            return false;
+        }
         return !!controlStore.removedDocs && controlStore.removedDocs.length > 0
-            || !!controlStore.updatedDocs && controlStore.updatedDocs.length > 0;
+            || !!controlStore.updatedDocs && controlStore.updatedDocs.length > 0
+        || (!controlStore.lastClientSync)
+            || ((((new Date()).getTime() - controlStore.lastClientSync.getTime()) / (1000 * 3600 * 24))>15); //greater than 15 days
     }
 
     initCachedMinimongo = (callback) => {
         const self = this;
-
-        self.initControlStore();
 
         var seconds = self.lastCallInit ? (((new Date()).getTime() - self.lastCallInit.getTime()) / 1000) : 61;
 
@@ -345,7 +342,7 @@ class PersistentMinimongoStorage {
     }) => {
         const self = this;
         const matchFilter = (o1, o2) => {
-            return Object.keys(o1).map(k => _.isEqual(o1[k], o2[k]).filter(o => !!o).length === Object.keys(o1).length;
+            return Object.keys(o1).map(k => _.isEqual(o1[k], o2[k]).filter(o => !!o).length === Object.keys(o1).length);
         }
         this.updateKeys((e, r) => {
             const result = [];
@@ -364,7 +361,7 @@ class PersistentMinimongoStorage {
         });
     }
 
-    syncRemovedDocs = (removeDocFunc: ()=>{}) => {
+    syncRemovedDocs = (removeDocFunc = ()=>{}) => {
         const self = this;
         const controlStoreData = this.getControlStoreData();
         (controlStoreData.removedDocs || []).forEach(docId => {
@@ -383,7 +380,7 @@ class PersistentMinimongoStorage {
         });
 
     }
-    syncUpdatedDocs = (updateDocFunc: ()=>{}) => {
+    syncUpdatedDocs = (updateDocFunc = ()=>{}) => {
         const self = this;
         const controlStoreData = this.getControlStoreData();
         (controlStoreData.updatedDocs || []).forEach(doc => {
@@ -399,7 +396,7 @@ class PersistentMinimongoStorage {
                             status: 'success',
                             docId: doc._id
                         });
-                        self.cachedCollection.update({_id: serverDoc._id}, serverDoc, {}, undefined, true);
+                        self.cachedCollection.update({_id: serverDoc._id}, {$set:serverDoc}, {}, undefined, true);
                     }
 
                 } else {
@@ -421,6 +418,7 @@ class PersistentMinimongoStorage {
     syncFromClient = (removeFunction, updateFunction) => {
         removeFunction && this.syncRemovedDocs(removeFunction);
         updateFunction && this.syncUpdatedDocs(updateFunction);
+        this.updateControlStoreData({lastClientSync:new Date()})
     }
 
     syncFromServer = (serverDocs) => {
@@ -430,9 +428,8 @@ class PersistentMinimongoStorage {
             }
             if(!!doc.removedServer) {
                 this.cachedCollection.remove(doc, undefined, true);
-            } else if(!doc.updatedServer) {
-                delete doc.updatedServer;
-                this.cachedCollection.update({_id: doc._id}, doc, {}, undefined, true);
+            } else {
+                this.cachedCollection.update({_id: doc._id}, {$set:doc}, {}, undefined, true);
             }
         })
 
@@ -448,7 +445,6 @@ export class OfflineBaseApi extends ApiBase {
         this.findOne = this.findOne.bind(this);
         this.find = this.find.bind(this);
         this.callMethod = this.callMethod.bind(this);
-        this.syncAll = this.syncAll.bind(this);
         this.registerMethod('GetDocsForSync', this.serverGetDocsForSync);
 
         if (Meteor.isClient) {
@@ -498,7 +494,6 @@ export class OfflineBaseApi extends ApiBase {
      * @param  {} ...param
      */
     subscribe(api = 'default', ...param) {
-        console.log('Meteor.status()', Meteor.status())
         const self = this;
         if (Meteor.isClient) {
             if (Meteor.status().status !== 'waiting') {
@@ -511,7 +506,7 @@ export class OfflineBaseApi extends ApiBase {
                 //##################################################################
 
                 return Meteor.subscribe(
-                    `${this.collectionName}.${api}`,
+                    `${self.collectionName}.${api}`,
                     ...param
                 );
             } else {
@@ -525,7 +520,6 @@ export class OfflineBaseApi extends ApiBase {
 
     callOfflineMethod = (name, docObj, callback = () => {
     }) => {
-        console.log('Offline METHOD -', name, '>>>', docObj, 'Calback>>', callback)
         if (name === 'update') {
             const oldDoc = Meteor.status().connected ? this.getCollectionInstance().findOne({_id: docObj._id})
                 : this.persistentCollectionInstance.findOne({_id: docObj._id})

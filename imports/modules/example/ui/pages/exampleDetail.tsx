@@ -25,11 +25,9 @@ interface IExampleDetail {
 const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExampleDetail) => {
 
     const handleSubmit = (doc: object) => {
-        console.log('DOC',doc);
         save(doc);
     }
 
-    console.log('Detail',exampleDoc)
     return (
         <Container>
             <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
