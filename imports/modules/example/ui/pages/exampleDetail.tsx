@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleSwitchField/ToggleSwitchField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
@@ -86,6 +87,12 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     <TextField
                         placeholder='Descrição da Tarefa'
                         name='description'
+                    />
+                </FormGroup>
+                <FormGroup key={'fields'} formType={'subform'} name={'status'}>
+                    <ToggleSwitch
+                        placeholder='Status da Tarefa'
+                        name='status'
                     />
                 </FormGroup>
                 <UploadFilesCollection

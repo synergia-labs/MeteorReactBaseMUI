@@ -77,6 +77,26 @@ export const exampleSch = {
         optional: true,
       },
     }
+  },
+  status: {
+    type: [Object],
+    label: 'Status',
+    defaultValue: '',
+    optional: true,
+    subSchema: {
+      value: {
+        type: String,
+        label: 'Valor do Status',
+        defaultValue: false,
+        optional: false,
+      },
+      name: {
+        type: String,
+        label: 'Nome do Status',
+        defaultValue: '',
+        optional: false,
+      },
+    }
   }
 };
 
