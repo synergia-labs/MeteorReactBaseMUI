@@ -75,12 +75,12 @@ class UserProfileApi extends OfflineBaseApi {
 
     this.addPublication('getLoggedUserProfile', () => {
 
-      const user = getUser();
+      const user = Meteor.user();
 
       if(!user) {
         return;
       }
-      return this.collectionInstance.find({_id:user._id})
+      return this.collectionInstance.find({email:user?user.profile.email:null})
     });
 
 

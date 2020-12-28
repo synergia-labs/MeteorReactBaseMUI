@@ -101,7 +101,6 @@ class GeneralComponents extends React.Component {
     }
 
     render(){
-
         return(
             <React.Fragment>
                 {this.state.dialogOptions?<DialogContainer {...this.state.dialogOptions} />:null}

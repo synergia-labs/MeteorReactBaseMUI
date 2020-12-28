@@ -35,7 +35,6 @@ const PublicRoute = ({ component: Component,generalProps, ...rest }) => (
     <Route
         {...rest}
         render={(props) => {
-            const isLogged = Meteor.userId() !== null
             return <Component {...props} {...generalProps} />
         }}
     />
@@ -50,7 +49,7 @@ const ProtectedRoute = ({ component: Component,generalProps, ...rest }) => (
     <Route
         {...rest}
         render={(props) => {
-            const isLogged = Meteor.userId() !== null
+            const isLogged = !!Meteor.userId();
             return isLogged ? (
                 <Component {...props} {...generalProps} getUser={getUser} />
             ) : (

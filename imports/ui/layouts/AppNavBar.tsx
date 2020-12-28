@@ -15,7 +15,7 @@ import {userprofileApi} from "../../userprofile/api/UserProfileApi";
 import {isMobile} from "/imports/libs/deviceVerify";
 
 
-const AppNavBar = ({ currentUser,history }) => {
+const AppNavBar = ({ user,history }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -26,6 +26,9 @@ const AppNavBar = ({ currentUser,history }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    console.log('AppBar User',user);
+
     return (
         <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',width:'100%',alignItems:'center'}}>
             <div style={{width:'100%'}}>
@@ -65,11 +68,11 @@ const AppNavBar = ({ currentUser,history }) => {
                 open={open}
                 onClose={handleClose}
             >
-                {!currentUser||!currentUser._id? (
+                {!user||!user._id? (
                     [<MenuItem key={'signin'} as={NavLink} onClick={()=>history.push("/signin")}>Entrar</MenuItem>,
                     <MenuItem key={'signup'} as={NavLink} onClick={()=>history.push("/signup")}>Cadastrar-se</MenuItem>]
                 ) : (
-                    [<MenuItem key={'userprofile'} as={NavLink} onClick={()=>history.push(`/userprofile/view/${currentUser._id}`)}>Meus dados</MenuItem>,
+                    [<MenuItem key={'userprofile'} as={NavLink} onClick={()=>history.push(`/userprofile/view/${user._id}`)}>Meus dados</MenuItem>,
                     <MenuItem key={'signout'} as={NavLink} onClick={()=>history.push("/signout")}>Sair</MenuItem>]
                 )}
             </Menu>
@@ -79,24 +82,6 @@ const AppNavBar = ({ currentUser,history }) => {
     )
 }
 
-AppNavBar.propTypes = { currentUser: PropTypes.object }
-AppNavBar.defaultProps = { currentUser: null }
 
-// withRouter HOC.
-// see explanation: https://reacttraining.com/react-router/web/api/withRouter
-
-const AppNavBarContainer = withTracker((props) => {
-
-    const subHandle = userprofileApi.subscribe('getLoggedUserProfile')
-    const MeteorUser = Meteor.user();
-    const currentUser = subHandle.ready()?(userprofileApi.findOne({email:MeteorUser?MeteorUser.profile.email:'NoUser'})):(MeteorUser||null)
-
-    return(
-        {
-            currentUser,
-        }
-        )
-})(AppNavBar)
-
-export default withRouter(AppNavBarContainer)
+export default AppNavBar
 
