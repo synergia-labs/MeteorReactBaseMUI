@@ -3,7 +3,6 @@ import {noAvatarBase64, noImageBase64} from './noimage';
 import _ from 'lodash';
 import {hasValue} from "../libs/hasValue";
 import {getUser} from "/imports/libs/getUser";
-import {difference} from "/imports/libs/diffObjs";
 
 )
 
@@ -638,28 +637,28 @@ export class ApiBase {
             this.includeAuditData(dataObj, 'insert');
             const insertId = this.collectionInstance.insert(dataObj);
             //console.log('Inser >>>', insert);
-            return insertId;
+            return {_id:insertId,...dataObj};
         }
         // const update = this.serverUpdate(dataObj, context);
         let docToSave = null;
         //console.log('DOC', dataObj, oldDoc);
         if (!!dataObj.lastupdate&&!!oldDoc.lastupdate&&new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
-            //console.log('APP MAIOR');
-            docToSave = difference(dataObj, oldDoc);
+            console.log('APP MAIOR');
+            docToSave = dataObj;
         } else {
-            //console.log('Server MAIOR');
-            docToSave = difference(oldDoc, dataObj);
+            console.log('Server MAIOR');
+            docToSave = oldDoc;
         }
 
         docToSave = this.checkDataBySchema(docToSave)
         this.includeAuditData(docToSave, 'update');
 
-        //console.log('docToSave', docToSave);
+        console.log('docToSave', {...docToSave,image:''});
 
         const update = this.collectionInstance.update(dataObj._id, {
             $set: docToSave,
         });
-        //console.log('Update >>>', update);
+        console.log('Update >>>', update);
         const newDoc = this.collectionInstance.findOne({_id: dataObj._id});
         return newDoc;
     };

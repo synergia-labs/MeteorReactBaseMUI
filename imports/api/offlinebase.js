@@ -32,6 +32,7 @@ class PersistentMinimongoStorage {
                 }
                 set(doc._id, stringify(doc), self.customStore);
                 if (!updateFromSync) {
+                    doc.lastupdate = new Date();
                     self.addUpdatedDocsIntoControlStoreData(doc);
                 }
 
@@ -53,6 +54,7 @@ class PersistentMinimongoStorage {
                 const newDoc = self.cachedCollection.findOne(selector);
                 set(newDoc._id, stringify(newDoc), self.customStore);
                 if (!updateFromSync) {
+                    newDoc.lastupdate = new Date();
                     self.addUpdatedDocsIntoControlStoreData(newDoc);
                 }
                 callback(null, {...selector, ...newDoc})
@@ -383,8 +385,10 @@ class PersistentMinimongoStorage {
     syncUpdatedDocs = (updateDocFunc = ()=>{}) => {
         const self = this;
         const controlStoreData = this.getControlStoreData();
+        console.log('#syncUpdatedDocs',controlStoreData);
         (controlStoreData.updatedDocs || []).forEach(doc => {
             updateDocFunc(doc, (e, serverDoc) => {
+                console.log('UPdated',e,serverDoc);
                 if (!e) {
                     if(!!serverDoc&&!!serverDoc.removedServer) {
                         this.cachedCollection.remove(serverDoc, undefined, true);
@@ -499,7 +503,7 @@ export class OfflineBaseApi extends ApiBase {
             if (Meteor.status().status !== 'waiting') {
 
                 //Sync Functions ###################################################
-                if(self.minimongoStorage.needSync()) {
+                if(self.minimongoStorage.needSync()&&Meteor.status().connected) {
                     self.minimongoStorage.syncFromClient(self.remove,self.sync);
                 }
 
