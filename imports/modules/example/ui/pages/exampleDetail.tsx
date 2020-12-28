@@ -10,9 +10,7 @@ import TextField from '../../../../ui/components/SimpleFormFields/TextField/Text
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
-
-
-// import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
+import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
 
 interface IExampleDetail {
     screenState: string;
@@ -54,6 +52,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+                <GoogleApiWrapper/>
                 <FormGroup key={'fields'}>
                     <SelectField
                         placeholder='Tipo'
