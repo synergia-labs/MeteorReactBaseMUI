@@ -49,7 +49,7 @@ const ProtectedRoute = ({ component: Component,generalProps, ...rest }) => (
     <Route
         {...rest}
         render={(props) => {
-            const isLogged = !!Meteor.userId();
+            const isLogged = generalProps.isLoggedIn;
             return isLogged ? (
                 <Component {...props} {...generalProps} getUser={getUser} />
             ) : (

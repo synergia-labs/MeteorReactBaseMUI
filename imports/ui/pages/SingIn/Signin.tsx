@@ -30,8 +30,6 @@ export default class Signin extends React.Component {
 
   handleSubmit(doc) {
     const { email, password } = doc;
-    console.log(doc)
-
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
         this.props.showSnackBar({
@@ -49,12 +47,22 @@ export default class Signin extends React.Component {
 
   render() {
     const self = this;
-    const { location } = this.props
+    const { user,location } = this.props
     const { redirectToReferer, error } = this.state
     const { from } = location.state || { from: { pathname: '/' } }
     // if correct authentication, redirect to page instead of login screen
     if (redirectToReferer) {
+      if(from&&from.pathname==='/signout') {
+        from.pathname = '/';
+      }
       return <Redirect to={from} />
+
+
+    }
+
+    if(!!user&&!!user._id) {
+      this.setState({ redirectToReferer: true})
+      this.props.history.push('/');
     }
 
     const SocialLoginButton = ({onLogin, buttonText, iconClass, customCss, iconOnly}) => (
@@ -77,7 +85,6 @@ export default class Signin extends React.Component {
     );
 
     const callbackLogin = (err) => {
-      console.log('ERROR',err)
       if (err) {
         console.log('Login Error: ', err);
         if (err.errorType === 'Accounts.LoginCancelledError') {

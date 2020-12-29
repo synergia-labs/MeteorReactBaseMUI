@@ -42,47 +42,30 @@ export const userprofileData = {
  */
 export const getUser = (userDoc:object, connection: { id:string }):object => {
 
-
     if (userDoc) {
         return userDoc;
     }
 
-    try {
-
-        if (Meteor.isClient) {
-            if(!loggedUserCache) {
-                loggedUserCache = new LoggedUserStore();
-            }
-            if(Meteor.status().status !== 'connected') {
-
-                const user = loggedUserCache.getUser();
-                console.log('CachedUser',user);
-
-                return user;
-
-            } else {
-
-                console.log('loggedUserCache.getUser()',loggedUserCache.getUser())
-
-                if(!userprofileData.collectionInstance) {
-                    console.log('UserProfile Collection not Avaliable');
-                    loggedUserCache.setUser(Meteor.user());
-                    return Meteor.user();
-                }
-                const userProfile = userprofileData.collectionInstance.findOne(
-                    {email: Meteor.user().profile.email});
-
-                if (userProfile) {
-                    loggedUserCache.setUser(userProfile);
-                    return userProfile;
-                }
-            }
-
-
+    if (Meteor.isClient && Meteor.status().status !== 'connected') {
+        if (!!window && !!window.$app && !!window.$app.user) {
+            return window.$app.user;
         }
 
+    }
 
 
+
+    try {
+        if(!userprofileData.collectionInstance) {
+            console.log('UserProfile Collection not Avaliable');
+            return Meteor.user();
+        }
+        const userProfile = userprofileData.collectionInstance.findOne(
+            {email: Meteor.user().profile.email});
+
+        if (userProfile) {
+            return userProfile;
+        }
 
         const d = new Date();
         const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;

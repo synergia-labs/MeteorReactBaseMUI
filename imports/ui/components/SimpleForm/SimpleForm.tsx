@@ -667,7 +667,6 @@ class SimpleForm extends Component<ISimpleFormProps> {
     }
 
     onSubmitForm = (event,...others) => {
-        console.log('ONSubmitForm',event);
         if(this.props.onSubmit&&this.validate()) {
             this.props.onSubmit(this.docValue)
         } else {

@@ -1,17 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
 import { withRouter, NavLink } from 'react-router-dom'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-
-
 import Modules from '../../modules';
-import {userprofileApi} from "../../userprofile/api/UserProfileApi";
 import {isMobile} from "/imports/libs/deviceVerify";
 
 
@@ -27,7 +21,10 @@ const AppNavBar = ({ user,history }) => {
         setAnchorEl(null);
     };
 
-    console.log('AppBar User',user);
+    const openPage = url=> () => {
+        handleClose();
+        history.push(url);
+    }
 
     return (
         <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',width:'100%',alignItems:'center'}}>
@@ -69,11 +66,11 @@ const AppNavBar = ({ user,history }) => {
                 onClose={handleClose}
             >
                 {!user||!user._id? (
-                    [<MenuItem key={'signin'} as={NavLink} onClick={()=>history.push("/signin")}>Entrar</MenuItem>,
-                    <MenuItem key={'signup'} as={NavLink} onClick={()=>history.push("/signup")}>Cadastrar-se</MenuItem>]
+                    [<MenuItem key={'signin'} as={NavLink} onClick={openPage("/signin")}>Entrar</MenuItem>,
+                    <MenuItem key={'signup'} as={NavLink} onClick={openPage("/signup")}>Cadastrar-se</MenuItem>]
                 ) : (
-                    [<MenuItem key={'userprofile'} as={NavLink} onClick={()=>history.push(`/userprofile/view/${user._id}`)}>Meus dados</MenuItem>,
-                    <MenuItem key={'signout'} as={NavLink} onClick={()=>history.push("/signout")}>Sair</MenuItem>]
+                    [<MenuItem key={'userprofile'} as={NavLink} onClick={openPage(`/userprofile/view/${user._id}`)}>Meus dados</MenuItem>,
+                    <MenuItem key={'signout'} as={NavLink} onClick={openPage("/signout")}>Sair</MenuItem>]
                 )}
             </Menu>
             </div>
@@ -83,5 +80,5 @@ const AppNavBar = ({ user,history }) => {
 }
 
 
-export default AppNavBar
+export default withRouter(AppNavBar);
 
