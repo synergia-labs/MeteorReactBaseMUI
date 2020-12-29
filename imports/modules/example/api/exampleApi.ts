@@ -7,8 +7,6 @@ import { exampleSch } from './exampleSch';
 class ExampleApi extends OfflineBaseApi {
   constructor(props) {
       super('example', exampleSch);
-
-
     }
 
 }
