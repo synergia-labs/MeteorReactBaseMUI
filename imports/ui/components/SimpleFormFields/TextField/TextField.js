@@ -2,7 +2,6 @@ import React from "react";
 import {hasValue} from "../../../../libs/hasValue";
 import TextField from '@material-ui/core/TextField';
 
-
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>

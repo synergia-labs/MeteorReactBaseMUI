@@ -421,6 +421,8 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
     const [mode,setMode] = React.useState(props.mode||'edit')
     const [changeByUser,setChangeByUser] = React.useState(false)
 
+    console.log("value: ",value);
+
     React.useEffect(() => {
 
         if(!changeByUser&&(!hasValue(value) || value !== props.initialValue )&&!!hasValue(props.initialValue)) {
@@ -707,4 +709,3 @@ class SimpleForm extends Component<ISimpleFormProps> {
     }
 }
 export default SimpleForm
-
