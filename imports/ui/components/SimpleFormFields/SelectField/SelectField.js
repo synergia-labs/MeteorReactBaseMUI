@@ -7,22 +7,14 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import _ from 'lodash';
 
+import {simpleFormFieldsStyles} from "../simpleFormFieldsStyle";
+
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
             const objValue = hasValue(value)?otherProps.options.find(object=>(object.value===value||object===value) ):undefined;
         return (<div key={name}>
-            {hasValue(label)?(<label
-                style={{
-                    color: 'rgba(0, 0, 0, 0.54)',
-                    padding: 0,
-                    fontSize: '1rem',
-                    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                    fontWeight: 400,
-                    lineHeight: 1,
-                    letterSpacing: '0.00938em',
-                }}
-            >{label}</label>):null}
-            <div style={{color:'#222',padding:5,height:35,marginTop:4,marginBottom:8}}>{(objValue&&objValue.label?objValue.label:(!!objValue?objValue:null) )}</div>
+            {hasValue(label)?(<label style={simpleFormFieldsStyles.displayLabelViewMode}>{label}</label>):null}
+            <div style={simpleFormFieldsStyles.displayValueViewMode}>{(objValue&&objValue.label?objValue.label:(!!objValue?objValue:null) )}</div>
         </div>)
     }
 

@@ -31,9 +31,9 @@ const AppNavBar = ({ currentUser,history }) => {
             <div style={{width:'100%'}}>
             {
                 (Modules.getAppMenuItemList() || []).map(menuData=>{
-                    return (<Button key={menuData.path} onClick={()=>history.push(menuData.path)}>
+                    return (<Button style={{color: 'white'}} key={menuData.path} onClick={()=>history.push(menuData.path)}>
                         {menuData.icon?menuData.icon:null}
-                        {isMobile?'':menuData.name}
+                        {menuData.name}
                         </Button>
                     )
 
@@ -48,7 +48,7 @@ const AppNavBar = ({ currentUser,history }) => {
                 onClick={handleMenu}
                 color="inherit"
             >
-                <AccountCircle />
+                <AccountCircle style={{color: 'white'}}/>
             </IconButton>
             <Menu
                 id="menu-appbar"
@@ -99,4 +99,3 @@ const AppNavBarContainer = withTracker((props) => {
 })(AppNavBar)
 
 export default withRouter(AppNavBarContainer)
-

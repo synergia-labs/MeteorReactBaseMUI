@@ -12,6 +12,8 @@ import DragHandle from "@material-ui/icons/DragHandle";
 import Delete from "@material-ui/icons/Delete";
 import Alert from "@material-ui/lab/Alert";
 
+import {simpleFormStyles} from "./SimpleFormStyle";
+
 interface ISubFormArrayComponent {
     reactElement:any;
     childrensElements:any;
@@ -178,17 +180,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
 
     return (
         <div style={{marginTop:5,width:'100%',backgroundColor:error?'#FFF6F6':undefined,marginBottom:16}}>
-            {hasValue(label)?(<label
-                style={{
-                    color: 'rgba(0, 0, 0, 0.54)',
-                    padding: 0,
-                    fontSize: '1rem',
-                    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                    fontWeight: 400,
-                    lineHeight: 1,
-                    letterSpacing: '0.00938em',
-                }}
-            >{label}</label>):null}
+            {hasValue(label)?(<label style={simpleFormStyles.displayLabelViewMode}>{label}</label>):null}
             <div style={{width:'100%',marginLeft:10}}>
 
                 <ReactSortable
@@ -213,12 +205,12 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                                         {childrensElements}
                                     </SimpleForm>
                                     {mode!=='view'?(
-                                        <div style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                                        <div style={simpleFormStyles.buttonForm}>
                                             <IconButton onClick={onClickDelete(subForm.id)}><Delete /></IconButton>
                                         </div>
                                     ):null}
                                     {mode!=='view'?(
-                                        <div className={'dragButton'} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                                        <div className={'dragButton'} style={simpleFormStyles.buttonForm}>
                                             <IconButton onClick={onClickDelete(subForm.id)}><DragHandle /></IconButton>
                                         </div>
                                     ):null}
@@ -374,17 +366,7 @@ const SubFormComponent = ({reactElement,childrensElements,name,...props}:ISubFor
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
     return (
         <div style={{marginTop:5,width:'100%',marginBottom:16}}>
-            {hasValue(label)?(<label
-                style={{
-                    color: 'rgba(0, 0, 0, 0.54)',
-                    padding: 0,
-                    fontSize: '1rem',
-                    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                    fontWeight: 400,
-                    lineHeight: 1,
-                    letterSpacing: '0.00938em',
-                }}
-            >{label}</label>):null}
+            {hasValue(label)?(<label style={simpleFormStyles.displayLabelViewMode}>{label}</label>):null}
             <div style={{margin:3,marginLeft:10}}>
                 <SimpleForm
                     isSubForm={true}

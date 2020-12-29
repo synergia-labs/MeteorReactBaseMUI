@@ -1,11 +1,9 @@
 import React from "react";
 // @ts-ignore
 import FileInputComponent from 'react-file-input-previews-base64'
-
-
-
 import {hasValue} from "../../../../libs/hasValue";
 
+import {simpleFormFieldsStyles} from "../simpleFormFieldsStyle";
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
@@ -24,17 +22,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
     if(!!readOnly) {
         return (<div key={name} style={{display:'flex',flexDirection:'column',marginBottom:16}}>
-            {hasValue(label)?(<label
-                style={{
-                    color: 'rgba(0, 0, 0, 0.54)',
-                    padding: 0,
-                    fontSize: '1rem',
-                    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                    fontWeight: 400,
-                    lineHeight: 1,
-                    letterSpacing: '0.00938em',
-                }}
-            >{label}</label>):null}
+            {hasValue(label)?(<label style={simpleFormFieldsStyles.displayLabelViewMode}>{label}</label>):null}
             <img src={value} style={{maxWidth:360,maxHeight:320}}/>
         </div>)
     }
