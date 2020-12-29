@@ -38,6 +38,12 @@ export const exampleSch = {
     optional: true,
     isUpload:true,
   },
+  chip: {
+    type: String,
+    label: 'Chips',
+    defaultValue: '',
+    optional: true,
+  },
   contacts: {
     type: Object,
     label: 'Contatos',
@@ -88,4 +94,5 @@ export interface IExample {
   createdat: Date;
   updatedat: Date;
   createdby: string;
+  chip: string;
 }

@@ -93,10 +93,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
-                <FormGroup key={'fields'} name={'chips'}>
+                <FormGroup key={'fields'} name={'chip'}>
                     <ChipInput
                         name="chip"
-                        placeholder="Chip"
+                        placeholder="Chips"
                     />  
                 </FormGroup> 
                 <div key={'Buttons'}>
