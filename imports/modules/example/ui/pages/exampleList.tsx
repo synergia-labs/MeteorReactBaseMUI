@@ -82,7 +82,6 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     }
 
-
     return (
         <Container>
             <h1>{'Lista de Exemplos'}</h1>

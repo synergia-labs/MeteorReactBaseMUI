@@ -2,8 +2,13 @@ import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import Container from "@material-ui/core/Container";
 
+import {cleanUserCache} from '../../../libs/userAccount';
+
+
+
 const Signout = () => {
-  Meteor.logout()
+  Meteor.logout();
+  cleanUserCache();
   return (
       <Container style={{width:'100%',maxWidth:400}}>
       <h2 style={{textAlign:"center",display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>

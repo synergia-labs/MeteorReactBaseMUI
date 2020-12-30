@@ -24,6 +24,7 @@ import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Delete from '@material-ui/icons/Delete';
 import CloudUpload from '@material-ui/icons/CloudUpload';
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
 const {grey100, grey500, grey700} = ['#eeeeee','#c9c9c9','#a1a1a1'];
 
@@ -638,20 +639,10 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
         }
 
         return (
-            <div key={name} style={{marginTop:5,flex: 1, flexWrap: 'wrap', flexDirection: 'column',marginBottom:8,
+            <div key={this.props.name} style={{marginTop:5,flex: 1, flexWrap: 'wrap', flexDirection: 'column',marginBottom:8,
             backgroundColor:this.props.error?'#FFF6F6':undefined
             }}>
-                {hasValue(this.props.label)?(<label
-                    style={{
-                        color: 'rgba(0, 0, 0, 0.54)',
-                        padding: 0,
-                        fontSize: '1rem',
-                        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                        fontWeight: 400,
-                        lineHeight: 1,
-                        letterSpacing: '0.00938em',
-                    }}
-                >{this.props.label}</label>):null}
+                <SimpleLabelView label={this.props.label}/>
                 {this.props.readOnly?(this.getListReadOnly()):(
                     <div style={{width: '100%', marginTop: 50}}>
                         <div style={{paddingTop: '10px', paddingBottom: '10px'}}>

@@ -4,6 +4,7 @@ import _ from 'lodash';
 import {hasValue} from "../libs/hasValue";
 import {getUser} from "/imports/libs/getUser";
 
+)
 
 //Conters
 const Counts = new Mongo.Collection("counts");
@@ -68,6 +69,10 @@ export class ApiBase {
 
         this.counts = Counts;
 
+        this.initCollection = this.initCollection.bind(this);
+        this.subscribe = this.subscribe.bind(this);
+        this.findOne = this.findOne.bind(this);
+        this.find = this.find.bind(this);
 
         this.addPublication = this.addPublication.bind(this);
         this.registerAllMethods = this.registerAllMethods.bind(this);
@@ -75,9 +80,13 @@ export class ApiBase {
         this.serverInsert = this.serverInsert.bind(this);
         this.serverRemove = this.serverRemove.bind(this);
         this.serverUpsert = this.serverUpsert.bind(this);
+        this.serverGetDocs = this.serverGetDocs.bind(this);
+
         this.afterInsert = this.afterInsert.bind(this);
         this.beforeUpdate = this.beforeUpdate.bind(this);
         this.beforeRemove = this.beforeRemove.bind(this);
+        this.sync = this.sync.bind(this);
+
         this.countDocuments = this.countDocuments.bind(this);
         this.callMethod = this.callMethod.bind(this);
 
@@ -118,7 +127,7 @@ export class ApiBase {
     }
 
 
-    initCollection = (apiName) => {
+    initCollection(apiName) {
         const self = this;
         this.collectionName = apiName;
         if (Meteor.isClient) {
@@ -392,6 +401,7 @@ export class ApiBase {
         if (!options.disableDefaultPublications) {
             this.addPublication('default', this.defaultCollectionPublication);
             this.addPublication('defaultCounter', this.defaultCounterCollectionPublication(this));
+
             
         }
     }
@@ -471,6 +481,7 @@ export class ApiBase {
 }
 
 
+
     /**
      * Get the collection instance.
      * @returns {Object} - Collection.
@@ -490,6 +501,8 @@ export class ApiBase {
         this.registerMethod('upsert', this.serverUpsert);
         this.registerMethod('sync', this.serverSync);
         this.registerMethod('countDocuments', this.countDocuments);
+        this.registerMethod('getDocs', this.serverGetDocs);
+
 
     }
 
@@ -603,42 +616,49 @@ export class ApiBase {
      * return {Object} doc inserted or updated
      */
     serverSync = (dataObj, context) => {
+
+        if(!dataObj||!dataObj._id) {
+            return false;
+        }
+
         if (dataObj.needSync) {
             delete dataObj.needSync;
         }
         const oldDoc = this.collectionInstance.findOne({_id: dataObj._id});
 
+        if(!(((!oldDoc || !oldDoc._id)&&this.beforeInsert(dataObj, context))||(this.beforeUpdate(dataObj, context)))) {
+            return false;
+        }
+
+
         if (!oldDoc || !oldDoc._id) {
             // const insert = this.serverInsert(dataObj, context);
             dataObj = this.checkDataBySchema(dataObj)
             this.includeAuditData(dataObj, 'insert');
-            const insert = this.collectionInstance.insert(dataObj);
-
+            const insertId = this.collectionInstance.insert(dataObj);
             //console.log('Inser >>>', insert);
-            const newDoc = this.collectionInstance.findOne({_id: dataObj._id});
-
-            return newDoc;
+            return {_id:insertId,...dataObj};
         }
         // const update = this.serverUpdate(dataObj, context);
         let docToSave = null;
         //console.log('DOC', dataObj, oldDoc);
-        if (new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
-            //console.log('APP MAIOR');
-            docToSave = difference(dataObj, oldDoc);
+        if (!!dataObj.lastupdate&&!!oldDoc.lastupdate&&new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
+            console.log('APP MAIOR');
+            docToSave = dataObj;
         } else {
-            //console.log('Server MAIOR');
-            docToSave = difference(oldDoc, dataObj);
+            console.log('Server MAIOR');
+            docToSave = oldDoc;
         }
 
         docToSave = this.checkDataBySchema(docToSave)
         this.includeAuditData(docToSave, 'update');
 
-        //console.log('docToSave', docToSave);
+        console.log('docToSave', {...docToSave,image:''});
 
         const update = this.collectionInstance.update(dataObj._id, {
             $set: docToSave,
         });
-        //console.log('Update >>>', update);
+        console.log('Update >>>', update);
         const newDoc = this.collectionInstance.findOne({_id: dataObj._id});
         return newDoc;
     };
@@ -880,6 +900,22 @@ export class ApiBase {
 
 
     /**
+     * Get docs with Meteor.call.
+     * @param  {publicationName} publicationName - Publication Name
+     * @param  {filter} filter - Collection Filter
+     * @param  {optionsPub} optionsPub - Options Publication, like publications.
+     * @returns {Array} - Array of documents.
+     */
+    serverGetDocs(publicationName='default',filter = {}, optionsPub) {
+        const result = this.publications[publicationName](filter,optionsPub);
+        if(result) {
+            return result.fetch()
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Wrapper to the Meteor call. This check if the user has
      * connection with the server, in this way we can return the result from
      * a cached collection or from the server.
@@ -965,6 +1001,24 @@ export class ApiBase {
     }
 
     /**
+     * Get Docs
+     * @param  {Object} docObj - Document from a collection.
+     * @param  {Function} callback - Callback Function
+     */
+    getDocs(apiName='default',filter={},optionsPub={}, callback=()=>{}) {
+        this.callMethod('getDocs', apiName,filter,optionsPub, callback);
+    }
+
+    /**
+     * Sync one object.
+     * @param  {Object} docObj - Document from a collection.
+     * @param  {Function} callback - Callback Function
+     */
+    sync(docObj, callback=()=>{}) {
+        this.callMethod('sync', docObj, callback);
+    }
+
+    /**
      * Wrapper to find items on an collection.
      * This guarantees the the action will be executed
      * by a Meteor Mongo Collection of this framework.
@@ -992,7 +1046,7 @@ export class ApiBase {
      * @param  {} api='default'
      * @param  {} ...param
      */
-    subscribe = (api = 'default', ...param) => {
+    subscribe (api = 'default', ...param) {
         const self = this;
         if (Meteor.isClient) {
             return Meteor.subscribe(
