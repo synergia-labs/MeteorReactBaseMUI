@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import {hasValue} from "../../../../libs/hasValue";
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ChipsArray({key,label,value,onDelete,readOnly,error,...otherProps}) {
+export default function ChipsArray({name,label,value,onChange,readOnly,error,...otherProps}) {
   const classes = useStyles();
   const [chipData, setChipData] = React.useState([
     { key: '0', label: 'Exemplo 1' },
@@ -31,8 +32,13 @@ export default function ChipsArray({key,label,value,onDelete,readOnly,error,...o
     setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
   };
 
+  const handleChange = (value) => {
+    onChange({},{name, value:value})
+  }
+
   return (
     <Paper component="ul" className={classes.root}>
+      <AddIcon onClick={()=> handleChange(chipData)}></AddIcon>
       {chipData.map((data) => {
         let icon;
 
@@ -40,6 +46,7 @@ export default function ChipsArray({key,label,value,onDelete,readOnly,error,...o
           <li key={data.key}>
             <Chip
               icon={icon}
+              onChange={onChange}
               label={data.label}
               onDelete={handleDelete(data)}
               className={classes.chip}  

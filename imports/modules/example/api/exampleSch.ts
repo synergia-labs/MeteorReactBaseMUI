@@ -39,7 +39,7 @@ export const exampleSch = {
     isUpload:true,
   },
   chip: {
-    type: String,
+    type: [Object],
     label: 'Chips',
     defaultValue: '',
     optional: true,
