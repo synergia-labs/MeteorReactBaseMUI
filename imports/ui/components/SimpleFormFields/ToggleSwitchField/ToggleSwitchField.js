@@ -10,8 +10,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
     const [state, setState] = React.useState({ checked: value || false });
 
-    console.log(!!state.checked? 'Ativo':'Inativo');
-
     if(!!readOnly) {
         return (<div key={name}>
             {hasValue(label)?(
@@ -27,7 +25,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
                   }}
               >{label}</label>):null}
               <div style={{color:'#222',padding:5,height:35,marginTop:4,marginBottom:8}}>
-                <FormControlLabel disabled control={<Switch />} checked={state.checked} label={!!state.checked? 'Ativo':'Inativo'} name="checked" />
+                <FormControlLabel control={<Switch />} checked={value} label={value? 'Ativo':'Inativo'} name={name} onClick={() => event.stopPropagation()} />
               </div>
         </div>)
     }
@@ -36,10 +34,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     }
 
     const handleChange = (event) => {
-      setState({ ...state, ['checked']: event.target.checked });
       onChange({},{name,value: event.target.checked})
     };
 
-    return (<FormControlLabel control={<Switch checked={state.checked} onChange={handleChange} name="checked" />} key={name} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={!!state.checked? 'Ativo':'Inativo'} {...otherProps} />);
+    return (<FormControlLabel control={<Switch checked={value} onChange={handleChange} name="checked" />} key={name} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={!!value? 'Ativo':'Inativo'} {...otherProps} />);
 
 }
