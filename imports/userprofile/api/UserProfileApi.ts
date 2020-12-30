@@ -2,14 +2,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Accounts } from 'meteor/accounts-base';
-import { ApiBase } from '../../api/base';
+import { OfflineBaseApi } from '../../api/offlinebase';
 import { userProfileSch } from './UserProfileSch';
 import { getUser,userprofileData } from '../../libs/getUser';
 import settings from '../../../settings.json';
 
 // endregion
 
-class UserProfileApi extends ApiBase {
+class UserProfileApi extends OfflineBaseApi {
   constructor() {
     super('userprofile', userProfileSch);
     this.addPublicationMeteorUsers();
@@ -75,12 +75,12 @@ class UserProfileApi extends ApiBase {
 
     this.addPublication('getLoggedUserProfile', () => {
 
-      const user = getUser();
+      const user = Meteor.user();
 
       if(!user) {
         return;
       }
-      return this.collectionInstance.find({_id:user._id})
+      return this.collectionInstance.find({email:user?user.profile.email:null})
     });
 
 
