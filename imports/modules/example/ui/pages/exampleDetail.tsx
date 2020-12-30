@@ -52,7 +52,9 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
-                <GoogleApiWrapper/>
+                <GoogleApiWrapper
+                    name={'address'}
+                />
                 <FormGroup key={'fields'}>
                     <SelectField
                         placeholder='Tipo'
