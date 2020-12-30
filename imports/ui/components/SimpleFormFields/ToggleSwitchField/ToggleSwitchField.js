@@ -36,7 +36,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     }
 
     const handleChange = (event) => {
-      setState({ ...state, ['checked']: !state.checked });
+      setState({ ...state, ['checked']: event.target.checked });
+      onChange({},{name,value: event.target.checked})
     };
 
     return (<FormControlLabel control={<Switch checked={state.checked} onChange={handleChange} name="checked" />} key={name} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={!!state.checked? 'Ativo':'Inativo'} {...otherProps} />);

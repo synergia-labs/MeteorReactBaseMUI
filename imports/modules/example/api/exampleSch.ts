@@ -79,7 +79,7 @@ export const exampleSch = {
     }
   },
   status: {
-    type: [Object],
+    type: Object,
     label: 'Status',
     defaultValue: '',
     optional: true,
