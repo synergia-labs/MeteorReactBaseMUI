@@ -23,7 +23,6 @@ interface IExampleDetail {
 const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExampleDetail) => {
 
     const handleSubmit = (doc: object) => {
-        console.log('DOC',doc);
         save(doc);
     }
 

@@ -19,6 +19,7 @@
     "bcrypt": "^5.0.0",
     "date-fns": "^2.16.1",
     "google-maps-react": "^2.0.6",
+    "idb-keyval": "^3.2.0",
     "jquery": "^3.5.1",
     "lodash": "^4.17.20",
     "meteor-node-stubs": "^1.0.1",
@@ -32,7 +33,8 @@
     "react-sortablejs": "^6.0.0",
     "request": "^2.88.2",
     "shortid": "^2.2.16",
-    "sortablejs": "^1.12.0"
+    "sortablejs": "^1.12.0",
+    "zipson": "^0.2.12"
   },
   "meteor": {
     "mainModule": {

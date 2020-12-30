@@ -1,5 +1,36 @@
 import shortid from 'shortid';
 import {Meteor} from 'meteor/meteor';
+import {Store, get, set, keys, del, clear} from 'idb-keyval';
+import {stringify, parse} from 'zipson';
+
+import settings from "/settings.json";
+
+
+class LoggedUserStore {
+    userStore = new Store(settings.name + '_' + 'loggedUser', 'LoggedUser-store');
+    updateDateOnJson = (object) => {
+        function reviver(key, value) {
+            if ((value + '').length === 24 && !!Date.parse(value)) {
+                return new Date(value);
+            }
+            return value;
+        }
+
+        return JSON.parse(JSON.stringify(object), reviver);
+
+    }
+    getUser = async () => {
+            return await get('user', this.userStore).then(result => {
+               return this.updateDateOnJson(parse(result));
+            });
+    }
+    setUser = (userDoc) => {
+        set('user', stringify(userDoc), this.userStore);
+    }
+}
+
+let loggedUserCache;
+
 
 export const userprofileData = {
 
