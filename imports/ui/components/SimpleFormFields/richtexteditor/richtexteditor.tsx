@@ -3,6 +3,8 @@ import './quill.snow.css';
 import React from "react";
 import {hasValue} from "../../../../libs/hasValue";
 import { Button } from 'semantic-ui-react'
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+
 .
 // configure Quill to use inline styles so the email's format properly
 var DirectionAttribute = Quill.import('attributors/attribute/direction');
@@ -65,14 +67,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
     if(!!readOnly) {
         return (<>
-            {hasValue(label)?(<label style={{
-                display: 'block',
-                margin: '0em 0em 0.28571429rem 0em',
-                color: '#212121',
-                fontSize: '0.92857143em',
-                fontWeight: 'bold',
-                textTransform: 'none',
-            }}>{label}</label>):null}
+            <SimpleLabelView label={label}/>
             <div dangerouslySetInnerHTML={{__html: value}} />
         </>)
     }

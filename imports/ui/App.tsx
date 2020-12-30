@@ -3,13 +3,23 @@ import AppLayoutFixedMenu from './layouts/AppLayoutFixedMenu.tsx';
 import GeneralComponents from './AppGeneralComponents';
 import { ThemeProvider } from '@material-ui/core/styles';
 import {theme} from "/imports/materialui/theme";
+import {useAccount} from "/imports/libs/userAccount";
 
+const AppContainer = (props) => {
+    const { isLoggedIn, user,loading } = useAccount();
 
-export const App = () => (
-    <ThemeProvider theme={theme}>
-        <GeneralComponents
-            render={(props)=><AppLayoutFixedMenu {...props} />}
-        />
-    </ThemeProvider>
+    return (
+        <AppLayoutFixedMenu {...props} user={user} isLoggedIn={isLoggedIn} />
+    )
+}
+
+export const App = () => {
+    return (
+        <ThemeProvider theme={theme}>
+            <GeneralComponents
+                render={(props)=><AppContainer {...props} />}
+            />
+        </ThemeProvider>
 
     );
+}
