@@ -41,7 +41,6 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 onSubmit={handleSubmit}
                 loading={loading}
             >
-
                 <SimpleImageUploadBase64
                     label={'Imagem'}
                     name={'image'}
@@ -73,10 +72,12 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <FormGroup key={'fields'} formType={'subform'} name={'contacts'}>
                     <TextMaskField
                         placeholder='Telefone'
+                        schema={exampleApi.schema.contacts}
                         name='phone'
                     />
                     <TextMaskField
                         placeholder='Celular'
+                        schema={exampleApi.schema.contacts}
                         name='celphone'
                     />
                 </FormGroup>
@@ -115,7 +116,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button key={'b3'} color={'primary'} variant="contained" submit>
+                        <Button key={'b3'} color={'primary'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ) : null}

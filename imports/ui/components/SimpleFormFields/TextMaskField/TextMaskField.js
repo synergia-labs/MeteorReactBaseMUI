@@ -2,49 +2,104 @@ import React from "react";
 import {hasValue} from "../../../../libs/hasValue";
 import TextField from '@material-ui/core/TextField';
 
-import PropTypes from 'prop-types';
-import MaskedInput from 'react-text-mask';
-import InputMask from "react-input-mask";
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
-  const [values, setValues] = React.useState({ textmask: value || '' });
+  const [values, setValues] = React.useState({ textmasked: '' });
 
-  const deleteImage = () => {
-      onChange({},{name,value: '-'})
+  console.log(otherProps.schema.subSchema[name].mask);
+
+  const applyMask = (inputValue, mask) => {
+    let text = '';
+    const data = inputValue;
+    let c;
+
+    let m;
+
+    let i;
+
+    let x;
+
+    let valueCharCount = 0;
+    for (i = 0, x = 1; x && i < mask.length; ++i) {
+        c = data.charAt(valueCharCount);
+        m = mask.charAt(i);
+
+        if (valueCharCount >= data.length) {
+            break;
+        }
+
+        switch (mask.charAt(i)) {
+            case '9': // Number
+            case '#': // Number
+                if (/\d/.test(c)) {
+                    text += c;
+                    valueCharCount++;
+                } else {
+                    x = 0;
+                }
+                break;
+
+            case '8': // Alphanumeric
+            case 'A': // Alphanumeric
+                if (/[a-z]/i.test(c)) {
+                    text += c;
+                    valueCharCount++;
+                } else {
+                    x = 0;
+                }
+                break;
+
+            case '7': // Number or Alphanumerica
+            case 'N': // Number or Alphanumerica
+                if (/[a-z0-9]/i.test(c)) {
+                    text += c;
+                    valueCharCount++;
+                } else {
+                    x = 0;
+                }
+                break;
+
+            case '6': // Any
+            case 'X': // Any
+                text += c;
+                valueCharCount++;
+
+                break;
+
+            default:
+                if (m === c) {
+                    text += m;
+                    valueCharCount++;
+                } else {
+                    text += m;
+                }
+
+                break;
+        }
+    }
+    return text;
   }
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      ['textmask']: event.target.value,
-    });
-  };
+  const handleApplyMask = () => {
 
-  function TextMaskCustom(props) {
-    const { inputRef, ...other } = props;
+      const mask = otherProps.schema.subSchema[name] ? otherProps.schema.subSchema[name].mask : undefined;
 
-    return (
-      <MaskedInput
-        {...other}
-        ref={(ref) => {
-          inputRef(ref ? ref.inputElement : null);
-        }}
-        mask={['(', /\d/, /\d/, ')', ' ', /\d/, ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        placeholderChar={'\u2000'}
-        showMask
-      />
-    );
+      if (!!mask) {
+          const inputValue = applyMask(value, mask);
+          setValues(['textmasked', inputValue]);
+          console.log(value.textmasked);
+          console.log(value,mask);
+          //onChange({},{name,value: inputValue});
+      }
+      else {
+        onChange({},{name, value: value});
+      }
   }
 
-  TextMaskCustom.propTypes = {
-    inputRef: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-  };
 
     if(!!readOnly) {
         return (<div key={name}>
@@ -63,15 +118,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         </div>)
     }
 
-    return (
-      <FormControl>
-        <InputLabel htmlFor="formatted-text-mask-input">{label}</InputLabel>
-        <Input
-          inputComponent={TextMaskCustom}
-          key={name} onChange={handleChange} value={values.textmask || ''} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps}
-        />
-      </FormControl>
-    );
+    return (<TextField key={name} onChange={handleApplyMask} value={value.textmasked} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
+
 }
 
 

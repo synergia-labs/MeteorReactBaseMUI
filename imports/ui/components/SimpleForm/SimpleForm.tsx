@@ -421,14 +421,11 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
     const [mode,setMode] = React.useState(props.mode||'edit')
     const [changeByUser,setChangeByUser] = React.useState(false)
 
-    console.log("value: ",value);
-
     React.useEffect(() => {
 
         if(!changeByUser&&(!hasValue(value) || value !== props.initialValue )&&!!hasValue(props.initialValue)) {
             setValue(props.initialValue);
         }
-
 
         if(mode!==props.mode) {
             setMode(props.mode);
@@ -440,9 +437,6 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
                 setError(false);
             }
         }
-
-
-
     });
 
     props.setFieldMethods({
@@ -669,7 +663,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
     }
 
     onSubmitForm = (event,...others) => {
-        console.log('ONSubmitForm',event);
+        //console.log('ONSubmitForm',event);
         if(this.props.onSubmit&&this.validate()) {
             this.props.onSubmit(this.docValue)
         } else {
