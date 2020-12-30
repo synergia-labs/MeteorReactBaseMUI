@@ -94,5 +94,4 @@ export interface IExample {
   createdat: Date;
   updatedat: Date;
   createdby: string;
-  chip: [object];
 }

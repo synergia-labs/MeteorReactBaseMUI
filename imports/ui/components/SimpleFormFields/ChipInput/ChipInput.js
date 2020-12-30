@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ChipsArray({key,label,value,onDelete,readOnly,error,...otherProps}) {
+export default function ChipsArray({name,label,value,onDelete,readOnly,error,...otherProps}) {
   const classes = useStyles();
   const [chipData, setChipData] = React.useState([
     { key: '0', label: 'Exemplo 1' },
