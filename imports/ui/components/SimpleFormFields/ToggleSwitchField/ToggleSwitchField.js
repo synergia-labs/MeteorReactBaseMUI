@@ -29,9 +29,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
               </div>
         </div>)
     }
-    const deleteImage = () => {
-        onChange({},{name,value: '-'})
-    }
 
     const handleChange = (event) => {
       onChange({},{name,value: event.target.checked})
