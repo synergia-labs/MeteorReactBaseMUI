@@ -85,25 +85,18 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     return text;
   }
 
-  const handleApplyMask = () => {
+  const handleApplyMask = (event) => {
 
       const mask = otherProps.schema.subSchema[name] ? otherProps.schema.subSchema[name].mask : undefined;
-      onChange({},{name, value: value});
 
-      /*
       if (!!mask) {
-        console.log("value: ", value);
-          const inputValue = applyMask(value, mask);
-          onChange({},{name, value: inputValue});
-          //setValues(['textmasked', inputValue]);
-          //console.log(value.textmasked);
-          console.log("inputValue: ", inputValue);
+          const inputValue = applyMask(event.target.value, mask);
+          onChange({},{name,value: inputValue})
       }
       else {
-        onChange({},{name, value: value});
-      }*/
+        onChange({},{name, value: event.target.value});
+      }
   }
-
 
     if(!!readOnly) {
         return (<div key={name}>
