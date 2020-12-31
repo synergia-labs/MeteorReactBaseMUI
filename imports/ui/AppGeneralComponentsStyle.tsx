@@ -14,26 +14,14 @@
 
  */
 
-import { max } from "lodash";
-import {isMobile} from "/imports/libs/deviceVerify";
-
-const appStyles = {
-  title: {
-      fontSize: isMobile?'20px':'30px',
-      paddingTop: isMobile?'20px':'20px',
-      paddingBottom: isMobile?'20px':'20px',
-      fontWeight: isMobile?'500':'500',
+const appGeneralStyle = {
+  containerOptions: {
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center'
   },
-  containerList: {
-    position:'fixed',
-    bottom:30,
-    right:30,
-  },
-  containerHome: {
-     marginTop: '2em',
-  }
 };
 
 export {
-    appStyles,
+    appGeneralStyle,
 };

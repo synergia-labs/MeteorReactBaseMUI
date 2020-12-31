@@ -27,6 +27,32 @@ const simpleFormStyle = {
     flexDirection:'column',
     justifyContent:'center',
   },
+  containerLabel: {
+    marginTop:5,
+    width:'100%',
+    marginBottom:16
+  },
+  containerForm: {
+    width:'100%',
+    marginLeft:10,
+  },
+  containerSubForm: {
+    margin:3,
+    display:'flex',
+    flexDirection:'row',
+  },
+  containerEmptyItens: {
+    color:'#BBB',
+  },
+  containerAddSubForm: {
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'center',
+  },
+  containerChildrenElements: {
+    margin:3,
+    marginLeft:10,
+  },
 };
 
 export {

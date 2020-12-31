@@ -5,6 +5,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Snackbar from '@material-ui/core/Snackbar';
 
+import {appGeneralStyle} from './AppGeneralCompononentStyle';
+
 import MuiAlert from '@material-ui/lab/Alert';
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -19,7 +21,7 @@ const DialogContainer = (options={open:false,onClose:()=>{},onOpen:()=>{}}) => {
         >
             {options.title?(
             <DialogTitle id="simple-dialog-title">
-                <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                <div style={appGeneralStyle.containerOptions}>
                     {options.icon?options.icon:null}
                     {options.title}
                 </div>
