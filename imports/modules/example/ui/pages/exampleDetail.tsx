@@ -14,6 +14,9 @@ import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/Up
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 
+import Typography from '@material-ui/core/Typography';
+import {appStyles} from "/imports/ui/theme/styles";
+
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
 interface IExampleDetail {
@@ -32,7 +35,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
 
     return (
         <Container>
-            <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
+            <Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}

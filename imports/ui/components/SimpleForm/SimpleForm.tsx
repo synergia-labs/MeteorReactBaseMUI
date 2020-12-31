@@ -13,7 +13,8 @@ import Delete from "@material-ui/icons/Delete";
 import Alert from "@material-ui/lab/Alert";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
-import {simpleFormStyles} from "./SimpleFormStyle";
+import {simpleFormStyle} from "./SimpleFormStyle";
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 interface ISubFormArrayComponent {
     reactElement:any;
@@ -181,7 +182,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
 
     return (
         <div key={name} style={{marginTop:5,width:'100%',backgroundColor:error?'#FFF6F6':undefined,marginBottom:16}}>
-            <SimpleLabelView label={label} styles={simpleFormStyles.displayLabelViewMode}/>
+            <SimpleLabelView label={label}/>
             <div style={{width:'100%',marginLeft:10}}>
 
                 <ReactSortable
@@ -367,7 +368,7 @@ const SubFormComponent = ({reactElement,childrensElements,name,...props}:ISubFor
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
     return (
         <div key={name} style={{marginTop:5,width:'100%',marginBottom:16}}>
-            <SimpleLabelView label={label} styles={simpleFormStyles.displayLabelViewMode}/>
+            <SimpleLabelView label={label}/>
             <div style={{margin:3,marginLeft:10}}>
                 <SimpleForm
                     isSubForm={true}

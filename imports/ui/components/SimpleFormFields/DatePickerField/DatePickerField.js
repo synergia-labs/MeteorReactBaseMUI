@@ -5,17 +5,17 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
-import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
-import {simpleFormFieldsStyles} from "../simpleFormFieldsStyle";
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
+
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
-            <SimpleLabelView label={label} styles={simpleFormFieldsStyles.displayLabelViewMode}/>
-            <div style={simpleFormFieldsStyle.displayValueViewMode}>
-                {hasValue(value)?value.toLocaleDateString():null}
-            </div>
+            <SimpleLabelView label={label}/>
+            <SimpleLabelView value={value}/>
         </div>)
     }
 

@@ -28,7 +28,8 @@ import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelV
 
 const {grey100, grey500, grey700} = ['#eeeeee','#c9c9c9','#a1a1a1'];
 
-import {simpleFormFieldsStyles} from "../../simpleFormFieldsStyle";
+import {uploadFilesStyle} from "./uploadFilesStyle";
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 const styles = {
     textoUploadArquivo: {
@@ -356,7 +357,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                         )}
                       </span>
                             }
-                            style={simpleFormFieldsStyles.containerUploadFiles}
+                            style={uploadFilesStyle.containerUploadFiles}
                         />
                         <IconButton onClick={() => {
                             return this.excluirArquivo(item.id);
@@ -418,7 +419,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                         )}
                       </span>
                             }
-                            style={simpleFormFieldsStyles.containerUploadFiles}
+                            style={uploadFilesStyle.containerUploadFiles}
                         />
                         <IconButton onClick={() => {
                             return this.excluirArquivo(item.id);
@@ -639,7 +640,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
             <div key={this.props.name} style={{marginTop:5,flex: 1, flexWrap: 'wrap', flexDirection: 'column',marginBottom:8,
             backgroundColor:this.props.error?'#FFF6F6':undefined
             }}>
-                <SimpleLabelView label={this.props.label} styles={simpleFormFieldsStyles.displayLabelViewMode}/>
+                <SimpleLabelView label={this.props.label}/>
                 {this.props.readOnly?(this.getListReadOnly()):(
                     <div style={{width: '100%', marginTop: 50}}>
                         <div style={{paddingTop: '10px', paddingBottom: '10px'}}>

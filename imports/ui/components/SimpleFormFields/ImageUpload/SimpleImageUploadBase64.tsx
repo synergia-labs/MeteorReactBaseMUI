@@ -4,7 +4,7 @@ import FileInputComponent from 'react-file-input-previews-base64'
 import {hasValue} from "../../../../libs/hasValue";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
-import {simpleFormFieldsStyles} from "../simpleFormFieldsStyle";
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
@@ -23,7 +23,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
     if(!!readOnly) {
         return (<div key={name} style={{display:'flex',flexDirection:'column',marginBottom:16}}>
-            <SimpleLabelView label={label} styles={simpleFormFieldsStyles.displayLabelViewMode}/>
+            <SimpleLabelView label={label}/>
             <img src={value} style={{maxWidth:360,maxHeight:320}}/>
         </div>)
     }

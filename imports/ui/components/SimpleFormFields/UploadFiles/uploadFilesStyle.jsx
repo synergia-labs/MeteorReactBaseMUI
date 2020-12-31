@@ -14,15 +14,12 @@
 
  */
 
-import { max } from "lodash";
-import {isMobile} from "/imports/libs/deviceVerify";
-
-const titleTextColor = '#222222';
-
-const simpleFormFieldsStyles = {
-
+const uploadFilesStyle = {
+  containerUploadFiles:{
+    padding: '0px 8px',
+  }
 };
 
 export {
-    simpleFormFieldsStyles,
+    uploadFilesStyle,
 };

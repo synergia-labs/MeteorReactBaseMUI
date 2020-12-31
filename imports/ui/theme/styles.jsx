@@ -30,10 +30,10 @@ const titleTextColorMessage = '#4d4d4d';
 
 const appStyles = {
   title: {
-      fontSize: isMobile?'20px':null,
-      paddingTop: isMobile?'20px':null,
-      paddingBottom: isMobile?'20px':null,
-      fontWeight: isMobile?'500':null,
+      fontSize: isMobile?'20px':'30px',
+      paddingTop: isMobile?'20px':'20px',
+      paddingBottom: isMobile?'20px':'20px',
+      fontWeight: isMobile?'500':'500',
   },
   containerList: {
     position:'fixed',

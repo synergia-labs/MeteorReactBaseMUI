@@ -2,14 +2,14 @@ import React from "react";
 import {hasValue} from "../../../../libs/hasValue";
 import TextField from '@material-ui/core/TextField';
 
-import PropTypes from 'prop-types';
-import MaskedInput from 'react-text-mask';
-import InputMask from "react-input-mask";
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-import {simpleFormFieldsStyles} from "../simpleFormFieldsStyle";
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
+
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
@@ -26,32 +26,10 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     });
   };
 
-  function TextMaskCustom(props) {
-    const { inputRef, ...other } = props;
-
-    return (
-      <MaskedInput
-        {...other}
-        ref={(ref) => {
-          inputRef(ref ? ref.inputElement : null);
-        }}
-        mask={['(', /\d/, /\d/, ')', ' ', /\d/, ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        placeholderChar={'\u2000'}
-        showMask
-      />
-    );
-  }
-
-  TextMaskCustom.propTypes = {
-    inputRef: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-  };
-
     if(!!readOnly) {
         return (<div key={name}>
-            {hasValue(label)?(<label style={simpleFormFieldsStyles.displayLabelViewMode}>{label}</label>):null}
-            <div style={simpleFormFieldsStyles.displayValueViewMode}>{(value+'')}</div>
+          <SimpleLabelView label={label}/>
+          <SimpleValueView value={(value+'')}/>
         </div>)
     }
 
@@ -65,20 +43,3 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
       </FormControl>
     );
 }
-
-
-
-
-/*
-
-<InputMask
-  mask="(99) 9 9999-9999"
-  value={values.textmask}
-  disabled={false}
-  maskChar=" "
-  onChange={handleChange}
-  key={name} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps}
->
-  {() => <TextField id={values.textmask} />}
-</InputMask>
-*/
