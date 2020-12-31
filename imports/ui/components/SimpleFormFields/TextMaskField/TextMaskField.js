@@ -10,8 +10,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
   const [values, setValues] = React.useState({ textmasked: '' });
 
-  console.log(otherProps.schema.subSchema[name].mask);
-
   const applyMask = (inputValue, mask) => {
     let text = '';
     const data = inputValue;
@@ -29,6 +27,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         m = mask.charAt(i);
 
         if (valueCharCount >= data.length) {
+          //console.log("break;");
             break;
         }
 
@@ -38,8 +37,10 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
                 if (/\d/.test(c)) {
                     text += c;
                     valueCharCount++;
+                    //console.log("text += c;");
                 } else {
                     x = 0;
+                    //console.log("x = 0;");
                 }
                 break;
 
@@ -87,17 +88,20 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
   const handleApplyMask = () => {
 
       const mask = otherProps.schema.subSchema[name] ? otherProps.schema.subSchema[name].mask : undefined;
+      onChange({},{name, value: value});
 
+      /*
       if (!!mask) {
+        console.log("value: ", value);
           const inputValue = applyMask(value, mask);
-          setValues(['textmasked', inputValue]);
-          console.log(value.textmasked);
-          console.log(value,mask);
-          //onChange({},{name,value: inputValue});
+          onChange({},{name, value: inputValue});
+          //setValues(['textmasked', inputValue]);
+          //console.log(value.textmasked);
+          console.log("inputValue: ", inputValue);
       }
       else {
         onChange({},{name, value: value});
-      }
+      }*/
   }
 
 
@@ -118,7 +122,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         </div>)
     }
 
-    return (<TextField key={name} onChange={handleApplyMask} value={value.textmasked} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
+    return (<TextField key={name} onChange={handleApplyMask} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
 
 }
 

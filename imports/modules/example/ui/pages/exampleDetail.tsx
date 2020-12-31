@@ -45,7 +45,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     label={'Imagem'}
                     name={'image'}
                 />
-                <FormGroup key={'fields'}>
+                <FormGroup key={'fieldsOne'}>
                     <TextField
                         placeholder='Titulo'
                         name='title'
@@ -55,7 +55,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'}>
+                <FormGroup key={'fieldsTwo'}>
                     <SelectField
                         placeholder='Tipo'
                         options={[
@@ -69,7 +69,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='date'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'} formType={'subform'} name={'contacts'}>
+                <FormGroup key={'fieldsThree'} formType={'subform'} name={'contacts'}>
                     <TextMaskField
                         placeholder='Telefone'
                         schema={exampleApi.schema.contacts}
@@ -81,7 +81,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='celphone'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'} formType={'subformArray'} name={'tasks'}>
+                <FormGroup key={'fieldsFour'} formType={'subformArray'} name={'tasks'}>
                     <TextField
                         placeholder='Nome da Tarefa'
                         name='name'
@@ -95,7 +95,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
-                <FormGroup key={'fields'} name={'chips'}>
+                <FormGroup key={'fieldsFive'} name={'chips'}>
                     <ChipInput
                         name="chip"
                         placeholder="Chip"

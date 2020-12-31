@@ -470,9 +470,12 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
 
 
 
-    const onChange = (e,fieldData={})=>{
+    const onChange = (e,fieldData={}) =>{
+
         const field = {...(props.fieldSchema?props.fieldSchema:{}),...(e?e.target:{}),
             ...(fieldData&&fieldData.name?fieldData:{})};
+
+            console.log(field.value);
 
         if(props.fieldSchema&&props.fieldSchema.type===Boolean&&isBoolean(field.checked)) {
             setValue(field.checked);

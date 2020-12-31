@@ -49,14 +49,14 @@ export const exampleSch = {
         label: 'Telefone',
         defaultValue: '',
         optional: false,
-        mask : '(99) 9999-9999',
+        mask : '(##)####-####',
       },
       celphone: {
         type: String,
         label: 'Celular',
         defaultValue: '',
         optional: false,
-        mask : '(99) 9 9999-9999',
+        mask : '(##)#####-####',
       },
     }
   },
