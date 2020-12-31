@@ -11,6 +11,7 @@ import Add from "@material-ui/icons/Add";
 import DragHandle from "@material-ui/icons/DragHandle";
 import Delete from "@material-ui/icons/Delete";
 import Alert from "@material-ui/lab/Alert";
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
 import {simpleFormStyles} from "./SimpleFormStyle";
 
@@ -179,8 +180,8 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
 
     return (
-        <div style={{marginTop:5,width:'100%',backgroundColor:error?'#FFF6F6':undefined,marginBottom:16}}>
-            {hasValue(label)?(<label style={simpleFormStyles.displayLabelViewMode}>{label}</label>):null}
+        <div key={name} style={{marginTop:5,width:'100%',backgroundColor:error?'#FFF6F6':undefined,marginBottom:16}}>
+            <SimpleLabelView label={label} styles={simpleFormStyles.displayLabelViewMode}/>
             <div style={{width:'100%',marginLeft:10}}>
 
                 <ReactSortable
@@ -189,7 +190,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                     setList={onSortDocs}
                     handle={'.dragButton'}
                 >
-                    {(value||[]).map(subForm=>{
+                    {(value||[]).map((subForm,subFormIndex)=>{
                         if(subForm && subForm.id){
                             return (
                                 <div key={subForm.id} style={{margin:3,display:'flex',flexDirection:'row'}}>
@@ -218,7 +219,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                                 </div>
                             )
                         }else{
-                            return <div/>
+                            return <div key={'el'+subFormIndex} />
                         }
                     })}
 
@@ -365,8 +366,8 @@ const SubFormComponent = ({reactElement,childrensElements,name,...props}:ISubFor
 
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
     return (
-        <div style={{marginTop:5,width:'100%',marginBottom:16}}>
-            {hasValue(label)?(<label style={simpleFormStyles.displayLabelViewMode}>{label}</label>):null}
+        <div key={name} style={{marginTop:5,width:'100%',marginBottom:16}}>
+            <SimpleLabelView label={label} styles={simpleFormStyles.displayLabelViewMode}/>
             <div style={{margin:3,marginLeft:10}}>
                 <SimpleForm
                     isSubForm={true}
@@ -577,7 +578,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
             const subElements = React.Children.toArray(element.props.children).map((element,index)=>{
                 return self.wrapElement(element,index)
             });
-            const newElement = React.cloneElement(element, { children: subElements })
+            const newElement = React.cloneElement(element, { key:'el'+index, children: subElements })
             return newElement;
         } else {
             return <FieldComponent
@@ -651,7 +652,6 @@ class SimpleForm extends Component<ISimpleFormProps> {
     }
 
     onSubmitForm = (event,...others) => {
-        console.log('ONSubmitForm',event);
         if(this.props.onSubmit&&this.validate()) {
             this.props.onSubmit(this.docValue)
         } else {
@@ -681,7 +681,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
         return (
             <div style={this.props.style||{width:'100%'}}>
                 {this.state.error?(
-                    <Alert severity="warning">
+                    <Alert key={'ErrorMSG'} severity="warning">
                         {'Há erros nos seguintes campos: '+this.state.error.join(', ')}
                     </Alert>
                 ):null}

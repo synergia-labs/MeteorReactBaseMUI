@@ -2,10 +2,10 @@ import React from "react";
 import {hasValue} from "../../../../libs/hasValue";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import _ from 'lodash';
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
 import {simpleFormFieldsStyles} from "../simpleFormFieldsStyle";
 
@@ -13,7 +13,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
             const objValue = hasValue(value)?otherProps.options.find(object=>(object.value===value||object===value) ):undefined;
         return (<div key={name}>
-            {hasValue(label)?(<label style={simpleFormFieldsStyles.displayLabelViewMode}>{label}</label>):null}
+            <SimpleLabelView label={label} styles={simpleFormFieldsStyles.displayLabelViewMode}/>
             <div style={simpleFormFieldsStyles.displayValueViewMode}>{(objValue&&objValue.label?objValue.label:(!!objValue?objValue:null) )}</div>
         </div>)
     }

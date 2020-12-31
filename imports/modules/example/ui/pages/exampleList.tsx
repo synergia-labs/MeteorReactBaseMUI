@@ -84,7 +84,6 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     }
 
-
     return (
         <Container>
             <Typography style={appStyles.title}>{'Lista de Exemplos'}</Typography>
