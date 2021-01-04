@@ -5,6 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import FormGroup from "@material-ui/core/FormGroup";
 import settings from '/settings.json'
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
 
 const styles = theme => {
@@ -49,12 +50,9 @@ class LocationComponent extends React.Component {
                     style={{ width: '100%', height: 400, padding: 0, margin: 0 }}
                 >
                     {this.props.label ? (
-                        <InputLabel htmlFor="select-multiple-chip">
-                            {this.props.label}
-                        </InputLabel>
+                        <SimpleLabelView styles={{marginBottom:'1rem'}} label={this.props.label}/>
                     ) : null}
-                    <div pt={this.props.label ? 50 : 0}
-                         style={{ flex: 1, flexWrap: 'wrap', flexDirection: 'column', margin: 0 }}>
+                    <div style={{ flex: 1, flexWrap: 'wrap', flexDirection: 'column', margin: 0 }}>
                         <Map
                             containerStyle={{height:350,width:'calc(100% - 50px)'}}
                             style={{ height: 350,width:'calc(100% - 50px)' }}
