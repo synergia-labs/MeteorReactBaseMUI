@@ -19,6 +19,18 @@ export const exampleSch = {
     defaultValue: '',
     optional: true,
   },
+  type: {
+    type: String,
+    label: 'Tipo',
+    defaultValue: '',
+    optional: true,
+  },
+  date: {
+    type: Date,
+    label: 'Data',
+    defaultValue: '',
+    optional: true,
+  },
   files: {
     type: [Object],
     label: 'Arquivos',
