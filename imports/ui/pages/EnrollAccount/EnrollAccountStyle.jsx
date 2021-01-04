@@ -14,12 +14,19 @@
 
  */
 
-const uploadFilesStyle = {
-  containerUploadFiles:{
-    padding: '0px 8px',
-  }
+const enrollAccountStyle = {
+  labelStatus:{
+    textAlign:"center",
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  imageLogo: {
+    maxWidth:100,
+  },
 };
 
 export {
-    uploadFilesStyle,
+    enrollAccountStyle,
 };

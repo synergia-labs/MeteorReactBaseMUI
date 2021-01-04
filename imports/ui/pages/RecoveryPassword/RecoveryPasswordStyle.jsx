@@ -14,18 +14,30 @@
 
  */
 
-const selectFieldStyle = {
-/*  example: {
-    color: 'rgba(0, 0, 0, 0.54)',
-    padding: 0,
-    fontSize: '1rem',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-  },*/
+const recoveryPasswordStyle = {
+  containerRecoveryPassword:{
+    width:'100%',
+    maxWidth:400,
+  },
+  labelAccessSystem: {
+    textAlign:"center",
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  imageLogo: {
+    maxWidth:100,
+  },
+  containerButtonOptions: {
+    marginTop:30,
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+  }
 };
 
 export {
-    selectFieldStyle,
+    recoveryPasswordStyle,
 };

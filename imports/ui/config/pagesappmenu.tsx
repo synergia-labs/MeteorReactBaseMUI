@@ -8,12 +8,12 @@ export const pagesMenuItemList = [
   // },
   // {
   //   path: '/signin',
-  //   name: 'SingIn',
+  //   name: 'SignIn',
   //   icon: <i className="wheelchair icon"></i>,
   // },
   // {
   //   path: '/signup',
-  //   name: 'SingUp',
+  //   name: 'SignUp',
   //   icon: <i className="wheelchair icon"></i>,
   // },
   // {
@@ -28,7 +28,7 @@ export const pagesMenuItemList = [
   // },
   // {
   //   path: '/signout',
-  //   name: 'SingOut',
+  //   name: 'SignOut',
   //   icon: <i className="wheelchair icon"></i>,
   // }
 

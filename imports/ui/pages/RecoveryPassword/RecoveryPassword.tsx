@@ -8,6 +8,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
+import recoveryPasswordStyle from "./RecoveryPasswordStyle";
+
 export default class RecoveryPassword extends React.Component {
   onSubmit = doc => {
     const {email} = doc;
@@ -46,9 +48,9 @@ export default class RecoveryPassword extends React.Component {
     const { location } = this.props
     const { from } = location.state || { from: { pathname: '/' } }
         return (
-            <Container style={{width:'100%',maxWidth:400}}>
-          <h2 style={{textAlign:"center",display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-              <img src="/images/wireframe/logo.png" style={{maxWidth:100}} />
+            <Container style={recoveryPasswordStyle.containerRecoveryPassword}>
+          <h2 style={recoveryPasswordStyle.labelAccessSystem}>
+              <img src="/images/wireframe/logo.png" style={recoveryPasswordStyle.imageLogo} />
               {'Acessar o sistema'}
             </h2>
             <SimpleForm
@@ -66,7 +68,7 @@ export default class RecoveryPassword extends React.Component {
                   placeholder="Digite seu email"
 
                 />
-              <div style={{marginTop:30,display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+              <div style={recoveryPasswordStyle.containerButtonOptions}>
                 <Button onClick={()=>this.props.history.push('/signin')}>{"Voltar"}</Button>
                 <Button variant={'outlined'} submit>{"Recuperar a senha"}</Button>
               </div>

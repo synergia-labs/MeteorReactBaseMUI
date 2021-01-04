@@ -14,18 +14,25 @@
 
  */
 
-const selectFieldStyle = {
-/*  example: {
-    color: 'rgba(0, 0, 0, 0.54)',
-    padding: 0,
-    fontSize: '1rem',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-  },*/
+const appNavBarStyle = {
+  containerNavBar:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    width:'100%',
+    alignItems:'center',
+  },
+  subContainerNavBar: {
+    width:'100%',
+  },
+  buttonMenuItem: {
+    color: 'white',
+  },
+  accountCircle: {
+    color: 'white',
+  },
 };
 
 export {
-    selectFieldStyle,
+    appNavBarStyle,
 };

@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import {userprofileApi} from "../../../userprofile/api/UserProfileApi";
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
-
+import signupStyle from "./SignupStyle";
 
 export default class Signup extends React.Component {
   constructor(props) {
@@ -43,9 +43,9 @@ export default class Signup extends React.Component {
   render() {
     const { error } = this.state
     return (
-        <Container style={{width:'100%',maxWidth:400,display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-          <h2 style={{textAlign:"center",display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-              <img src="/images/wireframe/logo.png" style={{maxWidth:100}} />
+        <Container style={signupStyle.containerSignUp}>
+          <h2 style={signupStyle.labelRegisterSystem}>
+              <img src="/images/wireframe/logo.png" style={signupStyle.imageLogo} />
               {'Cadastrar no sistema'}
           </h2>
             <SimpleForm onSubmit={this.handleSubmit}>
@@ -65,12 +65,12 @@ export default class Signup extends React.Component {
                   type="password"
                   onChange={this.handleChange}
                 />
-                <div style={{marginTop:30,display:'flex',flexDirection:'row',justifyContent:'flex-end'}}>
+                <div style={signupStyle.containerButtonOptions}>
                   <Button variant={'outlined'} submit>{'Cadastrar'}</Button>
                 </div>
 
             </SimpleForm>
-            <div style={{marginTop:35,color:"#444"}}>
+            <div style={signupStyle.containerRouterSignIn}>
               Já tem uma conta? Faça login clicando <Link to="/signin">aqui</Link>
             </div>
             {error === '' ? '' : <Message error header="Erro ao fazer registro!" content={error} />}

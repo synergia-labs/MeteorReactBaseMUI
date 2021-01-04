@@ -14,18 +14,40 @@
 
  */
 
-const selectFieldStyle = {
-/*  example: {
-    color: 'rgba(0, 0, 0, 0.54)',
-    padding: 0,
-    fontSize: '1rem',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-  },*/
+const appLayoutMenuStyle = {
+  containerHomeIconButton:{
+    width:60,
+    height:40,
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  homeIconButton:{
+    maxHeight:45,
+  },
+  containerFixedMenu:{
+    display:'flex',
+    flexDirection:'row',
+    width:'100%',
+    alignItems:'center',
+  },
+  toolbarFixedMenu:{
+    width:'100%',
+  },
+  containerAppRouter:{
+    display:'flex',
+    flexDirection:'column',
+    alignItems:'center',
+    overflowY:'auto',
+    width:'100%',
+    height:'calc(100% - 47px)',
+    margin:0,
+    padding:10,
+    boxSizing:'border-box',
+  }
 };
 
 export {
-    selectFieldStyle,
+    appLayoutMenuStyle,
 };

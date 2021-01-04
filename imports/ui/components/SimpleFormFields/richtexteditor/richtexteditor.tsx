@@ -5,7 +5,8 @@ import {hasValue} from "../../../../libs/hasValue";
 import { Button } from 'semantic-ui-react'
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
-.
+import richtextStyle from "./richtexteditorStyle";
+
 // configure Quill to use inline styles so the email's format properly
 var DirectionAttribute = Quill.import('attributors/attribute/direction');
 Quill.register(DirectionAttribute,true);
@@ -61,7 +62,7 @@ Quill.register(Font, true);
 const modules = {
     toolbar: '#toolbar-container',
   };
- 
+
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
@@ -81,16 +82,16 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
         {hasValue(label)?(<label>{label}</label>):null}
         <div id="toolbar-container">
     <span className="ql-formats">
-    <select className="ql-font" style={{width:200}}>
-        <option selected>Times New Roman,serif</option>        
+    <select className="ql-font" style={richtextStyle.containerQLFont}>
+        <option selected>Times New Roman,serif</option>
         <option value="Arial, sans-serif">Arial, sans-serif</option>
         <option value="Courier New">Courier New</option>
       </select>
       <select className="ql-size">
-        <option value="10pt">Pequeno</option>          
-        <option value="14pt" selected>Normal</option>        
-        <option value="16pt">Grande</option>          
-        <option value="20pt">Muito Grande</option>                  
+        <option value="10pt">Pequeno</option>
+        <option value="14pt" selected>Normal</option>
+        <option value="16pt">Grande</option>
+        <option value="20pt">Muito Grande</option>
       </select>
     </span>
     <span className="ql-formats">
@@ -117,11 +118,11 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
       <button className="ql-direction" value="rtl"></button>
       <select className="ql-align"></select>
     </span>
-  </div>        
-        <ReactQuill 
+  </div>
+        <ReactQuill
         name={name}
-        theme="snow" 
-        value={Array.isArray(value)?value.join('<br/>'):value} 
+        theme="snow"
+        value={Array.isArray(value)?value.join('<br/>'):value}
         onChange={callOnChange}
         modules={modules}
          />
@@ -129,4 +130,3 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     );
 
 }
-

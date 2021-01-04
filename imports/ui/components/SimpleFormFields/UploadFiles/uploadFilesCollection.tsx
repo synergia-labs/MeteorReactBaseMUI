@@ -357,7 +357,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                         )}
                       </span>
                             }
-                            style={uploadFilesStyle.containerUploadFiles}
+                            style={uploadFilesStyle.containerListReadOnly}
                         />
                         <IconButton onClick={() => {
                             return this.excluirArquivo(item.id);
@@ -368,9 +368,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                     </ListItem>
                 )
             })
-            : <div style={{color: '#BBB'}}>{'Não há arquivos'}</div>)
-
-
+            : <div style={uploadFilesStyle.containerNoFiles}>{'Não há arquivos'}</div>)
     };
 
 
@@ -419,7 +417,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                         )}
                       </span>
                             }
-                            style={uploadFilesStyle.containerUploadFiles}
+                            style={uploadFilesStyle.containerListReadOnly}
                         />
                         <IconButton onClick={() => {
                             return this.excluirArquivo(item.id);
@@ -437,7 +435,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
     getConteudoDropzoneEmUpload = () => {
         return (
-            <div style={{width: '100%'}}>
+            <div style={uploadFilesStyle.containerStatusUpload}>
                 {'Enviando'}
             </div>
         );
@@ -445,11 +443,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
     getConteudoDropzone = (getRootProps:any, getInputProps:any,  isDragActive:boolean, isDragReject:boolean) => {
         return (
-            <div style={{
-                width: '100%',
-                padding:'2rem',
-                textAlign: 'center',
-                cursor: 'pointer',
+            <div style={{...uploadFilesStyle.containerDropzone ,
                 backgroundColor: isDragReject? 'rgba(144,52,52,0.22)' :
                     isDragActive ? 'rgba(69,144,52,0.22)' : undefined
                 }}
@@ -637,13 +631,11 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
         }
 
         return (
-            <div key={this.props.name} style={{marginTop:5,flex: 1, flexWrap: 'wrap', flexDirection: 'column',marginBottom:8,
-            backgroundColor:this.props.error?'#FFF6F6':undefined
-            }}>
+            <div key={this.props.name} style={{...uploadFilesStyle.containerUploadFiles, backgroundColor:this.props.error?'#FFF6F6':undefined}}>
                 <SimpleLabelView label={this.props.label}/>
                 {this.props.readOnly?(this.getListReadOnly()):(
-                    <div style={{width: '100%', marginTop: 50}}>
-                        <div style={{paddingTop: '10px', paddingBottom: '10px'}}>
+                    <div style={uploadFilesStyle.containerShowFiles}>
+                        <div style={uploadFilesStyle.subContainerShowFiles}>
                             <Dropzone
                                 onDrop={this.onDrop}
                                 style={styles.defaultStyle}
@@ -660,13 +652,11 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                                 {({getRootProps, getInputProps, isDragActive, isDragReject}) => (
 
                                     <div style={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
+                                        ...uploadFilesStyle.containerGetConteudoDropzone,
                                         border:
                                             isDragReject? '0.5px dashed  red' :
                                                 isDragActive ? '0.5px dashed green' : '0.5px dashed black',
-                                        alignItems: 'center',
-                                        flexWrap: 'wrap',
+
                                     }}>
                                         <div/>
                                         {this.state.inProgress
@@ -679,12 +669,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                         </div>
                         <div
                             col={12}
-                            style={{
-                                padding:'0.5rem',
-                                borderRadius: 10,
-                                borderStyle: 'groove',
-                                boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-                            }}
+                            style={uploadFilesStyle.containerGetListFiles}
                         >
                             {this.getList()}
                         </div>

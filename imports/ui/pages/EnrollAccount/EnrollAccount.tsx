@@ -3,6 +3,9 @@ import { Accounts } from 'meteor/accounts-base'
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+import enrollAccountStyle from "./EnrollAccountStyle";
+
 let emailVerified = false;
 const EnrollAccount = (props) => {
 
@@ -29,8 +32,8 @@ const EnrollAccount = (props) => {
     }
 
     return (
-        <h2 style={{textAlign:"center",display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-            <img src="/images/wireframe/logo.png" style={{maxWidth:100}} />
+        <h2 style={enrollAccountStyle.labelStatus}>
+            <img src="/images/wireframe/logo.png" style={enrollAccountStyle.imageLogo} />
 
             <div>
                 <p>{!status?'Verificando token, aguarde....':status}</p>

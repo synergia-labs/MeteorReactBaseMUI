@@ -8,6 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Modules from '../../modules';
 import {isMobile} from "/imports/libs/deviceVerify";
 
+import appNavBarStyle from "./AppNavBarStyle";
 
 const AppNavBar = ({ user,history }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,11 +28,11 @@ const AppNavBar = ({ user,history }) => {
     }
 
     return (
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',width:'100%',alignItems:'center'}}>
-            <div style={{width:'100%'}}>
+        <div style={appNavBarStyle.containerNavBar}>
+            <div style={appNavBarStyle.subContainerNavBar}>
             {
                 (Modules.getAppMenuItemList() || []).map(menuData=>{
-                    return (<Button style={{color: 'white'}} key={menuData.path} onClick={()=>history.push(menuData.path)}>
+                    return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
                         {menuData.icon?menuData.icon:null}
                         {menuData.name}
                         </Button>
@@ -48,7 +49,7 @@ const AppNavBar = ({ user,history }) => {
                 onClick={handleMenu}
                 color="inherit"
             >
-                <AccountCircle style={{color: 'white'}}/>
+                <AccountCircle style={appNavBarStyle.accountCircle}/>
             </IconButton>
             <Menu
                 id="menu-appbar"
