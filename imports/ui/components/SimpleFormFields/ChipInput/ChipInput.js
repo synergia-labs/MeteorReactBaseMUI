@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ChipsArray({name,label,value,onChange,readOnly,error,...otherProps}) {
   const [chip, setChip] = React.useState([name, label]);
   const handleChange = (value) => {
-    onChange({},{name, value:value})
+    onChange({},{name, label:value})
   }
   const handleDelete = (chipToDelete) => () => {
     setChip((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
