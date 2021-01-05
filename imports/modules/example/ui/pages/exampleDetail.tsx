@@ -13,6 +13,7 @@ import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
+import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 
 import Typography from '@material-ui/core/Typography';
 import {appStyles} from "/imports/ui/theme/styles";
@@ -73,11 +74,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     />
                 </FormGroup>
                 <FormGroup key={'fields'} formType={'subform'} name={'contacts'}>
-                    <TextMaskField
+                    <TextField
                         placeholder='Telefone'
                         name='phone'
                     />
-                    <TextMaskField
+                    <TextField
                         placeholder='Celular'
                         name='celphone'
                     />
@@ -90,6 +91,12 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     <TextField
                         placeholder='Descrição da Tarefa'
                         name='description'
+                    />
+                </FormGroup>
+                <FormGroup key={'fields'}>
+                    <AudioRecorder
+                        placeholder='Áudio'
+                        name='audio'
                     />
                 </FormGroup>
                 <UploadFilesCollection

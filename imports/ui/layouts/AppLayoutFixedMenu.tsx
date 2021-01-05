@@ -6,7 +6,7 @@ import { BrowserRouter as Router,withRouter, NavLink } from 'react-router-dom'
 import AppNavBar from "./AppNavBar";
 import AppRouterSwitch from "./AppRouterSwitch";
 
-import appLayoutMenuStyle from "./AppLayoutFixedMenuStyle";
+import {appLayoutMenuStyle} from "./AppLayoutFixedMenuStyle";
 
 const HomeIconButton = withRouter((props)=>{
     return <NavLink to={'/'}><div style={appLayoutMenuStyle.containerHomeIconButton}>

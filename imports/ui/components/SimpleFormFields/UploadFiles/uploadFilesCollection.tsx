@@ -28,7 +28,7 @@ import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelV
 
 const {grey100, grey500, grey700} = ['#eeeeee','#c9c9c9','#a1a1a1'];
 
-import {uploadFilesStyle} from "./uploadFilesStyle";
+import {uploadFilesStyle} from "./uploadFilesCollectionStyle";
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 const styles = {

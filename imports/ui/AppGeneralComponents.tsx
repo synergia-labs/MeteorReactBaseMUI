@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import {appGeneralStyle} from './AppGeneralCompononentStyle';
+import {appGeneralStyle} from './AppGeneralComponentsStyle';
 
 import MuiAlert from '@material-ui/lab/Alert';
 function Alert(props) {
