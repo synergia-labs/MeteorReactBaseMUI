@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import {userprofileApi} from "../../../userprofile/api/UserProfileApi";
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
-import signupStyle from "./SignupStyle";
+import {signupStyle} from "./SignupStyle";
 
 export default class Signup extends React.Component {
   constructor(props) {

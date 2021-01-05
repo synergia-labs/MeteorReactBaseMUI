@@ -5,7 +5,7 @@ import {hasValue} from "../../../../libs/hasValue";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
-import {simpleImageStyle} from "/imports/ui/components/ImageUpload/SimpleImageUploadBase64Style";
+import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 

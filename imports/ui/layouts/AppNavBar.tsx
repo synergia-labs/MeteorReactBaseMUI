@@ -8,7 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Modules from '../../modules';
 import {isMobile} from "/imports/libs/deviceVerify";
 
-import appNavBarStyle from "./AppNavBarStyle";
+import {appNavBarStyle} from "./AppNavBarStyle";
 
 const AppNavBar = ({ user,history }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);

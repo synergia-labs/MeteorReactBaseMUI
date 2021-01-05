@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
-import resetPasswordStyle from "./ResetPasswordStyle";
+import {resetPasswordStyle} from "./ResetPasswordStyle";
 
 export default class ResetPassword extends React.Component {
   onSubmit = doc => {

@@ -5,7 +5,7 @@ import {hasValue} from "../../../../libs/hasValue";
 import { Button } from 'semantic-ui-react'
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
-import richtextStyle from "./richtexteditorStyle";
+import {richtextStyle} from "./richtexteditorStyle";
 
 // configure Quill to use inline styles so the email's format properly
 var DirectionAttribute = Quill.import('attributors/attribute/direction');

@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
-import signinStyle from "./SigninStyle";
+import {signinStyle} from "./SigninStyle";
 
 export default class Signin extends React.Component {
   constructor(props) {
