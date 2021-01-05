@@ -1,39 +1,55 @@
-import React from "react";
-import {hasValue} from "../../../../libs/hasValue";
-import TextField from '@material-ui/core/TextField';
-
-import FormGroup from '@material-ui/core/FormGroup';
+import React, {useEffect, useState} from "react";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import {hasValue} from "/imports/libs/hasValue";
+import Checkbox from "@material-ui/core/Checkbox";
+import _ from "lodash";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+    const [loadRender, setLoadRender] = useState(0);
 
-    const [state, setState] = React.useState({ checked: value || false });
 
-    if(!!readOnly) {
-        return (<div key={name}>
-            {hasValue(label)?(
-              <label
-                  style={{
-                      color: 'rgba(0, 0, 0, 0.54)',
-                      padding: 0,
-                      fontSize: '1rem',
-                      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                      fontWeight: 400,
-                      lineHeight: 1,
-                      letterSpacing: '0.00938em',
-                  }}
-              >{label}</label>):null}
-              <div style={{color:'#222',padding:5,height:35,marginTop:4,marginBottom:8}}>
-                <FormControlLabel control={<Switch />} checked={value} label={value? 'Ativo':'Inativo'} name={name} onClick={() => event.stopPropagation()} />
-              </div>
-        </div>)
+    const handleChangeCheck = (event, itemCheck) => {
+        if(!readOnly){
+            const newValue = typeof(value) === 'object' ? value : {}
+            newValue[itemCheck]= event.target.checked
+            onChange({},{name,value: newValue})
+            setLoadRender(loadRender+1);
+        }
     }
 
-    const handleChange = (event) => {
-      onChange({},{name,value: event.target.checked})
-    };
+    const handleChangeSwitch = (event) => {
+        if(!readOnly){
+            onChange({},{name,value: event.target.checked})
+        }
+    }
 
-    return (<FormControlLabel control={<Switch checked={value} onChange={handleChange} name="checked" />} key={name} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={!!value? 'Ativo':'Inativo'} {...otherProps} />);
+    return (
+        <div style={{border: !!error? '1px solid red' : undefined }}>
+            <SimpleLabelView label={label}/>
 
+            {otherProps&&hasValue(otherProps.checksList)?
+                <div>
+                    {otherProps.checksList.map((itemCheck) => {
+                        return <FormControlLabel control={<Checkbox checked={!!value[itemCheck]} name={itemCheck} onChange={(event) => handleChangeCheck(event, itemCheck)}/>}
+                                                 key={itemCheck}
+                                                 value={value}
+                                                 id={itemCheck}
+                                                 label={itemCheck}
+                                                 {...(_.omit(otherProps,['disabled', 'checked']))}
+                        />
+                    })}
+                </div>
+                :
+                <FormControlLabel control={<Switch checked={!!value} onChange={handleChangeSwitch} name={name}/>}
+                                  key={name}
+                                  value={value}
+                                  id={name}
+                                  name={name}
+                                  label={!!value? 'Ativo':'Inativo'}
+                                  {...(_.omit(otherProps,['disabled', 'checked']))}
+                />}
+        </div>
+    )
 }

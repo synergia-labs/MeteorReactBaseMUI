@@ -88,12 +88,13 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'} formType={'subform'} name={'status'}>
+
                     <ToggleSwitch
                         placeholder='Status da Tarefa'
                         name='status'
+                        checksList = {['Todo', 'Doing', 'Done']}
                     />
-                </FormGroup>
+
                 <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
