@@ -24,16 +24,14 @@ const useStyles = makeStyles((theme) => ({
 export default function ChipsArray({name,label,value,onChange,readOnly,error,...otherProps}) {
   const [chip, setChip] = React.useState([name, label]);
   const handleChange = (value) => {
-    onChange({},{name, label:value})
+    onChange({},{name, value})
   }
   const handleDelete = (chipToDelete) => () => {
     setChip((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
   };
   return <ChipInput
-  //name={name}
-  //label={label}
-  value={chip.value}
-  onChange={()=> handleChange(chip)}
+  value={value}
+  onChange={handleChange(chip)}
   onDelete={handleDelete(chip)}
   error={!!error} 
   disabled={!!readOnly} 
