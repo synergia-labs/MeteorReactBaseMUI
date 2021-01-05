@@ -4,6 +4,8 @@ import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import {hasValue} from "../../../../libs/hasValue";
 import AddIcon from '@material-ui/icons/Add';
+import ChipInput from 'material-ui-chip-input';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,44 +22,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ChipsArray({name,label,value,onChange,readOnly,error,...otherProps}) {
-  const classes = useStyles();
-  const [chipData, setChipData] = React.useState([
-    { key: '0', label: 'Exemplo 1' },
-    { key: '1', label: 'Exemplo 2' },
-    { key: '2', label: 'Exemplo 3' },
-    { key: '3', label: 'Exemplo 4' },
-    { key: '4', label: 'Exemplo 5' },
-  ]);
-  const handleDelete = (chipToDelete) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
-
+  const [chip, setChip] = React.useState([name, label]);
   const handleChange = (value) => {
     onChange({},{name, value:value})
   }
-
-  return (
-    <Paper component="ul" className={classes.root}>
-      <AddIcon onClick={()=> handleChange(chipData)}></AddIcon>
-      {chipData.map((data) => {
-        let icon;
-
-        return (
-          <li key={data.key}>
-            <Chip
-              icon={icon}
-              onChange={onChange}
-              label={data.label}
-              onDelete={handleDelete(data)}
-              className={classes.chip}  
-              value={value}
-              error={!!error} 
-              disabled={!!readOnly} 
-               {...otherProps}
-            />
-          </li>
-        );
-      })}
-    </Paper>
-  );
+  const handleDelete = (chipToDelete) => () => {
+    setChip((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  };
+  return <ChipInput
+  //name={name}
+  //label={label}
+  value={chip.value}
+  onChange={()=> handleChange(chip)}
+  onDelete={handleDelete(chip)}
+  error={!!error} 
+  disabled={!!readOnly} 
+   {...otherProps} fullWidth 
+  //onAdd={(chip) => handleAddChip(chip)}
+  />;
 }
+
