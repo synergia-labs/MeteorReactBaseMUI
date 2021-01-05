@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
@@ -22,20 +22,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ChipsArray({name,label,value,onChange,readOnly,error,...otherProps}) {
-  const [chip, setChip] = React.useState([name, label]);
+  const [chip, setChip] = React.useState(value);
+
+  useEffect(()=> {
+    if(!hasValue(chip)){
+      setChip(value)
+    }
+  })
+
   const handleChange = (value) => {
-    onChange({},{name, value})
+    const newValue = [...chip, ...value]
+    setChip(newValue)
+    onChange({},{name, value:newValue})
   }
-  const handleDelete = (chipToDelete) => () => {
-    setChip((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  const handleDelete = (chipToDelete) => {
+    const newChip = value.filter((chip) => chip !== chipToDelete)
+    setChip(newChip)
+    onChange({},{name,value: newChip})
   };
   return <ChipInput
-  value={value}
-  onChange={handleChange(chip)}
-  onDelete={handleDelete(chip)}
-  error={!!error} 
-  disabled={!!readOnly} 
-   {...otherProps} fullWidth 
+  //name={name}
+      //   //label={label}
+  value={chip}
+  onChange={handleChange}
+  onDelete={handleDelete}
+  error={!!error}
+  {...otherProps}
+  fullWidth
   //onAdd={(chip) => handleAddChip(chip)}
   />;
 }
