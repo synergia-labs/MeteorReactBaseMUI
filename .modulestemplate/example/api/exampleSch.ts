@@ -65,7 +65,13 @@ export const exampleSch = {
         optional: true,
       },
     }
-  }
+  },
+  audio: {
+    type: String,
+    label: 'Áudio',
+    defaultValue: '',
+    optional: true,
+  },
 };
 
 export interface IExample {
