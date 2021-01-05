@@ -89,11 +89,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     />
                 </FormGroup>
 
-                    <ToggleSwitch
-                        placeholder='Status da Tarefa'
-                        name='status'
-                        checksList = {['Todo', 'Doing', 'Done']}
-                    />
+                <ToggleSwitch
+                    placeholder='Status da Tarefa'
+                    name='status'
+                    checksList = {['Todo', 'Doing', 'Done']}
+                />
 
                 <UploadFilesCollection
                     name='files'

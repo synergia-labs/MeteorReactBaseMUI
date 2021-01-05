@@ -21,7 +21,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
     const handleChangeSwitch = (event) => {
         if(!readOnly){
-            onChange({},{name,value: event.target.checked})
+            const value = {}
+            value[name] = event.target.checked
+            onChange({},{name,value: value})
         }
     }
 
@@ -42,7 +44,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
                     })}
                 </div>
                 :
-                <FormControlLabel control={<Switch checked={!!value} onChange={handleChangeSwitch} name={name}/>}
+                <FormControlLabel control={<Switch checked={!!value[name]} onChange={handleChangeSwitch} name={name}/>}
                                   key={name}
                                   value={value}
                                   id={name}
