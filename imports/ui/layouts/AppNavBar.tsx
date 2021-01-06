@@ -7,8 +7,10 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Modules from '../../modules';
 import {isMobile} from "/imports/libs/deviceVerify";
-
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import {appNavBarStyle} from "./AppNavBarStyle";
+
 
 const AppNavBar = ({ user,history }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,9 +29,41 @@ const AppNavBar = ({ user,history }) => {
         history.push(url);
     }
 
+   const pathIndex = (Modules.getAppMenuItemList() || []).findIndex(menuData=>menuData.path==='/'&&history.location.pathname==='/'
+    ||menuData.path!=='/'&&history.location.pathname.indexOf(menuData.path)===0);
+    console.log('HIstory',history);
+    if(isMobile) {
+        return (
+            <Tabs
+                value={pathIndex}
+                indicatorColor="secondary"
+                aria-label="icon label tabs example"
+                centered={true}
+            >
+                {
+                    (Modules.getAppMenuItemList() || []).map((menuData,menuIndex)=>{
+                        return (<Button key={menuData.path} onClick={()=>history.push(menuData.path)}>
+                                <div style={{display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',justifyContent:'center'}}>
+                                    {menuData.icon?menuData.icon:null}
+                                    {isMobile&&pathIndex!==menuIndex?'':menuData.name}
+                                </div>
+
+                            </Button>
+                        )
+
+                    })
+                }
+            </Tabs>
+        )
+    }
     return (
         <div style={appNavBarStyle.containerNavBar}>
             <div style={appNavBarStyle.subContainerNavBar}>
+              <Tabs
+                  value={pathIndex}
+                  indicatorColor="secondary"
+                  aria-label="icon label tabs example"
+              >
             {
                 (Modules.getAppMenuItemList() || []).map(menuData=>{
                     return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
@@ -40,7 +74,7 @@ const AppNavBar = ({ user,history }) => {
 
                 })
             }
-            </div>
+            </Tabs>
             <div>
             <IconButton
                 aria-label="account of current user"

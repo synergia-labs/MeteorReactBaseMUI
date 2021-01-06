@@ -1,11 +1,14 @@
 import React from 'react'
 import { Accounts } from 'meteor/accounts-base'
+<<<<<<< HEAD
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import enrollAccountStyle from "./EnrollAccountStyle";
 
+=======
+>>>>>>> master
 let emailVerified = false;
 const EnrollAccount = (props) => {
 

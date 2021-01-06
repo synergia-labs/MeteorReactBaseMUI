@@ -6,7 +6,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
+import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@material-ui/core/Button';
 import {userprofileApi} from "../../../userprofile/api/UserProfileApi";
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
@@ -66,12 +66,12 @@ export default class Signup extends React.Component {
                   onChange={this.handleChange}
                 />
                 <div style={signupStyle.containerButtonOptions}>
-                  <Button variant={'outlined'} submit>{'Cadastrar'}</Button>
+                  <Button color={'primary'} variant={'outlined'} submit>{'Cadastrar'}</Button>
                 </div>
 
             </SimpleForm>
             <div style={signupStyle.containerRouterSignIn}>
-              Já tem uma conta? Faça login clicando <Link to="/signin">aqui</Link>
+              Já tem uma conta? Faça login clicando <Link to="/signin" color={'secondary'}>aqui</Link>
             </div>
             {error === '' ? '' : <Message error header="Erro ao fazer registro!" content={error} />}
       </Container>

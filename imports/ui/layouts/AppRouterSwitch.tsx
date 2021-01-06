@@ -3,24 +3,28 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 
 import Modules from '../../modules';
 import NotFound from '../pages/NotFound/NotFound'
+<<<<<<< HEAD
 import {getUser} from "/imports/libs/getUser";
+=======
+
+>>>>>>> master
 
 class AppRouterSwitch extends React.Component {
 
     render() {
         return (<Switch>
-                            {
-                                (Modules.getListOfRouterModules() || []).map(routerData=>{
-                                    if(routerData.isProtected) {
-                                        return <ProtectedRoute key={routerData.path} exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
-                                    } else {
-                                        return <PublicRoute key={routerData.path}  exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
-                                    }
+            {
+                (Modules.getListOfRouterModules() || []).map(routerData=>{
+                    if(routerData.isProtected) {
+                        return <ProtectedRoute key={routerData.path} exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
+                    } else {
+                        return <PublicRoute key={routerData.path}  exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
+                    }
 
-                                })
-                            }
-                            <Route component={NotFound} />
-                        </Switch>);
+                })
+            }
+            <Route component={NotFound} />
+        </Switch>);
     }
 }
 
@@ -49,7 +53,7 @@ const ProtectedRoute = ({ component: Component,generalProps, ...rest }) => (
         render={(props) => {
             const isLogged = generalProps.isLoggedIn;
             return isLogged ? (
-                <Component {...props} {...generalProps} getUser={getUser} />
+                <Component {...props} {...generalProps} />
             ) : (
                 <Redirect
                     to={{
