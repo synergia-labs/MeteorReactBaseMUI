@@ -90,11 +90,11 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
     return (
       <div key={name} style={audioRecorderStyle.containerRecord}>
-        <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton}>
+        <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
             <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
         </Fab>
 
-        <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton}>
+        <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton}  />
         </Fab>
 

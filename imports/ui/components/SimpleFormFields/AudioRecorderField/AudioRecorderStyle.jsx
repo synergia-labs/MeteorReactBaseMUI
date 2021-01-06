@@ -19,9 +19,12 @@ const audioRecorderStyle = {
     display:'flex',
     flexDirection:'row',
     justifyContent:'left',
-    marginTop:5,
+    marginTop:16,
     width:'100%',
     marginBottom:16
+  },
+  buttonOptions: {
+    marginRight:10,
   },
 };
 
