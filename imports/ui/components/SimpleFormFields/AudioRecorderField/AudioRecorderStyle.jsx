@@ -24,7 +24,11 @@ const audioRecorderStyle = {
     marginBottom:16
   },
   buttonOptions: {
+<<<<<<< HEAD
     marginRight:3,
+=======
+    marginRight:10,
+>>>>>>> 3131911c492c9cb719b2f10a9507ddd737b72059
   },
 };
 
