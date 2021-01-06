@@ -123,7 +123,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         </Fab>
         {*/}
         <audio controls="controls" autobuffer="autobuffer" autoplay="autoplay">
-            <source src={`data:audio/x-wav;base64, ${recorder}` }/>
+            <source src={`data:audio/x-wav;base64: ${recorder}` }/>
         </audio>
       </div>
     )
