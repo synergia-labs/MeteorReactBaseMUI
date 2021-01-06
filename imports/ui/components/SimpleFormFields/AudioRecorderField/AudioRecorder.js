@@ -88,6 +88,19 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     });
   };
 
+  
+  const handleStopAudio = (event) => {
+    var snd = new Audio(`data:audio/x-wav;base64, ${recorder}`);
+    snd.controls = true;
+    document.body.appendChild(snd);
+    snd.stop();
+
+    setValues({
+      ...values,
+      ['playButton']: false,
+    });
+  };
+
     if(!!readOnly) {
         return (<div key={name}>
           <SimpleLabelView label={label}/>
@@ -104,9 +117,16 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
             <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} /> : <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
           }
         </Fab>
-        <Fab color="primary" aria-label="play" disabled={values.playButton}>
-          <PlayIcon />
+        {/*}
+        <Fab color="primary" aria-label="play" disabled={!values.playButton}>
+            <PlayIcon onClick={handlePlayAudio} value={values.playButton}  /> 
         </Fab>
+        {*/}
+        <audio controls="controls" autobuffer="autobuffer" autoplay="autoplay">
+            <source src={`data:audio/x-wav;base64, ${recorder}` }/>
+        </audio>
       </div>
-    );
+    )
 }
+
+
