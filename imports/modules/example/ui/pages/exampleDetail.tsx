@@ -7,11 +7,16 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
+import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
+
+import Typography from '@material-ui/core/Typography';
+import {appStyles} from "/imports/ui/theme/styles";
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
@@ -31,7 +36,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
 
     return (
         <Container>
-            <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
+            <Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -39,7 +44,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 onSubmit={handleSubmit}
                 loading={loading}
             >
-                
+
                 <SimpleImageUploadBase64
                     label={'Imagem'}
                     name={'image'}
@@ -88,6 +93,12 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+                <FormGroup key={'fields'}>
+                    <AudioRecorder
+                        placeholder='Áudio'
+                        name='audio'
+                    />
+                </FormGroup>
                 <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
@@ -95,9 +106,9 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <FormGroup key={'fields'} name={'chip'}>
                     <ChipInput
                         name="chip"
-                        placeholder="Chips"
-                    />  
-                </FormGroup> 
+                        placeholder="Chip"
+                    />
+                </FormGroup>
                 <div key={'Buttons'}>
                     <Button
                         key={'b1'}

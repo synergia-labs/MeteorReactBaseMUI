@@ -5,8 +5,6 @@ import Modules from '../../modules';
 import NotFound from '../pages/NotFound/NotFound'
 import {getUser} from "/imports/libs/getUser";
 
-
-
 class AppRouterSwitch extends React.Component {
 
     render() {

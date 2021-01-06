@@ -1,9 +1,9 @@
 // @ts-ignore
 import React from "react";
 import Home from "../pages/Home/Home";
-import Signin from "../pages/SingIn/Signin";
-import Signup from "../pages/SingUp/Signup";
-import Signout from "../pages/SingOut/Signout";
+import Signin from "../pages/SignIn/Signin";
+import Signup from "../pages/SignUp/Signup";
+import Signout from "../pages/SignOut/Signout";
 import EnrollAccount from "../pages/EnrollAccount/EnrollAccount";
 import EmailVerify from "../pages/EmailVerify/EmailVerify";
 import RecoveryPassword from "/imports/ui/pages/RecoveryPassword/RecoveryPassword";

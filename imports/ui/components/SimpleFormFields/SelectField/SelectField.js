@@ -6,13 +6,16 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import _ from 'lodash';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
+
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
             const objValue = hasValue(value)?otherProps.options.find(object=>(object.value===value||object===value) ):undefined;
         return (<div key={name}>
             <SimpleLabelView label={label}/>
-            <div style={{color:'#222',padding:5,height:35,marginTop:4,marginBottom:8}}>{(objValue&&objValue.label?objValue.label:(!!objValue?objValue:null) )}</div>
+            <SimpleValueView value={(objValue&&objValue.label?objValue.label:(!!objValue?objValue:null) )}/>
         </div>)
     }
 

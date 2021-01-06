@@ -13,7 +13,9 @@ import Fab from "@material-ui/core/Fab";
 import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
 
+import {appStyles} from "/imports/ui/theme/styles";
 
+import Typography from '@material-ui/core/Typography';
 
 interface IExampleList {
     examples:object[];
@@ -84,7 +86,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     return (
         <Container>
-            <h1>{'Lista de Exemplos'}</h1>
+            <Typography style={appStyles.title}>{'Lista de Exemplos'}</Typography>
             <TextField value={text} onChange={change} onKeyPress={keyPress}  placeholder='Pesquisar...'
                    action={{ icon: 'search',onClick:click }}
             />
@@ -94,7 +96,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 onClick={onClick}
                 actions={[{icon:<Delete />,onClick:callRemove}]}
             />
-            <div style={{position:'fixed',bottom:30,right:30}}>
+            <div style={appStyles.containerList}>
                 <Fab
                     onClick={()=>history.push('/example/create')}>
                     +

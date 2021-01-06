@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 
 import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 
+import {appStyles} from "/imports/ui/theme/styles";
 
 const UserProfileDetail = ({screenState,loading,user,save,history}) => {
 
@@ -20,7 +21,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history}) => {
 
     return (
         <Container>
-            <Typography as='h2'>{screenState==='view'?'Visualizar usuário':(screenState==='edit'?'Editar Usuário':'Criar usuário')}</Typography>
+            <Typography style={appStyles.title}>{screenState==='view'?'Visualizar usuário':(screenState==='edit'?'Editar Usuário':'Criar usuário')}</Typography>
             <SimpleForm
                 mode={screenState}
                 schema={userprofileApi.schema}
