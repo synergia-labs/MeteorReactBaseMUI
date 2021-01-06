@@ -14,7 +14,7 @@ import {audioRecorderStyle} from "./AudioRecorderStyle";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
-  const [values, setValues] = React.useState({ recordButton: true, playButton: false});
+  const [values, setValues] = React.useState({ recordButton: true});
 
   let recorder = null;
 
@@ -59,48 +59,26 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         audio: true
     }, onSuccess, (e) => {
         console.log(e);
-
     });
 
-    setTimeout(() => {
+    const stop = document.querySelector('.stop');
+    stop.onclick = function() {
+      recorder.stop();
+      console.log("recorder stopped, data available");
+    }
+
+        /*setTimeout(() => {
         console.log(recorder.state);
         recorder.stop(); // Stopping the recorder after 3 seconds
         console.log(recorder.state);
-    }, 3000);
+    }, 3000);*/
+
   };
 
   const handleStopRecordAudio = (event) => {
     setValues({
       ...values,
-      ['recordButton']: !values.recordButton, ['playButton']: true,
-    });
-
-    /*setTimeout(() => {
-    recorder.stop(); // Stopping the recorder after 3 seconds
-  }, 3000);*/
-    //recorder.stop(); // Stopping the recorder after button click
-  };
-
-  const handlePlayAudio = (event) => {
-    var snd = new Audio(`data:audio/x-wav;base64, ${recorder}`);
-    snd.play();
-
-    setValues({
-      ...values,
-      ['playButton']: false,
-    });
-  };
-
-  const handleStopAudio = (event) => {
-    var snd = new Audio(`data:audio/x-wav;base64, ${recorder}`);
-    snd.controls = true;
-    document.body.appendChild(snd);
-    snd.stop();
-
-    setValues({
-      ...values,
-      ['playButton']: false,
-    });
+      ['recordButton']: !values.recordButton});
   };
 
     if(!!readOnly) {
@@ -110,20 +88,16 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         </div>)
     }
 
-    console.log(values.recordButton);
-
     return (
       <div key={name}>
-        <Fab color="secondary" aria-label="record">
-          { values.recordButton ?
-            <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} /> : <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
-          }
+        <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton}>
+            <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
         </Fab>
-        {/*}
-        <Fab color="primary" aria-label="play" disabled={!values.playButton}>
-            <PlayIcon onClick={handlePlayAudio} value={values.playButton}  />
+
+        <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton}>
+            <StopIcon onClick={handleStopRecordAudio} value={values.recordButton}  />
         </Fab>
-        {*/}
+
         <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
             <source src={`data:audio/x-wav;base64, ${recorder}` }/>
         </audio>
