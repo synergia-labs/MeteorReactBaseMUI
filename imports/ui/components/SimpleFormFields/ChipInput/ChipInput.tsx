@@ -6,29 +6,30 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import Check from "@material-ui/icons/Check";
 import styles from './ChipInputStyle'
+import _ from 'lodash'
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps}) => {
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent) => {
 
     const[chipText, setChipText] = useState('')
 
-    const handleDelete = (event, chipItem) => {
-        const newChip = value.filter((chip) => chip !== chipItem)
+    const handleDelete = (chipItem:string) => {
+        const newChip = value.filter((chip:string) => chip !== chipItem)
         setChipText('')
         onChange({},{name,value: newChip})
     };
 
-    const handleOnChange = (event) => {
+    const handleOnChange = (event:React.BaseSyntheticEvent) => {
         setChipText(event.target.value)
     }
 
-    const handleInsert = (chipText) => {
+    const handleInsert = (chipText:string) => {
         if(isFieldValid(chipText)){
             onChange({},{name,value:[...value, chipText]})
         }
         setChipText('')
     }
 
-    const isFieldValid = (field) => {
+    const isFieldValid = (field:string) => {
         if(hasValue(field)){
             return true
         }else{
@@ -50,14 +51,14 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}) => {
                 : null
             }
             <div>
-                {hasValue(value)&& value.map((chip) => {
+                {hasValue(value)&& value.map((chip:string) => {
                     return <Chip
                         variant="outlined"
                         label={chip}
                         color={'primary'}
                         style={styles.chip}
-                        onDelete={readOnly? undefined : (event)=> handleDelete(event, chip)}
-
+                        onDelete={readOnly? undefined : ()=> handleDelete(chip)}
+                        {..._.omit(otherProps,['disabled','checked'])}
                     />
                 })}
             </div>
