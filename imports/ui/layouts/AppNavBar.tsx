@@ -64,18 +64,18 @@ const AppNavBar = ({ user,history }) => {
                   indicatorColor="secondary"
                   aria-label="icon label tabs example"
               >
-            {
-                (Modules.getAppMenuItemList() || []).map(menuData=>{
-                    return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
-                        {menuData.icon?menuData.icon:null}
-                        {menuData.name}
-                        </Button>
-                    )
+              {
+                  (Modules.getAppMenuItemList() || []).map(menuData=>{
+                      return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
+                          {menuData.icon?menuData.icon:null}
+                          {menuData.name}
+                          </Button>
+                      )
 
-                })
-            }
+                  })
+              }
             </Tabs>
-            <div>
+          </div>
             <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -108,8 +108,6 @@ const AppNavBar = ({ user,history }) => {
                     <MenuItem key={'signout'} as={NavLink} onClick={openPage("/signout")}>Sair</MenuItem>]
                 )}
             </Menu>
-            </div>
-
         </div>
     )
 }
