@@ -10,7 +10,6 @@ import styles from './ChipInputStyle'
 export default ({name,label,value,onChange,readOnly,error,...otherProps}) => {
 
     const[chipText, setChipText] = useState('')
-    const[erro, setErro] = useState('')
 
     const handleDelete = (event, chipItem) => {
         const newChip = value.filter((chip) => chip !== chipItem)
@@ -56,7 +55,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}) => {
                         variant="outlined"
                         label={chip}
                         color={'primary'}
-                        style={{margin:'0.5rem'}}
+                        style={styles.chip}
                         onDelete={readOnly? undefined : (event)=> handleDelete(event, chip)}
 
                     />

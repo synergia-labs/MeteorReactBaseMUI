@@ -9,5 +9,8 @@ export default styles = {
     },
     title: {
         marginBottom:'1rem'
+    },
+    chip:{
+        margin:'0.5rem'
     }
 }
