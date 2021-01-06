@@ -39,7 +39,7 @@ export const useAccount = () => useTracker(() => {
     return {
         user,
         userId,
-        loading:!subHandle.ready(),
+        userLoading:!subHandle.ready(),
         isLoggedIn: !!userId
     }
 }, [])
