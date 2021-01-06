@@ -29,12 +29,12 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
     recorder.start(); // Starting the record
 
-    recorder.onDataAvailable = (e) => {
+    recorder.ondataavailable = (e) => {
         // Converting audio blob to base64
         let reader = new FileReader()
-        reader.onLoadEnd = () => {
+        reader.onloadend = () => {
             console.log(reader.result);
-            // You can upload the base64 to server here.
+            onChange({},{name, value: reader.result}); // You can upload the base64 to server here.
         }
 
         reader.readAsDataURL(e.data);
@@ -59,10 +59,13 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         audio: true
     }, onSuccess, (e) => {
         console.log(e);
+
     });
 
     setTimeout(() => {
+        console.log(recorder.state);
         recorder.stop(); // Stopping the recorder after 3 seconds
+        console.log(recorder.state);
     }, 3000);
   };
 
@@ -88,7 +91,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     });
   };
 
-  
   const handleStopAudio = (event) => {
     var snd = new Audio(`data:audio/x-wav;base64, ${recorder}`);
     snd.controls = true;
@@ -119,14 +121,12 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         </Fab>
         {/*}
         <Fab color="primary" aria-label="play" disabled={!values.playButton}>
-            <PlayIcon onClick={handlePlayAudio} value={values.playButton}  /> 
+            <PlayIcon onClick={handlePlayAudio} value={values.playButton}  />
         </Fab>
         {*/}
-        <audio controls="controls" autobuffer="autobuffer" autoplay="autoplay">
+        <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
             <source src={`data:audio/x-wav;base64, ${recorder}` }/>
         </audio>
       </div>
     )
 }
-
-
