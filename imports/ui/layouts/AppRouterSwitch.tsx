@@ -3,11 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 
 import Modules from '../../modules';
 import NotFound from '../pages/NotFound/NotFound'
-<<<<<<< HEAD
 import {getUser} from "/imports/libs/getUser";
-=======
-
->>>>>>> master
 
 class AppRouterSwitch extends React.Component {
 
