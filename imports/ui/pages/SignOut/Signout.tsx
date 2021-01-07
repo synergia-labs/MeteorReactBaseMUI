@@ -4,7 +4,7 @@ import Container from "@material-ui/core/Container";
 
 import {cleanUserCache} from '../../../libs/userAccount';
 
-import signoutStyle from "./SignoutStyle";
+import {signoutStyle} from "./SignoutStyle";
 
 const Signout = () => {
   Meteor.logout();

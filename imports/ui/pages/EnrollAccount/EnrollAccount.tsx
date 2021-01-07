@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import enrollAccountStyle from "./EnrollAccountStyle";
+import {enrollAccountStyle} from "./EnrollAccountStyle";
 
 let emailVerified = false;
 const EnrollAccount = (props) => {

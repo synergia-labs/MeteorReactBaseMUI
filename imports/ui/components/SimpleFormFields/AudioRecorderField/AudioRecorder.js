@@ -34,6 +34,14 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         let reader = new FileReader()
         reader.onloadend = () => {
             console.log(reader.result);
+
+            const audio = document.querySelector('.audio');
+            audio.onclick = function() {
+              var snd = new Audio(`data:audio/x-wav;base64, ${reader.result}`);
+              console.log(snd);
+              snd.play();
+            }
+
             onChange({},{name, value: reader.result}); // You can upload the base64 to server here.
         }
 
