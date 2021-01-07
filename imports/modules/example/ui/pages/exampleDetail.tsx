@@ -98,12 +98,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='audio'
                     />
                 </FormGroup>
-                
+
                 <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
-
                 <div key={'Buttons'}>
                     <Button
                         key={'b1'}

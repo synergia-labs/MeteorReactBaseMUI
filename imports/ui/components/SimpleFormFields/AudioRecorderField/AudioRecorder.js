@@ -106,10 +106,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
           <SimpleLabelView label={label}/>
-          {() => {
-            var snd = new Audio(`data:audio/x-wav;base64, ${value}`);
-            snd.play();
-          }}
+          <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
+            <source src={value}/>
+        </audio>
         </div>)
     }
 
@@ -123,13 +122,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton}  />
         </Fab>
 
-        <Fab color="secondary" aria-label="audio" className="audiooo" style={audioRecorderStyle.buttonOptions}>
-            <PlayIcon value={values.recordButton}  />
-        </Fab>
-
-        <audio controls="controls" className="audio" autobuffer="autobuffer" autoplay="autoplay">
-           <source src={`data:audio/x-wav;base64, ${recorder}` }/>
-       </audio>
+        <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
+            <source src={value}/>
+        </audio>
       </div>
     )
 }
