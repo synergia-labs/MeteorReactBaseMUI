@@ -100,12 +100,13 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         </Fab>
 
         <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
-            <StopIcon onClick={handleStopRecordAudio} value={values.recordButton}  />
+            <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
         </Fab>
 
         <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay" style={audioRecorderStyle.buttonOptions}>
             <source src={value}/>
         </audio>
+      <DeleteIcon onClick={deleteAudio}/>
       </div>
     )
 }
