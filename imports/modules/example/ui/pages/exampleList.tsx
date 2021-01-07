@@ -100,7 +100,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
             />
             <div style={appStyles.containerList}>
                 <Fab
-                    onClick={()=>history.push('/course/create')}
+                    onClick={()=>history.push('/example/create')}
                     color={'primary'}>
                     <Add />
                 </Fab>

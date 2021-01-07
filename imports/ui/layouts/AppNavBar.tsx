@@ -92,7 +92,7 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                 })
             }
             </Tabs>
-          <div>
+          </div>
             <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
