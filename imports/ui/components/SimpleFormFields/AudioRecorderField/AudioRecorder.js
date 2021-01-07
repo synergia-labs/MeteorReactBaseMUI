@@ -35,12 +35,26 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         reader.onloadend = () => {
             console.log(reader.result);
 
-            const audio = document.querySelector('.audio');
-            audio.onclick = function() {
+            //const audio = document.querySelector('.audio');
+
+            var playPromise = document.querySelector('audio').play();
+
+            // In browsers that don’t yet support this functionality,
+            // playPromise won’t be defined.
+            if (playPromise !== undefined) {
+              playPromise.then(function() {
+                // Automatic playback started!
+              }).catch(function(error) {
+                // Automatic playback failed.
+                // Show a UI element to let the user manually start playback.
+              });
+            }
+
+            /*audio.onclick = function() {
               var snd = new Audio(`data:audio/x-wav;base64, ${reader.result}`);
               console.log(snd);
               snd.play();
-            }
+            }*/
 
             onChange({},{name, value: reader.result}); // You can upload the base64 to server here.
         }
@@ -109,9 +123,13 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton}  />
         </Fab>
 
-        <Fab color="secondary" aria-label="audio" className="audio" style={audioRecorderStyle.buttonOptions}>
+        <Fab color="secondary" aria-label="audio" className="audiooo" style={audioRecorderStyle.buttonOptions}>
             <PlayIcon value={values.recordButton}  />
         </Fab>
+
+        <audio controls="controls" className="audio" autobuffer="autobuffer" autoplay="autoplay">
+           <source src={`data:audio/x-wav;base64, ${recorder}` }/>
+       </audio>
       </div>
     )
 }

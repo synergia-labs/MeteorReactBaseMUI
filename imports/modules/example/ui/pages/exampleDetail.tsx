@@ -11,7 +11,6 @@ import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskFi
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
-import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 
@@ -99,16 +98,12 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='audio'
                     />
                 </FormGroup>
+                
                 <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
-                <FormGroup key={'fields'} name={'chip'}>
-                    <ChipInput
-                        name="chip"
-                        placeholder="Chip"
-                    />
-                </FormGroup>
+
                 <div key={'Buttons'}>
                     <Button
                         key={'b1'}
@@ -124,7 +119,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button key={'b3'} color={'primary'} variant="contained" submit>
+                        <Button key={'b3'} color={'primary'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ) : null}
