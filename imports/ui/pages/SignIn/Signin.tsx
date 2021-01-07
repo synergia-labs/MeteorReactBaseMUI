@@ -9,7 +9,7 @@ import TextField from '../../../ui/components/SimpleFormFields/TextField/TextFie
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
-import signinStyle from "./SigninStyle";
+import {signinStyle} from "./SigninStyle";
 
 export default class Signin extends React.Component {
   constructor(props) {
@@ -111,7 +111,7 @@ export default class Signin extends React.Component {
         <div style={signinStyle.subContainerSignIn}>
           <div>
             <h2 style={signinStyle.labelAccessSystem}>
-              <img src="/images/wireframe/logo.png" style=signinStyle.imageLogo />
+              <img src="/images/wireframe/logo.png" style={signinStyle.imageLogo} />
               <div>{'Acessar o sistema'}</div>
             </h2>
             <SimpleForm

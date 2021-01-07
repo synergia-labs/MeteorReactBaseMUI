@@ -34,6 +34,14 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         let reader = new FileReader()
         reader.onloadend = () => {
             console.log(reader.result);
+
+            const audio = document.querySelector('.audio');
+            audio.onclick = function() {
+              var snd = new Audio(`data:audio/x-wav;base64, ${reader.result}`);
+              console.log(snd);
+              snd.play();
+            }
+
             onChange({},{name, value: reader.result}); // You can upload the base64 to server here.
         }
 
@@ -84,7 +92,10 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
           <SimpleLabelView label={label}/>
-          <SimpleValueView value={(value+'')}/>
+          {() => {
+            var snd = new Audio(`data:audio/x-wav;base64, ${value}`);
+            snd.play();
+          }}
         </div>)
     }
 
@@ -98,9 +109,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton}  />
         </Fab>
 
-        <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
-            <source src={`data:audio/x-wav;base64, ${recorder}` }/>
-        </audio>
+        <Fab color="secondary" aria-label="audio" className="audio" style={audioRecorderStyle.buttonOptions}>
+            <PlayIcon value={values.recordButton}  />
+        </Fab>
       </div>
     )
 }

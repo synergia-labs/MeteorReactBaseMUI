@@ -8,7 +8,7 @@ import TextField from '../../../ui/components/SimpleFormFields/TextField/TextFie
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
-import recoveryPasswordStyle from "./RecoveryPasswordStyle";
+import {recoveryPasswordStyle} from "./RecoveryPasswordStyle";
 
 export default class RecoveryPassword extends React.Component {
   onSubmit = doc => {
