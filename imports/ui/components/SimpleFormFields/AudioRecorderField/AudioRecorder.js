@@ -107,7 +107,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
         <audio controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}>
             <source src={value} />
         </audio>
-      <DeleteIcon onClick={deleteAudio}/>
+      <DeleteIcon onClick={deleteAudio} style={{marginTop: 10}} />
       </div>
     )
 }
