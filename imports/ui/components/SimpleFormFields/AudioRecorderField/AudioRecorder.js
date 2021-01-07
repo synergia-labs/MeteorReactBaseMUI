@@ -13,7 +13,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+import _ from 'lodash'
+
+export default ({name,label,value,onChange,readOnly,error})=>{
 
   const [values, setValues] = React.useState({ recordButton: true});
 
@@ -86,10 +88,10 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         return (<div key={name}>
           <SimpleLabelView label={label}/>
           <p>
-          <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
-            <source src={value}/>
-        </audio>
-        </p>
+            <audio controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}>
+              <source src={value} />
+            </audio>
+          </p>
         </div>)
     }
 
@@ -102,9 +104,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
         </Fab>
-
-        <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay" style={audioRecorderStyle.buttonOptions}>
-            <source src={value}/>
+        <audio controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}>
+            <source src={value} />
         </audio>
       <DeleteIcon onClick={deleteAudio}/>
       </div>
