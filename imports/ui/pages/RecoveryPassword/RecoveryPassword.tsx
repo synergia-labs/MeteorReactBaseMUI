@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Accounts } from 'meteor/accounts-base'
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
+import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
@@ -67,8 +67,8 @@ export default class RecoveryPassword extends React.Component {
 
                 />
               <div style={{marginTop:30,display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                <Button onClick={()=>this.props.history.push('/signin')}>{"Voltar"}</Button>
-                <Button variant={'outlined'} submit>{"Recuperar a senha"}</Button>
+                <Button color={'secondary'} onClick={()=>this.props.history.push('/signin')}>{"Voltar"}</Button>
+                <Button color={'primary'} variant={'outlined'} submit>{"Recuperar a senha"}</Button>
               </div>
             </SimpleForm>
       </Container>

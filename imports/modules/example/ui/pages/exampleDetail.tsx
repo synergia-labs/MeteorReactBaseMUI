@@ -11,6 +11,10 @@ import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePick
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
+import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
+
+
+// import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
 interface IExampleDetail {
     screenState: string;
@@ -28,7 +32,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
 
     return (
         <Container>
-            <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
+            <h2>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h2>
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -92,6 +96,12 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
+                <FormGroup key={'fields'} name={'chip'}>
+                    <ChipInput
+                        name="chip"
+                        placeholder="Chips"
+                    />
+                </FormGroup>
                 <div key={'Buttons'}>
                     <Button
                         key={'b1'}

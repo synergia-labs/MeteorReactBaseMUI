@@ -3,10 +3,10 @@ import {hasValue} from "/imports/libs/hasValue";
 
 interface ISimpleLabelView {
     label:string;
-    styles?:object;
+    style?:object;
 }
 
-export default ({label, styles}:ISimpleLabelView) => {
+export default ({label, style}:ISimpleLabelView) => {
 
     if(!hasValue(label)){
         return <div/>
@@ -22,7 +22,7 @@ export default ({label, styles}:ISimpleLabelView) => {
             fontWeight: 400,
             lineHeight: 1,
             letterSpacing: '0.00938em',
-            ...styles
+            ...style
         }}>
             {label}</label>)
 }

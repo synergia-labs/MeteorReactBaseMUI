@@ -2,7 +2,6 @@ import React from "react";
 import TextField from '@material-ui/core/TextField';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
-
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
