@@ -9,10 +9,9 @@ const Home = () => (
   <>
       <Container>
           <Typography style={homeStyles.title}>{'Material-UI Template'}</Typography>
-          <p>This is a basic fixed menu template using fixed size containers.</p>
-          <p>
-              A text container is used for the main container, which is useful for single column layouts.
-          </p>
+
+          <Typography style={homeStyles.subTitle}>{'This is a basic fixed menu template using fixed size containers.'}</Typography>
+          <Typography style={homeStyles.subTitle}>{'A text container is used for the main container, which is useful for single column layouts.'}</Typography>
 
           <img src='/images/wireframe/media-paragraph.png' style={homeStyles.containerHome} />
           <img src='/images/wireframe/paragraph.png' style={homeStyles.containerHome} />

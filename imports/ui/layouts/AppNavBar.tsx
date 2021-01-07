@@ -67,7 +67,7 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                     onClick={viewProfileMobile}
                     style={{position:'absolute',right:10,bottom:13}}
                 >
-                    <AccountCircle color={'secondary'} />
+                    <AccountCircle style={appNavBarStyle.accountCircle} />
                 </IconButton>
             </div>
 

@@ -14,6 +14,6 @@ export default ({label, style}:ISimpleLabelView) => {
     }
 
     return (
-      <label style={{...simpleLabelStyle.displayLabel, ...styles}}> {label} </label>
+      <label style={{...simpleLabelStyle.displayLabel, ...style}}> {label} </label>
     );
 }

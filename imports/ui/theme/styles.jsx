@@ -28,9 +28,6 @@ const appStyles = {
     position:'fixed',
     bottom:30,
     right:30,
-  },
-  containerHome: {
-     marginTop: '2em',
   }
 };
 
