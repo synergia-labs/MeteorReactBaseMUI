@@ -58,7 +58,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history}) => {
                         </Button>
                     ):null}
                     {screenState!=='view'?(
-                        <Button color={'primary'} variant="contained" submit>
+                        <Button color={'primary'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ):null}

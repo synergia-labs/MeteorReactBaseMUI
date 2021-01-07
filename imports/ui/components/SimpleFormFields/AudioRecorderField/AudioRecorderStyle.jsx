@@ -25,6 +25,7 @@ const audioRecorderStyle = {
   },
   buttonOptions: {
     marginRight:3,
+    maxHeight:40,
   },
 };
 
