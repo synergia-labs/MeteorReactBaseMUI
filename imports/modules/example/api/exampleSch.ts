@@ -100,4 +100,5 @@ export interface IExample {
   createdat: Date;
   updatedat: Date;
   createdby: string;
+  audio: string;
 }

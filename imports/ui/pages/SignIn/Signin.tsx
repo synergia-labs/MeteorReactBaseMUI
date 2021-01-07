@@ -9,8 +9,6 @@ import TextField from '../../../ui/components/SimpleFormFields/TextField/TextFie
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
-import signinStyle from "./SigninStyle";
-
 export default class Signin extends React.Component {
   constructor(props) {
     super(props)
@@ -71,10 +69,18 @@ export default class Signin extends React.Component {
         <div
             onClick={onLogin}
             className="material-button-contained"
-            style={{...signinStyle.containerSocialLoginButton, ...customCss}}
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center', height: 50,
+              color: 'white',
+              ...customCss,
+            }}
         >
           <i className={iconClass}/>
-          {!iconOnly && <span style={signinStyle.socialLoginButtonText}>{buttonText}</span>}
+          {!iconOnly && <span style={{marginLeft: 15}}>{buttonText}</span>}
         </div>
     );
 
@@ -104,14 +110,14 @@ export default class Signin extends React.Component {
       Meteor.loginWithGoogle({requestPermissions: ['profile', 'email']}, (err) => {
         callbackLogin(err);
       });
-    };
+    };    
 
     return (
-      <Container style={signinStyle.containerSignIn}>
-        <div style={signinStyle.subContainerSignIn}>
+      <Container style={{width:'100%',maxWidth:400}}>
+        <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
           <div>
-            <h2 style={signinStyle.labelAccessSystem}>
-              <img src="/images/wireframe/logo.png" style=signinStyle.imageLogo />
+            <h2 style={{textAlign:"center",display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+              <img src="/images/wireframe/logo.png" style={{maxWidth:100}} />
               <div>{'Acessar o sistema'}</div>
             </h2>
             <SimpleForm
@@ -137,33 +143,40 @@ export default class Signin extends React.Component {
                   placeholder="Digite sua senha"
                   type="password"
                 />
-                <div style={signinStyle.containerButtonOptions}>
+                <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                   <Button color={'secondary'} onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
                   <Button variant={'outlined'} color={'primary'} submit>{"Entrar"}</Button>
                 </div>
 
               </div>
             </SimpleForm>
-            <div style={signinStyle.containerRouterSignUp}>
+            <div style={{marginTop:15}}>
               <Button color={'secondary'} onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
 
             </div>
-            <div key="loginoptions" style={signinStyle.containerLoginOptions}>
-              <div key="divBtnGoogle" style={signinStyle.containerButtonGoogle}>
+            <div key="loginoptions" style={{
+              paddingRight: 5,
+              width: '102%',
+              margin: 0,
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <div key="divBtnGoogle" style={{width: '100%'}}>
                 <SocialLoginButton
                     key="btnGoogle"
                     iconClass={'google icon'}
                     onLogin={loginGoogle}
                     buttonText={'Login pelo Google'}
-                    customCss={signinStyle.buttonLoginGoogle}
+                    customCss={{background: '#dd4b39', width: '100%',cursor:'pointer'}}
                 /></div>
-              <div key="divBtnFaceboook" style={signinStyle.containerButtonFacebook}>
+              <div key="divBtnFaceboook" style={{width: '100%'}}>
                 <SocialLoginButton
                     key="btnFaceboook"
                     iconClass={'facebook icon'}
                     onLogin={loginFacebook}
                     buttonText={'Login pelo Facebook'}
-                    customCss={signinStyle.buttonLoginFacebook}
+                    customCss={{background: '#3B5998', width: '100%',cursor:'pointer'}}
                 /></div>
             </div>
           </div>

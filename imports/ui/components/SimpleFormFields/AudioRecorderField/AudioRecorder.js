@@ -84,7 +84,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
           <SimpleLabelView label={label}/>
-          <SimpleValueView value={(value+'')}/>
+          <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
+            <source src={value}/>
+        </audio>
         </div>)
     }
 
@@ -99,7 +101,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         </Fab>
 
         <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
-            <source src={`data:audio/x-wav;base64, ${recorder}` }/>
+            <source src={value}/>
         </audio>
       </div>
     )
