@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Container from '@material-ui/core/Container';
+import {appStyles} from "/imports/ui/theme/styles";
 
 const Home = () => (
   <>
@@ -11,15 +12,13 @@ const Home = () => (
               A text container is used for the main container, which is useful for single column layouts.
           </p>
 
-          <div>
-            <img src='/images/wireframe/media-paragraph.png' style={{ marginTop: '2em', maxWidth: '100%', maxHeight: '100%'}} />
-            <img src='/images/wireframe/paragraph.png' style={{ marginTop: '2em', maxWidth: '100%', maxHeight: '100%'}} />
-            <img src='/images/wireframe/paragraph.png' style={{ marginTop: '2em', maxWidth: '100%', maxHeight: '100%'}} />
-            <img src='/images/wireframe/paragraph.png' style={{ marginTop: '2em', maxWidth: '100%', maxHeight: '100%'}} />
-            <img src='/images/wireframe/paragraph.png' style={{ marginTop: '2em', maxWidth: '100%', maxHeight: '100%'}} />
-            <img src='/images/wireframe/paragraph.png' style={{ marginTop: '2em', maxWidth: '100%', maxHeight: '100%'}} />
-            <img src='/images/wireframe/paragraph.png' style={{ marginTop: '2em', maxWidth: '100%', maxHeight: '100%'}} />
-          </div>
+          <img src='/images/wireframe/media-paragraph.png' style={appStyles.containerHome} />
+          <img src='/images/wireframe/paragraph.png' style={appStyles.containerHome} />
+          <img src='/images/wireframe/paragraph.png' style={appStyles.containerHome} />
+          <img src='/images/wireframe/paragraph.png' style={appStyles.containerHome} />
+          <img src='/images/wireframe/paragraph.png' style={appStyles.containerHome} />
+          <img src='/images/wireframe/paragraph.png' style={appStyles.containerHome} />
+          <img src='/images/wireframe/paragraph.png' style={appStyles.containerHome} />
       </Container>
 
   </>

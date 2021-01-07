@@ -4,6 +4,8 @@ import FileInputComponent from 'react-file-input-previews-base64'
 import {hasValue} from "../../../../libs/hasValue";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
+import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
@@ -21,9 +23,9 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     }
 
     if(!!readOnly) {
-        return (<div key={name} style={{display:'flex',flexDirection:'column',marginBottom:16}}>
+        return (<div key={name} style={simpleImageStyle.containerImage}>
             <SimpleLabelView label={label}/>
-            <img src={value} style={{maxWidth:360,maxHeight:320}}/>
+            <img src={value} style={simpleImageStyle.containerShowImage}/>
         </div>)
     }
     const deleteImage = () => {
@@ -42,7 +44,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                 multiple={false}
                 callbackFunction={onFileSelect}
                 accept="image/*"
-                buttonComponent={<a style={{cursor:'pointer'}}>{'Selecionar imagem'}</a>}
+                buttonComponent={<a style={simpleImageStyle.selectImage}>{'Selecionar imagem'}</a>}
             />
         </div>
     );

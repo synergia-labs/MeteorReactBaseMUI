@@ -11,6 +11,9 @@ import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePick
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
+import Typography from '@material-ui/core/Typography';
+import {appStyles} from "/imports/ui/theme/styles";
+
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
 interface IExampleDetail {
@@ -29,7 +32,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
 
     return (
         <Container>
-            <h2>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h2>
+            <Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}

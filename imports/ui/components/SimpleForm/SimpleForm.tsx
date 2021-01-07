@@ -13,6 +13,9 @@ import Delete from "@material-ui/icons/Delete";
 import Alert from "@material-ui/lab/Alert";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
+import {simpleFormStyle} from "./SimpleFormStyle";
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
+
 interface ISubFormArrayComponent {
     reactElement:any;
     childrensElements:any;
@@ -178,9 +181,9 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
 
     return (
-        <div key={name} style={{marginTop:5,width:'100%',backgroundColor:error?'#FFF6F6':undefined,marginBottom:16}}>
+        <div key={name} style={{backgroundColor:error?'#FFF6F6':undefined ,...simpleFormStyle.containerLabel}}>
             <SimpleLabelView label={label}/>
-            <div style={{width:'100%',marginLeft:10}}>
+            <div style={simpleFormStyle.containerForm}>
 
                 <ReactSortable
                     disabled={mode==='view'}
@@ -191,7 +194,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                     {(value||[]).map((subForm,subFormIndex)=>{
                         if(subForm && subForm.id){
                             return (
-                                <div key={subForm.id} style={{margin:3,display:'flex',flexDirection:'row'}}>
+                                <div key={subForm.id} style={simpleFormStyle.containerSubForm}>
                                     <SimpleForm
                                         isSubForm={true}
                                         ref={refForm=>formRefs[subForm.id]=refForm}
@@ -204,12 +207,12 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                                         {childrensElements}
                                     </SimpleForm>
                                     {mode!=='view'?(
-                                        <div style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                                        <div style={simpleFormStyles.buttonForm}>
                                             <IconButton onClick={onClickDelete(subForm.id)}><Delete /></IconButton>
                                         </div>
                                     ):null}
                                     {mode!=='view'?(
-                                        <div className={'dragButton'} style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                                        <div className={'dragButton'} style={simpleFormStyles.buttonForm}>
                                             <IconButton onClick={onClickDelete(subForm.id)}><DragHandle /></IconButton>
                                         </div>
                                     ):null}
@@ -223,12 +226,12 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
 
                 </ReactSortable>
                 {!value||value.length===0||Object.keys(value[0]).length===0?(
-                    <div style={{color:'#BBB'}}>{'Não há itens'}</div>
+                    <div style={simpleFormStyle.containerEmptyItens}>{'Não há itens'}</div>
                 ):null}
 
 
             </div>
-            {mode!=='view'?(<div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
+            {mode!=='view'?(<div style={simpleFormStyle.containerAddSubForm}>
                 <Button style={{color:error?'#9F3A38':undefined}}
                         onClick={addSubForm}
                 >
@@ -364,9 +367,9 @@ const SubFormComponent = ({reactElement,childrensElements,name,...props}:ISubFor
 
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
     return (
-        <div key={name} style={{marginTop:5,width:'100%',marginBottom:16}}>
+        <div key={name} style={simpleFormStyle.containerLabel}>
             <SimpleLabelView label={label}/>
-            <div style={{margin:3,marginLeft:10}}>
+            <div style={simpleFormStyle.containerChildrenElements}>
                 <SimpleForm
                     isSubForm={true}
                     ref={fRef=>formRef=fRef}

@@ -10,6 +10,8 @@ import {isMobile} from "/imports/libs/deviceVerify";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
+import {appNavBarStyle} from "./AppNavBarStyle";
+
 const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -72,7 +74,8 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
         )
     }
     return (
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',width:'100%',alignItems:'center'}}>
+    <div style={appNavBarStyle.containerNavBar}>
+        <div style={appNavBarStyle.subContainerNavBar}>
             <Tabs
                 value={pathIndex}
                 indicatorColor="secondary"
@@ -80,7 +83,7 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
             >
             {
                 (Modules.getAppMenuItemList() || []).map(menuData=>{
-                    return (<Button key={menuData.path} onClick={()=>history.push(menuData.path)}>
+                    return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
                         {menuData.icon?menuData.icon:null}
                         {menuData.name}
                         </Button>
@@ -89,7 +92,7 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                 })
             }
             </Tabs>
-            <div>
+          <div>
             <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -97,7 +100,7 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                 onClick={handleMenu}
                 color="inherit"
             >
-                <AccountCircle />
+                <AccountCircle style={appNavBarStyle.accountCircle}/>
             </IconButton>
             <Menu
                 id="menu-appbar"
@@ -122,8 +125,6 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                     <MenuItem key={'signout'} as={NavLink} onClick={openPage("/signout")}>Sair</MenuItem>]
                 )}
             </Menu>
-            </div>
-
         </div>
     )
 }

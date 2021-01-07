@@ -7,30 +7,28 @@ import AppNavBar from "./AppNavBar";
 import AppRouterSwitch from "./AppRouterSwitch";
 import {isMobile} from "/imports/libs/deviceVerify";
 
+import {appLayoutMenuStyle} from "./AppLayoutFixedMenuStyle";
+
 const HomeIconButton = withRouter((props)=>{
-    return <NavLink to={'/'}><div style={{
-        width:60,height:40,display:'flex',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-        <img style={{maxHeight:45}} src='/images/wireframe/logo.png' />
+    return <NavLink to={'/'}><div style={appLayoutMenuStyle.containerHomeIconButton}>
+        <img style={appLayoutMenuStyle.homeIconButton} src='/images/wireframe/logo.png' />
     </div></NavLink>
 })
 
 const FixedMenuLayout = (props) => (
     <Router>
-        <div style={{
-            display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-between',
-            overflowY:'auto',
-            width:'100%',height:'100%',overflow:"hidden",margin:0}}>
+        <div style={appLayoutMenuStyle.containerFixedMenuRouter}>
         {!isMobile?(
             <AppBar position="static">
-                <div style={{display:'flex',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                <div style={appLayoutMenuStyle.containerFixedMenu}>
                     <HomeIconButton />
-                    <Toolbar style={{width:'100%'}}>
+                    <Toolbar style={appLayoutMenuStyle.toolbarFixedMenu}>
                         <AppNavBar {...props} />
                     </Toolbar>
                 </div>
             </AppBar>
         ):null}
-        <div style={{width:'100%',height:'calc(100% - 55px)',overflowY:'auto'}}>
+        <div style={appLayoutMenuStyle.containerAppRouter}>
             <AppRouterSwitch {...props} />
         </div>
         {isMobile?(

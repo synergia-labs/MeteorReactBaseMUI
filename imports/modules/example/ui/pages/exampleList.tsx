@@ -15,7 +15,9 @@ import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
 import {isMobile} from "/imports/libs/deviceVerify";
 
+import {appStyles} from "/imports/ui/theme/styles";
 
+import Typography from '@material-ui/core/Typography';
 
 interface IExampleList {
     examples:object[];
@@ -86,7 +88,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     return (
         <Container>
-            <h2>{'Lista de Exemplos'}</h2>
+            <Typography style={appStyles.title}>{'Lista de Exemplos'}</Typography>
             <TextField value={text} onChange={change} onKeyPress={keyPress}  placeholder='Pesquisar...'
                    action={{ icon: 'search',onClick:click }}
             />
@@ -96,7 +98,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 onClick={onClick}
                 actions={[{icon:<Delete color={'primary'} />,onClick:callRemove}]}
             />
-            <div style={{position:'fixed',bottom:isMobile?70:40,right:30}}>
+            <div style={appStyles.containerList}>
                 <Fab
                     onClick={()=>history.push('/course/create')}
                     color={'primary'}>

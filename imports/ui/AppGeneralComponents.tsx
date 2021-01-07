@@ -4,9 +4,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Snackbar from '@material-ui/core/Snackbar';
+
+import {appGeneralStyle} from './AppGeneralComponentsStyle';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
+
 import MuiAlert from '@material-ui/lab/Alert';
 import {isMobile} from "/imports/libs/deviceVerify";
 import {useTheme} from "@material-ui/core/styles";
@@ -39,15 +42,15 @@ const DialogContainer = (options = {
                 onOpen={options.onOpen}
                 open={options.open}
         >
-            {options.title ? (
-                <DialogTitle id="simple-dialog-title">
-                    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                        {options.icon ? options.icon : null}
-                        {options.title}
-                    </div>
+            {options.title?(
+            <DialogTitle id="simple-dialog-title">
+                <div style={appGeneralStyle.containerOptions}>
+                    {options.icon?options.icon:null}
+                    {options.title}
+                </div>
 
-                </DialogTitle>
-            ) : null}
+            </DialogTitle>
+            ):null}
             <DialogContent>
                 {options.content(options)}
             </DialogContent>
