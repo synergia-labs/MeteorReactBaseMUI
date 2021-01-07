@@ -51,9 +51,8 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                     {
                         (Modules.getAppMenuItemList() || []).map((menuData,menuIndex)=>{
                             return (<Button key={menuData.path} onClick={()=>history.push(menuData.path)}>
-                                    <div style={{display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',justifyContent:'center'}}>
+                                    <div style={{display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',justifyContent:'center', paddingTop: 10}}>
                                         {menuData.icon?menuData.icon:null}
-                                        {isMobile&&pathIndex!==menuIndex?'':menuData.name}
                                     </div>
 
                                 </Button>
@@ -131,4 +130,3 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
 
 
 export default withRouter(AppNavBar);
-
