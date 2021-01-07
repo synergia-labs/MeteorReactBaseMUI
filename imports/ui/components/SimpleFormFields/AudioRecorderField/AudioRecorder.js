@@ -9,6 +9,7 @@ import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import StopIcon from '@material-ui/icons/Stop';
 import PlayIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
@@ -18,7 +19,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
   let recorder = null;
 
-  const deleteImage = () => {
+  const deleteAudio = () => {
       onChange({},{name,value: '-'})
   }
 
@@ -92,9 +93,11 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
           <SimpleLabelView label={label}/>
+          <p>
           <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
             <source src={value}/>
         </audio>
+        </p>
         </div>)
     }
 
@@ -107,7 +110,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton}  />
         </Fab>
-
         <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
             <source src={value}/>
         </audio>
