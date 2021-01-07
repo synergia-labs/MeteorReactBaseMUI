@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Link, Redirect } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
+import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';;
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
@@ -30,8 +30,6 @@ export default class Signin extends React.Component {
 
   handleSubmit(doc) {
     const { email, password } = doc;
-    console.log(doc)
-
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
         this.props.showSnackBar({
@@ -49,12 +47,22 @@ export default class Signin extends React.Component {
 
   render() {
     const self = this;
-    const { location } = this.props
+    const { user,location } = this.props
     const { redirectToReferer, error } = this.state
     const { from } = location.state || { from: { pathname: '/' } }
     // if correct authentication, redirect to page instead of login screen
     if (redirectToReferer) {
+      if(from&&from.pathname==='/signout') {
+        from.pathname = '/';
+      }
       return <Redirect to={from} />
+
+
+    }
+
+    if(!!user&&!!user._id) {
+      this.setState({ redirectToReferer: true})
+      this.props.history.push('/');
     }
 
     const SocialLoginButton = ({onLogin, buttonText, iconClass, customCss, iconOnly}) => (
@@ -77,7 +85,6 @@ export default class Signin extends React.Component {
     );
 
     const callbackLogin = (err) => {
-      console.log('ERROR',err)
       if (err) {
         console.log('Login Error: ', err);
         if (err.errorType === 'Accounts.LoginCancelledError') {
@@ -137,14 +144,14 @@ export default class Signin extends React.Component {
                   type="password"
                 />
                 <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                  <Button onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
-                  <Button variant={'outlined'} submit>{"Entrar"}</Button>
+                  <Button color={'secondary'} onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
+                  <Button variant={'outlined'} color={'primary'} submit>{"Entrar"}</Button>
                 </div>
 
               </div>
             </SimpleForm>
             <div style={{marginTop:15}}>
-              <Button onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
+              <Button color={'secondary'} onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
 
             </div>
             <div key="loginoptions" style={{

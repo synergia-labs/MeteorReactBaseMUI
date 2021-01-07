@@ -24,13 +24,12 @@ interface IExampleDetail {
 const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExampleDetail) => {
 
     const handleSubmit = (doc: object) => {
-        console.log('DOC',doc);
         save(doc);
     }
 
     return (
         <Container>
-            <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
+            <h2>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h2>
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -91,7 +90,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
-              
+
                 <div key={'Buttons'}>
                     <Button
                         key={'b1'}

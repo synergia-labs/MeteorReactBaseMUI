@@ -3,8 +3,6 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 
 import Modules from '../../modules';
 import NotFound from '../pages/NotFound/NotFound'
-import {getUser} from "/imports/libs/getUser";
-
 
 
 class AppRouterSwitch extends React.Component {
@@ -35,7 +33,6 @@ const PublicRoute = ({ component: Component,generalProps, ...rest }) => (
     <Route
         {...rest}
         render={(props) => {
-            const isLogged = Meteor.userId() !== null
             return <Component {...props} {...generalProps} />
         }}
     />
@@ -50,9 +47,9 @@ const ProtectedRoute = ({ component: Component,generalProps, ...rest }) => (
     <Route
         {...rest}
         render={(props) => {
-            const isLogged = Meteor.userId() !== null
+            const isLogged = generalProps.isLoggedIn;
             return isLogged ? (
-                <Component {...props} {...generalProps} getUser={getUser} />
+                <Component {...props} {...generalProps} />
             ) : (
                 <Redirect
                     to={{

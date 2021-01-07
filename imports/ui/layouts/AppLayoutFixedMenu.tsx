@@ -1,11 +1,11 @@
 import React from 'react'
 
-import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { BrowserRouter as Router,withRouter, NavLink } from 'react-router-dom'
 import AppNavBar from "./AppNavBar";
 import AppRouterSwitch from "./AppRouterSwitch";
+import {isMobile} from "/imports/libs/deviceVerify";
 
 const HomeIconButton = withRouter((props)=>{
     return <NavLink to={'/'}><div style={{
@@ -16,19 +16,28 @@ const HomeIconButton = withRouter((props)=>{
 
 const FixedMenuLayout = (props) => (
     <Router>
-        <AppBar position="static">
-            <div style={{display:'flex',flexDirection:'row',width:'100%',alignItems:'center'}}>
-             <HomeIconButton />
-            <Toolbar style={{width:'100%'}}>
-                    <AppNavBar {...props} />
-            </Toolbar>
-            </div>
-        </AppBar>
         <div style={{
-            display:'flex',flexDirection:'column',alignItems:'center',
+            display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-between',
             overflowY:'auto',
-            width:'100%',height:'calc(100% - 47px)',margin:0,padding:4 }}>
+            width:'100%',height:'100%',overflow:"hidden",margin:0}}>
+        {!isMobile?(
+            <AppBar position="static">
+                <div style={{display:'flex',flexDirection:'row',width:'100%',alignItems:'center'}}>
+                    <HomeIconButton />
+                    <Toolbar style={{width:'100%'}}>
+                        <AppNavBar {...props} />
+                    </Toolbar>
+                </div>
+            </AppBar>
+        ):null}
+        <div style={{width:'100%',height:'calc(100% - 55px)',overflowY:'auto'}}>
             <AppRouterSwitch {...props} />
+        </div>
+        {isMobile?(
+            <div style={{minHeight:55,width:'100%',backgroundColor:props.theme.palette.primary.main}}>
+           <AppNavBar {...props} />
+            </div>
+        ):null}
         </div>
     </Router>
 )
