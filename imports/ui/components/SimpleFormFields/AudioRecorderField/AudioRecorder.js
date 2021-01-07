@@ -122,7 +122,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton}  />
         </Fab>
 
-        <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
+        <audio controls="controls" autobuffer="autobuffer" autoPlay="autoplay" style={audioRecorderStyle.buttonOptions}>
             <source src={value}/>
         </audio>
       </div>
