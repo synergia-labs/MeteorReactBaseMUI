@@ -1,19 +1,13 @@
 import React from "react";
-import {hasValue} from "../../../../libs/hasValue";
 
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
 
 import Fab from '@material-ui/core/Fab';
 import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import StopIcon from '@material-ui/icons/Stop';
-import PlayIcon from '@material-ui/icons/PlayArrow';
-import PauseIcon from '@material-ui/icons/Pause';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
-
-import _ from 'lodash'
 
 export default ({name,label,value,onChange,readOnly,error})=>{
 
@@ -50,6 +44,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
       ...values,
       ['recordButton']: !values.recordButton,
     });
+    deleteAudio()
 
     navigator.getUserMedia = (
         navigator.getUserMedia ||
@@ -69,13 +64,6 @@ export default ({name,label,value,onChange,readOnly,error})=>{
       recorder.stop();
       console.log("recorder stopped, data available");
     }
-
-        /*setTimeout(() => {
-        console.log(recorder.state);
-        recorder.stop(); // Stopping the recorder after 3 seconds
-        console.log(recorder.state);
-    }, 3000);*/
-
   };
 
   const handleStopRecordAudio = (event) => {
@@ -88,9 +76,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
         return (<div key={name}>
           <SimpleLabelView label={label}/>
           <p>
-            <audio controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}>
-              <source src={value} />
-            </audio>
+            <audio src={value}  controlsList={"nodownload"} controls="controls" type={'audio/mp3'} autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
           </p>
         </div>)
     }
@@ -104,9 +90,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
         <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
         </Fab>
-        <audio controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}>
-            <source src={value} />
-        </audio>
+        <audio src={value} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
       <DeleteIcon onClick={deleteAudio} style={{marginTop: 10}} />
       </div>
     )
