@@ -4,11 +4,11 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Snackbar from '@material-ui/core/Snackbar';
-
-import {appGeneralStyle} from './AppGeneralComponentsStyle';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
+
+import {appGeneralStyle} from './AppGeneralComponentsStyle';
 
 import MuiAlert from '@material-ui/lab/Alert';
 import {isMobile} from "/imports/libs/deviceVerify";
@@ -49,8 +49,8 @@ const DialogContainer = (options = {
                     {options.title}
                 </div>
 
-            </DialogTitle>
-            ):null}
+                </DialogTitle>
+            ) : null}
             <DialogContent>
                 {options.content(options)}
             </DialogContent>

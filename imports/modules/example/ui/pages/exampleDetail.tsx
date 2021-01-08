@@ -11,6 +11,8 @@ import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePick
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
+import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
+
 import Typography from '@material-ui/core/Typography';
 import {appStyles} from "/imports/ui/theme/styles";
 
@@ -89,11 +91,17 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+                <FormGroup key={'fields'}>
+                    <AudioRecorder
+                        placeholder='Áudio'
+                        name='audio'
+                    />
+                </FormGroup>
+
                 <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
-
                 <div key={'Buttons'}>
                     <Button
                         key={'b1'}
@@ -109,7 +117,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button key={'b3'} color={'primary'} variant="contained" submit>
+                        <Button key={'b3'} color={'primary'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ) : null}

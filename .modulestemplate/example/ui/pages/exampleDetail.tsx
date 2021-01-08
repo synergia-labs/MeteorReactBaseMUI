@@ -2,7 +2,7 @@ import React from 'react';
 import {withTracker} from "meteor/react-meteor-data";
 import {exampleApi} from "../../api/exampleApi";
 import SimpleForm from "../../../../ui/components/SimpleForm/SimpleForm";
-import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
+import SimpleImageUploadBase64 from "/imports/ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -10,6 +10,8 @@ import TextField from '../../../../ui/components/SimpleFormFields/TextField/Text
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
+
+import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 
 import Typography from '@material-ui/core/Typography';
 import {appStyles} from "/imports/ui/theme/styles";
@@ -89,10 +91,19 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+
                 <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
+
+                <FormGroup key={'fields'}>
+                        <AudioRecorder
+                            placeholder='Áudio'
+                            name='audio'
+                        />
+                    </FormGroup>
+
                 <div key={'Buttons'}>
                     <Button
                         key={'b1'}
@@ -108,7 +119,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button key={'b3'} color={'primary'} variant="contained" submit>
+                        <Button key={'b3'} color={'primary'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ) : null}

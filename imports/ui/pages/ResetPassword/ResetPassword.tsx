@@ -80,7 +80,7 @@ export default class ResetPassword extends React.Component {
                 />
                 <div style={resetPasswordStyle.containerButtonOptions}>
                     <Button onClick={()=>this.props.history.push('//signin')}>{"Voltar"}</Button>
-                    <Button variant={'outlined'} submit>{"Atualizar a senha"}</Button>
+                    <Button variant={'outlined'} submit="true">{"Atualizar a senha"}</Button>
                 </div>
 
             </SimpleForm>

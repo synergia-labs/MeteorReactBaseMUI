@@ -9,6 +9,7 @@ import Modules from '../../modules';
 import {isMobile} from "/imports/libs/deviceVerify";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import {appNavBarStyle} from "./AppNavBarStyle";
 
 import {appNavBarStyle} from "./AppNavBarStyle";
 
@@ -89,8 +90,8 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                         </Button>
                     )
 
-                })
-            }
+                  })
+              }
             </Tabs>
           </div>
             <IconButton
