@@ -14,6 +14,7 @@ import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/Up
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 import TextMaskField from "/imports/ui/components/SimpleFormFields/TextMaskField/TextMaskField";
+import ChipInput from "/imports/ui/components/SimpleFormFields/ChipInput/ChipInput";
 
 import Typography from '@material-ui/core/Typography';
 import {appStyles} from "/imports/ui/theme/styles";

@@ -102,7 +102,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
       }
   }
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
             <SimpleLabelView label={label}/>
