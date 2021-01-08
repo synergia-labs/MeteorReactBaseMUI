@@ -43,6 +43,11 @@ const simpleFormStyle = {
   },
   containerEmptyItens: {
     color:'#BBB',
+    fontSize: '13px',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: 400,
+    lineHeight: 1,
+    letterSpacing: '0.00938em',
   },
   containerAddSubForm: {
     display:'flex',
@@ -52,6 +57,9 @@ const simpleFormStyle = {
   containerChildrenElements: {
     margin:3,
     marginLeft:10,
+  },
+  buttonAddSubForm: {
+    backgroundColor: '#4caf50'
   },
 };
 

@@ -17,8 +17,16 @@
 const audioRecorderStyle = {
   containerRecord: {
     display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    marginTop:16,
+    width:'100%',
+    marginBottom:16
+  },
+  subContainerRecord: {
+    display:'flex',
     flexDirection:'row',
-    justifyContent:'left',
+    justifyContent:'center',
     marginTop:16,
     width:'100%',
     marginBottom:16

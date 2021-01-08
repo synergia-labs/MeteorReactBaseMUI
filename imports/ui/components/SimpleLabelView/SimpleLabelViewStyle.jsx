@@ -18,7 +18,7 @@ const simpleLabelStyle = {
   displayLabel: {
     color: 'rgba(0, 0, 0, 0.54)',
     padding: 0,
-    fontSize: '1rem',
+    fontSize: '11px',
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     fontWeight: 400,
     lineHeight: 1,

@@ -88,7 +88,7 @@ export const exampleSch = {
   },
   audio: {
     type: String,
-    label: 'Áudio',
+    label: 'Audio',
     defaultValue: '',
     optional: true,
   },

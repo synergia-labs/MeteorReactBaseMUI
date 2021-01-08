@@ -83,15 +83,20 @@ export default ({name,label,value,onChange,readOnly,error})=>{
 
     return (
       <div key={name} style={audioRecorderStyle.containerRecord}>
-        <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
-            <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
-        </Fab>
+        <SimpleLabelView label={label}/>
+        <div key={name} style={audioRecorderStyle.subContainerRecord}>
+          <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
+              <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
+          </Fab>
 
-        <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
-            <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
-        </Fab>
+          <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
+              <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
+          </Fab>
+          <Fab color="secondary" aria-label="play" className="delete" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
+              <DeleteIcon onClick={deleteAudio} />
+          </Fab>
+        </div>
         <audio src={value} controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
-      <DeleteIcon onClick={deleteAudio} style={{marginTop: 10}} />
       </div>
     )
 }
