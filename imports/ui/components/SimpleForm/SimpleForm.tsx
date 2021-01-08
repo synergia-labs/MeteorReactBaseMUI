@@ -411,7 +411,6 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
             setValue(props.initialValue);
         }
 
-
         if(mode!==props.mode) {
             setMode(props.mode);
             if(props.mode==='view') {
@@ -422,9 +421,6 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
                 setError(false);
             }
         }
-
-
-
     });
 
     props.setFieldMethods({
@@ -458,7 +454,8 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
 
 
 
-    const onChange = (e,fieldData={})=>{
+    const onChange = (e,fieldData={}) =>{
+
         const field = {...(props.fieldSchema?props.fieldSchema:{}),...(e?e.target:{}),
             ...(fieldData&&fieldData.name?fieldData:{})};
 

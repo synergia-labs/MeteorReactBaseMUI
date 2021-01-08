@@ -42,12 +42,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 onSubmit={handleSubmit}
                 loading={loading}
             >
-
                 <SimpleImageUploadBase64
                     label={'Imagem'}
                     name={'image'}
                 />
-                <FormGroup key={'fields'}>
+                <FormGroup key={'fieldsOne'}>
                     <TextField
                         placeholder='Titulo'
                         name='title'
@@ -57,7 +56,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'}>
+                <FormGroup key={'fieldsTwo'}>
                     <SelectField
                         placeholder='Tipo'
                         options={[
@@ -71,17 +70,19 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='date'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'} formType={'subform'} name={'contacts'}>
-                    <TextField
+                <FormGroup key={'fieldsThree'} formType={'subform'} name={'contacts'}>
+                    <TextMaskField
                         placeholder='Telefone'
+                        schema={exampleApi.schema.contacts}
                         name='phone'
                     />
-                    <TextField
+                    <TextMaskField
                         placeholder='Celular'
+                        schema={exampleApi.schema.contacts}
                         name='celphone'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'} formType={'subformArray'} name={'tasks'}>
+                <FormGroup key={'fieldsFour'} formType={'subformArray'} name={'tasks'}>
                     <TextField
                         placeholder='Nome da Tarefa'
                         name='name'
@@ -102,6 +103,12 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
+                <FormGroup key={'fieldsFive'} name={'chips'}>
+                    <ChipInput
+                        name="chip"
+                        placeholder="Chip"
+                    />
+                </FormGroup>
                 <div key={'Buttons'}>
                     <Button
                         key={'b1'}
