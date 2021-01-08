@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
-import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
@@ -73,11 +72,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     />
                 </FormGroup>
                 <FormGroup key={'fields'} formType={'subform'} name={'contacts'}>
-                    <TextMaskField
+                    <TextField
                         placeholder='Telefone'
                         name='phone'
                     />
-                    <TextMaskField
+                    <TextField
                         placeholder='Celular'
                         name='celphone'
                     />

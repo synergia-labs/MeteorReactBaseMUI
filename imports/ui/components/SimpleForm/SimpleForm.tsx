@@ -207,12 +207,12 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                                         {childrensElements}
                                     </SimpleForm>
                                     {mode!=='view'?(
-                                        <div style={simpleFormStyles.buttonForm}>
+                                        <div style={simpleFormStyle.buttonForm}>
                                             <IconButton onClick={onClickDelete(subForm.id)}><Delete /></IconButton>
                                         </div>
                                     ):null}
                                     {mode!=='view'?(
-                                        <div className={'dragButton'} style={simpleFormStyles.buttonForm}>
+                                        <div className={'dragButton'} style={simpleFormStyle.buttonForm}>
                                             <IconButton onClick={onClickDelete(subForm.id)}><DragHandle /></IconButton>
                                         </div>
                                     ):null}
