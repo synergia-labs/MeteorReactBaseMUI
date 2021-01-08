@@ -120,7 +120,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                     <Button
                         key={'b1'}
-                        style={{marginLeft: 10}}
+                        style={{marginRight: 10}}
                         onClick={screenState === 'edit' ? () => history.push(`/example/view/${exampleDoc._id}`) : () => history.push(`/example/list`)}
                         color={'secondary'} variant="contained">
                         {screenState === 'view' ? 'Voltar' : 'Cancelar'}
