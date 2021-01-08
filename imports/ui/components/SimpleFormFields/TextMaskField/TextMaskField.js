@@ -5,6 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
+
+import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
@@ -100,38 +104,11 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
     if(!!readOnly) {
         return (<div key={name}>
-            {hasValue(label)?(<label
-                style={{
-                    color: 'rgba(0, 0, 0, 0.54)',
-                    padding: 0,
-                    fontSize: '1rem',
-                    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                    fontWeight: 400,
-                    lineHeight: 1,
-                    letterSpacing: '0.00938em',
-                }}
-            >{label}</label>):null}
-            <div style={{color:'#222',padding:5,height:35,marginTop:4,marginBottom:8}}>{(value+'')}</div>
+            <SimpleLabelView label={label}/>
+            <SimpleValueView value={(value+'')}/>
         </div>)
     }
 
     return (<TextField key={name} onChange={handleApplyMask} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
 
 }
-
-
-
-
-/*
-
-<InputMask
-  mask="(99) 9 9999-9999"
-  value={values.textmask}
-  disabled={false}
-  maskChar=" "
-  onChange={handleChange}
-  key={name} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps}
->
-  {() => <TextField id={values.textmask} />}
-</InputMask>
-*/
