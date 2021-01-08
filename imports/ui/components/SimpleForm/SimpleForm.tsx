@@ -181,7 +181,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
     const label = reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined);
 
     return (
-        <div key={name} style={{backgroundColor:error?'#FFF6F6':undefined ,...simpleFormStyle.containerLabel}}>
+        <div key={name} style={{backgroundColor:error?'#FFF6F6':undefined,...simpleFormStyle.containerLabel}}>
             <SimpleLabelView label={label}/>
             <div style={simpleFormStyle.containerForm}>
 
@@ -404,8 +404,6 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
     const [value,setValue] = React.useState(props.initialValue||'')
     const [mode,setMode] = React.useState(props.mode||'edit')
     const [changeByUser,setChangeByUser] = React.useState(false)
-
-    console.log("value: ",value);
 
     React.useEffect(() => {
 

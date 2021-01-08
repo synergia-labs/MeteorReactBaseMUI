@@ -15,5 +15,8 @@
   "settingsFacebook": {
   "appId": "<appId>",
   "secret": "<secret>"
+  },
+  "maps": {
+    "api": ""
   }
 }

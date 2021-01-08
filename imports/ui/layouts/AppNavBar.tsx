@@ -9,10 +9,10 @@ import Modules from '../../modules';
 import {isMobile} from "/imports/libs/deviceVerify";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
 import {appNavBarStyle} from "./AppNavBarStyle";
 
-const AppNavBar = ({ user,history, showDrawer,showWindow }) => {
+
+const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -76,23 +76,24 @@ const AppNavBar = ({ user,history, showDrawer,showWindow }) => {
     }
     return (
         <div style={appNavBarStyle.containerNavBar}>
-            <Tabs
-                value={pathIndex}
-                indicatorColor="secondary"
-                aria-label="icon label tabs example"
-            >
-            {
-                (Modules.getAppMenuItemList() || []).map(menuData=>{
-                    return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
-                        {menuData.icon?menuData.icon:null}
-                        {menuData.name}
-                        </Button>
-                    )
+            <div style={appNavBarStyle.subContainerNavBar}>
+              <Tabs
+                  value={pathIndex}
+                  indicatorColor="secondary"
+                  aria-label="icon label tabs example"
+              >
+              {
+                  (Modules.getAppMenuItemList() || []).map(menuData=>{
+                      return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
+                          {menuData.icon?menuData.icon:null}
+                          {menuData.name}
+                          </Button>
+                      )
 
-                })
-            }
+                  })
+              }
             </Tabs>
-            <div>
+          </div>
             <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -125,8 +126,6 @@ const AppNavBar = ({ user,history, showDrawer,showWindow }) => {
                     <MenuItem key={'signout'} as={NavLink} onClick={openPage("/signout")}>Sair</MenuItem>]
                 )}
             </Menu>
-            </div>
-
         </div>
     )
 }

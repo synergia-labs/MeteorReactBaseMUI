@@ -96,8 +96,9 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 actions={[{icon:<Delete />,onClick:callRemove}]}
             />
             <div style={appStyles.containerList}>
-                <Fab
-                    onClick={()=>history.push('/example/create')}>
+                <Button
+                    onClick={()=>history.push('/example/create')}
+                    color={'prmary'}>
                     +
                 </Fab>
             </div>
@@ -121,7 +122,7 @@ export const subscribeConfig = new ReactiveVar({
 const exampleSearch = initSearch(
     exampleApi, // API
     subscribeConfig, // ReactiveVar subscribe configurations
-    ['title','description'], // list of fields
+    ['title','description', 'status'], // list of fields
 );
 
 
