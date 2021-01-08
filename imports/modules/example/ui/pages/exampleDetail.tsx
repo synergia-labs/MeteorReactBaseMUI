@@ -11,6 +11,8 @@ import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskFi
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
+import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
+import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 
@@ -58,6 +60,9 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+                <GoogleApiWrapper
+                    name={'address'}
+                />
                 <FormGroup key={'fields'}>
                     <SelectField
                         placeholder='Tipo'

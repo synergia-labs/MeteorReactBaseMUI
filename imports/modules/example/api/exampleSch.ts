@@ -90,6 +90,12 @@ export const exampleSch = {
     defaultValue: '',
     optional: true,
   },
+  address: {
+    type: Object,
+    label: 'Localização',
+    defaultValue: '',
+    optional: true,
+  }
 };
 
 export interface IExample {

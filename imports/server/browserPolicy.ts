@@ -43,6 +43,8 @@ allowFontOrigin.forEach(o => {
 
 const allowAll = [
     'fonts.googleapis.com',
+    'maps.gstatic.com',
+    'maps.googleapis.com',
     'fonts.gstatic.com',
     'localhost:3000',
     `${Meteor.absoluteUrl()}`,
