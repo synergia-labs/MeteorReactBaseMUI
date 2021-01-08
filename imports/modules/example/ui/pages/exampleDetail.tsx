@@ -13,6 +13,7 @@ import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
+import TextMaskField from "/imports/ui/components/SimpleFormFields/TextMaskField/TextMaskField";
 
 import Typography from '@material-ui/core/Typography';
 import {appStyles} from "/imports/ui/theme/styles";

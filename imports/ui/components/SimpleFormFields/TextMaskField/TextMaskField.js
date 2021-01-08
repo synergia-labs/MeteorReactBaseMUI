@@ -5,8 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-
-=======
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
 
