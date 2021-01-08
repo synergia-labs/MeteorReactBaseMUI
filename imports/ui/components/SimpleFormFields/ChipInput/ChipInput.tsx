@@ -1,59 +1,67 @@
-import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-import TagFacesIcon from '@material-ui/icons/TagFaces';
+import React, {useState} from 'react'
+import Chip from "@material-ui/core/Chip";
+import {hasValue} from "/imports/libs/hasValue";
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import Check from "@material-ui/icons/Check";
+import styles from './ChipInputStyle'
+import _ from 'lodash'
 
-interface ChipData {
-  key: number;
-  label: string;
-}
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent) => {
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-      listStyle: 'none',
-      padding: theme.spacing(0.5),
-      margin: 0,
-    },
-    chip: {
-      margin: theme.spacing(0.5),
-    },
-  }),
-);
+    const[chipText, setChipText] = useState('')
 
-export default function ChipInput() {
-  const classes = useStyles();
-  const [chipData, setChipData] = React.useState<ChipData[]>([
-    { key: 0, label: 'Item 1' },
-    { key: 1, label: 'Item 2' },
-    { key: 2, label: 'Item 3' },
-    { key: 3, label: 'Item 4' },
-    { key: 4, label: 'Item 5' },
-  ]);
+    const handleDelete = (chipItem:string) => {
+        const newChip = value.filter((chip:string) => chip !== chipItem)
+        setChipText('')
+        onChange({},{name,value: newChip})
+    };
 
-  const handleDelete = (chipToDelete: ChipData) => () => {
-    setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
+    const handleOnChange = (event:React.BaseSyntheticEvent) => {
+        setChipText(event.target.value)
+    }
 
-  return (
-    <Paper component="ul" className={classes.root}>
-      {chipData.map((data) => {
-        let icon;
-        return (
-          <li key={data.key}>
-            <Chip
-              icon={icon}
-              label={data.label}
-              onDelete={handleDelete(data)}
-              className={classes.chip}
-            />
-          </li>
-        );
-      })}
-    </Paper>
-  );
+    const handleInsert = (chipText:string) => {
+        if(isFieldValid(chipText)){
+            onChange({},{name,value:[...value, chipText]})
+        }
+        setChipText('')
+    }
+
+    const isFieldValid = (field:string) => {
+        if(hasValue(field)){
+            return true
+        }else{
+            return false
+        }
+
+    }
+
+    return (
+        <div style={styles.container}>
+            <SimpleLabelView style={styles.title} label={label}/>
+            {!readOnly?
+                <div style={styles.input}>
+                    <TextField value={chipText} onChange={handleOnChange}/>
+                    <IconButton onClick={()=>handleInsert(chipText)}>
+                        <Check color={'primary'}/>
+                    </IconButton>
+                </div>
+                : null
+            }
+            <div>
+                {hasValue(value)&& value.map((chip:string) => {
+                    return <Chip
+                        variant="outlined"
+                        label={chip}
+                        color={'primary'}
+                        style={styles.chip}
+                        onDelete={readOnly? undefined : ()=> handleDelete(chip)}
+                        {..._.omit(otherProps,['disabled','checked'])}
+                    />
+                })}
+            </div>
+        </div>
+    )
 }

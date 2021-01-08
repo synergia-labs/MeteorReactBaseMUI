@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Link, Redirect } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
+import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';;
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
@@ -138,14 +138,14 @@ export default class Signin extends React.Component {
                   type="password"
                 />
                 <div style={signinStyle.containerButtonOptions}>
-                  <Button onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
+                  <Button color={'secondary'} onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
                   <Button variant={'outlined'} submit>{"Entrar"}</Button>
                 </div>
 
               </div>
             </SimpleForm>
             <div style={signinStyle.containerRouterSignUp}>
-              <Button onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
+              <Button color={'secondary'} onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
             </div>
             <div key="loginoptions" style={signinStyle.containerLoginOptions}>
               <div key="divBtnGoogle" style={signinStyle.containerButtonGoogle}>

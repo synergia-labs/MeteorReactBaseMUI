@@ -8,6 +8,7 @@ import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
 
 import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
@@ -82,7 +83,6 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     }
 
-
     return (
         <Container>
             <Typography style={appStyles.title}>{'Lista de Exemplos'}</Typography>
@@ -96,11 +96,10 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 actions={[{icon:<Delete />,onClick:callRemove}]}
             />
             <div style={appStyles.containerList}>
-                <Button
-                    onClick={()=>history.push('/example/create')}
-                    color={'prmary'}>
+                <Fab
+                    onClick={()=>history.push('/example/create')}>
                     +
-                </Button>
+                </Fab>
             </div>
         </Container>
         )

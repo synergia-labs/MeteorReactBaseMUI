@@ -7,6 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Modules from '../../modules';
 import {isMobile} from "/imports/libs/deviceVerify";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import {appNavBarStyle} from "./AppNavBarStyle";
 
@@ -27,9 +29,58 @@ const AppNavBar = ({ user,history }) => {
         history.push(url);
     }
 
+    const viewProfile = () => {
+        handleClose();
+        showDrawer({title:'Usuário',url:`/userprofile/view/${user._id}`})
+    }
+
+    const viewProfileMobile = () => {
+        handleClose();
+        showWindow({title:'Usuário',url:`/userprofile/view/${user._id}`})
+    }
+
+   const pathIndex = (Modules.getAppMenuItemList() || []).findIndex(menuData=>menuData.path==='/'&&history.location.pathname==='/'
+    ||menuData.path!=='/'&&history.location.pathname.indexOf(menuData.path)===0);
+    if(isMobile) {
+        return (
+            <div style={{width:'100%'}}>
+                <Tabs
+                    value={pathIndex}
+                    indicatorColor="secondary"
+                    aria-label="icon label tabs example"
+                    centered={true}
+                >
+                    {
+                        (Modules.getAppMenuItemList() || []).map((menuData,menuIndex)=>{
+                            return (<Button key={menuData.path} onClick={()=>history.push(menuData.path)}>
+                                    <div style={{display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',justifyContent:'center'}}>
+                                        {menuData.icon?menuData.icon:null}
+                                        {isMobile&&pathIndex!==menuIndex?'':menuData.name}
+                                    </div>
+
+                                </Button>
+                            )
+
+                        })
+                    }
+                </Tabs>
+                <IconButton
+                    onClick={viewProfileMobile}
+                    style={{position:'absolute',right:10,bottom:13}}
+                >
+                    <AccountCircle color={'secondary'} />
+                </IconButton>
+            </div>
+
+        )
+    }
     return (
-        <div style={appNavBarStyle.containerNavBar}>
-            <div style={appNavBarStyle.subContainerNavBar}>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',width:'100%',alignItems:'center'}}>
+            <Tabs
+                value={pathIndex}
+                indicatorColor="secondary"
+                aria-label="icon label tabs example"
+            >
             {
                 (Modules.getAppMenuItemList() || []).map(menuData=>{
                     return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
@@ -40,7 +91,7 @@ const AppNavBar = ({ user,history }) => {
 
                 })
             }
-            </div>
+            </Tabs>
             <div>
             <IconButton
                 aria-label="account of current user"
@@ -70,7 +121,7 @@ const AppNavBar = ({ user,history }) => {
                     [<MenuItem key={'signin'} as={NavLink} onClick={openPage("/signin")}>Entrar</MenuItem>,
                     <MenuItem key={'signup'} as={NavLink} onClick={openPage("/signup")}>Cadastrar-se</MenuItem>]
                 ) : (
-                    [<MenuItem key={'userprofile'} as={NavLink} onClick={openPage(`/userprofile/view/${user._id}`)}>Meus dados</MenuItem>,
+                    [<MenuItem key={'userprofile'} as={NavLink} onClick={viewProfile}>Meus dados</MenuItem>,
                     <MenuItem key={'signout'} as={NavLink} onClick={openPage("/signout")}>Sair</MenuItem>]
                 )}
             </Menu>

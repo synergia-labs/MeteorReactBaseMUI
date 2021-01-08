@@ -4,16 +4,16 @@ import {simpleLabelStyle} from "./SimpleLabelViewStyle";
 
 interface ISimpleLabelView {
     label:string;
-    styles?:object;
+    style?:object;
 }
 
-export default ({label, styles}:ISimpleLabelView) => {
+export default ({label, style}:ISimpleLabelView) => {
 
     if(!hasValue(label)){
         return <div/>
     }
 
     return (
-      <label style={{...simpleLabelStyle.displayLabel, ...styles}}> {label} </label>
+      <label style={{...simpleLabelStyle.displayLabel, ...style}}> {label} </label>
     );
 }

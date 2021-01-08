@@ -6,7 +6,10 @@ import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
-import TextField from '@material-ui/core/TextField';
+import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
+import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
+import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
 import Typography from '@material-ui/core/Typography';
 import {appStyles} from "/imports/ui/theme/styles";
@@ -24,7 +27,6 @@ interface IExampleDetail {
 const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExampleDetail) => {
 
     const handleSubmit = (doc: object) => {
-        console.log('DOC',doc);
         save(doc);
     }
 
@@ -53,6 +55,20 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+                <FormGroup key={'fields'}>
+                    <SelectField
+                        placeholder='Tipo'
+                        options={[
+                            {value:'normal',label:'Normal'},
+                            {value:'extra',label:'Extra'},
+                        ]}
+                        name='type'
+                    />
+                    <DatePickerField
+                        placeholder='Data'
+                        name='date'
+                    />
+                </FormGroup>
                 <FormGroup key={'fields'} formType={'subform'} name={'contacts'}>
                     <TextField
                         placeholder='Telefone'
@@ -73,25 +89,26 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
-                {/*<UploadFilesCollection*/}
-                {/*    name='files'*/}
-                {/*    label={'Arquivos'}*/}
-                {/*    doc={exampleDoc}/>*/}
+                <UploadFilesCollection
+                    name='files'
+                    label={'Arquivos'}
+                    doc={exampleDoc}/>
                 <div key={'Buttons'}>
                     <Button
+                        key={'b1'}
                         onClick={screenState === 'edit' ? () => history.push(`/example/view/${exampleDoc._id}`) : () => history.push(`/example/list`)}
                         color={'secondary'} variant="contained">
                         {screenState === 'view' ? 'Voltar' : 'Cancelar'}
                     </Button>
 
                     {screenState === 'view' ? (
-                        <Button onClick={() => history.push(`/example/edit/${exampleDoc._id}`)}
+                        <Button key={'b2'} onClick={() => history.push(`/example/edit/${exampleDoc._id}`)}
                                 color={'primary'} variant="contained">
                             {'Editar'}
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button color={'primary'} variant="contained" submit>
+                        <Button key={'b3'} color={'primary'} variant="contained" submit>
                             {'Salvar'}
                         </Button>
                     ) : null}
