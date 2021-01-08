@@ -12,7 +12,7 @@ import Tab from '@material-ui/core/Tab';
 
 import {appNavBarStyle} from "./AppNavBarStyle";
 
-const AppNavBar = ({ user,history }) => {
+const AppNavBar = ({ user,history, showDrawer,showWindow }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -75,7 +75,7 @@ const AppNavBar = ({ user,history }) => {
         )
     }
     return (
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',width:'100%',alignItems:'center'}}>
+        <div style={appNavBarStyle.containerNavBar}>
             <Tabs
                 value={pathIndex}
                 indicatorColor="secondary"

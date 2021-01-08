@@ -23,6 +23,12 @@ const appLayoutMenuStyle = {
     justifyContent:'center',
     alignItems:'center',
   },
+  routerSwitch : {
+    width:'100%',
+    height:'calc(100% - 55px)',
+    overflowY:'auto'
+  },
+
   homeIconButton:{
     maxHeight:45,
   },
@@ -39,12 +45,12 @@ const appLayoutMenuStyle = {
     display:'flex',
     flexDirection:'column',
     alignItems:'center',
+    justifyContent:'space-between',
     overflowY:'auto',
     width:'100%',
-    height:'calc(100% - 47px)',
-    margin:0,
-    padding:10,
-    boxSizing:'border-box',
+    height:'100%',
+    overflow:"hidden",
+    margin:0
   }
 };
 
