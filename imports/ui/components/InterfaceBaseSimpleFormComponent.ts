@@ -5,4 +5,5 @@ interface IBaseSimpleFormComponent {
     onChange: { (fieldTarget: object, field: object): void } ;
     readOnly:boolean;
     error:boolean;
+    otherProps?:object;
 }

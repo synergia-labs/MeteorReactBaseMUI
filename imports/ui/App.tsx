@@ -7,11 +7,11 @@ import {useAccount} from "/imports/libs/userAccount";
 import { useTheme } from '@material-ui/core/styles';
 
 const AppContainer = (props) => {
-    const { isLoggedIn, user,loading } = useAccount();
+    const { isLoggedIn, user,userLoading } = useAccount();
 
     const theme = useTheme();
     return (
-        <AppLayoutFixedMenu {...props} user={user} isLoggedIn={isLoggedIn} theme={theme} />
+        <AppLayoutFixedMenu {...props} user={user} isLoggedIn={isLoggedIn} userLoading={userLoading} theme={theme} />
     )
 }
 

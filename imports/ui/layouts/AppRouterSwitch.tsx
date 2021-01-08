@@ -9,18 +9,18 @@ class AppRouterSwitch extends React.Component {
 
     render() {
         return (<Switch>
-            {
-                (Modules.getListOfRouterModules() || []).map(routerData=>{
-                    if(routerData.isProtected) {
-                        return <ProtectedRoute key={routerData.path} exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
-                    } else {
-                        return <PublicRoute key={routerData.path}  exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
-                    }
+                            {
+                                (Modules.getListOfRouterModules() || []).map(routerData=>{
+                                    if(routerData.isProtected) {
+                                        return <ProtectedRoute key={routerData.path} exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
+                                    } else {
+                                        return <PublicRoute key={routerData.path}  exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
+                                    }
 
-                })
-            }
-            <Route component={NotFound} />
-        </Switch>);
+                                })
+                            }
+                            <Route component={NotFound} />
+                        </Switch>);
     }
 }
 
