@@ -3,9 +3,11 @@ import React from "react";
 import FileInputComponent from 'react-file-input-previews-base64'
 import {hasValue} from "../../../../libs/hasValue";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
+
+import Button from '@material-ui/core/Button';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
@@ -44,7 +46,16 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                 multiple={false}
                 callbackFunction={onFileSelect}
                 accept="image/*"
-                buttonComponent={<a style={simpleImageStyle.selectImage}>{'Selecionar imagem'}</a>}
+                buttonComponent={
+                  <Button
+                    variant="contained"
+                    color="default"
+                    style={simpleImageStyle.selectImage}
+                    startIcon={<PhotoCameraIcon />}
+                  >
+                    {'Selecionar imagem'}
+                  </Button>
+              }
             />
         </div>
     );

@@ -92,6 +92,12 @@ export const exampleSch = {
     defaultValue: '',
     optional: true,
   },
+  status: {
+    type: Object,
+    label: 'Status',
+    defaultValue: '',
+    optional: false,
+  }
 };
 
 export interface IExample {

@@ -56,6 +56,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                 <TableHead>
                     <TableRow>
                         {cols.map(col=>{
+                            console.log(col);
                             return <TableCell key={col.name+col.label}>{col.label}</TableCell>
                         })}
                         {actions?(
