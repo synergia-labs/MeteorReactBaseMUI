@@ -76,7 +76,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
         return (<div key={name}>
           <SimpleLabelView label={label}/>
           <p>
-            <audio src={value}  controlsList={"nodownload"} controls="controls" type={'audio/mp3'} autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
+            <audio src={value}  controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
           </p>
         </div>)
     }
@@ -90,7 +90,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
         <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
             <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
         </Fab>
-        <audio src={value} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
+        <audio src={value} controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
       <DeleteIcon onClick={deleteAudio} style={{marginTop: 10}} />
       </div>
     )
