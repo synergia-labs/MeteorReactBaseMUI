@@ -10,8 +10,9 @@ import TextField from '../../../../ui/components/SimpleFormFields/TextField/Text
 
 import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 
+import {appStyles} from "/imports/ui/theme/styles";
 
-const UserProfileDetail = ({screenState,loading,user,save,history}) => {
+const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close}) => {
 
     const handleSubmit = (doc) => {
         // console.log('doc',doc)
@@ -20,7 +21,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history}) => {
 
     return (
         <Container>
-            <h2>{screenState==='view'?'Visualizar usuário':(screenState==='edit'?'Editar Usuário':'Criar usuário')}</h2>
+            <Typography style={appStyles.title}>{screenState==='view'?'Visualizar usuário':(screenState==='edit'?'Editar Usuário':'Criar usuário')}</Typography>
             <SimpleForm
                 mode={screenState}
                 schema={userprofileApi.schema}
@@ -45,7 +46,9 @@ const UserProfileDetail = ({screenState,loading,user,save,history}) => {
                 </FormGroup>
                 <div key={'Buttons'}>
                     <Button
-                        onClick={screenState==='edit'?()=>history.push(`/userprofile/view/${user._id}`):()=>history.push(`/userprofile/list`)}
+                        onClick={screenState==='edit'?()=>history.push(`/userprofile/view/${user._id}`):(
+                            !!viewer?close:()=>history.push(`/userprofile/list`)
+                            )}
                         color={'secondary'} variant="contained">
                         {screenState==='view'?'Voltar':'Cancelar'}
                     </Button>
@@ -57,7 +60,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history}) => {
                         </Button>
                     ):null}
                     {screenState!=='view'?(
-                        <Button color={'primary'} variant="contained" submit>
+                        <Button color={'primary'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ):null}

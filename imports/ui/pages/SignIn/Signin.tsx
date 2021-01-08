@@ -9,6 +9,8 @@ import TextField from '../../../ui/components/SimpleFormFields/TextField/TextFie
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
+import {signinStyle} from "./SigninStyle";
+
 export default class Signin extends React.Component {
   constructor(props) {
     super(props)
@@ -116,8 +118,8 @@ export default class Signin extends React.Component {
       <Container style={{width:'100%',maxWidth:400}}>
         <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
           <div>
-            <h2 style={{textAlign:"center",display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-              <img src="/images/wireframe/logo.png" style={{maxWidth:100}} />
+            <h2 style={signinStyle.labelAccessSystem}>
+              <img src="/images/wireframe/logo.png" style={signinStyle.imageLogo} />
               <div>{'Acessar o sistema'}</div>
             </h2>
             <SimpleForm
@@ -145,7 +147,7 @@ export default class Signin extends React.Component {
                 />
                 <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                   <Button color={'secondary'} onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
-                  <Button variant={'outlined'} color={'primary'} submit>{"Entrar"}</Button>
+                  <Button variant={'outlined'} color={'primary'} submit="true">{"Entrar"}</Button>
                 </div>
 
               </div>

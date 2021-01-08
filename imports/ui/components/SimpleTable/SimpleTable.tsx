@@ -7,6 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
+import {simpleTableStyle} from "./SimpleTableStyle";
+
 interface ISimpleTable {
     schema:object;
     data:object[];
@@ -38,7 +40,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
 
     const renderType = (type:string,data:any) => {
         if(type==='image') {
-            return <img src={data} size='tiny' style={{maxHeight:70,maxWidth:80}} />
+            return <img src={data} size='tiny' style={simpleTableStyle.containerRenderType} />
         } else if(type==='text'||type==='number') {
             return data;
         } else if(type==='html') {
@@ -50,7 +52,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
 
     const cols = Object.keys(schema).map(field=>({field,label:schema[field].label,type:getType(schema[field])}));
 
-    return (<Table>
+    return (<Table style={simpleTableStyle.tableBox}>
                 <TableHead>
                     <TableRow>
                         {cols.map(col=>{
@@ -70,7 +72,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                                 width:col.type==='image'?80:undefined}}>{renderType(col.type,row[col.field])}</TableCell>
                             })}
                             {actions?(
-                                <TableCell style={{textAlign:'center'}}>
+                                <TableCell style={simpleTableStyle.tableCell}>
                                     {actions.map(act=>(
                                         <Button key={act.icon+act.text} onClick={(evt)=>{
                                             evt.preventDefault();
