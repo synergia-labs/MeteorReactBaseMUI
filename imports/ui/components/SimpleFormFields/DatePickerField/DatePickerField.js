@@ -1,5 +1,4 @@
 import React from "react";
-import {hasValue} from "../../../../libs/hasValue";
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
@@ -7,9 +6,6 @@ import {
 } from '@material-ui/pickers';
 
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
-
-import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
