@@ -6,16 +6,21 @@ import {
 } from '@material-ui/pickers';
 
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import {hasValue} from "/imports/libs/hasValue";
+import {datePickerStyle} from "/imports/ui/components/SimpleFormFields/DatePickerField/DatePickerFieldStyles";
+import {Typography} from "@material-ui/core";
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     if(!!readOnly) {
         return (<div key={name}>
-            <SimpleLabelView label={label}/>
-            <SimpleLabelView value={value}/>
+            <SimpleLabelView style={datePickerStyle.labelTitle} label={label}/>
+            <Typography style={datePickerStyle.labelTitle}>
+                {hasValue(value)?value.toLocaleDateString():null}
+            </Typography>
         </div>)
     }
 
-    const handleChange = (date,other) => {
+    const handleChange = (date:Date) => {
         onChange({target:{value:date}});
     }
 
