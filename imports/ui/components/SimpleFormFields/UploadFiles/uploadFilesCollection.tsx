@@ -631,6 +631,9 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
             return null;
         }
 
+        console.log("to aqui");
+
+
         return (
             <div key={this.props.name} style={{...uploadFilesStyle.containerUploadFiles, backgroundColor:this.props.error?'#FFF6F6':undefined}}>
                 <SimpleLabelView label={this.props.label}/>

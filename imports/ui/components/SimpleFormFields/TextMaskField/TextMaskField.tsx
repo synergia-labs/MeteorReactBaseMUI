@@ -109,6 +109,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         </div>)
     }
 
-    return (<TextField key={name} onChange={handleApplyMask} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
+    return (<TextField style={{display:'flex', flexDirection: 'column'}} key={name} onChange={handleApplyMask} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
 
 }
