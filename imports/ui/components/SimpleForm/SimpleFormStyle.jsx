@@ -35,6 +35,9 @@ const simpleFormStyle = {
   containerForm: {
     width:'100%',
     marginLeft:10,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'left',
   },
   containerSubForm: {
     margin:3,
@@ -43,16 +46,18 @@ const simpleFormStyle = {
   },
   containerEmptyItens: {
     color:'#BBB',
-    fontSize: '13px',
+    fontSize: '15px',
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     fontWeight: 400,
     lineHeight: 1,
     letterSpacing: '0.00938em',
+    paddingTop: 10,
   },
   containerAddSubForm: {
     display:'flex',
     flexDirection:'row',
-    justifyContent:'center',
+    justifyContent:'left',
+    paddingLeft: '10px',
   },
   containerChildrenElements: {
     margin:3,

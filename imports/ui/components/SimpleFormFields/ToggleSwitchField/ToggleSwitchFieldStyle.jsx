@@ -16,35 +16,18 @@
 
  import {isMobile} from "/imports/libs/deviceVerify";
 
-const audioRecorderStyle = {
-  containerRecord: {
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    marginTop:16,
-    width:'100%',
-    marginBottom:16,
+const toggleSwitchSyle = {
+  checksList: {
+    color:'#BBB',
+    fontSize: '14px',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: 400,
+    lineHeight: 1,
+    letterSpacing: '0.00938em',
+    paddingTop: 10,
   },
-  subContainerRecord: {
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:isMobile?'center':'left',
-    marginTop:16,
-    width:'100%',
-    marginBottom:16,
-  },
-  buttonOptions: {
-    marginRight:3,
-    maxHeight:40,
-  },
-  audioOptions:{
-    maxWidth: isMobile? '182px':'200px',
-    marginRight:3,
-    maxHeight:40,
-    paddingLeft: isMobile?5:15,
-  }
 };
 
 export {
-    audioRecorderStyle,
+    toggleSwitchSyle,
 };

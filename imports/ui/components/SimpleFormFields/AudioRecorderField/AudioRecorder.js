@@ -95,8 +95,8 @@ export default ({name,label,value,onChange,readOnly,error})=>{
           <Fab color="secondary" aria-label="play" className="delete" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
               <DeleteIcon onClick={deleteAudio} />
           </Fab>
+          <audio src={value} controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.audioOptions}/>
         </div>
-        <audio src={value} controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
       </div>
     )
 }

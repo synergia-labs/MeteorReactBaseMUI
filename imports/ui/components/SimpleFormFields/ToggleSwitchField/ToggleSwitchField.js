@@ -6,6 +6,8 @@ import {hasValue} from "/imports/libs/hasValue";
 import Checkbox from "@material-ui/core/Checkbox";
 import _ from "lodash";
 
+import {toggleSwitchSyle} from "./ToggleSwitchFieldStyle";
+
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     const [loadRender, setLoadRender] = useState(0);
 
@@ -34,7 +36,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
             {otherProps&&hasValue(otherProps.checksList)?
                 <div>
                     {otherProps.checksList.map((itemCheck) => {
-                        return <FormControlLabel control={<Checkbox checked={!!value[itemCheck]} name={itemCheck} onChange={(event) => handleChangeCheck(event, itemCheck)}/>}
+                        return <FormControlLabel style={toggleSwitchSyle.checksList}  control={<Checkbox checked={!!value[itemCheck]} name={itemCheck} onChange={(event) => handleChangeCheck(event, itemCheck)}/>}
                                                  key={itemCheck}
                                                  value={value}
                                                  id={itemCheck}
@@ -44,7 +46,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
                     })}
                 </div>
                 :
-                <FormControlLabel control={<Switch checked={!!value[name]} onChange={handleChangeSwitch} name={name}/>}
+                <FormControlLabel style={toggleSwitchSyle.checksList}  control={<Switch checked={!!value[name]} onChange={handleChangeSwitch} name={name}/>}
                                   key={name}
                                   value={value}
                                   id={name}

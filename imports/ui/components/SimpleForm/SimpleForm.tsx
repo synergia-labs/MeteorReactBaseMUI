@@ -226,6 +226,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                     })}
 
                 </ReactSortable>
+            <div style={simpleFormStyle.containerItens}>
                 {!value||value.length===0||Object.keys(value[0]).length===0?(
                     <div style={simpleFormStyle.containerEmptyItens}>{'Não há itens'}</div>
                 ):null}
@@ -237,7 +238,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                   <Add/>
                 </Fab>
             </div>):null}
-
+          </div>
         </div>
     );
 }

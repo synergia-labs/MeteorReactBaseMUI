@@ -104,7 +104,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         />
                     </FormGroup>
 
-                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left'}}>
                     <Button
                         key={'b1'}
                         style={{marginRight: 10}}
