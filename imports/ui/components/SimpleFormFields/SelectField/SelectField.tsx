@@ -10,7 +10,7 @@ import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueV
 
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     if(!!readOnly) {
             const objValue = hasValue(value)?otherProps.options.find(object=>(object.value===value||object===value) ):undefined;
         return (<div key={name}>

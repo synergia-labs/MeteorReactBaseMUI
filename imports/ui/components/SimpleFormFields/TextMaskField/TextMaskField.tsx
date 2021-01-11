@@ -10,7 +10,7 @@ import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueV
 
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
 
   const [values, setValues] = React.useState({ textmasked: '' });
 

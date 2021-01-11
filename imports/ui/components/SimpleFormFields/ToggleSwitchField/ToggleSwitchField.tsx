@@ -8,7 +8,7 @@ import _ from "lodash";
 
 import {toggleSwitchSyle} from "./ToggleSwitchFieldStyle";
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     const [loadRender, setLoadRender] = useState(0);
 
 

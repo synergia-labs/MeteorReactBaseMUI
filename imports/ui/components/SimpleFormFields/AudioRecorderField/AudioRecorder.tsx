@@ -9,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
-export default ({name,label,value,onChange,readOnly,error})=>{
+export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
   const [values, setValues] = React.useState({ recordButton: true});
 
