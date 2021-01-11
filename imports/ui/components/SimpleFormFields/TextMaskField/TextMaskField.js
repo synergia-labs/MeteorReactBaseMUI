@@ -1,14 +1,6 @@
 import React from "react";
-import {hasValue} from "../../../../libs/hasValue";
 import TextField from '@material-ui/core/TextField';
-
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
-
-import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
 
@@ -105,7 +97,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
             <SimpleLabelView label={label}/>
-            <SimpleValueView value={(value+'')}/>
+            <div style={{marginTop: '0.5rem', marginBottom:'1rem'}}>{value}</div>
         </div>)
     }
 
