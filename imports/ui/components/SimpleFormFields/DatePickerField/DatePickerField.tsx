@@ -1,24 +1,26 @@
 import React from "react";
-import {hasValue} from "../../../../libs/hasValue";
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import {hasValue} from "/imports/libs/hasValue";
+import {datePickerStyle} from "/imports/ui/components/SimpleFormFields/DatePickerField/DatePickerFieldStyles";
+import {Typography} from "@material-ui/core";
 
-
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     if(!!readOnly) {
         return (<div key={name}>
-            <SimpleLabelView label={label}/>
-            <div style={{color:'#222',padding:5,height:35,marginTop:4,marginBottom:8}}>
+            <SimpleLabelView style={datePickerStyle.labelTitle} label={label}/>
+            <Typography style={datePickerStyle.labelTitle}>
                 {hasValue(value)?value.toLocaleDateString():null}
-            </div>
+            </Typography>
         </div>)
     }
 
-    const handleChange = (date,other) => {
+    const handleChange = (date:Date) => {
         onChange({target:{value:date}});
     }
 

@@ -8,11 +8,17 @@ import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
+import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleSwitchField/ToggleSwitchField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
+import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
+import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
+
+import Typography from '@material-ui/core/Typography';
+import {appStyles} from "/imports/ui/theme/styles";
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
@@ -32,7 +38,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
 
     return (
         <Container>
-            <h1>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</h1>
+            <Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -54,7 +60,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
-                <FormGroup key={'fieldsTwo'}>
+                <GoogleApiWrapper
+                    name={'address'}
+                />
+                <FormGroup key={'fields'}>
                     <SelectField
                         placeholder='Tipo'
                         options={[
@@ -90,6 +99,20 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+
+                <ToggleSwitch
+                    placeholder='Status da Tarefa'
+                    name='status'
+                    checksList = {['Todo', 'Doing', 'Done']}
+                />
+
+                <FormGroup key={'fields'}>
+                    <AudioRecorder
+                        placeholder='Áudio'
+                        name='audio'
+                    />
+                </FormGroup>
+
                 <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}

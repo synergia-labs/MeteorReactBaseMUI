@@ -8,11 +8,13 @@ import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
 
 import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
 
-
+import Typography from '@material-ui/core/Typography';
+import {appStyles} from "/imports/ui/theme/styles";
 
 interface IExampleList {
     examples:object[];
@@ -81,10 +83,9 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     }
 
-
     return (
         <Container>
-            <h1>{'Lista de Exemplos'}</h1>
+            <Typography style={appStyles.title}>{'Lista de Exemplos'}</Typography>
             <TextField value={text} onChange={change} onKeyPress={keyPress}  placeholder='Pesquisar...'
                    action={{ icon: 'search',onClick:click }}
             />
@@ -94,12 +95,12 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 onClick={onClick}
                 actions={[{icon:<Delete />,onClick:callRemove}]}
             />
-            <div style={{position:'fixed',bottom:30,right:30}}>
+            <div style={appStyles.containerList}>
                 <Button
                     onClick={()=>history.push('/example/create')}
                     color={'prmary'}>
                     +
-                </Button>
+                </Fab>
             </div>
         </Container>
         )
@@ -121,7 +122,7 @@ export const subscribeConfig = new ReactiveVar({
 const exampleSearch = initSearch(
     exampleApi, // API
     subscribeConfig, // ReactiveVar subscribe configurations
-    ['title','description'], // list of fields
+    ['title','description', 'status'], // list of fields
 );
 
 

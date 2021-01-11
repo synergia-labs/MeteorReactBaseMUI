@@ -5,9 +5,11 @@ import PropTypes from 'prop-types'
 import { Link, Redirect } from 'react-router-dom'
 import { Meteor } from 'meteor/meteor'
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
+import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';;
 import Button from '@material-ui/core/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
+
+import {signinStyle} from "./SigninStyle";
 
 export default class Signin extends React.Component {
   constructor(props) {
@@ -110,14 +112,14 @@ export default class Signin extends React.Component {
       Meteor.loginWithGoogle({requestPermissions: ['profile', 'email']}, (err) => {
         callbackLogin(err);
       });
-    };    
+    };
 
     return (
       <Container style={{width:'100%',maxWidth:400}}>
         <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
           <div>
-            <h2 style={{textAlign:"center",display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-              <img src="/images/wireframe/logo.png" style={{maxWidth:100}} />
+            <h2 style={signinStyle.labelAccessSystem}>
+              <img src="/images/wireframe/logo.png" style={signinStyle.imageLogo} />
               <div>{'Acessar o sistema'}</div>
             </h2>
             <SimpleForm
@@ -144,15 +146,14 @@ export default class Signin extends React.Component {
                   type="password"
                 />
                 <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                  <Button onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
-                  <Button variant={'outlined'} submit>{"Entrar"}</Button>
+                  <Button color={'secondary'} onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
+                  <Button variant={'outlined'} color={'primary'} submit="true">{"Entrar"}</Button>
                 </div>
 
               </div>
             </SimpleForm>
-            <div style={{marginTop:15}}>
-              <Button onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
-
+            <div style={signinStyle.containerRouterSignUp}>
+              <Button color={'secondary'} onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
             </div>
             <div key="loginoptions" style={{
               paddingRight: 5,

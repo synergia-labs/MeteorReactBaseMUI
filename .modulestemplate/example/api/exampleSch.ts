@@ -19,6 +19,18 @@ export const exampleSch = {
     defaultValue: '',
     optional: true,
   },
+  type: {
+    type: String,
+    label: 'Tipo',
+    defaultValue: '',
+    optional: true,
+  },
+  date: {
+    type: Date,
+    label: 'Data',
+    defaultValue: '',
+    optional: true,
+  },
   files: {
     type: [Object],
     label: 'Arquivos',
@@ -65,7 +77,13 @@ export const exampleSch = {
         optional: true,
       },
     }
-  }
+  },
+  audio: {
+    type: String,
+    label: 'Áudio',
+    defaultValue: '',
+    optional: true,
+  },
 };
 
 export interface IExample {

@@ -5,29 +5,37 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { BrowserRouter as Router,withRouter, NavLink } from 'react-router-dom'
 import AppNavBar from "./AppNavBar";
 import AppRouterSwitch from "./AppRouterSwitch";
+import {isMobile} from "/imports/libs/deviceVerify";
+
+import {appLayoutMenuStyle} from "./AppLayoutFixedMenuStyle";
 
 const HomeIconButton = withRouter((props)=>{
-    return <NavLink to={'/'}><div style={{
-        width:60,height:40,display:'flex',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-        <img style={{maxHeight:45}} src='/images/wireframe/logo.png' />
+    return <NavLink to={'/'}><div style={appLayoutMenuStyle.containerHomeIconButton}>
+        <img style={appLayoutMenuStyle.homeIconButton} src='/images/wireframe/logo.png' />
     </div></NavLink>
 })
 
 const FixedMenuLayout = (props) => (
     <Router>
-        <AppBar position="static">
-            <div style={{display:'flex',flexDirection:'row',width:'100%',alignItems:'center'}}>
-             <HomeIconButton />
-            <Toolbar style={{width:'100%'}}>
-                    <AppNavBar {...props} />
-            </Toolbar>
-            </div>
-        </AppBar>
-        <div style={{
-            display:'flex',flexDirection:'column',alignItems:'center',
-            overflowY:'auto',
-            width:'100%',height:'calc(100% - 47px)',margin:0,padding:4 }}>
+        <div style={appLayoutMenuStyle.containerAppRouter}>
+        {!isMobile?(
+            <AppBar position="static">
+                <div style={appLayoutMenuStyle.containerFixedMenu}>
+                    <HomeIconButton />
+                    <Toolbar style={appLayoutMenuStyle.toolbarFixedMenu}>
+                        <AppNavBar {...props} />
+                    </Toolbar>
+                </div>
+            </AppBar>
+        ):null}
+        <div style={appLayoutMenuStyle.routerSwitch}>
             <AppRouterSwitch {...props} />
+        </div>
+        {isMobile?(
+            <div style={{minHeight:55,width:'100%',backgroundColor:props.theme.palette.primary.main}}>
+           <AppNavBar {...props} />
+            </div>
+        ):null}
         </div>
     </Router>
 )
