@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import {hasValue} from "/imports/libs/hasValue";
 import Checkbox from "@material-ui/core/Checkbox";
 import _ from "lodash";
+import styles from './ToggleFieldStyle'
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     const [loadRender, setLoadRender] = useState(0);
 
 
-    const handleChangeCheck = (event, itemCheck) => {
+    const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string) => {
         if(!readOnly){
             const newValue = typeof(value) === 'object' ? value : {}
             newValue[itemCheck]= event.target.checked
@@ -19,7 +20,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
         }
     }
 
-    const handleChangeSwitch = (event) => {
+    const handleChangeSwitch = (event:React.BaseSyntheticEvent) => {
         if(!readOnly){
             const value = {}
             value[name] = event.target.checked
@@ -28,7 +29,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     }
 
     return (
-        <div style={{border: !!error? '1px solid red' : undefined }}>
+        <div style={error?styles.fieldError:undefined}>
             <SimpleLabelView label={label}/>
 
             {otherProps&&hasValue(otherProps.checksList)?

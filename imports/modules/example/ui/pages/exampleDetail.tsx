@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
-import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleSwitchField/ToggleSwitchField';
+import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';

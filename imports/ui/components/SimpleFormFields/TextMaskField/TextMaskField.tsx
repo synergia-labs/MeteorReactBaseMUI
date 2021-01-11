@@ -82,7 +82,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
   const handleApplyMask = (event:React.BaseSyntheticEvent) => {
 
-      const mask = otherProps.schema.subSchema[name] ? otherProps.schema.subSchema[name].mask : undefined;
+      const mask = otherProps.schema&&otherProps.schema.subSchema[name] ? otherProps.schema.subSchema[name].mask : undefined;
 
       if (!!mask) {
           const inputValue = applyMask(event.target.value, mask);
