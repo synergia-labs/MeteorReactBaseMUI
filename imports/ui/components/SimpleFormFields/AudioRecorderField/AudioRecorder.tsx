@@ -13,20 +13,20 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
   const [values, setValues] = React.useState({ recordButton: true});
 
-  let recorder = null;
+  let recorder:any = null;
 
   const deleteAudio = () => {
       onChange({},{name,value: '-'})
   }
 
-  const onSuccess = (stream) => {
+  const onSuccess = (stream:any) => {
     recorder = new MediaRecorder(stream, {
         type: 'audio/ogg; codecs=opus'
     });
 
     recorder.start(); // Starting the record
 
-    recorder.ondataavailable = (e) => {
+    recorder.ondataavailable = (e:any) => {
         // Converting audio blob to base64
         let reader = new FileReader()
         reader.onloadend = () => {
@@ -38,7 +38,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     }
   };
 
-  const handleRecordAudio = (event) => {
+  const handleRecordAudio = () => {
 
     setValues({
       ...values,
@@ -66,7 +66,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     }
   };
 
-  const handleStopRecordAudio = (event) => {
+  const handleStopRecordAudio = () => {
     setValues({
       ...values,
       ['recordButton']: !values.recordButton});
@@ -82,7 +82,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     }
 
     return (
-      <div key={name} style={audioRecorderStyle.containerRecord}>
+  <div key={name} style={error? audioRecorderStyle.containerRecordError :audioRecorderStyle.containerRecord}>
         <SimpleLabelView label={label}/>
         <div key={name} style={audioRecorderStyle.subContainerRecord}>
           <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>

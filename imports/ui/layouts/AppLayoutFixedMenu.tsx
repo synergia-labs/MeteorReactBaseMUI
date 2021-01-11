@@ -17,7 +17,7 @@ const HomeIconButton = withRouter((props)=>{
 
 const FixedMenuLayout = (props) => (
     <Router>
-        <div style={appLayoutMenuStyle.containerFixedMenuRouter}>
+        <div style={appLayoutMenuStyle.containerAppRouter}>
         {!isMobile?(
             <AppBar position="static">
                 <div style={appLayoutMenuStyle.containerFixedMenu}>
@@ -28,7 +28,7 @@ const FixedMenuLayout = (props) => (
                 </div>
             </AppBar>
         ):null}
-        <div style={appLayoutMenuStyle.containerAppRouter}>
+        <div style={appLayoutMenuStyle.routerSwitch}>
             <AppRouterSwitch {...props} />
         </div>
         {isMobile?(

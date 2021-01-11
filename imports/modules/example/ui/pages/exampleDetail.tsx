@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
-import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleSwitchField/ToggleSwitchField';
+import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
@@ -47,7 +47,6 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 onSubmit={handleSubmit}
                 loading={loading}
             >
-
                 <SimpleImageUploadBase64
                     label={'Imagem'}
                     name={'image'}
@@ -101,26 +100,24 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+
+                <ToggleSwitch
+                    placeholder='Status da Tarefa'
+                    name='status'
+                    checksList = {['Todo', 'Doing', 'Done']}
+                />
+
                 <FormGroup key={'fields'}>
                     <AudioRecorder
                         placeholder='Áudio'
                         name='audio'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'}>
-                  <ToggleSwitch
-                      placeholder='Status da Tarefa'
-                      name='status'
-                      checksList = {['Todo', 'Doing', 'Done']}
-                  />
-                </FormGroup>
-                <FormGroup key={'fields'}>
-                  <UploadFilesCollection
-                      name='files'
-                      label={'Arquivos'}
-                      doc={exampleDoc}/>
-                </FormGroup>
 
+                <UploadFilesCollection
+                    name='files'
+                    label={'Arquivos'}
+                    doc={exampleDoc}/>
                 <FormGroup key={'fieldsFive'} name={'chips'}>
                     <ChipInput
                         name="chip"

@@ -57,12 +57,12 @@ export const exampleSch = {
         optional: false,
         mask : '(##) ####-####',
       },
-      celphone: {
+      cpf: {
         type: String,
-        label: 'Celular',
+        label: 'CPF',
         defaultValue: '',
         optional: false,
-        mask : '(##) # ####-####',
+        mask : '###.###.###-##',
       },
     }
   },

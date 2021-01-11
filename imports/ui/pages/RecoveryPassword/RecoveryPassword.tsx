@@ -68,10 +68,9 @@ export default class RecoveryPassword extends React.Component {
                   placeholder="Digite seu email"
 
                 />
-
               <div style={recoveryPasswordStyle.containerButtonOptions}>
                 <Button color={'secondary'} onClick={()=>this.props.history.push('/signin')}>{"Voltar"}</Button>
-                <Button color={'primary'} variant={'outlined'} submit>{"Recuperar a senha"}</Button>
+                <Button color={'primary'} variant={'outlined'} submit="true">{"Recuperar a senha"}</Button>
               </div>
             </SimpleForm>
       </Container>

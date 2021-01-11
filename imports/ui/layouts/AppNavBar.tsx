@@ -11,8 +11,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {appNavBarStyle} from "./AppNavBarStyle";
 
-import {appNavBarStyle} from "./AppNavBarStyle";
-
 const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -89,7 +87,6 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                         {menuData.name}
                         </Button>
                     )
-
                   })
               }
             </Tabs>

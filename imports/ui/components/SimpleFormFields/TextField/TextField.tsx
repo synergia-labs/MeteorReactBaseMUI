@@ -3,8 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
 
-import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
-
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     if(!!readOnly) {
         return (<div key={name}>
