@@ -1,12 +1,11 @@
 import React from "react";
 import TextField from '@material-ui/core/TextField';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import styles from './TextMaskFieldStyle'
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
 
-  const [values, setValues] = React.useState({ textmasked: '' });
-
-  const applyMask = (inputValue, mask) => {
+  const applyMask = (inputValue:string, mask:string) => {
     let text = '';
     const data = inputValue;
     let c;
@@ -81,7 +80,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     return text;
   }
 
-  const handleApplyMask = (event) => {
+  const handleApplyMask = (event:React.BaseSyntheticEvent) => {
 
       const mask = otherProps.schema.subSchema[name] ? otherProps.schema.subSchema[name].mask : undefined;
 
@@ -97,7 +96,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps})=>{
     if(!!readOnly) {
         return (<div key={name}>
             <SimpleLabelView label={label}/>
-            <div style={{marginTop: '0.5rem', marginBottom:'1rem'}}>{value}</div>
+            <div style={styles.labelValue}>{value}</div>
         </div>)
     }
 
