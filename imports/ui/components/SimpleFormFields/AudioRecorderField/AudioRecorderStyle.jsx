@@ -23,6 +23,15 @@ const audioRecorderStyle = {
     width:'100%',
     marginBottom:16
   },
+  containerRecordError:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'left',
+    marginTop:16,
+    width:'100%',
+    marginBottom:16,
+    border:'1px solid red'
+  },
   buttonOptions: {
     marginRight:3,
     maxHeight:40,

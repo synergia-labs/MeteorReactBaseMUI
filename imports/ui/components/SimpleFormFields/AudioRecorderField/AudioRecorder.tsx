@@ -9,24 +9,24 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
-export default ({name,label,value,onChange,readOnly,error})=>{
+export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
   const [values, setValues] = React.useState({ recordButton: true});
 
-  let recorder = null;
+  let recorder:any = null;
 
   const deleteAudio = () => {
       onChange({},{name,value: '-'})
   }
 
-  const onSuccess = (stream) => {
+  const onSuccess = (stream:any) => {
     recorder = new MediaRecorder(stream, {
         type: 'audio/ogg; codecs=opus'
     });
 
     recorder.start(); // Starting the record
 
-    recorder.ondataavailable = (e) => {
+    recorder.ondataavailable = (e:any) => {
         // Converting audio blob to base64
         let reader = new FileReader()
         reader.onloadend = () => {
@@ -38,7 +38,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
     }
   };
 
-  const handleRecordAudio = (event) => {
+  const handleRecordAudio = () => {
 
     setValues({
       ...values,
@@ -66,7 +66,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
     }
   };
 
-  const handleStopRecordAudio = (event) => {
+  const handleStopRecordAudio = () => {
     setValues({
       ...values,
       ['recordButton']: !values.recordButton});
@@ -82,7 +82,7 @@ export default ({name,label,value,onChange,readOnly,error})=>{
     }
 
     return (
-      <div key={name} style={audioRecorderStyle.containerRecord}>
+      <div key={name} style={error? audioRecorderStyle.containerRecordError :audioRecorderStyle.containerRecord}>
         <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
             <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
         </Fab>
