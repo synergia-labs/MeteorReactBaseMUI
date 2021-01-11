@@ -97,6 +97,12 @@ export const exampleSch = {
     label: 'Status',
     defaultValue: '',
     optional: false,
+  },
+  address: {
+    type: Object,
+    label: 'Localização',
+    defaultValue: '',
+    optional: true,
   }
 };
 

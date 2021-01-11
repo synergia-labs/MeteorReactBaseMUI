@@ -11,6 +11,8 @@ import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleSwitc
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
+import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
+import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 import TextMaskField from "/imports/ui/components/SimpleFormFields/TextMaskField/TextMaskField";
@@ -45,6 +47,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 onSubmit={handleSubmit}
                 loading={loading}
             >
+
                 <SimpleImageUploadBase64
                     label={'Imagem'}
                     name={'image'}
@@ -59,6 +62,9 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+                <GoogleApiWrapper
+                    name={'address'}
+                />
                 <FormGroup key={'fieldsTwo'}>
                     <SelectField
                         placeholder='Tipo'
