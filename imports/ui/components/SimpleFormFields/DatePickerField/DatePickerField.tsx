@@ -10,12 +10,31 @@ import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelV
 import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
 
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
+import {simpleValueStyle} from "/imports/ui/components/SimpleValueView/SimpleValueViewStyle";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     if(!!readOnly) {
         return (<div key={name}>
             <SimpleLabelView label={label}/>
-            <SimpleLabelView value={value}/>
+            <MuiPickersUtilsProvider key={name} utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                  autoOk
+                  variant="inline"
+                  format="dd/MM/yyyy"
+                  margin="normal"
+                  key={name}
+                  id={name}
+                  value={value}
+                  disabled={!!readOnly}
+                  KeyboardButtonProps={{
+                      'aria-label': label,
+                  }}
+                  InputAdornmentProps={{ position: "start", ...simpleValueStyle.displayValue }}
+
+                  {...otherProps}
+
+              />
+            </MuiPickersUtilsProvider>
         </div>)
     }
 

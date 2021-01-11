@@ -4,7 +4,7 @@ export default styles = {
         flexWrap: 'wrap',
         flexDirection: 'column',
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'left',
     },
     formContainer:{
         width: '100%',
