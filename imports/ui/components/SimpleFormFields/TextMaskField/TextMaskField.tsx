@@ -94,10 +94,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
   }
 
     if(!!readOnly) {
-        return (<div key={name}>
-            <SimpleLabelView label={label}/>
-            <div style={styles.labelValue}>{value}</div>
-        </div>)
+        return <SimpleLabelView value={value} label={label}/>
     }
 
     return (<TextField key={name} onChange={handleApplyMask} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);

@@ -13,10 +13,7 @@ import {Typography} from "@material-ui/core";
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     if(!!readOnly) {
         return (<div key={name}>
-            <SimpleLabelView style={datePickerStyle.labelTitle} label={label}/>
-            <Typography style={datePickerStyle.labelTitle}>
-                {hasValue(value)?value.toLocaleDateString():null}
-            </Typography>
+            <SimpleLabelView  value={hasValue(value)?value.toLocaleDateString():undefined} label={label}/>
         </div>)
     }
 
