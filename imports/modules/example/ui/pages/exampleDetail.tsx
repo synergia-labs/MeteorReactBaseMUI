@@ -107,16 +107,20 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='audio'
                     />
                 </FormGroup>
-                <ToggleSwitch
-                    placeholder='Status da Tarefa'
-                    name='status'
-                    checksList = {['Todo', 'Doing', 'Done']}
-                />
+                <FormGroup key={'fields'}>
+                  <ToggleSwitch
+                      placeholder='Status da Tarefa'
+                      name='status'
+                      checksList = {['Todo', 'Doing', 'Done']}
+                  />
+                </FormGroup>
+                <FormGroup key={'fields'}>
+                  <UploadFilesCollection
+                      name='files'
+                      label={'Arquivos'}
+                      doc={exampleDoc}/>
+                </FormGroup>
 
-                <UploadFilesCollection
-                    name='files'
-                    label={'Arquivos'}
-                    doc={exampleDoc}/>
                 <FormGroup key={'fieldsFive'} name={'chips'}>
                     <ChipInput
                         name="chip"

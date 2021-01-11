@@ -23,6 +23,8 @@ const simpleLabelStyle = {
     fontWeight: 400,
     lineHeight: 1,
     letterSpacing: '0.00938em',
+    paddingTop: 15,
+    paddingBottom:10,
   },
 };
 
