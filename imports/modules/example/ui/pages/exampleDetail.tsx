@@ -84,9 +84,9 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='phone'
                     />
                     <TextMaskField
-                        placeholder='Celular'
+                        placeholder='CPF'
                         schema={exampleApi.schema.contacts}
-                        name='celphone'
+                        name='cpf'
                     />
                 </FormGroup>
                 <FormGroup key={'fieldsFour'} formType={'subformArray'} name={'tasks'}>
