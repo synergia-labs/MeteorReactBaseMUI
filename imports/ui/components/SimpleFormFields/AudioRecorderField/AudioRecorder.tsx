@@ -16,7 +16,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
   let recorder:any = null;
 
   const deleteAudio = () => {
-      onChange({},{name,value: '-'})
+      onChange({},{name,value: ''})
   }
 
   const onSuccess = (stream:any) => {
