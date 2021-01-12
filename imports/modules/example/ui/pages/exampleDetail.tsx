@@ -81,12 +81,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <FormGroup key={'fieldsThree'} formType={'subform'} name={'contacts'}>
                     <TextMaskField
                         placeholder='Telefone'
-                        schema={exampleApi.schema.contacts}
                         name='phone'
                     />
                     <TextMaskField
                         placeholder='CPF'
-                        schema={exampleApi.schema.contacts}
                         name='cpf'
                     />
                 </FormGroup>
