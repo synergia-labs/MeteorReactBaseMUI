@@ -8,7 +8,8 @@ import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
-import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
+import ToggleSwitchField from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
+import CheckBoxField from '../../../../ui/components/SimpleFormFields/CheckBoxField/CheckBoxField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
@@ -100,9 +101,14 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     />
                 </FormGroup>
 
-                <ToggleSwitch
+                <ToggleSwitchField
                     placeholder='Status da Tarefa'
-                    name='status'
+                    name='statusToggle'
+                />
+
+                <CheckBoxField
+                    placeholder='Status da Tarefa'
+                    name='statusCheck'
                     checksList = {['Todo', 'Doing', 'Done']}
                 />
 
