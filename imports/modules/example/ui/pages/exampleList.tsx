@@ -46,13 +46,16 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
             content:()=><p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
             actions:({closeDialog})=>[
                 <Button
+                    color={'secondary'}
                     onClick={closeDialog}
-                    secondary>{'Não'}</Button>,
-                <Button onClick={()=>{
-                    remove(doc);
-                    closeDialog();
+                >{'Não'}</Button>,
+                <Button
+                    onClick={()=>{
+                            remove(doc);
+                            closeDialog();
+
                     }}
-                    primary>{'Sim'}</Button>,
+                    color={'primary'}>{'Sim'}</Button>,
             ]
         };
         showDialog(dialogOptions)

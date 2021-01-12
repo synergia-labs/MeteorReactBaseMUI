@@ -4,11 +4,8 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
-
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import {hasValue} from "/imports/libs/hasValue";
-import {datePickerStyle} from "/imports/ui/components/SimpleFormFields/DatePickerField/DatePickerFieldStyles";
-import {Typography} from "@material-ui/core";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     if(!!readOnly) {
@@ -30,6 +27,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                 margin="normal"
                 key={name}
                 id={name}
+                error={!!error}
                 label={label}
                 value={value}
                 helperText={!!error?'Data inválida':undefined}
