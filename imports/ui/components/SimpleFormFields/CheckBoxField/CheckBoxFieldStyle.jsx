@@ -14,12 +14,12 @@
 
  */
 
-const toggleSwitchStyle = {
+const checkBoxStyle = {
     fieldError: {
       border:  '1px solid red'
     },
 };
 
 export {
-    toggleSwitchStyle,
+    checkBoxStyle,
 };

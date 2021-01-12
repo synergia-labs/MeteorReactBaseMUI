@@ -98,10 +98,16 @@ export const exampleSch = {
     defaultValue: '',
     optional: true,
   },
-  status: {
+  statusCheck: {
     type: Object,
-    label: 'Status',
+    label: 'Status CheckBox',
     defaultValue: '',
+    optional: false,
+  },
+  statusToggle: {
+    type: Boolean,
+    label: 'Status Toogle',
+    defaultValue: false,
     optional: false,
   }
 };
