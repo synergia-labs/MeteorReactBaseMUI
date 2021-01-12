@@ -1,12 +1,12 @@
 import { useTracker } from 'meteor/react-meteor-data'
 import {userprofileApi} from "../userprofile/api/UserProfileApi";
 import {Meteor} from "meteor/meteor";
-import {Store, get, set, del} from 'idb-keyval';
+import {createStore, get, set, del} from 'idb-keyval';
 import {stringify, parse} from 'zipson';
 import settings from "/settings.json";
 import {ReactiveVar} from 'meteor/reactive-var';
 
-const accountStore = new Store(settings.name + '_UserAccount' , 'store');
+const accountStore = new createStore(settings.name + '_UserAccount' , 'store');
 const cachedUser = new ReactiveVar(null);
 
 export const cleanUserCache = () =>del('userId', accountStore);
