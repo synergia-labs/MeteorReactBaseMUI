@@ -450,10 +450,11 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                 }}
                  {...getRootProps()}>
                 <input {...getInputProps()} />
-                <CloudUpload/> {'Solte um arquivo aqui'}
-
+                <div style={{display:'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                <CloudUpload style={{paddingRight: 10}}/>
                 {isDragReject? 'Arquivo não permitido!' :
-                    isDragActive ? 'Arquivo permitido!' : 'Clique aqui para adicionar uma arquivo'}
+                    isDragActive ? 'Arquivo permitido!' : ' Solte um arquivo ou clique aqui para adicionar um arquivo'}
+                </div>
             </div>
         );
     };
