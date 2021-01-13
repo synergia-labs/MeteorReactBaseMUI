@@ -1,6 +1,7 @@
 const simpleLabelStyle = {
   container: {
-    marginBottom:'1rem'
+    marginBottom:'1rem',
+    paddingTop:15,
   },
   displayLabel: {
     color: 'rgba(0,0,0,0.54)',
@@ -10,7 +11,6 @@ const simpleLabelStyle = {
     fontWeight: 400,
     lineHeight: 1,
     letterSpacing: '0.00938em',
-    paddingTop: 15,
     paddingBottom:10,
   },
   displayValue: {

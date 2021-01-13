@@ -24,6 +24,8 @@ const mapsFieldStyles = {
       width: '100%',
       height: 400,
       padding: 0,
+      paddingTop: 15,
+      paddingBottom: 10,
       margin: 0,
       flexWrap: 'nowrap',
   },

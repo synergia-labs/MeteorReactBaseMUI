@@ -120,7 +120,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button key={'b3'} color={'primary'} variant="contained" submit="true">
+                        <Button key={'b3'} color={'#5a9902'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ) : null}

@@ -22,7 +22,7 @@ const primaryColor = '#5a9902';
 const secondaryColor = '#39a6fc';
 
 //Pages
-const titleTextColor = '#FFFFFF';
+const titleTextColor = '#000000';
 const titleSecondaryTextColor = '#ffffff';
 const title = {
     color:titleTextColor,

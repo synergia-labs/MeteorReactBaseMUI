@@ -18,7 +18,6 @@ const simpleImageStyle = {
   containerImage: {
     display:'flex',
     flexDirection:'column',
-    marginBottom:16,
   },
   containerShowImage: {
     maxWidth:360,
@@ -26,7 +25,6 @@ const simpleImageStyle = {
   },
   selectImage: {
     cursor:'pointer',
-    marginTop: 10,
     fontSize: '12px',
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     fontWeight: 400,

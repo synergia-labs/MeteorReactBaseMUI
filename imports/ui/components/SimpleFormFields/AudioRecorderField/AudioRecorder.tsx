@@ -10,6 +10,8 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
   const [values, setValues] = React.useState({ recordButton: true, audioButton: false, deleteButton: false});
@@ -86,6 +88,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
     return (
       <div key={name} style={error? audioRecorderStyle.containerRecordError :audioRecorderStyle.containerRecord}>
+        <SimpleLabelView label={label}/>
       {!values.audioButton ?
         <div>
           <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
