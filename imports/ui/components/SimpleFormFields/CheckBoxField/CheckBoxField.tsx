@@ -19,7 +19,7 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
     }
 
     const list = otherProps.checksList&&hasValue(otherProps.checksList)?otherProps.checksList:(schema&&hasValue(schema.checksList)?schema.checksList:null);
-    console.log('LIST>>>>',list);
+
     return (
         <div style={error?checkBoxStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
