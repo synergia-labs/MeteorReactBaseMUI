@@ -75,9 +75,18 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                 </div>
                 : null
             }
+            <div>
+              {hasValue(value)&& value.map((chip:string) => {
+                  return <Chip
+                      variant="outlined"
+                      label={chip}
+                      color={'primary'}
+                      style={styles.chip}
+                      onDelete={readOnly? undefined : ()=> handleDelete(chip)}
+                      {..._.omit(otherProps,['disabled','checked'])}
+                  />
+              })}
+            </div>
         </div>
     )
 }
-/*
-InputProps={ startAdornment:  }
-*/
