@@ -43,25 +43,40 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
             <SimpleLabelView style={styles.title} label={label}/>
             {!readOnly?
                 <div style={styles.input}>
-                    <TextField value={chipText} onChange={handleOnChange}/>
+                    <TextField
+                      placeholder={"ChipInput"}
+                      value={chipText}
+                      onChange={handleOnChange}
+                      style={styles.input}
+                      multiline
+                      onKeyDown={e => {
+                        if (e.keyCode === 13 && e.target.value) {
+                          handleInsert(chipText);
+                        }
+                      }}
+                      InputProps={{
+                        startAdornment: hasValue(value)&& value.map((chip:string) => {
+                            return <Chip
+                                variant="outlined"
+                                label={chip}
+                                color={'primary'}
+                                style={styles.chip}
+                                onDelete={readOnly? undefined : ()=> handleDelete(chip)}
+                                {..._.omit(otherProps,['disabled','checked'])}
+                            />
+                        }),
+                      }}
+
+                    />
                     <IconButton onClick={()=>handleInsert(chipText)}>
                         <Check color={'primary'}/>
                     </IconButton>
                 </div>
                 : null
             }
-            <div>
-                {hasValue(value)&& value.map((chip:string) => {
-                    return <Chip
-                        variant="outlined"
-                        label={chip}
-                        color={'primary'}
-                        style={styles.chip}
-                        onDelete={readOnly? undefined : ()=> handleDelete(chip)}
-                        {..._.omit(otherProps,['disabled','checked'])}
-                    />
-                })}
-            </div>
         </div>
     )
 }
+/*
+InputProps={ startAdornment:  }
+*/
