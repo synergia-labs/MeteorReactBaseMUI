@@ -103,6 +103,7 @@ export const exampleSch = {
     label: 'Status CheckBox',
     defaultValue: '',
     optional: false,
+    checksList: ['Todo', 'Doing', 'Done'],
     validate: (value) => {
       const statusTrue = value&&Object.keys(value).filter( status => {
         if(value[status]){

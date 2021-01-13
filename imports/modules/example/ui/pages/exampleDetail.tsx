@@ -107,7 +107,6 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <CheckBoxField
                     placeholder='Status da Tarefa'
                     name='statusCheck'
-                    checksList = {['Todo', 'Doing', 'Done']}
                 />
 
                 <FormGroup key={'fields'}>
