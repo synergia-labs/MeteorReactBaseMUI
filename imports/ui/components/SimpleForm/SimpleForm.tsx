@@ -227,8 +227,6 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                 {!value||value.length===0||Object.keys(value[0]).length===0?(
                     <div style={simpleFormStyle.containerEmptyItens}>{'Não há itens'}</div>
                 ):null}
-
-
             </div>
             {mode!=='view'?(<div style={simpleFormStyle.containerAddSubForm}>
                 <Fab color="secondary" style={{color:error?'#9F3A38':"#ffffff", ...simpleFormStyle.buttonAddSubForm}} onClick={addSubForm}>

@@ -126,7 +126,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         placeholder="Chip"
                     />
                 </FormGroup>
-                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left'}}>
+                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left', paddingTop: 20}}>
                     <Button
                         key={'b1'}
                         style={{marginRight: 10}}
