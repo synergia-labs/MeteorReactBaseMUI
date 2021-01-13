@@ -24,6 +24,10 @@ export const exampleSch = {
     label: 'Tipo',
     defaultValue: '',
     optional: true,
+    options:[
+      {value:'normal',label:'Normal'},
+      {value:'extra',label:'Extra'},
+    ],
   },
   date: {
     type: Date,
@@ -91,11 +95,13 @@ export const exampleSch = {
     label: 'Áudio',
     defaultValue: '',
     optional: true,
+    isAudio:true,
   },
   address: {
     type: Object,
     label: 'Localização',
     defaultValue: '',
+    isMapLocation:true,
     optional: true,
   },
   statusCheck: {

@@ -1,10 +1,10 @@
 // region Imports
-import { OfflineBaseApi } from '../../../api/offlinebase';
+import { ApiBase } from '../../../api/base';
 import { exampleSch } from './exampleSch';
 
 // endregion
 
-class ExampleApi extends OfflineBaseApi {
+class ExampleApi extends ApiBase {
   constructor(props) {
       super('example', exampleSch);
     }

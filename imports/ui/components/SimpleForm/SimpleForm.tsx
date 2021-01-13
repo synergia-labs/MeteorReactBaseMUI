@@ -589,9 +589,6 @@ class SimpleForm extends Component<ISimpleFormProps> {
 
     initFormElements = (update=false) => {
         const self = this;
-        if(!update&&(!!this.formElements||!!this.state.formElements)) {
-            return this.state.formElements||this.formElements;
-        }
 
         let elements = React.Children.toArray(this.props.children);
         const ListaOfElements = elements.map((element,index)=>{
@@ -671,7 +668,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 
     render() {
 
-        this.formElements = this.state.formElements||this.initFormElements();
+        this.formElements = this.initFormElements();
 
         return (
             <div style={this.props.style||{width:'100%'}}>
