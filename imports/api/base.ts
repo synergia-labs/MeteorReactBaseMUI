@@ -537,6 +537,7 @@ export class ApiBase {
                     //No Save
                 } else if (
                     schema[ key ]
+                    && !Array.isArray(schema[ key ].type)
                     && typeof(schema[ key ].type)==='object'
                     && !hasValue(dataObj[ key ])
                 ) {
@@ -966,7 +967,7 @@ export class ApiBase {
      */
     update(docObj, callback=()=>{}) {
         const newObj = {_id: docObj._id};
-        const schema = this.schema;;
+        const schema = this.schema;
         Object.keys(docObj).forEach(key => {
             if (!!schema[key] &&
                 (!schema[key].isImage && !schema[key].isAvatar || typeof docObj[key] === 'string' &&

@@ -10,7 +10,7 @@ import TextField from '../../../../ui/components/SimpleFormFields/TextField/Text
 
 import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close}) => {
 

@@ -15,7 +15,7 @@ import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
 import {isMobile} from "/imports/libs/deviceVerify";
 
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 import Typography from '@material-ui/core/Typography';
 

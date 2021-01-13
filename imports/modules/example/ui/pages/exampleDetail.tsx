@@ -19,7 +19,7 @@ import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/Chip
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 
 import Typography from '@material-ui/core/Typography';
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
@@ -81,12 +81,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <FormGroup key={'fieldsThree'} formType={'subform'} name={'contacts'}>
                     <TextMaskField
                         placeholder='Telefone'
-                        schema={exampleApi.schema.contacts}
                         name='phone'
                     />
                     <TextMaskField
                         placeholder='CPF'
-                        schema={exampleApi.schema.contacts}
                         name='cpf'
                     />
                 </FormGroup>

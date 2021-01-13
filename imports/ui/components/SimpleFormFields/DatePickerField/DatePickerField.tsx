@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
@@ -8,16 +8,25 @@ import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelV
 import {hasValue} from "/imports/libs/hasValue";
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
-    if(!!readOnly) {
-        return (<div key={name}>
-            <SimpleLabelView  value={hasValue(value)?value.toLocaleDateString():undefined} label={label}/>
-        </div>)
-    }
+    const[dateValue, setDateValue] = useState(hasValue(value) ? value : new Date());
+
+
+
+    useEffect(() => {
+        if(hasValue(value) && value !== dateValue){
+            setDateValue(hasValue(value)? value : new Date())
+        }
+    })
 
     const handleChange = (date:Date) => {
         onChange({target:{value:date}});
     }
 
+    if(!!readOnly) {
+        return (<div key={name}>
+            <SimpleLabelView  value={hasValue(dateValue)?dateValue.toLocaleDateString():null} label={label}/>
+        </div>)
+    }
     return (
         <MuiPickersUtilsProvider key={name} utils={DateFnsUtils}>
             <KeyboardDatePicker
@@ -29,7 +38,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                 id={name}
                 error={!!error}
                 label={label}
-                value={value}
+                value={dateValue}
                 helperText={!!error?'Data inválida':undefined}
                 disabled={!!readOnly}
                 onChange={handleChange}
@@ -37,9 +46,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                     'aria-label': label,
                 }}
                 InputAdornmentProps={{ position: "start" }}
-
                 {...otherProps}
-
             />
         </MuiPickersUtilsProvider>
     );

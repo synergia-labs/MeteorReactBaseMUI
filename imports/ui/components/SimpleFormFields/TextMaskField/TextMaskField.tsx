@@ -1,9 +1,8 @@
 import React from "react";
 import TextField from '@material-ui/core/TextField';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import styles from './TextMaskFieldStyle'
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
+export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:IBaseSimpleFormComponent)=>{
 
   const applyMask = (inputValue:string, mask:string) => {
     let text = '';
@@ -82,7 +81,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
   const handleApplyMask = (event:React.BaseSyntheticEvent) => {
 
-      const mask = otherProps.schema&&otherProps.schema.subSchema[name] ? otherProps.schema.subSchema[name].mask : undefined;
+      const mask = schema&&schema.mask  ? schema.mask : undefined;
 
       if (!!mask) {
           const inputValue = applyMask(event.target.value, mask);
