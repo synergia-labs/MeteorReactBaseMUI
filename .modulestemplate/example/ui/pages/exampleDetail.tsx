@@ -115,7 +115,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
 
                     {screenState === 'view' ? (
                         <Button key={'b2'} onClick={() => history.push(`/example/edit/${exampleDoc._id}`)}
-                                color={'primary'} variant="contained">
+                                color={'#5a9902'} variant="contained">
                             {'Editar'}
                         </Button>
                     ) : null}
