@@ -48,7 +48,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       placeholder={"ChipInput"}
                       value={chipText}
                       onChange={handleOnChange}
-                      style={{flexWrap: 'wrap'}}
+                      style={styles.input}
                       onKeyDown={e => {
                         if (e.keyCode === 13 && e.target.value) {
                           handleInsert(chipText);
@@ -65,7 +65,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                                 {..._.omit(otherProps,['disabled','checked'])}
                             />
                         }),
-                        className: {{flexWrap: 'wrap'}},
+                        className: styles.input,
                       }}
                     />
                     <IconButton onClick={()=>handleInsert(chipText)}>

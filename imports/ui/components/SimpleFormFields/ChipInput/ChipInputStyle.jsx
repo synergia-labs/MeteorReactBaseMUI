@@ -3,7 +3,6 @@ export default styles = {
         display:'flex',
         flexDirection:'column',
         maxWidth: '100%',
-        flexWrap: 'wrap',
     },
     input: {
         display: 'flex',
