@@ -6,17 +6,22 @@ import Fab from '@material-ui/core/Fab';
 import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import StopIcon from '@material-ui/icons/Stop';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
-  const [values, setValues] = React.useState({ recordButton: true});
+  const [values, setValues] = React.useState({ recordButton: true, audioButton: false, deleteButton: false});
 
   let recorder:any = null;
 
   const deleteAudio = () => {
-      onChange({},{name,value: ''})
+      onChange({},{name,value: '-'})
+      setValues({
+        ...values,
+        ['recordButton']: true, ['audioButton']: false , ['deleteButton']: false
+      });
   }
 
   const onSuccess = (stream:any) => {
@@ -42,9 +47,8 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
     setValues({
       ...values,
-      ['recordButton']: !values.recordButton,
+      ['recordButton']: false, ['audioButton']: false , ['deleteButton']: false
     });
-    deleteAudio()
 
     navigator.getUserMedia = (
         navigator.getUserMedia ||
@@ -62,14 +66,13 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     const stop = document.querySelector('.stop');
     stop.onclick = function() {
       recorder.stop();
-      console.log("recorder stopped, data available");
     }
   };
 
   const handleStopRecordAudio = () => {
     setValues({
       ...values,
-      ['recordButton']: !values.recordButton});
+      ['recordButton']: true, ['audioButton']: true , ['deleteButton']: true });
   };
 
     if(!!readOnly) {
@@ -83,15 +86,25 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
     return (
       <div key={name} style={error? audioRecorderStyle.containerRecordError :audioRecorderStyle.containerRecord}>
-        <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
-            <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
-        </Fab>
-
-        <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
-            <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
-        </Fab>
-        <audio src={value} controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
-      <DeleteIcon onClick={deleteAudio} style={{marginTop: 10}} />
+      {!values.audioButton ?
+        <div>
+          <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
+              <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
+          </Fab>
+          {values.recordButton?'':<FiberManualRecordIcon style={{ color: '#DC143C' }}/>}
+          <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
+              <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
+          </Fab>
+        </div>
+      : null}
+        {values.audioButton ?
+          <audio src={value} controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
+        : null}
+        {values.deleteButton && values.audioButton ?
+          <Fab color="secondary" aria-label="delete" className="delete" style={audioRecorderStyle.buttonOptions}>
+            <DeleteIcon onClick={deleteAudio} />
+          </Fab>
+        : null}
       </div>
     )
 }
