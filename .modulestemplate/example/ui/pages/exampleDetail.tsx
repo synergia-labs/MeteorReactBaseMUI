@@ -14,7 +14,7 @@ import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/Up
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 
 import Typography from '@material-ui/core/Typography';
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 

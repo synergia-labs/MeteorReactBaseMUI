@@ -23,7 +23,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     }
 
     const handleInsert = (chipText:string) => {
-        if(isFieldValid(chipText)){
+        const verifyItemInList = value&&value.find(chip => chip === chipText)||[];
+        if(isFieldValid(chipText)&&verifyItemInList.length === 0){
             onChange({},{name,value:[...value, chipText]})
         }
         setChipText('')

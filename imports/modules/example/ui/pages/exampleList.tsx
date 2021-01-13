@@ -15,7 +15,7 @@ import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
 import {isMobile} from "/imports/libs/deviceVerify";
 
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 import Typography from '@material-ui/core/Typography';
 
@@ -46,13 +46,16 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
             content:()=><p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
             actions:({closeDialog})=>[
                 <Button
+                    color={'secondary'}
                     onClick={closeDialog}
-                    secondary>{'Não'}</Button>,
-                <Button onClick={()=>{
-                    remove(doc);
-                    closeDialog();
+                >{'Não'}</Button>,
+                <Button
+                    onClick={()=>{
+                            remove(doc);
+                            closeDialog();
+
                     }}
-                    primary>{'Sim'}</Button>,
+                    color={'primary'}>{'Sim'}</Button>,
             ]
         };
         showDialog(dialogOptions)

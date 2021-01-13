@@ -1,20 +1,11 @@
 import React from "react";
 import {hasValue} from "../../../../libs/hasValue";
 import TextField from '@material-ui/core/TextField';
-
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import SimpleValueView from "/imports/ui/components/SimpleValueView/SimpleValueView";
 
-import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
+export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:IBaseSimpleFormComponent)=>{
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
-
-  const [values, setValues] = React.useState({ textmasked: '' });
-
-  const applyMask = (inputValue, mask) => {
+  const applyMask = (inputValue:string, mask:string) => {
     let text = '';
     const data = inputValue;
     let c;
@@ -89,9 +80,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     return text;
   }
 
-  const handleApplyMask = (event) => {
+  const handleApplyMask = (event:React.BaseSyntheticEvent) => {
 
-      const mask = otherProps.schema.subSchema[name] ? otherProps.schema.subSchema[name].mask : undefined;
+      const mask = schema&&schema.mask  ? schema.mask : undefined;
 
       if (!!mask) {
           const inputValue = applyMask(event.target.value, mask);
@@ -103,10 +94,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
   }
 
     if(!!readOnly) {
-        return (<div key={name}>
-            <SimpleLabelView label={label}/>
-            <SimpleValueView value={(value+'')}/>
-        </div>)
+        return <SimpleLabelView value={value} label={label}/>
     }
 
     return (<TextField style={{display:'flex', flexDirection: 'column'}} key={name} onChange={handleApplyMask} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);

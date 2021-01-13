@@ -14,28 +14,12 @@
 
  */
 
-import { max } from "lodash";
-import {isMobile} from "/imports/libs/deviceVerify";
-
-const titleTextColor = '#222222';
-
-const simpleValueStyle = {
-  displayValue: {
-    color:titleTextColor,
-    padding:5,
-    height:35,
-    marginTop:4,
-    marginBottom:8,
-
-    fontSize: '11px',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-  },
+const checkBoxStyle = {
+    fieldError: {
+      border:  '1px solid red'
+    },
 };
 
 export {
-    simpleValueStyle,
-    titleTextColor,
+    checkBoxStyle,
 };

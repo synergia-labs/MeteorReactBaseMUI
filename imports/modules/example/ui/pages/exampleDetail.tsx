@@ -7,7 +7,9 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
-import ToggleSwitch from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
+import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
+import ToggleSwitchField from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
+import CheckBoxField from '../../../../ui/components/SimpleFormFields/CheckBoxField/CheckBoxField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
@@ -15,11 +17,9 @@ import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
-import TextMaskField from "/imports/ui/components/SimpleFormFields/TextMaskField/TextMaskField";
-import ChipInput from "/imports/ui/components/SimpleFormFields/ChipInput/ChipInput";
 
 import Typography from '@material-ui/core/Typography';
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
@@ -81,13 +81,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <FormGroup key={'fieldsThree'} formType={'subform'} name={'contacts'}>
                     <TextMaskField
                         placeholder='Telefone'
-                        schema={exampleApi.schema.contacts}
                         name='phone'
                     />
                     <TextMaskField
-                        placeholder='Celular'
-                        schema={exampleApi.schema.contacts}
-                        name='celphone'
+                        placeholder='CPF'
+                        name='cpf'
                     />
                 </FormGroup>
                 <FormGroup key={'fieldsFour'} formType={'subformArray'} name={'tasks'}>
@@ -101,9 +99,14 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     />
                 </FormGroup>
 
-                <ToggleSwitch
+                <ToggleSwitchField
                     placeholder='Status da Tarefa'
-                    name='status'
+                    name='statusToggle'
+                />
+
+                <CheckBoxField
+                    placeholder='Status da Tarefa'
+                    name='statusCheck'
                     checksList = {['Todo', 'Doing', 'Done']}
                 />
 

@@ -1,15 +1,14 @@
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
 import {isMobile} from "/imports/libs/deviceVerify";
+import * as appStyles from './styles';
 
 export const theme = createMuiTheme({
     palette: {
         primary: {
-            main: green[500],
+            main: appStyles.primaryColor,
         },
         secondary: {
-            main: purple[500],
+            main: appStyles.secondaryColor,
         },
     },
     props: {
@@ -59,7 +58,7 @@ export const theme = createMuiTheme({
                 margin: isMobile?0:4,
             },
             text: { // Name of the rule
-                color: '#FFF', // Some CSS
+                color: appStyles.textButtonColor, // Some CSS
             },
         },
         MuiIconButton: {

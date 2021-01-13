@@ -171,9 +171,6 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
     }
     const onClickDelete = formId => doc =>{
         let newDoc = (value||[]).filter(subDoc=>subDoc.id!==formId)
-        if(newDoc.length === 0){
-            newDoc.push({})
-        }
         onChange({target:{
                 value:newDoc,
             }})
@@ -490,6 +487,7 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
         label:reactElement.props.label||(props.fieldSchema?props.fieldSchema.label:undefined),
         disabled:mode==='view',
         readOnly:mode==='view',
+        schema: props.fieldSchema,
         checked:(props.fieldSchema&&props.fieldSchema.type===Boolean?value:undefined)
     }))
 }
@@ -628,7 +626,10 @@ class SimpleForm extends Component<ISimpleFormProps> {
                     fielsWithError.push(this.props.schema[field].label);
                 }
 
-
+                //Validate Schema
+                if(this.props.schema[field]&&this.props.schema[field].validate&&!this.props.schema[field].validate(this.docValue[field] ,this.docValue)){
+                    fielsWithError.push(this.props.schema[field].label);
+                }
                 //Validate Date Format
                 if(this.props.schema[field]&&this.props.schema[field].type===Date&&!(this.getDoc()[field] instanceof Date && !isNaN(this.getDoc()[field].valueOf()))) {
                     fielsWithError.push(this.props.schema[field].label)

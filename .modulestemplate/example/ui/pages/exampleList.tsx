@@ -14,7 +14,7 @@ import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
 
 import Typography from '@material-ui/core/Typography';
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 interface IExampleList {
     examples:object[];

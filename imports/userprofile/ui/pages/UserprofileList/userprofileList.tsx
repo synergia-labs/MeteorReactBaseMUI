@@ -7,7 +7,7 @@ import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 const UserProfileList = ({users,history}) => {
 

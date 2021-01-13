@@ -1,4 +1,4 @@
-import {Store, get, set, keys, del, clear} from 'idb-keyval';
+import {createStore, get, set, keys, del, clear} from 'idb-keyval';
 import {stringify, parse} from 'zipson';
 import {ReactiveVar} from 'meteor/reactive-var';
 import {ApiBase} from './base'
@@ -10,8 +10,8 @@ class PersistentMinimongoStorage {
     constructor(collectionName, collectionInstance) {
         var self = this;
         self.collectionName = collectionName;
-        self.customStore = new Store(settings.name + '_' + collectionName, collectionName + '-store');
-        self.controlStore = new Store(settings.name + '_' + collectionName+'_Control', collectionName + '-control');
+        self.customStore = new createStore(settings.name + '_' + collectionName, collectionName + '-store');
+        self.controlStore = new createStore(settings.name + '_' + collectionName+'_Control', collectionName + '-control');
         self.collection = collectionInstance;
 
         self.inited = new ReactiveVar(false);

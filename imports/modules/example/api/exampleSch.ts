@@ -88,21 +88,35 @@ export const exampleSch = {
   },
   audio: {
     type: String,
-    label: 'Audio',
+    label: 'Áudio',
     defaultValue: '',
     optional: true,
-  },
-  status: {
-    type: Object,
-    label: 'Status',
-    defaultValue: '',
-    optional: false,
   },
   address: {
     type: Object,
     label: 'Localização',
     defaultValue: '',
     optional: true,
+  },
+  statusCheck: {
+    type: Object,
+    label: 'Status CheckBox',
+    defaultValue: '',
+    optional: false,
+    validate: (value) => {
+      const statusTrue = value&&Object.keys(value).filter( status => {
+        if(value[status]){
+          return status
+        }
+      })
+      return  statusTrue.length <= 1
+    }
+  },
+  statusToggle: {
+    type: Boolean,
+    label: 'Status Toogle',
+    defaultValue: false,
+    optional: false,
   }
 };
 
