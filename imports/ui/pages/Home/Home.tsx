@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Container from '@material-ui/core/Container';
-import {appStyles} from "/imports/ui/theme/styles";
+import * as appStyles from "/imports/materialui/styles";
 
 const Home = () => (
   <>
