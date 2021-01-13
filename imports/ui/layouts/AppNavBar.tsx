@@ -10,7 +10,6 @@ import {isMobile} from "/imports/libs/deviceVerify";
 import Tabs from '@material-ui/core/Tabs';
 import {appNavBarStyle} from "./AppNavBarStyle";
 
-
 const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -52,9 +51,8 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                     {
                         (Modules.getAppMenuItemList() || []).map((menuData,menuIndex)=>{
                             return (<Button key={menuData.path} onClick={()=>history.push(menuData.path)}>
-                                    <div style={{display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',justifyContent:'center'}}>
+                                    <div style={{display:'flex',flexDirection:isMobile?'column':'row',alignItems:'center',justifyContent:'center', paddingTop: 10}}>
                                         {menuData.icon?menuData.icon:null}
-                                        {isMobile&&pathIndex!==menuIndex?'':menuData.name}
                                     </div>
 
                                 </Button>
@@ -67,28 +65,27 @@ const AppNavBar = ({ user,history,showDrawer,showWindow }) => {
                     onClick={viewProfileMobile}
                     style={{position:'absolute',right:10,bottom:13}}
                 >
-                    <AccountCircle color={'secondary'} />
+                    <AccountCircle style={appNavBarStyle.accountCircle} />
                 </IconButton>
             </div>
 
         )
     }
     return (
-        <div style={appNavBarStyle.containerNavBar}>
-            <div style={appNavBarStyle.subContainerNavBar}>
-              <Tabs
-                  value={pathIndex}
-                  indicatorColor="secondary"
-                  aria-label="icon label tabs example"
-              >
-              {
-                  (Modules.getAppMenuItemList() || []).map(menuData=>{
-                      return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
-                          {menuData.icon?menuData.icon:null}
-                          {menuData.name}
-                          </Button>
-                      )
-
+    <div style={appNavBarStyle.containerNavBar}>
+        <div style={appNavBarStyle.subContainerNavBar}>
+            <Tabs
+                value={pathIndex}
+                indicatorColor="secondary"
+                aria-label="icon label tabs example"
+            >
+            {
+                (Modules.getAppMenuItemList() || []).map(menuData=>{
+                    return (<Button style={appNavBarStyle.buttonMenuItem} key={menuData.path} onClick={()=>history.push(menuData.path)}>
+                        {menuData.icon?menuData.icon:null}
+                        {menuData.name}
+                        </Button>
+                    )
                   })
               }
             </Tabs>

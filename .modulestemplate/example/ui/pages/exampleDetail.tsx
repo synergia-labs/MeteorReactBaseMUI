@@ -104,9 +104,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         />
                     </FormGroup>
 
-                <div key={'Buttons'}>
+                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left'}}>
                     <Button
                         key={'b1'}
+                        style={{marginRight: 10}}
                         onClick={screenState === 'edit' ? () => history.push(`/example/view/${exampleDoc._id}`) : () => history.push(`/example/list`)}
                         color={'secondary'} variant="contained">
                         {screenState === 'view' ? 'Voltar' : 'Cancelar'}
@@ -119,7 +120,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button key={'b3'} color={'primary'} variant="contained" submit="true">
+                        <Button key={'b3'} color={'#5a9902'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ) : null}

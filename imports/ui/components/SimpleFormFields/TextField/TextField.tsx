@@ -9,5 +9,4 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         </div>)
     }
     return (<TextField key={name} onChange={onChange} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
-
 }

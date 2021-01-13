@@ -59,7 +59,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       value={chipText}
                       onChange={handleOnChange}
                       style={styles.input}
-                      multiline
                       onKeyDown={e => {
                         if (e.keyCode === 13 && e.target.value) {
                           handleInsert(chipText);
@@ -76,8 +75,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                                 {..._.omit(otherProps,['disabled','checked'])}
                             />
                         }),
+                        className: styles.input,
                       }}
-
                     />
                     <IconButton onClick={()=>handleInsert(chipText)}>
                         <Check color={'primary'}/>
@@ -85,6 +84,18 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                 </div>
                 : null
             }
+            <div>
+              {readOnly && hasValue(value)&& value.map((chip:string) => {
+                  return <Chip
+                      variant="outlined"
+                      label={chip}
+                      color={'primary'}
+                      style={styles.chip}
+                      onDelete={readOnly? undefined : ()=> handleDelete(chip)}
+                      {..._.omit(otherProps,['disabled','checked'])}
+                  />
+              })}
+            </div>
         </div>
     )
 }

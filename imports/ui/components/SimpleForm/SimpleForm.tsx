@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import FormGroup from '@material-ui/core/FormGroup';
 import Add from "@material-ui/icons/Add";
+import Fab from '@material-ui/core/Fab';
 import DragHandle from "@material-ui/icons/DragHandle";
 import Delete from "@material-ui/icons/Delete";
 import Alert from "@material-ui/lab/Alert";
@@ -222,6 +223,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                     })}
 
                 </ReactSortable>
+            <div style={simpleFormStyle.containerItens}>
                 {!value||value.length===0||Object.keys(value[0]).length===0?(
                     <div style={simpleFormStyle.containerEmptyItens}>{'Não há itens'}</div>
                 ):null}
@@ -229,14 +231,11 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
 
             </div>
             {mode!=='view'?(<div style={simpleFormStyle.containerAddSubForm}>
-                <Button style={{color:error?'#9F3A38':undefined}}
-                        color={'primary'}
-                        onClick={addSubForm}
-                >
-                    <Add />
-                </Button>
+                <Fab color="secondary" style={{color:error?'#9F3A38':"#ffffff", ...simpleFormStyle.buttonAddSubForm}} onClick={addSubForm}>
+                  <Add/>
+                </Fab>
             </div>):null}
-
+          </div>
         </div>
     );
 }

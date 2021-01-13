@@ -14,26 +14,31 @@
 
  */
 
-const simpleImageStyle = {
-  containerImage: {
-    display:'flex',
-    flexDirection:'column',
+import { max } from "lodash";
+import {isMobile} from "/imports/libs/deviceVerify";
+
+const homeStyles = {
+  title: {
+      fontSize: isMobile?'20px':'30px',
+      paddingTop: isMobile?'20px':'20px',
+      paddingBottom: isMobile?'20px':'20px',
+      fontWeight: isMobile?'500':'500',
   },
-  containerShowImage: {
-    maxWidth:360,
-    maxHeight:320,
+  subTitle: {
+      fontSize: isMobile?'15px':'25px',
+      paddingTop: isMobile?'10px':'10px',
+      paddingBottom: isMobile?'20px':'20px',
+      fontWeight: isMobile?'300':'300',
+      textAlign: 'justify',
+      textJustify: 'inter-word',
   },
-  selectImage: {
-    cursor:'pointer',
-    fontSize: '12px',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-    color: 'rgba(108, 104, 104)',
-  },
+  containerHome: {
+     marginTop: '2em',
+     maxWidth: '100%',
+     maxHeight: '100%',
+  }
 };
 
 export {
-    simpleImageStyle,
+    homeStyles,
 };

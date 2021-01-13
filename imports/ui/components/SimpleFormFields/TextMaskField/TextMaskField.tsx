@@ -1,4 +1,5 @@
 import React from "react";
+import {hasValue} from "../../../../libs/hasValue";
 import TextField from '@material-ui/core/TextField';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
@@ -96,6 +97,6 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
         return <SimpleLabelView value={value} label={label}/>
     }
 
-    return (<TextField key={name} onChange={handleApplyMask} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
+    return (<TextField style={{display:'flex', flexDirection: 'column'}} key={name} onChange={handleApplyMask} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} label={label} {...otherProps} />);
 
 }
