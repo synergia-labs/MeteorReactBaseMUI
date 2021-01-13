@@ -42,6 +42,16 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     return (
         <div style={styles.container}>
             <SimpleLabelView style={styles.title} label={label}/>
+            {hasValue(value)&& value.map((chip:string) => {
+                            return <Chip
+                                variant="outlined"
+                                label={chip}
+                                color={'primary'}
+                                style={styles.chip}
+                                //{..._.omit(otherProps,['disabled','checked'])}
+                            />
+                        },
+            }
             {!readOnly?
                 <div style={styles.input}>
                     <TextField
@@ -78,6 +88,3 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         </div>
     )
 }
-/*
-InputProps={ startAdornment:  }
-*/
