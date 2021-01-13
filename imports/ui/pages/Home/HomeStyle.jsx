@@ -14,41 +14,31 @@
 
  */
 
-const mapsFieldStyles = {
-  container: {
-      flex: 1,
-      flexWrap: 'wrap',
-      flexDirection: 'column'
-  },
-  formContainer:{
-      width: '100%',
-      height: 400,
-      padding: 0,
-      margin: 0,
-      flexWrap: 'nowrap',
-  },
-  mapContainer:{
-      flex: 1,
-      flexWrap: 'wrap',
-      flexDirection: 'column',
-      margin: 0
-  },
-  mapContainer2:{
-      display: 'flex',
-      position: 'relative' ,
-      height:350,
-      width:'calc(100% - 50px)'
-  },
-  map:{
-      height: 350,
-      width:'calc(100% - 50px)'
-  },
-  labelTitle:{
-      marginBottom:'1rem'
-  }
+import { max } from "lodash";
+import {isMobile} from "/imports/libs/deviceVerify";
 
+const homeStyles = {
+  title: {
+      fontSize: isMobile?'20px':'30px',
+      paddingTop: isMobile?'20px':'20px',
+      paddingBottom: isMobile?'20px':'20px',
+      fontWeight: isMobile?'500':'500',
+  },
+  subTitle: {
+      fontSize: isMobile?'15px':'25px',
+      paddingTop: isMobile?'10px':'10px',
+      paddingBottom: isMobile?'20px':'20px',
+      fontWeight: isMobile?'300':'300',
+      textAlign: 'justify',
+      textJustify: 'inter-word',
+  },
+  containerHome: {
+     marginTop: '2em',
+     maxWidth: '100%',
+     maxHeight: '100%',
+  }
 };
 
 export {
-    mapsFieldStyles,
+    homeStyles,
 };

@@ -71,7 +71,7 @@ export default class Signup extends React.Component {
 
             </SimpleForm>
             <div style={signupStyle.containerRouterSignIn}>
-              Já tem uma conta? Faça login clicando <Link to="/signin" color={'primary'}>aqui</Link>
+              Já tem uma conta? Faça login clicando <Link to="/signin" color={'secondary'}>aqui</Link>
             </div>
             {error === '' ? '' : <Message error header="Erro ao fazer registro!" content={error} />}
       </Container>

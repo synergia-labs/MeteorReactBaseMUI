@@ -15,6 +15,17 @@
  */
 
 const appLayoutMenuStyle = {
+  containerFixedMenuRouter: {
+    display:'flex',
+    flexDirection:'column',
+    alignItems:'center',
+    justifyContent:'space-between',
+    overflowY:'auto',
+    width:'100%',
+    height:'100%',
+    overflow:"hidden",
+    margin:0,
+  },
   containerHomeIconButton:{
     width:60,
     height:40,

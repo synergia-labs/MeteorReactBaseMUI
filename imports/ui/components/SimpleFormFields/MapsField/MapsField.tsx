@@ -4,8 +4,7 @@ import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import FormGroup from "@material-ui/core/FormGroup";
 import settings from '/settings.json'
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import styles from './MapsFieldStyles'
-
+import {mapsFieldStyles} from './MapsFieldStyles'
 
 const stylesWrap = (theme:any) => {
     return {
@@ -43,18 +42,18 @@ class LocationComponent extends React.Component<IBaseSimpleFormComponent> {
 
     render() {
         return (
-            <div style={styles.container}>
+            <div style={mapsFieldStyles.container}>
                 <FormGroup
                     error={this.props.error}
-                    style={styles.formContainer}
+                    style={mapsFieldStyles.formContainer}
                 >
                     {this.props.label ? (
-                        <SimpleLabelView style={styles.labelTitle} label={this.props.label}/>
+                        <SimpleLabelView style={mapsFieldStyles.labelTitle} label={this.props.label}/>
                     ) : null}
-                    <div style={styles.mapContainer}>
+                    <div style={mapsFieldStyles.mapContainer}>
                         <Map
-                            containerStyle={styles.mapContainer2}
-                            style={styles.map}
+                            containerStyle={mapsFieldStyles.mapContainer2}
+                            style={mapsFieldStyles.map}
                             google={this.props.google}
                             initialCenter={this.props.value.position ? this.props.value.position : {
                                 lat: -19.9051,
@@ -82,4 +81,3 @@ export default GoogleApiWrapper({
     apiKey: settings&&settings.maps?settings.maps.api: '',
     libraries: [ 'visualization' ],
 })(withStyles(stylesWrap)(LocationComponent));
-

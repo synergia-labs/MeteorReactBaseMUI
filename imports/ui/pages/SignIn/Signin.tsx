@@ -145,9 +145,9 @@ export default class Signin extends React.Component {
                   placeholder="Digite sua senha"
                   type="password"
                 />
-                <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                <div style={signinStyle.containerButtonOptions}>
                   <Button color={'secondary'} onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
-                  <Button variant={'outlined'} color={'primary'} submit="true">{"Entrar"}</Button>
+                  <Button variant={'outlined'} color={'primary'} submit>{"Entrar"}</Button>
                 </div>
 
               </div>

@@ -46,7 +46,16 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                 multiple={false}
                 callbackFunction={onFileSelect}
                 accept="image/*"
-                buttonComponent={<a style={simpleImageStyle.selectImage}>{'Selecionar imagem'}</a>}
+                buttonComponent={
+                  <Button
+                    variant="contained"
+                    color="default"
+                    style={simpleImageStyle.selectImage}
+                    startIcon={<PhotoCameraIcon />}
+                  >
+                    {'Selecionar imagem'}
+                  </Button>
+              }
             />
         </div>
     );

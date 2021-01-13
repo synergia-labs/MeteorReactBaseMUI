@@ -14,14 +14,24 @@
 
  */
 
+ import {isMobile} from "/imports/libs/deviceVerify";
+
 const audioRecorderStyle = {
   containerRecord: {
     display:'flex',
-    flexDirection:'row',
-    justifyContent:'left',
+    flexDirection:'column',
+    justifyContent:'center',
     marginTop:16,
     width:'100%',
-    marginBottom:16
+    marginBottom:16,
+  },
+  subContainerRecord: {
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:isMobile?'center':'left',
+    marginTop:16,
+    width:'100%',
+    marginBottom:16,
   },
   containerRecordError:{
     display:'flex',
@@ -36,6 +46,12 @@ const audioRecorderStyle = {
     marginRight:3,
     maxHeight:40,
   },
+  audioOptions:{
+    maxWidth: isMobile? '182px':'200px',
+    marginRight:3,
+    maxHeight:40,
+    paddingLeft: isMobile?5:15,
+  }
 };
 
 export {
