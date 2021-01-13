@@ -68,8 +68,9 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                     {data.map((row,index) => (
                         <TableRow onClick={handleRowClick(row._id, row)} style={{...(row.rowStyle?row.rowStyle:{}),cursor:hasOnClick?'pointer':undefined} } key={row._id||row.key||row.name||'row'+index}>
                             {cols.map((col,index)=>{
-                                return <TableCell key={col.name+col.label} style={{...(schema&&schema[col.field]&&schema[col.field].isImage?{display:'flex',flexDirection:'row',justifyContent:'center'}:{}),
-                                width:col.type==='image'?80:undefined}}>{renderType(col.type,row[col.field])}</TableCell>
+                                return <TableCell key={col.name+col.label} style={{width:col.type==='image'?80:undefined}}>
+                                    {renderType(col.type,row[col.field])}
+                                </TableCell>
                             })}
                             {actions?(
                                 <TableCell style={simpleTableStyle.tableCell}>
