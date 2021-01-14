@@ -48,7 +48,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       placeholder={"ChipInput"}
                       value={chipText}
                       onChange={handleOnChange}
-                      style={styles.input}
+                      theme={theme}
+                      style={{display: 'flex', flexWrap: 'wrap', maxWidth: '90%'}}
                       onKeyDown={e => {
                         if (e.keyCode === 13 && e.target.value) {
                           handleInsert(chipText);
@@ -65,12 +66,11 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                                 {..._.omit(otherProps,['disabled','checked'])}
                             />
                         }),
-                        className: styles.input,
+                        endAdornment:  <IconButton onClick={()=>handleInsert(chipText)}>
+                                          <Check color={'primary'}/>
+                                      </IconButton>,
                       }}
                     />
-                    <IconButton onClick={()=>handleInsert(chipText)}>
-                        <Check color={'primary'}/>
-                    </IconButton>
                 </div>
                 : null
             }
@@ -85,7 +85,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       {..._.omit(otherProps,['disabled','checked'])}
                   />
               })}
-              {!hasValue(value)?
+              {!hasValue(value) && readOnly?
                   <div style={styles.containerEmptyChips}>{'  Não há chips'}</div>
                 : null}
             </div>
