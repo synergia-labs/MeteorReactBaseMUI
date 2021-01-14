@@ -4,6 +4,7 @@ import {exampleApi} from "../../api/exampleApi";
 import SimpleTable from "../../../../ui/components/SimpleTable/SimpleTable";
 import _ from 'lodash';
 
+import Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -12,9 +13,11 @@ import Fab from "@material-ui/core/Fab";
 
 import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
+import {isMobile} from "/imports/libs/deviceVerify";
+
+import * as appStyles from "/imports/materialui/styles";
 
 import Typography from '@material-ui/core/Typography';
-import * as appStyles from "/imports/materialui/styles";
 
 interface IExampleList {
     examples:object[];
@@ -43,13 +46,16 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
             content:()=><p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
             actions:({closeDialog})=>[
                 <Button
+                    color={'secondary'}
                     onClick={closeDialog}
-                    secondary>{'Não'}</Button>,
-                <Button onClick={()=>{
-                    remove(doc);
-                    closeDialog();
+                >{'Não'}</Button>,
+                <Button
+                    onClick={()=>{
+                            remove(doc);
+                            closeDialog();
+
                     }}
-                    primary>{'Sim'}</Button>,
+                    color={'primary'}>{'Sim'}</Button>,
             ]
         };
         showDialog(dialogOptions)
@@ -93,13 +99,13 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 schema={_.pick(exampleApi.schema,['image','title','description'])}
                 data={examples}
                 onClick={onClick}
-                actions={[{icon:<Delete />,onClick:callRemove}]}
+                actions={[{icon:<Delete color={'primary'} />,onClick:callRemove}]}
             />
-            <div style={appStyles.containerList}>
-                <Button
+            <div style={appStyles.fabContainer}>
+                <Fab
                     onClick={()=>history.push('/example/create')}
-                    color={'prmary'}>
-                    +
+                    color={'primary'}>
+                    <Add />
                 </Fab>
             </div>
         </Container>
@@ -122,7 +128,7 @@ export const subscribeConfig = new ReactiveVar({
 const exampleSearch = initSearch(
     exampleApi, // API
     subscribeConfig, // ReactiveVar subscribe configurations
-    ['title','description', 'status'], // list of fields
+    ['title','description'], // list of fields
 );
 
 

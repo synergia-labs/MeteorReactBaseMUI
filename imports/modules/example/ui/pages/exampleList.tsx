@@ -96,12 +96,12 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                    action={{ icon: 'search',onClick:click }}
             />
             <SimpleTable
-                schema={_.pick(exampleApi.schema,['image','title','description'])}
+                schema={_.pick(exampleApi.schema,['image','title','description','date','statusToggle','chip','type'])}
                 data={examples}
                 onClick={onClick}
                 actions={[{icon:<Delete color={'primary'} />,onClick:callRemove}]}
             />
-            <div style={appStyles.containerList}>
+            <div style={appStyles.fabContainer}>
                 <Fab
                     onClick={()=>history.push('/example/create')}
                     color={'primary'}>
