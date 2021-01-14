@@ -73,6 +73,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
 
     const cols = Object.keys(schema).map(field=>({field,label:schema[field].label,type:getType(schema[field])}));
 
+
     return (<Table style={simpleTableStyle.tableBox}>
                 <TableHead>
                     <TableRow>

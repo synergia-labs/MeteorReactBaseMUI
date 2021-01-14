@@ -82,7 +82,7 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
 
   const handleApplyMask = (event:React.BaseSyntheticEvent) => {
 
-      const mask = schema&&schema.mask  ? schema.mask : undefined;
+      const mask = otherProps&&otherProps.mask?otherProps.mask:(schema&&schema.mask  ? schema.mask : undefined);
 
       if (!!mask) {
           const inputValue = applyMask(event.target.value, mask);

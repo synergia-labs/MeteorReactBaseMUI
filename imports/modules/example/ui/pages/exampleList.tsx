@@ -101,7 +101,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 onClick={onClick}
                 actions={[{icon:<Delete color={'primary'} />,onClick:callRemove}]}
             />
-            <div style={appStyles.containerList}>
+            <div style={appStyles.fabContainer}>
                 <Fab
                     onClick={()=>history.push('/example/create')}
                     color={'primary'}>
