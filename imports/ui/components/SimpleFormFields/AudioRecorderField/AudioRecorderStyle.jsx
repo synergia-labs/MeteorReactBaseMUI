@@ -28,7 +28,7 @@ const audioRecorderStyle = {
   subContainerRecord: {
     display:'flex',
     flexDirection:'row',
-    justifyContent:isMobile?'center':'left',
+    justifyContent:'left',
     marginTop:16,
     width:'100%',
     marginBottom:16,
@@ -51,7 +51,21 @@ const audioRecorderStyle = {
     marginRight:3,
     maxHeight:40,
     paddingLeft: isMobile?5:15,
-  }
+    maxWidth: isMobile?'200px':'220px',
+  },
+  buttonCountOptions:{
+    marginRight:3,
+    maxHeight:40,
+    maxWidth: '80px',
+    width: '80px',
+    height:40,
+    borderRadius: '15px',
+    backgroundColor: '#5a9902',
+    color: 'white',
+    marginLeft: '10px',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
 };
 
 export {
