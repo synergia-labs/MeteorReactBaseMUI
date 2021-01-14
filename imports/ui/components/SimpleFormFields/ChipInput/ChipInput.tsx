@@ -5,7 +5,7 @@ import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelV
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import Check from "@material-ui/icons/Check";
-import styles from './ChipInputStyle'
+import {styles} from './ChipInputStyle'
 import _ from 'lodash'
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent) => {
@@ -48,7 +48,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       placeholder={"ChipInput"}
                       value={chipText}
                       onChange={handleOnChange}
-                      style={styles.input}
                       onKeyDown={e => {
                         if (e.keyCode === 13 && e.target.value) {
                           handleInsert(chipText);
@@ -65,12 +64,11 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                                 {..._.omit(otherProps,['disabled','checked'])}
                             />
                         }),
-                        className: styles.input,
+                        endAdornment:  <IconButton onClick={()=>handleInsert(chipText)}>
+                                          <Check color={'primary'}/>
+                                      </IconButton>,
                       }}
                     />
-                    <IconButton onClick={()=>handleInsert(chipText)}>
-                        <Check color={'primary'}/>
-                    </IconButton>
                 </div>
                 : null
             }
@@ -85,8 +83,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       {..._.omit(otherProps,['disabled','checked'])}
                   />
               })}
-              {!hasValue(value)?
-                  <div style={styles.containerEmptyChips}>{'  Não há chips'}</div>
+              {!hasValue(value) && readOnly?
+                  <div style={styles.containerEmptyChips}>{'Não há chips'}</div>
                 : null}
             </div>
         </div>

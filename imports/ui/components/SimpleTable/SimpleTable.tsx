@@ -6,8 +6,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import CheckIcon from '@material-ui/icons/Check';
 
 import {simpleTableStyle} from "./SimpleTableStyle";
+import {Typography} from "@material-ui/core";
 
 interface ISimpleTable {
     schema:object;
@@ -29,6 +32,12 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
             return 'image'
         } else if(field.type===Number) {
             return 'number'
+        } else if(field.type===Date) {
+            return 'date'
+        } else if(field.type===Boolean) {
+            return 'boolean'
+        }else if(Array.isArray(field.type) ) {
+            return 'list'
         } else if(field.type===String) {
             return 'text'
         } else if(field.isHTML) {
@@ -43,7 +52,19 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
             return <img src={data} size='tiny' style={simpleTableStyle.containerRenderType} />
         } else if(type==='text'||type==='number') {
             return data;
-        } else if(type==='html') {
+        }else if(type==='date'&&data.toLocaleDateString()) {
+            return data.toLocaleDateString();
+        }else if(type==='list') {
+            return <Typography style={{wordBreak:'break-word'}}>{
+                data.map((item, index, array) => {
+                    if (typeof (item) === 'string') {
+                        return index===array.length-1 ? item + '.': item + ', '
+                    }
+                })
+            }</Typography>
+        }else if(type==='boolean') {
+            return data?<CheckIcon/>:<CloseIcon/>;
+        }else if(type==='html') {
             return Array.isArray(data)?data.map(d=><div dangerouslySetInnerHTML={{__html: d}} />):<div dangerouslySetInnerHTML={{__html: data}} />;
         } else {
             return null;
@@ -57,10 +78,10 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                 <TableHead>
                     <TableRow>
                         {cols.map(col=>{
-                            return <TableCell key={col.name+col.label}>{col.label}</TableCell>
+                            return <TableCell style={simpleTableStyle.tableCell} key={col.name+col.label}>{col.label}</TableCell>
                         })}
                         {actions?(
-                            <TableCell>{'Ações'}</TableCell>
+                            <TableCell  style={simpleTableStyle.tableCell}>{'Ações'}</TableCell>
                         ):null}
                     </TableRow>
                 </TableHead>
@@ -68,7 +89,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                     {data.map((row,index) => (
                         <TableRow onClick={handleRowClick(row._id, row)} style={{...(row.rowStyle?row.rowStyle:{}),cursor:hasOnClick?'pointer':undefined} } key={row._id||row.key||row.name||'row'+index}>
                             {cols.map((col,index)=>{
-                                return <TableCell key={col.name+col.label} style={{width:col.type==='image'?80:undefined}}>
+                                return <TableCell key={col.name+col.label} style={{...simpleTableStyle.tableCell,width:col.type==='image'?80:undefined}}>
                                     {renderType(col.type,row[col.field])}
                                 </TableCell>
                             })}
