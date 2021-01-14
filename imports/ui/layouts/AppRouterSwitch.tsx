@@ -10,7 +10,7 @@ class AppRouterSwitch extends React.Component {
     render() {
         return (<Switch>
                             {
-                                (Modules.getListOfRouterModules() || []).map(routerData=>{
+                                (Modules.getListOfRouterModules() || []).filter(r=>!!r).map(routerData=>{
                                     if(routerData.isProtected) {
                                         return <ProtectedRoute key={routerData.path} exact={!!routerData.exact} path={routerData.path} generalProps={this.props} component={routerData.component} />
                                     } else {

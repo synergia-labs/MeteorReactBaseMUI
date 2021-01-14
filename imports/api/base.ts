@@ -60,6 +60,7 @@ export class ApiBase {
             defaultOptions,
             options,
         );
+        this.collectionName = apiName;
         this.restApiOptions = options.restApi;
         this.schema = apiSch;
 
@@ -97,7 +98,7 @@ export class ApiBase {
         this.createAPIRESTForIMGFields();
 
 
-        if (Meteor.isClient) {
+        if (Meteor.isClient&&!Meteor.isProduction) {
             // ##################################
             // Put model on Window variable
             if (window) {
@@ -105,27 +106,21 @@ export class ApiBase {
                     window.$app = {};
                 }
 
-                if (!window.$app.apis) {
-                    window.$app.apis = {};
+                if (!window.$app.api) {
+                    window.$app.api = {};
                 }
 
-                window.$app.apis[this.collectionName] = this;
+                window.$app.api[this.collectionName] = this;
 
-                if (!window.$app.minimongo) {
-                    window.$app.minimongo = {};
-                }
-                window.$app.minimongo[this.collectionName] = this.collectionInstance;
-
-                if (!window.$app.cache) {
-                    window.$app.cache = {};
-                }
-                // window.$app.cache[this.collectionName] = this.persistentCollectionInstance;
             }
             // ####################################
         }
 
     }
 
+    getSchema = () => {
+        return this.schema;
+    }
 
     initCollection(apiName) {
         const self = this;

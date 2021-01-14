@@ -6,7 +6,7 @@ import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
-import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 import ToggleSwitchField from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
 import CheckBoxField from '../../../../ui/components/SimpleFormFields/CheckBoxField/CheckBoxField';
@@ -126,7 +126,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         placeholder="Chip"
                     />
                 </FormGroup>
-                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left'}}>
+                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left', paddingTop: 20}}>
                     <Button
                         key={'b1'}
                         style={{marginRight: 10}}

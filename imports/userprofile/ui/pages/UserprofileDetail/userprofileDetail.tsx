@@ -44,7 +44,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close})
                         name='email'
                     />
                 </FormGroup>
-                <div key={'Buttons'}>
+                <div key={'Buttons'} style={{paddingTop: 20}}>
                     <Button
                         onClick={screenState==='edit'?()=>history.push(`/userprofile/view/${user._id}`):(
                             !!viewer?close:()=>history.push(`/userprofile/list`)

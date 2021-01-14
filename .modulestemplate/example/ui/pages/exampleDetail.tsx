@@ -2,14 +2,19 @@ import React from 'react';
 import {withTracker} from "meteor/react-meteor-data";
 import {exampleApi} from "../../api/exampleApi";
 import SimpleForm from "../../../../ui/components/SimpleForm/SimpleForm";
-import SimpleImageUploadBase64 from "/imports/ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
+import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
+import ToggleSwitchField from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
+import CheckBoxField from '../../../../ui/components/SimpleFormFields/CheckBoxField/CheckBoxField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
+import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
+import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 
@@ -42,12 +47,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 onSubmit={handleSubmit}
                 loading={loading}
             >
-
                 <SimpleImageUploadBase64
                     label={'Imagem'}
                     name={'image'}
                 />
-                <FormGroup key={'fields'}>
+                <FormGroup key={'fieldsOne'}>
                     <TextField
                         placeholder='Titulo'
                         name='title'
@@ -57,7 +61,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'}>
+                <GoogleApiWrapper
+                    name={'address'}
+                />
+                <FormGroup key={'fieldsTwo'}>
                     <SelectField
                         placeholder='Tipo'
                         options={[
@@ -71,17 +78,17 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='date'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'} formType={'subform'} name={'contacts'}>
-                    <TextField
+                <FormGroup key={'fieldsThree'} formType={'subform'} name={'contacts'}>
+                    <TextMaskField
                         placeholder='Telefone'
                         name='phone'
                     />
-                    <TextField
-                        placeholder='Celular'
-                        name='celphone'
+                    <TextMaskField
+                        placeholder='CPF'
+                        name='cpf'
                     />
                 </FormGroup>
-                <FormGroup key={'fields'} formType={'subformArray'} name={'tasks'}>
+                <FormGroup key={'fieldsFour'} formType={'subformArray'} name={'tasks'}>
                     <TextField
                         placeholder='Nome da Tarefa'
                         name='name'
@@ -92,19 +99,34 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     />
                 </FormGroup>
 
+                <ToggleSwitchField
+                    placeholder='Status da Tarefa'
+                    name='statusToggle'
+                />
+
+                <CheckBoxField
+                    placeholder='Status da Tarefa'
+                    name='statusCheck'
+                />
+
+                <FormGroup key={'fields'}>
+                    <AudioRecorder
+                        placeholder='Áudio'
+                        name='audio'
+                    />
+                </FormGroup>
+
                 <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
-
-                <FormGroup key={'fields'}>
-                        <AudioRecorder
-                            placeholder='Áudio'
-                            name='audio'
-                        />
-                    </FormGroup>
-
-                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left'}}>
+                <FormGroup key={'fieldsFive'} name={'chips'}>
+                    <ChipInput
+                        name="chip"
+                        placeholder="Chip"
+                    />
+                </FormGroup>
+                <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left', paddingTop: 20}}>
                     <Button
                         key={'b1'}
                         style={{marginRight: 10}}
@@ -120,7 +142,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button key={'b3'} color={'#5a9902'} variant="contained" submit="true">
+                        <Button key={'b3'} color={'primary'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>
                     ) : null}

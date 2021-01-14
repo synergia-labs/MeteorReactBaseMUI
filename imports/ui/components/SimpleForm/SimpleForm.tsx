@@ -227,8 +227,6 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                 {!value||value.length===0||Object.keys(value[0]).length===0?(
                     <div style={simpleFormStyle.containerEmptyItens}>{'Não há itens'}</div>
                 ):null}
-
-
             </div>
             {mode!=='view'?(<div style={simpleFormStyle.containerAddSubForm}>
                 <Fab color="secondary" style={{color:error?'#9F3A38':"#ffffff", ...simpleFormStyle.buttonAddSubForm}} onClick={addSubForm}>
@@ -591,9 +589,6 @@ class SimpleForm extends Component<ISimpleFormProps> {
 
     initFormElements = (update=false) => {
         const self = this;
-        if(!update&&(!!this.formElements||!!this.state.formElements)) {
-            return this.state.formElements||this.formElements;
-        }
 
         let elements = React.Children.toArray(this.props.children);
         const ListaOfElements = elements.map((element,index)=>{
@@ -673,7 +668,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 
     render() {
 
-        this.formElements = this.state.formElements||this.initFormElements();
+        this.formElements = this.initFormElements();
 
         return (
             <div style={this.props.style||{width:'100%'}}>

@@ -32,9 +32,9 @@ const title = {
     fontWeight: isMobile?'500':'500',
 }
 
-const containerList = {
+const fabContainer = {
     position:'fixed',
-    bottom:30,
+    bottom:isMobile?80:30,
     right:30,
 }
 
@@ -73,7 +73,7 @@ export {
     titleTextColor,
     titleSecondaryTextColor,
     title,
-    containerList,
+    fabContainer,
     containerHome,
 
     //messages

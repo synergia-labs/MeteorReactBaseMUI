@@ -14,5 +14,8 @@ export default styles = {
     },
     chip:{
         margin:'0.5rem',
+    },
+    containerEmptyChips:{
+      color:'#BBB',
     }
 }

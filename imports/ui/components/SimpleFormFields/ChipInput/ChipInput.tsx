@@ -85,6 +85,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       {..._.omit(otherProps,['disabled','checked'])}
                   />
               })}
+              {!hasValue(value)?
+                  <div style={styles.containerEmptyChips}>{'  Não há chips'}</div>
+                : null}
             </div>
         </div>
     )
