@@ -52,7 +52,7 @@ Pasta que contém os principais arquivos do produto. Esta pasta está organizada
 	libs        --> Bibliotecas auxiliares utilizadas em todo o produto.
 	materialui     --> Pasta que contém a estilização e definição dos componentes do material-ui a serem adotados pelo sistema.
 	modules     --> Pasta que contém os módulos do sistema, com seus respectivos arquivos-base (api, schema e rotas da aplicação).
-	server  --> Pasta que contém a inicialização das API, as configurações de login social, as configurçaões de indexação de banco de dados, o povoamento inicial da aplicação e outras configurçaões como email, política de segurança do browser, etc.
+	server  --> Pasta que contém a inicialização das API, as configurações de login social, as configurações de indexação de banco de dados, o povoamento inicial da aplicação e outras configurçaões como email, política de segurança do browser, etc.
 	ui          
 		components  --> Contém componentes utilizados por toda a aplicação.
 		config     --> Contém o código referente as rotas da aplicação, com a definição dos componentes a serem acessados e renderizados através dos menus da aplicação
@@ -568,13 +568,13 @@ A variável *carRouterList* contém uma lista de definições de rota referente 
 **Observação**: Se as propriedades isMobileDrawer,isMobileModal, isWebDrawer e isWebModal não forem informadas o conteúdo é renderizado normalmente na página principal.
 
 
-## UTILIZANDO O WebERForm ##       
+## UTILIZANDO O SimpleForm ##       
 ### Entendendo o funcionamento ###
-O *Web Easy React Form* (*WebERForm*) é um componente que faz a gestão de formulários e simplifica a criação das telas de
+
+O *Simple Form* é um componente que faz a gestão de formulários e simplifica a criação das telas de
 cadastro, edição e visualização dos dados da coleção.
 
-A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros,
-é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
+A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, como o próprio *Web Easy React Form* (*WebERForm*) utilizado no Boilerplate anterior do Synergia, é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
 
 O WebERForm foi criado para ser simples, flexível e extensível:
 * simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
