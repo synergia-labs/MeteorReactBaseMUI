@@ -13,6 +13,8 @@ import {audioRecorderStyle} from "./AudioRecorderStyle";
 
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 
+import {hasValue} from "/imports/libs/hasValue";
+
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
   const [values, setValues] = React.useState({ recordButton: true, audioButton: false, deleteButton: false});
@@ -118,9 +120,12 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     if(!!readOnly) {
         return (<div key={name}>
           <SimpleLabelView label={label}/>
-          <p>
-            <audio src={value}  controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
-          </p>
+
+          {hasValue(value)?
+            <p>
+              <audio src={value}  controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
+            </p>
+          : <div style={audioRecorderStyle.containerEmptyAudio}>{'Não há aúdio'}</div>}
         </div>)
     }
 
