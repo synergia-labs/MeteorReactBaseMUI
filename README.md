@@ -126,7 +126,7 @@ Importa o arquivo /import/startup/server/index.js
 
 Para começar a trabalhar com o SynMRS faça um clone do repositório:
 
-    git clone https://gitlab.synergia.dcc.ufmg.br/EquipeDeProcesso/BoilerplateMeteorReact.git
+    git clone https://github.com/synergia-labs/MeteorReactBaseMUI.git
 
 Em seguida, instale as dependências:
 
@@ -138,10 +138,10 @@ E depois, execute a aplicação:
 
 Acesse o sistema através do seu browser no endereço "http://localhost:3000" com as credenciais do administrador do sistema:
 
-    login: admin@synergia.dcc.ufmg.br
-    password: admin@synergia
+    login: admin@mrb.com
+    password: admin@mrb.com
 
- **Observações**: os dados do usuário "admin" foram inseridos no banco de dados pelo arquivo "/import/startup/server/fixture.js";
+ **Observações**: os dados do usuário "admin" foram inseridos no banco de dados pelo arquivo "/imports/server/fixtures.ts";
 
  ## TRABALHANDO COM MÓDULOS ##
 
@@ -187,15 +187,12 @@ O módulo possui uma estrutura muito semelhante à do SynMRS. Apresentaremos a s
 
     car                         --> Nome do módulo/api
         api                     --> Pasta com os arquivos da api
-            carDao.js           --> Especialização do arquivo /imports/api/product/productDao.js
-            carDoc.js           --> Especialização do arquivo /imports/api/product/productDoc.js
-            carMdl.js           --> Especialização do arquivo /imports/api/product/productMdl.js
-            carSch.js           --> Especificação do schema da coleção
+            carApi.ts           --> Especialização do arquivo /imports/modules/car/api/carApi.ts
+            carSch.ts           --> Especificação do schema da coleção
         config                  --> Pasta de agrupa os arquivos de configuração das rotas, menus e toolbars do módulo
-            carAppMenu.js       --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
-            carAppToolbar.js    --> Arquivo de configuração da exibição de itens do módulo no barra superior da aplicação
-            carRouters.js       --> Arquivo de configuração das rotas do módulo
-            index.js            --> Arquivo que exporta as configurações do módulo.
+            carAppMenu.tsx       --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
+            carRouters.tsx       --> Arquivo de configuração das rotas do módulo
+            index.tsx            --> Arquivo que exporta as configurações do módulo.
         libs                    --> Bibliotecas exclusivas do módulo.
         i18n                    --> Pasta do arquivos de internacionalização do módulo
             carLocale.js        --> Configurações/Mapeamento das strings que deverão ser traduzidas nos idiomas da aplicação
