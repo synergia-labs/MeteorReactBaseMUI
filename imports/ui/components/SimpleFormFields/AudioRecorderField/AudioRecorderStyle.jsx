@@ -42,6 +42,9 @@ const audioRecorderStyle = {
     marginBottom:16,
     border:'1px solid red'
   },
+  containerEmptyAudio: {
+    color:'#BBB',
+  },
   buttonOptions: {
     marginRight:3,
     maxHeight:40,
