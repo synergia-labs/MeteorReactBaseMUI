@@ -30,55 +30,15 @@ Dentre os benefícios de adotá-lo no desenvolvimento de um novo produto nós po
 
 ## ESTRUTURA DE PASTA
 
-**BoilerplateMeteorReact**
-
-**.ci**
-
-Esta pasta contém os scripts utilizados pela funcionalidade de pipeline do Jenkins, que é nossa ferramenta de integração contínua. Qualquer mudança no processo de BUILD e DEPLOY da aplicação pode ser feita a partir de alterações nesses arquivos.
-
-**.cypress**
-
-Esta pasta contém as configurações, os testes (*integration*) e as bibliotecas (*support*), conforme o padrão de pastas e o funcionamento do Cypress (https://www.cypress.io/). Esta pasta contém as seguintes subpastas:
-
-	examples
-	fixtures
-	integration
-	plugins
-	screenshots
-	support
-
-Para executar os testes já implementados digite:
-
-    npm run cypress:gui  
+**MeteorReactBaseMUI**
 
 **.meteor**
 
 Arquivos gerados pelo meteor, informações de versões do meteor e seus pacotes e banco de dados local.
 
-**.ProjectFiles**
+**.modulestemplate**
 
-Pasta auxiliar utilizada para a troca de arquivos entre o time.
-
-
-**.scaffolding**
-
-Ferramenta de geração automática de código desenvolvida pelo Synergia.
-O objetivo dessa ferramenta é automatizar a geração da estrutura dos módulos ou de módulos completos que podem
-ser reutilizados e customizados durante o projeto.
-
-Para criar um módulo novo digite:
-
-    npm run create-module
-
-Para remover um módulo digite:
-
-    npm run remove-module <NomeDoModulo>
-
-
-
-**both**
-
-Pasta que contém os arquivos de internacionalização (i18n) que deverão estar disponíveis tanto no cliente quanto no servidor.
+Módulo de exemplo que contém arquivos básicos a serem utilizados pelo módulo (api e schema), além de componentes que gerenciam as rotas, o contexto da aplicação e como o conteúdo do módulo será exibido.
 
 **client**
 
@@ -88,22 +48,17 @@ Pasta que contém o arquivo da página HTML em que o componente react raiz será
 
 Pasta que contém os principais arquivos do produto. Esta pasta está organizada com as seguintes pastas:
 
-	api         --> Contém os arquivos/classes que tratam da comunicação com o banco de dados
-		base    --> Arquivos básicos reutilizados por todos os projetos (dao, model e schema)
-		product --> Arquivos específicos do produtos e que são uma extensão dos arquivos básicos e que, por sua vez, serão extendidos na criação das apis dos módulos.
-	app         --> Componentes que gerenciam as rotas, o contexto da aplicação e como o conteúdo será exibido.
+	api         --> Contém os arquivos/classes base que tratam da comunicação com o banco de dados
 	libs        --> Bibliotecas auxiliares utilizadas em todo o produto.
-	modules     --> Pasta que contém os módulos do sistema.
-	security    --> Pasta que contém a biblioteca de Access Control List (ACL) e configurçaões dos perfis de usuário.
-	startup     
-		both    --> Importação de bibliotecas que precisam estar disponíveis no cliente e no servidor, como é o caso dos arquivos de internacionalizaçaõ dos módulos.
-		client  --> Pasta que contém os arquivos que são chamados pelo browser ao abrir a paǵina: App e ServiceWorkers
-		server  --> Pasta que contém a inicialização das API, as configurações de login social, as configurçaões de indexação de banco de dados, o povoamento inicial da aplicação e outras configurçaões como email, política de segurança do browser, etc.
+	materialui     --> Pasta que contém a estilização e definição dos componentes do material-ui a serem adotados pelo sistema.
+	modules     --> Pasta que contém os módulos do sistema, com seus respectivos arquivos-base (api, schema e rotas da aplicação).
+	server  --> Pasta que contém a inicialização das API, as configurações de login social, as configurçaões de indexação de banco de dados, o povoamento inicial da aplicação e outras configurçaões como email, política de segurança do browser, etc.
 	ui          
-		components  --> Contém componentes utilizados durante por toda a aplicação.
-		layouts     --> Contém a código referente aos layouts Web e Mobile
+		components  --> Contém componentes utilizados por toda a aplicação.
+		config     --> Contém o código referente as rotas da aplicação, com a definição dos componentes a serem acessados e renderizados através dos menus da aplicação
+		layouts     --> Contém o código referente aos layouts a serem utilizados por menus, rotas e navbar da aplicação
 		pages       --> Contém as páginas gerais da aplicação: tela de login, recuperação de senha, etc.
-		theme       --> Contém os arquivos de configuração do tema do produto.
+		userprofile       --> Pasta que contém o módulo do sistema referente a exibição e edição do perfil de usuário, com seus respectivos arquivos-base (api, schema e rotas do módulo).
 
 **node_modules**
 
@@ -121,12 +76,15 @@ Arquivos públicos e disponíveis durante o acesso dos usuários: imagens, fonte
 
 Importa o arquivo /import/startup/server/index.js
 
+**tests**
+
+Realiza testes para identifição das camadas da aplicação sendo utilizadas: cliente ou servidor, e exibe mensagem de alerta de acordo
 
 ## PRIMEIROS PASSOS ##
 
 Para começar a trabalhar com o SynMRS faça um clone do repositório:
 
-    git clone https://gitlab.synergia.dcc.ufmg.br/EquipeDeProcesso/BoilerplateMeteorReact.git
+    git clone https://github.com/synergia-labs/MeteorReactBaseMUI.git
 
 Em seguida, instale as dependências:
 
@@ -138,10 +96,10 @@ E depois, execute a aplicação:
 
 Acesse o sistema através do seu browser no endereço "http://localhost:3000" com as credenciais do administrador do sistema:
 
-    login: admin@synergia.dcc.ufmg.br
-    password: admin@synergia
+    login: admin@mrb.com
+    password: admin@mrb.com
 
- **Observações**: os dados do usuário "admin" foram inseridos no banco de dados pelo arquivo "/import/startup/server/fixture.js";
+ **Observações**: os dados do usuário "admin" foram inseridos no banco de dados pelo arquivo "/imports/server/fixtures.ts";
 
  ## TRABALHANDO COM MÓDULOS ##
 
@@ -187,15 +145,12 @@ O módulo possui uma estrutura muito semelhante à do SynMRS. Apresentaremos a s
 
     car                         --> Nome do módulo/api
         api                     --> Pasta com os arquivos da api
-            carDao.js           --> Especialização do arquivo /imports/api/product/productDao.js
-            carDoc.js           --> Especialização do arquivo /imports/api/product/productDoc.js
-            carMdl.js           --> Especialização do arquivo /imports/api/product/productMdl.js
-            carSch.js           --> Especificação do schema da coleção
+            carApi.ts           --> Especialização do arquivo /imports/modules/car/api/carApi.ts
+            carSch.ts           --> Especificação do schema da coleção
         config                  --> Pasta de agrupa os arquivos de configuração das rotas, menus e toolbars do módulo
-            carAppMenu.js       --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
-            carAppToolbar.js    --> Arquivo de configuração da exibição de itens do módulo no barra superior da aplicação
-            carRouters.js       --> Arquivo de configuração das rotas do módulo
-            index.js            --> Arquivo que exporta as configurações do módulo.
+            carAppMenu.tsx       --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
+            carRouters.tsx       --> Arquivo de configuração das rotas do módulo
+            index.tsx            --> Arquivo que exporta as configurações do módulo.
         libs                    --> Bibliotecas exclusivas do módulo.
         i18n                    --> Pasta do arquivos de internacionalização do módulo
             carLocale.js        --> Configurações/Mapeamento das strings que deverão ser traduzidas nos idiomas da aplicação
