@@ -1,5 +1,5 @@
 import React from 'react'
-
+import './simpletableCSS.css';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -83,11 +83,11 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
     const cols = Object.keys(schema).map(field=>({field,label:schema[field].label,type:getType(schema[field])}));
 
 
-    return (<Table style={simpleTableStyle.tableBox}>
+    return (<Table className={'mobileTable'} style={simpleTableStyle.tableBox}>
                 <TableHead>
-                    <TableRow>
+                    <TableRow >
                         {cols.map(col=>{
-                            return <TableCell style={simpleTableStyle.tableCell} key={col.name+col.label}>{col.label}</TableCell>
+                            return <TableCell scope="col" {...{"data-label":col.label}} style={simpleTableStyle.tableCell} key={col.name+col.label}>{col.label}</TableCell>
                         })}
                         {actions?(
                             <TableCell  style={simpleTableStyle.tableCell}>{'Ações'}</TableCell>
@@ -98,7 +98,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                     {!data?null:data.map((row,index) => (
                         <TableRow onClick={handleRowClick(row._id, row)} style={{...(row.rowStyle?row.rowStyle:{}),cursor:hasOnClick?'pointer':undefined} } key={row._id||row.key||row.name||'row'+index}>
                             {cols.map((col,index)=>{
-                                return <TableCell key={col.name+col.label} style={{...simpleTableStyle.tableCell,width:col.type==='image'?80:undefined}}>
+                                return <TableCell scope="row" {...{"data-label":col.label}}  key={col.name+col.label} style={{...simpleTableStyle.tableCell,textAlign:col.type==='image'?'center':undefined}}>
                                     {renderType(col.type,row[col.field])}
                                 </TableCell>
                             })}
