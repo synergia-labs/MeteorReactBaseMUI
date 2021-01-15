@@ -6,5 +6,5 @@ interface IBaseSimpleFormComponent {
     readOnly:boolean;
     error:boolean;
     schema?: any,
-    otherProps?:object;
+    otherProps?:any;
 }

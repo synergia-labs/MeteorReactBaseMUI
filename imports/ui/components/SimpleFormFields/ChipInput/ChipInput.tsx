@@ -4,7 +4,7 @@ import {hasValue} from "/imports/libs/hasValue";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
-import Check from "@material-ui/icons/Check";
+import AddIcon from "@material-ui/icons/Add";
 import {styles} from './ChipInputStyle'
 import _ from 'lodash'
 
@@ -45,7 +45,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
             {!readOnly?
                 <div style={styles.input}>
                     <TextField
-                      placeholder={"ChipInput"}
+                      placeholder={otherProps.placeHolder}
                       value={chipText}
                       onChange={handleOnChange}
                       onKeyDown={e => {
@@ -54,21 +54,26 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                         }
                       }}
                       InputProps={{
-                        startAdornment: hasValue(value)&& value.map((chip:string) => {
+                          fullWidth: true,
+                          classes: {input: 'fullWidth'},
+                          onBlur: ()=>handleInsert(chipText),
+                          style: {display: 'block', width: '100%'},
+                        startAdornment: <div>{hasValue(value) && value.map((chip: string) => {
                             return <Chip
                                 variant="outlined"
                                 label={chip}
                                 color={'primary'}
                                 style={styles.chip}
-                                onDelete={readOnly? undefined : ()=> handleDelete(chip)}
-                                {..._.omit(otherProps,['disabled','checked'])}
+                                onDelete={readOnly ? undefined : () => handleDelete(chip)}
+                                {..._.omit(otherProps, ['disabled', 'checked'])}
                             />
-                        }),
-                        endAdornment:  <IconButton onClick={()=>handleInsert(chipText)}>
-                                          <Check color={'primary'}/>
-                                      </IconButton>,
+                        })
+                        }</div>,
                       }}
                     />
+                    <IconButton onClick={()=>handleInsert(chipText)}>
+                        <AddIcon style={{fontSize:'2rem'}} color={'primary'}/>
+                    </IconButton>
                 </div>
                 : null
             }
