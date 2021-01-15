@@ -8,9 +8,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
+import Chip from "@material-ui/core/Chip";
 
 import {simpleTableStyle} from "./SimpleTableStyle";
 import {Typography} from "@material-ui/core";
+
 
 interface ISimpleTable {
     schema:object;
@@ -56,9 +58,16 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
             return data.toLocaleDateString();
         }else if(type==='list') {
             return <Typography style={{wordBreak:'break-word'}}>{
-                data.map((item, index, array) => {
+                !data?null:data.map((item, index, array) => {
                     if (typeof (item) === 'string') {
-                        return index===array.length-1 ? item + '.': item + ', '
+                        return <Chip
+                            variant="outlined"
+                            label={item}
+                            color={'primary'}
+                        />
+                        //return index===array.length-1 ? item + '.': item + ', '
+                    } else {
+                        return <i>{'**Não é possível exibir o conteúdo**'}</i>
                     }
                 })
             }</Typography>
@@ -86,7 +95,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((row,index) => (
+                    {!data?null:data.map((row,index) => (
                         <TableRow onClick={handleRowClick(row._id, row)} style={{...(row.rowStyle?row.rowStyle:{}),cursor:hasOnClick?'pointer':undefined} } key={row._id||row.key||row.name||'row'+index}>
                             {cols.map((col,index)=>{
                                 return <TableCell key={col.name+col.label} style={{...simpleTableStyle.tableCell,width:col.type==='image'?80:undefined}}>
