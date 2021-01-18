@@ -134,7 +134,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
       <div key={name} style={error? audioRecorderStyle.containerRecordError:audioRecorderStyle.containerRecord}>
         <SimpleLabelView label={label}/>
         <div style={audioRecorderStyle.subContainerRecord}>
-          {value=="-" ?
+          {!hasValue(value) || value=="-" ?
               <span style={audioRecorderStyle.subContainerRecord}>
               <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
                   <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
