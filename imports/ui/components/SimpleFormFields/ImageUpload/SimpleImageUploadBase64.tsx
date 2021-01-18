@@ -5,6 +5,9 @@ import {hasValue} from "../../../../libs/hasValue";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import Button from '@material-ui/core/Button';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@material-ui/core/Avatar';
+
 
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
@@ -27,7 +30,8 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     if(!!readOnly) {
         return (<div key={name} style={simpleImageStyle.containerImage}>
             <SimpleLabelView label={label}/>
-            <img src={value} style={simpleImageStyle.containerShowImage}/>
+            <Avatar src={value} style={simpleImageStyle.containerShowImage} />
+           {/*} <img src={value} style={simpleImageStyle.containerShowImage}/>{*/}
         </div>)
     }
     const deleteImage = () => {
