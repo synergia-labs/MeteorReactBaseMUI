@@ -74,6 +74,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     stop.onclick = function() {
       if(!!recorder){
         recorder.stop();
+        $("#realtime").text(00 +":" + 00 + ":" + 00);
       }
     }
   };
@@ -90,7 +91,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
   const count = () => {
 	var time_shown = $("#realtime").text();
         var time_chunks = time_shown.split(":");
-        var hour, mins, secs;
+        var hour=0, mins=0, secs=0;
 
         hour=Number(time_chunks[0]);
         mins=Number(time_chunks[1]);
@@ -121,7 +122,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
         return (<div key={name}>
           <SimpleLabelView label={label}/>
 
-          {hasValue(value)?
+          {hasValue(value)&&value!="-"?
             <p>
               <audio src={value}  controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
             </p>
@@ -130,11 +131,12 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     }
 
     return (
-      <div key={name} style={error? audioRecorderStyle.containerRecordError :audioRecorderStyle.containerRecord}>
+      <div key={name} style={error? audioRecorderStyle.containerRecordError:audioRecorderStyle.containerRecord}>
         <SimpleLabelView label={label}/>
         <div style={audioRecorderStyle.subContainerRecord}>
-          {!values.audioButton ?
-              <span><Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
+          {value=="-" ?
+              <span style={audioRecorderStyle.subContainerRecord}>
+              <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
                   <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
               </Fab>
 
@@ -147,17 +149,14 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                     {'00:00:00'}
                 </Fab>
               }
-
-              </span>: null}
-
-          {values.audioButton ?
+          </span> :
+          <span style={audioRecorderStyle.subContainerRecord}>
             <audio src={value} controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
-          : null}
-          {values.deleteButton && values.audioButton ?
-            <Fab color="secondary" aria-label="delete" className="delete" style={audioRecorderStyle.buttonOptions}>
-              <DeleteIcon onClick={deleteAudio} />
-            </Fab>
-          : null}
+              <Fab color="secondary" aria-label="delete" className="delete" style={audioRecorderStyle.buttonOptions}>
+                <DeleteIcon onClick={deleteAudio} />
+              </Fab>
+          </span>
+        }
         </div>
       </div>
     )
