@@ -22,6 +22,8 @@ const simpleImageStyle = {
   containerShowImage: {
     maxWidth:360,
     maxHeight:320,
+    width: 150,
+    height: 150,
   },
   selectImage: {
     cursor:'pointer',
