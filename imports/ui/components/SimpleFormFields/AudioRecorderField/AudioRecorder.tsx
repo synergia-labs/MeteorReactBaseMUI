@@ -17,7 +17,7 @@ import {hasValue} from "/imports/libs/hasValue";
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
-  const [values, setValues] = React.useState({ recordButton: true, audioButton: false, deleteButton: false});
+  const [values, setValues] = React.useState({ recordButton: true, stopButton: false, audioButton: false, deleteButton: false});
 
   let recorder:any = null;
 
@@ -25,7 +25,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
       onChange({},{name,value: '-'})
       setValues({
         ...values,
-        ['recordButton']: true, ['audioButton']: false , ['deleteButton']: false
+        ['recordButton']: true, ['stopButton']: false, ['audioButton']: false , ['deleteButton']: false
       });
   }
 
@@ -52,7 +52,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
     setValues({
       ...values,
-      ['recordButton']: false, ['audioButton']: false , ['deleteButton']: false
+      ['recordButton']: false, ['stopButton']: true, ['audioButton']: false, ['deleteButton']: false
     });
 
     let timer = setInterval(count,1000);
@@ -114,7 +114,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
   const handleStopRecordAudio = () => {
     setValues({
       ...values,
-      ['recordButton']: true, ['audioButton']: true , ['deleteButton']: true });
+      ['recordButton']: true, ['stopButton']: false, ['audioButton']: true , ['deleteButton']: true });
   };
 
     if(!!readOnly) {
@@ -138,8 +138,8 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                   <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
               </Fab>
 
-              <Fab color="secondary" aria-label="play" className="stop" disabled={values.recordButton} style={audioRecorderStyle.buttonOptions}>
-                  <StopIcon onClick={handleStopRecordAudio} value={values.recordButton} />
+              <Fab color="secondary" aria-label="play" className="stop" disabled={!values.stopButton} style={audioRecorderStyle.buttonOptions}>
+                  <StopIcon onClick={handleStopRecordAudio} value={values.stopButton} />
               </Fab>
 
               {values.recordButton?'':
