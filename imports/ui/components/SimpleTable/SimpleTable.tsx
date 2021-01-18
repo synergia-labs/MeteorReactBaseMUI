@@ -72,7 +72,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                 })
             }</Typography>
         }else if(type==='boolean') {
-            return data?<CheckIcon/>:<CloseIcon/>;
+            return data?<CheckIcon style={{width: '15px'}}/>:<CloseIcon style={{width: '15px'}}/>;
         }else if(type==='html') {
             return Array.isArray(data)?data.map(d=><div dangerouslySetInnerHTML={{__html: d}} />):<div dangerouslySetInnerHTML={{__html: data}} />;
         } else {
