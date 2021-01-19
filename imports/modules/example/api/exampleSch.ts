@@ -136,4 +136,5 @@ export interface IExample {
   updatedat: Date;
   createdby: string;
   audio: string;
+  statusCheck: object;
 }

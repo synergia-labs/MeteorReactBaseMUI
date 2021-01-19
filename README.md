@@ -52,7 +52,7 @@ Pasta que contém os principais arquivos do produto. Esta pasta está organizada
 	libs        --> Bibliotecas auxiliares utilizadas em todo o produto.
 	materialui     --> Pasta que contém a estilização e definição dos componentes do material-ui a serem adotados pelo sistema.
 	modules     --> Pasta que contém os módulos do sistema, com seus respectivos arquivos-base (api, schema e rotas da aplicação).
-	server  --> Pasta que contém a inicialização das API, as configurações de login social, as configurações de indexação de banco de dados, o povoamento inicial da aplicação e outras configurçaões como email, política de segurança do browser, etc.
+	server  --> Pasta que contém a inicialização das API, as configurações de login social, as configurçaões de indexação de banco de dados, o povoamento inicial da aplicação e outras configurçaões como email, política de segurança do browser, etc.
 	ui          
 		components  --> Contém componentes utilizados por toda a aplicação.
 		config     --> Contém o código referente as rotas da aplicação, com a definição dos componentes a serem acessados e renderizados através dos menus da aplicação
@@ -152,17 +152,34 @@ O módulo possui uma estrutura muito semelhante à do SynMRS. Apresentaremos a s
             carRouters.tsx       --> Arquivo de configuração das rotas do módulo
             index.tsx            --> Arquivo que exporta as configurações do módulo.
         libs                    --> Bibliotecas exclusivas do módulo.
-        i18n                    --> Pasta do arquivos de internacionalização do módulo
-            carLocale.js        --> Configurações/Mapeamento das strings que deverão ser traduzidas nos idiomas da aplicação
         security                --> Pasta com os arquivos de configuração de ACL do modulo
             settings.js         --> Configuração de ACL do módulo.
         ui                      --> Pastas que agrupa os componentes e páginas do módulo.
             components          --> Componentes utilizados exclusivamente no módulo.
+                SimpleForm      --> Pasta com o arquivo do simpleForm e seu style.
+                SimpleFormFields --> Pasta com as pastas e arquivos de cada field do simpleform
+                SimpleLabelView --> Pasta com o arquivo do simpleLabewView e seu style.
+                SimpleTable     --> Pasta com o arquivo da tabela e seu style.
+                InterfaceBaseSimpleFormComponent.ts --> Arquivo com a interface do simpleForm
             pages               --> Páginas do módulo.
-                carContainer.js --> Container responsável por prover dados e funções para as telas do módulo.
-                carDetail.js    --> Tela  de visualização/edição dos documentos do módulo.
-                carList.js      --> Tela de listagem os documentos do módulo
-                carStyle.css    --> Arquivos de estilo do módulo.
+                DevUtils          --> Pasta com os arquivos dos DevUtils para ajudar os desenvolvedores.
+                EmailVerify       --> Pasta com o arquivo de verificação de email.
+                EnrollAccount     --> Pasta com o arquivo de verificação de envio de token e seu style.
+                Home              --> Pasta com os arquivos da home e seu style.
+                NotFound          --> Pasta com o arquivo para quando não encontrar a página.
+                RecoveryPassword  --> Pasta com o arquivo de recuperação de senha e seu style.
+                ResetPassword     --> Pasta com o arquivo de nova senha e seu style.
+                SignIn            --> Pasta com o arquivo de sign in e seu style.
+                SignOut           --> Pasta com o arquivo de sign out e seu style.
+                SignUp            --> Pasta com o arquivo de sign up e seu style.
+                App.tsx           --> Arquivo com o menu e os componentes.
+                AppGeneralComponents.tsx  --> Arquivo com Drawers e Routers para login.
+                AppGeneralComponentStyle.tsx  --> Style do arquivo anterior.
+            userprofile
+               api                --> Pasta com os arquivos da API do userprofile.
+               config             --> Pasta com os arquivos de index, menu e router do userprofile.
+               ui                 --> Pasta com as pastas de Detail e List do userprofile e seu container.
+            
 
 Para que módulo funcione não basta que ele seja colocado na pasta módulo, é necessário configurar alguns arquivos que irão reconhecer a existência do módulo e carregar suas informações.
 
@@ -568,13 +585,13 @@ A variável *carRouterList* contém uma lista de definições de rota referente 
 **Observação**: Se as propriedades isMobileDrawer,isMobileModal, isWebDrawer e isWebModal não forem informadas o conteúdo é renderizado normalmente na página principal.
 
 
-## UTILIZANDO O SimpleForm ##       
+## UTILIZANDO O WebERForm ##       
 ### Entendendo o funcionamento ###
-
-O *Simple Form* é um componente que faz a gestão de formulários e simplifica a criação das telas de
+O *Web Easy React Form* (*WebERForm*) é um componente que faz a gestão de formulários e simplifica a criação das telas de
 cadastro, edição e visualização dos dados da coleção.
 
-A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, como o próprio *Web Easy React Form* (*WebERForm*) utilizado no Boilerplate anterior do Synergia, é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
+A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros,
+é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
 
 O WebERForm foi criado para ser simples, flexível e extensível:
 * simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
