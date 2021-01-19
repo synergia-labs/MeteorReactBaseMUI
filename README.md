@@ -148,9 +148,13 @@ O módulo possui uma estrutura muito semelhante à do SynMRS. Apresentaremos a s
             carApi.ts           --> Especialização do arquivo /imports/modules/car/api/carApi.ts
             carSch.ts           --> Especificação do schema da coleção
         config                  --> Pasta de agrupa os arquivos de configuração das rotas, menus e toolbars do módulo
-            carAppMenu.tsx       --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
-            carRouters.tsx       --> Arquivo de configuração das rotas do módulo
-            index.tsx            --> Arquivo que exporta as configurações do módulo.
+            carAppMenu.tsx      --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
+            carRouters.tsx      --> Arquivo de configuração das rotas do módulo
+            index.tsx           --> Arquivo que exporta as configurações do módulo.
+       ui/pages
+            carContainer.tsx    --> Arquivo de container do módulo.
+            carDetail.tsx       --> Arquivo de detalhamento do módulo.
+            carList.tsx         --> Arquivo de detalhamento em lsita do módulo
         libs                    --> Bibliotecas exclusivas do módulo.
         security                --> Pasta com os arquivos de configuração de ACL do modulo
             settings.js         --> Configuração de ACL do módulo.
@@ -184,10 +188,9 @@ O módulo possui uma estrutura muito semelhante à do SynMRS. Apresentaremos a s
 Para que módulo funcione não basta que ele seja colocado na pasta módulo, é necessário configurar alguns arquivos que irão reconhecer a existência do módulo e carregar suas informações.
 
 Precisamos fazer as seguintes alterações nos arquivos abaixo:
-
-    /imports/modules/index.js               --> Inserir a importação das configurações do módulo para que suas configurações sejam repassadas para variáveis que serão utilizadas pelo componente "App", que carregará as configurações dos menus, as rotas, etc.
-    /imports/startup/server/registerApi.js      --> Deve importar o arquivo "/imports/modules/car/api/carMdl.js" para que os métodos e as publicações do módulo sejam disponibilizados no lado do servidor.
-    /imports/startup/both/index.js              --> Deve importar o arquivo "/imports/modules/car/locale/carLocale.js" para disponibilizar tanto no lado do cliente quanto do servidor a tradução dos termos do módulo nos diversos idiomas da aplicação..    
+///////////////////////
+    /imports/modules/index.ts           --> Inserir a importação das configurações do módulo para que suas configurações sejam repassadas para variáveis que serão utilizadas pelo componente "App", que carregará as configurações dos menus, as rotas, etc.
+    /imports/server/registerApi.ts      --> Deve importar o arquivo "/imports/modules/car/api/carApi.ts" para que os métodos e as publicações do módulo sejam disponibilizados no lado do servidor.
 
  **Observações**: quando o módulo é criado através do Scaffolding não é necessário editar os arquivos citados acima pois essa alteração é feita automaticamente pela funcionalidade "create-module".
 
@@ -199,7 +202,7 @@ Agora iremos fazer algumas customizações no módulo criado nos passos anterior
 
 #### Criando novos campos no documento ####
 
-A estrutura do documento é definida pelo esquema da coleção. Em nosso exemplo o esquema é definido no arquivo '/imports/modules/car/api/carSch.js'.
+A estrutura do documento é definida pelo esquema da coleção. Em nosso exemplo o esquema é definido no arquivo '/imports/modules/car/api/carSch.ts'.
 
  Ao visualizar o arquivo será exibido o seguinte conteúdo:
 
