@@ -18,6 +18,9 @@ import {hasValue} from "/imports/libs/hasValue";
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
   const [values, setValues] = React.useState({ recordButton: true, stopButton: false, audioButton: false, deleteButton: false});
+  const [seconds, setSeconds] = React.useState(0);
+  const [minutes, setMinutes] = React.useState(0);
+  const [hours, setHours] = React.useState(0);
 
   let recorder:any = null;
 
@@ -55,8 +58,6 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
       ['recordButton']: false, ['stopButton']: true, ['audioButton']: false, ['deleteButton']: false
     });
 
-    let timer = setInterval(count,1000);
-
     navigator.getUserMedia = (
         navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
@@ -74,49 +75,40 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
     stop.onclick = function() {
       if(!!recorder){
         recorder.stop();
-        $("#realtime").text(00 +":" + 00 + ":" + 00);
       }
     }
   };
 
-  const plz = (digit) =>{
-
-    var zpad = digit + '';
-    if (digit < 10) {
-        zpad = "0" + zpad;
+  React.useEffect(() => {
+    if(!values.recordButton){
+      if (seconds < 60) {
+        setTimeout(() => setSeconds(seconds + 1), 1000);
+      } else if (seconds == 60){
+        setTimeout(() => setSeconds(0), 1000);
+        if (minutes < 60) {
+          setTimeout(() => setMinutes(minutes + 1), 1000);
+        } else if (minutes == 60){
+          setTimeout(() => setMinutes(0), 1000);
+          if (hours < 24) {
+            setTimeout(() => setHours(hours + 1), 1000);
+          } else if (hours == 24){
+            setTimeout(() => setHours(0), 1000);
+          }
+        }
+      }
     }
-    return zpad;
-  };
-
-  const count = () => {
-	var time_shown = $("#realtime").text();
-        var time_chunks = time_shown.split(":");
-        var hour=0, mins=0, secs=0;
-
-        hour=Number(time_chunks[0]);
-        mins=Number(time_chunks[1]);
-        secs=Number(time_chunks[2]);
-        secs++;
-            if (secs==60){
-                secs = 0;
-                mins=mins + 1;
-               }
-              if (mins==60){
-                mins=0;
-                hour=hour + 1;
-              }
-              if (hour==13){
-                hour=1;
-              }
-
-        $("#realtime").text(hour +":" + plz(mins) + ":" + plz(secs));
-      };
+    else{
+      setHours(0);
+      setMinutes(0);
+      setSeconds(0);
+    }
+  });
 
   const handleStopRecordAudio = () => {
     setValues({
       ...values,
       ['recordButton']: true, ['stopButton']: false, ['audioButton']: true , ['deleteButton']: true });
-  };
+    };
 
     if(!!readOnly) {
         return (<div key={name}>
@@ -145,8 +137,8 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
               </Fab>
 
               {values.recordButton?'':
-                <Fab variant="outlined" color="#5a9902" aria-label="play" id="realtime" className="realtime" disabled={values.recordButton} style={audioRecorderStyle.buttonCountOptions}>
-                    {'00:00:00'}
+                <Fab variant="outlined" color="#5a9902" style={audioRecorderStyle.buttonCountOptions}>
+                    {((hours<10)?('0'+hours):hours) + ':' + ((minutes<10)?('0'+minutes):minutes) + ':' + ((seconds<10)?('0'+seconds):seconds)}
                 </Fab>
               }
           </span> :
