@@ -104,21 +104,21 @@ export const exampleSch = {
     isMapLocation:true,
     optional: true,
   },
-  statusCheck: {
-    type: Object,
-    label: 'Status CheckBox',
-    defaultValue: '',
-    optional: false,
-    checksList: ['Todo', 'Doing', 'Done'],
-    validate: (value) => {
-      const statusTrue = value&&Object.keys(value).filter( status => {
-        if(value[status]){
-          return status
-        }
-      })
-      return  statusTrue.length <= 1
-    }
-  },
+  // statusCheck: {
+  //   type: Object,
+  //   label: 'Status CheckBox',
+  //   defaultValue: '',
+  //   optional: false,
+  //   checksList: ['Todo', 'Doing', 'Done'],
+  //   validate: (value) => {
+  //     const statusTrue = value&&Object.keys(value).filter( status => {
+  //       if(value[status]){
+  //         return status
+  //       }
+  //     })
+  //     return  statusTrue.length <= 1
+  //   }
+  // },
   statusRadio: {
     type: String,
     label: 'Status RadioButton',
