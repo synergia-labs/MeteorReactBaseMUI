@@ -119,6 +119,13 @@ export const exampleSch = {
       return  statusTrue.length <= 1
     }
   },
+  statusRadio: {
+    type: String,
+    label: 'Status RadioButton',
+    defaultValue: '',
+    optional: false,
+    radiosList: ['Todo', 'Doing', 'Done'],
+  },
   statusToggle: {
     type: Boolean,
     label: 'Status Toogle',

@@ -14,36 +14,32 @@ import {radioButtonStyle} from './RadioButtonFieldStyle'
 export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:IBaseSimpleFormComponent)=>{
     const [loadRender, setLoadRender] = useState(0);
     const [valueR, setValueR] = useState("");
+    const list = otherProps.radiosList&&hasValue(otherProps.radiosList)?otherProps.radiosList:(schema&&hasValue(schema.radiosList)?schema.radiosList:null);
+    const [selection, setSelection] = React.useState({ value: list?list[0]:""});
 
-    const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string, value:string) => {
-      console.log("value: ", value);
-      setValueR(itemCheck);
-
-        /*if(!readOnly){
-            const newValue = typeof(value) === 'object' ? value : {}
-            newValue[itemCheck]= event.target.value
-            onChange({},{name,value: newValue})
-            setLoadRender(loadRender+1);
-        }*/
+    const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string) => {
+      if(!readOnly){
+        event.persist();
+        const name = event.target.name;
+        setSelection({ ...selection, [name]: itemCheck });
+        onChange({},{name,value: itemCheck})
+        setLoadRender(loadRender+1);
+        }
     }
-
-    const list = otherProps.checksList&&hasValue(otherProps.checksList)?otherProps.checksList:(schema&&hasValue(schema.checksList)?schema.checksList:null);
 
     return (
         <FormControl component="fieldset" style={error?radioButtonStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
-
             {list?
-                <RadioGroup aria-label="gender" name="gender1" value={valueR} style={radioButtonStyle.radio}>
+                <RadioGroup name="value" value={selection.value} onChange={handleChangeCheck} style={radioButtonStyle.radio}>
                     {list.map((itemCheck) => {
-                        return <FormControlLabel control={<Radio checked={!!value[itemCheck]} name={itemCheck} row/>}
-                                                 key={itemCheck}
-                                                 value={value}
-                                                 id={itemCheck}
-                                                 label={itemCheck}
-                                                 onChange={(event) => handleChangeCheck(event, itemCheck, value)}
-                                                 {...(_.omit(otherProps,['disabled', 'checked']))}
-                        />
+                        return <FormControlLabel
+                                  key={itemCheck}
+                                  value={itemCheck}
+                                  id={itemCheck}
+                                  label={itemCheck}
+                                control={<Radio color="primary" />}
+                              />
                     })}
                 </RadioGroup> : null}
         </FormControl>
