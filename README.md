@@ -66,7 +66,7 @@ Pasta com as dependencias do produto.
 
 **private**
 
-Arquivos que não estarã disponíveis para os usuários da aplicação diretamente. Por exemplo, nesta pasta está o template do email que é enviado para os usuários.
+Arquivos que não estarão disponíveis para os usuários da aplicação diretamente. Por exemplo, nesta pasta está o template do email que é enviado para os usuários.
 
 **public**
 
@@ -74,7 +74,7 @@ Arquivos públicos e disponíveis durante o acesso dos usuários: imagens, fonte
 
 **server**
 
-Importa o arquivo /import/startup/server/index.js
+Importa o arquivo /import/startup/server/index
 
 **tests**
 
@@ -264,313 +264,42 @@ Para criar um campo novo basta adicionar mais uma propriedade no objeto "**carSc
 
 
 Acesse a tela de inserção de um novo carro, no módulo "car", e veja que agora é possível informar acessórios para os carros.
-
-#### Traduzindo os campos para PT-BR ####
-
-Agora que criamos um novo campo é necessário definir a sua tradução. Originalmente o label para "en-US" é o label que está definido no schema. Essa definição está no arquivo "/imports/modules/car/i18n/carLocale.js" na linha:
-
-    addTranslationBySchema(carSch, 'app.modules.car.schema', 'en-US');
-
-Para "pt-BR" temos que informar a tradução para cada campo do documento manualmente, inserindo as seguintes linhas no final do método "setModuleLocale":
-
-    i18n.addTranslation('pt-BR', 'app.modules.car.schema', 'name', 'nome');
-    i18n.addTranslation('pt-BR', 'app.modules.car.schema', 'model', 'modelo');
-    i18n.addTranslation('pt-BR', 'app.modules.car.schema', 'image', 'imagem');
-    i18n.addTranslation('pt-BR', 'app.modules.car.schema', 'acessories', 'acessórios');
-
-Salve o arquivo e altere o idioma do usuário para "Português". Acesse o módulo "car" e verifique que os campos estarão sendo exibidos em "pt-BR".            
-
-#### Utilizando subschemas para alterar a disponibilização de campos na tela ####
-
-Veja que na rota "http://localhost:3000/car", que exibe a lista de carros, há o campo "image" sendo exibido. Este campo exibe a url da imagem. Não faz sentido exibir esse campo nesta tela.
-
-Para remover esse campo basta alterar o subschema "TableView", informando somente os campos que gostaríamos que sejam exibidos. Este subschema pode ser alterado no arquivo "/imports/modules/car/api/carDao.js".
-
-    this.schema.addSubSchema('tableView', Object.keys(carSch));
-
-Ao invés de informar uma lista de campos do esquema (Object.keys(carSch)), informe somente os campos que irão ser exibidos na tabela. POr exemplo:
-
-    this.schema.addSubSchema('tableView', ['name','model','acessories']);
-
-Acesse novamente a página e verifique que o campo "image" não está sendo exibido.
-
-É possível criar outros subSchemas e utilizá-los nas telas de visualização e/ou edição dos documentos.
-
+         
 
 #### Criando um método novo ####
 
-Ás vezes é necessário criar um novo método que será chamado do lado do cliente através do comando "Meteor.call".
-No SynMRS nós fazemos as chamadas dos métodos utilizando o *model* do módulo, utilizando o método "callMethod".
-
-A criação de um novo método é feita no lado do servidor e também no *model* do módulo.
-Suponha que precisamos criar um método para clonar um documento. Neste caso, faremos o seguinte:
-
-Primeiro, iremos criar o método que será chamado no arquivo '/imports/model/car/api/carMdl.js'.
-Iremos definir o novo método e depois adicioná-lo à lista dos métodos disponíveis utilizando o "registerMethod" mo *model*:
-
-    export class CarMdl extends ProductMdl {
-      constructor() {
-        const dao = new CarDao();
-        super(dao);
-
-        this.registerMethod('clone',this.cloneCar);
-
-      }
-
-      cloneCar = (idCar, context) => {
-        (...)
-      }
-
-    }
-
-Veja que o novo método recebe os parâmetros idCar e context. O "context" é inserido pelo método "registerMethod" e ele
-contém informações do usúario logado, informações da conexão, etc.
-
-Agora, vamos definir o conteúdo do método:
-
-        cloneCar = (idCar, context) => {
-          const car = this.findOne({ _id: idCar });
-          delete car._id; // removendo o campo _id para deixar o mongo criar um campo novo
-          car.name = `${car.name} (clone)`; // adicionando a string (clone) após o nome do carro
-          const newCarId = this.mtInsert(car, context);
-          return newCarId; // Retornando o ID do carro clonado.
-        }
-
-
-
-O método retorna o "_id" do documento criado pelo mongoDB que, por sua vez, será o retorno da função "callback"
-da chamado do método do lado do cliente.
-
-Vamos à parte do cliente. Inicialmente iremos adicionar a chamado ao método no *container* da tela de visualização:
-
-    const CarViewContainer = withTracker(props => {
-      const carHandle = carMdl.subscribe('default', { _id: props.id }, {});
-      const loading = !carHandle.ready();
-      const doc = carMdl.findOne({ _id: props.id });
-
-      const carExists = !loading && !!car;
-      return {
-        locale: props.locale,
-        loading,
-        doc,
-        carExists,
-        carFormGenerator,
-        createClone: (carId) => {
-          carMdl.callMethod('clone', carId, (error, response) => {
-            if (!error) {
-              props.openSnackBar('Clone realizado com suceso', 'success');
-              props.history.push(`/car/view/${response}`);
-            } else {
-              props.openSnackBar(`Erro ao realizar clone:${error}`, 'error');
-            }
-          });
-        },
-      };
-    })(preventUpdate(CarView, ['doc', 'locale']));
-
-
-Vamos à explicações...O *CarContainer* inicia com um *subscribe* para recuperar os dados referentes ao carro selecionado,
-definido pelo filtro "{ _id: props.id }". Uma vez que os dados são recuperados e enviados para o *miniMongo* ele é enviado
-para a variável *doc* e repassado para o componente de visualização *CarView*. O componente de alta ordem (HOC) *preventUpdate*
-tem o papel de garantir que o componente seja renderizado novamente somente quando há alterações no valor das variávels *doc* ou *locale*,
-evitando re-renderizações desnecessárias.
-
-Vamos à nossa preocupação maior que é o método *createClone*. Esse método recebe o parâmetro *carID* e utiliza ele na chamada do método
-*callMethod* que possui a seguinte estrutura:
-
-     carMdl.callMethod(<NomeDoMetodo>, <Parametros>,  <FuncaoCallback>)
-
-O nome do método é exatamente o nome utilizado no *registerMethods* ao criá-lo no lado do servidor. Os parâmetros são também os parâmetros esperados
-por esse método. E a função "callback" é a função que receberá o retorno do método ao ser executado no servidor.
-
-Por fim, se não existir erro é exibida uma *snackBar* informando sobre o sucesso da operação e através do *props.history.push* do
-ReactRouter o usuário é direcionado para a rota referente ao item clonado.
-
-Se ocorrer erro é exibida uma mensagem de erro e o usúario continua na mesma tela.
-
-Por fim, basta colocar essa ação na tela através das ações do WebERForm, no arquivo '/imports/modules/car/ui/pages/carView.js':
-
-        {
-          name: 'Clone',
-          buttonProps: {
-            variant: 'raised',
-            disabled: !props.doc||!props.doc._id,
-            color: 'secondary',
-            onClick: (doc,form) => {
-              props.createClone(doc._id);
-            },
-          },
-        },
-
-Vejam que o nome do comando é "Clone" e que as propriedades que estamos passando para o componente *button* são as que estão definidas em *buttonProps*.
-
-Em *disabled* é verificada a existência do documento ou de um "_id" para o documento para desabilitar o comando durante a criação de um novo registro.
-
-E, em *onClick* temos a chamada do método que foi criado anteriormente. Veja que o *onClick* não trás o parâmetro *event*,
-como de costume, mas o *doc* e o *form* referem, respectivamente, ao documento em edição e à instância do formulário WebERForm.
-
-#### Adicioando validações durante a inserção ####
-Em alguns casos nós precisamos realizar ações antes ou depois da realização de uma operação de banco de dados. No *baseMdl*
-nós vamos encontrar os métodos *beforeInsert*, *afterInsert*, *beforeUpdate*, *afterUpdate*, etc, que podem ser especializado
-na classe do módulo que estamos trabalhando. Abaixo há um exemplo de como fazer para garantir que não sejam inseridos documentos
-cujo o valor de um dos seus campos sejam iguais ao de algum documento já existente:
-
-    export class CarMdl extends ProductMdl {
-      constructor() {
-        const dao = new CarDao();
-        super(dao);
-
-        this.registerMethod('clone', this.cloneCar);
-        this.beforeInsert = this.beforeInsert.bind(this);
-      }
-
-      beforeInsert (docObj,context) {
-        const oldDoc = this.findOne({name:{$regex: docObj.name, $options: '-i'}});
-
-        if(!!oldDoc) {
-          throw new Meteor.Error(
-            'Problema na inserção',//String que identifica o erro
-            `Já existe um carro com o nome ${docObj.name}`,//Breve explicação do porque ocorreu o erro
-            'Detalhes do erro: stack trace'
-          );
-        } else {
-          return super.beforeInsert(docObj,context);
-        }
-      }
-      (...)
-
-Podemos observar que a redefinição do método *beforeInsert* precisa ser feita com alguns cuidados. Vamos a eles:
-* não definir o método que será sobrescrito utilizando *arrow function*, pois caso contrário o javascript não ira reconhecer
-o método que o sobrescreveu. Porque? Não sei, só sei que é assim.
-* ao definir o novo método é necessário utilizar o *bind* para colocá-lo no contexto da classe e ser reconhecido pelos outros métodos através da chamada *this*,
-como como poder utilizar o *this* da classe.
-* os métodos do SynMRS sempre recebem seus parâmetros acrescidos de um parâmetro extra que é o *context*, que receberá o contexto
-criado pelo método *registerMethod*.
-* após realizar a validação extra e nenhum item ter sido encontrado veja que foi chamado o método *beforeInsert* da classe *baseMdl*.
-Chamar essa classe no final garante que as demais validações realizadas pelo SynMRS sejam efetuadas.
-* ao chamar o método sobrescrito da classe pai é necessário utilizar o *return* para garantir que o novo método retorne o que o
-método original está retornando.
-* se o *beforeInsert* retornar o valor "false" a inserção não é realizada.
 
 
 #### Definindo as permissões de acesso do módulo ####
-As permissões de acesso do módulo são definidas no arquivo '/imports/modules/car/security/settings.js'.
-Este arquivo contém as permissões referentes às quatro operações básicas: *view*, *update*, *insert* e *remove*.
-
-Vamos entender a estrutura desse arquivo:
-
-        view: {
-          access: [
-            'Administrador',
-            `${apiName}_View`,
-            `${apiName}_ViewOwn`,
-            `${apiName}_Update`,
-            `${apiName}_UpdateOwn`,
-            `${apiName}_Remove`,
-            `${apiName}_RemoveOwn`,
-          ],
-          fields: {
-            onlyTheOwner: {
-              roles: [
-                `${apiName}_ViewOwn`,
-                `${apiName}_UpdateOwn`,
-                `${apiName}_RemoveOwn`,
-              ],
-              field: 'createdby', // createUserId is the default
-            },
-          },
-        },
-
-Essa é a configuração da operação *view* no entanto, o que for dito aqui servirá para as demais operações.
-
-Cada operação possui duas configurações básicas: *access* e *fields*. Em *access* são definidas quais chaves têm permissão
-para executar a operação ou seja, neste exemplo acima, quais chaves podem ver os registro.
-
-Essas chaves são definidas no arquivo '/imports/security/usersAccessAndPermissions.js'. Esse arquivo contém um mapeamento entre
-os perfis de acesso e as chaves.
-
-Em fields há a configuração de outras restrições de acesso. No exemplo acima há a restrição *onlyTheOwner*. Esta configuração
-indica que somente o dono do documento pode alterá-lo. Essa restrição é aplicada considerando qual campo deve ser
-considerado para verificar quem é o dono, informado na propriedade *field*, e quais chaves de acesso estarão sendo restringidas
-por essa regra, na propriedade *roles*. Ou seja, se o perfil de acesso do usuário possuir algum dessas chaves ele só poderá ver
-os próprios documentos.
-
-As configurações de campo (*fields*) aceitam também as regras abaixo:
-
-     restricted: {
-         role: ['field1', 'field2']
-     },
-     allowed: {
-         role2: ['field', 'field4']
-     },
-
-A regra *restricted* indica que se o perfil de acesso do usuário possuir a chave *role* ele não poderá realizar a operação para
-os campos *field1* e *field2*.
-
-A regra *allowed* indica que se o perfil de acesso do usuário possuir a chave *role2* ele só poderá realizar a operação  
-nos campos *field* e *field4*.
 
 #### Definindo rotas e itens do menu ####
 Na pasta *config* há os arquivos:
-* **nomeDoModulo**AppMenu.js - Ex: carAppMenu.js
-* **nomeDoModulo**AppToolbar.js  - Ex: carAppToolbar.js
-* **nomeDoModulo**Routers.js  - Ex: carRouters.js
+* **nomeDoModulo**appmenu.tsx - Ex: exampleappmenu.tsx
+* **nomeDoModulo**routers.tsx - Ex: examplerouters.tsx
+index.tsx
 
-O arquivo *carAppMenu* contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
+O arquivo *carappmenu* contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
 
-    import LocationCity from '@material-ui/icons/LocationCity';
-    import { avaliableOffLineOnClient } from '../api/carDao';
-    import i18n from 'meteor/universe:i18n';
+import React from 'react';
+import Class from '@material-ui/icons/Class';
 
-    export const carMenuItemList = [
-      {
-        path: '/car',
-        title: ()=>i18n.__('app.modules.car.module_title'),
-        icon: LocationCity,
-        avaliableOffLine: avaliableOffLineOnClient,
-        roles: ['Administrador', 'Usuario'],
-      },
-    ];
+export const carMenuItemList = [
+  {
+    path: '/car',
+    name: 'Carros',
+    icon: <Class />,
+  },
+];
 
 A variável *carMenuItemList* é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
 * **path** - Define a rota que será chamada quando o item é acionado. Ex:'/car',
 * **title** - Define o título/text que será exibido no item: Ex: "Carros"
-* **icon** - Define o ícone que será utilizado. Ex: LocationCity
+* **icon** - Define o ícone que será utilizado. Ex: Class
+//////
 * **avaliableOffLine** - Define se o menu será ou não exibido quando a aplicação estiver offline. Ex: "true"
 * **roles** - Define quais perfis de acesso enxergarão esse item no menu. Ex: ['Administrador', 'Usuario'],
+//////
 
-O arquivo *carAppToolbar* contém a mesma estrutura descrita acima para os itens do menu. No entanto, as definições que forem feitas nesse arquivo serão exibidas na barra principal da aplicação: AppBar.
-
-O arquivo *carRouters* define as rotas que estarão disponíveis. O arquivo contém a seguinte esterutura:
-
-    import CarContainer from '../ui/pages/carContainer';
-    import { avaliableOffLineOnClient } from '../api/carDao';
-    import i18n from 'meteor/universe:i18n';
-
-    export const carRouterList = [
-      {
-        path: '/car/:screenState/:carId',
-        title: () => i18n.__('app.modules.car.module_title'),
-        avaliableOffLine: avaliableOffLineOnClient,
-        roles: [ 'Administrador', 'Usuario' ],
-        component: CarContainer,
-      },
-      {
-        path: '/car/:screenState',
-        title: ()=>i18n.__('app.modules.car.module_title'),
-        avaliableOffLine: avaliableOffLineOnClient,
-        roles: ['Administrador', 'Usuario'],
-        component: CarContainer,
-      },
-      {
-        path: '/car',
-        title: ()=>i18n.__('app.modules.car.module_title'),
-        avaliableOffLine: avaliableOffLineOnClient,
-        roles: ['Administrador', 'Usuario'],
-        component: CarContainer,
-      },
-
-    ];
 
 A variável *carRouterList* contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
 * **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/car/:screenState/:carId',

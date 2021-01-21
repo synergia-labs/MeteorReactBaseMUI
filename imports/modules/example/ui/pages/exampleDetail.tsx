@@ -105,10 +105,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     name='statusToggle'
                 />
 
-                <CheckBoxField
+            {/*}    <CheckBoxField
                     placeholder='Status da Tarefa'
                     name='statusCheck'
-                />
+                    />{*/}
 
                 <RadioButtonField
                     placeholder='Opções da Tarefa'
