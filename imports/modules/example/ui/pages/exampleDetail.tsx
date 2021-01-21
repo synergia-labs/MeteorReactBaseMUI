@@ -112,7 +112,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
 
                 <RadioButtonField
                     placeholder='Opções da Tarefa'
-                    name='statusCheck'
+                    name='statusRadio'
                 />
 
                 <FormGroup key={'fields'}>
