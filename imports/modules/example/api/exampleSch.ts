@@ -144,4 +144,5 @@ export interface IExample {
   createdby: string;
   audio: string;
   statusCheck: object;
+  statusToggle: boolean;
 }

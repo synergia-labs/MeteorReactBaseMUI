@@ -15,7 +15,7 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
     const [loadRender, setLoadRender] = useState(0);
     const [valueR, setValueR] = useState("");
     const list = otherProps.radiosList&&hasValue(otherProps.radiosList)?otherProps.radiosList:(schema&&hasValue(schema.radiosList)?schema.radiosList:null);
-    const [selection, setSelection] = React.useState({ value: list?list[0]:""});
+    const [selection, setSelection] = React.useState({ value: ""});
 
     const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string) => {
       if(!readOnly){

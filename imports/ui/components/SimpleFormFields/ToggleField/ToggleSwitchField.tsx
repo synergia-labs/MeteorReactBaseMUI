@@ -30,6 +30,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         }
     }
 
+    console.log("value: ",value);
+
     return (
         <div style={error?styles.fieldError:undefined}>
             <SimpleLabelView label={label}/>
