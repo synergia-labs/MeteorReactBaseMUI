@@ -30,6 +30,8 @@ export const TextField: React.FC<TextFieldProps> = ({
       placeholder={placeholder}
       name={name}
       type={type}
+      disabled={disabled}
+      required={required}
       {...props}
     />
   );
