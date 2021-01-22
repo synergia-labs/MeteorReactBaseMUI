@@ -32,7 +32,7 @@ export const PasswordStory = Template.bind({});
 PasswordStory.args = {
   /* the args you need here will depend on your component */
   placeholder: 'Senha',
-  type: "password",
+  password: true,
 };
 PasswordStory.argTypes = {
 };

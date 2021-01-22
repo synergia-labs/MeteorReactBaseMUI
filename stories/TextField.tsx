@@ -8,7 +8,7 @@ export interface TextFieldProps {
   name: string;
   disabled?: boolean;
   required?: boolean;
-  type?:string;
+  password?: boolean;
 }
 
 /**
@@ -19,11 +19,17 @@ export const TextField: React.FC<TextFieldProps> = ({
   name,
   disabled=false,
   required=false,
-  type,
+  password=false,
   ...props
 }) => {
+
+  const type = password ? "password" : "";
+
   return (
     <TextFieldComp
+      placeholder={placeholder}
+      name={name}
+      type={type}
       {...props}
     />
   );
