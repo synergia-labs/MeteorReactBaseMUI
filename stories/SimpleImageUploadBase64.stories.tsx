@@ -3,7 +3,7 @@
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 
-import SimpleImageUploadBase64 from '/imports/ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64';
+import {SimpleImageUploadBase64, SimpleImageUploadBase64Props}  from './SimpleImageUploadBase64';
 
 // This default export determines where your story goes in the story list
 export default {
@@ -11,9 +11,7 @@ export default {
   component: SimpleImageUploadBase64,
 };
 
-const Template: Story<ComponentProps<typeof SimpleImageUploadBase64>> = (args) => (
-  <SimpleImageUploadBase64 {...args} />
-);
+const Template: Story<SimpleImageUploadBase64Props> = (args) => <SimpleImageUploadBase64 {...args}/>;
 
 export const FirstStory = Template.bind({});
 FirstStory.args = {
