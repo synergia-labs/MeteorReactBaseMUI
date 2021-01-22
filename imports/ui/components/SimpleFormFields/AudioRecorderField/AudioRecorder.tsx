@@ -11,8 +11,6 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
-import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-
 import {hasValue} from "/imports/libs/hasValue";
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{

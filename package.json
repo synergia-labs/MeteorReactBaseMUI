@@ -33,6 +33,7 @@
     "react-router-dom": "^5.2.0",
     "react-sortablejs": "^6.0.0",
     "request": "^2.88.2",
+    "sb": "^6.1.14",
     "shortid": "^2.2.16",
     "sortablejs": "^1.13.0",
     "zipson": "^0.2.12"
