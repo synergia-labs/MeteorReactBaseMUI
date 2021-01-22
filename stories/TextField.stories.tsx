@@ -23,6 +23,7 @@ export const DefaultStory = Template.bind({});
 DefaultStory.args = {
   /* the args you need here will depend on your component */
   placeholder: 'Título',
+  name: 'Título',
 };
 DefaultStory.argTypes = {
   /* the args you need here will depend on your component */
@@ -32,6 +33,7 @@ export const PasswordStory = Template.bind({});
 PasswordStory.args = {
   /* the args you need here will depend on your component */
   placeholder: 'Senha',
+  name: 'Senha',
   password: true,
 };
 PasswordStory.argTypes = {
