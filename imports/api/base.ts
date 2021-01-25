@@ -4,8 +4,6 @@ import _ from 'lodash';
 import {hasValue} from "../libs/hasValue";
 import {getUser} from "/imports/libs/getUser";
 
-)
-
 //Conters
 const Counts = new Mongo.Collection("counts");
 Counts.deny({
@@ -397,7 +395,7 @@ export class ApiBase {
             this.addPublication('default', this.defaultCollectionPublication);
             this.addPublication('defaultCounter', this.defaultCounterCollectionPublication(this));
 
-            
+
         }
     }
 
@@ -1054,4 +1052,3 @@ export class ApiBase {
     };
 
 }
-
