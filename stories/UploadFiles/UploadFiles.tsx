@@ -1,6 +1,5 @@
 /*
 import React from 'react';
-import './button.css';
 import UploadFilesComp from '/imports/ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
 export interface UploadFilesProps {
