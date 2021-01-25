@@ -1,9 +1,8 @@
 import React from 'react';
 
+import DatePickerFieldComp from '/imports/ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 
-import ChipInputComp from '/imports/ui/components/SimpleFormFields/ChipInput/ChipInput';
-
-export interface ChipInputProps {
+export interface DatePickerFieldProps {
   placeholder: string;
   name: string;
   disabled?: boolean;
@@ -13,17 +12,16 @@ export interface ChipInputProps {
 /**
  * Primary UI component for user interaction
  */
-export const ChipInput: React.FC<ChipInputProps> = ({
+export const DatePickerField: React.FC<DatePickerFieldProps> = ({
   placeholder,
   name,
   disabled=false,
   required=false,
-  chip=['Chip'],
   type,
   ...props
 }) => {
   return (
-    <ChipInputComp
+    <DatePickerFieldComp
       name={name}
       type={type}
       {...props}

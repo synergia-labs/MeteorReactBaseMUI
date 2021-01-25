@@ -1,32 +1,30 @@
+/*
 import React from 'react';
+import './button.css';
+import UploadFilesComp from '/imports/ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
-
-import ChipInputComp from '/imports/ui/components/SimpleFormFields/ChipInput/ChipInput';
-
-export interface ChipInputProps {
+export interface UploadFilesProps {
   placeholder: string;
   name: string;
   disabled?: boolean;
   required?: boolean;
   type?:string;
 }
-/**
- * Primary UI component for user interaction
- */
-export const ChipInput: React.FC<ChipInputProps> = ({
+
+export const UploadFiles: React.FC<UploadFilesProps> = ({
   placeholder,
   name,
   disabled=false,
   required=false,
-  chip=['Chip'],
   type,
   ...props
 }) => {
   return (
-    <ChipInputComp
+    <UploadFilesComp
       name={name}
       type={type}
       {...props}
     />
   );
 };
+*/
