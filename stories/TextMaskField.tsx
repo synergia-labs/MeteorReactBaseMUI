@@ -1,21 +1,20 @@
 import React from 'react';
 import './button.css';
 
-import TextFieldComp from '/imports/ui/components/SimpleFormFields/TextField/TextField';
+import TextMaskFieldComp from '/imports/ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 
-export interface TextFieldProps {
+export interface TextMaskFieldProps {
   placeholder: string;
   name: string;
   disabled?: boolean;
   required?: boolean;
-  password?: boolean;
   backgroundColor?: string;
 }
 
 /**
  * Primary UI component for user interaction
  */
-export const TextField: React.FC<TextFieldProps> = ({
+export const TextMaskField: React.FC<TextMaskFieldProps> = ({
   placeholder,
   name,
   disabled=false,
@@ -25,13 +24,10 @@ export const TextField: React.FC<TextFieldProps> = ({
   ...props
 }) => {
 
-  const type = password ? "password" : "";
-
   return (
-    <TextFieldComp
+    <TextMaskFieldComp
       placeholder={placeholder}
       label={name}
-      type={type}
       disabled={disabled}
       required={required}
       style={{ backgroundColor }}

@@ -1,40 +1,35 @@
 import React from 'react';
 import './button.css';
 
-import TextFieldComp from '/imports/ui/components/SimpleFormFields/TextField/TextField';
+import RadioFieldComp from '/imports/ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
 
-export interface TextFieldProps {
+export interface RadioFieldProps {
   placeholder: string;
   name: string;
   disabled?: boolean;
   required?: boolean;
-  password?: boolean;
-  backgroundColor?: string;
+  radiosList: [Object];
 }
 
 /**
  * Primary UI component for user interaction
  */
-export const TextField: React.FC<TextFieldProps> = ({
+export const RadioField: React.FC<RadioFieldProps> = ({
   placeholder,
   name,
   disabled=false,
   required=false,
-  password=false,
-  backgroundColor,
+  radiosList=[],
   ...props
 }) => {
 
-  const type = password ? "password" : "";
-
   return (
-    <TextFieldComp
+    <RadioFieldComp
       placeholder={placeholder}
       label={name}
-      type={type}
       disabled={disabled}
       required={required}
-      style={{ backgroundColor }}
+      radiosList={radiosList}
       {...props}
     />
   );
