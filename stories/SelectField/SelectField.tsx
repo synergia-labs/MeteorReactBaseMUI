@@ -1,40 +1,40 @@
 import React from 'react';
-import './button.css';
 
-import TextFieldComp from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 
-export interface TextFieldProps {
+import SelectFieldComp from '/imports/ui/components/SimpleFormFields/SelectField/SelectField';
+
+export interface SelectFieldProps {
   placeholder: string;
   name: string;
   disabled?: boolean;
   required?: boolean;
-  password?: boolean;
+  options: [Object];
   backgroundColor?: string;
+  color?: string;
 }
 
 /**
  * Primary UI component for user interaction
  */
-export const TextField: React.FC<TextFieldProps> = ({
+export const SelectField: React.FC<SelectFieldProps> = ({
   placeholder,
   name,
   disabled=false,
   required=false,
-  password=false,
+  options=[],
   backgroundColor,
+  color,
   ...props
 }) => {
 
-  const type = password ? "password" : "";
-
   return (
-    <TextFieldComp
+    <SelectFieldComp
       placeholder={placeholder}
       label={name}
-      type={type}
       disabled={disabled}
       required={required}
-      style={{ backgroundColor }}
+      options={options}
+      style={{ backgroundColor, color }}
       {...props}
     />
   );

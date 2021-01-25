@@ -1,9 +1,9 @@
 import React from 'react';
-import './button.css';
+
 
 import RadioFieldComp from '/imports/ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
 
-export interface RadioFieldProps {
+export interface RadioButtonFieldProps {
   placeholder: string;
   name: string;
   disabled?: boolean;
@@ -14,12 +14,12 @@ export interface RadioFieldProps {
 /**
  * Primary UI component for user interaction
  */
-export const RadioField: React.FC<RadioFieldProps> = ({
+export const RadioButtonField: React.FC<RadioButtonFieldProps> = ({
   placeholder,
   name,
   disabled=false,
   required=false,
-  radiosList=[],
+  radiosList=['Todo', 'Doing', 'Done'],
   ...props
 }) => {
 

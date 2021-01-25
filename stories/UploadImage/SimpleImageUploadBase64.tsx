@@ -1,9 +1,9 @@
 import React from 'react';
-import './button.css';
 
-import ChipInputComp from '/imports/ui/components/SimpleFormFields/ChipInput/ChipInput';
 
-export interface ChipInputProps {
+import SimpleImageUploadBase64Comp from '/imports/ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64';
+
+export interface SimpleImageUploadBase64Props {
   placeholder: string;
   name: string;
   disabled?: boolean;
@@ -13,7 +13,7 @@ export interface ChipInputProps {
 /**
  * Primary UI component for user interaction
  */
-export const ChipInput: React.FC<ChipInputProps> = ({
+export const SimpleImageUploadBase64: React.FC<SimpleImageUploadBase64Props> = ({
   placeholder,
   name,
   disabled=false,
@@ -22,7 +22,8 @@ export const ChipInput: React.FC<ChipInputProps> = ({
   ...props
 }) => {
   return (
-    <ChipInputComp
+    <SimpleImageUploadBase64Comp
+      placeholder={placeholder}
       name={name}
       type={type}
       {...props}

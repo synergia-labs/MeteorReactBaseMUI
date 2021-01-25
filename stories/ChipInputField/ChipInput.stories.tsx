@@ -1,21 +1,21 @@
-// AudioRecorder.stories.tsx
+// ChipInput.stories.tsx
 
 import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react/types-6-0';
 
-import {AudioRecorder, AudioRecorderProps}  from './AudioRecorder';
+import {ChipInput, ChipInputProps}  from './ChipInput';
 
 // This default export determines where your story goes in the story list
 export default {
-  title: 'AudioRecorder',
-  component: AudioRecorder,
+  title: 'MeteorReactBaseMUI/ChipInput',
+  component: ChipInput,
 };
 
-const Template: Story<AudioRecorderProps> = (args) => <AudioRecorder {...args}/>;
+const Template: Story<ChipInputProps> = (args) => <ChipInput {...args}/>;
 
 export const FirstStory = Template.bind({});
 FirstStory.args = {
   /* the args you need here will depend on your component */
-  label: 'Audio',
+  label: 'Chip Input',
   borderWidth: 1,
 };

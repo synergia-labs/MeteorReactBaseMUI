@@ -7,7 +7,7 @@ import {SimpleImageUploadBase64, SimpleImageUploadBase64Props}  from './SimpleIm
 
 // This default export determines where your story goes in the story list
 export default {
-  title: 'SimpleImageUploadBase64',
+  title: 'MeteorReactBaseMUI/SimpleImageUploadBase64',
   component: SimpleImageUploadBase64,
 };
 

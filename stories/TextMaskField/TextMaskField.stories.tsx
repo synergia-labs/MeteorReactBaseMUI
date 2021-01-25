@@ -7,7 +7,7 @@ import { TextMaskField, TextMaskFieldProps } from './TextMaskField';
 
 // This default export determines where your story goes in the story list
 export default {
-  title: 'Example/TextMaskField',
+  title: 'MeteorReactBaseMUI/TextMaskField',
   component: TextMaskField,
   args: {
     disabled: false,

@@ -1,5 +1,5 @@
 import React from 'react';
-import './button.css';
+
 
 import TextMaskFieldComp from '/imports/ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 
