@@ -17,5 +17,7 @@ export const FirstStory = Template.bind({});
 FirstStory.args = {
   /* the args you need here will depend on your component */
   label: 'Imagem',
+  placeholder: 'Imagem',
+  name: 'Imagem',
   borderWidth: 1,
 };
