@@ -1,4 +1,4 @@
-/*
+/*==
 import React from 'react';
 import UploadFilesComp from '/imports/ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 

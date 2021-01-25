@@ -16,7 +16,6 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import {hasValue} from "/imports/libs/hasValue";
 import { Meteor } from 'meteor/meteor';
 
-
 import IconButton from '@material-ui/core/IconButton';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
