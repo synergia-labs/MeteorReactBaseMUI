@@ -9,7 +9,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 import ToggleSwitchField from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
-// import CheckBoxField from '../../../../ui/components/SimpleFormFields/CheckBoxField/CheckBoxField';
 import RadioButtonField from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';

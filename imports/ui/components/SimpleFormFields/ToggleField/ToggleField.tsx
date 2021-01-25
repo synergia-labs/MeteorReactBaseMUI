@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
@@ -11,20 +11,23 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
     const handleChangeSwitch = (event:React.BaseSyntheticEvent) => {
         if(!readOnly){
-          console.log(event.target.checked);
-
-            onChange({},{name,value: event.target.checked});
+          onChange({},{name, value: event.target.checked});
         }
     }
-    console.log("value: ", !!value? !!value:false);
+
+    useEffect(() => {
+        if(!hasValue(value) && value == ''){
+          onChange({},{name, value: false});
+        }
+    })
 
     return (
         <div style={error?toggleSwitchStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
             {otherProps&&!hasValue(otherProps.checksList)?
-                <FormControlLabel control={<Switch checked={!!value? !!value:false} onChange={handleChangeSwitch} name={name}/>}
+                <FormControlLabel control={<Switch checked={value} onChange={handleChangeSwitch} name={name}/>}
                                   key={name}
-                                  value={!!value? value:false}
+                                  value={value}
                                   id={name}
                                   name={name}
                                   label={!!value? 'Ativo':'Inativo'}
