@@ -598,100 +598,9 @@ Esquema definido manualmente:
 Veja que componentes **ImageComponent**, **SimpleSelect** e **ChipInput** são componentes customizados criados a partir de bibliotecas
 javascript ou como composição de componentes do *Material-UI*.
 
-### Utilizando mais de um WebERForms na mesma tela ###
-Suponha que seja necessário dividir o formulário em dois outros e que cada parte dele seja colocada em uma aba diferente.
-Nesse caso, vamos precisar criar dois esquemas, um para cada *WebERForm*. E depois integrá-los por um componente que trata o
-resultado dos dois formulários.
-
-Utilizando o cenário acima como base para nossas explicações vamos considerar dois esquemas de formulários:
-* carWebERFormSchemaIdentificação - que possui os campo *name* e *image*.
-* carWebERFormSchemaModelo - que possui os campos *model* e *acessories*.
-
-Neste caso iremos utilizar o componente *Tabs* do *Material-UI* (https://material-ui.com/demos/tabs/) para colocar um *WebERFOrm*
-em cada aba.
-
-Utilizando Hooks para simplificar a solução temos o seguinte trecho de código para a tela de edição ('/imports/modules/car/ui/page/carEdit.js'):
-
-      (...)
-      const [doc, setDocValue] = useState(doc);
-      const [tabValue, setTabValue] = useState(0);
-      const carWebERFormSchemaIdentificacao = { name: carWebERFormSchema.name, image: carWebERFormSchema.image };
-      const carWebERFormSchemaModelo = { model: carWebERFormSchema.model, acessories: carWebERFormSchema.acessories };
-      const docCar = Object.assign({},car,doc);
-      return (
-        <div>
-          <div  style={{display:'flex',alignItems:'center', justifyContent:'center'}}>
-            <div>
-              <Tabs
-                value={tabValue || 0}
-                onChange={(event, value) => {
-                  setTabValue(value);
-                }}
-              >
-                <Tab label="Identificação" />
-                <Tab label="Modelo" />
-              </Tabs>
-              {tabValue === 0&&(
-                <WebERForm
-                  mode="edit"
-                  flexBoxProps={{
-                    column: true,
-                  }}
-                  ref={carFormDataIdentificacao => {
-                    this.carFormDataIdentificacao = carFormDataIdentificacao;
-                  }}
-                  onChange={setDocValue}
-                  doc={docCar}
-                  formSchema={carWebERFormSchemaIdentificacao}
-                />
-              )}
-
-              {tabValue === 1&&(
-                <WebERForm
-                  mode="edit"
-                  flexBoxProps={{
-                    column: true,
-                  }}
-                  ref={carFormDataModelo => {
-                    this.carFormDataModelo = carFormDataModelo;
-                  }}
-                  onChange={setDocValue}
-                  doc={docCar}
-                  formSchema={carWebERFormSchemaModelo}
-                />
-              )}
-
-
-
-            </Box>
-            <box>
-              <WebERForm
-                mode="buttons"
-                flexBoxProps={{
-                  column: true,
-                }}
-                doc={docCar}
-                forms={[
-                  { name: 'Identificação', formInstance: this.carFormDataIdentificacao },
-                  { name: 'Modelo', formInstance: this.carFormDataModelo },
-                ]}
-                actions={actions}
-              />
-            </box>
-          </Flex>
-        </div>
-      );  
-
-Neste exemplo acima temos três WebERForm sendo utilizados: um em cada aba e um terceiro para tratar as ações do formulário.
-
-Cada WebERForm recebeu um esquema de formulário e o documento utilizado para popular os seus campos. Veja que foi definido um *ref*
-para cada um deles e essas referências foram repassadas para o torceiro WebERForm, que contém as ações do formulário e que
-consolida as informações vinda dos outros dois WebERForms.
-
-
 ### Adicionando novos componentes ###
-O WebERForm foi construído considerando o funcionamento dos componentes do pacote *Material-UI*. Esses componentes possuem algumas
-propriedades que são consideradas pelo WebERForm para tratar as questões de interação e exibiões de informação que são as seguintes:
+O SimpleForm foi construído considerando o funcionamento dos componentes do pacote *Material-UI*. Esses componentes possuem algumas
+propriedades que são consideradas pelo SimpleForm para tratar as questões de interação e exibiões de informação que são as seguintes:
 * **onChange** - nesta propriedade é esperado que seja passado um método que receberá um valor do tipo *event*. Exemplo:
 
       onChange = value => {
@@ -720,59 +629,12 @@ Os componentes ficam separados em pastas:
 * **subFormComponents** - componentes que irão tratar documentos aninhados ou uma lista de documentos aninhados;
 * **meteorFormComponents** - componentes que fazem integração com o meteor: utilizam minimongo,  utilizam métodos do Meteor, etc.
 
-Cada uma dessas pastas possui um arquivo *index.js*. Sempre que um componente é criado ele deve ser importado e depois exportado nesses
-arquivos. O nome utilizado para exportá-los é o nome que deverá ser informado no campo *componentName* do WebERForm.
+Cada uma dessas pastas possui um arquivo *index.ts*. Sempre que um componente é criado ele deve ser importado e depois exportado nesses arquivos. O nome utilizado para exportá-los é o nome que deverá ser informado no campo *componentName* do SimpleForm.
 
-Sugerimos que acessem essas pastas e observem como funcionam esses componentes customizados para entender o funcionamento do WebERForm
-quanto ao uso de novos componentes que não fazem parte do *Material-UI*.
+Sugerimos que acessem essas pastas e observem como funcionam esses componentes customizados para entender o funcionamento do SimpleForm quanto ao uso de novos componentes que não fazem parte do *Material-UI*.
 
 
-
-
-## ALTERANDO O TEMA DA APLICAÇÃO ##       
-### Alterando as cores do Sistema ###
-O tema da aplicação é definido no arquivo '/imports/ui/theme/style.jsx':
-
-    (...)
-    const primaryColor = '#5e7a47';
-    const primaryColorVariant = '#c5d4b7';
-    const titleTextColor = '#FFFFFF';
-    const titleSecondaryTextColor = '#000000';
-
-    const backgroundSiteColor = '#EEEEEE';
-    const backgroundPageColor = '#FFFFFF';
-    const secondaryColor = '#365128';
-    const secondaryColorVariant = '#95a489';
-    (...)
-
-Ao alterar as cores definidas para essas variáveis o tema do produto é também alterado, alterando as cores de todas as telas e componentes do produto.
-
-A definição do tema adotado pela biblioteca Material-UI ocorre no arquivo '/imports/app/appContainer.js' através do componente de alta ordem "MuiThemeProvider".
-
-Para o restante das telas e componentes do boilerplate a utilização das cores do tema se dá através do acesso direto à classe que define essas cores. Geralmente é feita a importação abaixo:
-
-    import * as appStyle from '/imports/ui/theme/styles';
-
-E, em seguida, as cores do tema são utilizadas da seguinte forma:
-
-            <div style={{
-              width: '100%',
-              height: 40,
-              backgroundColor: appStyle.primaryColor,
-              color: appStyle.secondaryColor,              
-
-            }}
-            >
-            {text}
-            </div>
-
-
-### Estilizando elementos da tela através de classes ou ID ###
-A estilização de componentes utilizando classes pode utilizar classes oriundas de duas possíveis fontes.
-
-Uma dessas fontes é o arquivo "**/imports/cliente/custom.css**" que contém as classses gerais do boilerplate. Ou seja, as classes que dizem respeito à sua estrutura e aos componentes gerais. Uma classe inserida neste arquivo pode ser utilizada por qualquer componente do boilerplate.
-
-Um outra fonte é o arquivo "style.css" do módulo/componente. Quando um classe for específica do módulo ou do componente em desenvolvimento é recomendado que ela esteja no arquivo de estilo próprio.
+### Estilizando elementos ###
 
 **Observação**: Embora as classes sejam especificadas nos arquivos específicos de cada módulo ou componente, após a transpilação do código existirá somente um arquivo de estilo contendo todo o estilo do produto. Neste caso, poderá haver sobreposição de estilo nas classes que utilizam o mesmo nome. Recomendamos então que o nome do módulo ou componente esteja presente no nome da classse para evitar esse problema.
 
@@ -783,17 +645,13 @@ O layout do boilerplate e a estrutura dos conteúdos estão separadas em dois lu
 
 ### Layout
 
-A estrutura do layout está definida em ´/imports/ui/layouts`. O boilerplate está preparado para atender a dois tipos de layout: web e mobile.
-
-A definir de qual layout utilizar durante o acesso do usuário é feita no arquivo `/imports/app/app.js` na linha:
-
-      const Layout = isMobile ? LayoutMobile : LayoutWeb;
+A estrutura do layout está definida em ´/imports/libs/deviceVerify.ts`. O boilerplate está preparado para atender a dois tipos de layout: web e mobile.
 
 A verificação se o cliente está acessando ou não através de um dispositivo móvel é feita através da constante "**isMobile**" que pode ser importada conforme apresentado abaixo:
 
-    import { isMobile } from '../libs/screenVerify';
+    import { isMobile } from '../libs/deviceVerify';
 
-**Observação**: Caso seja necessário modificar a forma de identificar se o dispositivo terá um acesso WEB ou Mobile será necessário mudar a regra de definiçaõ da constante "**isMobile**".
+**Observação**: Caso seja necessário modificar a forma de identificar se o dispositivo terá um acesso WEB ou Mobile será necessário mudar a regra de definição da constante "**isMobile**".
 
 
 #### Layout Web ####
