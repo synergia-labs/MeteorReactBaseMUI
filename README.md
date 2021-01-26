@@ -164,7 +164,7 @@ Para que módulo funcione não basta que ele seja colocado na pasta módulo, é 
 
 Precisamos fazer as seguintes alterações nos arquivos abaixo:
 
-	1. /imports/modules/index.ts           --> Inserir a importação das configurações do módulo que você criou para que suas configurações sejam repassadas às variáveis que serão utilizadas pelo componente "App", que carregará as configurações dos menus, as rotas, etc.
+1. /imports/modules/index.ts           --> Inserir a importação das configurações do módulo que você criou para que suas configurações sejam repassadas às variáveis que serão utilizadas pelo componente "App", que carregará as configurações dos menus, as rotas, etc.
 
 Para isso, primeiro importe o arquivo de configuração do seu módulo e, em seguida, adicione-o à rota de páginas e ao menu para que possa ser acessado normalmente como abaixo:
 	
@@ -186,12 +186,13 @@ Para isso, primeiro importe o arquivo de configuração do seu módulo e, em seg
 	  }
 	(...)
 
-    2. /imports/server/registerApi.ts      --> Deve importar o arquivo "/imports/modules/nome_do_modulo/api/exampleApi.ts" para que os métodos e as publicações do módulo sejam disponibilizados no lado do servidor.
+2. /imports/server/registerApi.ts      --> Deve importar o arquivo "/imports/modules/nome_do_modulo/api/exampleApi.ts" para que os métodos e as publicações do módulo sejam disponibilizados no lado do servidor.
 
 Para isso, importe o arquivo responável pela api de seu módulo como abaixo:
 
 	(...)
 	import '../modules/nome_do_modulo/api/exampleApi';
+	(...)
 
  **Observações**: quando o módulo é criado através do script, ou mesmo clonado manualmente, é necessário editar os arquivos citados acima pois essa alteração não é feita automaticamente.
 
