@@ -12,21 +12,15 @@ Dentre os benefícios de adotá-lo no desenvolvimento de um novo produto nós po
 
 * gestão e controle do schema das coleções bem como a validação dos dados a partir de schemas, e;
 
-* Web Easy React Form (WebERForm)  - geração automática de formulaŕios a partir do schema do banco de dados, simplificando a implementação de CRUDs.
+* SimpleForm  - geração automática de formulaŕios e artíficios de validação dos mesmos a partir do schema do banco de dados, simplificando a implementação de CRUDs.
 
 * Acess Control List (ACL) - gestão de permissão por funcionalidade e/ou por dados nas operações com o banco de dados;
 
-* internacionalização (i18n) - acrescime de possibilidades do usuário selecionar o idioma que ele quer utilizar na aplicação;
-
-* utilização do Cypress como ferramenta de testes automatizados fim-a-fim;
-
 * criação da estrutura de módulos que permite que todos os arquivos referentes a um módulo estejam em um só lugar e que esse módulo seja facilmente utilizado em outras aplicações.
 
-* criação da ferramenta Scaffolding que gera código automaticamente para a geração de módulos já pre-definidos, e;
+* criação da ferramenta DevUtils que gera sugestões de trechos de código e importações de componente de forma automática, para a geração de formulários com campos já pre-definidos, e;
 
 * definição de uma estrutura de schemas, layout e rotas, dando maior flexibilidade nas questões de navegação e estilo do produto.
-
-
 
 ## ESTRUTURA DE PASTA
 
@@ -82,7 +76,7 @@ Realiza testes para identifição das camadas da aplicação sendo utilizadas: c
 
 ## PRIMEIROS PASSOS ##
 
-Para começar a trabalhar com o SynMRS faça um clone do repositório:
+Para começar a trabalhar com o MeteorReactBaseMUI faça um clone do repositório:
 
     git clone https://github.com/synergia-labs/MeteorReactBaseMUI.git
 
@@ -105,43 +99,22 @@ Acesse o sistema através do seu browser no endereço "http://localhost:3000" co
 
  ### Meu primeiro módulo ###
 
- A forma mais fácil de entender o funcionamento do SynMRS é criando um novo módulo.
+ A forma mais fácil de entender o funcionamento do MeteorReactBaseMUI é criando um novo formulário.
 
- Vamos utilizar o Synergia Scaffolding para gerar nosso primeiro módulo:
+ Vamos utilizar o Dev Utils para gerar nosso primeiro formulário:
 
-    npm run create-module
+    "http://localhost:3000/devutils"
 
-Informa as seguintes configurações para esse módulo:
+Há configurações disponíveis para dois módulos:
 
-    Nome: car
-    Nome traduzido: carro
-    Informar o schema do banco de dados? SIM
-    field 01:
-        nome: name
-        label: name
-        type: string
-        optional: false,
-    field 02
-        nome: model
-        label: model
-        type: select
-        optional: true,        
-            options
-                name: pupular, value:popular
-                name: luxo, value:luxo
-    field 03
-        nome: image
-        label: image
-        type: image
-        optional: true,        
+    1. Example: Com campos no schema que correspondem ao formulário de criação de tarefas, por exemplo: Título, Descrição e Data. 
+    2. UserProfile: Com campos no schema que correspondem ao perfil do usuário, por exemplo: Email, Foto e Nome de Usuário.
 
-Feito isso será gerado um novo módulo no sistema que já estará disponível para o usário administrador.
-
-Verifique que é possivel cadastrar, pesquisar, visualizar, alterar e excluir carros utilizando esse novo módulo.
+Uma vez escolhidos os campos do módulo desejado, será gerado um trecho de código que informará quais importações serão necessárias para utilização dos componentes correspondentes a estes campos. Em seguida, para personalizar os campos do formulário, acesse o arquivo "exampleDetail" e cole as importações geradas no ínicio do arquivo e os componentes </> dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
 
 ### Entendendo a estrutura de um módulo no SynMRS ###       
 
-O módulo possui uma estrutura muito semelhante à do SynMRS. Apresentaremos a seguire a estrutura de pasta e a função de cada arquivo:
+O módulo possui uma estrutura muito semelhante à do SynMRS. Apresentaremos a seguir a estrutura de pasta e a função de cada arquivo:
 
     car                         --> Nome do módulo/api
         api                     --> Pasta com os arquivos da api
@@ -193,8 +166,6 @@ Precisamos fazer as seguintes alterações nos arquivos abaixo:
     /imports/server/registerApi.ts      --> Deve importar o arquivo "/imports/modules/car/api/carApi.ts" para que os métodos e as publicações do módulo sejam disponibilizados no lado do servidor.
 
  **Observações**: quando o módulo é criado através do Scaffolding não é necessário editar os arquivos citados acima pois essa alteração é feita automaticamente pela funcionalidade "create-module".
-
-
 
 ### Customizando o módulo criado nos passos anteriores ###       
 
