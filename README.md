@@ -266,17 +266,19 @@ export const carMenuItemList = [
 
 A variável *carMenuItemList* é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
 * **path** - Define a rota que será chamada quando o item é acionado. Ex:'/car',
-* **title** - Define o título/text que será exibido no item: Ex: "Carros"
+* **name** - Define o título/text que será exibido no item: Ex: "Carros"
 * **icon** - Define o ícone que será utilizado. Ex: Class
-//////
+///////////////////////
 * **avaliableOffLine** - Define se o menu será ou não exibido quando a aplicação estiver offline. Ex: "true"
 * **roles** - Define quais perfis de acesso enxergarão esse item no menu. Ex: ['Administrador', 'Usuario'],
-//////
+/////////////////////
 
 
 A variável *carRouterList* contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
 * **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/car/:screenState/:carId',
 * **component** - Definie o componente que será renderizado. Ex: carContainer,
+* **isProtected** - Define se na rota apenas usuários logados acessam as informações.
+////////////////////////////////
 * **avaliableOffLine** - Define se a rota estará disponível quando  aplicação estiver offline. Ex: "true"
 * **roles** - Define quais perfis de acesso enxergarão esse item no menu. Ex: ['Administrador', 'Usuario'],
 * **isMobileDrawer** - Define se o componente será renderizado em um Drawer quando o usuário estiver acessando por um dispositivo mobile. Ex: true;
@@ -288,79 +290,39 @@ A variável *carRouterList* contém uma lista de definições de rota referente 
 * **fullscreen** - Define se a página será exibida ocupando toda a tela ou não. Se essa opção ñao for informada a tela é exibida em um paper centralizado.
 
 **Observação**: Se as propriedades isMobileDrawer,isMobileModal, isWebDrawer e isWebModal não forem informadas o conteúdo é renderizado normalmente na página principal.
+////////////////////////
 
-
-## UTILIZANDO O WebERForm ##       
+## UTILIZANDO O SimpleForm ##       
 ### Entendendo o funcionamento ###
-O *Web Easy React Form* (*WebERForm*) é um componente que faz a gestão de formulários e simplifica a criação das telas de
+O *SimpleForm* é um componente que faz a gestão de formulários e simplifica a criação das telas de
 cadastro, edição e visualização dos dados da coleção.
 
-A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros,
-é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
+A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
 
 O WebERForm foi criado para ser simples, flexível e extensível:
 * simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
 ao esquema do banco de dados.
 * flexível porque pode ser utilizada uma ou várias instâncias dele para compor o formulário exibido para o usuário, utilizando
 uma ou mais opções de salvamento.
-* extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os
-componentes do pacote *Material-UI*.
+* extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote *Material-UI*.
 
-O WebERForm possui dois modos de visualização: *edit* e *view*. Em ambas as visualizações é possível estilizar o formulário como um todo ou
-cada um dos seus campos separadamente utilizando as propriedades "flexBoxProps", que aceita a propriedade *style* e também as demais propriedades
-do pacote *reflexbox* (https://github.com/jxnblk/reflexbox)
+O WebERForm possui dois modos de visualização: *edit* e *view*.Ele possui as seguintes propriedades:
+           <SimpleForm
+                mode={screenState}
+                schema={exampleApi.schema}
+                doc={exampleDoc}
+                onSubmit={handleSubmit}
+                loading={loading}
+            >
 
-O WebERForm possui as seguintes propriedades:
-
-                <WebERForm
-                  mode="edit"
-                  flexBoxProps={{
-                    column: true,
-                  }}
-                  onChange={(doc)=>this.setState({doc})}
-                  doc={{name:'João'}}
-                  formSchema={{
-                            name: {
-                              componentName: 'TextField',
-                              componentProps: {
-                                key: 'name',
-                                id: 'name',
-                                label: 'name',
-                              },
-                              validation: {
-                                presence: {
-                                  message: 'Este campo é obrigatório.',
-                                },
-                              },
-                            },                  
-                  }}
-                  actions={[
-                            {
-                              name: () => {
-                                return i18n.__('app.general_actions.cancel');
-                              },
-                              buttonProps: {
-                                variant: 'raised',
-                                color: 'primary',
-                                onClick: (doc, form) => {
-                                  if(form.validate()) {
-                                    props.saveCar(doc)
-                                    }
-                                },
-                              },
-                            },                  
-                  ]}
-                />
-
-* **mode** - define qual é o modo de visualização: view, edit ou buttons. Quando a opção é *buttons* somente os botões são renderizados
-e nesse caso pode ser informada uma propriedade à mais que é a *forms*, que contém uma lista de formulários, como será visto no exemplo a seguir.
+* **mode** - define qual é o modo de visualização: view, edit ou buttons. Quando a opção é *buttons* somente os botões são renderizados e nesse caso pode ser informada uma propriedade à mais que é a *forms*, que contém uma lista de formulários, como será visto no exemplo a seguir.
 * **style** - nesta própriedade podemos informar o style do container em que os campos serão renderizados. Por exemplo, ao definir a propriedade display como "flex" e flexDirection como "row" os campos do formularío serão exibidos em linha ao invés de serem exibidos em coluna.
-* **onChange** - é uma propriedade opcional que pode ser utilizada quando se pretende salvar o estado do documento a cada vez que ele é alterado no formulário.
+* **onSubmit** - é uma propriedade opcional que pode ser utilizada quando se pretende salvar o estado do documento a cada vez que ele é alterado no formulário.
 * **doc** - recebe o documento que será utilizado para popular os campos do formulário.
-* **formSchema** - recebe o esquema de campos do formulário.
-* **actions** - recebe uma lista de botões de ação.
+* **schema** - recebe o esquema de campos do formulário.
+* **loading** - recebe a ação do carregamento.
 
-
+/////////////////
 #### Criando o schema do formulário manualmente ####
 O WebERForm cria formulários a partir de esquemas expressos em JSON. Cada campo nesse esquema possui a seguinte estrutura:
 
@@ -678,19 +640,6 @@ O Layout Mobile é composto pelos seguintes arquivos:
     appbar.js   --> Contem o componente APPBAR do boilerplate.
     content.js  --> Contem o componente que se refere ao container em que as páginas do boilerplate são montadas.
     tabs.js     --> Contem a estrutura e o conteúdo das Tabs que substitui o acesso via Drawer.
-
-
-#### Gestão do Conteúdo ####
-(Em Construção)
-
-##### Conteúdo Principal #####
-(Em Construção)
-
-##### Conteúdo exibido no Drawer #####
-(Em Construção)
-
-##### Conteúdo exibido na Modal #####
-(Em Construção)
 
 ## OUTROS RECURSOS ##       
 ### Contexto geral da aplicação ###
