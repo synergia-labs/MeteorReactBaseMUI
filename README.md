@@ -448,7 +448,7 @@ A variável *pagesRouterList* contém uma lista de definições de rota referent
 O *SimpleForm* é um componente que faz a gestão de formulários e simplifica a criação das telas de
 cadastro, edição e visualização dos dados da coleção.
 
-A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
+A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, é a integração dele com o pacote *Material-UI*.
 
 O SimpleForm foi criado para ser simples, flexível e extensível:
 * simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
@@ -475,41 +475,14 @@ O SimpleForm possui dois modos de visualização: *edit* e *view*.Ele possui as 
 **Observação:** a estilização do container que contém o componente ou do próprio componente é realizada internamente, ou seja, cada componente possui seu próprio arquivo css para definir regras de design sobre as quais os campos serão renderizados. Por exemplo, ao definir a propriedade display como "flex" e flexDirection como "row" os campos do formularío serão exibidos em linha ao invés de serem exibidos em coluna. Bem como a definição do tamanho da fonte, tamanho do componente e suas diferentes formas de se apresentar com base no tipo de dispositivo (mobile ou desktop).
 
 #### Criando o schema do formulário manualmente ####
-O SimpleForm cria formulários a partir de esquemas expressos em JSON. Cada campo nesse esquema possui a seguinte estrutura:
+O SimpleForm cria formulários a partir de esquemas expressos em JSON. Como mencionado anteriormente, cada campo nesse esquema possui a seguinte estrutura básica e que pode ser incrementada com outras propriedades:
 
-        "name": {
-            "componentName": "TextField",
-            "componentProps": {
-                "key": "name",
-                "id": "name",
-                "label": "name"
-            },
-            "validation": {
-                "presence": {
-                    "message": "Este campo é obrigatório."
-                }
-            }
-        },
-
-Vamos às explicações:
-* **name** é o nome do campo no documento. Ou seja, ao gerar o documento resultante do preenchimento desse formulário o valor
-inserido neste campo será armazenado na propriedade *name*.
-* **componentName** é o nome do componente do pacote *Material-UI*, ou componente customziado, que será utilizado para exibir
-receber o valor que será armazenado no campo *name*. No exemplo acima será renderizado um componente *TextField* do pacote *Material-UI*.
-* **componentProps** é a propriedade do campo *name* que contém as propriedades que serão repassadas para o componente informado na
-propriedade *componenteName*. No exemplo acima será renderizado um *TextField* que receberá como propriedade as mesmas propriedades
-informadas em *componentProps*. É possível informar, inclusive, as propriedades referentes a eventos como *onChange* e *onBlur*,
-propriedades referente a estilo e qualquer outra que seja esperado pelo componente.
-* **validation** se refere às propriedades que serão passados para a biblioteca *validate.js* que é utilizada pelo SimpleForm
-para gerir e executar as valiações do formulário. A documentação dessa biblioteca pode ser encontrada no endereço: https://validatejs.org/.
-No exemplo acima está sendo informado que há uma validação de presença e se o campo não for preenchido será informado como
-mensagem de erro a mensagem "Este campo é obrigatório".
-
-
-Além dos campos informados acima, o SimpleForm trata também os seguintes campos:
-* **dataGroup** - Permite agrupar os campos por grupos de dados.
-* **text** - Permite informar um texto que será exibido antes do campo.
-* **visibilityFunction** - permite informar uma função de visibilidade para definir quando o campo será exibido na tela.
+	  name: {
+	    type: String,
+	    label: 'Título',
+	    defaultValue: '',
+	    optional: true,
+	  },
 
 ### Adicionando novos componentes ###
 O SimpleForm foi construído considerando o funcionamento dos componentes do pacote *Material-UI*. Esses componentes possuem algumas
