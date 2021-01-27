@@ -312,21 +312,21 @@ A estrutura do formulário é definida pelo esquema da coleção. Em nosso exemp
 	    isMapLocation:true,
 	    optional: true,
 	  },
-	  // statusCheck: {
-	  //   type: Object,
-	  //   label: 'Status CheckBox',
-	  //   defaultValue: '',
-	  //   optional: false,
-	  //   checksList: ['Todo', 'Doing', 'Done'],
-	  //   validate: (value) => {
-	  //     const statusTrue = value&&Object.keys(value).filter( status => {
-	  //       if(value[status]){
-	  //         return status
-	  //       }
-	  //     })
-	  //     return  statusTrue.length <= 1
-	  //   }
-	  // },
+	  statusCheck: {
+	    type: Object,
+	    label: 'Status CheckBox',
+	    defaultValue: '',
+	    optional: false,
+	    checksList: ['Todo', 'Doing', 'Done'],
+	    validate: (value) => {
+	      const statusTrue = value&&Object.keys(value).filter( status => {
+	        if(value[status]){
+	          return status
+	        }
+	      })
+	      return  statusTrue.length <= 1
+	    }
+	  },
 	  statusRadio: {
 	    type: String,
 	    label: 'Status RadioButton',
@@ -363,24 +363,22 @@ Além disso, há outros dados que precisam ser fornecidos a campos específicos,
 
 Há também o campo "isImage" para sinalizar que o campo será utilizado para armazenar uma imagem em base64.
 
-Há ainda outras propriedades que podem ser inseridas nesse momento e que são interpretadas pela biblioteca "FormGenerator" que gera o esquema do formulário a partir do esquema do banco.
+Há ainda outras propriedades que podem ser inseridas nesse momento e que são interpretadas pelo SimpleForm que gera o esquema do formulário a partir do esquema do banco.
+
 Esses outros campos são:
 
 * "**isAvatar**" - quando o campo é do tipo imagem e diz respeito a um avatar.
-* "**isUpload**" - quando o campo é do tipo "upload de arquivos" e, neste caso, utiliza o componente "UploadFilesCollection" do WebERForm.
-* "**dataGroup**" - quando o campo diz respeito a um grupo de dados e é exibido no formulário agrupado por grupo de dados e em uma seçaõ específica do formulário. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**visibilityFunction**" - permite informar uma função que define se o campo estará visível ou não. Por exemplo, a função "(doc)=>doc.model === 'popular'" indica que o campo só estará visível se o campo "model" estiver preenchido com o valor "popular". Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**readOnly**" - se o campo readOnly for definido com o valor "true" o campo será exibido como somente leitura nas telas de edição. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**componentProps**" - é ainda possível definir o campo componentProps, que é um campo do esquema do formulário que permite informar as propriedades do componente que será exibido no formulário. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
+* "**isUpload**" - quando o campo é do tipo "upload de arquivos" e, neste caso, utiliza o componente "UploadFilesCollection" do SimpleForm.
+* "**readOnly**" - se o campo readOnly for definido com o valor "true" o campo será exibido como somente leitura nas telas de edição. Neste caso a biblioteca irá pegar essa informação e replicar ela no esquema do formulário.
 
 A propriedade "type" também sugere componentes que podem ser utilizados. Por exemplo:
 
-* "**[String]**" - uma lista de texto sugere que o componente é um "Chip Input". Se houver o campo "options" ele é do tipo "Select Chip Input".
+* "**[String]**" - uma lista de texto sugere que o componente é um "Chip Input". Se houver o campo "options" ele é do tipo "Select Chip Input", como mencionado anteriormente.
 * "**Object**" - o tipo objeto indica que o campo é um documento aninhado e, neste caso, vai exigir o campo "subSchema". Um subSchema é o esquema do documento aninhado.
 * "**[Object]**" - uma lista de objetos indica que o campo é uma lista de documentos aninhados e neste caso também é necessário indicar o campo "subSchema".
 * **Number** ou **Date** - tipos número ou data sugere a utilização de componentes que permitem a entrada de somente números ou a seleção de datas.
 
-Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**". Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deveerá possui. Neste caso será uma string simples.
+Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**". Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deverá possui. Neste caso será uma string simples.
 
       subtitle: {
         type: String,
@@ -391,11 +389,11 @@ Para criar um campo novo basta adicionar mais uma propriedade no objeto "**examp
 
 Após essa inserção, como o campo requisitado é do tipo string e se refere a um subtítulo, o componente adequado a ser utilizado é um TextField. Então, acesse o arquivo de "exampleDetail.js" do seu módulo e inclua o seguinte trecho de código. 
 
-Caso ainda não tenha importado o componente de TextField, insira:
+Caso ainda não tenha importado o componente de TextField, insira no início do arquivo:
 	
 	import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 
-E inclua o componente TextField dentro do componente SimpleForm:
+Em seguida, inclua o componente TextField dentro do componente SimpleForm:
 			
 	<Container>
 		<Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
@@ -419,52 +417,35 @@ E inclua o componente TextField dentro do componente SimpleForm:
 
 ////////////////////////////////
 Na pasta *config* há os arquivos:
-* **nomeDoModulo**appmenu.tsx - Ex: exampleappmenu.tsx
-* **nomeDoModulo**routers.tsx - Ex: examplerouters.tsx
+* **nomeDoModulo**appmenu.tsx - Ex: exampleappmenu.tsx ou, no módulo gerado por você, **nome_do_modulo**appmenu.tsx
+* **nomeDoModulo**routers.tsx - Ex: examplerouters.tsx ou, no módulo gerado por você, **nome_do_modulo**routers.tsx
 index.tsx
 
-O arquivo *carappmenu* contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
+O arquivo *exampleappmenu* do módulo criado por você contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
 
 import React from 'react';
 import Class from '@material-ui/icons/Class';
 
-export const carMenuItemList = [
+export const exampleMenuItemList = [
   {
-    path: '/car',
-    name: 'Carros',
+    path: '/example',
+    name: 'Exemplos',
     icon: <Class />,
   },
 ];
 
-A variável *carMenuItemList* é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
-* **path** - Define a rota que será chamada quando o item é acionado. Ex:'/car',
-* **name** - Define o título/text que será exibido no item: Ex: "Carros"
+A variável *exampleMenuItemList* é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
+* **path** - Define a rota que será chamada quando o item é acionado. Ex:'/example',
+* **name** - Define o título/text que será exibido no item: Ex: "Exemplos"
 * **icon** - Define o ícone que será utilizado. Ex: Class
 ///////////////////////
-* **avaliableOffLine** - Define se o menu será ou não exibido quando a aplicação estiver offline. Ex: "true"
-* **roles** - Define quais perfis de acesso enxergarão esse item no menu. Ex: ['Administrador', 'Usuario'],
-/////////////////////
 
+A variável *exampleRouterList* contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
+* **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/example/:screenState/:exampleId',
+* **component** - Definie o componente que será renderizado. Ex: exampleContainer,
+* **isProtected** - Define se na rota apenas usuários logados acessam as informações, ou se acesso ocorre independente de login.
 
-A variável *carRouterList* contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
-* **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/car/:screenState/:carId',
-* **component** - Definie o componente que será renderizado. Ex: carContainer,
-* **isProtected** - Define se na rota apenas usuários logados acessam as informações.
-////////////////////////////////
-* **avaliableOffLine** - Define se a rota estará disponível quando  aplicação estiver offline. Ex: "true"
-* **roles** - Define quais perfis de acesso enxergarão esse item no menu. Ex: ['Administrador', 'Usuario'],
-* **isMobileDrawer** - Define se o componente será renderizado em um Drawer quando o usuário estiver acessando por um dispositivo mobile. Ex: true;
-* **isMobileModal** - Define se o componente será renderizado em uma modal quando o usuário estiver acessando por um dispositivo mobile. Ex: true;
-* **isWebDrawer** - Define se o componente será renderizado em um Drawer quando o usuário estiver acessando pelo desktop. Ex: true;
-* **isWebModal** - Define se o componente será renderizado em uma modal quando o usuário estiver acessando pelo desktop. Ex: true;
-* **title** - Define o título que irá exibir quando a página for exibida. Se esse campo não for informado a barra de título não é renderizada. Ex: "Carros"
-* **subTitle** - Define o subtítulo que irá exibir quando a página for exibida. Ex: "Lista de carros"
-* **fullscreen** - Define se a página será exibida ocupando toda a tela ou não. Se essa opção ñao for informada a tela é exibida em um paper centralizado.
-
-**Observação**: Se as propriedades isMobileDrawer,isMobileModal, isWebDrawer e isWebModal não forem informadas o conteúdo é renderizado normalmente na página principal.
-////////////////////////
-
-## UTILIZANDO O SimpleForm ##       
+## UTILIZANDO O SIMPLEFORM ##       
 ### Entendendo o funcionamento ###
 O *SimpleForm* é um componente que faz a gestão de formulários e simplifica a criação das telas de
 cadastro, edição e visualização dos dados da coleção.
