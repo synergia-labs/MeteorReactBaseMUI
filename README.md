@@ -1,4 +1,4 @@
-# SYNERGIA METEOR REACT BASE MUI
+# SYNERGIA METEORREACTBASEMUI
 
 ## INTRODUÇÃO ##
 
@@ -78,7 +78,7 @@ Pasta que contém os principais arquivos do produto. Esta pasta está organizada
 			api                --> Pasta com os arquivos da API do userprofile.
 		    	config             --> Pasta com os arquivos de index, menu e router do userprofile.
 		      	ui                 --> Pasta com as pastas de Detail e List do userprofile e seu container.
-			
+
 **node_modules**
 
 Pasta com as dependencias do produto.
@@ -118,20 +118,20 @@ Acesse o sistema através do seu browser no endereço "http://localhost:3000" co
     login: admin@mrb.com
     password: admin@mrb.com
 
- **Observações**: os dados do usuário "admin" foram inseridos no banco de dados pelo arquivo "/imports/server/fixtures.ts";
+ **Observação**: os dados do usuário "admin" foram inseridos no banco de dados pelo arquivo "/imports/server/fixtures.ts";
 
  ## TRABALHANDO COM MÓDULOS ##
 
  ### Meu primeiro módulo ###
 
 A forma mais fácil de entender o funcionamento do MeteorReactBaseMUI é criando um novo módulo.
- 
-Para isso, iremos utilizar o arquivo "cloneModule.sh" para gerar um novo módulo com base no template existente. No terminal de seu sistema, acesse a pasta de "./modulestemplate" e execute o seguinte o comando: 
 
-	.\clonemodule.sh example nome_do_modulo 
-	
-Desta forma, uma cópia do template de módulo será criado em "/imports/modules" com o nome de nome_do_modulo e o próximo passo será personalizar o módulo com campos de formulário.
-    
+Para isso, iremos utilizar o arquivo "cloneModule.sh" para gerar um novo módulo com base no template existente. No terminal de seu sistema, acesse a pasta de "./modulestemplate" e execute o seguinte o comando:
+
+	.\clonemodule.sh example nome_do_modulo
+
+Desta forma, uma cópia do template de módulo será criado em "/imports/modules" com o nome de **nome_do_modulo** e o próximo passo será personalizar o módulo com campos de formulário.
+
 Neste ponto, iremos utilizar o Dev Utils para gerar os campos de nosso primeiro formulário através do endereço:
 
     http://localhost:3000/devutils
@@ -141,9 +141,9 @@ Neste endereço, há configurações disponíveis para dois módulos:
     1. Example: Com campos no schema que correspondem ao formulário de criação de tarefas, por exemplo: Título, Descrição e Data. (template base sobre o qual o novo módulo foi gerado)
     2. UserProfile: Com campos no schema que correspondem ao perfil do usuário, por exemplo: Email, Foto e Nome de Usuário.
 
-Uma vez escolhidos os campos do módulo desejado, será gerado um trecho de código que informará quais importações serão necessárias para utilização dos componentes correspondentes a estes campos. 
+Uma vez escolhidos os campos do módulo desejado, será gerado um trecho de código que informará quais importações serão necessárias para utilização dos componentes correspondentes a estes campos.
 
-Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.js" dentro do módulo que você gerou (nome_do_modulo, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
+Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.js" dentro do módulo que você gerou (**nome_do_modulo**, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
 
 ### Entendendo a estrutura de um módulo no MeteorReactBaseMUI ###       
 
@@ -163,7 +163,7 @@ O módulo possui uma estrutura muito semelhante à do MeteorReactBaseMUI. Aprese
 				    exampleContainer.tsx    --> Arquivo de container do módulo.
 				    exampleDetail.tsx       --> Arquivo de detalhamento do módulo.
 				    exampleList.tsx         --> Arquivo de detalhamento em lista do módulo
-		
+
 Para que módulo funcione não basta que ele seja colocado na pasta módulo, é necessário configurar alguns arquivos que irão reconhecer a existência do módulo e carregar suas informações.
 
 Precisamos fazer as seguintes alterações nos arquivos abaixo:
@@ -171,9 +171,9 @@ Precisamos fazer as seguintes alterações nos arquivos abaixo:
 1. /imports/modules/index.ts           --> Inserir a importação das configurações do módulo que você criou para que suas configurações sejam repassadas às variáveis que serão utilizadas pelo componente "App", que carregará as configurações dos menus, as rotas, etc.
 
 Para isso, primeiro importe o arquivo de configuração do seu módulo e, em seguida, adicione-o à rota de páginas e ao menu para que possa ser acessado normalmente como abaixo:
-	
+
     import nome_do_modulo from './nome_do_modulo/config';
-    
+
     class Modules {
 	  constructor() {
 	    // Create modules router list
@@ -198,7 +198,7 @@ Para isso, importe o arquivo responável pela api de seu módulo como abaixo:
 	import '../modules/nome_do_modulo/api/exampleApi';
 	(...)
 
- **Observações**: quando o módulo é criado através do script, ou mesmo clonado manualmente, é necessário editar os arquivos citados acima pois essa alteração não é feita automaticamente.
+ **Observação**: quando o módulo é criado através do script, ou mesmo clonado manualmente, é necessário editar os arquivos citados acima pois essa alteração não é feita automaticamente.
 
 ### Customizando o módulo criado nos passos anteriores ###       
 
@@ -361,7 +361,7 @@ A estrutura do formulário é definida pelo esquema da coleção. Em nosso exemp
 
 
 No exemplo acima há vários campos definidos para o formulário, como image, title e etc. Veja que para cada campo
-é necessário informar o tipo (type), o nome do campo(label) que aparecerá nas mensagens de erro e também na tela do usúario, o valor padrão (defaultValue) e se o campo é opcional ou não (optional). 
+é necessário informar o tipo (type), o nome do campo(label) que aparecerá nas mensagens de erro e também na tela do usúario, o valor padrão (defaultValue) e se o campo é opcional ou não (optional).
 
 Além disso, há outros dados que precisam ser fornecidos a campos específicos, como é o caso do campo "type" que se refere a um select e que no esquema do campo já estão definidos os valores que serão exibidos para o usúario no campo "options". Os campos que possuem valores para serem selecionados sempre possuem o campo "options" e os valores são sempre exibidos com oum array de objetos.
 
@@ -391,14 +391,14 @@ Para criar um campo novo basta adicionar mais uma propriedade no objeto "**examp
         optional: true,
       },
 
-Após essa inserção, como o campo requisitado é do tipo string e se refere a um subtítulo, o componente adequado a ser utilizado é um TextField. Então, acesse o arquivo de "exampleDetail.js" do seu módulo e inclua o seguinte trecho de código. 
+Após essa inserção, como o campo requisitado é do tipo string e se refere a um subtítulo, o componente adequado a ser utilizado é um TextField. Então, acesse o arquivo de "exampleDetail.js" do seu módulo e inclua o seguinte trecho de código.
 
 Caso ainda não tenha importado o componente de TextField, insira no início do arquivo:
-	
+
 	import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 
 Em seguida, inclua o componente TextField dentro do componente SimpleForm:
-			
+
 	<Container>
 		<Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
 		    <SimpleForm
@@ -416,8 +416,8 @@ Em seguida, inclua o componente TextField dentro do componente SimpleForm:
 			(...)
 		    </SimpleForm>
 		</Container>
-		
- **Observações**: o campo "name" do componente que você pretende utilizar deve sempre corresponder ao nome do schema que você definiu no arquivo "exampleSch.js", para que o SimpleForm entenda com base em qual schema o banco de dados foi gerado e sobre quais restrições as validações deverão ser realizadas.
+
+ **Observação**: o campo "name" do componente que você pretende utilizar deve sempre corresponder ao nome do schema que você definiu no arquivo "exampleSch.js", para que o SimpleForm entenda com base em qual schema o banco de dados foi gerado e sobre quais restrições as validações deverão ser realizadas.
 
 Na pasta *config* há os arquivos:
 	pagesappmenu.tsx
@@ -452,7 +452,7 @@ A variável *pagesRouterList* contém uma lista de definições de rota referent
 O *SimpleForm* é um componente que faz a gestão de formulários e simplifica a criação das telas de
 cadastro, edição e visualização dos dados da coleção.
 
-A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
+A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, é a integração dele com o pacote *Material-UI*.
 
 O SimpleForm foi criado para ser simples, flexível e extensível:
 * simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
@@ -471,49 +471,22 @@ O SimpleForm possui dois modos de visualização: *edit* e *view*. Ele possui as
             >
 
 * **mode** - define qual é o modo de visualização: view, edit ou buttons. Quando a opção é *buttons* somente os botões são renderizados e nesse caso pode ser informada uma propriedade à mais que é a *forms*, que contém uma lista de formulários, como será visto no exemplo a seguir.
-* **style** - nesta própriedade podemos informar o style do container em que os campos serão renderizados. Por exemplo, ao definir a propriedade display como "flex" e flexDirection como "row" os campos do formularío serão exibidos em linha ao invés de serem exibidos em coluna.
 * **onSubmit** - é uma propriedade opcional que pode ser utilizada quando se pretende salvar o estado do documento a cada vez que ele é alterado no formulário.
 * **doc** - recebe o documento que será utilizado para popular os campos do formulário.
 * **schema** - recebe o esquema de campos do formulário.
 * **loading** - recebe a ação do carregamento.
 
+**Observação:** a estilização do container que contém o componente ou do próprio componente é realizada internamente, ou seja, cada componente possui seu próprio arquivo css para definir regras de design sobre as quais os campos serão renderizados. Por exemplo, ao definir a propriedade display como "flex" e flexDirection como "row" os campos do formularío serão exibidos em linha ao invés de serem exibidos em coluna. Bem como a definição do tamanho da fonte, tamanho do componente e suas diferentes formas de se apresentar com base no tipo de dispositivo (mobile ou desktop).
 
 #### Criando o schema do formulário manualmente ####
-O SimpleForm cria formulários a partir de esquemas expressos em JSON. Cada campo nesse esquema possui a seguinte estrutura:
+O SimpleForm cria formulários a partir de esquemas expressos em JSON. Como mencionado anteriormente, cada campo nesse esquema possui a seguinte estrutura básica e que pode ser incrementada com outras propriedades:
 
-        "name": {
-            "componentName": "TextField",
-            "componentProps": {
-                "key": "name",
-                "id": "name",
-                "label": "name"
-            },
-            "validation": {
-                "presence": {
-                    "message": "Este campo é obrigatório."
-                }
-            }
-        },
-
-Vamos às explicações:
-* **name** é o nome do campo no documento. Ou seja, ao gerar o documento resultante do preenchimento desse formulário o valor
-inserido neste campo será armazenado na propriedade *name*.
-* **componentName** é o nome do componente do pacote *Material-UI*, ou componente customziado, que será utilizado para exibir
-receber o valor que será armazenado no campo *name*. No exemplo acima será renderizado um componente *TextField* do pacote *Material-UI*.
-* **componentProps** é a propriedade do campo *name* que contém as propriedades que serão repassadas para o componente informado na
-propriedade *componenteName*. No exemplo acima será renderizado um *TextField* que receberá como propriedade as mesmas propriedades
-informadas em *componentProps*. É possível informar, inclusive, as propriedades referentes a eventos como *onChange* e *onBlur*,
-propriedades referente a estilo e qualquer outra que seja esperado pelo componente.
-* **validation** se refere às propriedades que serão passados para a biblioteca *validate.js* que é utilizada pelo SimpleForm
-para gerir e executar as valiações do formulário. A documentação dessa biblioteca pode ser encontrada no endereço: https://validatejs.org/.
-No exemplo acima está sendo informado que há uma validação de presença e se o campo não for preenchido será informado como
-mensagem de erro a mensagem "Este campo é obrigatório".
-
-
-Além dos campos informados acima, o SimpleForm trata também os seguintes campos:
-* **dataGroup** - Permite agrupar os campos por grupos de dados.
-* **text** - Permite informar um texto que será exibido antes do campo.
-* **visibilityFunction** - permite informar uma função de visibilidade para definir quando o campo será exibido na tela.
+	  name: {
+	    type: String,
+	    label: 'Título',
+	    defaultValue: '',
+	    optional: true,
+	  },
 
 ### Adicionando novos componentes ###
 O SimpleForm foi construído considerando o funcionamento dos componentes do pacote *Material-UI*. Esses componentes possuem algumas
@@ -619,7 +592,7 @@ O dialog pode ser chamdo utilizando o seguinte método:
                   '<<Mensagem>>',
                 );
 
-Os parâmetros "**Titulo**" e "**Mensagem**" são do tipo String. 
+Os parâmetros "**Titulo**" e "**Mensagem**" são do tipo String.
 
 ### Tratamento de imagens ###
 Se uma determinado campo do documento é do tipo image, ou seja, se no esquema há a propriedade "**isImage**", o boilerplate, no arquivo `/imports/api/base.ts", faz uma transformação dos dados e, ao invés de retornar a image que está salva no formato Base64, ele retorna a URL referente à imagem, que remete à rota criada pelo recurso de geração automatica de API Rest.
