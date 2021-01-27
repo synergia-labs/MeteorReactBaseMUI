@@ -124,9 +124,9 @@ A forma mais fácil de entender o funcionamento do MeteorReactBaseMUI é criando
 
 Para isso, iremos utilizar o arquivo "cloneModule.sh" para gerar um novo módulo com base no template existente. No terminal de seu sistema, acesse a pasta de "./modulestemplate" e execute o seguinte o comando:
 
-	.\clonemodule.sh example nome_do_modulo
+	.\clonemodule.sh example **nome_do_modulo**
 
-Desta forma, uma cópia do template de módulo será criado em "/imports/modules" com o nome de nome_do_modulo e o próximo passo será personalizar o módulo com campos de formulário.
+Desta forma, uma cópia do template de módulo será criado em "/imports/modules" com o nome de **nome_do_modulo** e o próximo passo será personalizar o módulo com campos de formulário.
 
 Neste ponto, iremos utilizar o Dev Utils para gerar os campos de nosso primeiro formulário através do endereço:
 
@@ -139,7 +139,7 @@ Neste endereço, há configurações disponíveis para dois módulos:
 
 Uma vez escolhidos os campos do módulo desejado, será gerado um trecho de código que informará quais importações serão necessárias para utilização dos componentes correspondentes a estes campos.
 
-Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.js" dentro do módulo que você gerou (nome_do_modulo, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
+Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.js" dentro do módulo que você gerou (**nome_do_modulo**, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
 
 ### Entendendo a estrutura de um módulo no MeteorReactBaseMUI ###       
 
@@ -147,7 +147,7 @@ O módulo possui uma estrutura muito semelhante à do MeteorReactBaseMUI. Aprese
 
 	imports
 		modules
-			nome_do_modulo                         --> Nome do módulo/api
+			**nome_do_modulo**                         --> Nome do módulo/api
 				api                     --> Pasta com os arquivos da api
 					exampleApi.ts           --> Especialização do arquivo /imports/modules/example/api/exampleApi.ts
 					exampleSch.ts           --> Especificação do schema da coleção
@@ -168,7 +168,7 @@ Precisamos fazer as seguintes alterações nos arquivos abaixo:
 
 Para isso, primeiro importe o arquivo de configuração do seu módulo e, em seguida, adicione-o à rota de páginas e ao menu para que possa ser acessado normalmente como abaixo:
 
-    import nome_do_modulo from './nome_do_modulo/config';
+    import **nome_do_modulo** from './**nome_do_modulo**/config';
 
     class Modules {
 	  constructor() {
@@ -186,12 +186,12 @@ Para isso, primeiro importe o arquivo de configuração do seu módulo e, em seg
 	  }
 	(...)
 
-2. /imports/server/registerApi.ts      --> Deve importar o arquivo "/imports/modules/nome_do_modulo/api/exampleApi.ts" para que os métodos e as publicações do módulo sejam disponibilizados no lado do servidor.
+2. /imports/server/registerApi.ts      --> Deve importar o arquivo "/imports/modules/**nome_do_modulo**/api/exampleApi.ts" para que os métodos e as publicações do módulo sejam disponibilizados no lado do servidor.
 
 Para isso, importe o arquivo responável pela api de seu módulo como abaixo:
 
 	(...)
-	import '../modules/nome_do_modulo/api/exampleApi';
+	import '../modules/**nome_do_modulo**/api/exampleApi';
 	(...)
 
  **Observação**: quando o módulo é criado através do script, ou mesmo clonado manualmente, é necessário editar os arquivos citados acima pois essa alteração não é feita automaticamente.
@@ -202,7 +202,7 @@ Agora iremos fazer algumas customizações no módulo criado nos passos anterior
 
 #### Criando novos campos no formulário ####
 
-A estrutura do formulário é definida pelo esquema da coleção. Em nosso exemplo o esquema é definido no arquivo '/imports/modules/nome_do_modulo/api/exampleSch.ts'.
+A estrutura do formulário é definida pelo esquema da coleção. Em nosso exemplo o esquema é definido no arquivo '/imports/modules/**nome_do_modulo**/api/exampleSch.ts'.
 
  Ao visualizar o arquivo será exibido o seguinte conteúdo:
 
