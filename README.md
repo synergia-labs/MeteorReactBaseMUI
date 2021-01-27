@@ -14,6 +14,10 @@ Dentre os benefícios de adotá-lo no desenvolvimento de um novo produto nós po
 
 * SimpleForm  - geração automática de formulaŕios e artíficios de validação dos mesmos a partir do schema do banco de dados, simplificando a implementação de CRUDs.
 
+* SimpleTable  - geração automática de uma tabela a partir do schema do banco de dados, apresentando de forma intuitiva e simples as informações contidas no banco.
+
+* UploadFiles  - importação de arquivos de vários formatos.
+
 * Acess Control List (ACL) - gestão de permissão por funcionalidade e/ou por dados nas operações com o banco de dados;
 
 * criação da estrutura de módulos que permite que todos os arquivos referentes a um módulo estejam em um só lugar e que esse módulo seja facilmente utilizado em outras aplicações.
@@ -457,7 +461,7 @@ ao esquema do banco de dados.
 uma ou mais opções de salvamento.
 * extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote *Material-UI*.
 
-O SimpleForm possui dois modos de visualização: *edit* e *view*.Ele possui as seguintes propriedades:
+O SimpleForm possui dois modos de visualização: *edit* e *view*. Ele possui as seguintes propriedades:
            <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -546,6 +550,26 @@ Cada uma dessas pastas possui um arquivo *index.ts*. Sempre que um componente é
 
 Sugerimos que acessem essas pastas e observem como funcionam esses componentes customizados para entender o funcionamento do SimpleForm quanto ao uso de novos componentes que não fazem parte do *Material-UI*.
 
+# UTILIZANDO O SimpleTable ##       
+### Entendendo o funcionamento ###
+O *SimpleTable* é um componente que simplifica a demonstração dos dados presentes no banco de dados em uma tabela para consulta.
+
+O SimpleTable foi criado para ser simples e extensível:
+* simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema semelhante ao esquema do banco de dados.
+* extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote *Material-UI*.
+
+O SimpleTable possui as seguintes propriedades:
+           <SimpleTable
+                schema={_.pick(exampleApi.schema,['image','title','description'])}
+                data={examples}
+                onClick={onClick}
+                actions={[{icon:<Delete color={'primary'} />,onClick:callRemove}]}
+            />
+
+Vamos às explicações:
+* **schema** é o schema que será utilizado para buscar as informações do banco de dados.
+* **data** realizará a busca dos dados na API do componente.
+* **actions** as ações disponíveis para serem realizadas com a tabela.
 
 ### Estilizando elementos ###
 
