@@ -149,7 +149,7 @@ O módulo possui uma estrutura muito semelhante à do MeteorReactBaseMUI. Aprese
 		modules
 			nome_do_modulo                         --> Nome do módulo/api
 				api                     --> Pasta com os arquivos da api
-					exampleApi.ts           --> Especialização do arquivo /imports/modules/car/api/carApi.ts
+					exampleApi.ts           --> Especialização do arquivo /imports/modules/example/api/exampleApi.ts
 					exampleSch.ts           --> Especificação do schema da coleção
 				config                  --> Pasta de agrupa os arquivos de configuração das rotas, menus e toolbars do módulo
 					exampleappmenu.tsx      --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
@@ -312,6 +312,21 @@ A estrutura do formulário é definida pelo esquema da coleção. Em nosso exemp
 	    isMapLocation:true,
 	    optional: true,
 	  },
+	  statusCheck: {
+	    type: Object,
+	    label: 'Status CheckBox',
+	    defaultValue: '',
+	    optional: false,
+	    checksList: ['Todo', 'Doing', 'Done'],
+	    validate: (value) => {
+	      const statusTrue = value&&Object.keys(value).filter( status => {
+	        if(value[status]){
+	          return status
+	        }
+	      })
+	      return  statusTrue.length <= 1
+	    }
+	  },
 	  statusRadio: {
 	    type: String,
 	    label: 'Status RadioButton',
@@ -348,24 +363,22 @@ Além disso, há outros dados que precisam ser fornecidos a campos específicos,
 
 Há também o campo "isImage" para sinalizar que o campo será utilizado para armazenar uma imagem em base64.
 
-Há ainda outras propriedades que podem ser inseridas nesse momento e que são interpretadas pela biblioteca "FormGenerator" que gera o esquema do formulário a partir do esquema do banco.
+Há ainda outras propriedades que podem ser inseridas nesse momento e que são interpretadas pelo SimpleForm que gera o esquema do formulário a partir do esquema do banco.
+
 Esses outros campos são:
 
 * "**isAvatar**" - quando o campo é do tipo imagem e diz respeito a um avatar.
-* "**isUpload**" - quando o campo é do tipo "upload de arquivos" e, neste caso, utiliza o componente "UploadFilesCollection" do WebERForm.
-* "**dataGroup**" - quando o campo diz respeito a um grupo de dados e é exibido no formulário agrupado por grupo de dados e em uma seçaõ específica do formulário. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**visibilityFunction**" - permite informar uma função que define se o campo estará visível ou não. Por exemplo, a função "(doc)=>doc.model === 'popular'" indica que o campo só estará visível se o campo "model" estiver preenchido com o valor "popular". Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**readOnly**" - se o campo readOnly for definido com o valor "true" o campo será exibido como somente leitura nas telas de edição. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**componentProps**" - é ainda possível definir o campo componentProps, que é um campo do esquema do formulário que permite informar as propriedades do componente que será exibido no formulário. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
+* "**isUpload**" - quando o campo é do tipo "upload de arquivos" e, neste caso, utiliza o componente "UploadFilesCollection" do SimpleForm.
+* "**readOnly**" - se o campo readOnly for definido com o valor "true" o campo será exibido como somente leitura nas telas de edição. Neste caso a biblioteca irá pegar essa informação e replicar ela no esquema do formulário.
 
 A propriedade "type" também sugere componentes que podem ser utilizados. Por exemplo:
 
-* "**[String]**" - uma lista de texto sugere que o componente é um "Chip Input". Se houver o campo "options" ele é do tipo "Select Chip Input".
+* "**[String]**" - uma lista de texto sugere que o componente é um "Chip Input". Se houver o campo "options" ele é do tipo "Select Chip Input", como mencionado anteriormente.
 * "**Object**" - o tipo objeto indica que o campo é um documento aninhado e, neste caso, vai exigir o campo "subSchema". Um subSchema é o esquema do documento aninhado.
 * "**[Object]**" - uma lista de objetos indica que o campo é uma lista de documentos aninhados e neste caso também é necessário indicar o campo "subSchema".
 * **Number** ou **Date** - tipos número ou data sugere a utilização de componentes que permitem a entrada de somente números ou a seleção de datas.
 
-Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**". Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deveerá possui. Neste caso será uma string simples.
+Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**". Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deverá possui. Neste caso será uma string simples.
 
       subtitle: {
         type: String,
@@ -376,11 +389,11 @@ Para criar um campo novo basta adicionar mais uma propriedade no objeto "**examp
 
 Após essa inserção, como o campo requisitado é do tipo string e se refere a um subtítulo, o componente adequado a ser utilizado é um TextField. Então, acesse o arquivo de "exampleDetail.js" do seu módulo e inclua o seguinte trecho de código. 
 
-Caso ainda não tenha importado o componente de TextField, insira:
+Caso ainda não tenha importado o componente de TextField, insira no início do arquivo:
 	
 	import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 
-E inclua o componente TextField dentro do componente SimpleForm:
+Em seguida, inclua o componente TextField dentro do componente SimpleForm:
 			
 	<Container>
 		<Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
@@ -437,14 +450,14 @@ cadastro, edição e visualização dos dados da coleção.
 
 A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
 
-O WebERForm foi criado para ser simples, flexível e extensível:
+O SimpleForm foi criado para ser simples, flexível e extensível:
 * simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
 ao esquema do banco de dados.
 * flexível porque pode ser utilizada uma ou várias instâncias dele para compor o formulário exibido para o usuário, utilizando
 uma ou mais opções de salvamento.
 * extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote *Material-UI*.
 
-O WebERForm possui dois modos de visualização: *edit* e *view*.Ele possui as seguintes propriedades:
+O SimpleForm possui dois modos de visualização: *edit* e *view*.Ele possui as seguintes propriedades:
            <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -460,9 +473,9 @@ O WebERForm possui dois modos de visualização: *edit* e *view*.Ele possui as s
 * **schema** - recebe o esquema de campos do formulário.
 * **loading** - recebe a ação do carregamento.
 
-/////////////////
+
 #### Criando o schema do formulário manualmente ####
-O WebERForm cria formulários a partir de esquemas expressos em JSON. Cada campo nesse esquema possui a seguinte estrutura:
+O SimpleForm cria formulários a partir de esquemas expressos em JSON. Cada campo nesse esquema possui a seguinte estrutura:
 
         "name": {
             "componentName": "TextField",
@@ -487,82 +500,16 @@ receber o valor que será armazenado no campo *name*. No exemplo acima será ren
 propriedade *componenteName*. No exemplo acima será renderizado um *TextField* que receberá como propriedade as mesmas propriedades
 informadas em *componentProps*. É possível informar, inclusive, as propriedades referentes a eventos como *onChange* e *onBlur*,
 propriedades referente a estilo e qualquer outra que seja esperado pelo componente.
-* **validation** se refere às propriedades que serão passados para a biblioteca *validate.js* que é utilizada pelo WebERForm
+* **validation** se refere às propriedades que serão passados para a biblioteca *validate.js* que é utilizada pelo SimpleForm
 para gerir e executar as valiações do formulário. A documentação dessa biblioteca pode ser encontrada no endereço: https://validatejs.org/.
 No exemplo acima está sendo informado que há uma validação de presença e se o campo não for preenchido será informado como
 mensagem de erro a mensagem "Este campo é obrigatório".
 
 
-Além dos campos informados acima, o WebERForm trata também os seguintes campos:
+Além dos campos informados acima, o SimpleForm trata também os seguintes campos:
 * **dataGroup** - Permite agrupar os campos por grupos de dados.
 * **text** - Permite informar um texto que será exibido antes do campo.
 * **visibilityFunction** - permite informar uma função de visibilidade para definir quando o campo será exibido na tela.
-
-No arquivo '/imports/modules/car/ui/page/carEdit.js' há a linha abaixo que utiliza a biblioteca *formGenerator* para gerar
-o formulário do *WebERForm* a partir do esquema do banco de dados. Vamos substituir a linha abaixo pelo trecho a seguir
-para exemplificar o uso dos recursos descritos acima:
-
-    const carWebERFormSchema = props.docFormGenerator.getFormSchema(props.create?'insert':'update');
-
-Esquema definido manualmente:
-
-    const carWebERFormSchema = {
-        name: {
-          componentName: 'TextField',
-          componentProps: {
-            key: 'name',
-            id: 'name',
-            label: 'name',
-          },
-          validation: {
-            presence: {
-              message: 'Este campo é obrigatório.',
-            },
-          },
-        },
-        image: {
-          componentName: 'ImageComponent',
-          componentProps: {
-            key: 'image',
-            id: 'image',
-            label: 'image',
-          },
-        },     
-        model: {
-          componentName: 'SimpleSelect',
-          componentProps: {
-            options: [
-              {
-                value: 'popular',
-                label: 'popular',
-              },
-              {
-                value: 'luxo',
-                label: 'luxo',
-              },
-            ],
-            key: 'model',
-            id: 'model',
-            label: 'model',
-          },
-          title:'Dados do modelo',
-          text: 'Nos campos a seguir serão apresentados os campos referentes ao modelo do carro.',
-        },
-        acessories: {
-          componentName: 'ChipInput',
-          componentProps: {
-            key: 'acessories',
-            id: 'acessories',
-            label: 'acessories',
-          },
-          visibilityFunction: (doc)=>{
-            return doc.model === 'luxo';
-          },
-        },
-      };
-
-Veja que componentes **ImageComponent**, **SimpleSelect** e **ChipInput** são componentes customizados criados a partir de bibliotecas
-javascript ou como composição de componentes do *Material-UI*.
 
 ### Adicionando novos componentes ###
 O SimpleForm foi construído considerando o funcionamento dos componentes do pacote *Material-UI*. Esses componentes possuem algumas
@@ -587,7 +534,7 @@ informação que oriente o usuário.
 para o usúario assim como algumas característica do componentes serão exibidos na cor vermelha.
 * **label** - recebe o texto que identifica o campo.
 
-Independente do que o componente faz, se ele recebe essas propriedades ele poderá ser utilizado automaticamente pelo WebERForm.
+Independente do que o componente faz, se ele recebe essas propriedades ele poderá ser utilizado automaticamente pelo SimpleForm.
 
 Os componentes ficam separados em pastas:
 * **formComponents** - componentes simles de formulário. Geralmente são criados a partir da composição de componentes do *Material-UI* ou
