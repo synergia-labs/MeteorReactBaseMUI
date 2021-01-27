@@ -477,7 +477,6 @@ O SimpleForm possui dois modos de visualização: *edit* e *view*. E apresenta a
 
 **Observações:** a estilização do container que contém o componente ou do próprio componente é realizada internamente, ou seja, cada componente possui seu próprio arquivo css para definir regras de design sobre as quais os campos serão renderizados. Por exemplo, ao definir a propriedade display como "flex" e flexDirection como "row" os campos do formularío serão exibidos em linha ao invés de serem exibidos em coluna. Bem como a definição do tamanho da fonte, tamanho do componente e suas diferentes formas de se apresentar com base no tipo de dispositivo (mobile ou desktop).
 
-/////////////////
 #### Criando o schema do formulário manualmente ####
 O WebERForm cria formulários a partir de esquemas expressos em JSON. Cada campo nesse esquema possui a seguinte estrutura:
 
@@ -616,7 +615,6 @@ Cada uma dessas pastas possui um arquivo *index.ts*. Sempre que um componente é
 
 Sugerimos que acessem essas pastas e observem como funcionam esses componentes customizados para entender o funcionamento do SimpleForm quanto ao uso de novos componentes que não fazem parte do *Material-UI*.
 
-
 ### Estilizando elementos ###
 
 **Observação**: Embora as classes sejam especificadas nos arquivos específicos de cada módulo ou componente, após a transpilação do código existirá somente um arquivo de estilo contendo todo o estilo do produto. Neste caso, poderá haver sobreposição de estilo nas classes que utilizam o mesmo nome. Recomendamos então que o nome do módulo ou componente esteja presente no nome da classse para evitar esse problema.
@@ -635,7 +633,6 @@ A verificação se o cliente está acessando ou não através de um dispositivo 
     import { isMobile } from '../libs/deviceVerify';
 
 **Observação**: Caso seja necessário modificar a forma de identificar se o dispositivo terá um acesso WEB ou Mobile será necessário mudar a regra de definição da constante "**isMobile**".
-
 
 #### Layout Web ####
 O Layout Web é composto pelos seguintes arquivos:
@@ -720,74 +717,7 @@ Os parâmetros "**doc**", "**ModuleName**" e "**ModuleSchema**" recebem, respect
 
 $$ TODO: Informar aonde é definimos se utilizaremos logs ou não $$
 
-
-### Progressive Web Apps - PWA ###
-(Em construção)
-
-
-### Geração automática de APIs Rest ###
-O boilerplate gera APIs Rest automaticamente a partir das publicações e os métodos registrados para o módulo/api.
-
-Todas as APIs REST criadas automaticamente são exibidas quando o servidor é iniciado, conforme exibido abaixo:
-
-     CREATE ENDPOINT GET api/userprofile/default
-     CREATE ENDPOINT POST api/v1/userprofile/update
-     CREATE ENDPOINT POST api/v1/userprofile/insert
-     CREATE ENDPOINT POST api/v1/userprofile/import
-     CREATE ENDPOINT POST api/v1/userprofile/remove
-     CREATE ENDPOINT POST api/v1/userprofile/upsert
-     CREATE ENDPOINT POST api/v1/userprofile/sync
-     CREATE ENDPOINT POST api/v1/userprofile/logs
-     CREATE ENDPOINT GET img/userprofile/photo/:image ########## IMAGE #############
-     CREATE ENDPOINT POST api/v1/userprofile/sendVerificationEmail
-     CREATE ENDPOINT POST api/v1/userprofile/sendResetPasswordEmail
-     CREATE ENDPOINT GET api/userprofile/getLoggedUserProfile
-     CREATE ENDPOINT GET api/todosample/default
-     CREATE ENDPOINT POST api/v1/todosample/update
-     CREATE ENDPOINT POST api/v1/todosample/insert
-     CREATE ENDPOINT POST api/v1/todosample/import
-     CREATE ENDPOINT POST api/v1/todosample/remove
-     CREATE ENDPOINT POST api/v1/todosample/upsert
-     CREATE ENDPOINT POST api/v1/todosample/sync
-     CREATE ENDPOINT POST api/v1/todosample/logs
-     CREATE STREAMING ENDPOINT GET media/:id/:video ########## Streaming of Video and Audio #############
-
-Observem que imagens e videos possuem rotas diferentes das publicações. O mesmo ocorre para os métodos registros que também possuem uma estrutura específica de rota.
-
 ### Tratamento de imagens ###
 Se uma determinado campo do documento é do tipo image, ou seja, se no esquema há a propriedade "**isImage**", o boilerplate, no arquivo `/imports/api/base/baseDao.js", faz uma transformação dos dados e, ao invés de retornar a image que está salva no formato Base64, ele retorna a URL referente à imagem, que remete à rota criada pelo recurso de geração automatica de API Rest.
 
 Dessa forma, as imagens salvas no banco de dados consguem ser recuperadas através de um endereço acessado pelo browswer e por isso o browser consegue fazer cache das imagens.
-
-
-## IMPLEMENTANDO TESTES AUTOMATIZADOS ##       
-### Execução de scripts de teste ###
-(Em construção)
-
-### Criação de Scripts de Teste ###
-(Em construção)
-
-### Utilizando Cucumber ###
-(Em construção)
-
-
-
-## CONFIGURAÇÕES DO AMBIENTE DE DESENVOLVIMENTO ##
-
-### Configuração do ESLint ###
-(Em construção)
-
-### Configuração do CheckStyle ###
-(Em construção)
-
-### Configuração do Deploy ###
-(Em construção)
-
-#### Script de Deploy ####
-(Em construção)
-
-#### Docker ####
-(Em construção)
-
-#### Settings.json ####
-(Em construção)
