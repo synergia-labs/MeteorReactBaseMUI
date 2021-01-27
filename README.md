@@ -154,7 +154,7 @@ O módulo possui uma estrutura muito semelhante à do MeteorReactBaseMUI. Aprese
 				config                  --> Pasta de agrupa os arquivos de configuração das rotas, menus e toolbars do módulo
 					exampleappmenu.tsx      --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
 					examplerouters.tsx      --> Arquivo de configuração das rotas do módulo
-					index.tsx           --> Arquivo que exporta as configurações do módulo.
+					index.tsx               --> Arquivo que exporta as configurações do módulo.
 				ui/pages
 				    exampleContainer.tsx    --> Arquivo de container do módulo.
 				    exampleDetail.tsx       --> Arquivo de detalhamento do módulo.
@@ -312,21 +312,6 @@ A estrutura do formulário é definida pelo esquema da coleção. Em nosso exemp
 	    isMapLocation:true,
 	    optional: true,
 	  },
-	  // statusCheck: {
-	  //   type: Object,
-	  //   label: 'Status CheckBox',
-	  //   defaultValue: '',
-	  //   optional: false,
-	  //   checksList: ['Todo', 'Doing', 'Done'],
-	  //   validate: (value) => {
-	  //     const statusTrue = value&&Object.keys(value).filter( status => {
-	  //       if(value[status]){
-	  //         return status
-	  //       }
-	  //     })
-	  //     return  statusTrue.length <= 1
-	  //   }
-	  // },
 	  statusRadio: {
 	    type: String,
 	    label: 'Status RadioButton',
@@ -417,52 +402,33 @@ E inclua o componente TextField dentro do componente SimpleForm:
 		
  **Observações**: o campo "name" do componente que você pretende utilizar deve sempre corresponder ao nome do schema que você definiu no arquivo "exampleSch.js", para que o SimpleForm entenda com base em qual schema o banco de dados foi gerado e sobre quais restrições as validações deverão ser realizadas.
 
-////////////////////////////////
 Na pasta *config* há os arquivos:
-* **nomeDoModulo**appmenu.tsx - Ex: exampleappmenu.tsx
-* **nomeDoModulo**routers.tsx - Ex: examplerouters.tsx
-index.tsx
+	pagesappmenu.tsx
+	pagesrouters.tsx
+	index.tsx
 
-O arquivo *carappmenu* contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
+O arquivo *pagesappmenu* contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
 
 import React from 'react';
-import Class from '@material-ui/icons/Class';
-
-export const carMenuItemList = [
-  {
-    path: '/car',
-    name: 'Carros',
-    icon: <Class />,
-  },
-];
-
-A variável *carMenuItemList* é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
-* **path** - Define a rota que será chamada quando o item é acionado. Ex:'/car',
-* **name** - Define o título/text que será exibido no item: Ex: "Carros"
-* **icon** - Define o ícone que será utilizado. Ex: Class
-///////////////////////
-* **avaliableOffLine** - Define se o menu será ou não exibido quando a aplicação estiver offline. Ex: "true"
-* **roles** - Define quais perfis de acesso enxergarão esse item no menu. Ex: ['Administrador', 'Usuario'],
-/////////////////////
+import Home from '@material-ui/icons/Home';
 
 
-A variável *carRouterList* contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
-* **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/car/:screenState/:carId',
-* **component** - Definie o componente que será renderizado. Ex: carContainer,
+export const pagesMenuItemList = [
+    isMobile?{
+        path: '/',
+        name: 'Home',
+        icon: <Home />,
+    }:null,
+
+A variável *pagesMenuItemList* é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
+* **path** - Define a rota que será chamada quando o item é acionado. Ex:'/',
+* **name** - Define o título/text que será exibido no item: Ex: "Home"
+* **icon** - Define o ícone que será utilizado. Ex: Home
+
+A variável *pagesRouterList* contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
+* **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/example/:screenState/:exampleId',
+* **component** - Definie o componente que será renderizado. Ex: exampleContainer,
 * **isProtected** - Define se na rota apenas usuários logados acessam as informações.
-////////////////////////////////
-* **avaliableOffLine** - Define se a rota estará disponível quando  aplicação estiver offline. Ex: "true"
-* **roles** - Define quais perfis de acesso enxergarão esse item no menu. Ex: ['Administrador', 'Usuario'],
-* **isMobileDrawer** - Define se o componente será renderizado em um Drawer quando o usuário estiver acessando por um dispositivo mobile. Ex: true;
-* **isMobileModal** - Define se o componente será renderizado em uma modal quando o usuário estiver acessando por um dispositivo mobile. Ex: true;
-* **isWebDrawer** - Define se o componente será renderizado em um Drawer quando o usuário estiver acessando pelo desktop. Ex: true;
-* **isWebModal** - Define se o componente será renderizado em uma modal quando o usuário estiver acessando pelo desktop. Ex: true;
-* **title** - Define o título que irá exibir quando a página for exibida. Se esse campo não for informado a barra de título não é renderizada. Ex: "Carros"
-* **subTitle** - Define o subtítulo que irá exibir quando a página for exibida. Ex: "Lista de carros"
-* **fullscreen** - Define se a página será exibida ocupando toda a tela ou não. Se essa opção ñao for informada a tela é exibida em um paper centralizado.
-
-**Observação**: Se as propriedades isMobileDrawer,isMobileModal, isWebDrawer e isWebModal não forem informadas o conteúdo é renderizado normalmente na página principal.
-////////////////////////
 
 ## UTILIZANDO O SimpleForm ##       
 ### Entendendo o funcionamento ###
@@ -653,28 +619,10 @@ A verificação se o cliente está acessando ou não através de um dispositivo 
 
 **Observação**: Caso seja necessário modificar a forma de identificar se o dispositivo terá um acesso WEB ou Mobile será necessário mudar a regra de definição da constante "**isMobile**".
 
-
-#### Layout Web ####
-O Layout Web é composto pelos seguintes arquivos:
-
-    layout.js   --> Contém a composiçaõ do layout a partir dos componentes presentes nos demais arquivos.
-    appbar.js   --> Contem o componente APPBAR do boilerplate.
-    content.js  --> Contem o componente que se refere ao container em que as páginas do boilerplate são montadas.
-    drawer.js   --> Contem a estrutura e o conteúdo do drawer do boilerplate.
-
-
-#### Layout Mobile ####
-O Layout Mobile é composto pelos seguintes arquivos:
-
-    layout.js   --> Contém a composiçaõ do layout a partir dos componentes presentes nos demais arquivos.
-    appbar.js   --> Contem o componente APPBAR do boilerplate.
-    content.js  --> Contem o componente que se refere ao container em que as páginas do boilerplate são montadas.
-    tabs.js     --> Contem a estrutura e o conteúdo das Tabs que substitui o acesso via Drawer.
-
 ## OUTROS RECURSOS ##       
 ### Contexto geral da aplicação ###
 
-O boilerplate possu propriedades e métodos armazenados em contexto geral que está disponível para todas as telas/componentes. Esse contexto é implementado utilizando as duas formas de contexto presentes na biblioteca ReactJS.
+O boilerplate possui propriedades e métodos armazenados em contexto geral que está disponível para todas as telas/componentes. Esse contexto é implementado utilizando as duas formas de contexto presentes na biblioteca ReactJS.
 
 A mais antiga e que estava disponível em carater de experimentação nas versões antigas do React é a criação de um contexto a partir do recurso "**ChildContext**" que faz com que todos os componentes filhos possam acessar as informações do contexto de ancestral comum caso o contexto seja declarado através de PropTyhpes. Para mais informações veja: https://pt-br.reactjs.org/docs/legacy-context.html
 
@@ -698,113 +646,11 @@ O dialog pode ser chamdo utilizando o seguinte método:
                 this.props.openDialog(
                   '<<Titulo>>',
                   '<<Mensagem>>',
-                  actions,
                 );
 
-Os parâmetros "**Titulo**" e "**Mensagem**" são do tipo String. Jà o parâmetro actions é do tipo Array e ele tem a seguinte estrutura:
-
-    const actions = [
-          {
-            actionText: () => {
-              return i18n.__('app.general_actions.no');
-            },
-            actionColor: 'secondary',
-          },
-          {
-            actionText: () => {
-              return i18n.__('app.general_actions.yes');
-            },
-            actionOnClick: () => {
-              return this.props.removeCrud(rowData);
-            },
-            actionColor: 'primary',
-          },
-        ];
-
-No exemplo acima o campo "**ActionText**" define o texto que será exibido nos comandos do dialog. Esse campo pode ser uma String ou uma função que retorna uma String.
-
-A propriedade "**actionOnClick**" recebe a função que será executada quando o comando for clicado. Geralmente essa função está relacionada ao contexto em que o dialog é requisitado.
-
-E, por fim, o campo "**actionColor**" diz respeito à cor do botão. A cor pode ser "primary" ou "secondary", e exibirã as cores correspondentes definidas no tema do boilerplate.
-
-### Drawer de Exibição dos Logs ###
-O boilerplate gera, por padrão, logs de todas as ações realizadas nas APIs que foram definidas. Esses logs podem ser visualizados a partir do método "**showLogs**" disponibilizado pelo contexto geral da aplicação como, por exemplo:
-
-    this.props.showLogs(doc, ModuleName, ModuleSchema);
-
-Os parâmetros "**doc**", "**ModuleName**" e "**ModuleSchema**" recebem, respectivamente, o objecto contendo o documento que se quer ver o histórico dele, o nome do módulo (nome da api) e o schema do módulo. A partir dessas informações o boilerplate renderiza no drawer de logs o histórico de alterações dos campos formatando-os conforme seus tipos e características.
-
-
-$$ TODO: Informar aonde é definimos se utilizaremos logs ou não $$
-
-
-### Progressive Web Apps - PWA ###
-(Em construção)
-
-
-### Geração automática de APIs Rest ###
-O boilerplate gera APIs Rest automaticamente a partir das publicações e os métodos registrados para o módulo/api.
-
-Todas as APIs REST criadas automaticamente são exibidas quando o servidor é iniciado, conforme exibido abaixo:
-
-     CREATE ENDPOINT GET api/userprofile/default
-     CREATE ENDPOINT POST api/v1/userprofile/update
-     CREATE ENDPOINT POST api/v1/userprofile/insert
-     CREATE ENDPOINT POST api/v1/userprofile/import
-     CREATE ENDPOINT POST api/v1/userprofile/remove
-     CREATE ENDPOINT POST api/v1/userprofile/upsert
-     CREATE ENDPOINT POST api/v1/userprofile/sync
-     CREATE ENDPOINT POST api/v1/userprofile/logs
-     CREATE ENDPOINT GET img/userprofile/photo/:image ########## IMAGE #############
-     CREATE ENDPOINT POST api/v1/userprofile/sendVerificationEmail
-     CREATE ENDPOINT POST api/v1/userprofile/sendResetPasswordEmail
-     CREATE ENDPOINT GET api/userprofile/getLoggedUserProfile
-     CREATE ENDPOINT GET api/todosample/default
-     CREATE ENDPOINT POST api/v1/todosample/update
-     CREATE ENDPOINT POST api/v1/todosample/insert
-     CREATE ENDPOINT POST api/v1/todosample/import
-     CREATE ENDPOINT POST api/v1/todosample/remove
-     CREATE ENDPOINT POST api/v1/todosample/upsert
-     CREATE ENDPOINT POST api/v1/todosample/sync
-     CREATE ENDPOINT POST api/v1/todosample/logs
-     CREATE STREAMING ENDPOINT GET media/:id/:video ########## Streaming of Video and Audio #############
-
-Observem que imagens e videos possuem rotas diferentes das publicações. O mesmo ocorre para os métodos registros que também possuem uma estrutura específica de rota.
+Os parâmetros "**Titulo**" e "**Mensagem**" são do tipo String. 
 
 ### Tratamento de imagens ###
-Se uma determinado campo do documento é do tipo image, ou seja, se no esquema há a propriedade "**isImage**", o boilerplate, no arquivo `/imports/api/base/baseDao.js", faz uma transformação dos dados e, ao invés de retornar a image que está salva no formato Base64, ele retorna a URL referente à imagem, que remete à rota criada pelo recurso de geração automatica de API Rest.
+Se uma determinado campo do documento é do tipo image, ou seja, se no esquema há a propriedade "**isImage**", o boilerplate, no arquivo `/imports/api/base.ts", faz uma transformação dos dados e, ao invés de retornar a image que está salva no formato Base64, ele retorna a URL referente à imagem, que remete à rota criada pelo recurso de geração automatica de API Rest.
 
 Dessa forma, as imagens salvas no banco de dados consguem ser recuperadas através de um endereço acessado pelo browswer e por isso o browser consegue fazer cache das imagens.
-
-
-## IMPLEMENTANDO TESTES AUTOMATIZADOS ##       
-### Execução de scripts de teste ###
-(Em construção)
-
-### Criação de Scripts de Teste ###
-(Em construção)
-
-### Utilizando Cucumber ###
-(Em construção)
-
-
-
-## CONFIGURAÇÕES DO AMBIENTE DE DESENVOLVIMENTO ##
-
-### Configuração do ESLint ###
-(Em construção)
-
-### Configuração do CheckStyle ###
-(Em construção)
-
-### Configuração do Deploy ###
-(Em construção)
-
-#### Script de Deploy ####
-(Em construção)
-
-#### Docker ####
-(Em construção)
-
-#### Settings.json ####
-(Em construção)
