@@ -154,7 +154,7 @@ O módulo possui uma estrutura muito semelhante à do MeteorReactBaseMUI. Aprese
 				config                  --> Pasta de agrupa os arquivos de configuração das rotas, menus e toolbars do módulo
 					exampleappmenu.tsx      --> Arquivo de configuração da exibição de itens do módulo no menu da aplicação
 					examplerouters.tsx      --> Arquivo de configuração das rotas do módulo
-					index.tsx               --> Arquivo que exporta as configurações do módulo.
+					index.tsx           --> Arquivo que exporta as configurações do módulo.
 				ui/pages
 				    exampleContainer.tsx    --> Arquivo de container do módulo.
 				    exampleDetail.tsx       --> Arquivo de detalhamento do módulo.
@@ -312,6 +312,21 @@ A estrutura do formulário é definida pelo esquema da coleção. Em nosso exemp
 	    isMapLocation:true,
 	    optional: true,
 	  },
+	  statusCheck: {
+	    type: Object,
+	    label: 'Status CheckBox',
+	    defaultValue: '',
+	    optional: false,
+	    checksList: ['Todo', 'Doing', 'Done'],
+	    validate: (value) => {
+	      const statusTrue = value&&Object.keys(value).filter( status => {
+	        if(value[status]){
+	          return status
+	        }
+	      })
+	      return  statusTrue.length <= 1
+	    }
+	  },
 	  statusRadio: {
 	    type: String,
 	    label: 'Status RadioButton',
@@ -348,24 +363,22 @@ Além disso, há outros dados que precisam ser fornecidos a campos específicos,
 
 Há também o campo "isImage" para sinalizar que o campo será utilizado para armazenar uma imagem em base64.
 
-Há ainda outras propriedades que podem ser inseridas nesse momento e que são interpretadas pela biblioteca "FormGenerator" que gera o esquema do formulário a partir do esquema do banco.
+Há ainda outras propriedades que podem ser inseridas nesse momento e que são interpretadas pelo SimpleForm que gera o esquema do formulário a partir do esquema do banco.
+
 Esses outros campos são:
 
 * "**isAvatar**" - quando o campo é do tipo imagem e diz respeito a um avatar.
-* "**isUpload**" - quando o campo é do tipo "upload de arquivos" e, neste caso, utiliza o componente "UploadFilesCollection" do WebERForm.
-* "**dataGroup**" - quando o campo diz respeito a um grupo de dados e é exibido no formulário agrupado por grupo de dados e em uma seçaõ específica do formulário. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**visibilityFunction**" - permite informar uma função que define se o campo estará visível ou não. Por exemplo, a função "(doc)=>doc.model === 'popular'" indica que o campo só estará visível se o campo "model" estiver preenchido com o valor "popular". Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**readOnly**" - se o campo readOnly for definido com o valor "true" o campo será exibido como somente leitura nas telas de edição. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
-* "**componentProps**" - é ainda possível definir o campo componentProps, que é um campo do esquema do formulário que permite informar as propriedades do componente que será exibido no formulário. Neste caso a biblioteca "formGenerator" irá pegar essa informação e replicar ela no esquema do formulário.
+* "**isUpload**" - quando o campo é do tipo "upload de arquivos" e, neste caso, utiliza o componente "UploadFilesCollection" do SimpleForm.
+* "**readOnly**" - se o campo readOnly for definido com o valor "true" o campo será exibido como somente leitura nas telas de edição. Neste caso a biblioteca irá pegar essa informação e replicar ela no esquema do formulário.
 
 A propriedade "type" também sugere componentes que podem ser utilizados. Por exemplo:
 
-* "**[String]**" - uma lista de texto sugere que o componente é um "Chip Input". Se houver o campo "options" ele é do tipo "Select Chip Input".
+* "**[String]**" - uma lista de texto sugere que o componente é um "Chip Input". Se houver o campo "options" ele é do tipo "Select Chip Input", como mencionado anteriormente.
 * "**Object**" - o tipo objeto indica que o campo é um documento aninhado e, neste caso, vai exigir o campo "subSchema". Um subSchema é o esquema do documento aninhado.
 * "**[Object]**" - uma lista de objetos indica que o campo é uma lista de documentos aninhados e neste caso também é necessário indicar o campo "subSchema".
 * **Number** ou **Date** - tipos número ou data sugere a utilização de componentes que permitem a entrada de somente números ou a seleção de datas.
 
-Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**". Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deveerá possui. Neste caso será uma string simples.
+Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**". Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deverá possui. Neste caso será uma string simples.
 
       subtitle: {
         type: String,
@@ -376,11 +389,11 @@ Para criar um campo novo basta adicionar mais uma propriedade no objeto "**examp
 
 Após essa inserção, como o campo requisitado é do tipo string e se refere a um subtítulo, o componente adequado a ser utilizado é um TextField. Então, acesse o arquivo de "exampleDetail.js" do seu módulo e inclua o seguinte trecho de código. 
 
-Caso ainda não tenha importado o componente de TextField, insira:
+Caso ainda não tenha importado o componente de TextField, insira no início do arquivo:
 	
 	import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 
-E inclua o componente TextField dentro do componente SimpleForm:
+Em seguida, inclua o componente TextField dentro do componente SimpleForm:
 			
 	<Container>
 		<Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
@@ -402,65 +415,68 @@ E inclua o componente TextField dentro do componente SimpleForm:
 		
  **Observações**: o campo "name" do componente que você pretende utilizar deve sempre corresponder ao nome do schema que você definiu no arquivo "exampleSch.js", para que o SimpleForm entenda com base em qual schema o banco de dados foi gerado e sobre quais restrições as validações deverão ser realizadas.
 
+////////////////////////////////
 Na pasta *config* há os arquivos:
-	pagesappmenu.tsx
-	pagesrouters.tsx
-	index.tsx
+* **nomeDoModulo**appmenu.tsx - Ex: exampleappmenu.tsx ou, no módulo gerado por você, **nome_do_modulo**appmenu.tsx
+* **nomeDoModulo**routers.tsx - Ex: examplerouters.tsx ou, no módulo gerado por você, **nome_do_modulo**routers.tsx
+index.tsx
 
-O arquivo *pagesappmenu* contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
+O arquivo *exampleappmenu* do módulo criado por você contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
 
 import React from 'react';
-import Home from '@material-ui/icons/Home';
+import Class from '@material-ui/icons/Class';
 
+export const exampleMenuItemList = [
+  {
+    path: '/example',
+    name: 'Exemplos',
+    icon: <Class />,
+  },
+];
 
-export const pagesMenuItemList = [
-    isMobile?{
-        path: '/',
-        name: 'Home',
-        icon: <Home />,
-    }:null,
+A variável *exampleMenuItemList* é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
+* **path** - Define a rota que será chamada quando o item é acionado. Ex:'/example',
+* **name** - Define o título/text que será exibido no item: Ex: "Exemplos"
+* **icon** - Define o ícone que será utilizado. Ex: Class
+///////////////////////
 
-A variável *pagesMenuItemList* é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
-* **path** - Define a rota que será chamada quando o item é acionado. Ex:'/',
-* **name** - Define o título/text que será exibido no item: Ex: "Home"
-* **icon** - Define o ícone que será utilizado. Ex: Home
-
-A variável *pagesRouterList* contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
+A variável *exampleRouterList* contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
 * **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/example/:screenState/:exampleId',
 * **component** - Definie o componente que será renderizado. Ex: exampleContainer,
-* **isProtected** - Define se na rota apenas usuários logados acessam as informações.
+* **isProtected** - Define se na rota apenas usuários logados acessam as informações, ou se acesso ocorre independente de login.
 
-## UTILIZANDO O SimpleForm ##       
+## UTILIZANDO O SIMPLEFORM ##       
 ### Entendendo o funcionamento ###
 O *SimpleForm* é um componente que faz a gestão de formulários e simplifica a criação das telas de
 cadastro, edição e visualização dos dados da coleção.
 
-A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, é a integração dele com o SynMRS e com os componentes do pacote *Material-UI*.
+A principal motivação para utilizá-lo ao invés de adotar componentes amplamente utilizados pela comunidade como *ReduxForms* e outros, é a integração dele com os componentes do pacote *Material-UI*.
 
-O WebERForm foi criado para ser simples, flexível e extensível:
+O SimpleForm foi criado para ser simples, flexível e extensível:
 * simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
 ao esquema do banco de dados.
 * flexível porque pode ser utilizada uma ou várias instâncias dele para compor o formulário exibido para o usuário, utilizando
 uma ou mais opções de salvamento.
 * extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote *Material-UI*.
 
-O WebERForm possui dois modos de visualização: *edit* e *view*.Ele possui as seguintes propriedades:
+O SimpleForm possui dois modos de visualização: *edit* e *view*. E apresenta as seguintes propriedades:
+
            <SimpleForm
-                mode={screenState}
-                schema={exampleApi.schema}
-                doc={exampleDoc}
-                onSubmit={handleSubmit}
-                loading={loading}
+             mode={screenState}
+             schema={exampleApi.schema}
+             doc={exampleDoc}
+             onSubmit={handleSubmit}
+             loading={loading}
             >
 
 * **mode** - define qual é o modo de visualização: view, edit ou buttons. Quando a opção é *buttons* somente os botões são renderizados e nesse caso pode ser informada uma propriedade à mais que é a *forms*, que contém uma lista de formulários, como será visto no exemplo a seguir.
-* **style** - nesta própriedade podemos informar o style do container em que os campos serão renderizados. Por exemplo, ao definir a propriedade display como "flex" e flexDirection como "row" os campos do formularío serão exibidos em linha ao invés de serem exibidos em coluna.
 * **onSubmit** - é uma propriedade opcional que pode ser utilizada quando se pretende salvar o estado do documento a cada vez que ele é alterado no formulário.
 * **doc** - recebe o documento que será utilizado para popular os campos do formulário.
 * **schema** - recebe o esquema de campos do formulário.
 * **loading** - recebe a ação do carregamento.
 
-/////////////////
+**Observações:** a estilização do container que contém o componente ou do próprio componente é realizada internamente, ou seja, cada componente possui seu próprio arquivo css para definir regras de design sobre as quais os campos serão renderizados. Por exemplo, ao definir a propriedade display como "flex" e flexDirection como "row" os campos do formularío serão exibidos em linha ao invés de serem exibidos em coluna. Bem como a definição do tamanho da fonte, tamanho do componente e suas diferentes formas de se apresentar com base no tipo de dispositivo (mobile ou desktop).
+
 #### Criando o schema do formulário manualmente ####
 O WebERForm cria formulários a partir de esquemas expressos em JSON. Cada campo nesse esquema possui a seguinte estrutura:
 
@@ -599,7 +615,6 @@ Cada uma dessas pastas possui um arquivo *index.ts*. Sempre que um componente é
 
 Sugerimos que acessem essas pastas e observem como funcionam esses componentes customizados para entender o funcionamento do SimpleForm quanto ao uso de novos componentes que não fazem parte do *Material-UI*.
 
-
 ### Estilizando elementos ###
 
 **Observação**: Embora as classes sejam especificadas nos arquivos específicos de cada módulo ou componente, após a transpilação do código existirá somente um arquivo de estilo contendo todo o estilo do produto. Neste caso, poderá haver sobreposição de estilo nas classes que utilizam o mesmo nome. Recomendamos então que o nome do módulo ou componente esteja presente no nome da classse para evitar esse problema.
@@ -619,10 +634,27 @@ A verificação se o cliente está acessando ou não através de um dispositivo 
 
 **Observação**: Caso seja necessário modificar a forma de identificar se o dispositivo terá um acesso WEB ou Mobile será necessário mudar a regra de definição da constante "**isMobile**".
 
+#### Layout Web ####
+O Layout Web é composto pelos seguintes arquivos:
+
+    layout.js   --> Contém a composiçaõ do layout a partir dos componentes presentes nos demais arquivos.
+    appbar.js   --> Contem o componente APPBAR do boilerplate.
+    content.js  --> Contem o componente que se refere ao container em que as páginas do boilerplate são montadas.
+    drawer.js   --> Contem a estrutura e o conteúdo do drawer do boilerplate.
+
+
+#### Layout Mobile ####
+O Layout Mobile é composto pelos seguintes arquivos:
+
+    layout.js   --> Contém a composiçaõ do layout a partir dos componentes presentes nos demais arquivos.
+    appbar.js   --> Contem o componente APPBAR do boilerplate.
+    content.js  --> Contem o componente que se refere ao container em que as páginas do boilerplate são montadas.
+    tabs.js     --> Contem a estrutura e o conteúdo das Tabs que substitui o acesso via Drawer.
+
 ## OUTROS RECURSOS ##       
 ### Contexto geral da aplicação ###
 
-O boilerplate possui propriedades e métodos armazenados em contexto geral que está disponível para todas as telas/componentes. Esse contexto é implementado utilizando as duas formas de contexto presentes na biblioteca ReactJS.
+O boilerplate possu propriedades e métodos armazenados em contexto geral que está disponível para todas as telas/componentes. Esse contexto é implementado utilizando as duas formas de contexto presentes na biblioteca ReactJS.
 
 A mais antiga e que estava disponível em carater de experimentação nas versões antigas do React é a criação de um contexto a partir do recurso "**ChildContext**" que faz com que todos os componentes filhos possam acessar as informações do contexto de ancestral comum caso o contexto seja declarado através de PropTyhpes. Para mais informações veja: https://pt-br.reactjs.org/docs/legacy-context.html
 
@@ -646,11 +678,46 @@ O dialog pode ser chamdo utilizando o seguinte método:
                 this.props.openDialog(
                   '<<Titulo>>',
                   '<<Mensagem>>',
+                  actions,
                 );
 
-Os parâmetros "**Titulo**" e "**Mensagem**" são do tipo String. 
+Os parâmetros "**Titulo**" e "**Mensagem**" são do tipo String. Jà o parâmetro actions é do tipo Array e ele tem a seguinte estrutura:
+
+    const actions = [
+          {
+            actionText: () => {
+              return i18n.__('app.general_actions.no');
+            },
+            actionColor: 'secondary',
+          },
+          {
+            actionText: () => {
+              return i18n.__('app.general_actions.yes');
+            },
+            actionOnClick: () => {
+              return this.props.removeCrud(rowData);
+            },
+            actionColor: 'primary',
+          },
+        ];
+
+No exemplo acima o campo "**ActionText**" define o texto que será exibido nos comandos do dialog. Esse campo pode ser uma String ou uma função que retorna uma String.
+
+A propriedade "**actionOnClick**" recebe a função que será executada quando o comando for clicado. Geralmente essa função está relacionada ao contexto em que o dialog é requisitado.
+
+E, por fim, o campo "**actionColor**" diz respeito à cor do botão. A cor pode ser "primary" ou "secondary", e exibirã as cores correspondentes definidas no tema do boilerplate.
+
+### Drawer de Exibição dos Logs ###
+O boilerplate gera, por padrão, logs de todas as ações realizadas nas APIs que foram definidas. Esses logs podem ser visualizados a partir do método "**showLogs**" disponibilizado pelo contexto geral da aplicação como, por exemplo:
+
+    this.props.showLogs(doc, ModuleName, ModuleSchema);
+
+Os parâmetros "**doc**", "**ModuleName**" e "**ModuleSchema**" recebem, respectivamente, o objecto contendo o documento que se quer ver o histórico dele, o nome do módulo (nome da api) e o schema do módulo. A partir dessas informações o boilerplate renderiza no drawer de logs o histórico de alterações dos campos formatando-os conforme seus tipos e características.
+
+
+$$ TODO: Informar aonde é definimos se utilizaremos logs ou não $$
 
 ### Tratamento de imagens ###
-Se uma determinado campo do documento é do tipo image, ou seja, se no esquema há a propriedade "**isImage**", o boilerplate, no arquivo `/imports/api/base.ts", faz uma transformação dos dados e, ao invés de retornar a image que está salva no formato Base64, ele retorna a URL referente à imagem, que remete à rota criada pelo recurso de geração automatica de API Rest.
+Se uma determinado campo do documento é do tipo image, ou seja, se no esquema há a propriedade "**isImage**", o boilerplate, no arquivo `/imports/api/base/baseDao.js", faz uma transformação dos dados e, ao invés de retornar a image que está salva no formato Base64, ele retorna a URL referente à imagem, que remete à rota criada pelo recurso de geração automatica de API Rest.
 
 Dessa forma, as imagens salvas no banco de dados consguem ser recuperadas através de um endereço acessado pelo browswer e por isso o browser consegue fazer cache das imagens.
