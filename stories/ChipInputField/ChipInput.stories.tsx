@@ -17,7 +17,6 @@ export const FirstStory = Template.bind({});
 FirstStory.args = {
   /* the args you need here will depend on your component */
   label: 'Chip Input',
-  borderWidth: 1,
   placeholder: 'Chip Input',
   name: 'Chip Input',
 };
