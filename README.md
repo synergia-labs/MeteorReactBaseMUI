@@ -523,7 +523,7 @@ Cada uma dessas pastas possui um arquivo *index.ts*. Sempre que um componente é
 
 Sugerimos que acessem essas pastas e observem como funcionam esses componentes customizados para entender o funcionamento do SimpleForm quanto ao uso de novos componentes que não fazem parte do *Material-UI*.
 
-# UTILIZANDO O SimpleTable ##       
+## UTILIZANDO O SimpleTable ##       
 ### Entendendo o funcionamento ###
 O *SimpleTable* é um componente que simplifica a demonstração dos dados presentes no banco de dados em uma tabela para consulta.
 
