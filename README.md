@@ -599,11 +599,11 @@ Se uma determinado campo do documento é do tipo image, ou seja, se no esquema h
 
 Dessa forma, as imagens salvas no banco de dados consguem ser recuperadas através de um endereço acessado pelo browswer e por isso o browser consegue fazer cache das imagens.
 
-## STORYBOOK E COMPONENTES ##
+# STORYBOOK E COMPONENTES #
 
 No Boilerplate implementamos o Storybook para ajudar na identificação, importação e utilização dos componentes.
 
-# PRIMEIROS PASSOS #
+## PRIMEIROS PASSOS ##
 
 Para instalação e mais informações sobre o Storybook acesse https://storybook.js.org/docs/react/get-started/introduction.
 
