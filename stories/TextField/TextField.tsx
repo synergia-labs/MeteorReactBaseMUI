@@ -14,9 +14,9 @@ export interface TextFieldProps {
 
 /**
  * TextField é utilizado para receber campos de texto do usuário.
- * 
+ *
  * Schema:
- * 
+ *
  *  title: {
     type: String,
     label: 'Título',
@@ -31,8 +31,8 @@ export interface TextFieldProps {
   },
  */
 export const TextField: React.FC<TextFieldProps> = ({
-  placeholder,
-  name,
+  placeholder='',
+  name='',
   disabled=false,
   required=false,
   password=false,

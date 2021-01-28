@@ -1,11 +1,14 @@
 // TextField.stories.tsx
 
 import React, { ComponentProps } from 'react';
+import PropTypes from 'prop-types';
+
 import { Story } from '@storybook/react/types-6-0';
 
 import { TextField, TextFieldProps } from './TextField';
 
 // This default export determines where your story goes in the story list
+
 export default {
   title: 'MeteorReactBaseMUI/TextField',
   component: TextField,
@@ -14,7 +17,7 @@ export default {
     required: false,
   },
   argTypes: {
-    backgroundColor: { control: 'color' },
+    backgroundColor: { control: 'color'},
   },
 };
 
@@ -39,3 +42,10 @@ PasswordStory.args = {
 };
 PasswordStory.argTypes = {
 };
+
+/**
+Define um título genérico a ser utilizado enquanto o componente não for modificado
+*/
+/**
+Define o nome a ser utilizado pelo componente
+*/

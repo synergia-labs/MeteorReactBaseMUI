@@ -12,10 +12,10 @@ export interface RadioButtonFieldProps {
 }
 
 /**
- * RadioButtonField é respondável pela caixa de seleção da situação atual do projeto. 
- * 
+ * RadioButtonField é responsável pela caixa de seleção do status atual do projeto ou tarefa.
+ *
  * Schema:
- * 
+ *
  *  statusCheck: {
     type: Object,
     label: 'Status CheckBox',

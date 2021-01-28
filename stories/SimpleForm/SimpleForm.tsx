@@ -63,13 +63,13 @@ const elements = {
     mask: {
       phone: {
         label: 'Telefone',
-        placeholder: 'Telefone',
+        placeholder: '(##) ####-####',
         name: 'Telefone',
         mask : '(##) ####-####',
       },
       cpf: {
         label: 'CPF',
-        placeholder: 'CPF',
+        placeholder: '###.###.###-##',
         name: 'CPF',
         mask : '###.###.###-##',
       },
@@ -98,7 +98,7 @@ const elements = {
 };
 
 /**
- * Geração automática de formulaŕios e artíficios de validação dos mesmos a partir do schema do banco de dados, simplificando a implementação de CRUDs.
+ * SimpleForm é responsável pela geração automática de formulários e artíficios de validação dos mesmos a partir do schema do banco de dados, simplificando a implementação de CRUDs.
  */
 export const SimpleForm: React.FC<SimpleFormProps> = ({
   mode={view},
@@ -137,6 +137,7 @@ export const SimpleForm: React.FC<SimpleFormProps> = ({
         label={elements.type.name}
         disabled={elements.type.disabled}
         required={elements.type.required}
+        options={elements.type.options}
         {...props}
       />
       <DatePickerField
@@ -155,6 +156,7 @@ export const SimpleForm: React.FC<SimpleFormProps> = ({
       />
       <TextMaskField
         placeholder={elements.contacts.mask.phone.placeholder}
+        mask={elements.contacts.mask.phone.mask}
         label={elements.contacts.mask.phone.name}
         disabled={elements.contacts.mask.phone.disabled}
         required={elements.contacts.mask.phone.required}
@@ -162,6 +164,7 @@ export const SimpleForm: React.FC<SimpleFormProps> = ({
       />
       <TextMaskField
         placeholder={elements.contacts.mask.cpf.placeholder}
+        mask={elements.contacts.mask.cpf.mask}
         label={elements.contacts.mask.cpf.name}
         disabled={elements.contacts.mask.cpf.disabled}
         required={elements.contacts.mask.cpf.required}
