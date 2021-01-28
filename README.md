@@ -560,7 +560,7 @@ O UploadFiles possui as seguintes propriedades:
                 name='files'
                 label={'Arquivos'}
                 doc={exampleDoc}
-			/>
+		/>
 
 Vamos às explicações:
 * **name** é o nome da propriedade do schema que será utilizado para buscar as informações do banco de dados.
@@ -624,14 +624,14 @@ Dessa forma, as imagens salvas no banco de dados consguem ser recuperadas atrav�
 
 # STORYBOOK E COMPONENTES #
 
-No Boilerplate implementamos o Storybook para ajudar na identificação, importação e utilização dos componentes.
+Para o MaterialReactBaseMUI, optamos por implementar o Storybook para ajudar na identificação, importação e utilização dos componentes.
 
 ## PRIMEIROS PASSOS ##
 
-Para instalação e mais informações sobre o Storybook acesse https://storybook.js.org/docs/react/get-started/introduction.
+Para instalação e mais informações sobre o Storybook, acesse https://storybook.js.org/docs/react/get-started/introduction.
 
-Para abrir o Storybook:
+Para rodar o Storybook, utilize:
 
     npm run storybook
 
-Você será redirecionado para a página. Lá irá encontrar os principais componentes a serem utilizados no sistema, assim como sua função, schema, como usar e como ele é visualmente. O Storybook foi implementado para facilitar a documentação dos componentes e entendimento dos mesmos.
+Você será redirecionado para a página da aplicação do Storybook e irá encontrar os principais componentes a serem utilizados no sistema, bem como sua função, formato de schema a ser definido no banco de dados, como usar o componentes e aspectos visuais para estlização. O Storybook foi implementado para facilitar a documentação dos componentes e entendimento acerca da utilização dos mesmos.
