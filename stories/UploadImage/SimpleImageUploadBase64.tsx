@@ -11,7 +11,17 @@ export interface SimpleImageUploadBase64Props {
   type?:string;
 }
 /**
- * Primary UI component for user interaction
+ * SimpleImageUploadBase64 é utilizado para fazer o upload de imagens no projeto.
+ * 
+ * Schema:
+ * 
+ *  image: {
+    type: String,
+    label: 'Imagem',
+    defaultValue: '',
+    optional: true,
+    isImage: true,
+  },
  */
 export const SimpleImageUploadBase64: React.FC<SimpleImageUploadBase64Props> = ({
   placeholder,

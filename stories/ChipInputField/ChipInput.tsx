@@ -11,7 +11,16 @@ export interface ChipInputProps {
   type?:string;
 }
 /**
- * Primary UI component for user interaction
+ * ChipInput é utilizado na criação de chips de informação.
+ * 
+ * Schema:
+ * 
+ * chip: {
+    type: [String],
+    label: 'Chips',
+    defaultValue: '',
+    optional: true,
+  },
  */
 export const ChipInput: React.FC<ChipInputProps> = ({
   placeholder,

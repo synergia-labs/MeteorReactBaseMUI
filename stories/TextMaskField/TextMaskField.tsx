@@ -12,7 +12,32 @@ export interface TextMaskFieldProps {
 }
 
 /**
- * Primary UI component for user interaction
+ * TextMaskField é responsável por fazer o mask de campos de texto, como cpf e telefone.
+ * 
+ * Schema:
+ * 
+ *  contacts: {
+    type: Object,
+    label: 'Contatos',
+    defaultValue: '',
+    optional: false,
+    subSchema: {
+      phone: {
+        type: String,
+        label: 'Telefone',
+        defaultValue: '',
+        optional: false,
+        mask : '(##) ####-####',
+      },
+      cpf: {
+        type: String,
+        label: 'CPF',
+        defaultValue: '',
+        optional: false,
+        mask : '###.###.###-##',
+      },
+    }
+  },
  */
 export const TextMaskField: React.FC<TextMaskFieldProps> = ({
   placeholder,

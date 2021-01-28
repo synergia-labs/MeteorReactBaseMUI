@@ -10,7 +10,16 @@ export interface DatePickerFieldProps {
   type?:string;
 }
 /**
- * Primary UI component for user interaction
+ * DatePickerField é utilizado para a seleção de datas.
+ * 
+ * Schema:
+ * 
+ *  date: {
+    type: Date,
+    label: 'Data',
+    defaultValue: '',
+    optional: true,
+  },
  */
 export const DatePickerField: React.FC<DatePickerFieldProps> = ({
   placeholder,

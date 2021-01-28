@@ -11,7 +11,7 @@ export interface GoogleApiWrapperProps {
 }
 
 /**
- * Primary UI component for user interaction
+ * GoogleApiWrapper é responsável por realizar a Api com o Maps do google e disponibilizar as informações solicitadas pelo usuário.
  */
 export const GoogleApiWrapper: React.FC<GoogleApiWrapperProps> = ({
   placeholder,
