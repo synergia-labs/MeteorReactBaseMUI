@@ -598,3 +598,17 @@ Os parâmetros "**Titulo**" e "**Mensagem**" são do tipo String.
 Se uma determinado campo do documento é do tipo image, ou seja, se no esquema há a propriedade "**isImage**", o boilerplate, no arquivo `/imports/api/base.ts", faz uma transformação dos dados e, ao invés de retornar a image que está salva no formato Base64, ele retorna a URL referente à imagem, que remete à rota criada pelo recurso de geração automatica de API Rest.
 
 Dessa forma, as imagens salvas no banco de dados consguem ser recuperadas através de um endereço acessado pelo browswer e por isso o browser consegue fazer cache das imagens.
+
+## STORYBOOK E COMPONENTES ##
+
+No Boilerplate implementamos o Storybook para ajudar na identificação, importação e utilização dos componentes.
+
+# PRIMEIROS PASSOS #
+
+Para instalação e mais informações sobre o Storybook acesse https://storybook.js.org/docs/react/get-started/introduction.
+
+Para abrir o Storybook:
+
+    npm run storybook
+
+Você será redirecionado para a página. Lá irá encontrar os principais componentes a serem utilizados no sistema, assim como sua função, schema, como usar e como ele é visualmente. O Storybook foi implementado para facilitar a documentação dos componentes e entendimento dos mesmos.
