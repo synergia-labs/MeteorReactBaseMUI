@@ -11,7 +11,17 @@ export interface AudioRecorderProps {
   type?:string;
 }
 /**
- * Primary UI component for user interaction
+ * AudioRecorder é utilizado para a gravação e reprodução de audio. 
+ * 
+ *  Schema:
+ * 
+ *  audio: {
+    type: String,
+    label: 'Áudio',
+    defaultValue: '',
+    optional: true,
+  },
+*
  */
 export const AudioRecorder: React.FC<AudioRecorderProps> = ({
   placeholder,

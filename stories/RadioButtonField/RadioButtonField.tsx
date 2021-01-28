@@ -12,7 +12,25 @@ export interface RadioButtonFieldProps {
 }
 
 /**
- * Primary UI component for user interaction
+ * RadioButtonField é respondável pela caixa de seleção da situação atual do projeto. 
+ * 
+ * Schema:
+ * 
+ *  statusCheck: {
+    type: Object,
+    label: 'Status CheckBox',
+    defaultValue: '',
+    optional: false,
+    checksList: ['Todo', 'Doing', 'Done'],
+    validate: (value) => {
+      const statusTrue = value&&Object.keys(value).filter( status => {
+        if(value[status]){
+          return status
+        }
+      })
+      return  statusTrue.length <= 1
+    }
+  },
  */
 export const RadioButtonField: React.FC<RadioButtonFieldProps> = ({
   placeholder,

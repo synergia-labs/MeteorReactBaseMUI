@@ -13,7 +13,16 @@ export interface ToggleFieldProps {
 }
 
 /**
- * Primary UI component for user interaction
+ * ToggleField é utilizado para marcar o status do projeto como ativo ou inativo.
+ * 
+ * Schema:
+ * 
+ *  statusToggle: {
+    type: Boolean,
+    label: 'Status Toogle',
+    defaultValue: false,
+    optional: false,
+  }
  */
 export const ToggleField: React.FC<ToggleFieldProps> = ({
   placeholder,

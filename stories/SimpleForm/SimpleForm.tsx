@@ -35,7 +35,7 @@ export interface SimpleFormProps {
 }
 
 /**
- * Primary UI component for user interaction
+ * Geração automática de formulaŕios e artíficios de validação dos mesmos a partir do schema do banco de dados, simplificando a implementação de CRUDs.
  */
 export const SimpleForm: React.FC<SimpleFormProps> = ({
   disabled=false,

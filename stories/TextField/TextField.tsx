@@ -13,7 +13,22 @@ export interface TextFieldProps {
 }
 
 /**
- * Primary UI component for user interaction
+ * TextField é utilizado para receber campos de texto do usuário.
+ * 
+ * Schema:
+ * 
+ *  title: {
+    type: String,
+    label: 'Título',
+    defaultValue: '',
+    optional: false,
+  },
+  description: {
+    type: String,
+    label: 'Descrição',
+    defaultValue: '',
+    optional: true,
+  },
  */
 export const TextField: React.FC<TextFieldProps> = ({
   placeholder,

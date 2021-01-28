@@ -14,7 +14,16 @@ export interface SelectFieldProps {
 }
 
 /**
- * Primary UI component for user interaction
+ * SelectField é utilizado para selecionar o tipo do projeto.
+ * 
+ * Schema:
+ * 
+ *   type: {
+    type: String,
+    label: 'Tipo',
+    defaultValue: '',
+    optional: true,
+  },
  */
 export const SelectField: React.FC<SelectFieldProps> = ({
   placeholder,
