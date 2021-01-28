@@ -548,6 +548,29 @@ Vamos às explicações:
 
 **Observação**: Embora as classes sejam especificadas nos arquivos específicos de cada módulo ou componente, após a transpilação do código existirá somente um arquivo de estilo contendo todo o estilo do produto. Neste caso, poderá haver sobreposição de estilo nas classes que utilizam o mesmo nome. Recomendamos então que o nome do módulo ou componente esteja presente no nome da classse para evitar esse problema.
 
+## UTILIZANDO O UploadFiles ##       
+### Entendendo o funcionamento ###
+O *UploadFiles* é um componente utilizado para realizar o upload de vários tipos de arquivos.
+
+O UploadFiles foi criado para ser simples e poder comportar arquivos de diferentes formatos, facilitando a utilização do sistema e tornando-o mais versátil.
+
+O UploadFiles possui as seguintes propriedades:
+
+            <UploadFilesCollection
+                name='files'
+                label={'Arquivos'}
+                doc={exampleDoc}
+			/>
+
+Vamos às explicações:
+* **name** é o nome da propriedade do schema que será utilizado para buscar as informações do banco de dados.
+* **label** nome que representa o componente no layout do sistema.
+* **doc** recebe o documento que será utilizado para popular os campos do formulário.
+
+### Estilizando elementos ###
+
+**Observação**: Embora as classes sejam especificadas nos arquivos específicos de cada módulo ou componente, após a transpilação do código existirá somente um arquivo de estilo contendo todo o estilo do produto. Neste caso, poderá haver sobreposição de estilo nas classes que utilizam o mesmo nome. Recomendamos então que o nome do módulo ou componente esteja presente no nome da classse para evitar esse problema.
+
 
 ## LAYOUTS E EXIBIÇÃO DO CONTEÚDO ##
 
