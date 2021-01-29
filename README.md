@@ -628,9 +628,15 @@ Para o MaterialReactBaseMUI, optamos por implementar o Storybook para ajudar na 
 
 ## PRIMEIROS PASSOS ##
 
-Para instalação e mais informações sobre o Storybook, acesse https://storybook.js.org/docs/react/get-started/introduction.
+Antes da instalação do Storybook, certifique-se de que possui o NodeJs, Npm e Npx instalados em sua máquina utilizando:
 
-Para rodar o Storybook, utilize:
+	node -v
+	npm -v
+	npx -v
+	
+Caso não possua algum destes, prossiga para instalação do NodeJs em sua versão mais atualizada através do link https://nodejs.org/en/download/. Após a atualização, os comandos de npm e npx também serão atualizados para sua versão mais recente, portanto, prossiga para a instalação e mais informações sobre o Storybook disponível em https://storybook.js.org/docs/react/get-started/introduction.
+
+Após a instalação, para rodar o Storybook utilize:
 
     npm run storybook
 
