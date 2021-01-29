@@ -13,6 +13,8 @@ import { RadioButtonField } from '../RadioButtonField/RadioButtonField';
 import { ToggleField } from '../ToggleField/ToggleField';
 import { SimpleImageUploadBase64 } from '../UploadImage/SimpleImageUploadBase64';
 
+import SimpleFormComp from '/imports/ui/components/SimpleForm/SimpleForm';
+
 export interface SimpleFormProps {
   mode?: String;
   schema?: [Object];
@@ -110,7 +112,7 @@ export const SimpleForm: React.FC<SimpleFormProps> = ({
 }) => {
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column' }}>
+    <SimpleFormComp style={{display: 'flex', flexDirection: 'column'}}>
       <SimpleImageUploadBase64
         placeholder={elements.image.placeholder}
         label={elements.image.name}
@@ -150,6 +152,7 @@ export const SimpleForm: React.FC<SimpleFormProps> = ({
       <ChipInput
         placeholder={elements.chip.placeholder}
         label={elements.chip.name}
+        name={"ChipInput"}
         disabled={elements.chip.disabled}
         required={elements.chip.required}
         {...props}
@@ -198,6 +201,6 @@ export const SimpleForm: React.FC<SimpleFormProps> = ({
         required={elements.statusToggle.required}
         {...props}
       />
-    </div>
+    </SimpleFormComp>
   );
 };

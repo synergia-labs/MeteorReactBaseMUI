@@ -17,7 +17,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         if(!readOnly){
             const newValue = typeof(value) === 'object' ? value : {}
             newValue[itemCheck]= event.target.checked
-            onChange({},{name,value: newValue})
+            onChange({target:{value: newValue}},{name,value: newValue})
             setLoadRender(loadRender+1);
         }
     }
@@ -26,7 +26,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         if(!readOnly){
             const value = {}
             value[name] = event.target.checked
-            onChange({},{name,value: value})
+            onChange({target:{value: value}},{name,value: value})
         }
     }
 

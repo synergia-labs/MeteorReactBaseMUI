@@ -23,7 +23,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
   let recorder:any = null;
 
   const deleteAudio = () => {
-      onChange({},{name,value: '-'})
+      onChange({target:{value: '-'}},{name,value: '-'})
       setValues({
         ...values,
         ['recordButton']: true, ['stopButton']: false, ['audioButton']: false , ['deleteButton']: false
@@ -42,7 +42,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
         let reader = new FileReader()
         reader.onloadend = () => {
             //console.log(reader.result);
-            onChange({},{name, value: reader.result}); // You can upload the base64 to server here.
+            onChange({target:{value: reader.result}},{name, value: reader.result}); // You can upload the base64 to server here.
         }
 
         reader.readAsDataURL(e.data);

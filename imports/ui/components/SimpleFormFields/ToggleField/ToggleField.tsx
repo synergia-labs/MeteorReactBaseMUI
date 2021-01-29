@@ -11,12 +11,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
     const handleChangeSwitch = (event:React.BaseSyntheticEvent) => {
         if(!readOnly){
-          console.log(event.target.checked);
-
-            onChange({},{name,value: event.target.checked});
+          onChange({target:{value: event.target.checked}},{name,value: event.target.checked});
         }
     }
-    console.log("value: ", !!value? !!value:false);
 
     return (
         <div style={error?toggleSwitchStyle.fieldError:undefined}>

@@ -32,7 +32,7 @@ class LocationComponent extends React.Component<IBaseSimpleFormComponent> {
                 lng: clickEvent.latLng.lng(),
             };
 
-            this.props.onChange({},{
+            this.props.onChange({target:{value: newPosition}},{
                 name,
                 value: {position: newPosition,
                 }

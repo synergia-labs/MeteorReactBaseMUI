@@ -22,7 +22,7 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
         event.persist();
         const name = event.target.name;
         setSelection({ ...selection, [name]: itemCheck });
-        onChange({},{name,value: itemCheck})
+        onChange({target:{value: itemCheck}},{name,value: itemCheck})
         setLoadRender(loadRender+1);
         }
     }

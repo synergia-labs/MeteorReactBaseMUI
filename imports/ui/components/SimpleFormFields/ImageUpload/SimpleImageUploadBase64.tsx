@@ -22,7 +22,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                 imgValue = fileData.base64;
             }
             console.log({},{name,value:imgValue});
-            onChange({},{name,value:imgValue})
+            onChange({target:{value: imgValue}},{name,value:imgValue})
         }
     }
 
@@ -34,7 +34,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
         </div>)
     }
     const deleteImage = () => {
-        onChange({},{name,value: '-'})
+        onChange({target:{value: '-'}},{name,value: '-'})
     }
 
     return (

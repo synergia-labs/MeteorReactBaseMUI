@@ -13,7 +13,7 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
         if(!readOnly){
             const newValue = typeof(value) === 'object' ? value : {}
             newValue[itemCheck]= event.target.checked
-            onChange({},{name,value: newValue})
+            onChange({target:{value: newValue}},{name,value: newValue})
             setLoadRender(loadRender+1);
         }
     }
