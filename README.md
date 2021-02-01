@@ -462,6 +462,7 @@ uma ou mais opções de salvamento.
 * extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote *Material-UI*.
 
 O SimpleForm possui dois modos de visualização: *edit* e *view*. Ele possui as seguintes propriedades:
+
            <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -532,6 +533,7 @@ O SimpleTable foi criado para ser simples e extensível:
 * extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote *Material-UI*.
 
 O SimpleTable possui as seguintes propriedades:
+
            <SimpleTable
                 schema={_.pick(exampleApi.schema,['image','title','description'])}
                 data={examples}
