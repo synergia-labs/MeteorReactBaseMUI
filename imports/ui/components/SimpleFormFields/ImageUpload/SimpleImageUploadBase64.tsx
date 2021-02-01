@@ -6,8 +6,6 @@ import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelV
 import Button from '@material-ui/core/Button';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import Avatar from '@material-ui/core/Avatar';
-import Avatar from '@material-ui/core/Avatar';
-
 
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
