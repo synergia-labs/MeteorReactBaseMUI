@@ -5,6 +5,7 @@
     "start": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
+    "@storybook/react": "^6.1.15",
     "@types/meteor": "^1.4.65",
     "@types/mocha": "^8.0.4",
     "@types/react": "^17.0.0",
