@@ -514,16 +514,6 @@ para o usúario assim como algumas característica do componentes serão exibido
 
 Independente do que o componente faz, se ele recebe essas propriedades ele poderá ser utilizado automaticamente pelo SimpleForm.
 
-Os componentes ficam separados em pastas:
-* **formComponents** - componentes simles de formulário. Geralmente são criados a partir da composição de componentes do *Material-UI* ou
-é um *wrap* de um componente de formulário de terceiros.
-* **subFormComponents** - componentes que irão tratar documentos aninhados ou uma lista de documentos aninhados;
-* **meteorFormComponents** - componentes que fazem integração com o meteor: utilizam minimongo,  utilizam métodos do Meteor, etc.
-
-Cada uma dessas pastas possui um arquivo *index.ts*. Sempre que um componente é criado ele deve ser importado e depois exportado nesses arquivos. O nome utilizado para exportá-los é o nome que deverá ser informado no campo *componentName* do SimpleForm.
-
-Sugerimos que acessem essas pastas e observem como funcionam esses componentes customizados para entender o funcionamento do SimpleForm quanto ao uso de novos componentes que não fazem parte do *Material-UI*.
-
 ## UTILIZANDO O SimpleTable ##       
 ### Entendendo o funcionamento ###
 O *SimpleTable* é um componente que simplifica a demonstração dos dados presentes no banco de dados em uma tabela para consulta.
