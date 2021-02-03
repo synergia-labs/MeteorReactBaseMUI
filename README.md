@@ -139,7 +139,7 @@ Neste endereço, há configurações disponíveis para dois módulos:
 
 Uma vez escolhidos os campos do módulo desejado, será gerado um trecho de código que informará quais importações serão necessárias para utilização dos componentes correspondentes a estes campos.
 
-Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.js" dentro do módulo que você gerou (**nome_do_modulo**, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
+Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.ts" dentro do módulo que você gerou (**nome_do_modulo**, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
 
 ### Entendendo a estrutura de um módulo no MeteorReactBaseMUI ###       
 
