@@ -12,17 +12,13 @@ Dentre os benefícios de adotá-lo no desenvolvimento de um novo produto nós po
 
 * gestão e controle do schema das coleções bem como a validação dos dados a partir de schemas, e;
 
-* SimpleForm  - geração automática de formulaŕios e artíficios de validação dos mesmos a partir do schema do banco de dados, simplificando a implementação de CRUDs.
+* SimpleForm  - gestão automática de formulaŕios, incluindo a inserçaõ de validações,comportamentos e informações do schema do banco de dados.
 
-* SimpleTable  - geração automática de uma tabela a partir do schema do banco de dados, apresentando de forma intuitiva e simples as informações contidas no banco.
+* SimpleTable  - geração automática de tabelas a partir do schema do banco de dados, apresentando de forma intuitiva e simples as informações contidas no banco.
 
 * UploadFiles  - importação de arquivos de vários formatos.
 
-* Acess Control List (ACL) - gestão de permissão por funcionalidade e/ou por dados nas operações com o banco de dados;
-
-* criação da estrutura de módulos que permite que todos os arquivos referentes a um módulo estejam em um só lugar e que esse módulo seja facilmente utilizado em outras aplicações.
-
-* criação da ferramenta DevUtils que gera sugestões de trechos de código e importações de componente de forma automática, para a geração de formulários com campos já pre-definidos, e;
+* APIs estruturadas em módulos - padronização e modularização da implementação das funcionalidades do sistema.
 
 * definição de uma estrutura de schemas, layout e rotas, dando maior flexibilidade nas questões de navegação e estilo do produto.
 
@@ -46,20 +42,20 @@ Pasta que contém o arquivo da página HTML em que o componente react raiz será
 
 Pasta que contém os principais arquivos do produto. Esta pasta está organizada com as seguintes pastas:
 
-	api         --> Contém os arquivos/classes base que tratam da comunicação com o banco de dados
+	api         --> Contém os arquivos/classes bases, que tratam da comunicação com o banco de dados
 	libs        --> Bibliotecas auxiliares utilizadas em todo o produto.
-	materialui     --> Pasta que contém a estilização e definição dos componentes do material-ui a serem adotados pelo sistema.
+	materialui     --> Pasta que contém a configuração do tema e customização de estilo e comportamento dos componentes do material-ui a serem adotados pelo sistema.
 	modules     --> Pasta que contém os módulos do sistema, com seus respectivos arquivos-base (api, schema e rotas da aplicação).
 	server  --> Pasta que contém a inicialização das API, as configurações de login social, as configurçaões de indexação de banco de dados, o povoamento inicial da aplicação e outras configurçaões como email, política de segurança do browser, etc.
 	ui	--> Pastas que agrupa os componentes e páginas da aplicação.
 		components  --> Contém componentes utilizados por toda a aplicação.
-			SimpleForm      --> Pasta com o arquivo do simpleForm e seu style.
+			SimpleForm      --> Pasta com os arquivos do componente SimpleForm.
 			SimpleFormFields --> Pasta com as pastas e arquivos de cada field do simpleform
 			SimpleLabelView --> Pasta com o arquivo do simpleLabewView e seu style.
 			SimpleTable     --> Pasta com o arquivo da tabela e seu style.
 			InterfaceBaseSimpleFormComponent.ts --> Arquivo com a interface do simpleForm
 		config     --> Contém o código referente as rotas da aplicação, com a definição dos componentes a serem acessados e renderizados através dos menus da aplicação
-		layouts     --> Contém o código referente aos layouts a serem utilizados por menus, rotas e navbar da aplicação
+		layouts     --> Contém o código referente ao layout da apliação a serem utilizados por menus, rotas e navbar da aplicação
 		pages       --> Contém as páginas gerais da aplicação: tela de login, recuperação de senha, etc.
 			DevUtils          --> Pasta com os arquivos dos DevUtils para ajudar os desenvolvedores.
 			EmailVerify       --> Pasta com o arquivo de verificação de email.

@@ -360,12 +360,6 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                             }
                             style={uploadFilesStyle.containerListReadOnly}
                         />
-                        <IconButton onClick={() => {
-                            return this.excluirArquivo(item.id);
-                        }}
-                        >
-                            <Delete/>
-                        </IconButton>
                     </ListItem>
                 )
             })

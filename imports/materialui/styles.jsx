@@ -30,6 +30,10 @@ const title = {
     paddingTop: isMobile?'20px':'20px',
     paddingBottom: isMobile?'20px':'20px',
     fontWeight: isMobile?'500':'500',
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
 }
 
 const fabContainer = {
