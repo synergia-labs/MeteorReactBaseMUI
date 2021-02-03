@@ -121,6 +121,7 @@ const CharView = React.memo(({name,character,charData}) => {
             drawCharacter(character,charData,defaultLayer,list)
         }
 
+
         defaultLayer.batchDraw();
 
         return function cleanup() {
@@ -148,7 +149,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     neck:{format:'default'},
     nose:{format:'default'},
     open:false,
-    imageData: '',
+    imageData: [],
     width: 150,
     height: 150,
   });
@@ -207,7 +208,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
   }
 
   onChange = value => {
-    if(!!value && value!=''){
+    if(!!value && value!=[]){
       setValues({imageData:value})
     }
   }
@@ -245,7 +246,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         return (<div key={name}>
             <SimpleLabelView label={label}/>
 
-            {!!values.imageData && values.imageData!='' && (
+            {!!values.imageData && values.imageData!=[] && (
                 <div style={{
                     height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
                     transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
@@ -306,13 +307,16 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                                 newAvatar[chr].format = formats[Math.floor(Math.random() * formats.length)];
                                 newAvatar[chr].color = colors[Math.floor(Math.random() * colors.length)];
                             })
-                            setValues({imageData:newAvatar});
+                            console.log(newAvatar);
+
+                            //setValues({imageData:newAvatar});
                         }}
                     >{'Aleatório'}
                     </Button>
 
                     <div key={'Lista'} style={{flex:1,minWidth:580,width:580,maxHeight:580,height:580,overflowY:'auto',overflowX:'hidden',display:'flex',flexDirection:'column', paddingTop:'25px'}}>
                         {list.filter(item=>['neck','nose'].indexOf(item)===-1).map(character=>{
+
                             return (<div style={{borderBottom:'1px solid #808080',maxWidth:'100%',width:'100%',overflow:'hidden',minHeight:115,display:'flex',flexDirection:'row', justifyContent: 'center'}}>
                                 <div
                                     onClick={()=>setValues({[character]:{...(values[character]||{}),color:characteres[character].colors[characteres[character].colors.indexOf(values[character]?values[character].color:characteres[character].colors[0])+1]||characteres[character].colors[0]}})}
