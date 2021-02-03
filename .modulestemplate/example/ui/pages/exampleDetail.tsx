@@ -6,10 +6,10 @@ import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
-import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 import ToggleSwitchField from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
-import CheckBoxField from '../../../../ui/components/SimpleFormFields/CheckBoxField/CheckBoxField';
+import RadioButtonField from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
@@ -20,6 +20,8 @@ import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorder
 
 import Typography from '@material-ui/core/Typography';
 import * as appStyles from "/imports/materialui/styles";
+import Print from '@material-ui/icons/Print';
+import Close from '@material-ui/icons/Close';
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
@@ -31,7 +33,7 @@ interface IExampleDetail {
     history: { push(url: string): void };
 }
 
-const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExampleDetail) => {
+const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, history}: IExampleDetail) => {
 
     const handleSubmit = (doc: object) => {
         save(doc);
@@ -39,7 +41,18 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
 
     return (
         <Container>
-            <Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
+            <Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
+                {!isPrintView?(
+                    <span style={{cursor:'pointer',marginRight:10,color:appStyles.primaryColor}} onClick={()=>{
+                        history.push(`/example/printview/${exampleDoc._id}`)
+                    }}><Print /></span>
+                ):(
+                    <span style={{cursor:'pointer',marginRight:10,color:appStyles.primaryColor}} onClick={()=>{
+                        history.push(`/example/view/${exampleDoc._id}`)
+                    }}><Close /></span>
+                )}
+
+            </Typography>
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -104,9 +117,9 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     name='statusToggle'
                 />
 
-                <CheckBoxField
-                    placeholder='Status da Tarefa'
-                    name='statusCheck'
+                <RadioButtonField
+                    placeholder='Opções da Tarefa'
+                    name='statusRadio'
                 />
 
                 <FormGroup key={'fields'}>
@@ -127,21 +140,24 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     />
                 </FormGroup>
                 <div key={'Buttons'} style={{display: 'flex', flexDirection: 'row', justifyContent: 'left', paddingTop: 20, paddingBottom: 20}}>
-                    <Button
-                        key={'b1'}
-                        style={{marginRight: 10}}
-                        onClick={screenState === 'edit' ? () => history.push(`/example/view/${exampleDoc._id}`) : () => history.push(`/example/list`)}
-                        color={'secondary'} variant="contained">
-                        {screenState === 'view' ? 'Voltar' : 'Cancelar'}
-                    </Button>
+                    {!isPrintView?(
+                        <Button
+                            key={'b1'}
+                            style={{marginRight: 10}}
+                            onClick={screenState === 'edit' ? () => history.push(`/example/view/${exampleDoc._id}`) : () => history.push(`/example/list`)}
+                            color={'secondary'} variant="contained">
+                            {screenState === 'view' ? 'Voltar' : 'Cancelar'}
+                        </Button>
+                    ):null}
 
-                    {screenState === 'view' ? (
+
+                    {!isPrintView&&screenState === 'view' ? (
                         <Button key={'b2'} onClick={() => history.push(`/example/edit/${exampleDoc._id}`)}
                                 color={'primary'} variant="contained">
                             {'Editar'}
                         </Button>
                     ) : null}
-                    {screenState !== 'view' ? (
+                    {!isPrintView&&screenState !== 'view' ? (
                         <Button key={'b3'} color={'primary'} variant="contained" submit="true">
                             {'Salvar'}
                         </Button>

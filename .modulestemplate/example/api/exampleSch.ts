@@ -24,6 +24,10 @@ export const exampleSch = {
     label: 'Tipo',
     defaultValue: '',
     optional: true,
+    options:[
+      {value:'normal',label:'Normal'},
+      {value:'extra',label:'Extra'},
+    ],
   },
   date: {
     type: Date,
@@ -91,27 +95,36 @@ export const exampleSch = {
     label: 'Áudio',
     defaultValue: '',
     optional: true,
+    isAudio:true,
   },
   address: {
     type: Object,
     label: 'Localização',
     defaultValue: '',
+    isMapLocation:true,
     optional: true,
   },
-  statusCheck: {
-    type: Object,
-    label: 'Status CheckBox',
+  // statusCheck: {
+  //   type: Object,
+  //   label: 'Status CheckBox',
+  //   defaultValue: '',
+  //   optional: false,
+  //   checksList: ['Todo', 'Doing', 'Done'],
+  //   validate: (value) => {
+  //     const statusTrue = value&&Object.keys(value).filter( status => {
+  //       if(value[status]){
+  //         return status
+  //       }
+  //     })
+  //     return  statusTrue.length <= 1
+  //   }
+  // },
+  statusRadio: {
+    type: String,
+    label: 'Status RadioButton',
     defaultValue: '',
     optional: false,
-    checksList: ['Todo', 'Doing', 'Done'],
-    validate: (value) => {
-      const statusTrue = value&&Object.keys(value).filter( status => {
-        if(value[status]){
-          return status
-        }
-      })
-      return  statusTrue.length <= 1
-    }
+    radiosList: ['Todo', 'Doing', 'Done'],
   },
   statusToggle: {
     type: Boolean,
@@ -130,4 +143,6 @@ export interface IExample {
   updatedat: Date;
   createdby: string;
   audio: string;
+  statusCheck: object;
+  statusToggle: boolean;
 }

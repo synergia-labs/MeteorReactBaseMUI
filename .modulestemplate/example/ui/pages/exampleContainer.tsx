@@ -5,7 +5,7 @@ import {ExampleDetailContainer} from "./exampleDetail";
 
 export default (props:any) => {
 
-    const validState = [ 'view', 'edit', 'create' ];
+    const validState = [ 'view', 'edit', 'create','fullView' ];
 
     const screenState =
         props.match && props.match.params && !!props.match.params.screenState
@@ -18,16 +18,24 @@ export default (props:any) => {
             : Meteor.examplerId;
 
 
+    const isPrintView = screenState&&screenState.indexOf('print')===0;
+    const isFullView = screenState&&screenState.indexOf('full')===0;
 
-    if (!!screenState && validState.indexOf(screenState) !== -1) {
-        if (screenState === 'view' && !!id) {
-            return <ExampleDetailContainer {...props} screenState={screenState} id={id}/>;
-        } else if (screenState === 'edit' && !!id) {
-            return <ExampleDetailContainer {...props} screenState={screenState} id={id} edit/>;
-        } else if (screenState === 'create') {
-            return <ExampleDetailContainer DetailContainer {...props} screenState={screenState} create/>;
+    const newScreenState = screenState?(
+        isPrintView?screenState.split('print')[1]:(
+            isFullView?screenState.split('full')[1]:screenState
+        )
+    ):undefined;
+
+    if (!!newScreenState && validState.indexOf(newScreenState) !== -1) {
+        if ((newScreenState === 'view') && !!id) {
+            return <ExampleDetailContainer {...props} screenState={newScreenState} isPrintView={isPrintView} isFullView={isFullView} id={id}/>;
+        } else if (newScreenState === 'edit' && !!id) {
+            return <ExampleDetailContainer {...props} screenState={newScreenState} isPrintView={isPrintView} isFullView={isFullView} id={id} edit/>;
+        } else if (newScreenState === 'create') {
+            return <ExampleDetailContainer DetailContainer {...props} screenState={newScreenState} isPrintView={isPrintView} isFullView={isFullView} create/>;
         }
     } else {
-        return <ExampleListContainer {...props} />;
+        return <ExampleListContainer {...props} isPrintView={isPrintView} isFullView={isFullView} />;
     }
 };

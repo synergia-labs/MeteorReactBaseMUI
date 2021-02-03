@@ -43,11 +43,11 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
         <Container>
             <Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
                 {!isPrintView?(
-                    <span style={{marginRight:10,color:appStyles.primaryColor}} onClick={()=>{
+                    <span style={{cursor:'pointer',marginRight:10,color:appStyles.primaryColor}} onClick={()=>{
                         history.push(`/example/printview/${exampleDoc._id}`)
                     }}><Print /></span>
                 ):(
-                    <span style={{marginRight:10,color:appStyles.primaryColor}} onClick={()=>{
+                    <span style={{cursor:'pointer',marginRight:10,color:appStyles.primaryColor}} onClick={()=>{
                         history.push(`/example/view/${exampleDoc._id}`)
                     }}><Close /></span>
                 )}
