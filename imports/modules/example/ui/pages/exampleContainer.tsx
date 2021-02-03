@@ -18,8 +18,8 @@ export default (props:any) => {
             : Meteor.examplerId;
 
 
-    const isPrintView = screenState.indexOf('print')===0;
-    const isFullView = screenState.indexOf('full')===0;
+    const isPrintView = screenState&&screenState.indexOf('print')===0;
+    const isFullView = screenState&&screenState.indexOf('full')===0;
 
     const newScreenState = screenState?(
         isPrintView?screenState.split('print')[1]:(
