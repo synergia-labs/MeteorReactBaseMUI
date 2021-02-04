@@ -413,7 +413,7 @@ Em seguida, inclua o componente TextField dentro do componente SimpleForm:
 		    </SimpleForm>
 		</Container>
 
- **Observação**: o campo "name" do componente que você pretende utilizar deve sempre corresponder ao nome do schema que você definiu no arquivo "exampleSch.js", para que o SimpleForm entenda com base em qual schema o banco de dados foi gerado e sobre quais restrições as validações deverão ser realizadas.
+ **Observação**: o campo "name" do componente que você pretende utilizar deve sempre corresponder ao nome do schema que você definiu no arquivo "exampleSch.js", para que o SimpleForm entenda com base em qual schema o banco de dados foi gerado e sobre quais restrições as validações deverão ser realizadas. Nos casos em que o campo name não corresponde a nenhum campo do schema ou simplesmente não é informado, o SimpleForm entende que não restrições pré-definidas e cria um schema próprio para o componente.
 
 Na pasta *config* há os arquivos:
 	pagesappmenu.tsx
