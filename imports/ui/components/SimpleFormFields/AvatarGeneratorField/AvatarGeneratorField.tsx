@@ -18,17 +18,6 @@ import {isMobile} from "/imports/libs/deviceVerify";
 
 import {hasValue} from "/imports/libs/hasValue";
 
-interface IAvatarGeneratorComponent {
-    name:string;
-    label:string;
-    value:any;
-    onChange: { (fieldTarget: object, field: object): void } ;
-    readOnly:boolean;
-    error:boolean;
-    schema?: any,
-    otherProps?:any;
-}
-
 const drawCharacter = (character,charObj,layer=null,listOfObjects=null) => {
     if(!layer||!listOfObjects) {
         return;
@@ -153,10 +142,10 @@ const CharView = React.memo(({name,character,charData}) => {
 
 })
 
-class AvatarGeneratorField extends React.Component <IAvatarGeneratorComponent> {
+class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
   imageData:[];
 
-    constructor(props: IAvatarGeneratorComponent) {
+    constructor(props: IBaseSimpleFormComponent) {
         super(props);
         this.imageData = this.props.value;
         this.state = {
@@ -216,7 +205,7 @@ class AvatarGeneratorField extends React.Component <IAvatarGeneratorComponent> {
     componentDidMount() {
     }
 
-    componentDidUpdate(prevProps:IAvatarGeneratorComponent, prevState:IAvatarGeneratorComponent, snapshot) {
+    componentDidUpdate(prevProps:IBaseSimpleFormComponent, prevState:IBaseSimpleFormComponent, snapshot) {
         if(this.initAvatarBoard) {
             this.drawAvatar();
         }

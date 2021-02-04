@@ -60,7 +60,7 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 />
 
                 <ImageCompactField
-                  label={'Imagem Compact'}
+                  label={'Imagem Zoom+Slider'}
                   name={'imageC'}
                 />
 
