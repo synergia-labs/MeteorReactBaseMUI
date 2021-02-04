@@ -17,7 +17,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     })
 
     const handleChange = (date:Date) => {
-        onChange({target:{value:date}});
+        onChange({name,target:{name,value: date}});
     }
 
     useEffect(() => {

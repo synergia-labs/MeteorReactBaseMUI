@@ -22,8 +22,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
             } else {
                 imgValue = fileData.base64;
             }
-            console.log({},{name,value:imgValue});
-            onChange({},{name,value:imgValue})
+            onChange({name,target:{name,value: imgValue}},{name,value:imgValue})
         }
     }
 

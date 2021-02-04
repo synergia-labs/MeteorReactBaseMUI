@@ -86,10 +86,10 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
 
       if (!!mask) {
           const inputValue = applyMask(event.target.value, mask);
-          onChange({},{name,value: inputValue})
+          onChange({name,target:{name,value: inputValue}},{name,value: inputValue})
       }
       else {
-        onChange({},{name, value: event.target.value});
+        onChange({name,target:{name,value: event.target.value}},{name, value: event.target.value});
       }
   }
 

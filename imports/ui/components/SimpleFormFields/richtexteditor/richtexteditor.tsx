@@ -75,7 +75,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
 
     const callOnChange = (htmlText,QuillData,QA,QB) => {
-        onChange({target:{name,value:htmlText}},{name,value:htmlText})
+        onChange({name,target:{name,value:htmlText}},{name,value:htmlText})
     }
 
     return (<>

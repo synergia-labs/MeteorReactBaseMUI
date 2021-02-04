@@ -170,7 +170,9 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
     onChange = (value:any) => {
         const event = {
+            name:this.props.name,
             target: {
+                name:this.props.name,
                 value,
             },
 

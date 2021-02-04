@@ -5,17 +5,14 @@ import {hasValue} from "/imports/libs/hasValue";
 import Checkbox from "@material-ui/core/Checkbox";
 import _ from "lodash";
 import {checkBoxStyle} from './CheckBoxFieldStyle'
+import Check from "@material-ui/icons/Check";
 
 export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:IBaseSimpleFormComponent)=>{
-    const [loadRender, setLoadRender] = useState(0);
 
     const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string) => {
-        if(!readOnly){
             const newValue = typeof(value) === 'object' ? value : {}
             newValue[itemCheck]= event.target.checked
-            onChange({},{name,value: newValue})
-            setLoadRender(loadRender+1);
-        }
+            onChange({name,target:{name,value: newValue}},{name,value: newValue})
     }
 
     const list = otherProps.checksList&&hasValue(otherProps.checksList)?otherProps.checksList:(schema&&hasValue(schema.checksList)?schema.checksList:null);
@@ -23,8 +20,7 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
     return (
         <div style={error?checkBoxStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
-
-            {list?
+            {!readOnly&&list?(
                 <div>
                     {list.map((itemCheck) => {
                         return <FormControlLabel control={<Checkbox checked={!!value[itemCheck]} name={itemCheck} onChange={(event) => handleChangeCheck(event, itemCheck)}/>}
@@ -35,7 +31,16 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
                                                  {...(_.omit(otherProps,['disabled', 'checked']))}
                         />
                     })}
-                </div> : null}
+                </div>
+            ):(
+                list?
+                    <div style={{display:'flex',flexDirection:'row',alignItems:'center',flexWrap:'wrap',width:'100%'}}>
+                        {list.map((itemCheck) => {
+                            return <div style={{marginLeft:20,color:!!value[itemCheck]?'#999':undefined}}>{!!value[itemCheck]?<Check style={{fontSize:15}} />:''}{itemCheck}</div>
+
+                        })}
+                    </div> : null
+            )}
         </div>
     )
 }

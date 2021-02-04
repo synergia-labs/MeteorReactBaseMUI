@@ -10,22 +10,16 @@ import {toggleSwitchStyle} from './ToggleFieldStyle'
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
 
     const handleChangeSwitch = (event:React.BaseSyntheticEvent) => {
-        if(!readOnly){
-          onChange({},{name, value: event.target.checked});
-        }
+          onChange({name,target:{name,value: event.target.checked}},{name, value: event.target.checked});
     }
 
-    useEffect(() => {
-        if(!hasValue(value) && value == ''){
-          onChange({},{name, value: false});
-        }
-    })
+    console.log('name',name,'>>>',value)
 
     return (
         <div style={error?toggleSwitchStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
             {otherProps&&!hasValue(otherProps.checksList)?
-                <FormControlLabel control={<Switch checked={value} onChange={handleChangeSwitch} name={name}/>}
+                <FormControlLabel control={<Switch checked={!!value} onChange={handleChangeSwitch} name={name}/>}
                                   key={name}
                                   value={value}
                                   id={name}
