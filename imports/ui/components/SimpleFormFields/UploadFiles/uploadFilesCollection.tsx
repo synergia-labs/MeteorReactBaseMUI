@@ -30,6 +30,7 @@ const {grey100, grey500, grey700} = ['#eeeeee','#c9c9c9','#a1a1a1'];
 
 import {uploadFilesStyle} from "./uploadFilesCollectionStyle";
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
+import {uploadFilesStyle} from "./uploadFilesCollectionStyle";
 
 const styles = {
     textoUploadArquivo: {

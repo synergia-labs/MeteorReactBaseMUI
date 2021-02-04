@@ -18,6 +18,7 @@ import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/Chip
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
+import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 
 import Typography from '@material-ui/core/Typography';
 import * as appStyles from "/imports/materialui/styles";
@@ -56,6 +57,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <AvatarGeneratorField
                   label={'Avatar'}
                   name={'avatar'}
+                />
+
+                <ImageCompactField
+                  label={'Imagem Compact'}
+                  name={'imageC'}
                 />
 
                 <FormGroup key={'fieldsOne'}>

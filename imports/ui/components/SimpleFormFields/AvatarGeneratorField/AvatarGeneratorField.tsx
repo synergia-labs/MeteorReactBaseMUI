@@ -16,6 +16,17 @@ import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelV
 
 import {isMobile} from "/imports/libs/deviceVerify";
 
+interface IAvatarGeneratorComponent {
+    name:string;
+    label:string;
+    value:any;
+    onChange: { (fieldTarget: object, field: object): void } ;
+    readOnly:boolean;
+    error:boolean;
+    schema?: any,
+    otherProps?:any;
+}
+
 const drawCharacter = (character,charObj,layer=null,listOfObjects=null) => {
     if(!layer||!listOfObjects) {
         return;
@@ -109,7 +120,7 @@ const CharView = React.memo(({name,character,charData}) => {
         const defaultLayer = new Konva.Layer();
         // add the shape to the layer
         defaultStage.add(defaultLayer);
-        const list =[];
+        const list = [];
         if(character==='hair') {
             drawCharacter(character,charData,defaultLayer,list)
         }
@@ -140,15 +151,17 @@ const CharView = React.memo(({name,character,charData}) => {
 
 })
 
-class AvatarGeneratorField extends React.Component {
-    constructor(props) {
+class AvatarGeneratorField extends React.Component <IAvatarGeneratorComponent> {
+  imageData:[];
+
+    constructor(props: IAvatarGeneratorComponent) {
         super(props);
+        this.imageData = this.props.value || [];
         this.state = {
             body:{format:'default',color:characteres.body.colors[0]},
             neck:{format:'default'},
             nose:{format:'default'},
             open:false,
-            imageData: [],
             width: 150,
             height: 150,
             readOnly: true,
@@ -157,7 +170,6 @@ class AvatarGeneratorField extends React.Component {
         this.listOfDefaultLayersObjects = [];
 
     }
-
 
     drawAvatar = () => {
         const list = Object.keys(characteres);
@@ -208,7 +220,7 @@ class AvatarGeneratorField extends React.Component {
     componentDidMount() {
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps:IAvatarGeneratorComponent, prevState:IAvatarGeneratorComponent, snapshot) {
         if(this.initAvatarBoard) {
             this.drawAvatar();
         }
@@ -232,7 +244,7 @@ class AvatarGeneratorField extends React.Component {
             height: 198,
         });
         this.setState({ imageData: imageData });
-        onChange({name:{imageData},{name,value: imageData})
+        this.props.onChange({target:{value: imageData}},{name,value: imageData});
     }
 
     render() {
@@ -251,6 +263,8 @@ class AvatarGeneratorField extends React.Component {
 
         ]
 
+        console.log("this.imageData: ", this.imageData);
+
         return (
           <div>
             <SimpleLabelView label={'Avatar'}/>
@@ -262,7 +276,7 @@ class AvatarGeneratorField extends React.Component {
                         transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
                     }}>
                         <img
-                            src={this.state.imageData}
+                            src={this.imageData}
                             style={{
                                 maxHeight: this.state.height,
                                 height: '100%', width: '100%',
