@@ -158,7 +158,7 @@ class AvatarGeneratorField extends React.Component <IAvatarGeneratorComponent> {
 
     constructor(props: IAvatarGeneratorComponent) {
         super(props);
-        this.imageData = this.props.value || [];
+        this.imageData = this.props.value;
         this.state = {
             body:{format:'default',color:characteres.body.colors[0]},
             neck:{format:'default'},
@@ -241,12 +241,12 @@ class AvatarGeneratorField extends React.Component <IAvatarGeneratorComponent> {
         });
 
         this.imageData = imageD;
-        this.props.onChange({target:{value: this.imageData}},{name: this.props.name, value: this.imageData});
+
+        const name = this.props.name;
+        this.props.onChange({target:{value: this.imageData}},{name, value: this.imageData});
     }
 
     render() {
-      console.log(this.imageData);
-
         const list = [
             'body',
             'hair',
@@ -265,7 +265,7 @@ class AvatarGeneratorField extends React.Component <IAvatarGeneratorComponent> {
         return (
           <div>
             <SimpleLabelView label={'Avatar'}/>
-              {!!this.imageData && this.imageData!=[] ?
+              {hasValue(this.props.value) && this.props.value!='' ?
               <div key={'name'}>
                       <div style={{
                           height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
@@ -274,7 +274,7 @@ class AvatarGeneratorField extends React.Component <IAvatarGeneratorComponent> {
                           transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
                       }}>
                           <img
-                              src={this.imageData}
+                              src={this.props.value}
                               style={{
                                   maxHeight: this.state.height,
                                   height: '100%', width: '100%',
@@ -282,7 +282,7 @@ class AvatarGeneratorField extends React.Component <IAvatarGeneratorComponent> {
                               }}
                           />
                       </div>
-              </div> : null
+              </div> : ( !!this.props.readOnly ? <div style={avatarGeneratorStyle.containerEmptyAvatar}>{'Não há avatar'}</div>: null)
             }
 
             {!this.props.readOnly ?
