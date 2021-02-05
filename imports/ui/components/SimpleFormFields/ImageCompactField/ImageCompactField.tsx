@@ -69,9 +69,12 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
           preview: null,
           width: 500,
           height: 300,
-          actualImage: this.props.value || null,
+          actualImage: this.props.value,
       };
+      this.onSubmitSendImage = this.onSubmitSendImage.bind(this);
       this.handleInputImage = this.handleInputImage.bind(this);
+      this.handleInputMessage = this.handleInputMessage.bind(this);
+      this.deleteImageCompact = this.deleteImageCompact.bind(this);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -94,6 +97,18 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
             this.setState({actualImage: this.props.value});
         }
     }
+
+    onSubmitSendImage = event => {
+      if (this.state.inputImage !== '' && this.state.inputImage.length > 0) {
+          this.handleClose();
+          this.handleSave();
+          const msgToSend = this.state.inputMessage;
+          const imgToSend = this.state.inputImage;
+          this.props.sendMessageAndImage(this.props.chat, msgToSend, imgToSend,this.props.chatContext);
+          this.setState({inputMessage: ''});
+          this.setState({inputImage: ''});
+      }
+    };
 
     // #################  Required Methods   ################################
     onBlur = () => {
@@ -171,9 +186,12 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
 
     handleInputImage = value => {
       this.setState({inputImage: value});
-
       const name = this.props.name;
       this.props.onChange({target:{value: value}},{name, value: value});
+    };
+
+    handleInputMessage = event => {
+      this.setState({inputMessage: event.target.value});
     };
 
     handlePositionChange = position => {
@@ -183,8 +201,25 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
         });
     };
 
+    handleDrop = acceptedFiles => {
+        this.setState({image: acceptedFiles[0]});
+    };
+
+    handleShow = acceptedFiles => {
+        this.setState({show: true});
+    };
+
+    handleOpen = () => {
+      this.setState({open: true});
+    };
+
+    handleClose = () => {
+      this.setState({open: false});
+      this.props.handleCloseSendImage('sendImage');
+    };
+
     deleteImageCompact = () => {
-      this.setState({inputImage: ''});
+      this.setState({inputImage: '', image: null});
       const name = this.props.name;
       this.props.onChange({target:{value: '-'}},{name, value: '-'});
     }
@@ -245,39 +280,32 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
                       {!this.state.actualImage && !!this.state.image ?
                        (
                           <div style={{display: 'flex', flexDirection: 'column', overflow: 'hidden', width: 'auto'}}>
-                                  <AvatarEditor
-                                      ref={ref => {
-                                          return this.editor = ref;
-                                      }}
-                                      scale={parseFloat(this.state.scale)}
-                                      width={this.state.width}
-                                      height={this.state.height}
-                                      position={this.state.position}
-                                      onPositionChange={this.handlePositionChange}
-                                      rotate={parseFloat(this.state.rotate)}
-                                      onSave={this.handleSave}
-                                      onLoadFailure={this.logCallback(this, 'onLoadFailed')}
-                                      onLoadSuccess={this.logCallback(this, 'onLoadSuccess')}
-                                      onImageReady={this.handleSave}
-                                      onImageLoad={this.logCallback(this, 'onImageLoad')}
-                                      image={this.props.image}
-                                      style={{
-                                        marginTop: '5px',
-                                        marginBottom: '5px',
-                                        marginRight: '5px',
-                                        width: 'auto',
-                                        height: '30vmin',
-                                        boxShadow: 'rgba(0, 0, 0, 0.19) 0px 10px 30px rgba(0, 0, 0, 0.227) 0px 6px 10px',
-                                      }}
-                                  />
-                                  <Slider
-                                      min={1}
-                                      max={4}
-                                      step={0.1}
-                                      value={this.state.scale}
-                                      onChange={this.handleScale}
-                                      style={{padding: '15px 15px', marginLeft: '30px', marginRight: '45px', width: 'auto'}}
-                                  />
+                          <AvatarEditor
+                              ref={ref => {
+                                  return this.editor = ref;
+                              }}
+                              scale={parseFloat(this.state.scale)}
+                              width={this.state.width}
+                              height={this.state.height}
+                              position={this.state.position}
+                              onPositionChange={this.handlePositionChange}
+                              rotate={parseFloat(this.state.rotate)}
+                              onSave={this.handleSave}
+                              onLoadFailure={this.logCallback(this, 'onLoadFailed')}
+                              onLoadSuccess={this.logCallback(this, 'onLoadSuccess')}
+                              onImageReady={this.handleSave}
+                              onImageLoad={this.logCallback(this, 'onImageLoad')}
+                              image={this.state.image}
+                              style={{position:'relative'}}
+                          />
+                          <Slider
+                              min={1}
+                              max={4}
+                              step={0.1}
+                              value={this.state.scale}
+                              onChange={this.handleScale}
+                              style={{padding: '10px 10px', width: this.state.width, margin: '10px 10px'}}
+                          />
                           </div>
                     ) : null
                   }
@@ -305,7 +333,7 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
                           color="default"
                           style={compactImageStyle.selectImage}
                           startIcon={<DeleteIcon />}
-                          onClick={()=> this.deleteImageCompact()}
+                          onClick={this.deleteImageCompact}
                           >
                           {'Deletar'}
                         </Button>
