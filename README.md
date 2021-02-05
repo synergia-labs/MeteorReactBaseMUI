@@ -463,30 +463,21 @@ O SimpleForm cria formulários a partir de esquemas expressos em JSON. Como menc
 	  },
 
 ### Adicionando novos componentes ###
-(Em Construção. Considerar:name,label,value,onChange,readOnly,error)
-
 
 O SimpleForm foi construído considerando o funcionamento dos componentes do pacote *Material-UI*. Esses componentes possuem algumas
 propriedades que são consideradas pelo SimpleForm para tratar as questões de interação e exibiões de informação que são as seguintes:
-* **onChange** - nesta propriedade é esperado que seja passado um método que receberá um valor do tipo *event*. Exemplo:
 
-      onChange = value => {
-        const event = { target: { value } };
-        this.props.onChange(event);
-      };
-
-* **onBlur** - nesta propriedade é esperado que seja passado um método que será chamado quando o componente perder o foco.
-
-      onBlur = () => {
-        this.addNewChipValue();
-        this.props.onBlur && this.props.onBlur();
-      };
-
-* **helperText** - está propriedade recebe a mensagem de erro que será exibida pelo componente quando algum erro ocorrer ou alguma outra
-informação que oriente o usuário.
-* **error** - está propriedade é um boleano que informa se ocorreu ou não algum erro no componente e, se afirmativo, a mensagem exibida
+* **name** - recebe o texto que identifica o campo.
+* **label** - recebe o texto a ser exibido como título do campo.
+* **value** - recebe o valor a ser exibido como conteúdo ou estado do campo.
+* **onChange** - nesta propriedade é esperado que seja passado o nome do campo e valor correspondente para inserção no BD. Exemplo:
+  
+      const imgValue = (...);
+      onChange({target:{value: imgValue}},{ name, value: imgValue});
+* **error** - está propriedade é um boleano que informa se ocorreu ou não algum erro no componente e, se afirmativo, a mensagem é exibida
 para o usúario assim como algumas característica do componentes serão exibidos na cor vermelha.
-* **label** - recebe o texto que identifica o campo.
+* **readOnly** - está propriedade é um boleano que informa se o estado atual do componente é somente visualização e, se afirmativo, não é permitida a edição dos conteúdos dos campos. 
+* **otherProps** - outras propriedades específicas de um componente como, por exemplo, a propriedade de "checked" para identificar o estado de um componente do tipo CheckBox. 
 
 Independente do que o componente faz, se ele recebe essas propriedades ele poderá ser utilizado automaticamente pelo SimpleForm.
 
@@ -514,7 +505,27 @@ Vamos às explicações:
 
 ### Estilizando elementos ###
 
-(Adicionar a proposta de Estilização dos componentes, através da separação do estilo em um arquvo ".js" à parte)
+A estilização dos componentes foi feita em um arquivo .tsx à parte com a separação do estilo de cada um. 
+O nome dos arquivos seguem o padrão **nomeStyle.jsx** de acordo com o nome de cada componente.
+
+		const nomeStyle = {
+			fieldError: {
+			border:  '1px solid red'
+			},
+			container: {
+			display:  'flex',
+			flexDirection: 'row',
+			justifyContent: 'left',
+			},
+		};
+
+		export {
+			nomeStyle,
+		};
+
+No arquivo do componente, importamos a folha de estilo:
+
+         import {nameStyle} from './nameStyle'
 
 ## UTILIZANDO O UploadFiles ##       
 ### Entendendo o funcionamento ###
@@ -534,11 +545,6 @@ Vamos às explicações:
 * **name** é o nome da propriedade do schema que será utilizado para buscar as informações do banco de dados.
 * **label** nome que representa o componente no layout do sistema.
 * **doc** recebe o documento que será utilizado para popular os campos do formulário.
-
-### Estilizando elementos ###
-
-(Adicionar a proposta de Estilização dos componentes, através da separação do estilo em um arquvo ".js" à parte)
-
 
 ## LAYOUTS E EXIBIÇÃO DO CONTEÚDO ##
 
