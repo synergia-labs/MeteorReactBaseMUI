@@ -208,10 +208,10 @@ const SnackBarContainer = (options = {
                 horizontal: 'left',
             }}
             open={options.open}
-            autoHideDuration={6000}
+            autoHideDuration={16000}
             onClose={options.onClose}
         >
-            <Alert onClose={options.onClose} severity={options.type}>
+            <Alert id={'message-id'} onClose={options.onClose} severity={options.type}>
                 {options.message}
             </Alert>
         </Snackbar>

@@ -121,16 +121,16 @@ export const exampleSch = {
   // },
   statusRadio: {
     type: String,
-    label: 'Status RadioButton',
+    label: 'Opcoes disponíveis',
     defaultValue: '',
-    optional: false,
+    optional: true,
     radiosList: ['Todo', 'Doing', 'Done'],
   },
   statusToggle: {
     type: Boolean,
-    label: 'Status Toogle',
+    label: 'Salvar automaticamente',
     defaultValue: false,
-    optional: false,
+    optional: true,
   }
 };
 

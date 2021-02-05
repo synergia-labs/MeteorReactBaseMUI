@@ -1,0 +1,19 @@
+{
+    "env": {
+        "TAGS": "not @ignore"
+    },
+    "video": false,
+    "testFiles": "**/*.{feature,features}",
+    "fixturesFolder": ".cypress/fixtures",
+    "integrationFolder": ".cypress/integration",
+    "pluginsFile": ".cypress/plugins",
+    "screenshotsFolder": ".cypress/screenshots",
+    "supportFile": ".cypress/support",
+    "baseUrl": "http://localhost:3000",
+   "reporter": "junit",
+    "reporterOptions": {
+        "mochaFile": ".cypress/results/cypress-report.xml",
+        "toConsole": true
+    }
+
+  }

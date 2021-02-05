@@ -103,6 +103,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
             />
             <div style={appStyles.fabContainer}>
                 <Fab
+                    id={'add'}
                     onClick={()=>history.push('/example/create')}
                     color={'primary'}>
                     <Add />

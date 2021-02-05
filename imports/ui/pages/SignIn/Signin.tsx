@@ -147,7 +147,7 @@ export default class Signin extends React.Component {
                 />
                 <div style={signinStyle.containerButtonOptions}>
                   <Button color={'secondary'} onClick={()=>this.props.history.push('/recovery-password')}>{"Esqueci a minha senha"}</Button>
-                  <Button variant={'outlined'} color={'primary'} submit>{"Entrar"}</Button>
+                  <Button id="btnEnter" variant={'outlined'} color={'primary'} submit>{"Entrar"}</Button>
                 </div>
 
               </div>

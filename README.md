@@ -463,7 +463,7 @@ O SimpleForm cria formulários a partir de esquemas expressos em JSON. Como menc
 	  },
 
 ### Adicionando novos componentes ###
-(Em Construção)
+(Em Construção. Considerar:name,label,value,onChange,readOnly,error)
 
 
 O SimpleForm foi construído considerando o funcionamento dos componentes do pacote *Material-UI*. Esses componentes possuem algumas

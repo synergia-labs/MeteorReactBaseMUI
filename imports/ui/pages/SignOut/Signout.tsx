@@ -11,7 +11,7 @@ const Signout = () => {
   cleanUserCache();
   return (
       <Container style={signoutStyle.containerSignOut}>
-        <h2 style={signoutSyle.labelExitSystem}>
+        <h2 style={signoutStyle.labelExitSystem}>
           <img src="/images/wireframe/logo.png" style={signoutSyle.imageLogo} />
           <p>{'Volte sempre!!!'}</p>
         </h2>
