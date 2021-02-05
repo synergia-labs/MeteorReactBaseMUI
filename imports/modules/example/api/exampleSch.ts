@@ -119,6 +119,7 @@ export const exampleSch = {
   //     return  statusTrue.length <= 1
   //   }
   // },
+
   statusRadio: {
     type: String,
     label: 'Opcoes disponíveis',
