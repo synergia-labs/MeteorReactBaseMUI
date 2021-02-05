@@ -3,6 +3,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import Konva from 'konva';
 
@@ -177,6 +178,12 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
         this.defaultLayer.batchDraw();
     }
 
+    deleteAvatar = () => {
+      this.setState([]);
+      const name = this.props.name;
+      this.props.onChange({target:{value: '-'}},{name, value: '-'});
+    }
+
     initBoard = () => {
         const self = this;
         this.initAvatarBoard = true;
@@ -254,7 +261,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
         return (
           <div>
             <SimpleLabelView label={'Avatar'}/>
-              {hasValue(this.props.value) && this.props.value!='' ?
+              {hasValue(this.props.value) && this.props.value!='' && this.props.value!='-' ?
               <div key={'name'}>
                       <div style={{
                           height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
@@ -284,6 +291,16 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                   onClick={()=> this.setState({ open: true })}
                 >
                   {'Selecionar avatar'}
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="default"
+                  style={avatarGeneratorStyle.selectImage}
+                  startIcon={<DeleteIcon />}
+                  onClick={()=> this.deleteAvatar()}
+                  >
+                  {'Deletar'}
                 </Button>
 
                 <Dialog onClose={this.onClose}

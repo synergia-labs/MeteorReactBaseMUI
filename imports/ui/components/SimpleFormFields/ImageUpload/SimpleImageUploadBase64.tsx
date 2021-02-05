@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // @ts-ignore
 import FileInputComponent from 'react-file-input-previews-base64'
 import {hasValue} from "../../../../libs/hasValue";
@@ -10,7 +10,11 @@ import Avatar from '@material-ui/core/Avatar';
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
 
+import DeleteIcon from '@material-ui/icons/Delete';
+
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
+
+    const[valueImage, setValueImage] = useState(value);
 
     const onFileSelect=(fileData:any)=>{
         let imgValue;
@@ -20,27 +24,29 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
             } else {
                 imgValue = fileData.base64;
             }
-            console.log({},{name,value:imgValue});
-            onChange({},{name,value:imgValue})
+            setValueImage(imgValue);
+            onChange({target:{value: imgValue}},{name, value: imgValue});
         }
     }
 
     if(!!readOnly) {
         return (<div key={name} style={simpleImageStyle.containerImage}>
             <SimpleLabelView label={label}/>
-            <Avatar src={value} size="big" style={simpleImageStyle.containerShowImage} />
+            <Avatar src={valueImage} size="big" style={simpleImageStyle.containerShowImage} />
            {/*} <img src={value} style={simpleImageStyle.containerShowImage}/>{*/}
         </div>)
     }
+
     const deleteImage = () => {
-        onChange({},{name,value: '-'})
+      setValueImage('-');
+      onChange({target:{value: '-'}},{name, value: '-'});
     }
 
     return (
-        <div key={name}>
+      <div>
             <SimpleLabelView label={label}/>
             <FileInputComponent
-                defaultFiles={hasValue(value)?[value]:undefined}
+                defaultFiles={hasValue(valueImage) && valueImage!='' && valueImage!='-'? [valueImage]:undefined}
                 labelText={""}
                 name={name}
                 parentStyle={{border: error? '1px solid red':undefined}}
@@ -49,6 +55,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                 callbackFunction={onFileSelect}
                 accept="image/*"
                 buttonComponent={
+                  <div>
                   <Button
                     variant="contained"
                     color="default"
@@ -57,9 +64,19 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                   >
                     {'Selecionar imagem'}
                   </Button>
+                  </div>
               }
             />
-        </div>
+            <Button
+              variant="contained"
+              color="default"
+              style={simpleImageStyle.selectImage}
+              startIcon={<DeleteIcon />}
+              onClick={deleteImage}
+              >
+              {'Deletar'}
+            </Button>
+      </div>
     );
 
 }

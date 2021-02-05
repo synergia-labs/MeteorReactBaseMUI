@@ -24,6 +24,8 @@ import {hasValue} from "/imports/libs/hasValue";
 
 import {compactImageStyle} from "./ImageCompactFieldStyle";
 
+import DeleteIcon from '@material-ui/icons/Delete';
+
 // ######################################################
 // ######################################################
 // ########### FALTA REFATORAR O CÓDIGO################
@@ -181,10 +183,13 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
         });
     };
 
+    deleteImageCompact = () => {
+      this.setState({inputImage: ''});
+      const name = this.props.name;
+      this.props.onChange({target:{value: '-'}},{name, value: '-'});
+    }
+
     render() {
-
-      console.log(this.props.value);
-
 
         const self = this;
         if(this.state.image) {
@@ -214,7 +219,7 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
           <div style={compactImageStyle.containerImage}>
               <SimpleLabelView label={this.props.label}/>
 
-              {hasValue(this.props.value) && this.props.value!='' && !!this.props.readOnly ?
+              {hasValue(this.props.value) && this.props.value!='' && this.props.value!='-' && !!this.props.readOnly ?
                 <div key={'name'}>
                         <div style={{
                             height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
@@ -295,6 +300,15 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
                               {'Selecionar imagem'}
                             </Button>
                         </label>
+                        <Button
+                          variant="contained"
+                          color="default"
+                          style={compactImageStyle.selectImage}
+                          startIcon={<DeleteIcon />}
+                          onClick={()=> this.deleteImageCompact()}
+                          >
+                          {'Deletar'}
+                        </Button>
                       </div> : null
             }
             </div>
