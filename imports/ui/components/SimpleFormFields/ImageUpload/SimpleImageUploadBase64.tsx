@@ -14,7 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import _ from 'lodash'
 
-export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
+export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimpleFormComponent)=>{
 
     const[valueImage, setValueImage] = useState(value);
 
@@ -44,32 +44,37 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
       onChange({target:{value: '-'}},{name, value: '-'});
     }
 
+    console.log(valueImage);
+
     return (
       <div>
             <SimpleLabelView label={label}/>
-            <FileInputComponent
-                defaultFiles={hasValue(valueImage) && valueImage!='' && valueImage!='-'? [valueImage]:undefined}
-                labelText={""}
-                name={name}
-                parentStyle={{border: error? '1px solid red':undefined}}
-                labelStyle={{fontSize:14}}
-                multiple={false}
-                callbackFunction={onFileSelect}
-                accept="image/*"
-                buttonComponent={
-                  <div>
-                  <Button
-                    variant="contained"
-                    color="default"
-                    style={simpleImageStyle.selectImage}
-                    startIcon={<PhotoCameraIcon />}
-                    {..._.omit(otherProps, ['disabled', 'checked'])}
-                  >
-                    {'Selecionar imagem'}
-                  </Button>
-                  </div>
-              }
-            />
+            { hasValue(valueImage) && valueImage!='' && valueImage!='-' ?
+              <FileInputComponent
+                  defaultFiles={hasValue(valueImage) && valueImage!='' && valueImage!='-'? [valueImage]:undefined}
+                  labelText={""}
+                  name={name}
+                  parentStyle={{border: error? '1px solid red':undefined}}
+                  labelStyle={{fontSize:14}}
+                  multiple={false}
+                  callbackFunction={onFileSelect}
+                  accept="image/*"
+                  buttonComponent={
+                    <div>
+                    <Button
+                      variant="contained"
+                      color="default"
+                      style={simpleImageStyle.selectImage}
+                      startIcon={<PhotoCameraIcon />}
+                      {..._.omit(otherProps, ['disabled', 'checked'])}
+                    >
+                      {'Selecionar imagem'}
+                    </Button>
+                    </div>
+                }
+              /> : null
+            }
+
             <Button
               variant="contained"
               color="default"
