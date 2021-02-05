@@ -6,6 +6,20 @@ export const exampleSch = {
     optional: true,
     isImage: true,
   },
+  imageC: {
+    type: String,
+    label: 'Imagem Comp',
+    defaultValue: '',
+    optional: true,
+    isImage: true,
+  },
+  avatar: {
+    type: String,
+    label: 'Avatar',
+    defaultValue: '',
+    optional: true,
+    isImage: true,
+  },
   title: {
     type: String,
     label: 'Título',

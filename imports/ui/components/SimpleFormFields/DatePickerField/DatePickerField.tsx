@@ -10,8 +10,6 @@ import {hasValue} from "/imports/libs/hasValue";
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
     const[dateValue, setDateValue] = useState(hasValue(value) ? value : new Date());
 
-
-
     useEffect(() => {
         if(hasValue(value) && value !== dateValue){
             setDateValue(hasValue(value)? value : new Date())
@@ -22,6 +20,11 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         onChange({target:{value:date}});
     }
 
+    useEffect(() => {
+        if(!hasValue(value) && value == ''){
+          onChange({},{name, value: dateValue});
+        }
+    })
     if(!!readOnly) {
         return (<div key={name}>
             <SimpleLabelView  value={hasValue(dateValue)?dateValue.toLocaleDateString():null} label={label}/>

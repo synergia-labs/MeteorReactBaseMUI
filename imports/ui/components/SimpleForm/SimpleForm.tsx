@@ -416,7 +416,7 @@ const FieldComponent = ({reactElement,name,...props}:IFieldComponent) => {
                 setError(false);
             }
         }
-    });
+    }, [props.mode,props.initialValue]);
 
     props.setFieldMethods({
         validateRequired: ()=>{
@@ -610,7 +610,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
                         &&fielsWithError.indexOf(this.props.schema[field].label)===-1){
                         fielsWithError.push(this.props.schema[field].label);
                     }
-                    if(!this.fields[field].validateRequiredSubForm()
+                    if(this.fields[field].validateRequiredSubForm&&!this.fields[field].validateRequiredSubForm()
                         &&fielsWithError.indexOf(this.props.schema[field].label)===-1){
                         fielsWithError.push(this.props.schema[field].label);
                     }

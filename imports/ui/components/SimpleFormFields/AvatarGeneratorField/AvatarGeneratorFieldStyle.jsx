@@ -14,21 +14,7 @@
 
  */
 
-const simpleImageStyle = {
-  containerImage: {
-    display:'flex',
-    flexDirection:'column',
-  },
-  containerImageButtons: {
-    display:'flex',
-    flexDirection:'column',
-  },
-  containerShowImage: {
-    maxWidth:360,
-    maxHeight:320,
-    width: 150,
-    height: 150,
-  },
+const avatarGeneratorStyle = {
   selectImage: {
     cursor:'pointer',
     fontSize: '12px',
@@ -38,8 +24,11 @@ const simpleImageStyle = {
     letterSpacing: '0.00938em',
     color: 'rgba(108, 104, 104)',
   },
+  containerEmptyAvatar: {
+    color:'#BBB',
+  },
 };
 
 export {
-    simpleImageStyle,
+    avatarGeneratorStyle,
 };

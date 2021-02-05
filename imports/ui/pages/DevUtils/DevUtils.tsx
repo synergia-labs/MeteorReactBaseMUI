@@ -65,8 +65,6 @@ export default function DevUtils() {
         setValue(newValue);
     };
 
-    console.log('FIELDS>>>',fields);
-
     const getField = (doc,schema,field,imports,formFields) => {
         if(schema[field].isImage) {
             const importField = "import SimpleImageUploadBase64 from '/imports/ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64';";
@@ -157,7 +155,7 @@ export default function DevUtils() {
         <div className={classes.root}>
             <AppBar position="static">
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="JSON->Form Components" {...a11yProps(0)} />
+                    <Tab label="JSON: Form Components" {...a11yProps(0)} />
                     <Tab label="..." {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
