@@ -505,7 +505,27 @@ Vamos às explicações:
 
 ### Estilizando elementos ###
 
-(Adicionar a proposta de Estilização dos componentes, através da separação do estilo em um arquvo ".js" à parte)
+A estilização dos componentes foi feita em um arquivo .tsx à parte com a separação do estilo de cada um. 
+O nome dos arquivos seguem o padrão **nomeStyle.jsx** de acordo com o nome de cada componente.
+
+const nomeStyle = {
+    fieldError: {
+      border:  '1px solid red'
+    },
+    container: {
+      display:  'flex',
+      flexDirection: 'row',
+      justifyContent: 'left',
+    },
+};
+
+export {
+    nomeStyle,
+};
+
+No arquivo do componente, importamos a folha de estilo:
+
+import {nameStyle} from './nameStyle'
 
 ## UTILIZANDO O UploadFiles ##       
 ### Entendendo o funcionamento ###
