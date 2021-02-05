@@ -10,8 +10,6 @@ import Avatar from '@material-ui/core/Avatar';
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
 
-import DeleteIcon from '@material-ui/icons/Delete';
-
 import _ from 'lodash'
 
 export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimpleFormComponent)=>{
@@ -39,17 +37,9 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
         </div>)
     }
 
-    const deleteImage = () => {
-      setValueImage('-');
-      onChange({target:{value: '-'}},{name, value: '-'});
-    }
-
-    console.log(valueImage);
-
     return (
       <div>
             <SimpleLabelView label={label}/>
-            { hasValue(valueImage) && valueImage!='' && valueImage!='-' ?
               <FileInputComponent
                   defaultFiles={hasValue(valueImage) && valueImage!='' && valueImage!='-'? [valueImage]:undefined}
                   labelText={""}
@@ -60,7 +50,6 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
                   callbackFunction={onFileSelect}
                   accept="image/*"
                   buttonComponent={
-                    <div>
                     <Button
                       variant="contained"
                       color="default"
@@ -70,21 +59,8 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
                     >
                       {'Selecionar imagem'}
                     </Button>
-                    </div>
                 }
-              /> : null
-            }
-
-            <Button
-              variant="contained"
-              color="default"
-              style={simpleImageStyle.selectImage}
-              startIcon={<DeleteIcon />}
-              onClick={deleteImage}
-              {..._.omit(otherProps, ['disabled', 'checked'])}
-              >
-              {'Deletar'}
-            </Button>
+              />
       </div>
     );
 
