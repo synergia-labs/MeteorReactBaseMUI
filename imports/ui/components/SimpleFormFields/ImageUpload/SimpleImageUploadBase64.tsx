@@ -12,6 +12,8 @@ import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import _ from 'lodash'
+
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
 
     const[valueImage, setValueImage] = useState(value);
@@ -61,6 +63,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                     color="default"
                     style={simpleImageStyle.selectImage}
                     startIcon={<PhotoCameraIcon />}
+                    {..._.omit(otherProps, ['disabled', 'checked'])}
                   >
                     {'Selecionar imagem'}
                   </Button>
@@ -73,6 +76,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
               style={simpleImageStyle.selectImage}
               startIcon={<DeleteIcon />}
               onClick={deleteImage}
+              {..._.omit(otherProps, ['disabled', 'checked'])}
               >
               {'Deletar'}
             </Button>
