@@ -15,12 +15,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         }
     }
 
-    useEffect(() => {
-        if(!hasValue(value) && value == ''){
-          onChange({target:{value: false}},{name,value: false});
-        }
-    })
-
     return (
         <div style={error?toggleSwitchStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
