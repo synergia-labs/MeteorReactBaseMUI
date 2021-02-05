@@ -20,6 +20,8 @@ import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorder
 import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
 import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 
+import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatarField/ImageOrAvatarField';
+
 import Typography from '@material-ui/core/Typography';
 import * as appStyles from "/imports/materialui/styles";
 
@@ -62,6 +64,10 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                 <ImageCompactField
                   label={'Imagem Zoom+Slider'}
                   name={'imageC'}
+                />
+
+                <ImageOrAvatar
+                  label={'Imagem Or Avatar'}
                 />
 
                 <FormGroup key={'fieldsOne'}>

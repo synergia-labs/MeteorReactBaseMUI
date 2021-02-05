@@ -71,9 +71,7 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
           height: 300,
           actualImage: this.props.value,
       };
-      this.onSubmitSendImage = this.onSubmitSendImage.bind(this);
       this.handleInputImage = this.handleInputImage.bind(this);
-      this.handleInputMessage = this.handleInputMessage.bind(this);
       this.deleteImageCompact = this.deleteImageCompact.bind(this);
     }
 
@@ -97,18 +95,6 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
             this.setState({actualImage: this.props.value});
         }
     }
-
-    onSubmitSendImage = event => {
-      if (this.state.inputImage !== '' && this.state.inputImage.length > 0) {
-          this.handleClose();
-          this.handleSave();
-          const msgToSend = this.state.inputMessage;
-          const imgToSend = this.state.inputImage;
-          this.props.sendMessageAndImage(this.props.chat, msgToSend, imgToSend,this.props.chatContext);
-          this.setState({inputMessage: ''});
-          this.setState({inputImage: ''});
-      }
-    };
 
     // #################  Required Methods   ################################
     onBlur = () => {
@@ -190,10 +176,6 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
       this.props.onChange({target:{value: value}},{name, value: value});
     };
 
-    handleInputMessage = event => {
-      this.setState({inputMessage: event.target.value});
-    };
-
     handlePositionChange = position => {
         this.setState({position}, () => {
             // this.editor.props.position = position;
@@ -207,15 +189,6 @@ class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
 
     handleShow = acceptedFiles => {
         this.setState({show: true});
-    };
-
-    handleOpen = () => {
-      this.setState({open: true});
-    };
-
-    handleClose = () => {
-      this.setState({open: false});
-      this.props.handleCloseSendImage('sendImage');
     };
 
     deleteImageCompact = () => {
