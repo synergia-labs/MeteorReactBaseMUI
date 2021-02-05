@@ -57,19 +57,19 @@ Pasta que contém os principais arquivos do produto. Esta pasta está organizada
 		config     --> Contém o código referente as rotas da aplicação, com a definição dos componentes a serem acessados e renderizados através dos menus da aplicação
 		layouts     --> Contém o código referente ao layout da apliação a serem utilizados por menus, rotas e navbar da aplicação
 		pages       --> Contém as páginas gerais da aplicação: tela de login, recuperação de senha, etc.
-			DevUtils          --> Pasta com os arquivos dos DevUtils para ajudar os desenvolvedores.
-			EmailVerify       --> Pasta com o arquivo de verificação de email.
-			EnrollAccount     --> Pasta com o arquivo de verificação de envio de token e seu style.
-			Home              --> Pasta com os arquivos da home e seu style.
-			NotFound          --> Pasta com o arquivo para quando não encontrar a página.
-			RecoveryPassword  --> Pasta com o arquivo de recuperação de senha e seu style.
-			ResetPassword     --> Pasta com o arquivo de nova senha e seu style.
-			SignIn            --> Pasta com o arquivo de sign in e seu style.
-			SignOut           --> Pasta com o arquivo de sign out e seu style.
-			SignUp            --> Pasta com o arquivo de sign up e seu style.
-			App.tsx           --> Arquivo com o menu e os componentes.
-			AppGeneralComponents.tsx  --> Arquivo com Drawers e Routers para login.
-			AppGeneralComponentStyle.tsx  --> Style do arquivo anterior.
+			DevUtils          --> Página disponível durante o desenvolvimento com utilitários par ao desenvolvedor.
+			EmailVerify       --> Página de verificação de email.
+			EnrollAccount     --> Página de verificação de envio de token e seu style.
+			Home              --> Página home e seu style.
+			NotFound          --> Página quando não encontrar a rota indicada.
+			RecoveryPassword  --> Página de recuperação de senha e seu style.
+			ResetPassword     --> Página de nova senha e seu style.
+			SignIn            --> Página de sign in e seu style.
+			SignOut           --> Página de sign out e seu style.
+			SignUp            --> Página de sign up e seu style.
+			App.tsx           --> Componente principal montado na index.html.
+			AppGeneralComponents.tsx  --> Conjunto de componentes que podem ser acionados a qualquer momento como: caixas de diálogo, telas modais, etc.
+			AppGeneralComponentStyle.tsx  --> Estilo dos componentes gerais.
 		userprofile       --> Pasta que contém o módulo do sistema referente a exibição e edição do perfil de usuário, com seus respectivos arquivos-base (api, schema e rotas do módulo).
 			api                --> Pasta com os arquivos da API do userprofile.
 		    	config             --> Pasta com os arquivos de index, menu e router do userprofile.
@@ -103,7 +103,7 @@ Para começar a trabalhar com o MeteorReactBaseMUI faça um clone do repositóri
 
 Em seguida, instale as dependências:
 
-    npm install
+    meteor npm install
 
 E depois, execute a aplicação:
 
@@ -117,29 +117,6 @@ Acesse o sistema através do seu browser no endereço "http://localhost:3000" co
  **Observação**: os dados do usuário "admin" foram inseridos no banco de dados pelo arquivo "/imports/server/fixtures.ts";
 
  ## TRABALHANDO COM MÓDULOS ##
-
- ### Meu primeiro módulo ###
-
-A forma mais fácil de entender o funcionamento do MeteorReactBaseMUI é criando um novo módulo.
-
-Para isso, iremos utilizar o arquivo "cloneModule.sh" para gerar um novo módulo com base no template existente. No terminal de seu sistema, acesse a pasta de "./modulestemplate" e execute o seguinte o comando:
-
-	.\clonemodule.sh example nome_do_modulo
-
-Desta forma, uma cópia do template de módulo será criado em "/imports/modules" com o nome de **nome_do_modulo** e o próximo passo será personalizar o módulo com campos de formulário.
-
-Neste ponto, iremos utilizar o Dev Utils para gerar os campos de nosso primeiro formulário através do endereço:
-
-    http://localhost:3000/devutils
-
-Neste endereço, há configurações disponíveis para dois módulos:
-
-    1. Example: Com campos no schema que correspondem ao formulário de criação de tarefas, por exemplo: Título, Descrição e Data. (template base sobre o qual o novo módulo foi gerado)
-    2. UserProfile: Com campos no schema que correspondem ao perfil do usuário, por exemplo: Email, Foto e Nome de Usuário.
-
-Uma vez escolhidos os campos do módulo desejado, será gerado um trecho de código que informará quais importações serão necessárias para utilização dos componentes correspondentes a estes campos.
-
-Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.ts" dentro do módulo que você gerou (**nome_do_modulo**, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
 
 ### Entendendo a estrutura de um módulo no MeteorReactBaseMUI ###       
 
@@ -160,7 +137,7 @@ O módulo possui uma estrutura muito semelhante à do MeteorReactBaseMUI. Aprese
 				    exampleDetail.tsx       --> Arquivo de detalhamento do módulo.
 				    exampleList.tsx         --> Arquivo de detalhamento em lista do módulo
 
-Para que módulo funcione não basta que ele seja colocado na pasta módulo, é necessário configurar alguns arquivos que irão reconhecer a existência do módulo e carregar suas informações.
+Para que o módulo funcione não basta que ele seja colocado na pasta módulo, é necessário configurar alguns arquivos que irão reconhecer a existência do módulo e carregar suas informações.
 
 Precisamos fazer as seguintes alterações nos arquivos abaixo:
 
@@ -198,11 +175,11 @@ Para isso, importe o arquivo responável pela api de seu módulo como abaixo:
 
 ### Customizando o módulo criado nos passos anteriores ###       
 
-Agora iremos fazer algumas customizações no módulo criado nos passos anteriores para aprofundar um pouco mais no funcionamento do módulo.
+A seguir, apresentaremos algumas orientações sobre como customizar o modulo "example" que já vem com o boilerplate.
 
 #### Criando novos campos no formulário ####
 
-A estrutura do formulário é definida pelo esquema da coleção. Em nosso exemplo o esquema é definido no arquivo '/imports/modules/nome_do_modulo/api/exampleSch.ts'.
+As validações de algumas informações referentes aos campos do formulário podem vir do esquema da coleção. Em nosso exemplo o esquema é definido no arquivo '/imports/modules/exmaple/api/exampleSch.ts'.
 
  Ao visualizar o arquivo será exibido o seguinte conteúdo:
 
@@ -378,7 +355,7 @@ A propriedade "type" também sugere componentes que podem ser utilizados. Por ex
 * "**[Object]**" - uma lista de objetos indica que o campo é uma lista de documentos aninhados e neste caso também é necessário indicar o campo "subSchema".
 * **Number** ou **Date** - tipos número ou data sugere a utilização de componentes que permitem a entrada de somente números ou a seleção de datas.
 
-Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**". Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deverá possui. Neste caso será uma string simples.
+Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**" e em seguida inserir esse novo campo no formulário. Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deverá possui. Neste caso será uma string simples.
 
       subtitle: {
         type: String,
@@ -486,6 +463,9 @@ O SimpleForm cria formulários a partir de esquemas expressos em JSON. Como menc
 	  },
 
 ### Adicionando novos componentes ###
+(Em Construção)
+
+
 O SimpleForm foi construído considerando o funcionamento dos componentes do pacote *Material-UI*. Esses componentes possuem algumas
 propriedades que são consideradas pelo SimpleForm para tratar as questões de interação e exibiões de informação que são as seguintes:
 * **onChange** - nesta propriedade é esperado que seja passado um método que receberá um valor do tipo *event*. Exemplo:
@@ -534,7 +514,7 @@ Vamos às explicações:
 
 ### Estilizando elementos ###
 
-**Observação**: Embora as classes sejam especificadas nos arquivos específicos de cada módulo ou componente, após a transpilação do código existirá somente um arquivo de estilo contendo todo o estilo do produto. Neste caso, poderá haver sobreposição de estilo nas classes que utilizam o mesmo nome. Recomendamos então que o nome do módulo ou componente esteja presente no nome da classse para evitar esse problema.
+(Adicionar a proposta de Estilização dos componentes, através da separação do estilo em um arquvo ".js" à parte)
 
 ## UTILIZANDO O UploadFiles ##       
 ### Entendendo o funcionamento ###
@@ -557,7 +537,7 @@ Vamos às explicações:
 
 ### Estilizando elementos ###
 
-**Observação**: Embora as classes sejam especificadas nos arquivos específicos de cada módulo ou componente, após a transpilação do código existirá somente um arquivo de estilo contendo todo o estilo do produto. Neste caso, poderá haver sobreposição de estilo nas classes que utilizam o mesmo nome. Recomendamos então que o nome do módulo ou componente esteja presente no nome da classse para evitar esse problema.
+(Adicionar a proposta de Estilização dos componentes, através da separação do estilo em um arquvo ".js" à parte)
 
 
 ## LAYOUTS E EXIBIÇÃO DO CONTEÚDO ##
