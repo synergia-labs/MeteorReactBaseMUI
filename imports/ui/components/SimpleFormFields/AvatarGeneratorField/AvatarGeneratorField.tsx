@@ -259,7 +259,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
         ]
 
         return (
-          <div>
+          <div key={this.props.name}>
             <SimpleLabelView label={'Avatar'}/>
               {hasValue(this.props.value) && this.props.value!='' && this.props.value!='-' ?
               <div key={'name'}>

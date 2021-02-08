@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -26,295 +26,176 @@ import {compactImageStyle} from "./ImageCompactFieldStyle";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-// ######################################################
-// ######################################################
-// ########### FALTA REFATORAR O CÓDIGO################
-// ######################################################
-// ######################################################
-// ######################################################
 
-const styles = theme => {
-    return {
-        root: {
-            display: 'flex',
-            flexWrap: 'wrap',
-        },
-        chips: {
-            display: 'flex',
-            flexWrap: 'wrap',
-        },
-        chip: {
-            margin: theme.spacing(1) / 4,
-        },
-        icon: {
-            marginLeft: 15,
-            flexShrink: 0,
-            color: 'white',
-        },
-    };
-};
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent) => {
 
-class ImageCompactField extends React.PureComponent <IBaseSimpleFormComponent> {
+    const [values, setValues] = React.useState({
+      allowZoomOut: false,
+      position: {x: 0.5, y: 0.5},
+      rotate: 0,
+      preview: null,
+    });
 
-    constructor(props: IBaseSimpleFormComponent){
-      super(props);
+    const [image, setImage] = React.useState(null);
+    const [inputImage, setInputImage] = React.useState('');
+    const [actualImage, setActualImage] = React.useState(value);
+    const [scale, setScale] = React.useState(0.9);
+    const [width, setWidth] = React.useState(500);
+    const [height, setHeight] = React.useState(300);
 
-      this.state = {
-          image: null,
-          inputImage: '',
-          allowZoomOut: false,
-          position: {x: 0.5, y: 0.5},
-          scale: 0.9,
-          rotate: 0,
-          preview: null,
-          width: 500,
-          height: 300,
-          actualImage: this.props.value,
-      };
-      this.handleInputImage = this.handleInputImage.bind(this);
-      this.deleteImageCompact = this.deleteImageCompact.bind(this);
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.value && !prevState.image) {
-            return {
-                actualImage: nextProps.value,
-                width: 500,
-                height: 300,
-                open:nextProps.openSendImage,
-            };
-        } else {
-            return {
-                open:nextProps.openSendImage,
-            }
-        } // Triggers no change in the state
-    }
-
-    componentDidMount() {
-        if (this.props.value) {
-            this.setState({actualImage: this.props.value});
-        }
-    }
-
-    // #################  Required Methods   ################################
-    onBlur = () => {
-        this.addNewChipValue();
-        this.props.onBlur && this.props.onBlur();
-    };
-
-    // #################        //--\\       ################################
-    setEditorRef = editor => {
-        if (editor) this.editor = editor;
-    };
-
-    handleAllowZoomOut = ({target: {checked: allowZoomOut}}) => {
-        this.setState({allowZoomOut});
-    };
-
-    rotateLeft = e => {
-        e.preventDefault();
-
-        this.setState({
-            rotate: this.state.rotate - 90,
-        });
-    };
-
-    rotateRight = e => {
-        e.preventDefault();
-        this.setState({
-            rotate: this.state.rotate + 90,
-        });
-    };
-
-    handleBorderRadius = e => {
-        const borderRadius = parseInt(e.target.value, 10);
-        this.setState({borderRadius});
-    };
-
-    handleXPosition = e => {
-        const x = parseFloat(e.target.value);
-        this.setState({position: {...this.state.position, x}});
-    };
-
-    handleYPosition = e => {
-        const y = parseFloat(e.target.value);
-        this.setState({position: {...this.state.position, y}});
-    };
-
-    handleWidth = e => {
-        const width = parseInt(e.target.value, 10);
-        this.setState({width});
-    };
-
-    handleHeight = e => {
-        const height = parseInt(e.target.value, 10);
-        this.setState({height});
-    };
-
-    logCallback(e) {
+    const logCallback = (e, value) => {
         // eslint-disable-next-line
-    }
-
-    handleScale = (e, value) => {
-        this.setState({scale: value});
-        this.handleSave();
     };
 
-    handleSave = () => {
-        // const img = !!this.props.nocompress?this.editor.getImage().toDataURL():this.editor.getImageScaledToCanvas().toDataURL();
+    const handleScale = (e, valueScale) => {
+        setScale(valueScale);
+        handleSave();
+    };
+
+    const handleSave = () => {
         const img = this.editor.getImage().toDataURL();
-        this.handleInputImage(img);
+        handleInputImage(img);
     };
 
-    handleNewImage = e => {
-        this.setState({image: e.target.files[0], actualImage: undefined});
+    const handleNewImage = e => {
+        setImage(e.target.files[0]);
+        setActualImage(undefined);
     };
 
-    handleInputImage = value => {
-      this.setState({inputImage: value});
-      const name = this.props.name;
-      this.props.onChange({target:{value: value}},{name, value: value});
+    const handleInputImage = valueInput => {
+      setInputImage(valueInput);
+      onChange({target:{value: valueInput}},{name, value: valueInput});
     };
 
-    handlePositionChange = position => {
-        this.setState({position}, () => {
-            // this.editor.props.position = position;
-            this.handleSave();
+    const handlePositionChange = position => {
+        setValues({
+          ...values,
+          ['position']: position,
+        }),  () => {
+            handleSave();
         });
     };
 
-    handleDrop = acceptedFiles => {
-        this.setState({image: acceptedFiles[0]});
-    };
+    const deleteImageCompact = () => {
+      setImage(null);
+      setInputImage('');
 
-    handleShow = acceptedFiles => {
-        this.setState({show: true});
-    };
-
-    deleteImageCompact = () => {
-      this.setState({inputImage: '', image: null});
-      const name = this.props.name;
-      this.props.onChange({target:{value: '-'}},{name, value: '-'});
+      onChange({target:{value: '-'}},{name, value: '-'});
     }
 
-    render() {
+    if(image) {
+        var _URL = window.URL || window.webkitURL;
 
-        const self = this;
-        if(this.state.image) {
-            var _URL = window.URL || window.webkitURL;
+        var img = new Image();
+        var objectUrl = _URL.createObjectURL(image);
+        img.onload = function () {
+            const maxValue = window.innerWidth>400?400:window.innerWidth;
+            if(width>height) {
+                const acceptMaxValue = (maxValue/width)*height<300;
+                const newW = acceptMaxValue?maxValue:300;
+                const newH = acceptMaxValue?(maxValue/width)*height:(300/width)*height;
+                //setWidth(newW);
+                //setHeight(newH);
+            } else {
+                const newW = (300/height)*width;
+                const newH = 300;
+                //setWidth(newW);
+                //setHeight(newH);
+            }
+            _URL.revokeObjectURL(objectUrl);
+        };
+        img.src = objectUrl;
+    }
 
-            var img = new Image();
-            var objectUrl = _URL.createObjectURL(this.state.image);
-            img.onload = function () {
-                const maxValue = window.innerWidth>400?400:window.innerWidth;
-                if(this.width>this.height) {
+    return (
+      <div key={name} style={compactImageStyle.containerImage}>
+          <SimpleLabelView label={label}/>
 
-                    const acceptMaxValue = (maxValue/this.width)*this.height<300;
-                    const newW = acceptMaxValue?maxValue:300;
-                    const newH = acceptMaxValue?(maxValue/this.width)*this.height:(300/this.width)*this.height;
-                    self.setState({width:newW,height:newH})
-                } else {
-                    const newW = (300/this.height)*this.width;
-                    const newH = 300;
-                    self.setState({width:newW,height:newH})
-                }
-                _URL.revokeObjectURL(objectUrl);
-            };
-            img.src = objectUrl;
-        }
-
-        return (
-          <div style={compactImageStyle.containerImage}>
-              <SimpleLabelView label={this.props.label}/>
-
-              {hasValue(this.props.value) && this.props.value!='' && this.props.value!='-' && !!this.props.readOnly ?
-                <div key={'name'}>
-                        <div style={{
-                            height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
-                            transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
-                                (isMobile ? 44 : 130)) / 900)})` : undefined,
-                            transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
-                        }}>
-                            <img
-                                src={this.props.value}
-                                style={{
-                                    maxHeight: this.state.height,
-                                    height: '100%', width: '100%',
-                                    maxWidth: this.state.width,
-                                }}
-                            />
-                        </div>
-                </div> : ( !!this.props.readOnly ? <div style={compactImageStyle.containerEmptyImageC}>{'Não há imagem'}</div>: null)
-              }
-
-            {!this.props.readOnly ?
-
-                    <div>
-                      {!this.state.actualImage && !!this.state.image ?
-                       (
-                          <div style={{display: 'flex', flexDirection: 'column', overflow: 'hidden', width: 'auto'}}>
-                          <AvatarEditor
-                              ref={ref => {
-                                  return this.editor = ref;
-                              }}
-                              scale={parseFloat(this.state.scale)}
-                              width={this.state.width}
-                              height={this.state.height}
-                              position={this.state.position}
-                              onPositionChange={this.handlePositionChange}
-                              rotate={parseFloat(this.state.rotate)}
-                              onSave={this.handleSave}
-                              onLoadFailure={this.logCallback(this, 'onLoadFailed')}
-                              onLoadSuccess={this.logCallback(this, 'onLoadSuccess')}
-                              onImageReady={this.handleSave}
-                              onImageLoad={this.logCallback(this, 'onImageLoad')}
-                              image={this.state.image}
-                              style={{position:'relative'}}
-                          />
-                          <Slider
-                              min={1}
-                              max={4}
-                              step={0.1}
-                              value={this.state.scale}
-                              onChange={this.handleScale}
-                              style={{padding: '10px 10px', width: this.state.width, margin: '10px 10px'}}
-                          />
-                          </div>
-                    ) : null
-                  }
-                        <input
-                            style={{display: 'none'}}
-                            accept="image/*"
-                            id={`imageInput${this.props.id}`}
-                            type="file"
-                            name={`imageInput${this.props.id}`}
-                            onChange={this.handleNewImage}
+          {hasValue(actualImage) && actualImage!='' && actualImage!='-' && !!readOnly ?
+            <div key={name}>
+                    <div style={{
+                        height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
+                        transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
+                            (isMobile ? 44 : 130)) / 900)})` : undefined,
+                        transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
+                    }}>
+                        <img
+                            src={actualImage}
+                            style={{
+                                maxHeight: height,
+                                height: '100%', width: '100%',
+                                maxWidth: width,
+                            }}
                         />
-                        <label htmlFor={`imageInput${this.props.id}`}>
-                            <Button
-                              variant="contained"
-                              color="default"
-                              style={compactImageStyle.selectImage}
-                              startIcon={<CameraIcon />}
-                              component="span"
-                            >
-                              {'Selecionar imagem'}
-                            </Button>
-                        </label>
+                    </div>
+            </div> : ( !!readOnly ? <div style={compactImageStyle.containerEmptyImageC}>{'Não há imagem'}</div>: null)
+          }
+
+        {!readOnly ?
+
+                <div>
+                  {!actualImage && !!image ?
+                   (
+                      <div style={{display: 'flex', flexDirection: 'column', overflow: 'hidden', width: 'auto'}}>
+                      <AvatarEditor
+                          ref={ref => {
+                              return this.editor = ref;
+                          }}
+                          scale={parseFloat(scale)}
+                          width={width}
+                          height={height}
+                          position={values.position}
+                          onPositionChange={handlePositionChange}
+                          rotate={parseFloat(values.rotate)}
+                          onSave={handleSave}
+                          onLoadFailure={logCallback(this, 'onLoadFailed')}
+                          onLoadSuccess={logCallback(this, 'onLoadSuccess')}
+                          onImageReady={handleSave}
+                          onImageLoad={logCallback(this, 'onImageLoad')}
+                          image={image}
+                          style={{position:'relative'}}
+                      />
+                      <Slider
+                          min={1}
+                          max={4}
+                          step={0.1}
+                          value={scale}
+                          onChange={handleScale}
+                          style={{padding: '10px 10px', width: width, margin: '10px 10px'}}
+                      />
+                      </div>
+                ) : null
+              }
+                    <input
+                        style={{display: 'none'}}
+                        accept="image/*"
+                        id={`imageInput${name}`}
+                        type="file"
+                        name={`imageInput${name}`}
+                        onChange={handleNewImage}
+                    />
+                    <label htmlFor={`imageInput${name}`}>
                         <Button
                           variant="contained"
                           color="default"
                           style={compactImageStyle.selectImage}
-                          startIcon={<DeleteIcon />}
-                          onClick={this.deleteImageCompact}
-                          >
-                          {'Deletar'}
+                          startIcon={<CameraIcon />}
+                          component="span"
+                        >
+                          {'Selecionar imagem'}
                         </Button>
-                      </div> : null
-            }
-            </div>
-        );
-    }
+                    </label>
+                    <Button
+                      variant="contained"
+                      color="default"
+                      style={compactImageStyle.selectImage}
+                      startIcon={<DeleteIcon />}
+                      onClick={deleteImageCompact}
+                      >
+                      {'Deletar'}
+                    </Button>
+                  </div> : null
+        }
+        </div>
+    )
 }
-
-export default withStyles(styles)(ImageCompactField);

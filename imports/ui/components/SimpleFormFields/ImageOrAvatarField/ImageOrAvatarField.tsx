@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import SyncIcon from '@material-ui/icons/Sync';
 import Divider from '@material-ui/core/Divider';
 
+import Fab from "@material-ui/core/Fab";
+
 import {imageOrAvatarStyle} from "./ImageOrAvatarFieldStyle";
 
 export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimpleFormComponent)=>{
@@ -36,28 +38,26 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
       <div key={name} style={error? imageOrAvatarStyle.containerImageOrAvatarError:imageOrAvatarStyle.containerImageOrAvatar}>
         <SimpleLabelView label={label}/>
         <div key={name} style={imageOrAvatarStyle.containerImageOrAvatarButton}>
-          <Button
-            variant="contained"
-            color="default"
-            style={imageOrAvatarStyle.selectImage}
-            startIcon={<SyncIcon />}
-            onClick={() => setImageOrAvatar(!imageOrAvatar)}
+          <div style={imageOrAvatarStyle.containerImageOrAvatarFabButton}>
+            <Fab
+              onClick={() => setImageOrAvatar(!imageOrAvatar)}
+              color={'primary'}
+              style={imageOrAvatarStyle.selectImage}
             >
-            {'Trocar'}
-          </Button>
+              <SyncIcon />
+            </Fab>
+          </div>
 
-          <Divider style={imageOrAvatarStyle.dividerImageOrAvatar} orientation="vertical" flexItem/>
-
-          <div style={imageOrAvatarStyle.subContainerImageOrAvatar}>
+          <div>
             {!!imageOrAvatar ?
               <ImageCompactField
                 label={'Imagem Zoom+Slider'}
-                name={'imageC'}
+                name={'imageToogle'}
                 onChange={onChange}
               /> :
               <AvatarGeneratorField
                 label={'Avatar'}
-                name={'avatar'}
+                name={'avatarToogle'}
                 onChange={onChange}
               />
             }

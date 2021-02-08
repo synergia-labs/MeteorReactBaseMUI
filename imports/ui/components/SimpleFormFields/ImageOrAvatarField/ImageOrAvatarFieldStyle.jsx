@@ -20,7 +20,7 @@ const imageOrAvatarStyle = {
   containerImageOrAvatar: {
     display:'flex',
     flexDirection:'column',
-    justifyContent:'center',
+    justifyContent:'left',
     marginTop:16,
     width:'100%',
     marginBottom:16,
@@ -28,18 +28,14 @@ const imageOrAvatarStyle = {
   containerImageOrAvatarButton: {
     display:'flex',
     flexDirection:'row',
-    justifyContent:'center',
-    marginTop:16,
-    width:'100%',
-    marginBottom:16,
-  },
-  subContainerImageOrAvatar: {
-    display:'flex',
-    flexDirection:'row',
     justifyContent:'left',
     marginTop:16,
     width:'100%',
     marginBottom:16,
+  },
+  containerImageOrAvatarFabButton: {
+    paddingRight:'25px',
+    paddingTop:'18px',
   },
   containerImageOrAvatarError:{
     display:'flex',
