@@ -19,8 +19,6 @@ import {isMobile} from "/imports/libs/deviceVerify";
 
 import {hasValue} from "/imports/libs/hasValue";
 
-let defaultStage;
-
 const drawCharacter = (character,charObj,layer=null,listOfObjects=null) => {
     if(!layer||!listOfObjects) {
         return;
@@ -148,21 +146,25 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
       nose:{format:'default'},
     });
 
+    const [defaultStage, setDefaultStage] = React.useState({});
     const [open, setOpen] = React.useState(false);
     const [imageData, setImageData] = React.useState(value);
-    const [listOfDefaultLayersObjects, setListOfDefaultLayersObjects] = React.useState([]);
+    //const [initAvatarBoard, setinitAvatarBoard] = React.useState(false);
     const [width, setWidth] = React.useState(150);
     const [height, setHeight] = React.useState(150);
 
+    this.listOfDefaultLayersObjects = [];
+    this.initAvatarBoard = false;
+
     const drawAvatar = () => {
         const list = Object.keys(characteres);
-        listOfDefaultLayersObjects.forEach(obj=>{
+        this.listOfDefaultLayersObjects.forEach(obj=>{
             obj.destroy();
         })
 
         list.forEach(character=>{
             if(values[character]) {
-                drawCharacter(character,values[character],this.defaultLayer,listOfDefaultLayersObjects);
+                drawCharacter(character,values[character], this.defaultLayer, this.listOfDefaultLayersObjects);
             }
         })
 
@@ -170,7 +172,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     };
 
     const deleteAvatar = () => {
-      setListOfDefaultLayersObjects([]);
+      setValues([]);
       onChange({target:{value: '-'}},{name, value: '-'});
     };
 
@@ -178,7 +180,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         const self = this;
         this.initAvatarBoard = true;
 
-        defaultStage = new Konva.Stage({
+        this.defaultStage = new Konva.Stage({
             container: 'avatarContainer',
             width: 198,
             height: 198,
@@ -192,17 +194,18 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
         // add the shape to the layer
 
-        defaultStage.add(this.defaultLayer);
+        this.defaultStage.add(this.defaultLayer);
 
         drawAvatar();
     };
 
     useEffect(() => {
+      console.log(this.initAvatarBoard);
+
       if(this.initAvatarBoard) {
           drawAvatar();
       }
     });
-
 
     const onClose = () => {
       this.initAvatarBoard = false;
@@ -211,18 +214,17 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
     const onSave = () => {
         onClose();
-        var imageD = defaultStage.toDataURL({
+        var imageD = this.defaultStage.toDataURL({
             mimeType:'image/png',
             quality:1,
-            // pixelRatio: Math.round(6/(Math.max(this.boardState.scale,1))),
             x: 0,
             y: 0,
             width: 198,
             height: 198,
         });
 
-        setImageData(values);
-        onChange({target:{value: values}},{name, value: values});
+        setImageData(imageD);
+        onChange({target:{value: imageD}},{name, value: imageD});
     }
 
     const list = [
@@ -242,7 +244,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     return (
       <div key={name}>
         <SimpleLabelView label={'Avatar'}/>
-          {hasValue(imageData) && imageData!='' && imageData!='-' ?
+          {hasValue(value) && value!='' && value!='-' ?
           <div key={'name'}>
                   <div style={{
                       height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
@@ -251,7 +253,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
                   }}>
                       <img
-                          src={imageData}
+                          src={value}
                           style={{
                               maxHeight: height,
                               height: '100%', width: '100%',
@@ -279,7 +281,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
               color="default"
               style={avatarGeneratorStyle.selectImage}
               startIcon={<DeleteIcon />}
-              onClick={()=> deleteAvatar}
+              onClick={()=> deleteAvatar()}
               >
               {'Deletar'}
             </Button>
@@ -287,7 +289,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
             <Dialog onClose={onClose}
                     aria-labelledby="Inserir Image" open={open||false}
                     style={{ minHeight: 400, minWidth: 400, overflow: 'hidden' }}
-                    onEntered={()=> initBoard}
+                    onEntered={()=> initBoard()}
             >
                 <DialogTitle id="Gerar Avatar">{'Gerar avatar'}</DialogTitle>
                       <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center', height: 600, width: 600, overflow: 'hidden'}}>
@@ -308,6 +310,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
                                       newAvatar[chr].format = formats[Math.floor(Math.random() * formats.length)];
                                       newAvatar[chr].color = colors[Math.floor(Math.random() * colors.length)];
+
                                       values[chr] = newAvatar[chr];
                                   })
                               }}
@@ -318,9 +321,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                               {list.filter(item=>['neck','nose'].indexOf(item)===-1).map(character=>{
                                   return (<div style={{borderBottom:'1px solid #808080',maxWidth:'100%',width:'100%',overflow:'hidden',minHeight:115,display:'flex',flexDirection:'row', justifyContent: 'center'}}>
                                       <div
-                                          onClick={()=>{
-                                            values[character] = {...(values[character]||{}), color:characteres[character].colors[characteres[character].colors.indexOf(values[character]?values[character].color:characteres[character].colors[0])+1]||characteres[character].colors[0]};
-                                          }}
+
+                                          onClick={()=>setValues({[character]:{...(values[character]||{}),color:characteres[character].colors[characteres[character].colors.indexOf(values[character]?values[character].color:characteres[character].colors[0])+1]||characteres[character].colors[0]}})}
                                           style={{
                                               backgroundColor:'white',
                                               width:60,display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center',color:values[character]?values[character].color:characteres[character].colors[0],
@@ -337,10 +339,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                                       </div>
                                       <div key={character} style={{display:'flex',flexDirection:'row',maxWidth:'100%',width:'100%',minHeight:115,overflowY:'hidden',overflowX:'auto'}}>
                                           <div
-                                              onClick={character==='body'?undefined:()=>{
-                                                values[character] = {format:null, color:characteres[character].colors[0]};
-                                                }
-                                              }
+
+                                            onClick={character==='body'?undefined:()=>setValues({[character]:{format:null,color:characteres[character].colors[0]}})}
                                               style={{
                                                   backgroundColor:character!=='body'&&(!values[character]||!values[character].format)?'#ffe691':'#FFFFFF',
                                                   maxWidth:100,minWidth:100,display:'flex',flexDirection:'row',justifyContent:'center',alignItems:'center',color:'#808080'}}>
@@ -349,12 +349,9 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                                           {Object.keys(characteres[character].formats).map(format=>{
                                               return (<div
                                                   key={format}
-                                                  onClick={()=>
-                                                    {
-                                                      values[character] = {format,color:values[character]&&values[character].color?values[character].color:characteres[character].colors[0]};
-                                                    }
-                                                  }
-                                                  style={{
+
+                                                  onClick={()=>setValues({[character]:{format,color:values[character]&&values[character].color?values[character].color:characteres[character].colors[0]}})}
+                                                   style={{
                                                       backgroundColor:values[character]&&values[character].format===format?'#ffe691':'#FFFFFF',
                                                       height:100,width:100}}>
                                                   <CharView key={character+format} name={character+format} character={character} charData={{format,color:values[character]&&values[character].color?values[character].color:characteres[character].colors[0]}} />
@@ -365,10 +362,10 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                               })}
                           </div>
                   <DialogActions>
-                    <Button autoFocus onClick={onClose} variant={"outlined"} color={"#74B9FF"} style={{borderColor: '#74B9FF', color: '#74B9FF'}}>
+                    <Button autoFocus onClick={() => onClose()} variant={"outlined"} color={"#74B9FF"} style={{borderColor: '#74B9FF', color: '#74B9FF'}}>
                         {'Fechar'}
                     </Button>
-                    <Button onClick={onSave}  variant={"contained"} color={"#74B9FF"} style={{borderColor: '#74B9FF', backgroundColor: '#74B9FF', color: 'white'}}>
+                    <Button onClick={() => onSave()}  variant={"contained"} color={"#74B9FF"} style={{borderColor: '#74B9FF', backgroundColor: '#74B9FF', color: 'white'}}>
                         {'Salvar'}
                     </Button>
                 </DialogActions>

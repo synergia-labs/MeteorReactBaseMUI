@@ -64,10 +64,6 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                   name={'imageC'}
                 />
 
-                <ImageOrAvatar
-                  label={'Imagem Or Avatar'}
-                />
-
                 <FormGroup key={'fieldsOne'}>
                     <TextField
                         placeholder='Titulo'
