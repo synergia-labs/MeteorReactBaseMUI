@@ -161,8 +161,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         })
 
         list.forEach(character=>{
-            if(values.character) {
-                drawCharacter(character,values.character,this.defaultLayer,listOfDefaultLayersObjects);
+            if(values[character]) {
+                drawCharacter(character,values[character],this.defaultLayer,listOfDefaultLayersObjects);
             }
         })
 
@@ -221,8 +221,8 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
             height: 198,
         });
 
-        setImageData(imageD);
-        onChange({target:{value: imageData}},{name, value: imageData});
+        setImageData(values);
+        onChange({target:{value: values}},{name, value: values});
     }
 
     const list = [
@@ -308,29 +308,28 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
                                       newAvatar[chr].format = formats[Math.floor(Math.random() * formats.length)];
                                       newAvatar[chr].color = colors[Math.floor(Math.random() * colors.length)];
+                                      values[chr] = newAvatar[chr];
                                   })
-                                  setImageData(newAvatar);
                               }}
                           >{'Aleatório'}
                           </Button>
 
                           <div key={'Lista'} style={{flex:1,minWidth:580,width:580,maxHeight:580,height:580,overflowY:'auto',overflowX:'hidden',display:'flex',flexDirection:'column', paddingTop:'25px'}}>
                               {list.filter(item=>['neck','nose'].indexOf(item)===-1).map(character=>{
-                                console.log("values[character]: ", characteres[character], character);
                                   return (<div style={{borderBottom:'1px solid #808080',maxWidth:'100%',width:'100%',overflow:'hidden',minHeight:115,display:'flex',flexDirection:'row', justifyContent: 'center'}}>
                                       <div
                                           onClick={()=>{
-                                            setValues({[character]:{...(values.character||{}),color:characteres[character].colors[characteres[character].colors.indexOf(values.character?values.character.color:characteres[character].colors[0])+1]||characteres[character].colors[0]}});
+                                            values[character] = {...(values[character]||{}), color:characteres[character].colors[characteres[character].colors.indexOf(values[character]?values[character].color:characteres[character].colors[0])+1]||characteres[character].colors[0]};
                                           }}
                                           style={{
                                               backgroundColor:'white',
-                                              width:60,display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center',color:values.character?values.character.color:characteres[character].colors[0],
-                                              border:'3px solid', textAlign: 'center', fontSize: '11px', fontWeight: '600', fontFamily: 'Work Sans', borderColor: values.character?values.character.color:characteres[character].colors[0],
+                                              width:60,display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center',color:values[character]?values[character].color:characteres[character].colors[0],
+                                              border:'3px solid', textAlign: 'center', fontSize: '11px', fontWeight: '600', fontFamily: 'Work Sans', borderColor: values[character]?values[character].color:characteres[character].colors[0],
                                               paddingTop: '20px',
                                           }}>
                                           {'TROCAR COR'}
                                           <div style={{
-                                              backgroundColor:values.character?values.character.color:characteres[character].colors[0],
+                                              backgroundColor:values[character]?values[character].color:characteres[character].colors[0],
                                               height: '42px',
                                               width: '100%',
                                             }}
@@ -338,28 +337,34 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                                       </div>
                                       <div key={character} style={{display:'flex',flexDirection:'row',maxWidth:'100%',width:'100%',minHeight:115,overflowY:'hidden',overflowX:'auto'}}>
                                           <div
-                                              onClick={character==='body'?undefined:()=>setValues({[character]:{format:null,color:characteres[character].colors[0]}})}
+                                              onClick={character==='body'?undefined:()=>{
+                                                values[character] = {format:null, color:characteres[character].colors[0]};
+                                                }
+                                              }
                                               style={{
-                                                  backgroundColor:character!=='body'&&(!values.character||!values.character.format)?'#ffe691':'#FFFFFF',
+                                                  backgroundColor:character!=='body'&&(!values[character]||!values[character].format)?'#ffe691':'#FFFFFF',
                                                   maxWidth:100,minWidth:100,display:'flex',flexDirection:'row',justifyContent:'center',alignItems:'center',color:'#808080'}}>
                                               {character==='body'?'':'NENHUM'}
                                           </div>
                                           {Object.keys(characteres[character].formats).map(format=>{
                                               return (<div
                                                   key={format}
-                                                  onClick={()=>setValues({[character]:{format,color:values.character&&values.character.color?values.character.color:characteres[character].colors[0]}})}
+                                                  onClick={()=>
+                                                    {
+                                                      values[character] = {format,color:values[character]&&values[character].color?values[character].color:characteres[character].colors[0]};
+                                                    }
+                                                  }
                                                   style={{
-                                                      backgroundColor:values.character&&values.character.format===format?'#ffe691':'#FFFFFF',
+                                                      backgroundColor:values[character]&&values[character].format===format?'#ffe691':'#FFFFFF',
                                                       height:100,width:100}}>
-                                                  <CharView key={character+format} name={character+format} character={character} charData={{format,color:values.character&&values.character.color?values.character.color:characteres[character].colors[0]}} />
+                                                  <CharView key={character+format} name={character+format} character={character} charData={{format,color:values[character]&&values[character].color?values[character].color:characteres[character].colors[0]}} />
                                               </div>)
                                           })}
                                       </div>
                                   </div>)
                               })}
                           </div>
-                      </div>
-                <DialogActions>
+                  <DialogActions>
                     <Button autoFocus onClick={onClose} variant={"outlined"} color={"#74B9FF"} style={{borderColor: '#74B9FF', color: '#74B9FF'}}>
                         {'Fechar'}
                     </Button>
@@ -367,6 +372,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                         {'Salvar'}
                     </Button>
                 </DialogActions>
+                </div>
             </Dialog>
         </div>: null}
       </div>
