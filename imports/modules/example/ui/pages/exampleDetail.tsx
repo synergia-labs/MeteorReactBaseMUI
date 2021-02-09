@@ -25,8 +25,6 @@ import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatar
 import Typography from '@material-ui/core/Typography';
 import * as appStyles from "/imports/materialui/styles";
 
-// import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
-
 interface IExampleDetail {
     screenState: string;
     loading: boolean;

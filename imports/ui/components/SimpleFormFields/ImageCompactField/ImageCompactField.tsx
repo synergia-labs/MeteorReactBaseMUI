@@ -26,7 +26,6 @@ import {compactImageStyle} from "./ImageCompactFieldStyle";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent) => {
 
     const [values, setValues] = React.useState({
