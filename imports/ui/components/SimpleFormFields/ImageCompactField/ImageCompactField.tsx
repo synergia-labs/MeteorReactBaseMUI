@@ -110,7 +110,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
       <div key={name} style={compactImageStyle.containerImage}>
           <SimpleLabelView label={label}/>
 
-          {hasValue(actualImage) && actualImage!='' && actualImage!='-' && !!readOnly ?
+          {hasValue(value) && value!='' && value!='-' && !!readOnly ?
             <div key={name}>
                     <div style={{
                         height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
@@ -119,7 +119,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                         transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
                     }}>
                         <img
-                            src={actualImage}
+                            src={value}
                             style={{
                                 maxHeight: height,
                                 height: '100%', width: '100%',

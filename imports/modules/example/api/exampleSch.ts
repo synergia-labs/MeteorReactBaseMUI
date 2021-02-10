@@ -20,16 +20,9 @@ export const exampleSch = {
     optional: true,
     isImage: true,
   },
-  imageToogle: {
+  imageOrAvatar: {
     type: String,
-    label: 'Imagem Comp',
-    defaultValue: '',
-    optional: true,
-    isImage: true,
-  },
-  avatarToogle: {
-    type: String,
-    label: 'Avatar',
+    label: 'Image or Avatar',
     defaultValue: '',
     optional: true,
     isImage: true,
@@ -39,7 +32,6 @@ export const exampleSch = {
     label: 'Título',
     defaultValue: '',
     optional: false,
-
   },
   description: {
     type: String,

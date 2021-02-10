@@ -24,6 +24,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
 
   const deleteAudio = () => {
       onChange({target:{value: '-'}},{name,value: '-'})
+
       setValues({
         ...values,
         ['recordButton']: true, ['stopButton']: false, ['audioButton']: false , ['deleteButton']: false

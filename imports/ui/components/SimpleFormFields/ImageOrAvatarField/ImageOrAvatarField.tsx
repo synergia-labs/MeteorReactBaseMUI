@@ -17,18 +17,25 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
   const [imageOrAvatar, setImageOrAvatar] = React.useState(0);
 
     if(!!readOnly) {
-        return (<div key={name}>
-          <SimpleLabelView label={label}/>
+        return (<div key={name} style={imageOrAvatarStyle.containerImageOrAvatar}>
           {!!imageOrAvatar ?
             <ImageCompactField
               label={'Imagem Zoom+Slider'}
-              name={'imageC'}
+              name={'imageOrAvatar'}
+              readOnly={readOnly}
+              error={error}
+              value={value}
               onChange={onChange}
+              otherProps={otherProps}
             /> :
             <AvatarGeneratorField
               label={'Avatar'}
-              name={'avatar'}
+              name={'imageOrAvatar'}
+              readOnly={readOnly}
+              error={error}
+              value={value}
               onChange={onChange}
+              otherProps={otherProps}
             />
           }
         </div>)
@@ -36,8 +43,29 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
 
     return (
       <div key={name} style={error? imageOrAvatarStyle.containerImageOrAvatarError:imageOrAvatarStyle.containerImageOrAvatar}>
-        <SimpleLabelView label={label}/>
         <div key={name} style={imageOrAvatarStyle.containerImageOrAvatarButton}>
+          <div>
+            {!!imageOrAvatar ?
+              <ImageCompactField
+                label={'Imagem Zoom+Slider'}
+                name={'imageOrAvatar'}
+                readOnly={readOnly}
+                error={error}
+                value={value}
+                onChange={onChange}
+                otherProps={otherProps}
+              /> :
+              <AvatarGeneratorField
+                label={'Avatar'}
+                name={'imageOrAvatar'}
+                readOnly={readOnly}
+                error={error}
+                value={value}
+                onChange={onChange}
+                otherProps={otherProps}
+              />
+            }
+          </div>
           <div style={imageOrAvatarStyle.containerImageOrAvatarFabButton}>
             <Fab
               onClick={() => setImageOrAvatar(!imageOrAvatar)}
@@ -46,21 +74,6 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
             >
               <SyncIcon />
             </Fab>
-          </div>
-
-          <div>
-            {!!imageOrAvatar ?
-              <ImageCompactField
-                label={'Imagem Zoom+Slider'}
-                name={'imageToogle'}
-                onChange={onChange}
-              /> :
-              <AvatarGeneratorField
-                label={'Avatar'}
-                name={'avatarToogle'}
-                onChange={onChange}
-              />
-            }
           </div>
         </div>
       </div>
