@@ -1,18 +1,18 @@
 [
   {
-    "description": "  Validando login e logout de usuário",
+    "description": "  Validando signin de usuário",
     "keyword": "Feature",
-    "name": "Módulo de Login e Logout",
+    "name": "Módulo de SignIn",
     "line": 1,
-    "id": "módulo-de-login-e-logout",
+    "id": "módulo-de-signin",
     "tags": [],
-    "uri": "login.feature",
+    "uri": "signin.feature",
     "elements": [
       {
-        "id": "módulo-de-login-e-logout;fazendo-login/logout",
+        "id": "módulo-de-signin;fazendo-signin",
         "keyword": "Scenario",
         "line": 5,
-        "name": "Fazendo login/logout",
+        "name": "Fazendo signIn",
         "tags": [],
         "type": "scenario",
         "steps": [
@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 3894000000
+              "duration": 3567000000
             }
           }
         ]

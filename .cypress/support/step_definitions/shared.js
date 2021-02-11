@@ -5,7 +5,11 @@ import { Given,When,Then } from "cypress-cucumber-preprocessor/steps";
 import {basicCommands} from '../basicCommands'
 
 Given(`acessei o sistema com o usuário {string} e senha {string}`, (login,password) => {
-  basicCommands.access.login(login,password);
+  basicCommands.access.signIn(login,password);
+})
+
+Given(`acessei o sistema`, () => {
+  basicCommands.access.signUp();
 })
 
 // Given(`acessei o endereço {endereco} com o usuário {string} e senha {string}`, (endereco,login,password) => {
@@ -16,7 +20,6 @@ Given(`acessei o sistema com o usuário {string} e senha {string}`, (login,passw
 When(`abri o drawer`, () => {
   basicCommands.navigation.openDrawer();
 })
-
 
 When('cliquei em {string}', (name) => {
   basicCommands.components.button.click(name);
@@ -38,7 +41,7 @@ When('preenchi o campo {string} com o valor {string}', (name,value) => {
   basicCommands.components.anyField.typeValue(name,value);
 })
 
-And('exibição do campo {string} possui o valor {string}', (name,value) => {
+When('exibição do campo {string} possui o valor {string}', (name,value) => {
   basicCommands.components.anyField.typeValue(name,value);
 })
 
@@ -106,8 +109,6 @@ When('cliquei em {string} referente à {string} de valor {string}', (name,entida
 When('cliquei em {string} referente ao {string} {string}', (name,entidade,text) => {
   basicCommands.table.clickButtonOnLineThatContains(name,text);
 })
-
-
 
 Then(`foi exibida a mensagem {string}`, (message) => {
   basicCommands.notification.verifyMessage(message);

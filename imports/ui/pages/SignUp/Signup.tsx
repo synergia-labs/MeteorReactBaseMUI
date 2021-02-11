@@ -13,6 +13,8 @@ import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
 import {signupStyle} from "./SignupStyle";
 
+import Alert from '@material-ui/lab/Alert';
+
 export default class Signup extends React.Component {
   constructor(props) {
     super(props)
@@ -50,6 +52,7 @@ export default class Signup extends React.Component {
           </h2>
             <SimpleForm onSubmit={this.handleSubmit}>
                 <TextField
+                  id="Email"
                   label="Email"
                   fullWidth
                   name="email"
@@ -58,6 +61,7 @@ export default class Signup extends React.Component {
                   onChange={this.handleChange}
                 />
                 <TextField
+                  id="Senha"
                   label="Senha"
                   fullWidth
                   name="password"
@@ -73,7 +77,9 @@ export default class Signup extends React.Component {
             <div style={signupStyle.containerRouterSignIn}>
               Já tem uma conta? Faça login clicando <Link to="/signin" color={'secondary'}>aqui</Link>
             </div>
-            {error === '' ? '' : <Message error header="Erro ao fazer registro!" content={error} />}
+            {error === '' ? '' :
+              <Alert id={'message-id'} severity="error">{'Erro ao fazer registro!'}</Alert>
+            }
       </Container>
     )
   }

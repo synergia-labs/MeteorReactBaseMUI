@@ -37,9 +37,6 @@ const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close})
                 <FormGroup>
                     <TextField
                         placeholder='Nome do Usuário'
-                        aria-label="UserName"
-                        label="UserName"
-                        id="UserName"
                         name='username'
                     />
                     <TextField

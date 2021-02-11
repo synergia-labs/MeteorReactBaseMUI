@@ -153,7 +153,7 @@ export default class Signin extends React.Component {
               </div>
             </SimpleForm>
             <div style={signinStyle.containerRouterSignUp}>
-              <Button color={'secondary'} onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
+              <Button id='newUser' color={'secondary'} onClick={()=>this.props.history.push('/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
             </div>
             <div key="loginoptions" style={{
               paddingRight: 5,

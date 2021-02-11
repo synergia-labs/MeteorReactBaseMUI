@@ -1,7 +1,7 @@
 class BasicCommands {
 
   access = {
-    login: (login, password) => {
+    signIn: (login, password) => {
       cy.clearCookies();
       cy.visit('/signin')
       cy.wait(500);
@@ -12,6 +12,15 @@ class BasicCommands {
       cy.get('#btnEnter').click();
       cy.wait(500);
     },
+    signUp: (login, password) => {
+      cy.clearCookies();
+      cy.visit('/signin')
+      cy.wait(500);
+      this.utils.isVisible('#email');
+      this.utils.isVisible('#password');
+      cy.wait(500);
+    },
+
   };
 
   navigation = {
@@ -61,6 +70,12 @@ class BasicCommands {
             if ($element.is(`input[type="text"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
             } else if ($element.is(`input[type="number"]`)) {
+              this.components.textfield.type(cy.wrap($element).first(), value);
+            }
+            else if ($element.is(`input[type="email"]`)) {
+              this.components.textfield.type(cy.wrap($element).first(), value);
+            }
+            else if ($element.is(`input[type="password"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
             } else {
               this.components.select.select(cy.wrap($element).first(), value);
