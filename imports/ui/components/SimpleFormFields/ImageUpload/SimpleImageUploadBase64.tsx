@@ -12,9 +12,7 @@ import {simpleImageStyle} from "./SimpleImageUploadBase64Style";
 
 import _ from 'lodash'
 
-export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimpleFormComponent)=>{
-
-    const[valueImage, setValueImage] = useState(value);
+export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseSimpleFormComponent)=>{
 
     const onFileSelect=(fileData:any)=>{
         let imgValue;
@@ -24,7 +22,6 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
             } else {
                 imgValue = fileData.base64;
             }
-            setValueImage(imgValue);
             onChange({target:{value: imgValue}},{name, value: imgValue});
         }
     }
@@ -32,7 +29,7 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
     if(!!readOnly) {
         return (<div key={name} style={simpleImageStyle.containerImage}>
             <SimpleLabelView label={label}/>
-            <Avatar src={valueImage} size="big" style={simpleImageStyle.containerShowImage} />
+            <Avatar src={value} size="big" style={simpleImageStyle.containerShowImage} />
            {/*} <img src={value} style={simpleImageStyle.containerShowImage}/>{*/}
         </div>)
     }
@@ -41,7 +38,7 @@ export default ({name,label,value,onChange,readOnly,error, otherProps}:IBaseSimp
       <div>
             <SimpleLabelView label={label}/>
               <FileInputComponent
-                  defaultFiles={hasValue(valueImage) && valueImage!='' && valueImage!='-'? [valueImage]:undefined}
+                  defaultFiles={hasValue(value) && value!='' && value!='-'? [value]:undefined}
                   labelText={""}
                   name={name}
                   parentStyle={{border: error? '1px solid red':undefined}}

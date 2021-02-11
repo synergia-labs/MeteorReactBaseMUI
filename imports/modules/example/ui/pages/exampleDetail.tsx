@@ -17,10 +17,10 @@ import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
-import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatarField/ImageOrAvatarField';
+import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
+import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 
-import AvatarGeneratorField from "/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField";
-import ImageCompactField from "/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField";
+import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatarField/ImageOrAvatarField';
 
 import Typography from '@material-ui/core/Typography';
 import * as appStyles from "/imports/materialui/styles";
@@ -54,14 +54,19 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                     name={'image'}
                 />
 
+                <AvatarGeneratorField
+                  label={'Avatar'}
+                  name={'avatar'}
+                />
+
                 <ImageCompactField
                   label={'Imagem Zoom+Slider'}
                   name={'imageC'}
                 />
 
-                <AvatarGeneratorField
-                  label={'Avatar'}
-                  name={'avatar'}
+                <ImageOrAvatar
+                  label={'Imagem ou Avatar'}
+                  name={'imageOrAvatar'}
                 />
 
                 <FormGroup key={'fieldsOne'}>

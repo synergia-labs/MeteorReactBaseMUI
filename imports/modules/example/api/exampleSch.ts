@@ -18,11 +18,11 @@ export const exampleSch = {
     label: 'Avatar',
     defaultValue: '',
     optional: true,
-    isImage: true,
+    isAvatar: true,
   },
   imageOrAvatar: {
     type: String,
-    label: 'Image or Avatar',
+    label: 'Imagem ou Avatar',
     defaultValue: '',
     optional: true,
     isImage: true,
@@ -32,6 +32,7 @@ export const exampleSch = {
     label: 'Título',
     defaultValue: '',
     optional: false,
+
   },
   description: {
     type: String,

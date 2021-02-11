@@ -26,7 +26,7 @@ import {compactImageStyle} from "./ImageCompactFieldStyle";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent) => {
+export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseSimpleFormComponent) => {
 
     const [values, setValues] = React.useState({
       allowZoomOut: false,
@@ -78,7 +78,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     const deleteImageCompact = () => {
       setImage(null);
       setInputImage('');
-
       onChange({target:{value: '-'}},{name, value: '-'});
     }
 
@@ -133,7 +132,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         {!readOnly ?
 
                 <div>
-                  {!actualImage && !!image ?
+                  {!value && !!image ?
                    (
                       <div style={{display: 'flex', flexDirection: 'column', overflow: 'hidden', width: 'auto'}}>
                       <AvatarEditor
