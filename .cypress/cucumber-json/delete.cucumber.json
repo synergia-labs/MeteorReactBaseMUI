@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 4541000000
+              "duration": 3907000000
             }
           },
           {
@@ -33,18 +33,17 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 723000000
+              "duration": 748000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 8,
-            "name": "cliquei em \"callRemove\"",
+            "name": "cliquei em \"delete\"",
             "result": {
-              "status": "failed",
-              "duration": 4097000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"callRemove\") or contains(@label, \"callRemove\") or contains(@aria-label, \"callRemove\") or contains(@id, \"callRemove\")]`, but never found it.\n    + expected - actual\n\n\n    click@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\delete.feature:93:14\n    [3]</<@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\delete.feature:224:50\n    resolveAndRunStepDefinition@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\delete.feature:12129:29\n    stepTest/<@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\delete.feature:11474:35\n    getRet@http://localhost:3000/__cypress/runner/cypress_runner.js:154280:20\n    tryCatcher@http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23\n    ../../node_modules/bluebird/js/release/method.js/module.exports/Promise.try@http://localhost:3000/__cypress/runner/cypress_runner.js:7230:29\n    thenFn@http://localhost:3000/__cypress/runner/cypress_runner.js:154298:20\n    then@http://localhost:3000/__cypress/runner/cypress_runner.js:154738:21\n    wrapByType/<@http://localhost:3000/__cypress/runner/cypress_runner.js:168170:21\n    runCommand/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\n    tryCatcher@http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@http://localhost:3000/__cypress/runner/cypress_runner.js:7891:31\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@http://localhost:3000/__cypress/runner/cypress_runner.js:7948:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseCtx@http://localhost:3000/__cypress/runner/cypress_runner.js:7985:10\n    _drainQueueStep@http://localhost:3000/__cypress/runner/cypress_runner.js:4667:12\n    _drainQueue@http://localhost:3000/__cypress/runner/cypress_runner.js:4656:24\n    ../../node_modules/bluebird/js/release/async.js/</Async.prototype._drainQueues@http://localhost:3000/__cypress/runner/cypress_runner.js:4672:16\n    Async/this.drainQueues@http://localhost:3000/__cypress/runner/cypress_runner.js:4542:14\n"
+              "status": "passed",
+              "duration": 656000000
             }
           },
           {
@@ -53,7 +52,18 @@
             "line": 9,
             "name": "acionei o comando \"Sim\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 767000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "foi exibida a mensagem \"O exemplo foi removido com sucesso!\"",
+            "result": {
+              "status": "passed",
+              "duration": 67000000
             }
           }
         ]

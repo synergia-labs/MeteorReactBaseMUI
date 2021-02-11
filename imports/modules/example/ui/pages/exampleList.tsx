@@ -99,7 +99,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 schema={_.pick(exampleApi.schema,['image','title','description','date','statusToggle','chip','type'])}
                 data={examples}
                 onClick={onClick}
-                actions={[{icon:<Delete color={'primary'} />,onClick:callRemove}]}
+                actions={[{icon:<Delete color={'primary'} />, id: "delete", onClick:callRemove}]}
             />
             <div style={appStyles.fabContainer}>
                 <Fab

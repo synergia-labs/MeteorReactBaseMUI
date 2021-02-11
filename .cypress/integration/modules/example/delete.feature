@@ -5,5 +5,6 @@ Feature: Módulo de exemplo 2
   Scenario: Criando tarefa
     Given acessei o sistema com o usuário "admin@mrb.com" e senha "admin@mrb.com"
     When cliquei em "Exemplos"
-    And cliquei em "callRemove"
+    And cliquei em "delete"
     And acionei o comando "Sim"
+    Then foi exibida a mensagem "O exemplo foi removido com sucesso!"

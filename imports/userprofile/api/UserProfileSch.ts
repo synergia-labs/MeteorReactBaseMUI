@@ -8,7 +8,7 @@ export const userProfileSch = {
   },
   username: {
     type: String,
-    label: 'User Name',
+    label: 'UserName',
     defaultValue: '',
     optional: true,
 

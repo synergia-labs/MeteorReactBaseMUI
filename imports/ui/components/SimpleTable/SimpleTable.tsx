@@ -105,7 +105,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                             {actions?(
                                 <TableCell style={simpleTableStyle.tableCell}>
                                     {actions.map(act=>(
-                                        <Button key={act.icon+act.text} onClick={(evt)=>{
+                                        <Button id={act.id} key={act.icon+act.text} onClick={(evt)=>{
                                             evt.preventDefault();
                                             evt.stopPropagation();
                                             act.onClick(row)}
