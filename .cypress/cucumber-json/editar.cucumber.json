@@ -1,0 +1,116 @@
+[
+  {
+    "description": "  Validando edição de conteúdo",
+    "keyword": "Feature",
+    "name": "Módulo de editar",
+    "line": 1,
+    "id": "módulo-de-editar",
+    "tags": [],
+    "uri": "editar.feature",
+    "elements": [
+      {
+        "id": "módulo-de-editar;editando-exemplo",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Editando exemplo",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 2710000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "cliquei em \"Exemplos\"",
+            "result": {
+              "status": "failed",
+              "duration": 448000000,
+              "error_message": "TypeError: specWindow.Error is not a constructor\n    at $Cy.cy.<computed> [as then] (http://localhost:3000/__cypress/runner/cypress_runner.js:168175:77)\n    at Context.runnable.fn (http://localhost:3000/__cypress/runner/cypress_runner.js:168439:21)\n    at callFn (http://localhost:3000/__cypress/runner/cypress_runner.js:103425:21)\n    at Hook.../driver/node_modules/mocha/lib/runnable.js.Runnable.run (http://localhost:3000/__cypress/runner/cypress_runner.js:103412:7)\n    at http://localhost:3000/__cypress/runner/cypress_runner.js:173679:28\n    at PassThroughHandlerContext.finallyHandler (http://localhost:3000/__cypress/runner/cypress_runner.js:6510:23)\n    at PassThroughHandlerContext.tryCatcher (http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23)\n    at Promise._settlePromiseFromHandler (http://localhost:3000/__cypress/runner/cypress_runner.js:7891:31)\n    at Promise._settlePromise (http://localhost:3000/__cypress/runner/cypress_runner.js:7948:18)\n    at Promise._settlePromise0 (http://localhost:3000/__cypress/runner/cypress_runner.js:7993:10)\n    at Promise._settlePromises (http://localhost:3000/__cypress/runner/cypress_runner.js:8073:18)\n    at http://localhost:3000/__cypress/runner/cypress_runner.js:4648:25"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "cliquei em \"fox\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "cliquei em \"Editar\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "preenchi o campo \"Título\" com o valor \"Texto do Título novo\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição novo\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "acionei o comando \"Salvar\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "foi exibida a mensagem \"O exemplo foi atualizado com sucesso!\"",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
