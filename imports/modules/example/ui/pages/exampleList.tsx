@@ -41,7 +41,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     const callRemove=(doc)=>{
         const dialogOptions = {
-            icon:<Delete />,
+            icon:<Delete/>,
             title:'Remover exemplo',
             content:()=><p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
             actions:({closeDialog})=>[
