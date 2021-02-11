@@ -110,15 +110,17 @@ const AppNavBar = ({ user,history,showDrawer,showWindow,theme,location }) => {
                                 }
                             </Tabs>
                         </div>
-                        <IconButton
+                        <Button
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleMenu}
                             color="inherit"
+                            id="Perfil"
+                            label="Perfil"
                         >
-                            <AccountCircle style={appNavBarStyle.accountCircle}/>
-                        </IconButton>
+                            <AccountCircle id="Perfil" name="Perfil" style={appNavBarStyle.accountCircle}/>
+                        </Button>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorEl}

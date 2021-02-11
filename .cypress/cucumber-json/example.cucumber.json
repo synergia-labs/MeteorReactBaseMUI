@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 8075000000
+              "duration": 17217000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 719000000
+              "duration": 698000000
             }
           },
           {
@@ -42,9 +42,8 @@
             "line": 8,
             "name": "cliquei em \"add\"",
             "result": {
-              "status": "failed",
-              "duration": 4049000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"add\") or contains(@label, \"add\") or contains(@aria-label, \"add\") or contains(@id, \"add\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:12132:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:11474:35)"
+              "status": "passed",
+              "duration": 772000000
             }
           },
           {
@@ -53,7 +52,8 @@
             "line": 9,
             "name": "preenchi o campo \"Título\" com o valor \"Texto do Título\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 853000000
             }
           },
           {
@@ -62,7 +62,8 @@
             "line": 10,
             "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 910000000
             }
           },
           {
@@ -71,7 +72,8 @@
             "line": 11,
             "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 668000000
             }
           },
           {
@@ -80,7 +82,8 @@
             "line": 12,
             "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 704000000
             }
           },
           {
@@ -89,7 +92,8 @@
             "line": 13,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 743000000
             }
           },
           {
@@ -98,7 +102,8 @@
             "line": 14,
             "name": "foi exibida a mensagem \"O exemplo foi cadastrado com sucesso!\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 95000000
             }
           }
         ]

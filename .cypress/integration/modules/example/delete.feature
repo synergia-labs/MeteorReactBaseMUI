@@ -7,4 +7,3 @@ Feature: Módulo de exemplo 2
     When cliquei em "Exemplos"
     And cliquei em "delete"
     And acionei o comando "Sim"
-    Then foi exibida a mensagem "O exemplo foi deletado com sucesso!"
