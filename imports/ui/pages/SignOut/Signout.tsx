@@ -12,7 +12,7 @@ const Signout = () => {
   return (
       <Container style={signoutStyle.containerSignOut}>
         <h2 style={signoutStyle.labelExitSystem}>
-          <img src="/images/wireframe/logo.png" style={signoutSyle.imageLogo} />
+          <img src="/images/wireframe/logo.png" style={signoutStyle.imageLogo} />
           <p>{'Volte sempre!!!'}</p>
         </h2>
       </Container>

@@ -6,4 +6,3 @@ export default {
   userprofileMenuItemList,
   userprofileRouterList,
 };
-
