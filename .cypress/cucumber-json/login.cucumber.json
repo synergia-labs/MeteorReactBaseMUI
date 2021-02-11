@@ -23,27 +23,18 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 4217000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 7,
-            "name": "cliquei em \"Perfil\"",
-            "result": {
-              "status": "failed",
-              "duration": 4035000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"Perfil\") or contains(@label, \"Perfil\") or contains(@aria-label, \"Perfil\") or contains(@id, \"Perfil\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:12132:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:11474:35)"
+              "duration": 6418000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 8,
-            "name": "cliquei em \"Sair\"",
+            "line": 7,
+            "name": "cliquei em \"accountCircle\"",
             "result": {
-              "status": "skipped"
+              "status": "failed",
+              "duration": 4077000000,
+              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"accountCircle\") or contains(@label, \"accountCircle\") or contains(@aria-label, \"accountCircle\") or contains(@id, \"accountCircle\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:12132:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:11474:35)"
             }
           }
         ]

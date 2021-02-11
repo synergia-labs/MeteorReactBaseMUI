@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 2879000000
+              "duration": 4291000000
             }
           },
           {
@@ -33,18 +33,18 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 937000000
+              "duration": 769000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 8,
-            "name": "cliquei em \"callRemove\"",
+            "name": "cliquei em \"delete\"",
             "result": {
               "status": "failed",
-              "duration": 4063000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"callRemove\") or contains(@label, \"callRemove\") or contains(@aria-label, \"callRemove\") or contains(@id, \"callRemove\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\apagar.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\apagar.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\apagar.feature:12132:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\apagar.feature:11474:35)"
+              "duration": 4015000000,
+              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"delete\") or contains(@label, \"delete\") or contains(@aria-label, \"delete\") or contains(@id, \"delete\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\apagar.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\apagar.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\apagar.feature:12132:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\apagar.feature:11474:35)"
             }
           },
           {
