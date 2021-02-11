@@ -7,10 +7,8 @@ Feature: Módulo de exemplo
     When cliquei em "Exemplos"
     And cliquei em "add"
     And preenchi o campo "Título" com o valor "Texto do Título"
-    And preenchi o campo "Descrição" com o valor "Testo da Descrição"
+    And preenchi o campo "Descrição" com o valor "Texto da Descrição"
     And preenchi o campo "Telefone" com o valor "31988883333"
     And preenchi o campo "CPF" com o valor "06543223456"
     And acionei o comando "Salvar"
     Then foi exibida a mensagem "O exemplo foi cadastrado com sucesso!"
-
-
