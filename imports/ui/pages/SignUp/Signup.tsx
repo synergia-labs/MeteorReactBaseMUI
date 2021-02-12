@@ -32,9 +32,17 @@ export default class Signup extends React.Component {
 
     userprofileApi.insertNewUser({ email, username: email, password },(err,r) => {
       if (err) {
-        this.setState({ error: err.reason })
+          this.props.showSnackBar({
+            type:'error',
+            title:'Problema na criação do usuário!',
+            description: 'Erro ao fazer registro em nossa base de dados!',
+          });
       } else {
-        console.log('Cadastrado com sucesso');
+        this.props.showSnackBar({
+          type:'sucess',
+          title:'Cadastrado com sucesso!',
+          description: 'Registro de usuário realizado em nossa base de dados!',
+        });
       }
     })
 
@@ -50,6 +58,7 @@ export default class Signup extends React.Component {
           </h2>
             <SimpleForm onSubmit={this.handleSubmit}>
                 <TextField
+                  id="Email"
                   label="Email"
                   fullWidth
                   name="email"
@@ -58,6 +67,7 @@ export default class Signup extends React.Component {
                   onChange={this.handleChange}
                 />
                 <TextField
+                  id="Senha"
                   label="Senha"
                   fullWidth
                   name="password"
@@ -73,7 +83,6 @@ export default class Signup extends React.Component {
             <div style={signupStyle.containerRouterSignIn}>
               Já tem uma conta? Faça login clicando <Link to="/signin" color={'secondary'}>aqui</Link>
             </div>
-            {error === '' ? '' : <Message error header="Erro ao fazer registro!" content={error} />}
       </Container>
     )
   }

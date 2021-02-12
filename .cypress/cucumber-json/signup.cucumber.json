@@ -1,0 +1,83 @@
+[
+  {
+    "description": "  Validando signup de usuário",
+    "keyword": "Feature",
+    "name": "Módulo de SignUp",
+    "line": 1,
+    "id": "módulo-de-signup",
+    "tags": [],
+    "uri": "signup.feature",
+    "elements": [
+      {
+        "id": "módulo-de-signup;fazendo-signup",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Fazendo signUp",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "acessei o sistema",
+            "result": {
+              "status": "passed",
+              "duration": 5333000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "cliquei em \"É novo por aqui? Clique aqui para se cadastrar!\"",
+            "result": {
+              "status": "passed",
+              "duration": 2646000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "preenchi o campo \"Email\" com o valor \"admin@mrb.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 5244000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "preenchi o campo \"Senha\" com o valor \"admin@mrb.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 5023000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "acionei o comando \"Cadastrar\"",
+            "result": {
+              "status": "passed",
+              "duration": 2587000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "foi exibida a mensagem \"Problema na criação do usuário!Erro ao fazer registro em nossa base de dados!\"",
+            "result": {
+              "status": "passed",
+              "duration": 1242000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

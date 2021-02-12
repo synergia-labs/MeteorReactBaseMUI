@@ -37,9 +37,6 @@ const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close})
                 <FormGroup>
                     <TextField
                         placeholder='Nome do Usuário'
-                        aria-label="UserName"
-                        label="UserName"
-                        id="UserName"
                         name='username'
                     />
                     <TextField
@@ -87,14 +84,14 @@ export const UserProfileDetailContainer = withTracker((props) => {
                 props.showSnackBar({
                     type:'success',
                     title:'Operação realizada!',
-                    message: `O usuário foi ${doc._id?'atualizado':'cadastrado'} com sucesso!`,
+                    description: `O usuário foi ${doc._id?'atualizado':'cadastrado'} com sucesso!`,
                 })
             } else {
                 console.log('Error:',e);
                 props.showSnackBar({
                     type:'error',
                     title:'Operação não realizada!',
-                    message: `Erro ao realizar a operação: ${e.message}`,
+                    description: `Erro ao realizar a operação: ${e.message}`,
                 })
             }
 

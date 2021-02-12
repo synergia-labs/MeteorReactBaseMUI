@@ -55,6 +55,9 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
                     color="default"
                     style={simpleImageStyle.selectImage}
                     startIcon={<PhotoCameraIcon />}
+                    label='Selecionar imagem'
+                    arialabel='Selecionar imagem'
+                    id='Selecionar imagem'
                   >
                     {'Selecionar imagem'}
                   </Button>

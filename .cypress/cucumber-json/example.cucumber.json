@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 17217000000
+              "duration": 11183000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 698000000
+              "duration": 2580000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei em \"add\"",
             "result": {
               "status": "passed",
-              "duration": 772000000
+              "duration": 2561000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "preenchi o campo \"Título\" com o valor \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 853000000
+              "duration": 4769000000
             }
           },
           {
@@ -63,47 +63,72 @@
             "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição\"",
             "result": {
               "status": "passed",
-              "duration": 910000000
+              "duration": 4772000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 11,
-            "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
+            "name": "selecionei o valor \"Normal\" no campo \"Tipo\"",
             "result": {
-              "status": "passed",
-              "duration": 668000000
+              "status": "failed",
+              "duration": 6178000000,
+              "error_message": "AssertionError: Timed out retrying: Expected to find element: `li[data-value=\"Normal\"]`, but never found it.\n    + expected - actual\n\n\n    select@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:153:12\n    typeValue/<@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:125:37\n    getRet@http://localhost:3000/__cypress/runner/cypress_runner.js:154280:20\n    tryCatcher@http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23\n    ../../node_modules/bluebird/js/release/method.js/module.exports/Promise.try@http://localhost:3000/__cypress/runner/cypress_runner.js:7230:29\n    thenFn@http://localhost:3000/__cypress/runner/cypress_runner.js:154298:20\n    then@http://localhost:3000/__cypress/runner/cypress_runner.js:154738:21\n    wrapByType/<@http://localhost:3000/__cypress/runner/cypress_runner.js:168170:21\n    runCommand/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\n    tryCatcher@http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@http://localhost:3000/__cypress/runner/cypress_runner.js:7891:31\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@http://localhost:3000/__cypress/runner/cypress_runner.js:7948:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseCtx@http://localhost:3000/__cypress/runner/cypress_runner.js:7985:10\n    _drainQueueStep@http://localhost:3000/__cypress/runner/cypress_runner.js:4667:12\n    _drainQueue@http://localhost:3000/__cypress/runner/cypress_runner.js:4656:24\n    ../../node_modules/bluebird/js/release/async.js/</Async.prototype._drainQueues@http://localhost:3000/__cypress/runner/cypress_runner.js:4672:16\n    Async/this.drainQueues@http://localhost:3000/__cypress/runner/cypress_runner.js:4542:14\n"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 12,
-            "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
+            "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
             "result": {
-              "status": "passed",
-              "duration": 704000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 13,
+            "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "cliquei em \"Status\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "marquei o valor \"Doing\" no campo \"Opcoes disponíveis\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "passed",
-              "duration": 743000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 14,
-            "name": "foi exibida a mensagem \"O exemplo foi cadastrado com sucesso!\"",
+            "line": 17,
+            "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi cadastrado com sucesso!\"",
             "result": {
-              "status": "passed",
-              "duration": 95000000
+              "status": "skipped"
             }
           }
         ]

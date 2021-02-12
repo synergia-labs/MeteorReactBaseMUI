@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 2867000000
+              "duration": 11061000000
             }
           },
           {
@@ -33,18 +33,17 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 665000000
+              "duration": 2565000000
             }
           },
           {
             "arguments": [],
-            "keyword": "And ",
+            "keyword": "When ",
             "line": 8,
-            "name": "cliquei em \"example\"",
+            "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
-              "status": "failed",
-              "duration": 4092000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"example\") or contains(@label, \"example\") or contains(@aria-label, \"example\") or contains(@id, \"example\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\editar.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\editar.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\editar.feature:12135:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\editar.feature:11477:35)"
+              "status": "passed",
+              "duration": 2759000000
             }
           },
           {
@@ -53,7 +52,8 @@
             "line": 9,
             "name": "cliquei em \"Editar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2593000000
             }
           },
           {
@@ -62,7 +62,8 @@
             "line": 10,
             "name": "preenchi o campo \"Título\" com o valor \"Texto do Título novo\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 4950000000
             }
           },
           {
@@ -71,7 +72,8 @@
             "line": 11,
             "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição novo\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 4925000000
             }
           },
           {
@@ -80,7 +82,8 @@
             "line": 12,
             "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 5043000000
             }
           },
           {
@@ -89,7 +92,8 @@
             "line": 13,
             "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 5331000000
             }
           },
           {
@@ -98,16 +102,18 @@
             "line": 14,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2710000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 15,
-            "name": "foi exibida a mensagem \"O exemplo foi atualizado com sucesso!\"",
+            "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 1215000000
             }
           }
         ]
