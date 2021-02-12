@@ -168,14 +168,14 @@ export const ExampleListContainer = withTracker((props) => {
                     props.showSnackBar({
                         type:'success',
                         title:'Operação realizada!',
-                        message: `O exemplo foi removido com sucesso!`,
+                        description: `O exemplo foi removido com sucesso!`,
                     })
                 } else {
                     console.log('Error:',e);
                     props.showSnackBar({
                         type:'error',
                         title:'Operação não realizada!',
-                        message: `Erro ao realizar a operação: ${e.message}`,
+                        description: `Erro ao realizar a operação: ${e.message}`,
                     })
                 }
 

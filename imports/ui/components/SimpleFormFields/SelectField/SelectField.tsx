@@ -60,13 +60,13 @@ export default ({ name, renderValue, label, value, onChange, readOnly, error, ..
                 {...(_.omit(otherProps, ['options']))}
             >
                 {(otherProps.options || []).map(opt =>
-                    <MenuItem key={opt.value || opt} value={opt.value ? opt.value : opt}>
+                    <MenuItem id={opt.value ? opt.value : opt} key={opt.value || opt} value={opt.value ? opt.value : opt}>
                         {otherProps.multiple && <Checkbox checked={value.includes(opt.value || opt)} />}
                         {opt.label ? opt.label : opt}
                     </MenuItem>
                 )}
                 {otherProps.options?.length == 0 && (
-                    <MenuItem disabled value="" >
+                    <MenuItem id={opt.value ? opt.value : opt} disabled value="" >
                         <ListItemText primary="Nenhuma opção para selecionar" />
                     </MenuItem>
                 )}

@@ -13,13 +13,11 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
           onChange({name,target:{name,value: event.target.checked}},{name, value: event.target.checked});
     }
 
-    console.log('name',name,'>>>',value)
-
     return (
         <div style={error?toggleSwitchStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
             {otherProps&&!hasValue(otherProps.checksList)?
-                <FormControlLabel control={<Switch checked={!!value} onChange={handleChangeSwitch} name={name}/>}
+                <FormControlLabel control={<Switch checked={!!value} onChange={handleChangeSwitch} name={'Switch'} id={'Switch'} label={'Switch'}/>}
                                   key={name}
                                   value={value}
                                   id={name}

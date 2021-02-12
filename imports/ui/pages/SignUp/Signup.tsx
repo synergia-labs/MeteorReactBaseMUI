@@ -13,8 +13,6 @@ import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
 import {signupStyle} from "./SignupStyle";
 
-import Alert from '@material-ui/lab/Alert';
-
 export default class Signup extends React.Component {
   constructor(props) {
     super(props)
@@ -34,9 +32,17 @@ export default class Signup extends React.Component {
 
     userprofileApi.insertNewUser({ email, username: email, password },(err,r) => {
       if (err) {
-        this.setState({ error: err.reason })
+          this.props.showSnackBar({
+            type:'error',
+            title:'Problema na criação do usuário!',
+            description: 'Erro ao fazer registro em nossa base de dados!',
+          });
       } else {
-        console.log('Cadastrado com sucesso');
+        this.props.showSnackBar({
+          type:'sucess',
+          title:'Cadastrado com sucesso!',
+          description: 'Registro de usuário realizado em nossa base de dados!',
+        });
       }
     })
 
@@ -77,9 +83,6 @@ export default class Signup extends React.Component {
             <div style={signupStyle.containerRouterSignIn}>
               Já tem uma conta? Faça login clicando <Link to="/signin" color={'secondary'}>aqui</Link>
             </div>
-            {error === '' ? '' :
-              <Alert id={'message-id'} severity="error">{'Erro ao fazer registro!'}</Alert>
-            }
       </Container>
     )
   }

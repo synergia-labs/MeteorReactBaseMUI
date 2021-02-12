@@ -212,7 +212,14 @@ const SnackBarContainer = (options = {
             onClose={options.onClose}
         >
             <Alert id={'message-id'} onClose={options.onClose} severity={options.type}>
-                {options.message}
+              <div style={{display: 'flex', flexDirection: 'column'}}>
+                <div>
+                  {options.title}
+                </div>
+                <div style={{paddingTop: '5px'}}>
+                  {options.description}
+                </div>
+              </div>
             </Alert>
         </Snackbar>
     )
