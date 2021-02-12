@@ -80,6 +80,7 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                 <FormGroup key={'fieldsTwo'}>
                     <SelectField
                         placeholder='Tipo'
+                        id='Tipo'
                         options={[
                             {value:'normal',label:'Normal'},
                             {value:'extra',label:'Extra'},

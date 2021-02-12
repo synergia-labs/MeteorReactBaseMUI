@@ -45,6 +45,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
             {!readOnly?
                 <div style={styles.input}>
                     <TextField
+                    id={'chips'}
                       placeholder={otherProps.placeHolder}
                       value={chipText}
                       onChange={handleOnChange}

@@ -1,0 +1,102 @@
+[
+  {
+    "description": "  Validando edição de tipo",
+    "keyword": "Feature",
+    "name": "Módulo de editar tipo",
+    "line": 1,
+    "id": "módulo-de-editar-tipo",
+    "tags": [],
+    "uri": "tipo.feature",
+    "elements": [
+      {
+        "id": "módulo-de-editar-tipo;editando-exemplo",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Editando exemplo",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 10887000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "cliquei em \"Exemplos\"",
+            "result": {
+              "status": "passed",
+              "duration": 2546000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "cliquei na linha com o texto \"Texto do Título\"",
+            "result": {
+              "status": "passed",
+              "duration": 2746000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "cliquei em \"Editar\"",
+            "result": {
+              "status": "passed",
+              "duration": 2636000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "cliquei em \"Tipo\"",
+            "result": {
+              "status": "passed",
+              "duration": 2676000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "cliquei em \"Normal\"",
+            "result": {
+              "status": "failed",
+              "duration": 4055000000,
+              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"Normal\") or contains(@label, \"Normal\") or contains(@aria-label, \"Normal\") or contains(@id, \"Normal\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\tipo.feature:106:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\tipo.feature:278:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\tipo.feature:12189:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\tipo.feature:11531:35)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "acionei o comando \"Salvar\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

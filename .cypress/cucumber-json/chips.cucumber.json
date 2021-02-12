@@ -1,0 +1,92 @@
+[
+  {
+    "description": "  Validando edição de chips",
+    "keyword": "Feature",
+    "name": "Módulo de editar chips",
+    "line": 1,
+    "id": "módulo-de-editar-chips",
+    "tags": [],
+    "uri": "chips.feature",
+    "elements": [
+      {
+        "id": "módulo-de-editar-chips;editando-exemplo",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Editando exemplo",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 10872000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "cliquei em \"Exemplos\"",
+            "result": {
+              "status": "passed",
+              "duration": 2580000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "cliquei na linha com o texto \"Texto do Título\"",
+            "result": {
+              "status": "passed",
+              "duration": 2926000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "cliquei em \"Editar\"",
+            "result": {
+              "status": "passed",
+              "duration": 2578000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "preenchi o campo \"chips\" com o valor \"testando\"",
+            "result": {
+              "status": "failed",
+              "duration": 4046000000,
+              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//label[contains(.,'chips') or @for='chips' or contains(.,'select-chips') or @for='select-chips']/following-sibling::div//*[self::div[@role=\"button\" and @aria-haspopup=\"true\"] or self::div[@role=\"button\" and @aria-haspopup=\"listbox\"] or self::input]`, but never found it.\n    + expected - actual\n\n\n    at Object.typeValue (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\chips.feature:115:12)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\chips.feature:290:52)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\chips.feature:12189:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\chips.feature:11531:35)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "acionei o comando \"Salvar\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
