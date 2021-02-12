@@ -5,7 +5,7 @@ Feature: Módulo de editar
   Scenario: Editando exemplo
     Given acessei o sistema com o usuário "admin@mrb.com" e senha "admin@mrb.com"
     When cliquei em "Exemplos"
-    And cliquei em "fox"
+    And cliquei em "example"
     And cliquei em "Editar"
     And preenchi o campo "Título" com o valor "Texto do Título novo"
     And preenchi o campo "Descrição" com o valor "Texto da Descrição novo"

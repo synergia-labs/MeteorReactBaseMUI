@@ -38,6 +38,10 @@ When('preenchi o campo {string} com o valor {string}', (name,value) => {
   basicCommands.components.anyField.typeValue(name,value);
 })
 
+And('exibição do campo {string} possui o valor {string}', (name,value) => {
+  basicCommands.components.anyField.typeValue(name,value);
+})
+
 When('selecionei o valor {string} no campo {string}', (value,name) => {
   basicCommands.components.anyField.typeValue(name,value);
 })
@@ -108,4 +112,3 @@ When('cliquei em {string} referente ao {string} {string}', (name,entidade,text) 
 Then(`foi exibida a mensagem {string}`, (message) => {
   basicCommands.notification.verifyMessage(message);
 })
-

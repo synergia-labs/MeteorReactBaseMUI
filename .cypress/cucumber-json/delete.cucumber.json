@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 4876000000
+              "duration": 6108000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 902000000
+              "duration": 757000000
             }
           },
           {
@@ -42,9 +42,8 @@
             "line": 8,
             "name": "cliquei em \"delete\"",
             "result": {
-              "status": "failed",
-              "duration": 4075000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"delete\") or contains(@label, \"delete\") or contains(@aria-label, \"delete\") or contains(@id, \"delete\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\delete.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\delete.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\delete.feature:12132:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\delete.feature:11474:35)"
+              "status": "passed",
+              "duration": 717000000
             }
           },
           {
@@ -53,7 +52,18 @@
             "line": 9,
             "name": "acionei o comando \"Sim\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 748000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "foi exibida a mensagem \"O exemplo foi removido com sucesso!\"",
+            "result": {
+              "status": "passed",
+              "duration": 97000000
             }
           }
         ]

@@ -1,15 +1,15 @@
 [
   {
-    "description": "  Validando login/logout",
+    "description": "  Validando login e logout de usuário",
     "keyword": "Feature",
-    "name": "Módulo de loginlogout/",
+    "name": "Módulo de Login e Logout",
     "line": 1,
-    "id": "módulo-de-loginlogout/",
+    "id": "módulo-de-login-e-logout",
     "tags": [],
     "uri": "login.feature",
     "elements": [
       {
-        "id": "módulo-de-loginlogout/;fazendo-login/logout",
+        "id": "módulo-de-login-e-logout;fazendo-login/logout",
         "keyword": "Scenario",
         "line": 5,
         "name": "Fazendo login/logout",
@@ -23,18 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 2871000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 7,
-            "name": "cliquei em \"accountCircle\"",
-            "result": {
-              "status": "failed",
-              "duration": 4035000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"accountCircle\") or contains(@label, \"accountCircle\") or contains(@aria-label, \"accountCircle\") or contains(@id, \"accountCircle\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:12132:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\login.feature:11474:35)"
+              "duration": 3894000000
             }
           }
         ]

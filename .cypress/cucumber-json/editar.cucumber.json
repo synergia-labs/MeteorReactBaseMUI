@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 2710000000
+              "duration": 2867000000
             }
           },
           {
@@ -32,18 +32,19 @@
             "line": 7,
             "name": "cliquei em \"Exemplos\"",
             "result": {
-              "status": "failed",
-              "duration": 448000000,
-              "error_message": "TypeError: specWindow.Error is not a constructor\n    at $Cy.cy.<computed> [as then] (http://localhost:3000/__cypress/runner/cypress_runner.js:168175:77)\n    at Context.runnable.fn (http://localhost:3000/__cypress/runner/cypress_runner.js:168439:21)\n    at callFn (http://localhost:3000/__cypress/runner/cypress_runner.js:103425:21)\n    at Hook.../driver/node_modules/mocha/lib/runnable.js.Runnable.run (http://localhost:3000/__cypress/runner/cypress_runner.js:103412:7)\n    at http://localhost:3000/__cypress/runner/cypress_runner.js:173679:28\n    at PassThroughHandlerContext.finallyHandler (http://localhost:3000/__cypress/runner/cypress_runner.js:6510:23)\n    at PassThroughHandlerContext.tryCatcher (http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23)\n    at Promise._settlePromiseFromHandler (http://localhost:3000/__cypress/runner/cypress_runner.js:7891:31)\n    at Promise._settlePromise (http://localhost:3000/__cypress/runner/cypress_runner.js:7948:18)\n    at Promise._settlePromise0 (http://localhost:3000/__cypress/runner/cypress_runner.js:7993:10)\n    at Promise._settlePromises (http://localhost:3000/__cypress/runner/cypress_runner.js:8073:18)\n    at http://localhost:3000/__cypress/runner/cypress_runner.js:4648:25"
+              "status": "passed",
+              "duration": 665000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 8,
-            "name": "cliquei em \"fox\"",
+            "name": "cliquei em \"example\"",
             "result": {
-              "status": "skipped"
+              "status": "failed",
+              "duration": 4092000000,
+              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"example\") or contains(@label, \"example\") or contains(@aria-label, \"example\") or contains(@id, \"example\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\editar.feature:93:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\editar.feature:224:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\editar.feature:12135:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\editar.feature:11477:35)"
             }
           },
           {
