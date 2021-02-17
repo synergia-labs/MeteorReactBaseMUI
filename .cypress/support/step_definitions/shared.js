@@ -104,6 +104,10 @@ When('cliquei em {string} referente à {string} de nome {string}', (name,entidad
 When('cliquei em {string} referente à {string} de valor {string}', (name,entidade,text) => {
   basicCommands.table.clickButtonOnLineThatContains(name,text);
 })
+When('esperei', () => {
+  basicCommands.utils.wait();
+})
+
 
 
 When('cliquei em {string} referente ao {string} {string}', (name,entidade,text) => {

@@ -204,6 +204,10 @@ class BasicCommands {
       cy.get(element).invoke('width').should('be.gt', 0);
       cy.wait(500);
     },
+
+    wait: () => {
+      cy.wait(5000);
+    },
   };
 
 }
