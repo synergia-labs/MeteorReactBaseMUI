@@ -7,7 +7,6 @@ Feature: Módulo de editar tipo
     When cliquei em "Exemplos"
     When cliquei na linha com o texto "Texto do Título"
     And cliquei em "Editar"
-    And cliquei em "Tipo"
-    And cliquei em "Normal"
+    And selecionei o valor "normal" no campo "Tipo"
     And acionei o comando "Salvar"
     Then foi exibida a mensagem "Operação realizada!O exemplo foi atualizado com sucesso!"
