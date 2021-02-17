@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 3465000000
+              "duration": 10953000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Perfil\"",
             "result": {
               "status": "passed",
-              "duration": 700000000
+              "duration": 2567000000
             }
           },
           {
@@ -43,27 +43,57 @@
             "name": "cliquei em \"Meus dados\"",
             "result": {
               "status": "passed",
-              "duration": 733000000
+              "duration": 2555000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 9,
-            "name": "preenchi o campo \"Nome do Usuário\" com o valor \"Administrador\"",
+            "name": "cliquei em \"Editar\"",
             "result": {
-              "status": "failed",
-              "duration": 4054000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//label[contains(.,'Nome do Usuário') or @for='Nome do Usuário' or contains(.,'select-Nome do Usuário') or @for='select-Nome do Usuário']/following-sibling::div//*[self::div[@role=\"button\" and @aria-haspopup=\"true\"] or self::div[@role=\"button\" and @aria-haspopup=\"listbox\"] or self::input]`, but never found it.\n    + expected - actual\n\n\n    typeValue@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\userprofile.feature:103:12\n    [3]</<@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\userprofile.feature:236:52\n    resolveAndRunStepDefinition@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\userprofile.feature:12132:29\n    stepTest/<@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\userprofile.feature:11477:35\n    getRet@http://localhost:3000/__cypress/runner/cypress_runner.js:154280:20\n    tryCatcher@http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23\n    ../../node_modules/bluebird/js/release/method.js/module.exports/Promise.try@http://localhost:3000/__cypress/runner/cypress_runner.js:7230:29\n    thenFn@http://localhost:3000/__cypress/runner/cypress_runner.js:154298:20\n    then@http://localhost:3000/__cypress/runner/cypress_runner.js:154738:21\n    wrapByType/<@http://localhost:3000/__cypress/runner/cypress_runner.js:168170:21\n    runCommand/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\n    tryCatcher@http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@http://localhost:3000/__cypress/runner/cypress_runner.js:7891:31\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@http://localhost:3000/__cypress/runner/cypress_runner.js:7948:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseCtx@http://localhost:3000/__cypress/runner/cypress_runner.js:7985:10\n    _drainQueueStep@http://localhost:3000/__cypress/runner/cypress_runner.js:4667:12\n    _drainQueue@http://localhost:3000/__cypress/runner/cypress_runner.js:4656:24\n    ../../node_modules/bluebird/js/release/async.js/</Async.prototype._drainQueues@http://localhost:3000/__cypress/runner/cypress_runner.js:4672:16\n    Async/this.drainQueues@http://localhost:3000/__cypress/runner/cypress_runner.js:4542:14\n"
+              "status": "passed",
+              "duration": 2567000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
+            "name": "preenchi o campo \"UserName\" com o valor \"Administrador\"",
+            "result": {
+              "status": "passed",
+              "duration": 4848000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
             "name": "exibição do campo \"Email\" possui o valor \"admin@mrb.com\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 4866000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "cliquei em \"Salvar\"",
+            "result": {
+              "status": "passed",
+              "duration": 2583000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "foi exibida a mensagem \"Operação realizada!O usuário foi atualizado com sucesso!\"",
+            "result": {
+              "status": "passed",
+              "duration": 1216000000
             }
           }
         ]
