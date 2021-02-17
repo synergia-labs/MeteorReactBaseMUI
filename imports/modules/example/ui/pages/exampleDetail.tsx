@@ -87,6 +87,11 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                         ]}
                         name='type'
                     />
+                    <SelectField
+                        placeholder='Tipo2'
+                        id='Tipo2'
+                        name='type2'
+                    />
                     <DatePickerField
                         placeholder='Data'
                         name='date'
