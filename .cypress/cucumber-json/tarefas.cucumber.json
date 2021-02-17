@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 11013000000
+              "duration": 11026000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2567000000
+              "duration": 2569000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2713000000
+              "duration": 2680000000
             }
           },
           {
@@ -53,18 +53,17 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2572000000
+              "duration": 2586000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "cliquei em \"add\"",
+            "name": "cliquei em \"addSubForm\"",
             "result": {
-              "status": "failed",
-              "duration": 4044000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"add\") or contains(@label, \"add\") or contains(@aria-label, \"add\") or contains(@id, \"add\")]`, but never found it.\n    + expected - actual\n\n\n    at Object.click (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\tarefas.feature:106:14)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\tarefas.feature:278:50)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\tarefas.feature:12189:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\tarefas.feature:11531:35)"
+              "status": "passed",
+              "duration": 2600000000
             }
           },
           {
@@ -73,7 +72,8 @@
             "line": 11,
             "name": "preenchi o campo \"Nome da Tarefa\" com o valor \"Nome T\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 4889000000
             }
           },
           {
@@ -82,7 +82,8 @@
             "line": 12,
             "name": "preenchi o campo \"Descrição da Tarefa\" com o valor \"Descrevendo\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 4924000000
             }
           },
           {
@@ -91,7 +92,8 @@
             "line": 13,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2601000000
             }
           },
           {
@@ -100,7 +102,8 @@
             "line": 14,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 1234000000
             }
           }
         ]

@@ -229,7 +229,7 @@ const SubFormArrayComponent = ({reactElement,childrensElements,name,initialValue
                 ):null}
             </div>
             {mode!=='view'?(<div style={simpleFormStyle.containerAddSubForm}>
-                <Fab color="secondary" style={{color:error?'#9F3A38':"#ffffff", ...simpleFormStyle.buttonAddSubForm}} onClick={addSubForm}>
+                <Fab id={"addSubForm"} color="secondary" style={{color:error?'#9F3A38':"#ffffff", ...simpleFormStyle.buttonAddSubForm}} onClick={addSubForm}>
                   <Add/>
                 </Fab>
             </div>):null}

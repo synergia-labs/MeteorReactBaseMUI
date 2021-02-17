@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 10953000000
+              "duration": 10816000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Perfil\"",
             "result": {
               "status": "passed",
-              "duration": 2567000000
+              "duration": 2534000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei em \"Meus dados\"",
             "result": {
               "status": "passed",
-              "duration": 2555000000
+              "duration": 2530000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2567000000
+              "duration": 2556000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "preenchi o campo \"UserName\" com o valor \"Administrador\"",
             "result": {
               "status": "passed",
-              "duration": 4848000000
+              "duration": 4679000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "exibição do campo \"Email\" possui o valor \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 4866000000
+              "duration": 4705000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "cliquei em \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2583000000
+              "duration": 2543000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "foi exibida a mensagem \"Operação realizada!O usuário foi atualizado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 1216000000
+              "duration": 1081000000
             }
           }
         ]
