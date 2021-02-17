@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 6108000000
+              "duration": 14041000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 757000000
+              "duration": 2628000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei em \"delete\"",
             "result": {
               "status": "passed",
-              "duration": 717000000
+              "duration": 2554000000
             }
           },
           {
@@ -53,17 +53,17 @@
             "name": "acionei o comando \"Sim\"",
             "result": {
               "status": "passed",
-              "duration": 748000000
+              "duration": 2559000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 10,
-            "name": "foi exibida a mensagem \"O exemplo foi removido com sucesso!\"",
+            "name": "foi exibida a mensagem \"Operação realizada!\"",
             "result": {
               "status": "passed",
-              "duration": 97000000
+              "duration": 1173000000
             }
           }
         ]

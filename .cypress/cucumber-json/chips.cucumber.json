@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 10872000000
+              "duration": 10899000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2580000000
+              "duration": 2571000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2926000000
+              "duration": 2846000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2578000000
+              "duration": 2574000000
             }
           },
           {
@@ -62,9 +62,8 @@
             "line": 10,
             "name": "preenchi o campo \"chips\" com o valor \"testando\"",
             "result": {
-              "status": "failed",
-              "duration": 4046000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//label[contains(.,'chips') or @for='chips' or contains(.,'select-chips') or @for='select-chips']/following-sibling::div//*[self::div[@role=\"button\" and @aria-haspopup=\"true\"] or self::div[@role=\"button\" and @aria-haspopup=\"listbox\"] or self::input]`, but never found it.\n    + expected - actual\n\n\n    at Object.typeValue (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\chips.feature:115:12)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\chips.feature:290:52)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\chips.feature:12189:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\chips.feature:11531:35)"
+              "status": "passed",
+              "duration": 4842000000
             }
           },
           {
@@ -73,7 +72,8 @@
             "line": 11,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2633000000
             }
           },
           {
@@ -82,7 +82,8 @@
             "line": 12,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 1176000000
             }
           }
         ]

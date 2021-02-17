@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 11061000000
+              "duration": 11053000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2565000000
+              "duration": 2583000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2759000000
+              "duration": 2686000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2593000000
+              "duration": 2584000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "preenchi o campo \"Título\" com o valor \"Texto do Título novo\"",
             "result": {
               "status": "passed",
-              "duration": 4950000000
+              "duration": 4928000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição novo\"",
             "result": {
               "status": "passed",
-              "duration": 4925000000
+              "duration": 4967000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
             "result": {
               "status": "passed",
-              "duration": 5043000000
+              "duration": 4975000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
             "result": {
               "status": "passed",
-              "duration": 5331000000
+              "duration": 5026000000
             }
           },
           {
@@ -103,7 +103,7 @@
             "name": "acionei o comando \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2710000000
+              "duration": 2650000000
             }
           },
           {
@@ -113,7 +113,7 @@
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 1215000000
+              "duration": 1256000000
             }
           }
         ]

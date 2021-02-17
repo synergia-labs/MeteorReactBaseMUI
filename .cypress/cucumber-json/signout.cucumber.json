@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 3311000000
+              "duration": 11060000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Perfil\"",
             "result": {
               "status": "passed",
-              "duration": 677000000
+              "duration": 2581000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei em \"Sair\"",
             "result": {
               "status": "passed",
-              "duration": 665000000
+              "duration": 2569000000
             }
           }
         ]

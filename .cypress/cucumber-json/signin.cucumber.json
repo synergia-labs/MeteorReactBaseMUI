@@ -23,18 +23,17 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 15140000000
+              "duration": 11031000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 7,
-            "name": "foi exibida a mensagem \"Erro ao fazer registro!\"",
+            "name": "foi exibida a mensagem \"Acesso autorizado!Login de usuário realizado em nossa base de dados!\"",
             "result": {
-              "status": "failed",
-              "duration": 4829000000,
-              "error_message": "AssertionError: Timed out retrying: expected '<div#message-id.MuiPaper-root.MuiAlert-root.MuiPaper-elevation6>' to have text 'Erro ao fazer registro!', but the text was 'Acesso autorizado!Login de usuário realizado em nossa base de dados!'\n    + expected - actual\n\n    -Acesso autorizado!Login de usuário realizado em nossa base de dados!\n    +Erro ao fazer registro!\n\n    at Object.verifyMessage (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\signin.feature:197:29)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\signin.feature:348:45)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\signin.feature:12189:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\signin.feature:11531:35)"
+              "status": "passed",
+              "duration": 1124000000
             }
           }
         ]
