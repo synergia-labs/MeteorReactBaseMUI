@@ -10,13 +10,53 @@ import Divider from '@material-ui/core/Divider';
 
 import Fab from "@material-ui/core/Fab";
 
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
 import {imageOrAvatarStyle} from "./ImageOrAvatarFieldStyle";
 import {hasValue} from "/imports/libs/hasValue";
 import {isMobile} from "/imports/libs/deviceVerify";
 
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+
 export default ({name, label, value, onChange, readOnly, error, ...otherProps}:IBaseSimpleFormComponent)=>{
 
-  const [imageOrAvatar, setImageOrAvatar] = React.useState(false);
+  const [imageOrAvatar, setImageOrAvatar] = React.useState(0);
+
+  function TabPanel(props) {
+      const { children, value, index, ...other } = props;
+
+      return (
+        <div
+          role="tabpanel"
+          hidden={value !== index}
+          id={`vertical-tabpanel-${index}`}
+          aria-labelledby={`vertical-tab-${index}`}
+          {...other}
+        >
+          {value === index && (
+            <Box p={3}>
+              <Typography>{children}</Typography>
+            </Box>
+          )}
+        </div>
+      );
+    }
+
+    TabPanel.propTypes = {
+      children: PropTypes.node,
+      index: PropTypes.any.isRequired,
+      value: PropTypes.any.isRequired,
+    };
+
+    const handleChange = (event, newValue) => {
+      setImageOrAvatar(newValue);
+    };
+
+    console.log(hasValue(value) && value!='' && value!='-');
 
     if(!!readOnly) {
         return (<div key={name}>
@@ -46,42 +86,40 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
     return (
       <div key={name} style={error? imageOrAvatarStyle.containerImageOrAvatarError:imageOrAvatarStyle.containerImageOrAvatar}>
         <SimpleLabelView label={label}/>
-        <div key={name} style={imageOrAvatarStyle.containerImageOrAvatarButton}>
-          <div>
-            {!!imageOrAvatar ?
-              <ImageCompactField
-                label={'Imagem Zoom+Slider'}
-                name={name}
-                onChange={onChange}
-                readOnly={readOnly}
-                error={error}
-                otherProps={otherProps}
-                value={value}
-              /> :
-              <AvatarGeneratorField
-                label={'Avatar'}
-                name={name}
-                onChange={onChange}
-                readOnly={readOnly}
-                error={error}
-                otherProps={otherProps}
-                value={value}
-              />
-            }
-          </div>
-
-          <div style={imageOrAvatarStyle.containerImageOrAvatarFabButton}>
-            <Fab
-              onClick={() => {
-                setImageOrAvatar(!imageOrAvatar);
-              }}
-              color={'primary'}
-              style={imageOrAvatarStyle.selectImage}
-            >
-              <SyncIcon />
-            </Fab>
-          </div>
-
+          <div style={imageOrAvatarStyle.containerImageOrAvatarButton}>
+              <Tabs
+                  orientation="vertical"
+                  variant="scrollable"
+                  value={imageOrAvatar}
+                  onChange={handleChange}
+                  aria-label="Vertical tabs example"
+                  style={imageOrAvatarStyle.tabs}
+                >
+                  <Tab label="Imagem Zoom+Slider" id='vertical-tab-0' aria-controls='vertical-tabpanel-0'>
+                  {'teste'}
+                  </Tab>
+                  <Tab label="Avatar" id='vertical-tab-1' aria-controls='vertical-tabpanel-1'/>
+                </Tabs>
+                <TabPanel value={imageOrAvatar} index={0}>
+                  <ImageCompactField
+                    name={name}
+                    onChange={onChange}
+                    readOnly={readOnly}
+                    error={error}
+                    otherProps={otherProps}
+                    value={value}
+                  />
+                </TabPanel>
+                <TabPanel value={imageOrAvatar} index={1}>
+                  <AvatarGeneratorField
+                    name={name}
+                    onChange={onChange}
+                    readOnly={readOnly}
+                    error={error}
+                    otherProps={otherProps}
+                    value={value}
+                  />
+                </TabPanel>
         </div>
       </div>
     )

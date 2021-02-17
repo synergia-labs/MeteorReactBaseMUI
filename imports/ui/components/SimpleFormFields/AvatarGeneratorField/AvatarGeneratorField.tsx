@@ -92,11 +92,14 @@ const drawCharacter = (character,charObj,layer=null,listOfObjects=null) => {
         })
 
     }
-};
+}
+
 
 const CharView = React.memo(({name,character,charData}) => {
+
     useEffect(() => {
-        defaultStage = new Konva.Stage({
+
+        const defaultStage = new Konva.Stage({
             container: "container"+name,
             width: 100,
             height: 100,
@@ -109,7 +112,7 @@ const CharView = React.memo(({name,character,charData}) => {
         const defaultLayer = new Konva.Layer();
         // add the shape to the layer
         defaultStage.add(defaultLayer);
-        const list = [];
+        const list =[];
         if(character==='hair') {
             drawCharacter(character,charData,defaultLayer,list)
         }
@@ -119,6 +122,7 @@ const CharView = React.memo(({name,character,charData}) => {
         if(character!=='hair') {
             drawCharacter(character,charData,defaultLayer,list)
         }
+
 
         defaultLayer.batchDraw();
 
@@ -136,58 +140,56 @@ const CharView = React.memo(({name,character,charData}) => {
             width: 100, height: 100, flex: 1,
         }}/>
     )
-});
 
-export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseSimpleFormComponent) => {
+})
 
-    const [values, setValues] = React.useState({
-      body:{format:'default',color:characteres.body.colors[0]},
-      neck:{format:'default'},
-      nose:{format:'default'},
-    });
+class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
+    constructor(props: IBaseSimpleFormComponent) {
+        super(props);
+        this.state = {
+            imageData: this.props.value,
+            body:{format:'default',color:characteres.body.colors[0]},
+            neck:{format:'default'},
+            nose:{format:'default'},
+            open:false,
+            width: 150,
+            height: 150,
+            readOnly: this.props.readOnly,
+        }
 
-    const [defaultStage, setDefaultStage] = React.useState({});
-    const [open, setOpen] = React.useState(false);
-    const [imageData, setImageData] = React.useState(value);
-    //const [initAvatarBoard, setinitAvatarBoard] = React.useState(false);
-    const [width, setWidth] = React.useState(150);
-    const [height, setHeight] = React.useState(150);
+        this.listOfDefaultLayersObjects = [];
 
-    this.listOfDefaultLayersObjects = [];
-    this.initAvatarBoard = false;
+    }
 
-    const drawAvatar = () => {
+    drawAvatar = () => {
         const list = Object.keys(characteres);
         this.listOfDefaultLayersObjects.forEach(obj=>{
             obj.destroy();
         })
 
         list.forEach(character=>{
-            if(values[character]) {
-                drawCharacter(character,values[character], this.defaultLayer, this.listOfDefaultLayersObjects);
+            if(this.state[character]) {
+                drawCharacter(character,this.state[character],this.defaultLayer,this.listOfDefaultLayersObjects);
             }
         })
 
         this.defaultLayer.batchDraw();
-    };
 
-    const deleteAvatar = () => {
-      setValues([]);
-      onChange({target:{value: '-'}},{name, value: '-'});
-    };
+    }
 
-    const initBoard = () => {
+    initBoard = () => {
         const self = this;
         this.initAvatarBoard = true;
 
         this.defaultStage = new Konva.Stage({
-            container: 'avatarContainer',
+            container: 'avatarContainer' + this.props.name,
             width: 198,
             height: 198,
             scaleX:0.55,
             scaleY:0.55,
             draggable: false,
             drawBorder: false,
+
         });
 
         this.defaultLayer = new Konva.Layer();
@@ -196,180 +198,218 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
 
         this.defaultStage.add(this.defaultLayer);
 
-        drawAvatar();
+        this.drawAvatar();
+
+
     };
 
-    useEffect(() => {
-      if(this.initAvatarBoard) {
-          drawAvatar();
-      }
-    });
-
-    const onClose = () => {
-      this.initAvatarBoard = false;
-      setOpen(false);
+    deleteAvatar = () => {
+      this.setState([]);
+      this.setState({imageData: ''});
+      const name = this.props.name;
+      this.props.onChange({target:{value: '-'}},{name, value: '-'});
     }
 
-    const onSave = () => {
-        onClose();
-        var imageD = this.defaultStage.toDataURL({
+
+    componentDidMount() {
+      this.setState({imageData: this.props.value})
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.initAvatarBoard) {
+            this.drawAvatar();
+        }
+
+    }
+
+    onClose = () => {
+      this.initAvatarBoard = false;
+      if(this.props.onClose) {
+        this.props.onClose()
+      }
+      this.setState({ open: false });
+    }
+
+    onSave = () => {
+        this.onClose();
+        var imageData = this.defaultStage.toDataURL({
             mimeType:'image/png',
             quality:1,
+            // pixelRatio: Math.round(6/(Math.max(this.boardState.scale,1))),
             x: 0,
             y: 0,
             width: 198,
             height: 198,
         });
 
-        setImageData(imageD);
-        onChange({target:{value: imageD}},{name, value: imageD});
+        this.setState({ imageData: imageData });
+        const name = this.props.name;
+        this.props.onChange({target:{value: imageData}},{name, value: imageData});
     }
 
-    const list = [
-        'body',
-        'hair',
-        'hair_front',
-        'eyes',
-        'eyebrows',
-        'glasses',
-        'mouths',
-        'facialhair',
-        'clothes',
-        'accesories',
-        'tattoos',
-    ];
+    render() {
+        const list = [
+            'body',
+            'hair',
+            'hair_front',
+            'eyes',
+            'eyebrows',
+            'glasses',
+            'mouths',
+            'facialhair',
+            'clothes',
+            'accesories',
+            'tattoos',
 
-    return (
-      <div key={name}>
-        <SimpleLabelView label={label}/>
-          {hasValue(value) && value!='' && value!='-' ?
-          <div key={'name'}>
-                  <div style={{
-                      height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
-                      transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
-                          (isMobile ? 44 : 130)) / 900)})` : undefined,
-                      transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
-                  }}>
-                      <img
-                          src={value}
-                          style={{
-                              maxHeight: height,
-                              height: '100%', width: '100%',
-                              maxWidth: width,
-                          }}
-                      />
-                  </div>
-          </div> : ( !!readOnly ? <div style={avatarGeneratorStyle.containerEmptyAvatar}>{'Não há avatar'}</div>: null)
-        }
+        ]
 
-        {!readOnly ?
+        return (
+
           <div>
-            <Button
-              variant="contained"
-              color="default"
-              style={avatarGeneratorStyle.selectImage}
-              startIcon={<FaceIcon />}
-              onClick={()=> setOpen(true)}
-            >
-              {'Selecionar avatar'}
-            </Button>
+          <SimpleLabelView label={this.props.label}/>
+            {hasValue(this.props.value) && this.props.value!='' && this.props.value!='-'?
+            <div key={this.props.name}>
+                    <div style={{
+                        height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
+                        transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
+                            (isMobile ? 44 : 130)) / 900)})` : undefined,
+                        transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
+                    }}>
+                        <img
+                            src={this.props.value}
+                            style={{
+                                maxHeight: this.state.height,
+                                height: '100%', width: '100%',
+                                maxWidth: this.state.width,
+                            }}
+                        />
+                    </div>
+            </div> : ( !!this.props.readOnly ? <div style={avatarGeneratorStyle.containerEmptyAvatar}>{'Não há avatar'}</div>: null)
+          }
 
-            <Button
-              variant="contained"
-              color="default"
-              style={avatarGeneratorStyle.selectImage}
-              startIcon={<DeleteIcon />}
-              onClick={()=> deleteAvatar()}
+          {!this.props.readOnly ?
+            <div>
+              <Button
+                variant="contained"
+                color="default"
+                style={avatarGeneratorStyle.selectImage}
+                startIcon={<FaceIcon />}
+                onClick={()=> this.setState({ open: true })}
               >
-              {'Deletar'}
-            </Button>
+                {'Selecionar avatar'}
+              </Button>
 
-            <Dialog onClose={onClose}
-                    aria-labelledby="Inserir Image" open={open||false}
+              <Button
+                variant="contained"
+                color="default"
+                style={avatarGeneratorStyle.selectImage}
+                startIcon={<DeleteIcon />}
+                onClick={()=> this.deleteAvatar()}
+                >
+                {'Deletar'}
+              </Button>
+
+            <Dialog onClose={this.onClose}
+                    aria-labelledby="Inserir Image" open={this.state.open}
                     style={{ minHeight: 400, minWidth: 400, overflow: 'hidden' }}
-                    onEntered={()=> initBoard()}
+                    onEntered={()=>{
+                        this.initBoard();
+                    }}
             >
                 <DialogTitle id="Gerar Avatar">{'Gerar avatar'}</DialogTitle>
-                      <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center', height: 600, width: 600, overflow: 'hidden'}}>
-                          <div id="avatarContainer" style={{
-                              backgroundColor: 'white',
-                              width: 198, height: 198,
-                          }}/>
-                          <Button
-                              variant={"outlined"}
-                              color={"#74B9FF"}
-                              style={{borderColor: '#74B9FF',color: '#74B9FF', backgroundColor: 'white'}}
-                              onClick={()=>{
-                                  const newAvatar = {}
-                                  list.filter(item=>['neck','nose'].indexOf(item)===-1).forEach(chr=>{
-                                      newAvatar[chr] = {};
-                                      const formats = Object.keys(characteres[chr].formats);
-                                      const colors = characteres[chr].colors;
+                {this.state.open?(
+                    <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center', height: 600, width: 600, overflow: 'hidden'}}>
+                        <div id={'avatarContainer' + this.props.name} style={{
+                            backgroundColor: 'white',
+                            width: 198, height: 198,
+                        }}/>
+                        <Button
+                            variant={"outlined"}
+                            color={"#74B9FF"}
+                            style={{borderColor: '#74B9FF',color: '#74B9FF', backgroundColor: 'white'}}
+                            onClick={()=>{
+                                const newAvatar = {}
+                                list.filter(item=>['neck','nose'].indexOf(item)===-1).forEach(chr=>{
+                                    newAvatar[chr] = {};
+                                    const formats = Object.keys(characteres[chr].formats);
+                                    const colors = characteres[chr].colors;
 
-                                      newAvatar[chr].format = formats[Math.floor(Math.random() * formats.length)];
-                                      newAvatar[chr].color = colors[Math.floor(Math.random() * colors.length)];
+                                    newAvatar[chr].format = formats[Math.floor(Math.random() * formats.length)];
+                                    newAvatar[chr].color = colors[Math.floor(Math.random() * colors.length)];
+                                })
+                                this.setState(newAvatar)
+                            }}
+                        >{'Aleatório'}
+                        </Button>
 
-                                      values[chr] = newAvatar[chr];
-                                  })
-                              }}
-                          >{'Aleatório'}
-                          </Button>
+                        <div key={'Lista'} style={{flex:1,minWidth:580,width:580,maxHeight:580,height:580,overflowY:'auto',overflowX:'hidden',display:'flex',flexDirection:'column', paddingTop:'25px'}}>
+                            {list.filter(item=>['neck','nose'].indexOf(item)===-1).map(character=>{
+                                return (<div style={{borderBottom:'1px solid #808080',maxWidth:'100%',width:'100%',overflow:'hidden',minHeight:115,display:'flex',flexDirection:'row', justifyContent: 'center'}}>
+                                    <div
+                                        onClick={()=>this.setState({[character]:{...(this.state[character]||{}),color:characteres[character].colors[characteres[character].colors.indexOf(this.state[character]?this.state[character].color:characteres[character].colors[0])+1]||characteres[character].colors[0]}})}
+                                        style={{
+                                            backgroundColor:'white',
+                                            width:60,display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center',color:this.state[character]?this.state[character].color:characteres[character].colors[0],
+                                            border:'3px solid', textAlign: 'center', fontSize: '11px', fontWeight: '600', fontFamily: 'Work Sans', borderColor: this.state[character]?this.state[character].color:characteres[character].colors[0],
+                                            paddingTop: '20px',
+                                        }}>
+                                        {'TROCAR COR'}
+                                        <div style={{
+                                            backgroundColor:this.state[character]?this.state[character].color:characteres[character].colors[0],
+                                            height: '42px',
+                                            width: '100%',
+                                          }}
+                                        />
+                                    </div>
+                                    {/*<span style={{fontWeight:'bold',height:25}}>{character}</span>*/}
+                                    <div key={character} style={{display:'flex',flexDirection:'row',maxWidth:'100%',width:'100%',minHeight:115,overflowY:'hidden',overflowX:'auto'}}>
+                                        <div
+                                            onClick={character==='body'?undefined:()=>this.setState({[character]:{format:null,color:characteres[character].colors[0]}})}
+                                            style={{
+                                                backgroundColor:character!=='body'&&(!this.state[character]||!this.state[character].format)?'#ffe691':'#FFFFFF',
+                                                maxWidth:100,minWidth:100,display:'flex',flexDirection:'row',justifyContent:'center',alignItems:'center',color:'#808080'}}>
+                                            {character==='body'?'':'NENHUM'}
+                                        </div>
+                                        {Object.keys(characteres[character].formats).map(format=>{
+                                            return (<div
+                                                key={format}
+                                                onClick={()=>this.setState({[character]:{format,color:this.state[character]&&this.state[character].color?this.state[character].color:characteres[character].colors[0]}})}
+                                                style={{
+                                                    backgroundColor:this.state[character]&&this.state[character].format===format?'#ffe691':'#FFFFFF',
+                                                    height:100,width:100}}>
+                                                <CharView key={character+format} name={character+format} character={character} charData={{format,color:this.state[character]&&this.state[character].color?this.state[character].color:characteres[character].colors[0]}} />
+                                            </div>)
+                                        })}
+                                    </div>
+                                </div>)
+                            })}
+                        </div>
+                    </div>
 
-                          <div key={'Lista'} style={{flex:1,minWidth:580,width:580,maxHeight:580,height:580,overflowY:'auto',overflowX:'hidden',display:'flex',flexDirection:'column', paddingTop:'25px'}}>
-                              {list.filter(item=>['neck','nose'].indexOf(item)===-1).map(character=>{
-                                  return (<div style={{borderBottom:'1px solid #808080',maxWidth:'100%',width:'100%',overflow:'hidden',minHeight:115,display:'flex',flexDirection:'row', justifyContent: 'center'}}>
-                                      <div
-
-                                          onClick={()=>setValues({[character]:{...(values[character]||{}),color:characteres[character].colors[characteres[character].colors.indexOf(values[character]?values[character].color:characteres[character].colors[0])+1]||characteres[character].colors[0]}})}
-                                          style={{
-                                              backgroundColor:'white',
-                                              width:60,display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center',color:values[character]?values[character].color:characteres[character].colors[0],
-                                              border:'3px solid', textAlign: 'center', fontSize: '11px', fontWeight: '600', fontFamily: 'Work Sans', borderColor: values[character]?values[character].color:characteres[character].colors[0],
-                                              paddingTop: '20px',
-                                          }}>
-                                          {'TROCAR COR'}
-                                          <div style={{
-                                              backgroundColor:values[character]?values[character].color:characteres[character].colors[0],
-                                              height: '42px',
-                                              width: '100%',
-                                            }}
-                                          />
-                                      </div>
-                                      <div key={character} style={{display:'flex',flexDirection:'row',maxWidth:'100%',width:'100%',minHeight:115,overflowY:'hidden',overflowX:'auto'}}>
-                                          <div
-
-                                            onClick={character==='body'?undefined:()=>setValues({[character]:{format:null,color:characteres[character].colors[0]}})}
-                                              style={{
-                                                  backgroundColor:character!=='body'&&(!values[character]||!values[character].format)?'#ffe691':'#FFFFFF',
-                                                  maxWidth:100,minWidth:100,display:'flex',flexDirection:'row',justifyContent:'center',alignItems:'center',color:'#808080'}}>
-                                              {character==='body'?'':'NENHUM'}
-                                          </div>
-                                          {Object.keys(characteres[character].formats).map(format=>{
-                                              return (<div
-                                                  key={format}
-
-                                                  onClick={()=>setValues({[character]:{format,color:values[character]&&values[character].color?values[character].color:characteres[character].colors[0]}})}
-                                                   style={{
-                                                      backgroundColor:values[character]&&values[character].format===format?'#ffe691':'#FFFFFF',
-                                                      height:100,width:100}}>
-                                                  <CharView key={character+format} name={character+format} character={character} charData={{format,color:values[character]&&values[character].color?values[character].color:characteres[character].colors[0]}} />
-                                              </div>)
-                                          })}
-                                      </div>
-                                  </div>)
-                              })}
-                          </div>
-                  <DialogActions>
-                    <Button autoFocus onClick={() => onClose()} variant={"outlined"} color={"#74B9FF"} style={{borderColor: '#74B9FF', color: '#74B9FF'}}>
+                ):null}
+                <DialogActions>
+                    <Button autoFocus onClick={this.onClose} variant={"outlined"} color={"#74B9FF"} style={{borderColor: '#74B9FF', color: '#74B9FF'}}>
                         {'Fechar'}
                     </Button>
-                    <Button onClick={() => onSave()}  variant={"contained"} color={"#74B9FF"} style={{borderColor: '#74B9FF', backgroundColor: '#74B9FF', color: 'white'}}>
+                    <Button onClick={this.onSave}  variant={"contained"} color={"#74B9FF"} style={{borderColor: '#74B9FF', backgroundColor: '#74B9FF', color: 'white'}}>
                         {'Salvar'}
                     </Button>
                 </DialogActions>
-                </div>
             </Dialog>
-        </div>: null}
-      </div>
-    )
+          </div>: null}
+        </div>
+        )
+    }
 }
+
+
+
+// const mouths = {
+//     colors:['#000000'],
+//     fillOpacity:0.7,
+//     formats: {
+//
+//     }
+// }
+
+export default AvatarGeneratorField

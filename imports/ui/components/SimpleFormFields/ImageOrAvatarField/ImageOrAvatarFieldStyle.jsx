@@ -20,6 +20,15 @@ const imageOrAvatarStyle = {
     marginBottom:16,
     marginBottom:10,
   },
+  tabs: {
+    color: 'rgba(0, 0, 0, 0.54)',
+    padding: '0px 0px 10px',
+    fontSize: '1rem',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: 400,
+    lineHeight: 1,
+    letterSpacing: '0.00938em',
+  },
   containerImageOrAvatarButton: {
     display:'flex',
     flexDirection:'row',
@@ -29,11 +38,6 @@ const imageOrAvatarStyle = {
     width:'100%',
     marginBottom:16,
     marginBottom:0,
-  },
-  containerImageOrAvatarFabButton: {
-    paddingRight:'25px',
-    paddingLeft:'25px',
-    paddingTop:'18px',
   },
   containerImageOrAvatarError:{
     display:'flex',
@@ -46,41 +50,8 @@ const imageOrAvatarStyle = {
     marginBottom:10,
     border:'1px solid red'
   },
-  dividerImageOrAvatar:{
-    color: 'rgba(0, 0, 0, 0.54)',
-    padding: 0,
-    fontSize: '1rem',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-  },
   containerEmptyMidia: {
     color:'#BBB',
-  },
-  buttonOptions: {
-    marginRight:3,
-    maxHeight:40,
-  },
-  audioOptions:{
-    maxWidth: isMobile? '182px':'200px',
-    marginRight:3,
-    maxHeight:40,
-    paddingLeft: isMobile?5:15,
-    maxWidth: isMobile?'200px':'220px',
-  },
-  buttonCountOptions:{
-    marginRight:3,
-    maxHeight:40,
-    maxWidth: '80px',
-    width: '80px',
-    height:40,
-    borderRadius: '15px',
-    backgroundColor: '#5a9902',
-    color: 'white',
-    marginLeft: '10px',
-    paddingLeft: 10,
-    paddingRight: 10,
   },
 };
 
