@@ -1,0 +1,116 @@
+[
+  {
+    "description": "  Validando criação de tarefas",
+    "keyword": "Feature",
+    "name": "Módulo de criação de tarefas",
+    "line": 1,
+    "id": "módulo-de-criação-de-tarefas",
+    "tags": [],
+    "uri": "salvarAutomaticamente.feature",
+    "elements": [
+      {
+        "id": "módulo-de-criação-de-tarefas;editando-exemplo",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Editando exemplo",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 11061000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "cliquei em \"Exemplos\"",
+            "result": {
+              "status": "failed",
+              "duration": 34000000,
+              "error_message": "TypeError: cmd is null\n\nAll 2 subject validations failed on this subject.\n    validateType@http://localhost:3000/__cypress/runner/cypress_runner.js:160069:16\n    ensureSubjectByType@http://localhost:3000/__cypress/runner/cypress_runner.js:160122:23\n    pushSubjectAndValidate@http://localhost:3000/__cypress/runner/cypress_runner.js:167841:15\n    wrapByType/<@http://localhost:3000/__cypress/runner/cypress_runner.js:168169:18\n    runCommand/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\nFrom previous event:\n    runCommand@http://localhost:3000/__cypress/runner/cypress_runner.js:167582:8\n    next@http://localhost:3000/__cypress/runner/cypress_runner.js:167728:14\n    next/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167756:16"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "cliquei na linha com o texto \"Texto do Título\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "cliquei em \"Editar\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "cliquei em \"addSubForm\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "acionei o comando \"toogleField\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "preenchi o campo \"Nome da Tarefa\" com o valor \"Nome T\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "preenchi o campo \"Descrição da Tarefa\" com o valor \"Descrevendo\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "acionei o comando \"Salvar\"",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
+            "result": {
+              "status": "skipped"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

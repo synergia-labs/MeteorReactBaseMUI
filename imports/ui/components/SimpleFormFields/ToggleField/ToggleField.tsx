@@ -17,11 +17,12 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         <div style={error?toggleSwitchStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
             {otherProps&&!hasValue(otherProps.checksList)?
-                <FormControlLabel control={<Switch id={"toggleField"} checked={!!value} onChange={handleChangeSwitch}/>}
+                <FormControlLabel control={<Switch checked={!!value} onChange={handleChangeSwitch}/>}
                                   key={name}
                                   value={value}
-                                  id={name}
                                   name={name}
+                                  id={'toggleField'}
+                                  aria-label={'toggleField'}
                                   label={!!value? 'Ativo':'Inativo'}
                                   {...(_.omit(otherProps,['disabled', 'checked']))} /> : null}
         </div>

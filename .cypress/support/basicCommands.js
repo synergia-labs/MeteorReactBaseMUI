@@ -60,7 +60,6 @@ class BasicCommands {
             cy.wait(500);
         }
       },
-
     },
     anyField: {
       typeValue: (name, value) => {
@@ -82,31 +81,6 @@ class BasicCommands {
             }
           });
       },
-
-      typeValue: (name, value) => {
-        cy.xpath(
-          `//label[contains(.,'${name}') or @for='${name}' or contains(.,'select-${name}') or @for='select-${name}']/following-sibling::div//*[self::div[@role="button" and @aria-haspopup="true"] or self::div[@role="button" and @aria-haspopup="listbox"] or self::input]`).
-          then($element => {
-            if ($element.is(`input[type="text"]`)) {
-              this.components.textfield.type(cy.wrap($element).first(), value);
-            } else if ($element.is(`input[type="number"]`)) {
-              this.components.textfield.type(cy.wrap($element).first(), value);
-            }
-            else if ($element.is(`input[type="email"]`)) {
-              this.components.textfield.type(cy.wrap($element).first(), value);
-            }
-            else if ($element.is(`input[type="password"]`)) {
-              this.components.textfield.type(cy.wrap($element).first(), value);
-            } else {
-              this.components.select.select(cy.wrap($element).first(), value);
-            }
-          });
-      },
-      typeLabel: (name) => {
-        cy.xpath(
-          `//label[contains(.,'${name}') or @for='${name}' or contains(.,'select-${name}') or @for='select-${name}']/following-sibling::div//*[self::div[@role="button" and @aria-haspopup="true"] or self::div[@role="button" and @aria-haspopup="listbox"] or self::input]`).
-          click('left', { force: true });
-      },
     },
     chipSelect: {
       remove: (field, value) => {
@@ -118,6 +92,15 @@ class BasicCommands {
         cy.get(`li[data-value="${value}"]`).first().click();
         cy.get(`div[class^="MuiBackdrop"]`).click();
         cy.wait(500);
+      },
+    },
+    toogleButton: {
+      toogleValue: (field) => {
+        cy.xpath(
+          `//label[contains(.,'${field}') or @for='${field}']/ancestor::div[contains(@id,'${field}') or contains(@arialabel,'${field}') or contains(@id,'${field.toLowerCase()}') or contains(@arialabel,'${field.toLowerCase()}')]`)
+          .first()
+          .click('left', { force: true });
+          cy.wait(500);
       },
     },
     menu: {
@@ -228,10 +211,6 @@ class BasicCommands {
     isVisible: (element) => {
       cy.get(element).invoke('width').should('be.gt', 0);
       cy.wait(500);
-    },
-
-    wait: () => {
-      cy.wait(5000);
     },
   };
 
