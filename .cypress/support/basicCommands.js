@@ -212,6 +212,19 @@ class BasicCommands {
       cy.get(element).invoke('width').should('be.gt', 0);
       cy.wait(500);
     },
+
+    wait: () => {
+      cy.wait(5000);
+    },
+
+    image: () => {
+      cy.fixture('testPicture.png').as('logo')
+      .get('input[type=file]').then(function(el) {
+        return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
+
+          })
+      },
+
   };
 
 }

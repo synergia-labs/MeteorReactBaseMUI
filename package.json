@@ -57,6 +57,7 @@
     "babel-plugin-lodash": "^3.3.4",
     "cypress": "^4.12.1",
     "cypress-cucumber-preprocessor": "^2.5.0",
+    "cypress-file-upload": "^5.0.2",
     "cypress-react-unit-test": "^4.11.2",
     "cypress-xpath": "^1.4.0",
     "less": "^4.1.0",
