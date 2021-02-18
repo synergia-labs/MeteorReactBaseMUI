@@ -29,6 +29,10 @@ When('cliquei no botão {string}', (label) => {
   basicCommands.components.button.click(label);
 })
 
+When('cliquei no botão de alternância {string}', (name) => {
+  basicCommands.components.anyField.typeLabel(name);
+})
+
 When('acionei o comando {string}', (label) => {
   basicCommands.components.button.click(label);
 })

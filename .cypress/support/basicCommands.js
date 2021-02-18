@@ -82,6 +82,31 @@ class BasicCommands {
             }
           });
       },
+
+      typeValue: (name, value) => {
+        cy.xpath(
+          `//label[contains(.,'${name}') or @for='${name}' or contains(.,'select-${name}') or @for='select-${name}']/following-sibling::div//*[self::div[@role="button" and @aria-haspopup="true"] or self::div[@role="button" and @aria-haspopup="listbox"] or self::input]`).
+          then($element => {
+            if ($element.is(`input[type="text"]`)) {
+              this.components.textfield.type(cy.wrap($element).first(), value);
+            } else if ($element.is(`input[type="number"]`)) {
+              this.components.textfield.type(cy.wrap($element).first(), value);
+            }
+            else if ($element.is(`input[type="email"]`)) {
+              this.components.textfield.type(cy.wrap($element).first(), value);
+            }
+            else if ($element.is(`input[type="password"]`)) {
+              this.components.textfield.type(cy.wrap($element).first(), value);
+            } else {
+              this.components.select.select(cy.wrap($element).first(), value);
+            }
+          });
+      },
+      typeLabel: (name) => {
+        cy.xpath(
+          `//label[contains(.,'${name}') or @for='${name}' or contains(.,'select-${name}') or @for='select-${name}']/following-sibling::div//*[self::div[@role="button" and @aria-haspopup="true"] or self::div[@role="button" and @aria-haspopup="listbox"] or self::input]`).
+          click('left', { force: true });
+      },
     },
     chipSelect: {
       remove: (field, value) => {
