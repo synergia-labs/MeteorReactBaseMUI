@@ -107,7 +107,9 @@ When('cliquei em {string} referente à {string} de valor {string}', (name,entida
 When('esperei', () => {
   basicCommands.utils.wait();
 })
-
+When('fiz o upload da foto', () => {
+  basicCommands.utils.image();
+})
 
 
 When('cliquei em {string} referente ao {string} {string}', (name,entidade,text) => {
