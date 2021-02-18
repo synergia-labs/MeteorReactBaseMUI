@@ -1,18 +1,18 @@
 [
   {
-    "description": "  Validando gravação de audio",
+    "description": "  Validando edição de tarefas",
     "keyword": "Feature",
-    "name": "Módulo de gravar audio",
+    "name": "Módulo de editar tarefas",
     "line": 1,
-    "id": "módulo-de-gravar-audio",
+    "id": "módulo-de-editar-tarefas",
     "tags": [],
-    "uri": "audio.feature",
+    "uri": "status.feature",
     "elements": [
       {
-        "id": "módulo-de-gravar-audio;gravando-audio",
+        "id": "módulo-de-editar-tarefas;editando-exemplo",
         "keyword": "Scenario",
         "line": 5,
-        "name": "Gravando audio",
+        "name": "Editando exemplo",
         "tags": [],
         "type": "scenario",
         "steps": [
@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 11187000000
+              "duration": 11219000000
             }
           },
           {
@@ -32,8 +32,9 @@
             "line": 7,
             "name": "cliquei em \"Exemplos\"",
             "result": {
-              "status": "passed",
-              "duration": 2593000000
+              "status": "failed",
+              "duration": 36000000,
+              "error_message": "TypeError: cmd is null\n\nAll 2 subject validations failed on this subject.\n    validateType@http://localhost:3000/__cypress/runner/cypress_runner.js:160069:16\n    ensureSubjectByType@http://localhost:3000/__cypress/runner/cypress_runner.js:160122:23\n    pushSubjectAndValidate@http://localhost:3000/__cypress/runner/cypress_runner.js:167841:15\n    wrapByType/<@http://localhost:3000/__cypress/runner/cypress_runner.js:168169:18\n    runCommand/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\nFrom previous event:\n    runCommand@http://localhost:3000/__cypress/runner/cypress_runner.js:167582:8\n    next@http://localhost:3000/__cypress/runner/cypress_runner.js:167728:14\n    next/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167756:16"
             }
           },
           {
@@ -42,8 +43,7 @@
             "line": 8,
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
-              "status": "passed",
-              "duration": 2668000000
+              "status": "skipped"
             }
           },
           {
@@ -52,58 +52,34 @@
             "line": 9,
             "name": "cliquei em \"Editar\"",
             "result": {
-              "status": "passed",
-              "duration": 2586000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "acionei o comando \"record\"",
+            "name": "cliquei no botão de alternância \"statusToggle\"",
             "result": {
-              "status": "passed",
-              "duration": 2575000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 11,
-            "name": "esperei",
-            "result": {
-              "status": "passed",
-              "duration": 5047000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 12,
-            "name": "acionei o comando \"play\"",
-            "result": {
-              "status": "passed",
-              "duration": 2585000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 13,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "passed",
-              "duration": 2611000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 14,
+            "line": 12,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
-              "status": "passed",
-              "duration": 1122000000
+              "status": "skipped"
             }
           }
         ]

@@ -1,16 +1,12 @@
-Feature: Módulo de exemplo
+Feature: Módulo de editar tarefas
 
-  Validando inserção e edição de conteúdo
+  Validando edição de tarefas
 
-  Scenario: Criando tarefa
+  Scenario: Editando exemplo
     Given acessei o sistema com o usuário "admin@mrb.com" e senha "admin@mrb.com"
     When cliquei em "Exemplos"
-    And cliquei em "add"
-    And cliquei no botão de alternância "toggleField"
-    And preenchi o campo "Título" com o valor "Texto do Título"
-    And preenchi o campo "Descrição" com o valor "Texto da Descrição"
-    And selecionei o valor "normal" no campo "Tipo"
-    And preenchi o campo "Telefone" com o valor "31988883333"
-    And preenchi o campo "CPF" com o valor "06543223456"
+    When cliquei na linha com o texto "Texto do Título"
+    And cliquei em "Editar"
+    And cliquei no botão de alternância "toogleField"
     And acionei o comando "Salvar"
-    Then foi exibida a mensagem "Operação realizada!O exemplo foi cadastrado com sucesso!"
+    Then foi exibida a mensagem "Operação realizada!O exemplo foi atualizado com sucesso!"

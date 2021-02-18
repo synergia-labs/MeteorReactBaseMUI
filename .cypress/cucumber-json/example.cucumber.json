@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 11168000000
+              "duration": 11359000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2551000000
+              "duration": 2595000000
             }
           },
           {
@@ -43,81 +43,127 @@
             "name": "cliquei em \"add\"",
             "result": {
               "status": "passed",
-              "duration": 2558000000
+              "duration": 2562000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 9,
-            "name": "cliquei no botão de alternância \"toggleField\"",
+            "name": "preenchi o campo \"Título\" com o valor \"Texto do Título\"",
             "result": {
-              "status": "failed",
-              "duration": 4024000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `//label[contains(.,'toggleField') or @for='toggleField']/ancestor::div[contains(@id,'toggleField') or contains(@arialabel,'toggleField') or contains(@id,'togglefield') or contains(@arialabel,'togglefield')]`, but never found it.\n    + expected - actual\n\n\n    toogleValue@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:144:12\n    [3]</<@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:292:56\n    resolveAndRunStepDefinition@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:12200:29\n    stepTest/<@http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\example.feature:11545:35\n    getRet@http://localhost:3000/__cypress/runner/cypress_runner.js:154280:20\n    tryCatcher@http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23\n    ../../node_modules/bluebird/js/release/method.js/module.exports/Promise.try@http://localhost:3000/__cypress/runner/cypress_runner.js:7230:29\n    thenFn@http://localhost:3000/__cypress/runner/cypress_runner.js:154298:20\n    then@http://localhost:3000/__cypress/runner/cypress_runner.js:154738:21\n    wrapByType/<@http://localhost:3000/__cypress/runner/cypress_runner.js:168170:21\n    runCommand/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\n    tryCatcher@http://localhost:3000/__cypress/runner/cypress_runner.js:9956:23\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@http://localhost:3000/__cypress/runner/cypress_runner.js:7891:31\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@http://localhost:3000/__cypress/runner/cypress_runner.js:7948:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseCtx@http://localhost:3000/__cypress/runner/cypress_runner.js:7985:10\n    _drainQueueStep@http://localhost:3000/__cypress/runner/cypress_runner.js:4667:12\n    _drainQueue@http://localhost:3000/__cypress/runner/cypress_runner.js:4656:24\n    ../../node_modules/bluebird/js/release/async.js/</Async.prototype._drainQueues@http://localhost:3000/__cypress/runner/cypress_runner.js:4672:16\n    Async/this.drainQueues@http://localhost:3000/__cypress/runner/cypress_runner.js:4542:14\n"
+              "status": "passed",
+              "duration": 4852000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "preenchi o campo \"Título\" com o valor \"Texto do Título\"",
+            "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 4920000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 11,
-            "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição\"",
+            "name": "selecionei o valor \"normal\" no campo \"Tipo\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 4717000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 12,
-            "name": "selecionei o valor \"normal\" no campo \"Tipo\"",
+            "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 5283000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 13,
-            "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
+            "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 4785000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 14,
-            "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
+            "name": "cliquei em \"addSubForm\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2605000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 15,
+            "name": "preenchi o campo \"Nome da Tarefa\" com o valor \"Nome da Tarefa\"",
+            "result": {
+              "status": "passed",
+              "duration": 4779000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "preenchi o campo \"Descrição da Tarefa\" com o valor \"Descrição da Tarefa\"",
+            "result": {
+              "status": "passed",
+              "duration": 4832000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "cliquei no botão de alternância \"toogleField\"",
+            "result": {
+              "status": "passed",
+              "duration": 2571000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 18,
+            "name": "cliquei no valor \"Doing\" no campo \"radioGroup\"",
+            "result": {
+              "status": "passed",
+              "duration": 4625000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 19,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2578000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 16,
+            "line": 20,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi cadastrado com sucesso!\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 1151000000
             }
           }
         ]

@@ -81,6 +81,11 @@ class BasicCommands {
             }
           });
       },
+      selectValue: (name, value) => {
+        cy.get(`[id="${name}"]`).first().click();
+        cy.get(`[aria-label="${value}"]`).click();
+        cy.wait(500);
+      },
     },
     chipSelect: {
       remove: (field, value) => {
@@ -96,11 +101,8 @@ class BasicCommands {
     },
     toogleButton: {
       toogleValue: (field) => {
-        cy.xpath(
-          `//label[contains(.,'${field}') or @for='${field}']/ancestor::div[contains(@id,'${field}') or contains(@arialabel,'${field}') or contains(@id,'${field.toLowerCase()}') or contains(@arialabel,'${field.toLowerCase()}')]`)
-          .first()
-          .click('left', { force: true });
-          cy.wait(500);
+        cy.get(`[aria-label="${field}"]`).click();
+        cy.wait(500);
       },
     },
     menu: {

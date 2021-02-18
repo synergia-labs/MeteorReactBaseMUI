@@ -53,6 +53,10 @@ When('selecionei o valor {string} no campo {string}', (value,name) => {
   basicCommands.components.anyField.typeValue(name,value);
 })
 
+When('cliquei no valor {string} no campo {string}', (value,name) => {
+  basicCommands.components.anyField.selectValue(name,value);
+})
+
 When('marquei o valor {string} no campo {string}', (value,name) => {
   basicCommands.components.anyField.typeValue(name,value);
 })
