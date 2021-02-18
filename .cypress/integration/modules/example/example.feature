@@ -6,6 +6,7 @@ Feature: Módulo de exemplo
     Given acessei o sistema com o usuário "admin@mrb.com" e senha "admin@mrb.com"
     When cliquei em "Exemplos"
     And cliquei em "add"
+    And cliquei no botão de alternância "toggleField"
     And preenchi o campo "Título" com o valor "Texto do Título"
     And preenchi o campo "Descrição" com o valor "Texto da Descrição"
     And selecionei o valor "normal" no campo "Tipo"

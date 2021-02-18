@@ -17,7 +17,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
         <div style={error?toggleSwitchStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
             {otherProps&&!hasValue(otherProps.checksList)?
-                <FormControlLabel control={<Switch checked={!!value} onChange={handleChangeSwitch} name={'Switch'} id={'Switch'} label={'Switch'}/>}
+                <FormControlLabel control={<Switch id={"toggleField"} checked={!!value} onChange={handleChangeSwitch}/>}
                                   key={name}
                                   value={value}
                                   id={name}
