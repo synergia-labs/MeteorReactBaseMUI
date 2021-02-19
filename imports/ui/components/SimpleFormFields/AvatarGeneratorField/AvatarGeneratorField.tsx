@@ -290,6 +290,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
           {!this.props.readOnly ?
             <div>
               <Button
+                id="Selecionar Avatar"
                 variant="contained"
                 color="default"
                 style={avatarGeneratorStyle.selectImage}
@@ -324,6 +325,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                             width: 198, height: 198,
                         }}/>
                         <Button
+                            id='Avatar Aleatório'
                             variant={"outlined"}
                             color={"#74B9FF"}
                             style={{borderColor: '#74B9FF',color: '#74B9FF', backgroundColor: 'white'}}
@@ -388,10 +390,10 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
 
                 ):null}
                 <DialogActions>
-                    <Button autoFocus onClick={this.onClose} variant={"outlined"} color={"#74B9FF"} style={{borderColor: '#74B9FF', color: '#74B9FF'}}>
+                    <Button id='Fechar Avatar' autoFocus onClick={this.onClose} variant={"outlined"} color={"#74B9FF"} style={{borderColor: '#74B9FF', color: '#74B9FF'}}>
                         {'Fechar'}
                     </Button>
-                    <Button onClick={this.onSave}  variant={"contained"} color={"#74B9FF"} style={{borderColor: '#74B9FF', backgroundColor: '#74B9FF', color: 'white'}}>
+                    <Button id='Salvar Avatar' onClick={this.onSave}  variant={"contained"} color={"#74B9FF"} style={{borderColor: '#74B9FF', backgroundColor: '#74B9FF', color: 'white'}}>
                         {'Salvar'}
                     </Button>
                 </DialogActions>

@@ -1,0 +1,113 @@
+[
+  {
+    "description": "  Validando edição de tarefas",
+    "keyword": "Feature",
+    "name": "Módulo de editar tarefas",
+    "line": 1,
+    "id": "módulo-de-editar-tarefas",
+    "tags": [],
+    "uri": "avatar.feature",
+    "elements": [
+      {
+        "id": "módulo-de-editar-tarefas;editando-exemplo",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Editando exemplo",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
+            "result": {
+              "status": "passed",
+              "duration": 9852000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "cliquei em \"Exemplos\"",
+            "result": {
+              "status": "passed",
+              "duration": 2259000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "cliquei na linha com o texto \"Texto do Título\"",
+            "result": {
+              "status": "passed",
+              "duration": 2408000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "cliquei em \"Editar\"",
+            "result": {
+              "status": "passed",
+              "duration": 2284000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "cliquei no botão \"Selecionar Avatar\"",
+            "result": {
+              "status": "passed",
+              "duration": 2278000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "cliquei no botão \"Avatar Aleatório\"",
+            "result": {
+              "status": "passed",
+              "duration": 2279000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "cliquei no botão \"Salvar Avatar\"",
+            "result": {
+              "status": "passed",
+              "duration": 2325000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "acionei o comando \"Salvar\"",
+            "result": {
+              "status": "passed",
+              "duration": 2280000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
+            "result": {
+              "status": "passed",
+              "duration": 551000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

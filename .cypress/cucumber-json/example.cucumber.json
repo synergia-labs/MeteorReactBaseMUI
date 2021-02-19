@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 11359000000
+              "duration": 11143000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2595000000
+              "duration": 2554000000
             }
           },
           {
@@ -43,127 +43,157 @@
             "name": "cliquei em \"add\"",
             "result": {
               "status": "passed",
-              "duration": 2562000000
+              "duration": 2593000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 9,
-            "name": "preenchi o campo \"Título\" com o valor \"Texto do Título\"",
+            "name": "cliquei no botão \"Selecionar Avatar\"",
             "result": {
               "status": "passed",
-              "duration": 4852000000
+              "duration": 2567000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição\"",
+            "name": "cliquei no botão \"Avatar Aleatório\"",
             "result": {
               "status": "passed",
-              "duration": 4920000000
+              "duration": 2606000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 11,
-            "name": "selecionei o valor \"normal\" no campo \"Tipo\"",
+            "name": "cliquei no botão \"Salvar Avatar\"",
             "result": {
               "status": "passed",
-              "duration": 4717000000
+              "duration": 2651000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 12,
-            "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
+            "name": "preenchi o campo \"Título\" com o valor \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 5283000000
+              "duration": 4814000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 13,
-            "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
+            "name": "preenchi o campo \"Descrição\" com o valor \"Texto da Descrição\"",
             "result": {
               "status": "passed",
-              "duration": 4785000000
+              "duration": 4836000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 14,
-            "name": "cliquei em \"addSubForm\"",
+            "name": "selecionei o valor \"normal\" no campo \"Tipo\"",
             "result": {
               "status": "passed",
-              "duration": 2605000000
+              "duration": 4678000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 15,
-            "name": "preenchi o campo \"Nome da Tarefa\" com o valor \"Nome da Tarefa\"",
+            "name": "preenchi o campo \"Telefone\" com o valor \"31988883333\"",
             "result": {
               "status": "passed",
-              "duration": 4779000000
+              "duration": 4829000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 16,
-            "name": "preenchi o campo \"Descrição da Tarefa\" com o valor \"Descrição da Tarefa\"",
+            "name": "preenchi o campo \"CPF\" com o valor \"06543223456\"",
             "result": {
               "status": "passed",
-              "duration": 4832000000
+              "duration": 4797000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 17,
-            "name": "cliquei no botão de alternância \"toogleField\"",
+            "name": "cliquei em \"addSubForm\"",
             "result": {
               "status": "passed",
-              "duration": 2571000000
+              "duration": 2592000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 18,
-            "name": "cliquei no valor \"Doing\" no campo \"radioGroup\"",
+            "name": "preenchi o campo \"Nome da Tarefa\" com o valor \"Nome da Tarefa\"",
             "result": {
               "status": "passed",
-              "duration": 4625000000
+              "duration": 4811000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 19,
+            "name": "preenchi o campo \"Descrição da Tarefa\" com o valor \"Descrição da Tarefa\"",
+            "result": {
+              "status": "passed",
+              "duration": 4812000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 20,
+            "name": "cliquei no botão de alternância \"toogleField\"",
+            "result": {
+              "status": "passed",
+              "duration": 2566000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 21,
+            "name": "cliquei no valor \"Doing\" no campo \"radioGroup\"",
+            "result": {
+              "status": "passed",
+              "duration": 4617000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
             "name": "acionei o comando \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2578000000
+              "duration": 2579000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 20,
+            "line": 23,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi cadastrado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 1151000000
+              "duration": 1164000000
             }
           }
         ]
