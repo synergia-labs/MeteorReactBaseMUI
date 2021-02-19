@@ -43,7 +43,6 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
             <FileInputComponent
                 defaultFiles={hasValue(value)?[value]:undefined}
                 labelText={""}
-                data-cy={"image-input"}
                 name={name}
                 parentStyle={{border: error? '1px solid red':undefined}}
                 labelStyle={{fontSize:14}}

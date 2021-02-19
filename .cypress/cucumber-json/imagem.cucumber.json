@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 10081000000
+              "duration": 9736000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2375000000
+              "duration": 2271000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2594000000
+              "duration": 2439000000
             }
           },
           {
@@ -53,47 +53,36 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2365000000
+              "duration": 2290000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "cliquei em \"Selecionar imagem\"",
+            "name": "cliquei no valor \"testPicture.png\" no campo \"Selecionar imagem\"",
             "result": {
-              "status": "passed",
-              "duration": 2382000000
+              "status": "failed",
+              "duration": 6258000000,
+              "error_message": "AssertionError: Timed out retrying: Expected to find element: `[aria-label=\"testPicture.png\"]`, but never found it.\n    + expected - actual\n\n\n    at Object.selectValue (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:135:12)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:330:52)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:12229:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:11571:35)"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 11,
-            "name": "fiz o upload da foto",
-            "result": {
-              "status": "passed",
-              "duration": 168000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 12,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "passed",
-              "duration": 2438000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 13,
+            "line": 12,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
-              "status": "passed",
-              "duration": 881000000
+              "status": "skipped"
             }
           }
         ]

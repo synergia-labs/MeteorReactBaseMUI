@@ -81,7 +81,7 @@ class BasicCommands {
               this.components.select.select(cy.wrap($element).first(), value);
             } 
             if ($element.is(`input[type="file"]`)) {
-              this.components.select.type(cy.wrap($element).first(), value);
+              this.components.image.type(cy.wrap($element).first(), value);
             } 
             
           });
@@ -90,6 +90,12 @@ class BasicCommands {
         cy.get(`[id="${name}"]`).first().click();
         cy.get(`[aria-label="${value}"]`).click();
         cy.wait(200);
+      },
+      image: (value) => {
+        cy.fixture(`${value}`).as('logo')
+        .get('input[type=file]').then(function() {
+          return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
+        })
       },
     },
     chipSelect: {
