@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 11229000000
+              "duration": 11271000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2584000000
+              "duration": 2620000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2734000000
+              "duration": 2743000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2590000000
+              "duration": 2595000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "cliquei em \"Selecionar imagem\"",
             "result": {
               "status": "passed",
-              "duration": 2603000000
+              "duration": 2614000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "fiz o upload da foto",
             "result": {
               "status": "passed",
-              "duration": 83000000
+              "duration": 87000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "acionei o comando \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2638000000
+              "duration": 2629000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 1591000000
+              "duration": 1350000000
             }
           }
         ]
