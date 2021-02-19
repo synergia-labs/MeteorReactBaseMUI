@@ -4,21 +4,21 @@ class BasicCommands {
     signIn: (login, password) => {
       cy.clearCookies();
       cy.visit('/signin')
-      cy.wait(500);
+      cy.wait(200);
       this.utils.isVisible('#email');
       this.utils.isVisible('#password');
       cy.get('#email').type(login);
       cy.get('#password').type(password);
       cy.get('#btnEnter').click();
-      cy.wait(500);
+      cy.wait(200);
     },
     signUp: (login, password) => {
       cy.clearCookies();
       cy.visit('/signin')
-      cy.wait(500);
+      cy.wait(200);
       this.utils.isVisible('#email');
       this.utils.isVisible('#password');
-      cy.wait(500);
+      cy.wait(200);
     },
 
   };
@@ -27,7 +27,7 @@ class BasicCommands {
     openDrawer: () => {
       this.utils.isEnabledAndVisible('[aria-label="open drawer"]');
       cy.get('[aria-label="open drawer"]').click();
-      cy.wait(500);
+      cy.wait(200);
     },
     goToPath: (pathName) => {
       cy.visit(pathName,{
@@ -50,17 +50,16 @@ class BasicCommands {
             .xpath(`//*[self::Button or self::a or self::div[@role="button"] or self::li[@role="menuitem"]][contains(., "${label}") or contains(@label, "${label}") or contains(@aria-label, "${label}") or contains(@id, "${label}")]`)
           .first()
           .click('left', { force: true });
-          cy.wait(500);
+          cy.wait(200);
 
         } else {
           cy.xpath(
             `//*[self::Button or self::a or self::div[@role="button"] or self::li[@role="menuitem"]][contains(., "${label}") or contains(@label, "${label}") or contains(@aria-label, "${label}") or contains(@id, "${label}")]`).
             first().
             click('left', { force: true });
-            cy.wait(500);
+            cy.wait(200);
         }
       },
-
     },
     anyField: {
       typeValue: (name, value) => {
@@ -77,41 +76,57 @@ class BasicCommands {
             }
             else if ($element.is(`input[type="password"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
-            } else {
+            } 
+            else {
               this.components.select.select(cy.wrap($element).first(), value);
-            }
+            } 
+            if ($element.is(`input[type="file"]`)) {
+              this.components.select.type(cy.wrap($element).first(), value);
+            } 
+            
           });
+      },
+      selectValue: (name, value) => {
+        cy.get(`[id="${name}"]`).first().click();
+        cy.get(`[aria-label="${value}"]`).click();
+        cy.wait(200);
       },
     },
     chipSelect: {
       remove: (field, value) => {
         cy.get(`div#formControl_${field} div#${value} svg`).first().click();
-        cy.wait(500);
+        cy.wait(200);
       },
       selectValue: (field, value) => {
         cy.get(`div#formControl_${field} div[class^="MuiSelect"]`).first().click();
         cy.get(`li[data-value="${value}"]`).first().click();
         cy.get(`div[class^="MuiBackdrop"]`).click();
-        cy.wait(500);
+        cy.wait(200);
+      },
+    },
+    toogleButton: {
+      toogleValue: (field) => {
+        cy.get(`[aria-label="${field}"]`).click();
+        cy.wait(200);
       },
     },
     menu: {
       openMenu: (name) => {
         this.utils.isEnabledAndVisible(`[aria-label="${pathName}"]`);
         cy.get(`[aria-label="${pathName}"]`).click();
-        cy.wait(500);
+        cy.wait(200);
       },
     },
     select: {
       select: ($element, value) => {
         $element.first().click();
         cy.get(`li[data-value="${value}"]`).first().click();
-        cy.wait(500);
+        cy.wait(200);
       },
       selectValue: (field, value) => {
         cy.get(`div#formControl_${field} div[class^="MuiSelect"]`).first().click();
         cy.get(`li[data-value="${value}"]`).first().click();
-        cy.wait(500);
+        cy.wait(200);
       },
     },
     textfield: {
@@ -123,18 +138,18 @@ class BasicCommands {
         } else if (submit) {
           $element.submit();
         }
-        cy.wait(500);
+        cy.wait(200);
       },
       typeByName: (name, text) => {
         this.utils.isEnabledAndVisible(`input#${name}`);
         this.components.textfield.type(cy.get(`input#${name}`), text);
-        cy.wait(500);
+        cy.wait(200);
       },
 
       typeByNameAndSubmit: (name, text) => {
         this.utils.isEnabledAndVisible(`input#${name}`);
         this.components.textfield.type(cy.get(`input#${name}`), text, false, true);
-        cy.wait(500);
+        cy.wait(200);
       },
     },
 
@@ -144,7 +159,7 @@ class BasicCommands {
     verifyMessage: (message) => {
       this.utils.isVisible('#message-id');
       cy.get('#message-id').should('have.text', message);
-      cy.wait(500);
+      cy.wait(200);
     },
   };
 
@@ -156,7 +171,7 @@ class BasicCommands {
         get(`*[title^="remove"], *[id^="remove"], *[label^="remove"], *[aria-label^="remove"]`).
         first().
         click();
-        cy.wait(500);
+        cy.wait(200);
     },
     clickButtonOnLineThatContains: (textButton, text) => {
       cy.get('tr').
@@ -165,14 +180,14 @@ class BasicCommands {
         //get(`*[aria-label^="${textBotton}"]`).
         first().
         click();
-        cy.wait(500);
+        cy.wait(200);
     },
     clickLineThatContains: (text) => {
       cy.get('tr').
         get(`td:contains("${text}") ~ td`).
         first().
         click();
-        cy.wait(500);
+        cy.wait(200);
     },
     hasElementOnTableLine: (table, text) => {
       cy.get(`table#${table}`).
@@ -180,7 +195,7 @@ class BasicCommands {
         get(`td:contains("${text}")`).
         first().
         should('have.text', text);
-        cy.wait(500);
+        cy.wait(200);
     },
 
     notHasElementOnTableLine: (table, text) => {
@@ -189,7 +204,7 @@ class BasicCommands {
         get(`td:contains("${text}")`).
         first().
         should('not.have.text', text);
-        cy.wait(500);
+        cy.wait(200);
     },
 
   };
@@ -197,12 +212,12 @@ class BasicCommands {
   utils = {
     isEnabledAndVisible: (element) => {
       cy.get(element).invoke('width').should('be.gt', 0);
-      cy.wait(500);
+      cy.wait(200);
     },
 
     isVisible: (element) => {
       cy.get(element).invoke('width').should('be.gt', 0);
-      cy.wait(500);
+      cy.wait(200);
     },
 
     wait: () => {
@@ -213,7 +228,7 @@ class BasicCommands {
       cy.fixture('testPicture.png').as('logo')
       .get('input[type=file]').then(function() {
         return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
-         
+
           })
       },
 

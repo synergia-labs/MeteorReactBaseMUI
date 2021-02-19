@@ -17,6 +17,7 @@ import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
+import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
 
 import Typography from '@material-ui/core/Typography';
 import * as appStyles from "/imports/materialui/styles";
@@ -64,6 +65,12 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                     label={'Imagem'}
                     name={'image'}
                 />
+
+                <AvatarGeneratorField
+                  label={'Avatar'}
+                  name={'avatar'}
+                />
+
                 <FormGroup key={'fieldsOne'}>
                     <TextField
                         placeholder='Titulo'

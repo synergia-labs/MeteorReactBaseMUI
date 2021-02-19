@@ -21,14 +21,14 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
         <FormControl component="fieldset" style={error?radioButtonStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
             {!readOnly&&list?(
-                <RadioGroup name="value" value={value} onChange={handleChangeCheck} style={radioButtonStyle.radio}>
+                <RadioGroup id="radioGroup" value={value} onChange={handleChangeCheck} style={radioButtonStyle.radio}>
                     {list.map((itemCheck) => {
                         return <FormControlLabel
                                   key={itemCheck}
                                   value={itemCheck}
                                   id={itemCheck}
                                   label={itemCheck}
-                                control={<Radio color="primary" />}
+                                control={<Radio color="primary" inputProps={{ 'aria-label': itemCheck }} />}
                               />
                     })}
                 </RadioGroup>) : (

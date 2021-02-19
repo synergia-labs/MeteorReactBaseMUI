@@ -1,18 +1,18 @@
 [
   {
-    "description": "  Validando gravação de audio",
+    "description": "  Validando edição de tarefas",
     "keyword": "Feature",
-    "name": "Módulo de gravar audio",
+    "name": "Módulo de editar tarefas",
     "line": 1,
-    "id": "módulo-de-gravar-audio",
+    "id": "módulo-de-editar-tarefas",
     "tags": [],
-    "uri": "audio.feature",
+    "uri": "avatar.feature",
     "elements": [
       {
-        "id": "módulo-de-gravar-audio;gravando-audio",
+        "id": "módulo-de-editar-tarefas;editando-exemplo",
         "keyword": "Scenario",
         "line": 5,
-        "name": "Gravando audio",
+        "name": "Editando exemplo",
         "tags": [],
         "type": "scenario",
         "steps": [
@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 10620000000
+              "duration": 14230000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2316000000
+              "duration": 2493000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2750000000
+              "duration": 2569000000
             }
           },
           {
@@ -53,37 +53,37 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2304000000
+              "duration": 2378000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "acionei o comando \"record\"",
+            "name": "cliquei no botão \"Selecionar Avatar\"",
             "result": {
               "status": "passed",
-              "duration": 2362000000
+              "duration": 2455000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 11,
-            "name": "esperei",
+            "name": "cliquei no botão \"Avatar Aleatório\"",
             "result": {
               "status": "passed",
-              "duration": 5038000000
+              "duration": 2602000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 12,
-            "name": "acionei o comando \"play\"",
+            "name": "cliquei no botão \"Salvar Avatar\"",
             "result": {
               "status": "passed",
-              "duration": 2346000000
+              "duration": 2458000000
             }
           },
           {
@@ -93,67 +93,17 @@
             "name": "acionei o comando \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2404000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 14,
-            "name": "cliquei em \"Exemplos\"",
-            "result": {
-              "status": "passed",
-              "duration": 2294000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 15,
-            "name": "cliquei na linha com o texto \"Texto do Título\"",
-            "result": {
-              "status": "passed",
-              "duration": 2854000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 16,
-            "name": "cliquei em \"Editar\"",
-            "result": {
-              "status": "passed",
-              "duration": 2359000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 17,
-            "name": "acionei o comando \"delete\"",
-            "result": {
-              "status": "passed",
-              "duration": 2471000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 18,
-            "name": "acionei o comando \"Salvar\"",
-            "result": {
-              "status": "passed",
-              "duration": 2365000000
+              "duration": 2551000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 19,
+            "line": 14,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 1317000000
+              "duration": 806000000
             }
           }
         ]

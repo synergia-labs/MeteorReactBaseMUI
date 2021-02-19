@@ -1,18 +1,18 @@
 [
   {
-    "description": "  Validando upload de imagem",
+    "description": "  Validando edição de tarefas",
     "keyword": "Feature",
-    "name": "Módulo de upload de imagem",
+    "name": "Módulo de editar tarefas",
     "line": 1,
-    "id": "módulo-de-upload-de-imagem",
+    "id": "módulo-de-editar-tarefas",
     "tags": [],
-    "uri": "imagem.feature",
+    "uri": "options.feature",
     "elements": [
       {
-        "id": "módulo-de-upload-de-imagem;upload-de-imagem",
+        "id": "módulo-de-editar-tarefas;editando-exemplo",
         "keyword": "Scenario",
         "line": 5,
-        "name": "Upload de imagem",
+        "name": "Editando exemplo",
         "tags": [],
         "type": "scenario",
         "steps": [
@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 10081000000
+              "duration": 13606000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2375000000
+              "duration": 2370000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2594000000
+              "duration": 2734000000
             }
           },
           {
@@ -53,47 +53,37 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2365000000
+              "duration": 2347000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "cliquei em \"Selecionar imagem\"",
+            "name": "cliquei no valor \"Doing\" no campo \"radioGroup\"",
             "result": {
               "status": "passed",
-              "duration": 2382000000
+              "duration": 4466000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 11,
-            "name": "fiz o upload da foto",
-            "result": {
-              "status": "passed",
-              "duration": 168000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 12,
             "name": "acionei o comando \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2438000000
+              "duration": 2435000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 13,
+            "line": 12,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 881000000
+              "duration": 880000000
             }
           }
         ]

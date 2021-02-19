@@ -23,6 +23,7 @@
     "google-maps-react": "^2.0.6",
     "idb-keyval": "^4.0.1",
     "jquery": "^3.5.1",
+    "konva": "^7.2.3",
     "lodash": "^4.17.20",
     "meteor-node-stubs": "^1.0.1",
     "prop-types": "^15.7.2",

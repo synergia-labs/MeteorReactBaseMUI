@@ -211,7 +211,7 @@ const SnackBarContainer = (options = {
             autoHideDuration={16000}
             onClose={options.onClose}
         >
-            <Alert id={'message-id'} onClose={options.onClose} severity={options.type}>
+            <Alert id={'message-id'} arialabel={'message-id'} onClose={options.onClose} severity={options.type}>
               <div style={{display: 'flex', flexDirection: 'column'}}>
                 <div>
                   {options.title}

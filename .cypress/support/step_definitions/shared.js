@@ -29,8 +29,8 @@ When('cliquei no botão {string}', (label) => {
   basicCommands.components.button.click(label);
 })
 
-When('cliquei no botão de alternância {string}', (name) => {
-  basicCommands.components.anyField.typeLabel(name);
+When('cliquei no botão de alternância {string}', (field) => {
+  basicCommands.components.toogleButton.toogleValue(field);
 })
 
 When('acionei o comando {string}', (label) => {
@@ -51,6 +51,10 @@ When('exibição do campo {string} possui o valor {string}', (name,value) => {
 
 When('selecionei o valor {string} no campo {string}', (value,name) => {
   basicCommands.components.anyField.typeValue(name,value);
+})
+
+When('cliquei no valor {string} no campo {string}', (value,name) => {
+  basicCommands.components.anyField.selectValue(name,value);
 })
 
 When('marquei o valor {string} no campo {string}', (value,name) => {

@@ -128,12 +128,12 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
         <div style={audioRecorderStyle.subContainerRecord}>
           {!hasValue(value) || value=="-" ?
               <span style={audioRecorderStyle.subContainerRecord}>
-              <Fab color="secondary" aria-label="record" className="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
-                  <KeyboardVoiceIcon onClick={handleRecordAudio} value={values.recordButton} />
+              <Fab color="secondary" onClick={handleRecordAudio}  value={values.recordButton}  aria-label="record" className="record" id="record" disabled={!values.recordButton} style={audioRecorderStyle.buttonOptions}>
+                  <KeyboardVoiceIcon />
               </Fab>
 
-              <Fab color="secondary" aria-label="play" className="stop" disabled={!values.stopButton} style={audioRecorderStyle.buttonOptions}>
-                  <StopIcon onClick={handleStopRecordAudio} value={values.stopButton} />
+              <Fab color="secondary" aria-label="play" className="stop"onClick={handleStopRecordAudio} value={values.stopButton} disabled={!values.stopButton} style={audioRecorderStyle.buttonOptions}>
+                  <StopIcon />
               </Fab>
 
               {values.recordButton?'':
@@ -144,8 +144,8 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
           </span> :
           <span style={audioRecorderStyle.subContainerRecord}>
             <audio src={value} controlsList={"nodownload"} controls="controls" autobuffer="autobuffer" style={audioRecorderStyle.buttonOptions}/>
-              <Fab color="secondary" aria-label="delete" className="delete" style={audioRecorderStyle.buttonOptions}>
-                <DeleteIcon onClick={deleteAudio} />
+              <Fab color="secondary" aria-label="delete" className="delete" style={audioRecorderStyle.buttonOptions} onClick={deleteAudio}>
+                <DeleteIcon />
               </Fab>
           </span>
         }
