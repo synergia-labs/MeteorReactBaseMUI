@@ -141,7 +141,7 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                     />
                 </FormGroup>
 
-                <UploadFilesCollection
+               <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>

@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 10714000000
+              "duration": 11331000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2487000000
+              "duration": 2322000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2777000000
+              "duration": 2470000000
             }
           },
           {
@@ -53,18 +53,17 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2369000000
+              "duration": 2350000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "cliquei no valor \"testPicture.png\" no campo \"Selecionar imagem\"",
+            "name": "adicionei a foto \"testPicture.png\" no campo \"Selecionar imagem\"",
             "result": {
-              "status": "failed",
-              "duration": 6243000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `[aria-label=\"testPicture.png\"]`, but never found it.\n    + expected - actual\n\n\n    at Object.selectValue (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:133:12)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:329:52)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:12228:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:11570:35)"
+              "status": "passed",
+              "duration": 2282000000
             }
           },
           {
@@ -73,7 +72,8 @@
             "line": 11,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2599000000
             }
           },
           {
@@ -82,7 +82,8 @@
             "line": 12,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 732000000
             }
           }
         ]

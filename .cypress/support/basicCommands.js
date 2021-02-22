@@ -67,7 +67,7 @@ class BasicCommands {
           `//label[contains(.,'${name}') or @for='${name}' or contains(.,'select-${name}') or @for='select-${name}']/following-sibling::div//*[self::div[@role="button" and @aria-haspopup="true"] or self::div[@role="button" and @aria-haspopup="listbox"] or self::input]`).
           then($element => {
             if ($element.is(`input[type="file"]`)) {
-              this.components.anyField.image(cy.wrap($element).first(), value);
+              this.components.anyField.image(cy.wrap($element).first(), 'testPicture.png');
             } else if ($element.is(`input[type="text"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
             } else if ($element.is(`input[type="number"]`)) {
