@@ -268,13 +268,8 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
           <div>
           <SimpleLabelView label={this.props.label}/>
             {hasValue(this.props.value) && this.props.value!='' && this.props.value!='-'?
-            <div key={this.props.name}>
-                    <div style={{
-                        height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
-                        transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
-                            (isMobile ? 44 : 130)) / 900)})` : undefined,
-                        transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
-                    }}>
+            (
+                    <div>
                         <img
                             src={this.props.value}
                             style={{
@@ -284,7 +279,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                             }}
                         />
                     </div>
-            </div> : ( !!this.props.readOnly ? <div style={avatarGeneratorStyle.containerEmptyAvatar}>{'Não há avatar'}</div>: null)
+            ) : ( !!this.props.readOnly ? <div style={avatarGeneratorStyle.containerEmptyAvatar}>{'Não há avatar'}</div>: null)
           }
 
           {!this.props.readOnly ?
