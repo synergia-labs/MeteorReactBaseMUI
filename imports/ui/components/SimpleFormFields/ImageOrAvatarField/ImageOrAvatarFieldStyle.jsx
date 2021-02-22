@@ -31,7 +31,7 @@ const imageOrAvatarStyle = {
   },
   containerImageOrAvatarButton: {
     display:'flex',
-    flexDirection:'row',
+    flexDirection:'column',
     justifyContent:'left',
     marginTop:16,
     marginTop:0,

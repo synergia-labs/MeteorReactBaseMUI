@@ -3,13 +3,6 @@ import React from "react";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import AvatarGeneratorField from "/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField";
 import ImageCompactField from "/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField";
-
-import Button from '@material-ui/core/Button';
-import SyncIcon from '@material-ui/icons/Sync';
-import Divider from '@material-ui/core/Divider';
-
-import Fab from "@material-ui/core/Fab";
-
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -17,14 +10,18 @@ import Box from '@material-ui/core/Box';
 
 import {imageOrAvatarStyle} from "./ImageOrAvatarFieldStyle";
 import {hasValue} from "/imports/libs/hasValue";
-import {isMobile} from "/imports/libs/deviceVerify";
 
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 
 export default ({name, label, value, onChange, readOnly, error, ...otherProps}:IBaseSimpleFormComponent)=>{
 
   const [imageOrAvatar, setImageOrAvatar] = React.useState(0);
+  const [img, setImg] = React.useState(value);
+
+    const handleOnChange = (evt) => {
+        console.log('Evt',evt)
+        onChange({...evt,name},{name, value: evt.target.value});
+    }
 
   function TabPanel(props) {
       const { children, value, index, ...other } = props;
@@ -82,7 +79,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
         { !readOnly? (
           <div style={imageOrAvatarStyle.containerImageOrAvatarButton}>
               <Tabs
-                  orientation="vertical"
+                  orientation="horizontal"
                   variant="scrollable"
                   value={imageOrAvatar}
                   onChange={handleChange}
@@ -92,26 +89,28 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
                   <Tab label="Imagem Zoom+Slider" id='vertical-tab-0' aria-controls='vertical-tabpanel-0'/>
                   <Tab label="Avatar" id='vertical-tab-1' aria-controls='vertical-tabpanel-1'/>
                 </Tabs>
-                <TabPanel value={imageOrAvatar} index={0}>
+                <div style={{display:imageOrAvatar===0?undefined:'none'}}>
                   <ImageCompactField
-                    name={name}
-                    onChange={onChange}
+                    name={name+'_img'}
+                    width={150}
+                    height={150}
+                    onChange={handleOnChange}
                     error={error}
                     otherProps={otherProps}
                     value={value}
                     readOnly={readOnly}
                   />
-                </TabPanel>
-                <TabPanel value={imageOrAvatar} index={1}>
+                </div>
+              <div style={{display:imageOrAvatar===1?undefined:'none'}}>
                   <AvatarGeneratorField
-                    name={name}
-                    onChange={onChange}
+                      name={name+'_avt'}
+                    onChange={handleOnChange}
                     error={error}
                     otherProps={otherProps}
                     value={value}
                     readOnly={readOnly}
                   />
-                </TabPanel>
+                </div>
         </div> ) : null}
       </div>
     );

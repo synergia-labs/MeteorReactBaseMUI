@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
-import Typography from '@material-ui/core/Typography';
 import AvatarEditor from 'react-avatar-editor';
-
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
-import Fab from '@material-ui/core/Fab';
 import CameraIcon from '@material-ui/icons/Camera';
 
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
@@ -35,17 +22,13 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
       preview: null,
     });
 
+    const [editor, setEditor] = React.useState(null);
     const [image, setImage] = React.useState(null);
-    const [inputImage, setInputImage] = React.useState('');
     const [actualImage, setActualImage] = React.useState(value);
 
     const [scale, setScale] = React.useState(0.9);
-    const [width, setWidth] = React.useState(500);
-    const [height, setHeight] = React.useState(300);
-
-    const logCallback = (e, value) => {
-        // eslint-disable-next-line
-    };
+    const [width, setWidth] = React.useState(otherProps.width||300);
+    const [height, setHeight] = React.useState(otherProps.height||300);
 
     const handleScale = (e, valueScale) => {
         setScale(valueScale);
@@ -53,19 +36,25 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     };
 
     const handleSave = () => {
-        const img = this.editor.getImage().toDataURL();
-        handleInputImage(img);
+        if(editor) {
+            const img = !!otherProps.nocompress?editor.getImage().toDataURL():editor.getImageScaledToCanvas().toDataURL();
+            onChange({target:{value: img}},{name, value: img});
+        }
     };
 
     const handleNewImage = e => {
+        setActualImage(null);
         setImage(e.target.files[0]);
-        setActualImage(undefined);
+        handleSave()
     };
 
-    const handleInputImage = valueInput => {
-      setInputImage(valueInput);
-      onChange({target:{value: valueInput}},{name, value: valueInput});
-    };
+    useEffect(()=>{
+        if(!!readOnly||!actualImage&&!!value&&!image) {
+            setActualImage(value);
+        }
+
+    })
+
 
     const handlePositionChange = position => {
         setValues({
@@ -78,7 +67,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
 
     const deleteImageCompact = () => {
       setImage(null);
-      setInputImage('');
+        setActualImage(null);
 
       onChange({target:{value: '-'}},{name, value: '-'});
     }
@@ -142,7 +131,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                       <AvatarEditor
                           id={`avatarEditor${name}`}
                           ref={ref => {
-                              return this.editor = ref;
+                              setEditor(ref);
                           }}
                           scale={parseFloat(scale)}
                           width={width}
@@ -151,10 +140,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                           onPositionChange={handlePositionChange}
                           rotate={parseFloat(values.rotate)}
                           onSave={handleSave}
-                          onLoadFailure={logCallback(this, 'onLoadFailed')}
-                          onLoadSuccess={logCallback(this, 'onLoadSuccess')}
-                          onImageReady={handleSave}
-                          onImageLoad={logCallback(this, 'onImageLoad')}
+                          // onImageReady={handleSave}
                           image={image}
                           style={{position:'relative'}}
                       />
@@ -168,7 +154,27 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                           style={{padding: '10px 10px', width: width, margin: '10px 10px'}}
                       />
                       </div>
-                ) : null
+                ) : (
+                      (hasValue(actualImage) && actualImage!='' && actualImage!='-' ?
+                      (<div key={name}>
+                      <div style={{
+                      height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
+                      transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
+                      (isMobile ? 44 : 130)) / 900)})` : undefined,
+                      transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
+                  }}>
+                      <img
+                      id={`image${name}`}
+                      src={actualImage}
+                      style={{
+                      maxHeight: height,
+                      height: '100%', width: '100%',
+                      maxWidth: width,
+                  }}
+                      />
+                      </div>
+                      </div>) : null
+                  )
               }
                     <input
                         style={{display: 'none'}}
