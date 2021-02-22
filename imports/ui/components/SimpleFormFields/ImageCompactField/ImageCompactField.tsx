@@ -39,9 +39,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     const [inputImage, setInputImage] = React.useState('');
     const [actualImage, setActualImage] = React.useState(value);
 
-    console.log(actualImage);
-
-
     const [scale, setScale] = React.useState(0.9);
     const [width, setWidth] = React.useState(500);
     const [height, setHeight] = React.useState(300);

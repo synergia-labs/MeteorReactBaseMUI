@@ -49,6 +49,18 @@ export const exampleSch = {
       {value:'extra',label:'Extra'},
     ],
   },
+  type2: {
+    type: [String],
+    label: 'Tipo com vários valores',
+    defaultValue: '',
+    optional: true,
+    multiple:true,
+    options:[
+      {value:'normal',label:'Normal'},
+      {value:'extra',label:'Extra'},
+      {value:'minimo',label:'Minimo'},
+    ],
+  },
   date: {
     type: Date,
     label: 'Data',
@@ -125,12 +137,12 @@ export const exampleSch = {
     optional: true,
   },
   slider: {
-    type: String,
+    type: Number,
     label: 'Slider',
     defaultValue: 0,
     optional: true,
-    max: 0,
-    min: 10,
+    max: 100,
+    min: 0,
   },
   statusRadio: {
     type: String,

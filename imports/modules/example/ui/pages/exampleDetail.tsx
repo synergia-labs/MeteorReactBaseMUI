@@ -19,12 +19,9 @@ import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/Chip
 import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
-<<<<<<< HEAD
-=======
-import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 
+import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatarField/ImageOrAvatarField';
->>>>>>> storybook
 
 import Typography from '@material-ui/core/Typography';
 import * as appStyles from "/imports/materialui/styles";
@@ -76,8 +73,6 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                   name={'avatar'}
                 />
 
-<<<<<<< HEAD
-=======
                 <ImageCompactField
                   label={'Imagem Zoom+Slider'}
                   name={'imageC'}
@@ -88,7 +83,6 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                   name={'imageOrAvatar'}
                 />
 
->>>>>>> storybook
                 <FormGroup key={'fieldsOne'}>
                     <TextField
                         placeholder='Titulo'

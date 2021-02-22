@@ -7,9 +7,11 @@ import {sliderFieldStyle} from "./SliderFieldStyle";
 
 export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseSimpleFormComponent)=>{
 
-  const handleChange = (event: React.BaseSyntheticEvent, value: number) => {
+  //const [scale, setScale] = React.useState(value);
+
+  const handleChange = (event: React.BaseSyntheticEvent, valueS: Number) => {
     if(!readOnly){
-      onChange({target:{value: value}},{name, value: value});
+      onChange({name,target:{name,value: valueS}},{name,value: valueS});
     }
   }
 
@@ -20,19 +22,16 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
           {!hasValue(value) || value!="-" ?
             (
               <Slider
-                key={`slider-${value}`}
-                id='slider'
-                name='slider'
-                defaultValue={value || 0}
-                aria-labelledby="discrete-slider"
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={otherProps.min || 0}
-                max={otherProps.max || 10}
+                id={`slider${name}`}
+                value={value}
+                step={10}
+                min={otherProps.min}
+                max={otherProps.max}
                 disabled={readOnly}
                 onChange={handleChange}
                 valueLabelDisplay="on"
+                marks
+                style={sliderFieldStyle.slider}
               />
             ): null
           }

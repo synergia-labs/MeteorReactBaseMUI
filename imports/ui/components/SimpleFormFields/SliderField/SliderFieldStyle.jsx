@@ -17,6 +17,11 @@
  import {isMobile} from "/imports/libs/deviceVerify";
 
 const sliderFieldStyle = {
+  slider: {
+    padding: '10px 10px',
+    width: '60%',
+    margin: '10px 10px',
+  },
   containerSlider: {
     display:'flex',
     flexDirection:'column',

@@ -22,11 +22,7 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
             } else {
                 imgValue = fileData.base64;
             }
-<<<<<<< HEAD
-            onChange({name,target:{name,value: imgValue}},{name,value:imgValue})
-=======
-            onChange({target:{value: imgValue}},{name, value: imgValue});
->>>>>>> storybook
+            onChange({name,target:{name,value: imgValue}},{name,value:imgValue});
         }
     }
 
@@ -41,7 +37,6 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
     return (
       <div>
             <SimpleLabelView label={label}/>
-<<<<<<< HEAD
             <FileInputComponent
                 defaultFiles={hasValue(value)?[value]:undefined}
                 labelText={""}
@@ -66,30 +61,6 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
               }
             />
         </div>
-=======
-              <FileInputComponent
-                  defaultFiles={hasValue(value) && value!='' && value!='-'? [value]:undefined}
-                  labelText={""}
-                  name={name}
-                  parentStyle={{border: error? '1px solid red':undefined}}
-                  labelStyle={{fontSize:14}}
-                  multiple={false}
-                  callbackFunction={onFileSelect}
-                  accept="image/*"
-                  buttonComponent={
-                    <Button
-                      variant="contained"
-                      color="default"
-                      style={simpleImageStyle.selectImage}
-                      startIcon={<PhotoCameraIcon />}
-                      {..._.omit(otherProps, ['disabled', 'checked'])}
-                    >
-                      {'Selecionar imagem'}
-                    </Button>
-                }
-              />
-      </div>
->>>>>>> storybook
     );
 
 }
