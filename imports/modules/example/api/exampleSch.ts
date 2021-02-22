@@ -6,6 +6,13 @@ export const exampleSch = {
     optional: true,
     isImage: true,
   },
+  imageC: {
+    type: String,
+    label: 'Imagem Comp',
+    defaultValue: '',
+    optional: true,
+    isImage: true,
+  },
   avatar: {
     type: String,
     label: 'Avatar',
@@ -13,12 +20,18 @@ export const exampleSch = {
     optional: true,
     isAvatar: true,
   },
+  imageOrAvatar: {
+    type: String,
+    label: 'Imagem ou Avatar',
+    defaultValue: '',
+    optional: true,
+    isImage: true,
+  },
   title: {
     type: String,
     label: 'Título',
     defaultValue: '',
     optional: false,
-
   },
   description: {
     type: String,
@@ -34,18 +47,6 @@ export const exampleSch = {
     options:[
       {value:'normal',label:'Normal'},
       {value:'extra',label:'Extra'},
-    ],
-  },
-  type2: {
-    type: [String],
-    label: 'Tipo com vários valores',
-    defaultValue: '',
-    optional: true,
-    multiple:true,
-    options:[
-      {value:'normal',label:'Normal'},
-      {value:'extra',label:'Extra'},
-      {value:'minimo',label:'Minimo'},
     ],
   },
   date: {
@@ -123,34 +124,26 @@ export const exampleSch = {
     isMapLocation:true,
     optional: true,
   },
-  // statusCheck: {
-  //   type: Object,
-  //   label: 'Status CheckBox',
-  //   defaultValue: '',
-  //   optional: false,
-  //   checksList: ['Todo', 'Doing', 'Done'],
-  //   validate: (value) => {
-  //     const statusTrue = value&&Object.keys(value).filter( status => {
-  //       if(value[status]){
-  //         return status
-  //       }
-  //     })
-  //     return  statusTrue.length <= 1
-  //   }
-  // },
-
+  slider: {
+    type: String,
+    label: 'Slider',
+    defaultValue: 0,
+    optional: true,
+    max: 0,
+    min: 10,
+  },
   statusRadio: {
     type: String,
-    label: 'Opcoes disponíveis',
+    label: 'Status RadioButton',
     defaultValue: '',
-    optional: true,
+    optional: false,
     radiosList: ['Todo', 'Doing', 'Done'],
   },
   statusToggle: {
     type: Boolean,
-    label: 'Salvar automaticamente',
+    label: 'Status Toogle',
     defaultValue: false,
-    optional: true,
+    optional: false,
   }
 };
 

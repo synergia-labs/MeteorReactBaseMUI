@@ -16,9 +16,6 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import {hasValue} from "/imports/libs/hasValue";
 import { Meteor } from 'meteor/meteor';
 
-import withTracker from 'meteor/react-meteor-data/withTracker';
-import React from 'react';
-
 import IconButton from '@material-ui/core/IconButton';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -30,7 +27,6 @@ const {grey100, grey500, grey700} = ['#eeeeee','#c9c9c9','#a1a1a1'];
 
 import {uploadFilesStyle} from "./uploadFilesCollectionStyle";
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
-import {uploadFilesStyle} from "./uploadFilesCollectionStyle";
 
 const styles = {
     textoUploadArquivo: {

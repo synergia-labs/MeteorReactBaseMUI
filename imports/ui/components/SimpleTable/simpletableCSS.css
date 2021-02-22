@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
     width: 100%;
-. table-layout: fixed;
+    table-layout: fixed;
 }
 
 .mobileTable caption {
@@ -80,4 +80,3 @@
         border-bottom: 0;
     }
 }
-

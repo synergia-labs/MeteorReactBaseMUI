@@ -10,7 +10,13 @@ import {toggleSwitchStyle} from './ToggleFieldStyle'
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
 
     const handleChangeSwitch = (event:React.BaseSyntheticEvent) => {
+<<<<<<< HEAD
           onChange({name,target:{name,value: event.target.checked}},{name, value: event.target.checked});
+=======
+        if(!readOnly){
+          onChange({target:{value: event.target.checked}},{name,value: event.target.checked});
+        }
+>>>>>>> storybook
     }
 
     return (
