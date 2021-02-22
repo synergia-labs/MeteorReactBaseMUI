@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 9736000000
+              "duration": 10714000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2271000000
+              "duration": 2487000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2439000000
+              "duration": 2777000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2290000000
+              "duration": 2369000000
             }
           },
           {
@@ -63,8 +63,8 @@
             "name": "cliquei no valor \"testPicture.png\" no campo \"Selecionar imagem\"",
             "result": {
               "status": "failed",
-              "duration": 6258000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `[aria-label=\"testPicture.png\"]`, but never found it.\n    + expected - actual\n\n\n    at Object.selectValue (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:135:12)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:330:52)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:12229:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:11571:35)"
+              "duration": 6243000000,
+              "error_message": "AssertionError: Timed out retrying: Expected to find element: `[aria-label=\"testPicture.png\"]`, but never found it.\n    + expected - actual\n\n\n    at Object.selectValue (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:133:12)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:329:52)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:12228:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:11570:35)"
             }
           },
           {

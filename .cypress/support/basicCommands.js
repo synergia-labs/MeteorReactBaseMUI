@@ -66,7 +66,9 @@ class BasicCommands {
         cy.xpath(
           `//label[contains(.,'${name}') or @for='${name}' or contains(.,'select-${name}') or @for='select-${name}']/following-sibling::div//*[self::div[@role="button" and @aria-haspopup="true"] or self::div[@role="button" and @aria-haspopup="listbox"] or self::input]`).
           then($element => {
-            if ($element.is(`input[type="text"]`)) {
+            if ($element.is(`input[type="file"]`)) {
+              this.components.anyField.image(cy.wrap($element).first(), value);
+            } else if ($element.is(`input[type="text"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
             } else if ($element.is(`input[type="number"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
@@ -80,9 +82,6 @@ class BasicCommands {
             else {
               this.components.select.select(cy.wrap($element).first(), value);
             } 
-            if ($element.is(`input[type="file"]`)) {
-              this.components.image.type(cy.wrap($element).first(), value);
-            } 
             
           });
       },
@@ -91,7 +90,8 @@ class BasicCommands {
         cy.get(`[aria-label="${value}"]`).click();
         cy.wait(200);
       },
-      image: (value) => {
+      image: (name, value) => {
+        cy.get(`[id="${name}"]`).first().click();
         cy.fixture(`${value}`).as('logo')
         .get('input[type=file]').then(function() {
           return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
