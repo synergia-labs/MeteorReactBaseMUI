@@ -56,13 +56,11 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
       setImageOrAvatar(newValue);
     };
 
-    console.log(hasValue(value) && value!='' && value!='-');
-
-    if(!!readOnly) {
-        return (<div key={name}>
+    {!!readOnly ?
+         (<div key={name} id={name}>
           <SimpleLabelView label={label}/>
           {hasValue(value) && value!='' && value!='-' ?
-            <div key={name}>
+            <div key={name} id={name}>
                     <div style={{
                         height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
                         transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
@@ -71,6 +69,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
                     }}>
                         <img
                             src={value}
+                            id={name}
                             style={{
                                 maxHeight: '150px',
                                 height: '100%', width: '100%',
@@ -80,7 +79,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
                     </div>
             </div> : ( !!readOnly ? <div style={imageOrAvatarStyle.containerEmptyMidia}>{'Não há mídia'}</div>: null)
           }
-        </div>)
+        </div>) : null
     }
 
     return (
@@ -95,29 +94,27 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
                   aria-label="Vertical tabs example"
                   style={imageOrAvatarStyle.tabs}
                 >
-                  <Tab label="Imagem Zoom+Slider" id='vertical-tab-0' aria-controls='vertical-tabpanel-0'>
-                  {'teste'}
-                  </Tab>
+                  <Tab label="Imagem Zoom+Slider" id='vertical-tab-0' aria-controls='vertical-tabpanel-0'/>
                   <Tab label="Avatar" id='vertical-tab-1' aria-controls='vertical-tabpanel-1'/>
                 </Tabs>
                 <TabPanel value={imageOrAvatar} index={0}>
                   <ImageCompactField
                     name={name}
                     onChange={onChange}
-                    readOnly={readOnly}
                     error={error}
                     otherProps={otherProps}
                     value={value}
+                    readOnly={readOnly}
                   />
                 </TabPanel>
                 <TabPanel value={imageOrAvatar} index={1}>
                   <AvatarGeneratorField
                     name={name}
                     onChange={onChange}
-                    readOnly={readOnly}
                     error={error}
                     otherProps={otherProps}
                     value={value}
+                    readOnly={readOnly}
                   />
                 </TabPanel>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -26,8 +26,8 @@ import {compactImageStyle} from "./ImageCompactFieldStyle";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseSimpleFormComponent) => {
 
+export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent) => {
     const [values, setValues] = React.useState({
       allowZoomOut: false,
       position: {x: 0.5, y: 0.5},
@@ -38,6 +38,10 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
     const [image, setImage] = React.useState(null);
     const [inputImage, setInputImage] = React.useState('');
     const [actualImage, setActualImage] = React.useState(value);
+
+    console.log(actualImage);
+
+
     const [scale, setScale] = React.useState(0.9);
     const [width, setWidth] = React.useState(500);
     const [height, setHeight] = React.useState(300);
@@ -78,6 +82,7 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
     const deleteImageCompact = () => {
       setImage(null);
       setInputImage('');
+
       onChange({target:{value: '-'}},{name, value: '-'});
     }
 
@@ -109,33 +114,36 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
       <div key={name} style={compactImageStyle.containerImage}>
           <SimpleLabelView label={label}/>
 
-          {hasValue(value) && value!='' && value!='-' && !!readOnly ?
-            <div key={name}>
-                    <div style={{
-                        height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
-                        transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
-                            (isMobile ? 44 : 130)) / 900)})` : undefined,
-                        transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
-                    }}>
-                        <img
-                            src={value}
-                            style={{
-                                maxHeight: height,
-                                height: '100%', width: '100%',
-                                maxWidth: width,
-                            }}
-                        />
-                    </div>
-            </div> : ( !!readOnly ? <div style={compactImageStyle.containerEmptyImageC}>{'Não há imagem'}</div>: null)
+          {!!readOnly ?
+            (hasValue(actualImage) && actualImage!='' && actualImage!='-' ?
+              (<div key={name}>
+                      <div style={{
+                          height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
+                          transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
+                              (isMobile ? 44 : 130)) / 900)})` : undefined,
+                          transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
+                      }}>
+                          <img
+                              id={`image${name}`}
+                              src={actualImage}
+                              style={{
+                                  maxHeight: height,
+                                  height: '100%', width: '100%',
+                                  maxWidth: width,
+                              }}
+                          />
+                      </div>
+              </div>) : <div style={compactImageStyle.containerEmptyImageC}>{'Não há imagem'}</div>
+            ) : null
           }
 
         {!readOnly ?
-
                 <div>
-                  {!value && !!image ?
+                  {!actualImage && !!image ?
                    (
                       <div style={{display: 'flex', flexDirection: 'column', overflow: 'hidden', width: 'auto'}}>
                       <AvatarEditor
+                          id={`avatarEditor${name}`}
                           ref={ref => {
                               return this.editor = ref;
                           }}
@@ -154,6 +162,7 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
                           style={{position:'relative'}}
                       />
                       <Slider
+                          id={`slider${name}`}
                           min={1}
                           max={4}
                           step={0.1}
@@ -174,6 +183,7 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
                     />
                     <label htmlFor={`imageInput${name}`}>
                         <Button
+                          id={`buttonInsert${name}`}
                           variant="contained"
                           color="default"
                           style={compactImageStyle.selectImage}
@@ -184,6 +194,7 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
                         </Button>
                     </label>
                     <Button
+                      id={`buttonDelete${name}`}
                       variant="contained"
                       color="default"
                       style={compactImageStyle.selectImage}

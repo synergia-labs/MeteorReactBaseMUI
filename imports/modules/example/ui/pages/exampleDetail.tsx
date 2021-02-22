@@ -16,6 +16,7 @@ import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/Up
 import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
+import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
 import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
@@ -116,6 +117,11 @@ const ExampleDetail = ({screenState, loading, exampleDoc, save, history}: IExamp
                         name='description'
                     />
                 </FormGroup>
+
+                <SliderField
+                    placeholder='Slider'
+                    name='slider'
+                />
 
                 <ToggleSwitchField
                     placeholder='Status da Tarefa'

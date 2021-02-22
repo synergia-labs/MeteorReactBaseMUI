@@ -32,7 +32,6 @@ export const exampleSch = {
     label: 'Título',
     defaultValue: '',
     optional: false,
-
   },
   description: {
     type: String,
@@ -125,21 +124,14 @@ export const exampleSch = {
     isMapLocation:true,
     optional: true,
   },
-  // statusCheck: {
-  //   type: Object,
-  //   label: 'Status CheckBox',
-  //   defaultValue: '',
-  //   optional: false,
-  //   checksList: ['Todo', 'Doing', 'Done'],
-  //   validate: (value) => {
-  //     const statusTrue = value&&Object.keys(value).filter( status => {
-  //       if(value[status]){
-  //         return status
-  //       }
-  //     })
-  //     return  statusTrue.length <= 1
-  //   }
-  // },
+  slider: {
+    type: String,
+    label: 'Slider',
+    defaultValue: 0,
+    optional: true,
+    max: 0,
+    min: 10,
+  },
   statusRadio: {
     type: String,
     label: 'Status RadioButton',
