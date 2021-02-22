@@ -56,35 +56,30 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
       setImageOrAvatar(newValue);
     };
 
-    {!!readOnly ?
-         (<div key={name} id={name}>
-          <SimpleLabelView label={label}/>
-          {hasValue(value) && value!='' && value!='-' ?
-            <div key={name} id={name}>
-                    <div style={{
-                        height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
-                        transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
-                            (isMobile ? 44 : 130)) / 900)})` : undefined,
-                        transformOrigin: (window.innerWidth) < 901 ? '0 0' : undefined,
-                    }}>
-                        <img
-                            src={value}
-                            id={name}
-                            style={{
-                                maxHeight: '150px',
-                                height: '100%', width: '100%',
-                                maxWidth: '150px',
-                            }}
-                        />
-                    </div>
-            </div> : ( !!readOnly ? <div style={imageOrAvatarStyle.containerEmptyMidia}>{'Não há mídia'}</div>: null)
-          }
-        </div>) : null
-    }
-
-    return (
+    return(
       <div key={name} style={error? imageOrAvatarStyle.containerImageOrAvatarError:imageOrAvatarStyle.containerImageOrAvatar}>
         <SimpleLabelView label={label}/>
+
+        {!!readOnly ?
+             (<div key={name} id={name}>
+              {hasValue(value) && value!='' && value!='-' ?
+                        (<div>
+                            <img
+                                src={value}
+                                id={name}
+                                style={{
+                                    maxHeight: '150px',
+                                    height: '100%', width: '100%',
+                                    maxWidth: '150px',
+                                }}
+                            />
+                        </div>
+                ) : ( !!readOnly ? <div style={imageOrAvatarStyle.containerEmptyMidia}>{'Não há mídia'}</div>: null)
+              }
+            </div>) : null
+        }
+
+        { !readOnly? (
           <div style={imageOrAvatarStyle.containerImageOrAvatarButton}>
               <Tabs
                   orientation="vertical"
@@ -117,7 +112,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
                     readOnly={readOnly}
                   />
                 </TabPanel>
-        </div>
+        </div> ) : null}
       </div>
-    )
+    );
 }
