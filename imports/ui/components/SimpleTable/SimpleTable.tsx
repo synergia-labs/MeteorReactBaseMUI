@@ -13,7 +13,6 @@ import Chip from "@material-ui/core/Chip";
 import {simpleTableStyle} from "./SimpleTableStyle";
 import {Typography} from "@material-ui/core";
 
-
 interface ISimpleTable {
     schema:object;
     data:object[];

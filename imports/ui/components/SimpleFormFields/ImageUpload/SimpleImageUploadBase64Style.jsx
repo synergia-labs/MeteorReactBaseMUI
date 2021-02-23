@@ -19,6 +19,10 @@ const simpleImageStyle = {
     display:'flex',
     flexDirection:'column',
   },
+  containerImageButtons: {
+    display:'flex',
+    flexDirection:'column',
+  },
   containerShowImage: {
     maxWidth:360,
     maxHeight:320,

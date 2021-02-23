@@ -118,6 +118,32 @@ Acesse o sistema através do seu browser no endereço "http://localhost:3000" co
 
  ## TRABALHANDO COM MÓDULOS ##
 
+<<<<<<< HEAD
+=======
+ ### Meu primeiro módulo ###
+
+A forma mais fácil de entender o funcionamento do MeteorReactBaseMUI é criando um novo módulo.
+
+Para isso, iremos utilizar o arquivo "cloneModule.sh" para gerar um novo módulo com base no template existente. No terminal de seu sistema, acesse a pasta de "./modulestemplate" e execute o seguinte o comando:
+
+	.\clonemodule.sh example nome_do_modulo
+
+Desta forma, uma cópia do template de módulo será criado em "/imports/modules" com o nome de **nome_do_modulo** e o próximo passo será personalizar o módulo com campos de formulário.
+
+Neste ponto, iremos utilizar o Dev Utils para gerar os campos de nosso primeiro formulário através do endereço:
+
+    http://localhost:3000/devutils
+
+Neste endereço, há configurações disponíveis para dois módulos:
+
+    1. Example: Com campos no schema que correspondem ao formulário de criação de tarefas, por exemplo: Título, Descrição e Data. (template base sobre o qual o novo módulo foi gerado)
+    2. UserProfile: Com campos no schema que correspondem ao perfil do usuário, por exemplo: Email, Foto e Nome de Usuário.
+
+Uma vez escolhidos os campos do módulo desejado, será gerado um trecho de código que informará quais importações serão necessárias para utilização dos componentes correspondentes a estes campos.
+
+Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.ts" dentro do módulo que você gerou (**nome_do_modulo**, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
+
+>>>>>>> storybook
 ### Entendendo a estrutura de um módulo no MeteorReactBaseMUI ###       
 
 O módulo possui uma estrutura muito semelhante à do MeteorReactBaseMUI. Apresentaremos a seguir a estrutura de pasta e a função de cada arquivo:

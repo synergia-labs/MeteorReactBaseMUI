@@ -86,10 +86,17 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
 
       if (!!mask) {
           const inputValue = applyMask(event.target.value, mask);
+<<<<<<< HEAD
           onChange({name,target:{name,value: inputValue}},{name,value: inputValue})
       }
       else {
         onChange({name,target:{name,value: event.target.value}},{name, value: event.target.value});
+=======
+          onChange({target:{value: inputValue}},{name,value: inputValue})
+      }
+      else {
+        onChange({target:{value: event.target.value}},{name, value: event.target.value});
+>>>>>>> storybook
       }
   }
 

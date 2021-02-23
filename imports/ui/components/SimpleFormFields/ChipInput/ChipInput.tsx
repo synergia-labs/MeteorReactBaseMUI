@@ -25,7 +25,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     const handleInsert = (chipText:string) => {
         const verifyItemInList = value&&value.find(chip => chip === chipText)||[];
         if(isFieldValid(chipText)&&verifyItemInList.length === 0){
-            onChange({},{name,value:[...value, chipText]})
+            onChange({target:{value: [...(value || []), chipText]}},{name,value:[...(value || []), chipText]})
         }
         setChipText('')
     }
@@ -45,7 +45,6 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
             {!readOnly?
                 <div style={styles.input}>
                     <TextField
-                      label={"chips"}
                       placeholder={otherProps.placeHolder}
                       value={chipText}
                       onChange={handleOnChange}

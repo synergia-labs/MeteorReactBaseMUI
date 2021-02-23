@@ -11,8 +11,6 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
-import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-
 import {hasValue} from "/imports/libs/hasValue";
 
 export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormComponent)=>{
@@ -25,7 +23,8 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
   let recorder:any = null;
 
   const deleteAudio = () => {
-      onChange({},{name,value: '-'})
+      onChange({target:{value: '-'}},{name,value: '-'})
+
       setValues({
         ...values,
         ['recordButton']: true, ['stopButton']: false, ['audioButton']: false , ['deleteButton']: false
@@ -44,7 +43,11 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
         let reader = new FileReader()
         reader.onloadend = () => {
             //console.log(reader.result);
+<<<<<<< HEAD
             onChange({name,target:{name,value: reader.result}},{name, value: reader.result}); // You can upload the base64 to server here.
+=======
+            onChange({target:{value: reader.result}},{name, value: reader.result}); // You can upload the base64 to server here.
+>>>>>>> storybook
         }
 
         reader.readAsDataURL(e.data);

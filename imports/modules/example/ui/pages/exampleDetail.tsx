@@ -16,15 +16,17 @@ import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/Up
 import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
+import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
+
+import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
+import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatarField/ImageOrAvatarField';
 
 import Typography from '@material-ui/core/Typography';
 import * as appStyles from "/imports/materialui/styles";
 import Print from '@material-ui/icons/Print';
 import Close from '@material-ui/icons/Close';
-
-// import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
 interface IExampleDetail {
     screenState: string;
@@ -69,6 +71,16 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                 <AvatarGeneratorField
                   label={'Avatar'}
                   name={'avatar'}
+                />
+
+                <ImageCompactField
+                  label={'Imagem Zoom+Slider'}
+                  name={'imageC'}
+                />
+
+                <ImageOrAvatar
+                  label={'Imagem ou Avatar'}
+                  name={'imageOrAvatar'}
                 />
 
                 <FormGroup key={'fieldsOne'}>
@@ -123,6 +135,11 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                         name='description'
                     />
                 </FormGroup>
+
+                <SliderField
+                    placeholder='Slider'
+                    name='slider'
+                />
 
                 <ToggleSwitchField
                     placeholder='Status da Tarefa'
