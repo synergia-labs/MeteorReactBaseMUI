@@ -642,19 +642,20 @@ Após a instalação, para rodar o Storybook utilize:
 
 Você será redirecionado para a página da aplicação do Storybook e irá encontrar os principais componentes a serem utilizados no sistema, bem como sua função, formato de schema a ser definido no banco de dados, como usar o componentes e aspectos visuais para estlização. O Storybook foi implementado para facilitar a documentação dos componentes e entendimento acerca da utilização dos mesmos.
 
-# CYPRESS E TESTES DE INTEGRAÇÃO #
+# CYPRESS E TESTES AUTOMATIZADOS #
 
-Para o MaterialReactBaseMUI, optamos por implementar o Cypress para implementação de testes automatizados end-to-end usando JavaScript, para ajudar na identificação, importação e utilização dos componentes.
+Para o MaterialReactBaseMUI, optamos por implementar o Cypress para implementação de testes automatizados end-to-end usando JavaScript para auxiliar na testagem dos componentes e da interação dos mesmos na aplicação.
 
 ## PRIMEIROS PASSOS ##
 
-Assim como no Storybook, antes da instalação do Storybook, certifique-se de que possui o comando Npm instalado em sua máquina utilizando:
+Assim como no Storybook, antes da instalação do Cypress certifique-se de que possui o comando Npm instalado em sua máquina utilizando:
 
 	npm -v
 	
 Caso não possua, prossiga para instalação do NodeJs como instruído no tópico "Primeiros Passos" no Storybook.
 
-Para instalação e mais informações sobre o Cypress acesse o conteúdo disponível em https://www.cypress.io/. Ou utilize o seguinte comando:
+Para instalação e mais informações sobre o Cypress acesse o conteúdo disponível em https://www.cypress.io/. 
+Ou utilize o seguinte comando:
 	
     npm install cypress
 
@@ -666,6 +667,6 @@ E para abrir uma interface gráfica utilize o comando:
 
     npm run cypress:gui
 
-Por fim, você será redirecionado para a página da aplicação do Cypress e irá encontrar os testes já implementados a serem utilizados como base no sistema.
+Uma vez executado, o Cypress irá redireciona-lo para a página da aplicação onde você poderá encontrar os testes já implementados a serem utilizados como base no sistema.
 
-**Observação**: Caso deseje verificar exemplos de uso e tutoriais de como criar um teste automatizado no cypress utilizando os comandos, funções, assertions, actions, navigations, entre outros componentes disponíveis acesse a documentação completa e testável disponível em https://example.cypress.io.
+**Observação**: Caso deseje verificar exemplos de uso e tutoriais de como criar um teste automatizado no cypress utilizando os comandos, funções, assertions, actions, navigations, entre outros componentes disponíveis, acesse a documentação completa e testável disponível em https://example.cypress.io.
