@@ -12,13 +12,7 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
     const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string) => {
             const newValue = typeof(value) === 'object' ? value : {}
             newValue[itemCheck]= event.target.checked
-<<<<<<< HEAD
             onChange({name,target:{name,value: newValue}},{name,value: newValue})
-=======
-            onChange({target:{value: newValue}},{name,value: newValue})
-            setLoadRender(loadRender+1);
-        }
->>>>>>> storybook
     }
 
     const list = otherProps.checksList&&hasValue(otherProps.checksList)?otherProps.checksList:(schema&&hasValue(schema.checksList)?schema.checksList:null);

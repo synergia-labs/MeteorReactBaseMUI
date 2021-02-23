@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 10714000000
+              "duration": 11622000000
             }
           },
           {
@@ -32,8 +32,9 @@
             "line": 7,
             "name": "cliquei em \"Exemplos\"",
             "result": {
-              "status": "passed",
-              "duration": 2487000000
+              "status": "failed",
+              "duration": 51000000,
+              "error_message": "TypeError: cmd is null\n\nAll 2 subject validations failed on this subject.\n    validateType@http://localhost:3000/__cypress/runner/cypress_runner.js:160069:16\n    ensureSubjectByType@http://localhost:3000/__cypress/runner/cypress_runner.js:160122:23\n    pushSubjectAndValidate@http://localhost:3000/__cypress/runner/cypress_runner.js:167841:15\n    wrapByType/<@http://localhost:3000/__cypress/runner/cypress_runner.js:168169:18\n    runCommand/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\nFrom previous event:\n    runCommand@http://localhost:3000/__cypress/runner/cypress_runner.js:167582:8\n    next@http://localhost:3000/__cypress/runner/cypress_runner.js:167728:14\n    next/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167756:16\n    runCommand@http://localhost:3000/__cypress/runner/cypress_runner.js:167582:8\n    next@http://localhost:3000/__cypress/runner/cypress_runner.js:167728:14\n    next/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167756:16"
             }
           },
           {
@@ -42,8 +43,7 @@
             "line": 8,
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
-              "status": "passed",
-              "duration": 2777000000
+              "status": "skipped"
             }
           },
           {
@@ -52,19 +52,16 @@
             "line": 9,
             "name": "cliquei em \"Editar\"",
             "result": {
-              "status": "passed",
-              "duration": 2369000000
+              "status": "skipped"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "cliquei no valor \"testPicture.png\" no campo \"Selecionar imagem\"",
+            "name": "fiz o upload da foto",
             "result": {
-              "status": "failed",
-              "duration": 6243000000,
-              "error_message": "AssertionError: Timed out retrying: Expected to find element: `[aria-label=\"testPicture.png\"]`, but never found it.\n    + expected - actual\n\n\n    at Object.selectValue (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:133:12)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:329:52)\n    at Context.resolveAndRunStepDefinition (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:12228:9)\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:11570:35)"
+              "status": "skipped"
             }
           },
           {

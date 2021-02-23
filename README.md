@@ -118,8 +118,6 @@ Acesse o sistema através do seu browser no endereço "http://localhost:3000" co
 
  ## TRABALHANDO COM MÓDULOS ##
 
-<<<<<<< HEAD
-=======
  ### Meu primeiro módulo ###
 
 A forma mais fácil de entender o funcionamento do MeteorReactBaseMUI é criando um novo módulo.
@@ -143,7 +141,6 @@ Uma vez escolhidos os campos do módulo desejado, será gerado um trecho de cód
 
 Para personalizar os campos do formulário, acesse o arquivo "exampleDetail.ts" dentro do módulo que você gerou (**nome_do_modulo**, para fins de exemplo), cole as importações geradas no ínicio do arquivo e os componentes gerados (</>) dentro do componente de SimpleForm, que será responsável por cadastrar e validar dados utilizando esses novos campos de formulário.
 
->>>>>>> storybook
 ### Entendendo a estrutura de um módulo no MeteorReactBaseMUI ###       
 
 O módulo possui uma estrutura muito semelhante à do MeteorReactBaseMUI. Apresentaremos a seguir a estrutura de pasta e a função de cada arquivo:
@@ -497,13 +494,13 @@ propriedades que são consideradas pelo SimpleForm para tratar as questões de i
 * **label** - recebe o texto a ser exibido como título do campo.
 * **value** - recebe o valor a ser exibido como conteúdo ou estado do campo.
 * **onChange** - nesta propriedade é esperado que seja passado o nome do campo e valor correspondente para inserção no BD. Exemplo:
-  
+
       const imgValue = (...);
       onChange({target:{value: imgValue}},{ name, value: imgValue});
 * **error** - está propriedade é um boleano que informa se ocorreu ou não algum erro no componente e, se afirmativo, a mensagem é exibida
 para o usúario assim como algumas característica do componentes serão exibidos na cor vermelha.
-* **readOnly** - está propriedade é um boleano que informa se o estado atual do componente é somente visualização e, se afirmativo, não é permitida a edição dos conteúdos dos campos. 
-* **otherProps** - outras propriedades específicas de um componente como, por exemplo, a propriedade de "checked" para identificar o estado de um componente do tipo CheckBox. 
+* **readOnly** - está propriedade é um boleano que informa se o estado atual do componente é somente visualização e, se afirmativo, não é permitida a edição dos conteúdos dos campos.
+* **otherProps** - outras propriedades específicas de um componente como, por exemplo, a propriedade de "checked" para identificar o estado de um componente do tipo CheckBox.
 
 Independente do que o componente faz, se ele recebe essas propriedades ele poderá ser utilizado automaticamente pelo SimpleForm.
 
@@ -531,7 +528,7 @@ Vamos às explicações:
 
 ### Estilizando elementos ###
 
-A estilização dos componentes foi feita em um arquivo .tsx à parte com a separação do estilo de cada um. 
+A estilização dos componentes foi feita em um arquivo .tsx à parte com a separação do estilo de cada um.
 O nome dos arquivos seguem o padrão **nomeStyle.jsx** de acordo com o nome de cada componente.
 
 		const nomeStyle = {
@@ -633,7 +630,7 @@ Antes da instalação do Storybook, certifique-se de que possui o NodeJs, Npm e 
 	node -v
 	npm -v
 	npx -v
-	
+
 Caso não possua algum destes, prossiga para instalação do NodeJs em sua versão mais atualizada através do link https://nodejs.org/en/download/. Após a atualização, os comandos de npm e npx também serão atualizados para sua versão mais recente, portanto, prossiga para a instalação e mais informações sobre o Storybook disponível em https://storybook.js.org/docs/react/get-started/introduction.
 
 Após a instalação, para rodar o Storybook utilize:

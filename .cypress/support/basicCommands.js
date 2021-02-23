@@ -78,11 +78,11 @@ class BasicCommands {
             }
             else if ($element.is(`input[type="password"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
-            } 
+            }
             else {
               this.components.select.select(cy.wrap($element).first(), value);
-            } 
-            
+            }
+
           });
       },
       selectValue: (name, value) => {

@@ -19,7 +19,6 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
   const [img, setImg] = React.useState(value);
 
     const handleOnChange = (evt) => {
-        console.log('Evt',evt)
         onChange({...evt,name},{name, value: evt.target.value});
     }
 
@@ -83,7 +82,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
                   variant="scrollable"
                   value={imageOrAvatar}
                   onChange={handleChange}
-                  aria-label="Vertical tabs example"
+                  aria-label="horizontal tabs example"
                   style={imageOrAvatarStyle.tabs}
                 >
                   <Tab label="Imagem Zoom+Slider" id='vertical-tab-0' aria-controls='vertical-tabpanel-0'/>
@@ -103,7 +102,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
                 </div>
               <div style={{display:imageOrAvatar===1?undefined:'none'}}>
                   <AvatarGeneratorField
-                      name={name+'_avt'}
+                    name={name+'_avt'}
                     onChange={handleOnChange}
                     error={error}
                     otherProps={otherProps}
