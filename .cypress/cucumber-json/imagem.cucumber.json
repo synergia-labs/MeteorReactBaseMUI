@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 11622000000
+              "duration": 9987000000
             }
           },
           {
@@ -32,9 +32,8 @@
             "line": 7,
             "name": "cliquei em \"Exemplos\"",
             "result": {
-              "status": "failed",
-              "duration": 51000000,
-              "error_message": "TypeError: cmd is null\n\nAll 2 subject validations failed on this subject.\n    validateType@http://localhost:3000/__cypress/runner/cypress_runner.js:160069:16\n    ensureSubjectByType@http://localhost:3000/__cypress/runner/cypress_runner.js:160122:23\n    pushSubjectAndValidate@http://localhost:3000/__cypress/runner/cypress_runner.js:167841:15\n    wrapByType/<@http://localhost:3000/__cypress/runner/cypress_runner.js:168169:18\n    runCommand/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\nFrom previous event:\n    runCommand@http://localhost:3000/__cypress/runner/cypress_runner.js:167582:8\n    next@http://localhost:3000/__cypress/runner/cypress_runner.js:167728:14\n    next/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167756:16\n    runCommand@http://localhost:3000/__cypress/runner/cypress_runner.js:167582:8\n    next@http://localhost:3000/__cypress/runner/cypress_runner.js:167728:14\n    next/<@http://localhost:3000/__cypress/runner/cypress_runner.js:167756:16"
+              "status": "passed",
+              "duration": 2271000000
             }
           },
           {
@@ -43,7 +42,8 @@
             "line": 8,
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2413000000
             }
           },
           {
@@ -52,16 +52,18 @@
             "line": 9,
             "name": "cliquei em \"Editar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2281000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "fiz o upload da foto",
+            "name": "escolhi a imagem \"testPicture.png\" no botão \"Selecionar imagem\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2100000000
             }
           },
           {
@@ -70,7 +72,8 @@
             "line": 11,
             "name": "acionei o comando \"Salvar\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 2289000000
             }
           },
           {
@@ -79,7 +82,8 @@
             "line": 12,
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 572000000
             }
           }
         ]

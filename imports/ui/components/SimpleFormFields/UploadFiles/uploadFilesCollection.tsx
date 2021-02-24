@@ -436,7 +436,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
     getConteudoDropzone = (getRootProps:any, getInputProps:any,  isDragActive:boolean, isDragReject:boolean) => {
         return (
-            <div style={{...uploadFilesStyle.containerDropzone ,
+            <div data-cy="dropzone" style={{...uploadFilesStyle.containerDropzone ,
                 backgroundColor: isDragReject? 'rgba(144,52,52,0.22)' :
                     isDragActive ? 'rgba(69,144,52,0.22)' : undefined
                 }}

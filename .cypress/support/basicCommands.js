@@ -90,10 +90,31 @@ class BasicCommands {
         cy.get(`[aria-label="${value}"]`).click();
         cy.wait(200);
       },
+      chooseImage: (name, value) => {
+        cy.xpath(
+          `//*[self::Button or self::a or self::div[@role="button"] or self::li[@role="menuitem"]][contains(., "${name}") or contains(@label, "${name}") or contains(@aria-label, "${name}") or contains(@id, "${name}")]`).
+          then($element => {
+              this.components.anyField.image(name, value)
+          });
+      },
+      fileUpload: () => {
+        cy.fixture('testPicture.png').then(fileContent => {
+          /*cy.get('input[type="file"]').attachFile({
+              fileContent: fileContent.toString(),
+              fileName: 'testPicture.png',
+              mimeType: 'image/png'
+          });*/
+          cy.fixture('testPicture.png').then(fileContent => {
+            cy.get('[data-cy="dropzone"]')
+            .attachFile('testPicture.png', { subjectType: 'drag-n-drop' });
+          });
+        });
+      },
       image: (name, value) => {
         cy.get(`[id="${name}"]`).first().click();
         cy.fixture(`${value}`).as('logo')
         .get('input[type=file]').then(function() {
+          console.log(this.logo);
           return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
         })
       },
