@@ -43,11 +43,7 @@ export default ({name,label,value,onChange,readOnly,error}:IBaseSimpleFormCompon
         let reader = new FileReader()
         reader.onloadend = () => {
             //console.log(reader.result);
-<<<<<<< HEAD
             onChange({name,target:{name,value: reader.result}},{name, value: reader.result}); // You can upload the base64 to server here.
-=======
-            onChange({target:{value: reader.result}},{name, value: reader.result}); // You can upload the base64 to server here.
->>>>>>> storybook
         }
 
         reader.readAsDataURL(e.data);

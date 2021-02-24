@@ -78,11 +78,11 @@ class BasicCommands {
             }
             else if ($element.is(`input[type="password"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
-            } 
+            }
             else {
               this.components.select.select(cy.wrap($element).first(), value);
-            } 
-            
+            }
+
           });
       },
       selectValue: (name, value) => {
@@ -232,8 +232,9 @@ class BasicCommands {
       image: (name, value) => {
         cy.get(`[id="${name}"]`).first().click();
         cy.fixture(`${value}`).as('logo')
-        .get('input[type=file]').then(function() {
-          return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
+        .get('input[type=file]').then(function($input) {
+        const blob = Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
+        $input.fileupload('add', { files: blob })
         })
       },
   };

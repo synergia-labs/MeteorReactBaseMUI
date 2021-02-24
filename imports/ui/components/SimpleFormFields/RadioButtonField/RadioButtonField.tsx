@@ -14,17 +14,7 @@ export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:
     const list = otherProps.radiosList&&hasValue(otherProps.radiosList)?otherProps.radiosList:(schema&&hasValue(schema.radiosList)?schema.radiosList:null);
 
     const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string) => {
-<<<<<<< HEAD
         onChange({name,target:{name,value: itemCheck}},{name,value: itemCheck})
-=======
-      if(!readOnly){
-        event.persist();
-        const name = event.target.name;
-        setSelection({ ...selection, [name]: itemCheck });
-        onChange({target:{value: itemCheck}},{name,value: itemCheck})
-        setLoadRender(loadRender+1);
-        }
->>>>>>> storybook
     }
 
     return (
