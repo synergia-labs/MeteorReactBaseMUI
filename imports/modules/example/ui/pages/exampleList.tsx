@@ -19,6 +19,8 @@ import * as appStyles from "/imports/materialui/styles";
 
 import Typography from '@material-ui/core/Typography';
 
+import shortid from 'shortid';
+
 interface IExampleList {
     examples:object[];
     history:object;
@@ -35,6 +37,7 @@ interface IExampleList {
 
 const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,setPage,setPageSize,searchBy,pageProperties}:IExampleList) => {
 
+    const idExample = shortid.generate();
     const onClick = (event,id,doc,showDialog) => {
         history.push('/example/view/'+id);
     }
@@ -104,7 +107,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
             <div style={appStyles.fabContainer}>
                 <Fab
                     id={'add'}
-                    onClick={()=>history.push('/example/create')}
+                    onClick={()=>history.push(`/example/create/${idExample}`)}
                     color={'primary'}>
                     <Add />
                 </Fab>

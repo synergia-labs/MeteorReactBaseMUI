@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 9987000000
+              "duration": 10493000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2271000000
+              "duration": 2314000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2413000000
+              "duration": 2453000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2281000000
+              "duration": 2284000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "escolhi a imagem \"testPicture.png\" no botão \"Selecionar imagem\"",
             "result": {
               "status": "passed",
-              "duration": 2100000000
+              "duration": 2134000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "acionei o comando \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2289000000
+              "duration": 2329000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 572000000
+              "duration": 609000000
             }
           }
         ]

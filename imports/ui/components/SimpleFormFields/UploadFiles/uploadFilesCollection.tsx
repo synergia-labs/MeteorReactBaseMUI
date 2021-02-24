@@ -619,7 +619,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
     render() {
 
         const doc = typeof this.props.doc === 'function' ? this.props.doc() : this.props.doc;
-
+        
         if (!doc || !doc._id) {
             return null;
         }
@@ -721,6 +721,7 @@ interface IUploadFilesCollection {
 
 const UploadFilesCollection = withTracker((props:IUploadFilesCollection) => {
     const doc = typeof props.doc === 'function' ? props.doc() : props.doc;
+
     const handleAttachments = Meteor.subscribe('files-attachments', {
         'meta.docId': doc ? doc._id : 'No-ID',
     });

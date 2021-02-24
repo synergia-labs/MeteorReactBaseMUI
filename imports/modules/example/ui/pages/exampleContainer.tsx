@@ -31,8 +31,8 @@ export default (props:any) => {
             return <ExampleDetailContainer {...props} screenState={newScreenState} isPrintView={isPrintView} isFullView={isFullView} id={id}/>;
         } else if (newScreenState === 'edit' && !!id) {
             return <ExampleDetailContainer {...props} screenState={newScreenState} isPrintView={isPrintView} isFullView={isFullView} id={id} edit/>;
-        } else if (newScreenState === 'create') {
-            return <ExampleDetailContainer DetailContainer {...props} screenState={newScreenState} isPrintView={isPrintView} isFullView={isFullView} create/>;
+        } else if (newScreenState === 'create' && !!id) {
+            return <ExampleDetailContainer DetailContainer {...props} screenState={newScreenState} isPrintView={isPrintView} isFullView={isFullView} id={id} create/>;
         }
     } else {
         return <ExampleListContainer {...props} isPrintView={isPrintView} isFullView={isFullView} />;
