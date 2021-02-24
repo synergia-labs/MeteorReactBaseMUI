@@ -23,7 +23,15 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
+<<<<<<< HEAD
               "duration": 10493000000
+=======
+<<<<<<< HEAD
+              "duration": 16164000000
+=======
+              "duration": 9987000000
+>>>>>>> 4c8c28a109a914f1ed8d078711b8a2cdb1cb9a96
+>>>>>>> 43acbd9c872740d77615a9197d214f92a143df5d
             }
           },
           {
@@ -33,7 +41,15 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
+<<<<<<< HEAD
               "duration": 2314000000
+=======
+<<<<<<< HEAD
+              "duration": 2471000000
+=======
+              "duration": 2271000000
+>>>>>>> 4c8c28a109a914f1ed8d078711b8a2cdb1cb9a96
+>>>>>>> 43acbd9c872740d77615a9197d214f92a143df5d
             }
           },
           {
@@ -43,7 +59,15 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
+<<<<<<< HEAD
               "duration": 2453000000
+=======
+<<<<<<< HEAD
+              "duration": 2922000000
+=======
+              "duration": 2413000000
+>>>>>>> 4c8c28a109a914f1ed8d078711b8a2cdb1cb9a96
+>>>>>>> 43acbd9c872740d77615a9197d214f92a143df5d
             }
           },
           {
@@ -53,17 +77,37 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
+<<<<<<< HEAD
               "duration": 2284000000
+=======
+<<<<<<< HEAD
+              "duration": 2377000000
+=======
+              "duration": 2281000000
+>>>>>>> 4c8c28a109a914f1ed8d078711b8a2cdb1cb9a96
+>>>>>>> 43acbd9c872740d77615a9197d214f92a143df5d
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
+<<<<<<< HEAD
+            "name": "coloquei a foto \"testPicture.png\" no campo \"Selecionar imagem\"",
+            "result": {
+              "status": "failed",
+              "duration": 2465000000,
+              "error_message": "TypeError: $input.fileupload is not a function\n    at Context.eval (http://localhost:3000/__cypress/tests?p=.cypress\\integration\\modules\\example\\imagem.feature:260:16)\nFrom previous event:\n    at Context.thenFn (http://localhost:3000/__cypress/runner/cypress_runner.js:154298:26)\n    at Context.then (http://localhost:3000/__cypress/runner/cypress_runner.js:154738:21)\n    at Context.<anonymous> (http://localhost:3000/__cypress/runner/cypress_runner.js:168170:21)\n    at http://localhost:3000/__cypress/runner/cypress_runner.js:167603:15\nFrom previous event:\n    at runCommand (http://localhost:3000/__cypress/runner/cypress_runner.js:167582:8)\n    at next (http://localhost:3000/__cypress/runner/cypress_runner.js:167728:14)\n    at http://localhost:3000/__cypress/runner/cypress_runner.js:167756:16"
+=======
             "name": "escolhi a imagem \"testPicture.png\" no botão \"Selecionar imagem\"",
             "result": {
               "status": "passed",
+<<<<<<< HEAD
               "duration": 2134000000
+=======
+              "duration": 2100000000
+>>>>>>> 4c8c28a109a914f1ed8d078711b8a2cdb1cb9a96
+>>>>>>> 43acbd9c872740d77615a9197d214f92a143df5d
             }
           },
           {

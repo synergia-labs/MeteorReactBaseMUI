@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 14230000000
+              "duration": 14072000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2493000000
+              "duration": 2506000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2569000000
+              "duration": 2723000000
             }
           },
           {
@@ -53,7 +53,7 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2378000000
+              "duration": 2431000000
             }
           },
           {
@@ -63,7 +63,7 @@
             "name": "cliquei no botão \"Selecionar Avatar\"",
             "result": {
               "status": "passed",
-              "duration": 2455000000
+              "duration": 2533000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "cliquei no botão \"Avatar Aleatório\"",
             "result": {
               "status": "passed",
-              "duration": 2602000000
+              "duration": 2604000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "cliquei no botão \"Salvar Avatar\"",
             "result": {
               "status": "passed",
-              "duration": 2458000000
+              "duration": 2554000000
             }
           },
           {
@@ -93,7 +93,7 @@
             "name": "acionei o comando \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2551000000
+              "duration": 2661000000
             }
           },
           {
@@ -103,7 +103,7 @@
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 806000000
+              "duration": 1439000000
             }
           }
         ]

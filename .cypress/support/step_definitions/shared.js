@@ -68,11 +68,16 @@ When('escolhi o arquivo {string} para upload', (name) => {
 When('marquei o valor {string} no campo {string}', (value,name) => {
   basicCommands.components.anyField.typeValue(name,value);
 })
+When('adicionei a foto {string} no campo {string}', (value,name) => {
+  basicCommands.components.anyField.image(name,value);
+})
 
 When('removi o chip {string} no campo {string}', (value,name) => {
   basicCommands.components.chipSelect.remove(name,value);
 })
-
+When('coloquei a foto {string} no campo {string}', (value,name) => {
+  basicCommands.utils.image(name,value);
+})
 
 //##TABELA / LISTA / CARDS
 
@@ -122,9 +127,6 @@ When('cliquei em {string} referente à {string} de valor {string}', (name,entida
 })
 When('esperei', () => {
   basicCommands.utils.wait();
-})
-When('fiz o upload da foto', () => {
-  basicCommands.utils.image();
 })
 
 

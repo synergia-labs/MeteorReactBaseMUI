@@ -67,7 +67,7 @@ class BasicCommands {
           `//label[contains(.,'${name}') or @for='${name}' or contains(.,'select-${name}') or @for='select-${name}']/following-sibling::div//*[self::div[@role="button" and @aria-haspopup="true"] or self::div[@role="button" and @aria-haspopup="listbox"] or self::input]`).
           then($element => {
             if ($element.is(`input[type="file"]`)) {
-              this.components.anyField.image(cy.wrap($element).first(), value);
+              this.components.anyField.image(cy.wrap($element).first(), 'testPicture.png');
             } else if ($element.is(`input[type="text"]`)) {
               this.components.textfield.type(cy.wrap($element).first(), value);
             } else if ($element.is(`input[type="number"]`)) {
@@ -98,7 +98,6 @@ class BasicCommands {
           });
       },
       fileUpload: () => {
-        cy.fixture('testPicture.png').then(fileContent => {
           /*cy.get('input[type="file"]').attachFile({
               fileContent: fileContent.toString(),
               fileName: 'testPicture.png',
@@ -108,7 +107,6 @@ class BasicCommands {
             cy.get('[data-cy="dropzone"]')
             .attachFile('testPicture.png', { subjectType: 'drag-n-drop' });
           });
-        });
       },
       image: (name, value) => {
         cy.get(`[id="${name}"]`).first().click();
@@ -250,15 +248,14 @@ class BasicCommands {
     wait: () => {
       cy.wait(5000);
     },
-
-    image: () => {
-      cy.fixture('testPicture.png').as('logo')
-      .get('input[type=file]').then(function() {
-        return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
-
-          })
+      image: (name, value) => {
+        cy.get(`[id="${name}"]`).first().click();
+        cy.fixture(`${value}`).as('logo')
+        .get('input[type=file]').then(function($input) {
+        const blob = Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
+        $input.fileupload('add', { files: blob })
+        })
       },
-
   };
 
 }
