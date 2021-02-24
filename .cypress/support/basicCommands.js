@@ -98,7 +98,6 @@ class BasicCommands {
           });
       },
       fileUpload: () => {
-        cy.fixture('testPicture.png').then(fileContent => {
           /*cy.get('input[type="file"]').attachFile({
               fileContent: fileContent.toString(),
               fileName: 'testPicture.png',
@@ -108,7 +107,6 @@ class BasicCommands {
             cy.get('[data-cy="dropzone"]')
             .attachFile('testPicture.png', { subjectType: 'drag-n-drop' });
           });
-        });
       },
       image: (name, value) => {
         cy.get(`[id="${name}"]`).first().click();
