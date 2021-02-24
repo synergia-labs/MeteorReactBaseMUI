@@ -17,7 +17,6 @@ export default (props:any) => {
             ? props.match.params.exampleId
             : Meteor.examplerId;
 
-
     const isPrintView = screenState&&screenState.indexOf('print')===0;
     const isFullView = screenState&&screenState.indexOf('full')===0;
 

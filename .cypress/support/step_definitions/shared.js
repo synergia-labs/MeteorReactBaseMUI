@@ -57,6 +57,14 @@ When('cliquei no valor {string} no campo {string}', (value,name) => {
   basicCommands.components.anyField.selectValue(name,value);
 })
 
+When('escolhi a imagem {string} no botão {string}', (value,name) => {
+  basicCommands.components.anyField.chooseImage(name,value);
+})
+
+When('escolhi o arquivo {string} para upload', (name) => {
+  basicCommands.components.anyField.fileUpload();
+})
+
 When('marquei o valor {string} no campo {string}', (value,name) => {
   basicCommands.components.anyField.typeValue(name,value);
 })

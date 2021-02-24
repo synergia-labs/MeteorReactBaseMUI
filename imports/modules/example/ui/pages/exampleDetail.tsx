@@ -1,4 +1,5 @@
 import React from 'react';
+import shortid from 'shortid';
 import {withTracker} from "meteor/react-meteor-data";
 import {exampleApi} from "../../api/exampleApi";
 import SimpleForm from "../../../../ui/components/SimpleForm/SimpleForm";
@@ -161,7 +162,9 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
-                    doc={exampleDoc}/>
+                    doc={{_id: "G8Cocu72xr"}}
+                />
+
                 <FormGroup key={'fieldsFive'} name={'chips'}>
                     <ChipInput
                         name="chip"
@@ -208,7 +211,7 @@ interface IExampleDetailContainer {
 export const ExampleDetailContainer = withTracker((props: IExampleDetailContainer) => {
     const {screenState, id} = props;
     const subHandle = exampleApi.subscribe('default', {_id: id});
-    const exampleDoc = subHandle.ready() ? exampleApi.findOne({_id: id}) : {}
+    const exampleDoc = subHandle.ready() ? exampleApi.findOne({_id: id}) : {};
 
     return ({
         screenState,
