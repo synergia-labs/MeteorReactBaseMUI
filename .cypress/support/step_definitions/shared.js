@@ -67,7 +67,9 @@ When('adicionei a foto {string} no campo {string}', (value,name) => {
 When('removi o chip {string} no campo {string}', (value,name) => {
   basicCommands.components.chipSelect.remove(name,value);
 })
-
+When('coloquei a foto {string} no campo {string}', (value,name) => {
+  basicCommands.utils.image(name,value);
+})
 
 //##TABELA / LISTA / CARDS
 

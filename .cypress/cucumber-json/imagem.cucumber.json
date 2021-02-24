@@ -23,7 +23,7 @@
             "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
             "result": {
               "status": "passed",
-              "duration": 11331000000
+              "duration": 9730000000
             }
           },
           {
@@ -33,7 +33,7 @@
             "name": "cliquei em \"Exemplos\"",
             "result": {
               "status": "passed",
-              "duration": 2322000000
+              "duration": 2282000000
             }
           },
           {
@@ -43,7 +43,7 @@
             "name": "cliquei na linha com o texto \"Texto do Título\"",
             "result": {
               "status": "passed",
-              "duration": 2470000000
+              "duration": 2378000000
             }
           },
           {
@@ -53,17 +53,17 @@
             "name": "cliquei em \"Editar\"",
             "result": {
               "status": "passed",
-              "duration": 2350000000
+              "duration": 2336000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "adicionei a foto \"testPicture.png\" no campo \"Selecionar imagem\"",
+            "name": "coloquei a foto \"testPicture.png\" no campo \"Selecionar imagem\"",
             "result": {
               "status": "passed",
-              "duration": 2282000000
+              "duration": 2065000000
             }
           },
           {
@@ -73,7 +73,7 @@
             "name": "acionei o comando \"Salvar\"",
             "result": {
               "status": "passed",
-              "duration": 2599000000
+              "duration": 2273000000
             }
           },
           {
@@ -83,7 +83,7 @@
             "name": "foi exibida a mensagem \"Operação realizada!O exemplo foi atualizado com sucesso!\"",
             "result": {
               "status": "passed",
-              "duration": 732000000
+              "duration": 537000000
             }
           }
         ]

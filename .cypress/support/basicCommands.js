@@ -229,15 +229,13 @@ class BasicCommands {
     wait: () => {
       cy.wait(5000);
     },
-
-    image: () => {
-      cy.fixture('testPicture.png').as('logo')
-      .get('input[type=file]').then(function() {
-        return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
-
-          })
+      image: (name, value) => {
+        cy.get(`[id="${name}"]`).first().click();
+        cy.fixture(`${value}`).as('logo')
+        .get('input[type=file]').then(function() {
+          return Cypress.Blob.base64StringToBlob(this.logo, 'image/png')
+        })
       },
-
   };
 
 }
