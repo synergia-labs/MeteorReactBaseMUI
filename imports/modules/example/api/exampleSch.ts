@@ -11,7 +11,7 @@ export const exampleSch = {
     label: 'Imagem Comp',
     defaultValue: '',
     optional: true,
-    isImage: true,
+    isImage: true, 
   },
   avatar: {
     type: String,
