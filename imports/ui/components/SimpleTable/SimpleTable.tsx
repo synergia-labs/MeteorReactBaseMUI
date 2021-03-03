@@ -33,7 +33,9 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
             return 'image'
         } else if(field.type===Number) {
             return 'number'
-        } else if(field.type===Date) {
+        }else if(field.options) {
+            return 'select'
+        }  else if(field.type===Date) {
             return 'date'
         } else if(field.type===Boolean) {
             return 'boolean'
@@ -48,7 +50,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
         }
     }
 
-    const renderType = (type:string,data:any) => {
+    const renderType = (type:string,data:any, colName: string) => {
         if(type==='image') {
             return <img src={data} size='tiny' style={simpleTableStyle.containerRenderType} />
         } else if(type==='text'||type==='number') {
@@ -74,7 +76,10 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
             return data?<CheckIcon style={{width: '15px'}}/>:<CloseIcon style={{width: '15px'}}/>;
         }else if(type==='html') {
             return Array.isArray(data)?data.map(d=><div dangerouslySetInnerHTML={{__html: d}} />):<div dangerouslySetInnerHTML={{__html: data}} />;
-        } else {
+        }else if(type==='select') {
+            const schemaData = data&&schema[colName]&&schema[colName].options&&schema[colName].options.find((object)=>(object.value===data||object===data) );
+            return (schemaData &&(schemaData.label || schemaData.value) || data)
+        }  else {
             return null;
         }
     }
@@ -98,7 +103,7 @@ export default function SimpleTable({schema,data,onClick,actions}:ISimpleTable) 
                         <TableRow onClick={handleRowClick(row._id, row)} style={{...(row.rowStyle?row.rowStyle:{}),cursor:hasOnClick?'pointer':undefined} } key={row._id||row.key||row.name||'row'+index}>
                             {cols.map((col,index)=>{
                                 return <TableCell scope="row" {...{"data-label":col.label}}  key={col.name+col.label} style={{...simpleTableStyle.tableCell,textAlign:col.type==='image'?'center':undefined}}>
-                                    {renderType(col.type,row[col.field])}
+                                    {renderType(col.type,row[col.field], col.field)}
                                 </TableCell>
                             })}
                             {actions?(

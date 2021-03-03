@@ -44,10 +44,6 @@ export const exampleSch = {
     label: 'Tipo',
     defaultValue: '',
     optional: true,
-    options:[
-      {value:'normal',label:'Normal'},
-      {value:'extra',label:'Extra'},
-    ],
   },
   type2: {
     type: [String],

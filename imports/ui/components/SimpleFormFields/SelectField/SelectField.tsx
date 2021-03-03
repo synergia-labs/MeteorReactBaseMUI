@@ -42,7 +42,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
                                 color={'primary'}
                             />
 
-                        }}
+                        })}
                     </div>
                 </div>
             )
@@ -74,16 +74,23 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
         );
     }
 
+    const getLabelFromValue = (value) => {
+        const objValue = otherProps.options?
+            otherProps.options.find((object)=>(object.value===value||object===value) ):
+            schema.options.find((object)=>(object.value===value||object===value) );
+        return (objValue&&(objValue.label || objValue.value) || value)
+    }
+
     const defaultRenderValue = (values) => {
         if(multiple) {
             return (
                 <div>
                     {values.map((value) => (
-                        <Chip key={value} label={value}  />
+                        <Chip key={value} label={getLabelFromValue(value)}  />
                     ))}
             </div>)
         } else {
-            return <span>{value}</span>;
+            return <span>{getLabelFromValue(value)}</span>;
         }
 
     }
