@@ -80,6 +80,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
             <div>
               {readOnly && hasValue(value)&& value.map((chip:string) => {
                   return <Chip
+                      key={chip}
                       variant="outlined"
                       label={chip}
                       color={'primary'}
