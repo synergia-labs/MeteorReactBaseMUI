@@ -39,6 +39,26 @@ export const exampleSch = {
     defaultValue: '',
     optional: true,
   },
+  check: {
+    type: Object,
+    label: 'check box',
+    defaultValue: {},
+    optional: true,
+    options: ['Todo', 'Doing', 'Done'],
+  },
+  typeMult: {
+    type: [String],
+    label: 'Tipo',
+    defaultValue: '',
+    optional: true,
+    multiple:true,
+    options:[
+      {value:'normal',label:'Normal'},
+      {value:'hard',label:'Dificil'},
+      {value:'internal',label:'Interna'},
+      {value:'extra',label:'Extra'},
+    ],
+  },
   type: {
     type: String,
     label: 'Tipo',
