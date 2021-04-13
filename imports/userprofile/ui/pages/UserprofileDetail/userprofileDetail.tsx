@@ -43,6 +43,10 @@ const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close})
                         placeholder='Email'
                         name='email'
                     />
+                    <TextField
+                        placeholder='Telefone'
+                        name='phone'
+                    />
                 </FormGroup>
                 <div key={'Buttons'} style={{paddingTop: 20, paddingBottom: 20}}>
                     <Button

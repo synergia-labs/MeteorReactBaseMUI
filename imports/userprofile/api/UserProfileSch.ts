@@ -18,7 +18,13 @@ export const userProfileSch = {
     label: 'Email',
     defaultValue: '',
     optional: false,
-
+  },
+  phone: {
+    type: String,
+    label: 'Telefone',
+    defaultValue: '',
+    optional: false,
+    mask : '(##) ####-####',
   },
   roles: {
     type: [ String ],
