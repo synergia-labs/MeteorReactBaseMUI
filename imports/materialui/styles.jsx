@@ -14,86 +14,94 @@
 
  */
 
-import { max } from "lodash";
-import {isMobile} from "/imports/libs/deviceVerify";
+import { max } from 'lodash';
+import { isMobile } from '/imports/libs/deviceVerify';
 
-//Theme
+// Theme
 const primaryColor = '#5a9902';
 const secondaryColor = '#39a6fc';
 
-//Pages
+//Background Color
+const systemBackgroundColor = '#eeeeee';
+const pageBackgroundColor = '#eeeeee';
+
+// Pages
 const titleTextColor = '#000000';
 const titleSecondaryTextColor = '#ffffff';
 const title = {
-    color:titleTextColor,
-    fontSize: isMobile?'20px':'30px',
-    paddingTop: isMobile?'20px':'20px',
-    paddingBottom: isMobile?'20px':'20px',
-    fontWeight: isMobile?'500':'500',
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-}
+  color: titleTextColor,
+  fontSize: isMobile ? '20px' : '30px',
+  paddingTop: isMobile ? '20px' : '20px',
+  paddingBottom: isMobile ? '20px' : '20px',
+  fontWeight: isMobile ? '500' : '500',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+};
 
 const fabContainer = {
-    position:'fixed',
-    bottom:isMobile?80:30,
-    right:30,
-}
+  position: 'fixed',
+  bottom: isMobile ? 80 : 30,
+  right: 30,
+};
 
 const containerHome = {
-    marginTop: '2em',
-}
+  marginTop: '2em',
+};
 
-//Messages
+// Messages
 const warningColor = '#ff9800';
 const dangerColor = '#f55a4e';
 const successColor = '#4caf50';
 const infoColor = '#00acc1';
-const textColorMessages = '#002e07'
+const textColorMessages = '#002e07';
 const textColorGray = '#999999';
 
-//Transition
+// Transition
 const transition = {
-    transition: 'all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)',
+  transition: 'all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)',
 };
 
-//Boxes
+// Boxes
 const boxShadow = {
-    boxShadow:
+  boxShadow:
         '0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
 };
 
-//Button
+// Button
 const textButtonColor = '#FFF';
 
 export {
-    //theme
-    primaryColor,
-    secondaryColor,
+  // theme
+  primaryColor,
+  secondaryColor,
+    
+    //Backgorund colors
+  systemBackgroundColor,
+  pageBackgroundColor,  
+    
+  // pages
+  titleTextColor,
+  titleSecondaryTextColor,
+  title,
+  fabContainer,
+  containerHome,
 
-    //pages
-    titleTextColor,
-    titleSecondaryTextColor,
-    title,
-    fabContainer,
-    containerHome,
+  // messages
+  warningColor,
+  dangerColor,
+  successColor,
+  infoColor,
+  textColorMessages,
+  textColorGray,
 
-    //messages
-    warningColor,
-    dangerColor,
-    successColor,
-    infoColor,
-    textColorMessages,
-    textColorGray,
+  // transition
+  transition,
 
-    //transition
-    transition,
+  // box
+  boxShadow,
 
-    //box
-    boxShadow,
-
-    //button
-    textButtonColor,
+  // button
+  textButtonColor,
 };

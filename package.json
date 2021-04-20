@@ -23,7 +23,7 @@
     "bcrypt": "^5.0.1",
     "date-fns": "^2.16.1",
     "google-maps-react": "^2.0.6",
-    "idb-keyval": "^5.0.4",
+    "idb-keyval": "^5.0.5",
     "jquery": "^3.6.0",
     "konva": "^7.2.5",
     "lodash": "^4.17.21",
@@ -36,13 +36,13 @@
     "react-dropzone": "^11.3.2",
     "react-file-input-previews-base64": "^1.0.8",
     "react-loadable": "^5.5.0",
-    "react-number-format": "^4.5.3",
+    "react-number-format": "^4.5.5",
     "react-router-dom": "^5.2.0",
     "react-sortablejs": "^6.0.0",
     "request": "^2.88.2",
     "shortid": "^2.2.16",
     "sortablejs": "^1.13.0",
-    "webpack": "^4.18.1",
+    "webpack": "^5.34.0",
     "zipson": "^0.2.12"
   },
   "meteor": {
@@ -53,20 +53,20 @@
     "testModule": "tests/main.ts"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.14",
-    "@types/meteor": "^1.4.67",
+    "@babel/core": "^7.13.16",
+    "@types/meteor": "^1.4.69",
     "@types/mocha": "^8.2.2",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "babel-plugin-import": "^1.13.3",
     "babel-plugin-lodash": "^3.3.4",
-    "cypress": "^6.8.0",
+    "cypress": "^7.1.0",
     "cypress-cucumber-preprocessor": "^4.0.3",
-    "cypress-file-upload": "^5.0.3",
+    "cypress-file-upload": "^5.0.6",
     "cypress-react-unit-test": "^4.11.2",
     "cypress-xpath": "^1.6.2",
     "less": "^4.1.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   },
   "cypress-cucumber-preprocessor": {
     "step_definitions": ".cypress/support/step_definitions/",

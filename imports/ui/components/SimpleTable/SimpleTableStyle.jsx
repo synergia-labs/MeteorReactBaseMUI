@@ -15,22 +15,26 @@
  */
 
 const simpleTableStyle = {
-  containerRenderType:{
-    maxHeight:70,
-    maxWidth:80,
+  containerRenderType: {
+    maxHeight: 70,
+    maxWidth: 80,
   },
-  tableBox:{
+  tableBox: {
     boxSizing: 'border-box',
   },
-  tableHeadCell:{
-    textAlign:'center',
-    fontSize:'0.75rem',
-    padding:'5px'
+  tableHeadCell: {
+    textAlign: 'center',
+    fontSize: '0.75rem',
+    padding: '5px',
   },
-  tableCell:{
-    textAlign:'center',
+  tableCell: {
+    textAlign: 'center',
   },
-  spanHead:{
+  tableCellActions: {
+    textAlign: 'center',
+    width:80,
+  },
+  spanHead: {
     border: 0,
     clip: 'rect(0 0 0 0)',
     height: 1,
@@ -39,10 +43,10 @@ const simpleTableStyle = {
     padding: 0,
     position: 'absolute',
     top: 20,
-    width: 1
-  }
+    width: 1,
+  },
 };
 
 export {
-    simpleTableStyle,
+  simpleTableStyle,
 };
