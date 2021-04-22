@@ -284,7 +284,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
 
           {!this.props.readOnly ?
             <div>
-              <Button
+                {!(hasValue(this.props.value) && this.props.value!='' && this.props.value!='-')?<Button
                 id="Selecionar Avatar"
                 variant="contained"
                 color="default"
@@ -293,9 +293,9 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                 onClick={()=> this.setState({ open: true })}
               >
                 {'Selecionar avatar'}
-              </Button>
+              </Button>:null}
 
-              <Button
+                {(hasValue(this.props.value) && this.props.value!='' && this.props.value!='-')?<Button
                 variant="contained"
                 color="default"
                 style={avatarGeneratorStyle.selectImage}
@@ -303,7 +303,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                 onClick={()=> this.deleteAvatar()}
                 >
                 {'Deletar'}
-              </Button>
+              </Button>:null}
 
             <Dialog onClose={this.onClose}
                     aria-labelledby="Inserir Image" open={this.state.open}

@@ -15,12 +15,18 @@ import PropTypes from 'prop-types';
 
 export default ({name, label, value, onChange, readOnly, error, ...otherProps}:IBaseSimpleFormComponent)=>{
 
-  const [imageOrAvatar, setImageOrAvatar] = React.useState(0);
+  const [imageOrAvatar, setImageOrAvatar] = React.useState(null);
   const [img, setImg] = React.useState(value);
 
-    const handleOnChange = (evt) => {
+    const handleOnChangeAvatar = (evt) => {
+        setImageOrAvatar((evt.target.value==='-'||evt.target.value===null)?null:'avatar');
         onChange({...evt,name},{name, value: evt.target.value});
     }
+    const handleOnChangeImage = (evt) => {
+        setImageOrAvatar((evt.target.value==='-'||evt.target.value===null)?null:'image');
+        onChange({...evt,name},{name, value: evt.target.value});
+    }
+
 
   function TabPanel(props) {
       const { children, value, index, ...other } = props;
@@ -48,10 +54,6 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
       value: PropTypes.any.isRequired,
     };
 
-    const handleChange = (event, newValue) => {
-      setImageOrAvatar(newValue);
-    };
-
     return(
       <div key={name} style={error? imageOrAvatarStyle.containerImageOrAvatarError:imageOrAvatarStyle.containerImageOrAvatar}>
         <SimpleLabelView label={label}/>
@@ -72,44 +74,28 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}:I
                         </div>
                 ) : ( !!readOnly ? <div style={imageOrAvatarStyle.containerEmptyMidia}>{'Não há mídia'}</div>: null)
               }
-            </div>) : null
-        }
+            </div>) : null }
 
         { !readOnly? (
           <div style={imageOrAvatarStyle.containerImageOrAvatarButton}>
-              <Tabs
-                  orientation="horizontal"
-                  variant="scrollable"
-                  value={imageOrAvatar}
-                  onChange={handleChange}
-                  aria-label="horizontal tabs example"
-                  style={imageOrAvatarStyle.tabs}
-                >
-                  <Tab label="Imagem Zoom+Slider" id='vertical-tab-0' aria-controls='vertical-tabpanel-0'/>
-                  <Tab label="Avatar" id='vertical-tab-1' aria-controls='vertical-tabpanel-1'/>
-                </Tabs>
-                <div style={{display:imageOrAvatar===0?undefined:'none'}}>
-                  <ImageCompactField
+              {(!imageOrAvatar||imageOrAvatar==='image')?<ImageCompactField
                     name={name+'_img'}
                     width={150}
                     height={150}
-                    onChange={handleOnChange}
+                    onChange={handleOnChangeImage}
                     error={error}
                     otherProps={otherProps}
                     value={value}
                     readOnly={readOnly}
-                  />
-                </div>
-              <div style={{display:imageOrAvatar===1?undefined:'none'}}>
-                  <AvatarGeneratorField
+                  />:null}
+              {(!imageOrAvatar||imageOrAvatar==='avatar')?<AvatarGeneratorField
                     name={name+'_avt'}
-                    onChange={handleOnChange}
+                    onChange={handleOnChangeAvatar}
                     error={error}
                     otherProps={otherProps}
                     value={value}
                     readOnly={readOnly}
-                  />
-                </div>
+                  />:null}
         </div> ) : null}
       </div>
     );

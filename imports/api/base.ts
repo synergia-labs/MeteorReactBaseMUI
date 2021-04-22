@@ -763,6 +763,9 @@ export class ApiBase {
       if (this.beforeInsert(dataObj, context)) {
         dataObj = this.checkDataBySchema(dataObj)
         this.includeAuditData(dataObj, 'insert');
+        if(id) {
+          dataObj._id = id;
+        }
         const result = this.collectionInstance.insert(dataObj);
         this.afterInsert(Object.assign({_id: id||result}, dataObj), context);
         if (context.rest) {
