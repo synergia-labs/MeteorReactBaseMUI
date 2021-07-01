@@ -1,5 +1,5 @@
 * {
-  box-sizing:border-box,
+  box-sizing:border-box;
 }
 html {
   height:100%;
@@ -10,4 +10,5 @@ body {
   font-family: sans-serif;
   height:100%;
   margin:0px;
+  user-select: none;
 }

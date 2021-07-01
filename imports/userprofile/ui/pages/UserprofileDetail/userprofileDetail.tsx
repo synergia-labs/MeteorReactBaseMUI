@@ -11,6 +11,7 @@ import TextField from '../../../../ui/components/SimpleFormFields/TextField/Text
 import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
 
 import * as appStyle from "/imports/materialui/styles";
+import ImageCompactField from "/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField";
 
 const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close}) => {
 
@@ -30,7 +31,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close})
                 loading={loading}
 
             >
-                <SimpleImageUploadBase64
+                <ImageCompactField
                     label={'Foto'}
                     name={'photo'}
                 />
