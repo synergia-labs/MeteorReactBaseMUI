@@ -13,8 +13,9 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import * as appStyles from '/imports/materialui/styles';
+import * as appStyle from '/imports/materialui/styles';
 import { selectRowBackground } from '/imports/materialui/styles';
+import TablePagination from '@material-ui/core/TablePagination';
 
 import { simpleTableStyle } from './SimpleTableStyle';
 import './simpletableCSS.css';
@@ -73,7 +74,6 @@ const EnhancedTableHead = (props) => {
                 active={orderBy === (headCell.sortField || headCell.field)}
                 direction={orderBy === (headCell.sortField || headCell.field) ? order : 'asc'}
                 onClick={createSortHandler((headCell.sortField || headCell.field))}
-
               >
                 {headCell.label}
                 {orderBy === (headCell.sortField || headCell.field) ? (
@@ -90,8 +90,8 @@ const EnhancedTableHead = (props) => {
             key={'actions'}
             style={{ ...simpleTableStyle.tableHeadCell,
               ...simpleTableStyle.tableCellActions,
-              backgroundColor: appStyles.systemBackgroundColor,
-              border: `1px solid ${appStyles.systemBackgroundColor}`,
+              backgroundColor: appStyle.systemBackgroundColor,
+              border: `1px solid ${appStyle.systemBackgroundColor}`,
             }}
           />
         ) : null}
@@ -127,14 +127,16 @@ export default function SimpleTable({ schema, data, onClick, actions, initialSor
   };
 
   const getType = (field: { type: any }) => {
+
+    if (field.type ==='DOM') {
+      return 'dom';
+    }
+
     if (field.isImage || field.isAvatar) {
       return 'image';
     }
     else if (field.type === Number) {
       return 'number';
-    }
-    else if (field.options) {
-      return 'select';
     }
     else if (field.type === Date) {
       return 'date';
@@ -148,6 +150,9 @@ export default function SimpleTable({ schema, data, onClick, actions, initialSor
     else if (field.type === String) {
       return 'text';
     }
+    else if (field.type === Object) {
+      return 'object';
+    }
     else if (field.isHTML) {
       return 'html';
     }
@@ -158,6 +163,11 @@ export default function SimpleTable({ schema, data, onClick, actions, initialSor
   };
 
   const renderType = (type: string, data: any, colName: string) => {
+
+    if (type === 'dom') {
+      return data;
+    }
+
     if (type === 'image') {
       return <img src={data} size="tiny" style={simpleTableStyle.containerRenderType} />;
     }
@@ -181,6 +191,14 @@ export default function SimpleTable({ schema, data, onClick, actions, initialSor
           return <i>{'**Não é possível exibir o conteúdo**'}</i>;
         })
       }</Typography>);
+    }
+    else if (type === 'object') {
+      if(!data) {return ''};
+      return <div style={{display:'flex',flexDirection:'column'}}>
+        {Object.keys(data).map(key=>{
+          return <div style={{lineHeight:0.8,marginBottom:10}}>{data[key]}<br/><span style={{fontSize:9,color:'#777'}}>{key}</span></div>
+        })}
+      </div>
     }
     else if (type === 'boolean') {
       return data ? <CheckIcon style={{ width: '15px' }} /> : <CloseIcon style={{ width: '15px' }} />;
@@ -225,9 +243,20 @@ export default function SimpleTable({ schema, data, onClick, actions, initialSor
           scope="row"
           {...{ 'data-label': col.label }}
           key={col.name + col.label}
-          style={{ ...simpleTableStyle.tableCell, backgroundColor: col.colBold ? selectRowBackground : undefined, textAlign: col.type === 'image' ? 'center' : undefined }}
+          style={{ ...simpleTableStyle.tableCell, backgroundColor: col.colBold ? selectRowBackground : undefined, textAlign: (col.type === 'image'||col.type === 'dom') ? 'flex-start' : undefined,
+          display:col.type === 'dom'?'flex':undefined,justifyContent:col.type === 'dom'?'flex-start':undefined,flexDirection:col.type === 'dom'?'row':undefined}}
         >
-          {renderType(col.type, row[col.field], col.field)}
+       {col.type === 'text' &&row[col.field]&& (renderType(col.type, row[col.field], col.field)).length > 35 ?
+          <div class="tooltip">
+            {renderType(col.type, row[col.field], col.field)}
+            <div class="tooltiptext">
+              {renderType(col.type, row[col.field], col.field)}
+            </div>
+          </div>
+        :  renderType(col.type, row[col.field], col.field)}
+  
+     {/*}  {renderType(col.type, row[col.field], col.field)}
+     {*/}
         </TableCell>))}
         {actions ? (
           <TableCell style={simpleTableStyle.tableCellActions}>
@@ -252,9 +281,9 @@ export default function SimpleTable({ schema, data, onClick, actions, initialSor
 
 
   return (
-    <div style={{ display: 'flex', overflow: 'auto' }}>
+    <div style={{ display: 'flex'}}>
       {filterByField ? (
-        <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-start' }}>
           {'Filtro: '}{filter ? (<span style={{ fontWeight: 'bold' }}>{filter} <Button style={{ color: '#F00' }} onClick={() => setFilter(null)}>{'X'}</Button></span>) : (
             <Select value={filter} onChange={evt => (!evt.target.value ? setFilter(null) : setFilter(evt.target.value))}>
               <MenuItem key={'NoFilter'} value={null}>{'Sem Filtro'}</MenuItem>
@@ -287,6 +316,16 @@ export default function SimpleTable({ schema, data, onClick, actions, initialSor
         <TableBody>
           {tableBody}
         </TableBody>
+        {/*}
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={row}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />{*/}
       </Table>
     </div>
   );

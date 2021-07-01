@@ -23,7 +23,10 @@
      input: {
          display: 'flex',
          alignItems: 'center',
-         flexWrap: 'wrap',
+         flexWrap: 'nowrap',
+         flexDirection:'row',
+         padding:5,
+         backgroundColor:'#FFF',
      },
      title: {
          marginBottom:'1rem',

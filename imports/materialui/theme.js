@@ -1,14 +1,14 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { isMobile } from '/imports/libs/deviceVerify';
-import * as appStyles from './styles';
+import * as appStyle from './styles';
 
 export const theme = createMuiTheme({
   palette: {
     primary: {
-      main: appStyles.primaryColor,
+      main: appStyle.primaryColor,
     },
     secondary: {
-      main: appStyles.secondaryColor,
+      main: appStyle.secondaryColor,
     },
   },
   typography: {
@@ -95,7 +95,7 @@ export const theme = createMuiTheme({
       },
       text: { // Name of the rule
         //fontFamily: "'PT'",
-        color: appStyles.textButtonColor, // Some CSS
+        color: appStyle.textButtonColor, // Some CSS
       },
     },
     MuiButtonBase: { // Name of the component ⚛️ / style sheet
@@ -105,7 +105,7 @@ export const theme = createMuiTheme({
       },
       text: { // Name of the rule
         //fontFamily: "'PT'",
-        color: appStyles.textButtonColor, // Some CSS
+        color: appStyle.textButtonColor, // Some CSS
       },
     },
     MuiChip: { // Name of the component ⚛️ / style sheet
@@ -115,7 +115,7 @@ export const theme = createMuiTheme({
       },
       text: { // Name of the rule
         //fontFamily: "'PT'",
-        color: appStyles.textButtonColor, // Some CSS
+        color: appStyle.textButtonColor, // Some CSS
       },
     },
     MuiTab: { // Name of the component ⚛️ / style sheet

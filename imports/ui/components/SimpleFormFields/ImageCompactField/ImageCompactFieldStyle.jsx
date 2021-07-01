@@ -1,3 +1,5 @@
+import * as appStyle from '/imports/materialui/styles';
+
 /*!
 
  =========================================================
@@ -18,6 +20,20 @@ const compactImageStyle = {
   containerImage: {
     display:'flex',
     flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  containerGetConteudoDropzone: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  containerDropzone: {
+    width: '100%',
+    padding:'2rem',
+    textAlign: 'center',
+    cursor: 'pointer',
   },
   containerShowImage: {
     maxWidth:360,
@@ -26,13 +42,16 @@ const compactImageStyle = {
     height: 150,
   },
   selectImage: {
-    cursor:'pointer',
-    fontSize: '12px',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-    color: 'rgba(108, 104, 104)',
+    //fontFamily: 'PTSans',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 1.2,
+    letterSpacing: '0.7px',
+    textAlign: 'center',
+    color: appStyle.primaryColor,
+    textTransform: 'none',
   },
   containerEmptyImageC: {
     color:'#BBB',

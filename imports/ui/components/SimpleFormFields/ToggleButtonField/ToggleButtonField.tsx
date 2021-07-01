@@ -1,38 +1,40 @@
 import React, {useState} from "react";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import {hasValue} from "/imports/libs/hasValue";
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
 import Check from "@material-ui/icons/Check";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import {toggleButtonStyle} from './ToggleButtonFieldStyle'
 
+import * as appStyle from '/imports/materialui/styles';
+import {isMobile} from "/imports/libs/deviceVerify";
+
 export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:IBaseSimpleFormComponent)=>{
     const list = otherProps.options&&hasValue(otherProps.options)?otherProps.options:(schema&&hasValue(schema.options)?schema.options:null);
 
-    console.log('LIST>>>>>>>>',list)
-
     const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string) => {
-        console.log(itemCheck,'SELECTED')
         onChange({name,target:{name,value: itemCheck}},{name,value: itemCheck})
     }
 
     return (
-        <FormControl component="fieldset" style={error?toggleButtonStyle.fieldError:undefined}>
+        <FormControl component="fieldset" style={{...(error?toggleButtonStyle.fieldError:undefined),...appStyle.fieldContainer}}>
             <SimpleLabelView label={label}/>
             {!readOnly&&list?(
-                <ToggleButtonGroup id="radioGroup" value={value} exclusive onChange={handleChangeCheck} style={toggleButtonStyle.radio}>
+                <ToggleButtonGroup id="radioGroup" value={value} exclusive color={'secondary'} onChange={handleChangeCheck} style={toggleButtonStyle.radio}>
                     {list.map((itemCheck) => {
                         return <ToggleButton
-                                    style={{flex:1}
-                                  key={itemCheck.value||itemCheck}
-                                  value={itemCheck.value||itemCheck}
-                                  id={itemCheck.value||itemCheck}
-                                  label={itemCheck.label||itemCheck}
+                                  style={{
+                                      boxShadow:'0px 8px 15px rgb(0 0 0 / 10%)',
+                                      flex:1, margin:3,borderRadius:15,minWidth:isMobile?'45%':'25%',maxWidth:isMobile?'95%':'30%',
+                                      backgroundColor:(typeof itemCheck==='object'&&itemCheck.value===value||itemCheck===value)?appStyle.primaryColor:'#dedede',
+                                      color:(typeof itemCheck==='object'&&itemCheck.value===value||itemCheck===value)?'#FFF':appStyle.secondaryColor}}
+                                  key={typeof itemCheck==='object'?itemCheck.label:itemCheck}
+                                  value={typeof itemCheck==='object'?itemCheck.value:itemCheck}
+                                  id={typeof itemCheck==='object'?itemCheck.label:itemCheck}
+                                  label={typeof itemCheck==='object'?itemCheck.label:itemCheck}
 
                               >
                             {itemCheck.label||itemCheck}

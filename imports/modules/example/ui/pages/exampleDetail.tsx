@@ -24,7 +24,7 @@ import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageComp
 import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatarField/ImageOrAvatarField';
 
 import Typography from '@material-ui/core/Typography';
-import * as appStyles from "/imports/materialui/styles";
+import * as appStyle from "/imports/materialui/styles";
 import Print from '@material-ui/icons/Print';
 import Close from '@material-ui/icons/Close';
 
@@ -44,13 +44,13 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
 
     return (
         <Container>
-            <Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
+            <Typography style={appStyle.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
                 {!isPrintView?(
-                    <span style={{cursor:'pointer',marginRight:10,color:appStyles.primaryColor}} onClick={()=>{
+                    <span style={{cursor:'pointer',marginRight:10,color:appStyle.primaryColor}} onClick={()=>{
                         history.push(`/example/printview/${exampleDoc._id}`)
                     }}><Print /></span>
                 ):(
-                    <span style={{cursor:'pointer',marginRight:10,color:appStyles.primaryColor}} onClick={()=>{
+                    <span style={{cursor:'pointer',marginRight:10,color:appStyle.primaryColor}} onClick={()=>{
                         history.push(`/example/view/${exampleDoc._id}`)
                     }}><Close /></span>
                 )}

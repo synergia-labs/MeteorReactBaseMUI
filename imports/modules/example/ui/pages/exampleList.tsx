@@ -15,7 +15,7 @@ import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
 import {isMobile} from "/imports/libs/deviceVerify";
 
-import * as appStyles from "/imports/materialui/styles";
+import * as appStyle from "/imports/materialui/styles";
 
 import Typography from '@material-ui/core/Typography';
 
@@ -94,7 +94,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     return (
         <Container>
-            <Typography style={appStyles.title}>{'Lista de Exemplos'}</Typography>
+            <Typography style={appStyle.title}>{'Lista de Exemplos'}</Typography>
             <TextField value={text} onChange={change} onKeyPress={keyPress}  placeholder='Pesquisar...'
                    action={{ icon: 'search',onClick:click }}
             />
@@ -104,7 +104,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 onClick={onClick}
                 actions={[{icon:<Delete color={'primary'} />, id: "delete", onClick:callRemove}]}
             />
-            <div style={appStyles.fabContainer}>
+            <div style={appStyle.fabContainer}>
                 <Fab
                     id={'add'}
                     onClick={()=>history.push(`/example/create/${idExample}`)}
@@ -183,7 +183,7 @@ export const ExampleListContainer = withTracker((props) => {
                 }
 
             })
-        }
+        },
         searchBy:config.searchBy,
         onSearch: exampleSearch.onSearch,
         total:examplesCount?examplesCount.count:examples.length,

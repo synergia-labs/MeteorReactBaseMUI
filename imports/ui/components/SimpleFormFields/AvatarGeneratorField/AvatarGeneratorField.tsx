@@ -347,7 +347,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                                         style={{
                                             backgroundColor:'white',
                                             width:60,display:'flex',flexDirection:'column',justifyContent:'space-between',alignItems:'center',color:this.state[character]?this.state[character].color:characteres[character].colors[0],
-                                            border:'3px solid', textAlign: 'center', fontSize: '11px', fontWeight: '600', fontFamily: 'Work Sans', borderColor: this.state[character]?this.state[character].color:characteres[character].colors[0],
+                                            border:'3px solid', textAlign: 'center', fontSize: '11px', fontWeight: '600', borderColor: this.state[character]?this.state[character].color:characteres[character].colors[0],
                                             paddingTop: '20px',
                                         }}>
                                         {'TROCAR COR'}

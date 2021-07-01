@@ -1,26 +1,56 @@
-import React from "react";
-import {hasValue} from "/imports/libs/hasValue";
-import {simpleLabelStyle} from "./SimpleLabelViewStyle";
-import {Typography} from "@material-ui/core";
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+
+import { hasValue } from '/imports/libs/hasValue';
+
+import { simpleLabelStyle } from './SimpleLabelViewStyle';
+import Tooltip from '@material-ui/core/Tooltip';
+import Help from "@material-ui/icons/Help";
+
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        customWidth: {
+            backgroundColor: '#FFF',
+            maxWidth: 600,
+            color:'#777',
+            boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
+        },
+    }),
+);
 
 interface ISimpleLabelView {
-    label:string;
-    value?:string;
-    style?:object;
+    label: string;
+    value?: string;
+    style?: object;
 }
 
-export default ({label, value, style}:ISimpleLabelView) => {
+export default ({ label, value, help, style }: ISimpleLabelView) => {
+    const classes = useStyles();
     return (
-        hasValue(value) || hasValue(label) ?
-            <div style={{...simpleLabelStyle.container, ...style}}>
-                {hasValue(label) ?
-                    <label style={simpleLabelStyle.displayLabel}>
-                        {label}
-                    </label>:
-                    <div/>}
-                {hasValue(value) ? <Typography style={simpleLabelStyle.displayValue}>{value}</Typography> :null}
+    hasValue(value) || hasValue(label) ?
+        <div id={label} style={{ ...simpleLabelStyle.container}}>
+            <div style={{display:'flex',flexDirection:'row',maxHeight:30}}>
+            {hasValue(label) ?
+                <label style={!!style&&!!style.displayLabel ? style.displayLabel : simpleLabelStyle.displayLabel}>
+                    {label}
+                </label>: null}
+            {help && (
+                    <div style={{position:'relative',maxHeight:10, maxWidth: 10}} >
+                        <div style={{backgroundColor:'#999',borderRadius:'50%',position:'absolute',top:5,right:-20, width: 13, height: 13}}>
+                        <Tooltip
+                            classes={{ tooltip: classes.customWidth }}
+                            title={help}>
+                            <Help style={{color:'#FFF',fontSize:13}} />
+                        </Tooltip>
+                        </div>
+                    </div>
+
+            )}
             </div>
-            :
-            <div/>
-    )
+            {hasValue(value) ? <Typography style={style&&style.displayValue ? style.displayValue : simpleLabelStyle.displayLabel}>{value}</Typography> : null}
+        </div>
+        :null
+);
 }

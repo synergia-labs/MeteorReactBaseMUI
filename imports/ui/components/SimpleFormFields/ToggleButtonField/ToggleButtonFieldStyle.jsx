@@ -22,6 +22,7 @@ const toggleButtonStyle = {
       display:  'flex',
       flexDirection: 'row',
       justifyContent: 'left',
+        flexWrap:'wrap',
     },
 };
 

@@ -9,15 +9,6 @@ import {toggleSwitchStyle} from './ToggleFieldStyle'
 
 export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSimpleFormComponent)=>{
 
-    const[valueToogle, setValueToogle] = useState(value);
-
-    useEffect(() => {
-        if(valueToogle=="" || valueToogle=="-"){
-            setValueToogle(false);
-            onChange({name,target:{name,value: valueToogle}},{name, value: valueToogle});
-        }
-    })
-
     const handleChangeSwitch = (event:React.BaseSyntheticEvent) => {
         if(!readOnly){
           onChange({name,target:{name,value: event.target.checked}},{name, value: event.target.checked});
@@ -27,14 +18,11 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
     return (
         <div style={error?toggleSwitchStyle.fieldError:undefined}>
             <SimpleLabelView label={label}/>
-            {otherProps&&!hasValue(otherProps.checksList)?
-                <FormControlLabel control={<Switch checked={!!valueToogle} onChange={handleChangeSwitch} inputProps={{ 'aria-label': 'toogleField' }}/>}
+                <FormControlLabel control={<Switch color={"primary"} checked={!!value} onChange={handleChangeSwitch}/>}
                                   key={name}
-                                  value={!!valueToogle || false}
                                   name={name}
                                   id={name}
-                                  label={!!valueToogle? 'Ativo':'Inativo'}
-                                  {...(_.omit(otherProps,['disabled', 'checked']))} /> : null}
+                                   />
         </div>
     )
 }

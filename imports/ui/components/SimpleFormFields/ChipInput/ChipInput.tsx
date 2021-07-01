@@ -57,7 +57,7 @@ export default ({name,label,value,onChange,readOnly,error,...otherProps}:IBaseSi
                           fullWidth: true,
                           classes: {input: 'fullWidth'},
                           onBlur: ()=>handleInsert(chipText),
-                          style: {display: 'block', width: '100%'},
+                          style: {display: 'block', width: '100%',borderBottom:'none'},
                         startAdornment: <div>{hasValue(value) && value.map((chip: string) => {
                             return <Chip
                                 variant="outlined"

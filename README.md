@@ -396,7 +396,7 @@ Caso ainda não tenha importado o componente de TextField, insira no início do 
 Em seguida, inclua o componente TextField dentro do componente SimpleForm:
 
 	<Container>
-		<Typography style={appStyles.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
+		<Typography style={appStyle.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}</Typography>
 		    <SimpleForm
 			mode={screenState}
 			schema={exampleApi.schema}

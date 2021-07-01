@@ -18,7 +18,7 @@ const avatarGeneratorStyle = {
   selectImage: {
     cursor:'pointer',
     fontSize: '12px',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    //fontFamily: '"PT"',
     fontWeight: 400,
     lineHeight: 1,
     letterSpacing: '0.00938em',

@@ -23,15 +23,18 @@ const simpleTableStyle = {
     boxSizing: 'border-box',
   },
   tableHeadCell: {
-    textAlign: 'center',
+    textAlign: 'flex-start',
     fontSize: '0.75rem',
     padding: '5px',
   },
   tableCell: {
-    textAlign: 'center',
+    textAlign: 'flex-start',
+    whiteSpace: 'nowrap', 
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   tableCellActions: {
-    textAlign: 'center',
+    textAlign: 'flex-start',
     width:80,
   },
   spanHead: {

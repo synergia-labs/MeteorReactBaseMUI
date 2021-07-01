@@ -14,54 +14,51 @@
 
  */
 
-import { max } from "lodash";
-import {isMobile} from "/imports/libs/deviceVerify";
-
 // ##############################
 // // // Variables - Styles that are used on more than one component
 // #############################
 
 const simpleFormStyle = {
   buttonForm: {
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   containerLabel: {
-    marginTop:5,
-    width:'100%',
-    marginBottom:16
+    marginTop: 5,
+    width: '100%',
+    marginBottom: 16,
   },
   containerForm: {
-    width:'100%',
-    marginLeft:10,
+    width: '100%',
+    marginLeft: 10,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'left',
   },
   containerSubForm: {
-    margin:3,
-    display:'flex',
-    flexDirection:'row',
+    margin: 3,
+    display: 'flex',
+    flexDirection: 'row',
   },
   containerEmptyItens: {
-    color:'#BBB',
+    color: '#BBB',
   },
   containerAddSubForm: {
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'left',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'left',
     paddingLeft: '10px',
   },
   containerChildrenElements: {
-    margin:3,
-    marginLeft:10,
+    margin: 3,
+    marginLeft: 10,
   },
   buttonAddSubForm: {
-    backgroundColor: '#5a9902'
+    backgroundColor: '#5a9902',
   },
 };
 
 export {
-    simpleFormStyle,
+  simpleFormStyle,
 };

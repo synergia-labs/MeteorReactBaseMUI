@@ -7,7 +7,7 @@ import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-import * as appStyles from "/imports/materialui/styles";
+import * as appStyle from "/imports/materialui/styles";
 
 const UserProfileList = ({users,history}) => {
 
@@ -17,7 +17,7 @@ const UserProfileList = ({users,history}) => {
 
     return (
         <Container>
-            <Typography style={appStyles.title}>{'Lista de Usuários'}</Typography>
+            <Typography style={appStyle.title}>{'Lista de Usuários'}</Typography>
             <SimpleTable
                 schema={_.pick(userprofileApi.schema,['photo','username','email'])}
                 data={users}

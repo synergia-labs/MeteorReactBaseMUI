@@ -31,19 +31,16 @@ const uploadFilesStyle = {
     width: '100%',
   },
   containerUploadFiles: {
-    marginTop:5,
     flex: 1,
-    flexWrap: 'wrap',
     flexDirection: 'column',
     marginBottom:8,
   },
   containerShowFiles: {
     width: '100%',
-    marginTop: 50,
   },
   subContainerShowFiles: {
-    paddingTop: '10px',
-    paddingBottom: '10px',
+    padding:10,
+    backgroundColor:'#EEE',
   },
   containerGetConteudoDropzone: {
     display: 'flex',

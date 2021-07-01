@@ -1,46 +1,64 @@
-import React, {useState} from "react";
+import React from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import {hasValue} from "/imports/libs/hasValue";
-
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
-import Check from "@material-ui/icons/Check";
+import Check from '@material-ui/icons/Check';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { hasValue } from '/imports/libs/hasValue';
+import * as appStyle from "/imports/materialui/styles";
+import { radioButtonStyle } from './RadioButtonFieldStyle';
 
-import {radioButtonStyle} from './RadioButtonFieldStyle'
+import { makeStyles } from '@material-ui/core/styles';
 
-export default ({name,label,value,onChange,readOnly,schema,error,...otherProps}:IBaseSimpleFormComponent)=>{
-    const list = otherProps.radiosList&&hasValue(otherProps.radiosList)?otherProps.radiosList:(schema&&hasValue(schema.radiosList)?schema.radiosList:null);
+const useStyles = makeStyles((theme) => ({
+  radioLabel: {
+    fontSize: 13,
+    //fontFamily: 'PTSans',
+    //fontWeight: 'bold',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 1.2,
+    letterSpacing: '0.7px',
+    textAlign: 'left',
+    //color: '#858585',
+    textTransform: 'none',
+  }
+}));
 
-    const handleChangeCheck = (event:React.BaseSyntheticEvent, itemCheck:string) => {
-        onChange({name,target:{name,value: itemCheck}},{name,value: itemCheck})
-    }
+export default ({ name, label, value, onChange, readOnly, schema, error,help, ...otherProps }: IBaseSimpleFormComponent) => {
+  const classes = useStyles();
 
-    return (
-        <FormControl component="fieldset" style={error?radioButtonStyle.fieldError:undefined}>
-            <SimpleLabelView label={label}/>
-            {!readOnly&&list?(
-                <RadioGroup id="radioGroup" value={value} onChange={handleChangeCheck} style={radioButtonStyle.radio}>
-                    {list.map((itemCheck) => {
-                        return <FormControlLabel
-                                  key={itemCheck}
-                                  value={itemCheck}
-                                  id={itemCheck}
-                                  label={itemCheck}
-                                control={<Radio color="primary" inputProps={{ 'aria-label': itemCheck }} />}
-                              />
-                    })}
-                </RadioGroup>) : (
-                list?(
-                    <div style={{display:'flex',flexDirection:'row',alignItems:'center',flexWrap:'wrap',width:'100%'}}>
-                        {list.map((itemCheck) => {
-                            return <div style={{marginLeft:20,color:value!==itemCheck?'#999':undefined}}>{value===itemCheck?<Check style={{fontSize:15}} />:''}{itemCheck}</div>
+  const list = otherProps.options && hasValue(otherProps.options) ? otherProps.options : (schema && hasValue(schema.options) ? schema.options : null);
 
-                        })}
-                    </div>
-                ):null
-            )}
-        </FormControl>
-    )
-}
+  const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
+    onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck });
+  };
+
+  const valueRadio = Array.isArray(value) ? value[0] && value[0] : value;
+
+  return (
+    <FormControl component="fieldset" style={{...(error ? radioButtonStyle.fieldError : {}),...appStyle.fieldContainer}}>
+      {!!label?<SimpleLabelView label={label} help={help} />:null}
+      {!readOnly && list ? (
+        <RadioGroup id="radioGroup" value={valueRadio} onChange={handleChangeCheck} style={radioButtonStyle.radio}>
+          {list.map(itemCheck => <FormControlLabel
+            classes={{
+              label:classes.radioLabel
+            }}
+            key={itemCheck.value}
+            value={itemCheck.value}
+            id={itemCheck.value}
+            label={itemCheck.label}
+            control={<Radio color="secondary" size="small" inputProps={{ 'aria-label': itemCheck.label }} />}
+          />)}
+        </RadioGroup>) : (
+        list ? (
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center',justifyContent:'flex-start', flexWrap: 'wrap', width: '100%' }}>
+            {list.filter(itemCheck=>!!value&&(value === itemCheck||value === itemCheck.value)).map(itemCheck => <div style={{ color: (value !== itemCheck&&value !== itemCheck.value) ? '#999' : undefined }}>{((value === itemCheck)||(value === itemCheck.value)) ? <Check style={{ fontSize: 12, paddingRight: 10 }} /> : ''}{itemCheck.label||itemCheck}</div>)}
+          </div>
+        ) : null
+      )}
+    </FormControl>
+  );
+};

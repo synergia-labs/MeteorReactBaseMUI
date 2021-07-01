@@ -26,11 +26,10 @@ export default ({name,label,value,onChange,readOnly,error, ...otherProps}:IBaseS
         }
     }
 
-    if(!!readOnly) {
+    if(!readOnly) {
         return (<div key={name} style={simpleImageStyle.containerImage}>
             <SimpleLabelView label={label}/>
             <Avatar src={value} size="big" style={simpleImageStyle.containerShowImage} />
-           {/*} <img src={value} style={simpleImageStyle.containerShowImage}/>{*/}
         </div>)
     }
 
