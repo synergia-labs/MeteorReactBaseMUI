@@ -4,6 +4,12 @@ import { Given,When,Then } from "cypress-cucumber-preprocessor/steps";
 
 import {basicCommands} from '../basicCommands'
 
+Given(`acessei o sistema de empresas simuladas e cliquei em login`, (login,password) => {
+  cy.visit('/login/form')
+  cy.wait(200);
+
+})
+
 Given(`acessei o sistema com o usuário {string} e senha {string}`, (login,password) => {
   basicCommands.access.signIn(login,password);
 })
@@ -40,6 +46,15 @@ When('acionei o comando {string}', (label) => {
 When('acionei o comando {string} do campo {string}', (name,field) => {
   basicCommands.components.button.click(name,field);
 })
+
+When('informei as credenciais do power ranger vermelho', (name,value) => {
+  cy.get('#email-email').type("wendell.ferreira@sebraemg.com.br");
+  cy.get('#password-password').type("959697");
+  cy.get('input[type=submit]').click();
+})
+
+
+
 
 When('preenchi o campo {string} com o valor {string}', (name,value) => {
   basicCommands.components.anyField.typeValue(name,value);

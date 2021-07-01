@@ -9,7 +9,7 @@
     "pluginsFile": ".cypress/plugins",
     "screenshotsFolder": ".cypress/screenshots",
     "supportFile": ".cypress/support",
-    "baseUrl": "http://localhost:3000",
+    "baseUrl": "https://develop.es.synergia.dcc.ufmg.br/#/",
    "reporter": "junit",
     "reporterOptions": {
         "mochaFile": ".cypress/results/cypress-report.xml",

@@ -17,7 +17,6 @@
 import { max } from 'lodash';
 import { isMobile } from '/imports/libs/deviceVerify';
 
-// Theme
 const primaryColor = '#5a9902';
 const secondaryColor = '#39a6fc';
 
@@ -27,17 +26,56 @@ const pageBackgroundColor = '#eeeeee';
 
 // Pages
 const titleTextColor = '#000000';
-const titleSecondaryTextColor = '#ffffff';
+const titleSecondaryTextColor = '#858585';
 const title = {
   color: titleTextColor,
-  fontSize: isMobile ? '20px' : '30px',
+  fontSize: isMobile ? '16px' : '30px',
   paddingTop: isMobile ? '20px' : '20px',
-  paddingBottom: isMobile ? '20px' : '20px',
-  fontWeight: isMobile ? '500' : '500',
+  paddingBottom: isMobile ? '30px' : '40px',
+  fontWeight: isMobile ? '800' : '800',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: 632.3,
+  height: 54.5,
+  margin: '0px 96.3px 44.2px 0px',
+  fontStretch: 'normal',
+  fontStyle: 'normal',
+  lineHeight: 1.67,
+  letterSpacing: 0.9,
+  textAlign: 'left',
+  textTransform: 'none',
+};
+
+const subtitle = {
+  color: titleSecondaryTextColor,
+  fontSize: isMobile ? '15px' : '25px',
+  paddingTop: isMobile ? '20px' : '20px',
+  paddingBottom: isMobile ? '30px' : '30px',
+  fontWeight: isMobile ? '100' : '100',
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
+};
+
+const subtituloInfoComplementar = {
+  margin: isMobile ? '30px 0px 16px 20px' : '50.6px 47.2px 16.2px 0.6px',
+  fontSize: isMobile ? '14px' : '20px',
+  fontWeight: 'normal',
+  fontStretch: 'normal',
+  fontStyle: 'normal',
+  lineHeight: 1.2,
+  letterSpacing: '0.7px',
+  textAlign: 'left',
+  color: '#858585',
+};
+
+const avisoFinalPag = {
+  width: '100%',
+  minHeight: 300,
+  display: 'flex',justifyContent: 'center', alignItems: 'center',
+  backgroundColor: '#dcd9d5',
 };
 
 const fabContainer = {
@@ -50,6 +88,49 @@ const containerHome = {
   marginTop: '2em',
 };
 
+const formGroup = {
+  width:'100%',
+  display: 'flex',
+  flexDirection: isMobile ? 'column' : 'row',
+  justifyContent: 'space-between',
+  padding: isMobile ? '0 20px' : 'none',
+};
+
+const formGroup2 = {
+  width:'70%',
+  maxWidth: '70%',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+};
+
+const row = {
+  display: 'flex',
+  flexDirection:'row',
+  flexWrap:'wrap',
+};
+
+const form = {
+  display: 'flex',
+  flexDirection: 'column',
+  paddingTop: 20,//isMobile ? 40 : 40,
+  marginBottom: 40,
+  paddingBottom: 100,
+};
+
+const logo = {
+  maxWidth: 100,
+};
+
+const column = {
+  flex: 0.5,
+};
+
+const fieldContainer = {
+  flex:1,
+  padding: 4,
+  paddingBottom:0,
+}
 // Messages
 const warningColor = '#ff9800';
 const dangerColor = '#f55a4e';
@@ -76,15 +157,16 @@ export {
   // theme
   primaryColor,
   secondaryColor,
-    
+
     //Backgorund colors
   systemBackgroundColor,
-  pageBackgroundColor,  
-    
+  pageBackgroundColor,
+
   // pages
   titleTextColor,
   titleSecondaryTextColor,
   title,
+  subtituloInfoComplementar,
   fabContainer,
   containerHome,
 
@@ -96,6 +178,19 @@ export {
   textColorMessages,
   textColorGray,
 
+  //two column
+  row,
+  column,
+
+  //form
+  form,
+
+  logo,
+
+  //form group
+  formGroup,
+  formGroup2,
+
   // transition
   transition,
 
@@ -104,4 +199,8 @@ export {
 
   // button
   textButtonColor,
+
+  fieldContainer,
+
+  avisoFinalPag,
 };

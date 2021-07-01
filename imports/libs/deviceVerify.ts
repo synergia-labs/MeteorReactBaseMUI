@@ -3,17 +3,18 @@ export const isMobile = /iPhone|iPad|iPod|Android/i.test(window.$isMobile || nav
 
 
 export const setUserAgent = (window, userAgent) => {
-    var userAgentProp = {
-        get: function () {
-            return userAgent;
-        }
-    };
-    try {
-        Object.defineProperty(window.navigator, 'userAgent', userAgentProp);
-    } catch (e) {
-        console.log('#>ERROR>>:', e);
-        window.navigator = Object.create(navigator, {
-            userAgent: userAgentProp
-        });
-    }
+  const userAgentProp = {
+    get() {
+      return userAgent;
+    },
+  };
+  try {
+    Object.defineProperty(window.navigator, 'userAgent', userAgentProp);
+  }
+  catch (e) {
+    console.log('#>ERROR>>:', e);
+    window.navigator = Object.create(navigator, {
+      userAgent: userAgentProp,
+    });
+  }
 };

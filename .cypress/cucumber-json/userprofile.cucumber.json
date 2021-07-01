@@ -9,10 +9,10 @@
     "uri": "userprofile.feature",
     "elements": [
       {
-        "id": "módulo-de-login-e-logout;fazendo-login/logout",
+        "id": "módulo-de-login-e-logout;treinamento",
         "keyword": "Scenario",
         "line": 5,
-        "name": "Fazendo login/logout",
+        "name": "Treinamento",
         "tags": [],
         "type": "scenario",
         "steps": [
@@ -20,80 +20,51 @@
             "arguments": [],
             "keyword": "Given ",
             "line": 6,
-            "name": "acessei o sistema com o usuário \"admin@mrb.com\" e senha \"admin@mrb.com\"",
+            "name": "acessei o sistema de empresas simuladas e cliquei em login",
             "result": {
               "status": "passed",
-              "duration": 10816000000
+              "duration": 2524000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
             "line": 7,
-            "name": "cliquei em \"Perfil\"",
+            "name": "informei as credenciais do power ranger vermelho",
             "result": {
               "status": "passed",
-              "duration": 2534000000
+              "duration": 6697000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 8,
-            "name": "cliquei em \"Meus dados\"",
+            "name": "cliquei em \"menu\"",
             "result": {
               "status": "passed",
-              "duration": 2530000000
+              "duration": 2303000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 9,
-            "name": "cliquei em \"Editar\"",
+            "name": "cliquei em \"Laboratório virtual\"",
             "result": {
               "status": "passed",
-              "duration": 2556000000
+              "duration": 2236000000
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 10,
-            "name": "preenchi o campo \"UserName\" com o valor \"Administrador\"",
+            "name": "cliquei em \"ENTRAR\"",
             "result": {
-              "status": "passed",
-              "duration": 4679000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 11,
-            "name": "exibição do campo \"Email\" possui o valor \"admin@mrb.com\"",
-            "result": {
-              "status": "passed",
-              "duration": 4705000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 12,
-            "name": "cliquei em \"Salvar\"",
-            "result": {
-              "status": "passed",
-              "duration": 2543000000
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 13,
-            "name": "foi exibida a mensagem \"Operação realizada!O usuário foi atualizado com sucesso!\"",
-            "result": {
-              "status": "passed",
-              "duration": 1081000000
+              "status": "failed",
+              "duration": 4025000000,
+              "error_message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `//*[self::Button or self::a or self::div[@role=\"button\"] or self::li[@role=\"menuitem\"]][contains(., \"ENTRAR\") or contains(@label, \"ENTRAR\") or contains(@aria-label, \"ENTRAR\") or contains(@id, \"ENTRAR\")]`, but never found it.\n    at Object.click (https://develop.es.synergia.dcc.ufmg.br/__cypress/tests?p=.cypress/integration/modules/example/userprofile.feature:106:14)\n    at Context.eval (https://develop.es.synergia.dcc.ufmg.br/__cypress/tests?p=.cypress/integration/modules/example/userprofile.feature:331:50)\n    at Context.resolveAndRunStepDefinition (https://develop.es.synergia.dcc.ufmg.br/__cypress/tests?p=.cypress/integration/modules/example/userprofile.feature:11993:9)\n    at Context.eval (https://develop.es.synergia.dcc.ufmg.br/__cypress/tests?p=.cypress/integration/modules/example/userprofile.feature:11336:35)"
             }
           }
         ]
