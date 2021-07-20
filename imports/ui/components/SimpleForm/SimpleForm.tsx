@@ -14,6 +14,7 @@ import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelV
 
 import { hasValue, isBoolean } from '../../../libs/hasValue';
 import { simpleFormStyle } from './SimpleFormStyle';
+import {showNotification} from "/imports/ui/AppGeneralComponents";
 
 interface ISubFormArrayComponent {
     reactElement: any;
@@ -671,6 +672,12 @@ class SimpleForm extends Component<ISimpleFormProps> {
       }
 
       if (fielsWithError.length > 0) {
+        showNotification({
+          type:'warning',
+          title:'Campos obrigatórios',
+          description:`Os seguintes campos são obrigatórios e precisam ser preenchidos: ${(fielsWithError.join(', ').replaceAll("*", "")) + '.'}`,
+          durations:8000,
+        })
         this.setState({ error: fielsWithError });
       }
       else if (this.state.error) {
@@ -712,25 +719,6 @@ class SimpleForm extends Component<ISimpleFormProps> {
 
       return (
         <div style={this.props.style || { width: '100%' }}>
-          {this.state.error ? (
-            <Snackbar
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                open={this.state.open}
-                autoHideDuration={16000}
-                onClose={() => this.setState({ open: false })}
-            >
-                <Alert icon={false} id={'message-id'} arialabel={'message-id'} onClose={() => this.setState({ open: false })} color={'warning'} severity={'warning'} elevation={6} variant="filled">
-                  <div style={{display: 'flex', flexDirection: 'column',justifyContent:'center',maxHeight:'auto',height:'auto'}}>
-                    <div>
-                      {`Os seguintes campos são obrigatórios e precisam ser preenchidos: ${(this.state.error.join(', ').replaceAll("*", "")) + '.'}`}
-                    </div>
-                  </div>
-                </Alert>
-            </Snackbar>
-          ) : null}
           {this.formElements}
         </div>
       );

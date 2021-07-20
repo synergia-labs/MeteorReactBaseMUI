@@ -165,14 +165,14 @@ export const ExampleListContainer = withTracker((props) => {
         remove:(doc)=>{
             exampleApi.remove(doc,(e,r)=>{
                 if(!e) {
-                    props.showSnackBar({
+                    props.showNotification({
                         type:'success',
                         title:'Operação realizada!',
                         description: `O exemplo foi removido com sucesso!`,
                     })
                 } else {
                     console.log('Error:',e);
-                    props.showSnackBar({
+                    props.showNotification({
                         type:'error',
                         title:'Operação não realizada!',
                         description: `Erro ao realizar a operação: ${e.message}`,

@@ -33,13 +33,13 @@ export default class Signup extends React.Component {
     userprofileApi.insertNewUser({ email, username: email, password },(err,r) => {
       if (err) {
           console.log('Login err',err);
-          this.props.showSnackBar({
+          this.props.showNotification({
             type:'error',
             title:'Problema na criação do usuário!',
             description: 'Erro ao fazer registro em nossa base de dados!',
           });
       } else {
-        this.props.showSnackBar({
+        this.props.showNotification({
           type:'sucess',
           title:'Cadastrado com sucesso!',
           description: 'Registro de usuário realizado em nossa base de dados!',

@@ -14,7 +14,7 @@ export default class ResetPassword extends React.Component {
   onSubmit = doc => {
     const {password, repassword} = doc;
     if(password!==repassword) {
-      this.props.showSnackBar({
+      this.props.showNotification({
         type:'error',
         title:'Error!',
         description: 'As senhas não conferem!!Digite novamente!',
@@ -26,13 +26,13 @@ export default class ResetPassword extends React.Component {
         password,
         (err, res) => {
           if (err) {
-            this.props.showSnackBar({
+            this.props.showNotification({
               type:'error',
               title:'Problema na definição da senha!',
               description: 'Não foi possível atualizar a sua senha, faça contato com o administrador!',
             });
           } else {
-            this.props.showSnackBar({
+            this.props.showNotification({
               type:'success',
               title:'Senha atualizada!',
               description: 'Sua senha foi atualizada com sucesso!!',

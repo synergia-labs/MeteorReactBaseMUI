@@ -173,7 +173,7 @@ interface IExampleDetailContainer {
     screenState: string;
     id: string;
     history: { push(url: string): void };
-    showSnackBar: (data: { type: string, title: string, description: string }) => void;
+    showNotification: (data: { type: string, title: string, description: string }) => void;
 }
 
 export const ExampleDetailContainer = withTracker((props: IExampleDetailContainer) => {
@@ -187,14 +187,14 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
         save: (doc, callback) => exampleApi.upsert(doc, (e, r) => {
             if (!e) {
                 props.history.push(`/example/view/${screenState === 'create' ? r : doc._id}`)
-                props.showSnackBar({
+                props.showNotification({
                     type: 'success',
                     title: 'Operação realizada!',
                     description: `O exemplo foi ${doc._id ? 'atualizado' : 'cadastrado'} com sucesso!`,
                 })
             } else {
                 console.log('Error:', e);
-                props.showSnackBar({
+                props.showNotification({
                     type: 'error',
                     title: 'Operação não realizada!',
                     description: `Erro ao realizar a operação: ${e.message}`,

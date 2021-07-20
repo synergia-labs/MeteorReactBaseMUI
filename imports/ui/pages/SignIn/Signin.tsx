@@ -34,13 +34,13 @@ export default class Signin extends React.Component {
     const { email, password } = doc;
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
-        this.props.showSnackBar({
+        this.props.showNotification({
           type:'error',
           title:'Acesso negado!',
           description: err.reason==='Incorrect password'?'Email ou senha inválidos': err.reason === 'User not found' ? 'Este email não está cadastrado em nossa base de dados.': '',
         });
       } else {
-        this.props.showSnackBar({
+        this.props.showNotification({
           type:'sucess',
           title:'Acesso autorizado!',
           description: 'Login de usuário realizado em nossa base de dados!',
@@ -95,10 +95,10 @@ export default class Signin extends React.Component {
       if (err) {
         console.log('Login Error: ', err);
         if (err.errorType === 'Accounts.LoginCancelledError') {
-          this.props.showSnackBar('Autenticação cancelada','error');
+          this.props.showNotification('Autenticação cancelada','error');
           //self.setState({ error: 'AUtenticação cancelada' })
         } else {
-          this.props.showSnackBar(err.error,'error');
+          this.props.showNotification(err.error,'error');
 
         }
       } else {

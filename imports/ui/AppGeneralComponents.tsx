@@ -3,33 +3,30 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import Snackbar from '@material-ui/core/Snackbar';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
-
+import AWN from "awesome-notifications"
 import {appGeneralStyle} from './AppGeneralComponentsStyle';
-
 import MuiAlert from '@material-ui/lab/Alert';
 import {isMobile} from "/imports/libs/deviceVerify";
 import {useTheme} from "@material-ui/core/styles";
 import {StaticRouter, MemoryRouter} from "react-router";
 import AppRouterSwitch from './layouts/AppRouterSwitch'
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {useAccount} from "/imports/libs/userAccount";
-import AppLayoutFixedMenu from "/imports/ui/layouts/AppLayoutFixedMenu";
+import './notificationStyle.css';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
+if(isMobile) {
+    import './notificationTipMobile.css';
+} else {
+    import './notificationTipWeb.css';
 }
+
+let notifier = new AWN({position:'bottom-left',maxNotifications:5});
 
 const DialogContainer = (options = {
     open: false, onClose: () => {
@@ -42,12 +39,12 @@ const DialogContainer = (options = {
                 onOpen={options.onOpen}
                 open={options.open}
         >
-            {options.title?(
-            <DialogTitle id="simple-dialog-title">
-                <div style={appGeneralStyle.containerOptions}>
-                    {options.icon?options.icon:null}
-                    {options.title}
-                </div>
+            {options.title ? (
+                <DialogTitle id="simple-dialog-title">
+                    <div style={appGeneralStyle.containerOptions}>
+                        {options.icon ? options.icon : null}
+                        {options.title}
+                    </div>
 
                 </DialogTitle>
             ) : null}
@@ -69,7 +66,7 @@ const DrawerContainer = (options = {
     }
 }) => {
     const theme = useTheme();
-    const { isLoggedIn, user,userLoading } = useAccount();
+    const {isLoggedIn, user, userLoading} = useAccount();
 
 
     const Component = options.component;
@@ -82,9 +79,7 @@ const DrawerContainer = (options = {
         >
             <div style={{
                 height: '100%',
-                minHeight: '100%',
-                overflowY: 'auto',
-                overflowX: 'hidden',
+                maxHeight: '100vh',
                 minWidth: isMobile ? '100%' : 360,
                 maxWidth: 460,
                 display: 'flex',
@@ -96,14 +91,15 @@ const DrawerContainer = (options = {
                         backgroundColor: theme.palette.primary.main,
                         color: '#FFF',
                         width: '100%',
-                        minHeight: 50,
+                        minHeight: 40,
+                        height: 40,
                         display: 'flex',
                         flexDirection: 'row',
-                        alignItems:'center',
-                        paddingLeft:8,
+                        alignItems: 'center',
+                        paddingLeft: 8,
                     }}>
-                        <IconButton color={'secondary'} onClick={options.onClose}>
-                            <Close/>
+                        <IconButton onClick={options.onClose}>
+                            <Close style={{color: '#FFF'}}/>
                         </IconButton>
                         <h3 style={{paddingLeft: 8}}>{options.title}</h3>
                     </div>
@@ -121,7 +117,7 @@ const DrawerContainer = (options = {
                             user={user}
                             isLoggedIn={isLoggedIn}
                             userLoading={userLoading}
-                            theme={theme} />
+                            theme={theme}/>
                     </MemoryRouter>
                 ) : null}
 
@@ -139,36 +135,19 @@ const WindowContainer = (options = {
     }
 }) => {
     const theme = useTheme();
-    const { isLoggedIn, user,userLoading } = useAccount();
 
+    const {isLoggedIn, user, userLoading} = useAccount();
     const Component = options.component;
     const url = options.url;
+
     return (
-        <Dialog fullScreen open={options.open} onClose={options.onClose} TransitionComponent={Transition}>
-            <AppBar>
+        <div className={'fadeDiv'} style={{
+            position: 'fixed', width: '100%', height: '100%', overflow: 'hidden', zIndex: 1200, backgroundColor: '#FFF',
+            top: 0,
+            left: 0,
+        }}>
             <div style={{
-                backgroundColor: theme.palette.primary.main,
-                color: '#FFF',
-                width: '100%',
-                minHeight: 50,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems:'center',
-
-            }}>
-
-                <h3 style={{marginLeft:10,color: '#FFF', fontWeight: 'bold'}}>
-                    {options.title ? (options.title) : null}
-                </h3>
-                <IconButton style={{marginRight:20}} edge="start" color="inherit" onClick={options.onClose} aria-label="close">
-                    <CloseIcon/>
-                </IconButton>
-
-            </div>
-            </AppBar>
-            <div style={{
-                height: 'calc(100% - 60px)',marginTop:60, maxHeight: '100%', overflowY: 'auto', overflowX: 'hidden', minWidth: '100%',
+                height: '100%', maxHeight: '100%', overflowY: 'auto', overflowX: 'hidden', minWidth: '100%',
                 display: 'flex', flexDirection: 'column', alignItems: 'center'
             }}>
                 {Component ? (<Component/>) : null}
@@ -184,45 +163,38 @@ const WindowContainer = (options = {
                             user={user}
                             isLoggedIn={isLoggedIn}
                             userLoading={userLoading}
-                            theme={theme} />
+                            theme={theme}/>
                     </MemoryRouter>
                 ) : null}
 
             </div>
 
 
-        </Dialog>
+        </div>
     );
 }
 
-const SnackBarContainer = (options = {
-    open: false, onClose: () => {
-    }, onOpen: () => {
-    }
-}) => {
+export const showNotification = (options = {}) => {
 
-    return (
-        <Snackbar
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-            }}
-            open={options.open}
-            autoHideDuration={16000}
-            onClose={options.onClose}
-        >
-            <Alert id={'message-id'} arialabel={'message-id'} onClose={options.onClose} severity={options.type}>
-              <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div>
-                  {options.title}
-                </div>
-                <div style={{paddingTop: '5px'}}>
-                  {options.description}
-                </div>
-              </div>
-            </Alert>
-        </Snackbar>
-    )
+    if(!options||!options.type||!notifier[options.type]) {
+        return;
+    }
+
+    const notificationOptions = {
+        labels:{
+            [options.type]:options.title.toUpperCase(),
+        },
+        icons:{
+            enabled:true,
+        },
+        durations:{
+            [options.type]:options.durations?options.durations:(options.type==='tip'?30000:2000),
+        },
+
+    };
+
+    notifier[options.type](options.description,notificationOptions);
+
 }
 
 class GeneralComponents extends React.Component {
@@ -235,24 +207,11 @@ class GeneralComponents extends React.Component {
 
         }
         this.RenderAppComponent = props.render({
-            showSnackBar: this.showSnackBar,
+            showNotification: showNotification,
             showDialog: this.showDialog,
             showDrawer: this.showDrawer,
             showWindow: this.showWindow,
         });
-    }
-
-    showSnackBar = (options = {}) => {
-        this.setState({
-            snackbarOptions: {
-                open: true,
-                onClose: () => this.setState({snackbarOptions: null}),
-                onOpen: () => {
-                },
-                closeDialog: () => this.setState({snackbarOptions: null}),
-                ...options,
-            }
-        })
     }
 
     showDialog = (options = {}) => {
@@ -277,13 +236,25 @@ class GeneralComponents extends React.Component {
                 },
                 closeDrawer: () => this.setState({drawerOptions: null}),
                 ...{...this.props, render: undefined},
-                showSnackBar: this.showSnackBar,
+                showNotification: showNotification,
                 showDialog: this.showDialog,
                 showDrawer: this.showDrawer,
                 showWindow: this.showWindow,
                 ...options,
             }
         })
+    }
+
+    componentDidMount() {
+        const self = this;
+        if(window.history) {
+            window.history.pushState(null, null, window.location.href)
+
+            window.onpopstate = function () {
+                window.history.go(1);
+            };
+        }
+
     }
 
     showWindow = (options = {}) => {
@@ -295,7 +266,7 @@ class GeneralComponents extends React.Component {
                 },
                 closeWindow: () => this.setState({windowOptions: null}),
                 ...{...this.props, render: undefined},
-                showSnackBar: this.showSnackBar,
+                showNotification: showNotification,
                 showDialog: this.showDialog,
                 showDrawer: this.showDrawer,
                 showWindow: this.showWindow,
@@ -312,7 +283,6 @@ class GeneralComponents extends React.Component {
                     <DrawerContainer {...this.state.drawerOptions} theme={this.props.theme}/> : null}
                 {this.state.windowOptions ?
                     <WindowContainer {...this.state.windowOptions} theme={this.props.theme}/> : null}
-                {this.state.snackbarOptions ? <SnackBarContainer {...this.state.snackbarOptions} /> : null}
                 {this.RenderAppComponent}
             </React.Fragment>
         )

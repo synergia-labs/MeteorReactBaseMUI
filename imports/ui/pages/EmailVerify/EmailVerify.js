@@ -6,7 +6,7 @@ const EmailVerify = props => {
 
         if (err) {
             if (!emailVerified) {
-                props.showSnackBar({
+                props.showNotification({
                     type:'error',
                     title:'Problema com o Token!',
                     description: 'Email não verificado. Solicite um novo token!',
@@ -16,7 +16,7 @@ const EmailVerify = props => {
 
         } else {
             emailVerified = true;
-            props.showSnackBar({
+            props.showNotification({
                 type:'success',
                 title:'Email Verificado',
                 description: 'Seu e-mail foi verificado com sucesso, seja bem vindo!',
