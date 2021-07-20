@@ -222,22 +222,6 @@ export class ApiBase {
 
         }
       }
-
-      // // Global API configuration
-      // this.apiRest = new Restivus({
-      //   useDefaultAuth: this.restApiOptions.useDefaultAuth,
-      //   prettyJson: false,
-      //   enableCors: true,
-      // });
-      //
-      // this.apiRestImage = new Restivus({
-      //   useDefaultAuth: this.restApiOptions.useDefaultAuth,
-      //   prettyJson: false,
-      //   enableCors: true,
-      //   defaultHeaders: {'Content-Type': 'image/png'},
-      //   apiPath: 'img',
-      //
-      // });
     }
 
   }
