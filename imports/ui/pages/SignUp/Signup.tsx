@@ -27,11 +27,12 @@ export default class Signup extends React.Component {
     this.setState({ [name]: value })
   }
 
-  handleSubmit() {
-    const { email, password } = this.state
+  handleSubmit(doc) {
+    const { email, password } = doc;
 
     userprofileApi.insertNewUser({ email, username: email, password },(err,r) => {
       if (err) {
+          console.log('Login err',err);
           this.props.showSnackBar({
             type:'error',
             title:'Problema na criação do usuário!',

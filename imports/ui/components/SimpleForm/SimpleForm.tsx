@@ -506,7 +506,7 @@ interface ISimpleFormProps {
 }
 
 class SimpleForm extends Component<ISimpleFormProps> {
-    docValue = this.props.doc;
+    docValue = this.props.doc||{};
     fields = {};
     state = { error: null,
       mode: this.props.mode || 'edit',
@@ -515,6 +515,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
     };
 
     setDoc = (newDoc) => {
+
       this.docValue = { ...this.docValue, ...newDoc };
       if (this.props.onFormChange) {
         this.props.onFormChange(this.docValue);
@@ -600,7 +601,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
         name={element.props.name}
         key={element.props.name ? element.props.name : (`el${index}`)}
         fieldSchema={self.props.schema ? self.props.schema[element.props.name] : undefined}
-        initialValue={hasValue(self.props.doc) ? self.props.doc[element.props.name] : this.initialValueDefault(self.props.schema[element.props.name])}
+        initialValue={hasValue(self.props.doc) ? self.props.doc[element.props.name] : (self.props.schema?this.initialValueDefault(self.props.schema[element.props.name]):undefined)}
         reactElement={element}
         setDoc={this.setDoc}
         mode={self.props.mode}
