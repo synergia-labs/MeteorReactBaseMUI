@@ -10,7 +10,7 @@ console.log('Meteor PATHs - absolutePath:', absolutePath);
 
 function createDefautUser() {
     // if (Meteor.isDevelopment && Meteor.users.find().count() === 0) {
-    if (Meteor.users.find().count() === 0) {
+    if (Meteor.users.find({}).count() === 0) {
         let createdUserId = '';
         createdUserId = Accounts.createUser({
             username: 'Administrador',
@@ -36,6 +36,7 @@ function createDefautUser() {
             email: 'admin@mrb.com',
             roles: ['Administrador'],
         });
+        console.log('############## ADMIN CRIADO################')
     }
 }
 

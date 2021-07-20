@@ -1,10 +1,10 @@
-import {Restivus} from 'meteor/nimble:restivus';
 import {noAvatarBase64, noImageBase64} from './noimage';
 import {isObject, isArray, merge} from 'lodash';
 import {hasValue} from "../libs/hasValue";
 import {getUser} from "/imports/libs/getUser";
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
+import {WebApp} from "meteor/webapp";
 
 //Conters
 const Counts = new Mongo.Collection("counts");
@@ -209,21 +209,35 @@ export class ApiBase {
 
   initApiRest = () => {
     if (Meteor.isServer) {
-      // Global API configuration
-      this.apiRest = new Restivus({
-        useDefaultAuth: this.restApiOptions.useDefaultAuth,
-        prettyJson: false,
-        enableCors: true,
-      });
+      import { WebApp } from 'meteor/webapp';
+      import connectRoute from 'connect-route'
 
-      this.apiRestImage = new Restivus({
-        useDefaultAuth: this.restApiOptions.useDefaultAuth,
-        prettyJson: false,
-        enableCors: true,
-        defaultHeaders: {'Content-Type': 'image/png'},
-        apiPath: 'img',
+      this.apiRestImage = {
+        addRoute: (path,handle) => {
 
-      });
+          console.log('Path',path);
+          WebApp.connectHandlers.use(connectRoute(function (router) {
+            router.get('/img/'+path, handle)
+          }));
+
+        }
+      }
+
+      // // Global API configuration
+      // this.apiRest = new Restivus({
+      //   useDefaultAuth: this.restApiOptions.useDefaultAuth,
+      //   prettyJson: false,
+      //   enableCors: true,
+      // });
+      //
+      // this.apiRestImage = new Restivus({
+      //   useDefaultAuth: this.restApiOptions.useDefaultAuth,
+      //   prettyJson: false,
+      //   enableCors: true,
+      //   defaultHeaders: {'Content-Type': 'image/png'},
+      //   apiPath: 'img',
+      //
+      // });
     }
 
   }
@@ -236,14 +250,11 @@ export class ApiBase {
         if (schema[field].isImage) {
           console.log('CREATE ENDPOINT GET ' +
               `img/${this.collectionName}/${field}/:image ########## IMAGE #############`);
-          this.apiRestImage.addRoute(`${this.collectionName}/${field}/:image`, {
-            authRequired: false,
-          }, {
-            get() {
-              const params = Object.assign({}, this.queryParams || {}, this.urlParams || {},
-                  this.bodyParams || {});
-              if (params && !!params.image) {
+          this.apiRestImage.addRoute(`${this.collectionName}/${field}/:image`, (req, res, next) => {
 
+              const {params} = req
+
+              if (params && !!params.image) {
                 const docID = params.image.indexOf('.png') !== -1 ? params.image.split('.png')[0] : params.image.split('.jpg')[0];
                 const doc = self.getCollectionInstance().findOne({_id: docID});
 
@@ -259,21 +270,18 @@ export class ApiBase {
 
                   response.type = matches[1];
                   response.data = new Buffer(matches[2], 'base64');
-                  this.response.writeHead(200, {
+                  res.writeHead(200, {
                     'Content-Type': response.type,
                     'Cache-Control': 'max-age=120, must-revalidate, public',
                     'Last-Modified': (doc.lastupdate || new Date()).toUTCString(),
                   });
-                  this.response.write(response.data);
-                  this.done(); // Must call this immediately before return!
+                  res.write(response.data);
+                  res.end(); // Must call this immediately before return!
                 }
-                const noimg = getNoImage(schema[field].isAvatar);
-                const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-                return new Buffer(tempImg[2], 'base64');
 
               }
-            },
-          });
+            }
+          );
         }
       });
     }
