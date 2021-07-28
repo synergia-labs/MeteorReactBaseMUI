@@ -117,11 +117,6 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                     name='statusToggle'
                 />
 
-                <RadioButtonField
-                    placeholder='Opções da Tarefa'
-                    name='statusRadio'
-                />
-
                 <FormGroup key={'fields'}>
                     <AudioRecorder
                         placeholder='Áudio'

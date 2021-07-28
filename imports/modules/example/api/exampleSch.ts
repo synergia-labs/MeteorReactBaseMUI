@@ -100,20 +100,20 @@ export const exampleSch = {
     type: Object,
     label: 'Contatos',
     defaultValue: '',
-    optional: false,
+    optional: true,
     subSchema: {
       phone: {
         type: String,
         label: 'Telefone',
         defaultValue: '',
-        optional: false,
+        optional: true,
         mask : '(##) ####-####',
       },
       cpf: {
         type: String,
         label: 'CPF',
         defaultValue: '',
-        optional: false,
+        optional: true,
         mask : '###.###.###-##',
       },
     }
@@ -128,7 +128,7 @@ export const exampleSch = {
         type: String,
         label: 'Nome da Tarefa',
         defaultValue: '',
-        optional: false,
+        optional: true,
       },
       description: {
         type: String,
@@ -164,14 +164,14 @@ export const exampleSch = {
     type: String,
     label: 'Status RadioButton',
     defaultValue: '',
-    optional: false,
+    optional: true,
     radiosList: ['Todo', 'Doing', 'Done'],
   },
   statusToggle: {
     type: Boolean,
     label: 'Status Toogle',
     defaultValue: false,
-    optional: false,
+    optional: true,
   }
 };
 

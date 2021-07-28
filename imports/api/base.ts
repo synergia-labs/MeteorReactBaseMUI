@@ -137,18 +137,18 @@ export class ApiBase {
             return self.addImgPathToFields(doc);
           },
         });
-          // Deny all client-side updates on the Lists collection
-          this.getCollectionInstance().deny({
-            insert() {
-              return true;
-            },
-            update() {
-              return true;
-            },
-            remove() {
-              return true;
-            },
-          });
+        // Deny all client-side updates on the Lists collection
+        this.getCollectionInstance().deny({
+          insert() {
+            return true;
+          },
+          update() {
+            return true;
+          },
+          remove() {
+            return true;
+          },
+        });
       } else {
         this.collectionInstance = Meteor.users;
         // Deny all client-side updates on the Lists collection
@@ -166,18 +166,18 @@ export class ApiBase {
       }
     } else if (this.collectionName !== 'users') { //If Is SERVER
       this.collectionInstance = new Mongo.Collection(this.collectionName);
-        // Deny all client-side updates on the Lists collection
-        this.getCollectionInstance().deny({
-          insert() {
-            return true;
-          },
-          update() {
-            return true;
-          },
-          remove() {
-            return true;
-          },
-        });
+      // Deny all client-side updates on the Lists collection
+      this.getCollectionInstance().deny({
+        insert() {
+          return true;
+        },
+        update() {
+          return true;
+        },
+        remove() {
+          return true;
+        },
+      });
     } else {
       this.collectionInstance = Meteor.users;
       // Deny all client-side updates on the Lists collection
@@ -236,61 +236,47 @@ export class ApiBase {
               `img/${this.collectionName}/${field}/:image ########## IMAGE #############`);
           this.apiRestImage.addRoute(`${this.collectionName}/${field}/:image`, (req, res, next) => {
 
-              const {params} = req
+                const {params} = req
 
-              if (params && !!params.image) {
-                const docID = params.image.indexOf('.png') !== -1 ? params.image.split('.png')[0] : params.image.split('.jpg')[0];
-                const doc = self.getCollectionInstance().findOne({_id: docID});
+                if (params && !!params.image) {
+                  const docID = params.image.indexOf('.png') !== -1 ? params.image.split('.png')[0] : params.image.split('.jpg')[0];
+                  const doc = self.getCollectionInstance().findOne({_id: docID});
 
-                if (doc && !!doc[field]) {
-                  const matches = doc[field].match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-                  const response = {};
+                  if (doc && !!doc[field]) {
+                    const matches = doc[field].match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
+                    const response = {};
 
-                  if (!matches || matches.length !== 3) {
-                    const noimg = getNoImage(schema[field].isAvatar);
-                    const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-                    return new Buffer(tempImg[2], 'base64');
+                    if (!matches || matches.length !== 3) {
+                      const noimg = getNoImage(schema[field].isAvatar);
+                      const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
+                      return new Buffer(tempImg[2], 'base64');
+                    }
+
+                    response.type = matches[1];
+                    response.data = new Buffer(matches[2], 'base64');
+                    res.writeHead(200, {
+                      'Content-Type': response.type,
+                      'Cache-Control': 'max-age=120, must-revalidate, public',
+                      'Last-Modified': (doc.lastupdate || new Date()).toUTCString(),
+                    });
+                    res.write(response.data);
+                    res.end(); // Must call this immediately before return!
+                    return;
                   }
+                  res.writeHead(200);
+                  res.end();
+                  return;
 
-                  response.type = matches[1];
-                  response.data = new Buffer(matches[2], 'base64');
-                  res.writeHead(200, {
-                    'Content-Type': response.type,
-                    'Cache-Control': 'max-age=120, must-revalidate, public',
-                    'Last-Modified': (doc.lastupdate || new Date()).toUTCString(),
-                  });
-                  res.write(response.data);
-                  res.end(); // Must call this immediately before return!
                 }
-
+                res.writeHead(200);
+                res.end();
+                return;
               }
-            }
           );
         }
       });
     }
   }
-
-
-  /**
-   * Wrapper to register a transformed publication of an collection.
-   * @param  {String} publication - Name of the publication.
-   * @param  {Function} newPublicationsFunction - Function the handle the publication of the data
-   */
-  addTransformedPublications = (publication, newPublicationsFunction) => {
-    const self = this;
-
-    if (Meteor.isServer) {
-      Meteor.publishTransformed(
-          `${self.collectionName}.${publication}`,
-          newPublicationsFunction,
-      );
-      self.publications[publication] = newPublicationsFunction;
-
-    } else {
-      this.publications[publication] = true;
-    }
-  };
 
   /**
    * Wrapper to register a publication of an collection.
@@ -599,7 +585,7 @@ export class ApiBase {
         throw new Meteor.Error('Obrigatoriedade', `O campo "${field}" é obrigatório`);
 
       } else if (keysOfDataObj.indexOf(field) !== -1) {
-          newSchema[ field ] = schema[ field ].type;
+        newSchema[ field ] = schema[ field ].type;
 
       }
     });

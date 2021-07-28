@@ -29,3 +29,4 @@ ostrio:meteor-root
 reywood:publish-composite
 accounts-base@2.0.0
 jquery
+meteorhacks:ssr
