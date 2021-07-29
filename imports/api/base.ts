@@ -305,6 +305,49 @@ export class ApiBase {
     }
   };
 
+
+  addTransformedPublication = (publication:String, newPublicationsFunction:any,transformDocFunc:any) => {
+
+    const self = this;
+
+    if (Meteor.isServer) {
+
+      Meteor.publish(`${self.collectionName}.${publication}`, function(query,options) {
+        let subHandle = newPublicationsFunction(query,options)
+            .observeChanges({
+              added: (id, fields) => {
+                this.added(`${self.collectionName}`, id, transformDocFunc(fields));
+              },
+              changed: (id, fields) => {
+                this.changed(`${self.collectionName}`, id, transformDocFunc(fields));
+              },
+              removed: (id) => {
+                this.removed(`${self.collectionName}`, id);
+              }
+            });
+        this.ready();
+        this.onStop(() => {
+          subHandle.stop();
+        });
+      });
+
+      self.publications[publication] = newPublicationsFunction;
+
+      Meteor.publish(
+          `${self.collectionName}.${'count'+publication}`,
+          self.defaultCounterCollectionPublication(self,publication),
+      );
+      self.publications['count'+publication] = self.defaultCounterCollectionPublication(self,publication);
+
+
+    } else {
+      this.publications[publication] = true;
+    }
+
+  };
+
+
+
   /**
    * Wrapper to register a publication of an collection.
    * @param  {String} publication - Name of the publication.

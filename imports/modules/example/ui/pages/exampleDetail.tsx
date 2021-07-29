@@ -13,7 +13,7 @@ import RadioButtonField from '../../../../ui/components/SimpleFormFields/RadioBu
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
-import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
+// import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
@@ -27,6 +27,7 @@ import Typography from '@material-ui/core/Typography';
 import * as appStyle from "/imports/materialui/styles";
 import Print from '@material-ui/icons/Print';
 import Close from '@material-ui/icons/Close';
+import {PageLayout} from "/imports/ui/layouts/pageLayout";
 
 interface IExampleDetail {
     screenState: string;
@@ -43,9 +44,11 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
     }
 
     return (
-        <Container>
-            <Typography style={appStyle.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
-                {!isPrintView?(
+        <PageLayout
+            title={screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
+            onBack={()=>history.push('/example')}
+            actions={[
+                !isPrintView?(
                     <span style={{cursor:'pointer',marginRight:10,color:appStyle.primaryColor}} onClick={()=>{
                         history.push(`/example/printview/${exampleDoc._id}`)
                     }}><Print /></span>
@@ -53,9 +56,9 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                     <span style={{cursor:'pointer',marginRight:10,color:appStyle.primaryColor}} onClick={()=>{
                         history.push(`/example/view/${exampleDoc._id}`)
                     }}><Close /></span>
-                )}
-
-            </Typography>
+                )
+            ]}
+        >
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -93,9 +96,9 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                         name='description'
                     />
                 </FormGroup>
-                <GoogleApiWrapper
-                    name={'address'}
-                />
+                {/*<GoogleApiWrapper*/}
+                {/*    name={'address'}*/}
+                {/*/>*/}
                 <FormGroup key={'fieldsTwo'}>
                     <SelectField
                         placeholder='Tipo'
@@ -194,7 +197,7 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                 </div>
             </SimpleForm>
 
-        </Container>
+        </PageLayout>
     )
 }
 
@@ -215,7 +218,7 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
     return ({
         screenState,
         exampleDoc,
-        save: (doc, callback) => exampleApi.upsert(doc, (e, r) => {
+        save: (doc, callback) => exampleApi[screenState==='create'?'insert':'update'](doc, (e, r) => {
             if (!e) {
                 props.history.push(`/example/view/${screenState === 'create' ? r : doc._id}`)
                 props.showNotification({

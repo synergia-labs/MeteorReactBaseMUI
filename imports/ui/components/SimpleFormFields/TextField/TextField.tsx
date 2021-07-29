@@ -4,7 +4,7 @@ import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelV
 import InputBase from '@material-ui/core/InputBase';
 import * as appStyle from "/imports/materialui/styles";
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-
+import omit from 'lodash/omit';
 export default ({name,label,value,onChange,readOnly,error,help, style, ...otherProps}:IBaseSimpleFormComponent)=>{
 
     const useStyles = makeStyles((theme: Theme) =>
@@ -17,7 +17,7 @@ export default ({name,label,value,onChange,readOnly,error,help, style, ...otherP
     if(!!readOnly) {
         return (<div key={name} style={{display:'flex',flexDirection:'column',...appStyle.fieldContainer}}>
             {label&&!otherProps.rounded?<SimpleLabelView label={label} style={style ? style.displayLabel : undefined} help={help} />:null}
-            <TextField variant={'outlined'} InputProps={otherProps.rounded?{classes:classes}:undefined} key={name} onChange={onChange} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} {...otherProps} label={otherProps.rounded?label:null}  />
+            <TextField variant={'outlined'} InputProps={otherProps.rounded?{classes:classes}:undefined} key={name} onChange={onChange} value={value} error={!!error} disabled={!!readOnly} id={name} name={name} {...(omit(otherProps,['placeholder'])) } label={otherProps.rounded?label:null}  />
         </div>)
     }
     if(otherProps.isNaked) {

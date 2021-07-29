@@ -20,6 +20,7 @@ import * as appStyle from "/imports/materialui/styles";
 import Typography from '@material-ui/core/Typography';
 
 import shortid from 'shortid';
+import {PageLayout} from "/imports/ui/layouts/pageLayout";
 
 interface IExampleList {
     examples:object[];
@@ -93,8 +94,11 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
     }
 
     return (
-        <Container>
-            <Typography style={appStyle.title}>{'Lista de Exemplos'}</Typography>
+        <PageLayout
+            title={'Lista de Exemplos'}
+            actions={[
+            ]}
+        >
             <TextField value={text} onChange={change} onKeyPress={keyPress}  placeholder='Pesquisar...'
                    action={{ icon: 'search',onClick:click }}
             />
@@ -112,7 +116,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                     <Add />
                 </Fab>
             </div>
-        </Container>
+        </PageLayout>
         )
 
 }

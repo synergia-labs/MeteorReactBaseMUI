@@ -13,6 +13,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
+import * as appStyles from '/imports/materialui/styles';
 
 const simpleTableStyle = {
   containerRenderType: {
@@ -26,6 +27,8 @@ const simpleTableStyle = {
     textAlign: 'flex-start',
     fontSize: '0.75rem',
     padding: '5px',
+    color:'#FFF',
+    backgroundColor:appStyles.primaryColor,
   },
   tableCell: {
     textAlign: 'flex-start',

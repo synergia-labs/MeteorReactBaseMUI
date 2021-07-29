@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 import * as appStyle from "/imports/materialui/styles";
+import {PageLayout} from "/imports/ui/layouts/pageLayout";
 
 const UserProfileList = ({users,history}) => {
 
@@ -16,14 +17,17 @@ const UserProfileList = ({users,history}) => {
     }
 
     return (
-        <Container>
-            <Typography style={appStyle.title}>{'Lista de Usuários'}</Typography>
+        <PageLayout
+            title={'Lista de Usuários'}
+            actions={[
+            ]}
+        >
             <SimpleTable
                 schema={_.pick(userprofileApi.schema,['photo','username','email'])}
                 data={users}
                 onClick={onClick}
             />
-        </Container>
+        </PageLayout>
     );
 }
 

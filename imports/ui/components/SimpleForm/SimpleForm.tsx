@@ -718,7 +718,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
       this.formElements = this.initFormElements();
 
       return (
-        <div style={this.props.style || { width: '100%' }}>
+        <div style={this.props.style || { width: '100%'}}>
           {this.formElements}
         </div>
       );

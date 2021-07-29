@@ -15,54 +15,60 @@
  */
 
 const appLayoutMenuStyle = {
-  containerFixedMenuRouter: {
-    display:'flex',
-    flexDirection:'column',
-    alignItems:'center',
-    justifyContent:'space-between',
-    overflowY:'auto',
-    width:'100%',
-    height:'100%',
-    overflow:"hidden",
-    margin:0,
-  },
-  containerHomeIconButton:{
-    width:60,
-    height:40,
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center',
-  },
-  routerSwitch : {
-    width:'100%',
-    height:'calc(100% - 55px)',
-    overflowY:'auto'
-  },
-
-  homeIconButton:{
-    maxHeight:45,
-  },
-  containerFixedMenu:{
-    display:'flex',
-    flexDirection:'row',
-    width:'100%',
-    alignItems:'center',
-  },
-  toolbarFixedMenu:{
-    width:'100%',
-  },
-  containerAppRouter:{
-    display:'flex',
-    flexDirection:'column',
-    alignItems:'center',
-    justifyContent:'space-between',
-    overflowY:'auto',
-    width:'100%',
-    height:'100%',
-    overflow:"hidden",
-    margin:0
-  }
+    containerFixedMenuRouter: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        overflowY: 'auto',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        margin: 0,
+    },
+    containerHomeIconButton: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    routerSwitch: {
+        width: '100%',
+        height: 'calc(100% - 48px)',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        position: 'relative',
+    },
+    homeIconButton: {
+        maxHeight: 50,
+        maxWidth: 80,
+        width: '80px',
+        height: '50px',
+        margin: '4.8px 0 4.4px 27px',
+        objectFit: 'contain',
+    },
+    containerFixedMenu: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    toolbarFixedMenu: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    containerAppRouter: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        overflowY: 'auto',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        margin: 0,
+    },
 };
 
 export {

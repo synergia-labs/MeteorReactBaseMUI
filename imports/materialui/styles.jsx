@@ -18,11 +18,11 @@ import { max } from 'lodash';
 import { isMobile } from '/imports/libs/deviceVerify';
 
 const primaryColor = '#5a9902';
-const secondaryColor = '#39a6fc';
+const secondaryColor = '#3e6b01';
 
 //Background Color
 const systemBackgroundColor = '#eeeeee';
-const pageBackgroundColor = '#eeeeee';
+const pageBackgroundColor = '#FFF';
 
 // Pages
 const titleTextColor = '#000000';

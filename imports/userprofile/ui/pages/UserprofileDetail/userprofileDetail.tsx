@@ -12,6 +12,9 @@ import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/
 
 import * as appStyle from "/imports/materialui/styles";
 import ImageCompactField from "/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField";
+import {PageLayout} from "/imports/ui/layouts/pageLayout";
+import Print from "@material-ui/icons/Print";
+import Close from "@material-ui/icons/Close";
 
 const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close}) => {
 
@@ -21,8 +24,10 @@ const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close})
     }
 
     return (
-        <Container>
-            <Typography style={appStyle.title}>{screenState==='view'?'Visualizar usuário':(screenState==='edit'?'Editar Usuário':'Criar usuário')}</Typography>
+        <PageLayout
+            title={screenState==='view'?'Visualizar usuário':(screenState==='edit'?'Editar Usuário':'Criar usuário')}
+            onBack={()=>history.push('/example')}
+        >
             <SimpleForm
                 mode={screenState}
                 schema={userprofileApi.schema}
@@ -71,7 +76,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close})
                     ):null}
                 </div>
             </SimpleForm>
-        </Container>
+        </PageLayout>
 )
 }
 

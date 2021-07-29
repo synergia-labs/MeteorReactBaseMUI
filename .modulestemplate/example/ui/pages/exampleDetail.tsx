@@ -13,7 +13,7 @@ import RadioButtonField from '../../../../ui/components/SimpleFormFields/RadioBu
 import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
-import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
+// import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
@@ -22,6 +22,7 @@ import Typography from '@material-ui/core/Typography';
 import * as appStyle from "/imports/materialui/styles";
 import Print from '@material-ui/icons/Print';
 import Close from '@material-ui/icons/Close';
+import {PageLayout} from "/imports/ui/layouts/pageLayout";
 
 // import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
@@ -40,9 +41,11 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
     }
 
     return (
-        <Container>
-            <Typography style={appStyle.title}>{screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
-                {!isPrintView?(
+        <PageLayout
+            title={screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
+            history={history}
+            actions={[
+                !isPrintView?(
                     <span style={{cursor:'pointer',marginRight:10,color:appStyle.primaryColor}} onClick={()=>{
                         history.push(`/example/printview/${exampleDoc._id}`)
                     }}><Print /></span>
@@ -50,7 +53,11 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                     <span style={{cursor:'pointer',marginRight:10,color:appStyle.primaryColor}} onClick={()=>{
                         history.push(`/example/view/${exampleDoc._id}`)
                     }}><Close /></span>
-                )}
+                )
+            ]}
+        >
+            <Typography style={appStyle.title}>
+
 
             </Typography>
             <SimpleForm
@@ -74,9 +81,9 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                         name='description'
                     />
                 </FormGroup>
-                <GoogleApiWrapper
-                    name={'address'}
-                />
+                {/*<GoogleApiWrapper*/}
+                {/*    name={'address'}*/}
+                {/*/>*/}
                 <FormGroup key={'fieldsTwo'}>
                     <SelectField
                         placeholder='Tipo'
@@ -160,7 +167,7 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                 </div>
             </SimpleForm>
 
-        </Container>
+        </PageLayout>
     )
 }
 
