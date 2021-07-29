@@ -154,6 +154,8 @@ export const theme = createMuiTheme({
         MuiOutlinedInput: {
             root: {
                 // fontFamily: "'PT'",
+                backgroundColor:'#f3f3f3',
+
             },
         },
         MuiInputBase: {
@@ -168,12 +170,13 @@ export const theme = createMuiTheme({
                 textAlign: 'left',
                 color: '#222020',
                 textTransform: 'none',
+                outline: 'none',
             },
             input: {
                 '&$disabled': {
                     color:"#777",
                     backgroundColor:'#f3f3f3',
-                    border:'1px solid #DDD'
+                    outline: 'none',
                 },
                 // fontFamily: "'PT'",
                 fontSize: '14px',
