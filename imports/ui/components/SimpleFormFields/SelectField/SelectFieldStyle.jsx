@@ -15,15 +15,15 @@
  */
 
 const selectFieldStyle = {
-/*  example: {
-    color: 'rgba(0, 0, 0, 0.54)',
-    padding: 0,
-    fontSize: '1rem',
-    fontFamily: '"PT"',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-  },*/
+    /*  example: {
+          color: 'rgba(0, 0, 0, 0.54)',
+          padding: 0,
+          fontSize: '1rem',
+          fontFamily: '"PT"',
+          fontWeight: 400,
+          lineHeight: 1,
+          letterSpacing: '0.00938em',
+        }, */
 };
 
 export {

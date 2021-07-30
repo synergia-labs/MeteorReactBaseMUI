@@ -5,145 +5,159 @@ import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelV
 import InputBase from '@material-ui/core/InputBase';
 import * as appStyle from '/imports/materialui/styles';
 
-export default ({ name, label, value, onChange, readOnly, schema, error, placeholder, ...otherProps }: IBaseSimpleFormComponent) => {
-  const applyMask = (inputValue: string, mask: string) => {
-    let text = '';
-    const data = inputValue;
-    let c;
+export default ({
+                    name,
+                    label,
+                    value,
+                    onChange,
+                    readOnly,
+                    schema,
+                    error,
+                    placeholder,
+                    ...otherProps
+                }: IBaseSimpleFormComponent) => {
 
-    let m;
+    const fieldValue = value === '-'?'-':(schema&&schema.type===Date&&!!value&&value instanceof Date?value.toLocaleDateString('pt-BR'):value);
 
-    let i;
 
-    let x;
+    const applyMask = (inputValue: string, mask: string) => {
+        let text = '';
+        const data = inputValue;
+        let c;
 
-    let valueCharCount = 0;
-    for (i = 0, x = 1; x && i < mask.length; ++i) {
-      c = data.charAt(valueCharCount);
-      m = mask.charAt(i);
+        let m;
 
-      if (valueCharCount >= data.length) {
-        // console.log("break;");
-        break;
-      }
+        let i;
 
-      switch (mask.charAt(i)) {
-        case '9': // Number
-        case '#': // Number
-          if (/\d/.test(c)) {
-            text += c;
-            valueCharCount++;
-            // console.log("text += c;");
-          }
-          else {
-            x = 0;
-            // console.log("x = 0;");
-          }
-          break;
+        let x;
 
-        case '8': // Alphanumeric
-        case 'A': // Alphanumeric
-          if (/[a-z]/i.test(c)) {
-            text += c;
-            valueCharCount++;
-          }
-          else {
-            x = 0;
-          }
-          break;
+        let valueCharCount = 0;
+        for (i = 0, x = 1; x && i < mask.length; ++i) {
+            c = data.charAt(valueCharCount);
+            m = mask.charAt(i);
 
-        case '7': // Number or Alphanumerica
-        case 'N': // Number or Alphanumerica
-          if (/[a-z0-9]/i.test(c)) {
-            text += c;
-            valueCharCount++;
-          }
-          else {
-            x = 0;
-          }
-          break;
+            if (valueCharCount >= data.length) {
+                // console.log("break;");
+                break;
+            }
 
-        case '6': // Any
-        case 'X': // Any
-          text += c;
-          valueCharCount++;
+            switch (mask.charAt(i)) {
+                case '9': // Number
+                case '#': // Number
+                    if (/\d/.test(c)) {
+                        text += c;
+                        valueCharCount++;
+                        // console.log("text += c;");
+                    } else {
+                        x = 0;
+                        // console.log("x = 0;");
+                    }
+                    break;
 
-          break;
+                case '8': // Alphanumeric
+                case 'A': // Alphanumeric
+                    if (/[a-z]/i.test(c)) {
+                        text += c;
+                        valueCharCount++;
+                    } else {
+                        x = 0;
+                    }
+                    break;
 
-        default:
-          if (m === c) {
-            text += m;
-            valueCharCount++;
-          }
-          else {
-            text += m;
-          }
+                case '7': // Number or Alphanumerica
+                case 'N': // Number or Alphanumerica
+                    if (/[a-z0-9]/i.test(c)) {
+                        text += c;
+                        valueCharCount++;
+                    } else {
+                        x = 0;
+                    }
+                    break;
 
-          break;
-      }
+                case '6': // Any
+                case 'X': // Any
+                    text += c;
+                    valueCharCount++;
+
+                    break;
+
+                default:
+                    if (m === c) {
+                        text += m;
+                        valueCharCount++;
+                    } else {
+                        text += m;
+                    }
+
+                    break;
+            }
+        }
+        return text;
+    };
+
+    const onFieldChange = (e) => {
+        const newValue = e.target.value;
+        onChange({name, target: {name, value:newValue}}, {name, value: newValue})
     }
-    return text;
-  };
 
-  const handleApplyMask = (event: React.BaseSyntheticEvent) => {
-    const mask = otherProps && otherProps.mask ?
-      otherProps.mask : (schema && schema.mask ? schema.mask : undefined);
+    const handleApplyMask = (event: React.BaseSyntheticEvent) => {
+        const mask = otherProps && otherProps.mask ?
+            otherProps.mask : (schema && schema.mask ? schema.mask : undefined);
 
-    if (mask) {
-      const inputValue = applyMask(event.target.value, mask);
-      onChange({ name, target: { name, value: inputValue } }, { name, value: inputValue });
+        if (mask) {
+            const inputValue = applyMask(event.target.value, mask);
+            onFieldChange({name, target: {name, value: inputValue}}, {name, value: inputValue});
+        } else {
+            onFieldChange(
+                {name, target: {name, value: event.target.value}},
+                {name, value: event.target.value});
+        }
+    };
+
+    if (readOnly) {
+        return (<div key={name} style={{display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer}}>
+            <SimpleLabelView label={label}/>
+            <TextField
+                variant={'outlined'}
+                key={name}
+                onChange={onChange}
+                value={fieldValue}
+                error={!!error}
+                disabled={!!readOnly}
+                id={name}
+                name={name}
+                label={null}
+                {..._.omit(otherProps, ['placeholder'])}
+            />
+        </div>);
     }
-    else {
-      onChange(
-        { name, target: { name, value: event.target.value } },
-        { name, value: event.target.value });
+    if (otherProps.isNaked) {
+        return (
+            <InputBase
+                key={name}
+                onChange={onChange}
+                value={fieldValue}
+                error={!!error}
+                disabled={!!readOnly}
+                id={name}
+                name={name}
+                label={otherProps.labelDisable ? undefined : label}
+                {...otherProps}
+            />);
     }
-  };
-
-  if (readOnly) {
-    return (<div key={name} style={{ display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer }}>
-      <SimpleLabelView label={label} />
-      <TextField
-        variant={'outlined'}
-        key={name}
-        onChange={onChange}
-        value={value}
-        error={!!error}
-        disabled={!!readOnly}
-        id={name}
-        name={name}
-        label={null}
-        {..._.omit(otherProps, ['placeholder'])}
-      />
+    return (<div key={name} style={{display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer}}>
+        <SimpleLabelView label={label}/>
+        <TextField
+            variant={'outlined'}
+            key={name}
+            onChange={handleApplyMask}
+            value={fieldValue}
+            error={!!error}
+            disabled={!!readOnly}
+            id={name}
+            name={name}
+            label={null}
+            {...otherProps}
+        />
     </div>);
-  }
-  if (otherProps.isNaked) {
-    return (
-      <InputBase
-        key={name}
-        onChange={onChange}
-        value={value}
-        error={!!error}
-        disabled={!!readOnly}
-        id={name}
-        name={name}
-        label={otherProps.labelDisable ? undefined : label}
-        {...otherProps}
-      />);
-  }
-  return (<div key={name} style={{ display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer }}>
-    <SimpleLabelView label={label} />
-    <TextField
-      variant={'outlined'}
-      key={name}
-      onChange={handleApplyMask}
-      value={value}
-      error={!!error}
-      disabled={!!readOnly}
-      id={name}
-      name={name}
-      label={null}
-      {...otherProps}
-    />
-  </div>);
 };

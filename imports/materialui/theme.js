@@ -158,6 +158,34 @@ export const theme = createMuiTheme({
 
             },
         },
+        MuiSelect: {
+            root: {
+                // fontFamily: "'PT'",
+                fontSize: '14px',
+                fontWeight: 'normal',
+                fontStretch: 'normal',
+                fontStyle: 'normal',
+                lineHeight: 1.2,
+                letterSpacing: '0.7px',
+                textAlign: 'left',
+                color: '#222020',
+                textTransform: 'none',
+                outline: 'none',
+            },
+            select: {
+                // fontFamily: "'PT'",
+                fontSize: '14px',
+                fontWeight: 'normal',
+                fontStretch: 'normal',
+                fontStyle: 'normal',
+                lineHeight: 1.2,
+                letterSpacing: '0.7px',
+                textAlign: 'left',
+                color: '#222020',
+                textTransform: 'none',
+                outline: 'none',
+            },
+        },
         MuiInputBase: {
             root: {
                 // fontFamily: "'PT'",
