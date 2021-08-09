@@ -16,15 +16,18 @@ import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/Up
 // import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
 import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
+import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
+import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
+
+import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
+import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatarField/ImageOrAvatarField';
 
 import Typography from '@material-ui/core/Typography';
 import * as appStyle from "/imports/materialui/styles";
 import Print from '@material-ui/icons/Print';
 import Close from '@material-ui/icons/Close';
 import {PageLayout} from "/imports/ui/layouts/pageLayout";
-
-// import UploadFilesCollection from "/imports/ui/components/UploadFiles/uploadFilesCollection";
 
 interface IExampleDetail {
     screenState: string;
@@ -43,7 +46,7 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
     return (
         <PageLayout
             title={screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
-            history={history}
+            onBack={()=>history.push('/example')}
             actions={[
                 !isPrintView?(
                     <span style={{cursor:'pointer',marginRight:10,color:appStyle.primaryColor}} onClick={()=>{
@@ -56,10 +59,6 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                 )
             ]}
         >
-            <Typography style={appStyle.title}>
-
-
-            </Typography>
             <SimpleForm
                 mode={screenState}
                 schema={exampleApi.schema}
@@ -71,6 +70,22 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                     label={'Imagem'}
                     name={'image'}
                 />
+
+                <AvatarGeneratorField
+                  label={'Avatar'}
+                  name={'avatar'}
+                />
+
+                <ImageCompactField
+                  label={'Imagem Zoom+Slider'}
+                  name={'imageC'}
+                />
+
+                <ImageOrAvatar
+                  label={'Imagem ou Avatar'}
+                  name={'imageOrAvatar'}
+                />
+
                 <FormGroup key={'fieldsOne'}>
                     <TextField
                         placeholder='Titulo'
@@ -92,6 +107,11 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                             {value:'extra',label:'Extra'},
                         ]}
                         name='type'
+                    />
+                    <SelectField
+                        placeholder='Tipo2'
+                        id='Tipo2'
+                        name='type2'
                     />
                     <DatePickerField
                         placeholder='Data'
@@ -119,9 +139,19 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                     />
                 </FormGroup>
 
+                <SliderField
+                    placeholder='Slider'
+                    name='slider'
+                />
+
                 <ToggleSwitchField
                     placeholder='Status da Tarefa'
                     name='statusToggle'
+                />
+
+                <RadioButtonField
+                    placeholder='Opções da Tarefa'
+                    name='statusRadio'
                 />
 
                 <FormGroup key={'fields'}>
@@ -131,7 +161,7 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                     />
                 </FormGroup>
 
-                <UploadFilesCollection
+               <UploadFilesCollection
                     name='files'
                     label={'Arquivos'}
                     doc={exampleDoc}/>
@@ -181,12 +211,14 @@ interface IExampleDetailContainer {
 export const ExampleDetailContainer = withTracker((props: IExampleDetailContainer) => {
     const {screenState, id} = props;
     const subHandle = exampleApi.subscribe('default', {_id: id});
-    const exampleDoc = subHandle.ready() ? exampleApi.findOne({_id: id}) : {}
+    let exampleDoc = subHandle.ready() ? exampleApi.findOne({_id: id}) : {};
+
+    exampleDoc = !!exampleDoc && !!exampleDoc._id ? exampleDoc : {_id:id};
 
     return ({
         screenState,
         exampleDoc,
-        save: (doc, callback) => exampleApi.upsert(doc, (e, r) => {
+        save: (doc, callback) => exampleApi[screenState==='create'?'insert':'update'](doc, (e, r) => {
             if (!e) {
                 props.history.push(`/example/view/${screenState === 'create' ? r : doc._id}`)
                 props.showNotification({

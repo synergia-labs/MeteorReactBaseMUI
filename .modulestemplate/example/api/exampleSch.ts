@@ -6,12 +6,32 @@ export const exampleSch = {
     optional: true,
     isImage: true,
   },
+  imageC: {
+    type: String,
+    label: 'Imagem Comp',
+    defaultValue: '',
+    optional: true,
+    isImage: true, 
+  },
+  avatar: {
+    type: String,
+    label: 'Avatar',
+    defaultValue: '',
+    optional: true,
+    isAvatar: true,
+  },
+  imageOrAvatar: {
+    type: String,
+    label: 'Imagem ou Avatar',
+    defaultValue: '',
+    optional: true,
+    isImage: true,
+  },
   title: {
     type: String,
     label: 'Título',
     defaultValue: '',
     optional: false,
-
   },
   description: {
     type: String,
@@ -19,14 +39,42 @@ export const exampleSch = {
     defaultValue: '',
     optional: true,
   },
+  check: {
+    type: Object,
+    label: 'check box',
+    defaultValue: {},
+    optional: true,
+    options: ['Todo', 'Doing', 'Done'],
+  },
+  typeMult: {
+    type: [String],
+    label: 'Tipo',
+    defaultValue: '',
+    optional: true,
+    multiple:true,
+    options:[
+      {value:'normal',label:'Normal'},
+      {value:'hard',label:'Dificil'},
+      {value:'internal',label:'Interna'},
+      {value:'extra',label:'Extra'},
+    ],
+  },
   type: {
     type: String,
     label: 'Tipo',
     defaultValue: '',
     optional: true,
+  },
+  type2: {
+    type: [String],
+    label: 'Tipo com vários valores',
+    defaultValue: '',
+    optional: true,
+    multiple:true,
     options:[
       {value:'normal',label:'Normal'},
       {value:'extra',label:'Extra'},
+      {value:'minimo',label:'Minimo'},
     ],
   },
   date: {
@@ -58,14 +106,14 @@ export const exampleSch = {
         type: String,
         label: 'Telefone',
         defaultValue: '',
-        optional: false,
+        optional: true,
         mask : '(##) ####-####',
       },
       cpf: {
         type: String,
         label: 'CPF',
         defaultValue: '',
-        optional: false,
+        optional: true,
         mask : '###.###.###-##',
       },
     }
@@ -104,21 +152,14 @@ export const exampleSch = {
     isMapLocation:true,
     optional: true,
   },
-  // statusCheck: {
-  //   type: Object,
-  //   label: 'Status CheckBox',
-  //   defaultValue: '',
-  //   optional: false,
-  //   checksList: ['Todo', 'Doing', 'Done'],
-  //   validate: (value) => {
-  //     const statusTrue = value&&Object.keys(value).filter( status => {
-  //       if(value[status]){
-  //         return status
-  //       }
-  //     })
-  //     return  statusTrue.length <= 1
-  //   }
-  // },
+  slider: {
+    type: Number,
+    label: 'Slider',
+    defaultValue: 0,
+    optional: true,
+    max: 100,
+    min: 0,
+  },
   statusRadio: {
     type: String,
     label: 'Status RadioButton',
@@ -129,6 +170,7 @@ export const exampleSch = {
   statusToggle: {
     type: Boolean,
     label: 'Status Toogle',
+    defaultValue: false,
     optional: true,
   }
 };

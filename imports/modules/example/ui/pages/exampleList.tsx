@@ -7,17 +7,15 @@ import _ from 'lodash';
 import Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
-
+import TablePagination from '@material-ui/core/TablePagination';
+import {makeStyles} from "@material-ui/core/styles";
 import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
-import {isMobile} from "/imports/libs/deviceVerify";
 
 import * as appStyle from "/imports/materialui/styles";
 
-import Typography from '@material-ui/core/Typography';
 
 import shortid from 'shortid';
 import {PageLayout} from "/imports/ui/layouts/pageLayout";
@@ -36,11 +34,70 @@ interface IExampleList {
     pageProperties:object;
 }
 
+const useStyles = makeStyles({
+    table: {
+        minWidth: 500
+    },
+    selectDropdown: {color: "#fff", backgroundColor: "#1b1f38"},
+    menuItem: {
+        "&:hover": {
+            backgroundColor: "#3b3f58"
+        }
+    },
+    space: {
+        flex: 'none',
+        width: 'fit-content',
+    },
+    caption: {
+        flex: 'none',
+        width: 'fit-content',
+    }
+});
+
+
 const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,setPage,setPageSize,searchBy,pageProperties}:IExampleList) => {
+
+    const classes = useStyles();
+
 
     const idExample = shortid.generate();
     const onClick = (event,id,doc,showDialog) => {
         history.push('/example/view/'+id);
+    }
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage + 1);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setPageSize(parseInt(event.target.value, 10));
+        setPage(1);
+    };
+    const [text,setText] = React.useState(searchBy||'')
+    const change = (e) => {
+        if(text.length!==0&&e.target.value.length===0) {
+            onSearch();
+        }
+        setText(e.target.value);
+    }
+    const keyPress = (e, a) => {
+
+        // if (e.key === 'Enter') {
+            if (text && text.trim().length > 0) {
+                onSearch(text.trim());
+            } else {
+                onSearch();
+            }
+        // }
+    };
+
+    const click = (...e) => {
+        if (text && text.trim().length > 0) {
+            onSearch(text.trim());
+        } else {
+            onSearch();
+        }
+
     }
 
     const callRemove=(doc)=>{
@@ -55,8 +112,8 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 >{'Não'}</Button>,
                 <Button
                     onClick={()=>{
-                            remove(doc);
-                            closeDialog();
+                        remove(doc);
+                        closeDialog();
 
                     }}
                     color={'primary'}>{'Sim'}</Button>,
@@ -66,32 +123,6 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
     }
 
 
-    const [text,setText] = React.useState(searchBy||'')
-    const change = (e) => {
-        if(text.length!==0&&e.target.value.length===0) {
-            onSearch();
-        }
-        setText(e.target.value);
-    }
-    const keyPress = (e, a) => {
-
-        if (e.key === 'Enter') {
-            if (text && text.trim().length > 0) {
-                onSearch(text.trim());
-            } else {
-                onSearch();
-            }
-        }
-    };
-
-    const click = (...e) => {
-        if (text && text.trim().length > 0) {
-            onSearch(text.trim());
-        } else {
-            onSearch();
-        }
-
-    }
 
     return (
         <PageLayout
@@ -108,6 +139,25 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 onClick={onClick}
                 actions={[{icon:<Delete color={'primary'} />, id: "delete", onClick:callRemove}]}
             />
+            <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                <TablePagination
+                    style={{width: 'fit-content', overflow: 'unset'}}
+                    rowsPerPageOptions={[10, 25, 50, 100]}
+                    labelRowsPerPage={<div style={{width: 0, padding: 0, margin: 0}}/>}
+                    component="div"
+                    count={total}
+                    rowsPerPage={pageProperties.pageSize}
+                    page={pageProperties.currentPage - 1}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    labelDisplayedRows={({from, to, count}) => (`${from}-${to} de ${count}`)}
+                    SelectProps={{
+                        inputProps: {"aria-label": "rows per page"},
+                        MenuProps: {classes: {paper: classes.selectDropdown}}
+                    }}
+                    classes={{menuItem: classes.menuItem, spacer: classes.space, caption: classes.caption}}
+                />
+            </div>
             <div style={appStyle.fabContainer}>
                 <Fab
                     id={'add'}
@@ -116,6 +166,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                     <Add />
                 </Fab>
             </div>
+
         </PageLayout>
         )
 
@@ -139,7 +190,7 @@ const exampleSearch = initSearch(
     ['title','description'], // list of fields
 );
 
-
+let onSearchExampleTyping;
 export const ExampleListContainer = withTracker((props) => {
 
     //Reactive Search/Filter
@@ -156,10 +207,6 @@ export const ExampleListContainer = withTracker((props) => {
     };
     const limit = config.pageProperties.pageSize*config.pageProperties.currentPage;
     const skip = (config.pageProperties.currentPage-1)*config.pageProperties.pageSize;
-
-    //Reactive Counter
-    const subHandleCounter = exampleApi.subscribe('defaultCounter',filter);
-    const examplesCount = subHandleCounter?(subHandleCounter.ready()?exampleApi.counts.findOne():null):0;
 
     //Collection Subscribe
     const subHandle = exampleApi.subscribe('default',filter,{sort,limit,skip});
@@ -189,14 +236,37 @@ export const ExampleListContainer = withTracker((props) => {
             })
         },
         searchBy:config.searchBy,
-        onSearch: exampleSearch.onSearch,
-        total:examplesCount?examplesCount.count:examples.length,
+        onSearch: (...params) => {
+            onSearchExampleTyping&&clearTimeout(onSearchExampleTyping);
+            onSearchExampleTyping = setTimeout(() => {
+                config.pageProperties.currentPage = 1;
+                subscribeConfig.set(config);
+                exampleSearch.onSearch(...params)
+            }, 1000);
+
+        },
+        total:subHandle?subHandle.total:examples.length,
         pageProperties:config.pageProperties,
-        setPage: (page=1) => {
+        filter,
+        sort,
+        setPage: (page = 1) => {
             config.pageProperties.currentPage = page;
             subscribeConfig.set(config);
         },
-        setPageSize: (size=25) => {
+        setFilter: (newFilter = {}) => {
+            config.filter = ({...filter, ...newFilter});
+            Object.keys(config.filter).forEach((key) => {
+                if (config.filter[key] === null || config.filter[key] === undefined) {
+                    delete config.filter[key];
+                }
+            });
+            subscribeConfig.set(config);
+        },
+        setSort: (sort = {}) => {
+            config.sort = sort;
+            subscribeConfig.set(config);
+        },
+        setPageSize: (size = 25) => {
             config.pageProperties.pageSize = size;
             subscribeConfig.set(config);
         },

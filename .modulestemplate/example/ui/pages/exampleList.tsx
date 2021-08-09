@@ -7,17 +7,18 @@ import _ from 'lodash';
 import Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
-
+import TablePagination from '@material-ui/core/TablePagination';
+import {makeStyles} from "@material-ui/core/styles";
 import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
-import {isMobile} from "/imports/libs/deviceVerify";
 
 import * as appStyle from "/imports/materialui/styles";
 
-import Typography from '@material-ui/core/Typography';
+
+import shortid from 'shortid';
+import {PageLayout} from "/imports/ui/layouts/pageLayout";
 
 interface IExampleList {
     examples:object[];
@@ -33,35 +34,45 @@ interface IExampleList {
     pageProperties:object;
 }
 
+const useStyles = makeStyles({
+    table: {
+        minWidth: 500
+    },
+    selectDropdown: {color: "#fff", backgroundColor: "#1b1f38"},
+    menuItem: {
+        "&:hover": {
+            backgroundColor: "#3b3f58"
+        }
+    },
+    space: {
+        flex: 'none',
+        width: 'fit-content',
+    },
+    caption: {
+        flex: 'none',
+        width: 'fit-content',
+    }
+});
+
+
 const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,setPage,setPageSize,searchBy,pageProperties}:IExampleList) => {
 
+    const classes = useStyles();
+
+
+    const idExample = shortid.generate();
     const onClick = (event,id,doc,showDialog) => {
         history.push('/example/view/'+id);
     }
 
-    const callRemove=(doc)=>{
-        const dialogOptions = {
-            icon:<Delete />,
-            title:'Remover exemplo',
-            content:()=><p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
-            actions:({closeDialog})=>[
-                <Button
-                    color={'secondary'}
-                    onClick={closeDialog}
-                >{'Não'}</Button>,
-                <Button
-                    onClick={()=>{
-                            remove(doc);
-                            closeDialog();
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage + 1);
+    };
 
-                    }}
-                    color={'primary'}>{'Sim'}</Button>,
-            ]
-        };
-        showDialog(dialogOptions)
-    }
-
-
+    const handleChangeRowsPerPage = (event) => {
+        setPageSize(parseInt(event.target.value, 10));
+        setPage(1);
+    };
     const [text,setText] = React.useState(searchBy||'')
     const change = (e) => {
         if(text.length!==0&&e.target.value.length===0) {
@@ -71,13 +82,13 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
     }
     const keyPress = (e, a) => {
 
-        if (e.key === 'Enter') {
+        // if (e.key === 'Enter') {
             if (text && text.trim().length > 0) {
                 onSearch(text.trim());
             } else {
                 onSearch();
             }
-        }
+        // }
     };
 
     const click = (...e) => {
@@ -89,9 +100,36 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
 
     }
 
+    const callRemove=(doc)=>{
+        const dialogOptions = {
+            icon:<Delete/>,
+            title:'Remover exemplo',
+            content:()=><p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
+            actions:({closeDialog})=>[
+                <Button
+                    color={'secondary'}
+                    onClick={closeDialog}
+                >{'Não'}</Button>,
+                <Button
+                    onClick={()=>{
+                        remove(doc);
+                        closeDialog();
+
+                    }}
+                    color={'primary'}>{'Sim'}</Button>,
+            ]
+        };
+        showDialog(dialogOptions)
+    }
+
+
+
     return (
-        <Container>
-            <Typography style={appStyle.title}>{'Lista de Exemplos'}</Typography>
+        <PageLayout
+            title={'Lista de Exemplos'}
+            actions={[
+            ]}
+        >
             <TextField value={text} onChange={change} onKeyPress={keyPress}  placeholder='Pesquisar...'
                    action={{ icon: 'search',onClick:click }}
             />
@@ -99,17 +137,37 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                 schema={_.pick(exampleApi.schema,['image','title','description','date','statusToggle','chip','type'])}
                 data={examples}
                 onClick={onClick}
-                actions={[{icon:<Delete color={'primary'} />,onClick:callRemove}]}
+                actions={[{icon:<Delete color={'primary'} />, id: "delete", onClick:callRemove}]}
             />
+            <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                <TablePagination
+                    style={{width: 'fit-content', overflow: 'unset'}}
+                    rowsPerPageOptions={[10, 25, 50, 100]}
+                    labelRowsPerPage={<div style={{width: 0, padding: 0, margin: 0}}/>}
+                    component="div"
+                    count={total}
+                    rowsPerPage={pageProperties.pageSize}
+                    page={pageProperties.currentPage - 1}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    labelDisplayedRows={({from, to, count}) => (`${from}-${to} de ${count}`)}
+                    SelectProps={{
+                        inputProps: {"aria-label": "rows per page"},
+                        MenuProps: {classes: {paper: classes.selectDropdown}}
+                    }}
+                    classes={{menuItem: classes.menuItem, spacer: classes.space, caption: classes.caption}}
+                />
+            </div>
             <div style={appStyle.fabContainer}>
                 <Fab
                     id={'add'}
-                    onClick={()=>history.push('/example/create')}
+                    onClick={()=>history.push(`/example/create/${idExample}`)}
                     color={'primary'}>
                     <Add />
                 </Fab>
             </div>
-        </Container>
+
+        </PageLayout>
         )
 
 }
@@ -132,7 +190,7 @@ const exampleSearch = initSearch(
     ['title','description'], // list of fields
 );
 
-
+let onSearchExampleTyping;
 export const ExampleListContainer = withTracker((props) => {
 
     //Reactive Search/Filter
@@ -150,10 +208,6 @@ export const ExampleListContainer = withTracker((props) => {
     const limit = config.pageProperties.pageSize*config.pageProperties.currentPage;
     const skip = (config.pageProperties.currentPage-1)*config.pageProperties.pageSize;
 
-    //Reactive Counter
-    const subHandleCounter = exampleApi.subscribe('defaultCounter',filter);
-    const examplesCount = subHandleCounter?(subHandleCounter.ready()?exampleApi.counts.findOne():null):0;
-
     //Collection Subscribe
     const subHandle = exampleApi.subscribe('default',filter,{sort,limit,skip});
     const examples = subHandle.ready()?exampleApi.find(filter,{sort}).fetch():[]
@@ -168,28 +222,51 @@ export const ExampleListContainer = withTracker((props) => {
                     props.showNotification({
                         type:'success',
                         title:'Operação realizada!',
-                        description: `O exemplo foi removido com sucesso!`,
+                        message: `O exemplo foi removido com sucesso!`,
                     })
                 } else {
                     console.log('Error:',e);
                     props.showNotification({
                         type:'error',
                         title:'Operação não realizada!',
-                        description: `Erro ao realizar a operação: ${e.message}`,
+                        message: `Erro ao realizar a operação: ${e.message}`,
                     })
                 }
 
             })
         },
         searchBy:config.searchBy,
-        onSearch: exampleSearch.onSearch,
-        total:examplesCount?examplesCount.count:examples.length,
+        onSearch: (...params) => {
+            onSearchExampleTyping&&clearTimeout(onSearchExampleTyping);
+            onSearchExampleTyping = setTimeout(() => {
+                config.pageProperties.currentPage = 1;
+                subscribeConfig.set(config);
+                exampleSearch.onSearch(...params)
+            }, 1000);
+
+        },
+        total:subHandle?subHandle.total:examples.length,
         pageProperties:config.pageProperties,
-        setPage: (page=1) => {
+        filter,
+        sort,
+        setPage: (page = 1) => {
             config.pageProperties.currentPage = page;
             subscribeConfig.set(config);
         },
-        setPageSize: (size=25) => {
+        setFilter: (newFilter = {}) => {
+            config.filter = ({...filter, ...newFilter});
+            Object.keys(config.filter).forEach((key) => {
+                if (config.filter[key] === null || config.filter[key] === undefined) {
+                    delete config.filter[key];
+                }
+            });
+            subscribeConfig.set(config);
+        },
+        setSort: (sort = {}) => {
+            config.sort = sort;
+            subscribeConfig.set(config);
+        },
+        setPageSize: (size = 25) => {
             config.pageProperties.pageSize = size;
             subscribeConfig.set(config);
         },

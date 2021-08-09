@@ -5,6 +5,7 @@ import {getUser} from "/imports/libs/getUser";
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import {WebApp} from "meteor/webapp";
+import {exampleApi} from "/imports/modules/example/api/exampleApi";
 
 //Conters
 const Counts = new Mongo.Collection("counts");
@@ -1098,10 +1099,28 @@ export class ApiBase {
   subscribe (api = 'default', ...param) {
     const self = this;
     if (Meteor.isClient) {
-      return Meteor.subscribe(
+      const subsHandle = Meteor.subscribe(
           `${this.collectionName}.${api}`,
           ...param,
       );
+
+      const subHandleCounter = Meteor.subscribe(
+          `${this.collectionName}.count${api}`,
+          param[0]||{},
+      );
+      const count = subHandleCounter.ready()?self.counts.findOne({_id: api+'Total'}).count||0:0;
+
+      if(subHandleCounter.ready()) {
+        subsHandle.total = count;
+      }
+
+
+      if(subHandleCounter&&subHandleCounter.ready) {
+        return {...subsHandle,ready:()=>subsHandle.ready()&&subHandleCounter.ready()};
+      }
+
+      return subsHandle;
+
     }
     return null;
   };
