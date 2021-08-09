@@ -27,6 +27,7 @@ const UserProfileDetail = ({screenState,loading,user,save,history,viewer,close})
         <PageLayout
             title={screenState==='view'?'Visualizar usuário':(screenState==='edit'?'Editar Usuário':'Criar usuário')}
             onBack={()=>history.push('/example')}
+            viewer={viewer}
         >
             <SimpleForm
                 mode={screenState}
