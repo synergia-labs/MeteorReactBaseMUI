@@ -63,7 +63,6 @@ class UserProfileApi extends OfflineBaseApi {
 
 
     this.addPublication('getListOfusers', (filter={}, options, userDoc) => {
-      const user = getUser(userDoc);
 
       const queryOptions = {
         fields: { 'photo': 1, 'email': 1, 'username': 1 },
@@ -108,9 +107,8 @@ class UserProfileApi extends OfflineBaseApi {
 
   serverInsert(dataObj,context) {
 
-    var insertId = null;
+    let insertId = null;
     try {
-      const id = dataObj._id;
       const { password } = dataObj;
       dataObj = this.checkDataBySchema(dataObj)
       if (password) {
@@ -121,7 +119,6 @@ class UserProfileApi extends OfflineBaseApi {
       if (this.beforeInsert(dataObj, context)) {
 
         this.registrarUserProfileNoMeteor(dataObj);
-        const password = dataObj.password;
         delete dataObj.password;
         if (!dataObj.roles) {
           dataObj.roles = [ 'Usuario' ];
@@ -175,16 +172,6 @@ class UserProfileApi extends OfflineBaseApi {
       throw insertError;
     }
 
-
-
-    try {
-
-        this.collectionInstance.insert(dataObj);
-
-
-    } catch (mongoError) {
-      throw mongoError;
-    }
   }
 
   /**
@@ -284,15 +271,11 @@ class UserProfileApi extends OfflineBaseApi {
       throw new Meteor.Error('Acesso negado', `Vocẽ não tem permissão para alterar esses dados`);
     }
 
-    if(user.roles.indexOf('Administrador')===-1) {  //prevent user change your self roles
+    if(user.roles.indexOf('Administrador')===-1) {  // prevent user change your self roles
       delete docObj.roles;
     }
 
     return super.beforeUpdate(docObj, context);
-  }
-
-  afterUpdate(doc) {
-
   }
 
   beforeRemove(docObj, context) {
@@ -310,7 +293,7 @@ class UserProfileApi extends OfflineBaseApi {
     }
   }
 
-  insertNewUser(userData,callback=(e,r)=>{console.log()}){
+  insertNewUser(userData,callback=(e,r)=>{console.log(e,r)}){
     this.callMethod('insert', userData, callback);
   }
 

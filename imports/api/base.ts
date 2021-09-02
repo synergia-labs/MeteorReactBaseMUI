@@ -4,10 +4,8 @@ import {hasValue} from "../libs/hasValue";
 import {getUser} from "/imports/libs/getUser";
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
-import {WebApp} from "meteor/webapp";
-import {exampleApi} from "/imports/modules/example/api/exampleApi";
 
-//Conters
+// Conters
 const Counts = new Mongo.Collection("counts");
 Counts.deny({
   insert() {
@@ -54,9 +52,9 @@ export class ApiBase {
 
   /**
    * Constructor
-   * @param  {Object} daoBase - The DAO created by other collection.
+   * @param  {String} apiName
+   * @param  {Object} apiSch
    * @param  {Object} options
-   * @param  {Object} isTest - To use the model in unit tests.
    */
   constructor(apiName: string, apiSch: any, options?: object) {
 
@@ -134,7 +132,7 @@ export class ApiBase {
     if (Meteor.isClient) {
       if (this.collectionName !== 'users') {
         this.collectionInstance = new Mongo.Collection(this.collectionName, {
-          transform: (doc) => { //for get path of image fields.
+          transform: (doc) => { // for get path of image fields.
             return self.addImgPathToFields(doc);
           },
         });
@@ -165,7 +163,7 @@ export class ApiBase {
           },
         });
       }
-    } else if (this.collectionName !== 'users') { //If Is SERVER
+    } else if (this.collectionName !== 'users') { // If Is SERVER
       this.collectionInstance = new Mongo.Collection(this.collectionName);
       // Deny all client-side updates on the Lists collection
       this.getCollectionInstance().deny({
@@ -217,7 +215,7 @@ export class ApiBase {
         addRoute: (path,handle) => {
 
           console.log('Path',path);
-          WebApp.connectHandlers.use(connectRoute(function (router) {
+          WebApp.connectHandlers.use(connectRoute( (router) => {
             router.get('/img/'+path, handle)
           }));
 
@@ -284,7 +282,7 @@ export class ApiBase {
    * @param  {String} publication - Name of the publication.
    * @param  {Function} newPublicationsFunction - Function the handle the publication of the data
    */
-  addPublication = (publication:String, newPublicationsFunction:any) => {
+  addPublication = (publication:string, newPublicationsFunction:any) => {
     const self = this;
 
     if (Meteor.isServer) {
@@ -307,14 +305,14 @@ export class ApiBase {
   };
 
 
-  addTransformedPublication = (publication:String, newPublicationsFunction:any,transformDocFunc:any) => {
+  addTransformedPublication = (publication:string, newPublicationsFunction:any,transformDocFunc:any) => {
 
     const self = this;
 
     if (Meteor.isServer) {
 
       Meteor.publish(`${self.collectionName}.${publication}`, function(query,options) {
-        let subHandle = newPublicationsFunction(query,options)
+        const subHandle = newPublicationsFunction(query,options)
             .observeChanges({
               added: (id, fields) => {
                 this.added(`${self.collectionName}`, id, transformDocFunc(fields));
@@ -373,7 +371,7 @@ export class ApiBase {
    * @param  {String} publication - Name of the publication.
    * @param  {Function} newPublicationsFunction - Function the handle the publication of the data
    */
-  addCompositePublication = (publication:String, newPublicationsFunction:any) => {
+  addCompositePublication = (publication:string, newPublicationsFunction:any) => {
     const self = this;
 
     if (Meteor.isServer) {
@@ -419,7 +417,7 @@ export class ApiBase {
           // security and the meteor context.
           const functionResult = func(...param, meteorContext);
           if (action === 'insert') {
-            meteorContext['docId'] = functionResult;
+            meteorContext.docId = functionResult;
           }
           return functionResult;
         } catch (error) {
@@ -469,7 +467,7 @@ export class ApiBase {
       fields: {...optionsPub.projection},
       limit: optionsPub.limit || 0,
       skip: optionsPub.skip || 0,
-      transform: (doc) => { //for get path of image fields.
+      transform: (doc) => { // for get path of image fields.
         return this.addImgPathToFields(doc);
       },
 
@@ -580,20 +578,20 @@ export class ApiBase {
             && Array.isArray(schema[ key ].type)
             && !Array.isArray(dataObj[ key ])
         ) {
-          //No Save
+          // No Save
         } else if (
             schema[ key ]
             && !Array.isArray(schema[ key ].type)
             && typeof(schema[ key ].type)==='object'
             && !hasValue(dataObj[ key ])
         ) {
-          //No Save
+          // No Save
         } else if (
             schema[ key ]
             && schema[ key ].type === String
             && dataObj[ key ]===null
         ) {
-          //No Save
+          // No Save
         } else if(schema[ key ]
             && schema[ key ].type !== Date) {
           newDataObj[ key ] = dataObj[ key ];
@@ -686,12 +684,12 @@ export class ApiBase {
       dataObj = this.checkDataBySchema(dataObj)
       this.includeAuditData(dataObj, 'insert');
       const insertId = this.getCollectionInstance().insert(dataObj);
-      //console.log('Inser >>>', insert);
+      // console.log('Inser >>>', insert);
       return {_id:insertId,...dataObj};
     }
     // const update = this.serverUpdate(dataObj, context);
     let docToSave = null;
-    //console.log('DOC', dataObj, oldDoc);
+    // console.log('DOC', dataObj, oldDoc);
     if (!!dataObj.lastupdate&&!!oldDoc.lastupdate&&new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
       console.log('APP MAIOR');
       docToSave = dataObj;
@@ -829,7 +827,7 @@ export class ApiBase {
    * (If we don't have context, undefied will be set to this.)
    * @returns {Booolean} - Returns true for any action.
    */
-  beforeInsert(docObj, context = undefined) {
+  beforeInsert(docObj:object, context:object) {
     return true;
   }
 
@@ -844,7 +842,7 @@ export class ApiBase {
    * If we don't have context, undefied will be set to this.)
    * @returns {Booolean} - Returns true for any action.
    */
-  beforeImport(docObjs, context = undefined) {
+  beforeImport(docObj:object, context:object) {
     return true;
   }
 
@@ -859,7 +857,7 @@ export class ApiBase {
    * (If we don't have context, undefied will be set to this.)
    * @returns {Booolean} - Returns true for any action.
    */
-  beforeUpdate(docObj, context = undefined) {
+  beforeUpdate(docObj:object, context:object) {
     return true;
   }
 
@@ -874,7 +872,7 @@ export class ApiBase {
    * (If we don't have context, undefied will be set to this.)
    * @returns {Booolean} - Returns true for any action.
    */
-  beforeRemove(docObj, context = undefined) {
+  beforeRemove(docObj:object, context:object) {
     return true;
   }
 
@@ -977,7 +975,7 @@ export class ApiBase {
       Meteor.call(`${this.collectionName}.${name}`, ...params);
     } else {
       console.log('Sem Conexão com o Servidor');
-      //window.$app.globalFunctions.openSnackBar('SEM CONEXÃO COM O SERVIDOR:Sua operçaão não será registrada. Verifique sua conexão com a internet.', 'info');
+      // window.$app.globalFunctions.openSnackBar('SEM CONEXÃO COM O SERVIDOR:Sua operçaão não será registrada. Verifique sua conexão com a internet.', 'info');
     }
 
   }
@@ -987,7 +985,7 @@ export class ApiBase {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  import(docObj, callback=()=>{}) {
+  import(docObj:object, callback=(e,r)=>{console.log(e,r)}) {
     this.callMethod('import', docObj, callback);
   }
 
@@ -1014,7 +1012,7 @@ export class ApiBase {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  update(docObj, callback=()=>{}) {
+  update(docObj:object, callback=(e,r)=>{console.log(e,r)}) {
     const newObj = {_id: docObj._id};
     const schema = this.schema;
     Object.keys(docObj).forEach(key => {
@@ -1046,7 +1044,7 @@ export class ApiBase {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  remove(docObj, callback=()=>{}) {
+  remove(docObj:object, callback=(e,r)=>{console.log(e,r)}) {
     this.callMethod('remove', docObj, callback);
   }
 
@@ -1055,7 +1053,7 @@ export class ApiBase {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  getDocs(apiName='default',filter={},optionsPub={}, callback=()=>{}) {
+  getDocs(apiName='default',filter={},optionsPub={}, callback=(e,r)=>{console.log(e,r)}) {
     this.callMethod('getDocs', apiName,filter,optionsPub, callback);
   }
 
@@ -1064,7 +1062,7 @@ export class ApiBase {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  sync(docObj, callback=()=>{}) {
+  sync(docObj:object, callback=(e,r)=>{console.log(e,r)}) {
     this.callMethod('sync', docObj, callback);
   }
 

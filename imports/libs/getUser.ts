@@ -24,8 +24,6 @@ class LoggedUserStore {
     }
 }
 
-let loggedUserCache;
-
 
 export const userprofileData = {
 

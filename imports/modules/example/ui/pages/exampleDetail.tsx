@@ -24,6 +24,7 @@ import {PageLayout} from "/imports/ui/layouts/pageLayout";
 interface IExampleDetail {
     screenState: string;
     loading: boolean;
+    isPrintView: boolean;
     exampleDoc: object;
     save: { (doc: object, callback?: {}): void };
     history: { push(url: string): void };

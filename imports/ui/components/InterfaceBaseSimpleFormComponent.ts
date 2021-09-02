@@ -3,7 +3,7 @@ interface IBaseSimpleFormComponent {
     label: string;
     placeholder?: string;
     value: any;
-    onChange: { (fieldTarget: object, field: object): void } ;
+    onChange: (fieldTarget: object, field: object) => void ;
     readOnly: boolean;
     error: boolean;
     schema?: any,

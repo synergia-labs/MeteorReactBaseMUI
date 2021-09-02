@@ -6,12 +6,13 @@ import settings from '/settings';
 import req from 'request';
 
 
-function getBase64FromURLImage(urlImage, callback = () => {
+function getBase64FromURLImage(urlImage, callback = (e,r) => {
+    console.log(e,r)
 }) {
 
-    var request = req.defaults({encoding: null});
+    const request = req.defaults({encoding: null});
 
-    request.get(urlImage, function (error, response, body) {
+    request.get(urlImage, (error, response, body) => {
         if (!error && response.statusCode === 200) {
             const data = 'data:' + response.headers['content-type'] + ';base64,' +
                 new Buffer(body).toString('base64');
@@ -102,13 +103,12 @@ Meteor.startup(() => {
     Accounts.emailTemplates.siteName = settings.name;
 
     // region VERIFICAR_EMAIL
-    Accounts.emailTemplates.verifyEmail.subject = function () {
+    Accounts.emailTemplates.verifyEmail.subject = () => {
         return settings.name;
     };
-    Accounts.emailTemplates.verifyEmail.html = function (user, url) {
+    Accounts.emailTemplates.verifyEmail.html = (user, url) => {
         const urlWithoutHash = url.replace('#/', '');
         const userData = userprofileApi.findOne({_id: user._id}) || {};
-        const l = userData && userData.language ? userData.language : 'pt-BR';
         const email = (
             `${`<p>Olá ${userData.username || 'usuário'},</p>`
             + '<p>Seja bem vindo ao &nbsp;<strong>MeteorReactBase-MUI</strong>.</p>'
@@ -123,14 +123,14 @@ Meteor.startup(() => {
         return getHTMLEmailTemplate('Confirmação do cadastro', email, footer);
     };
 
-    Accounts.emailTemplates.enrollAccount.subject = function () {
+    Accounts.emailTemplates.enrollAccount.subject = () => {
         return settings.name;
     };
 
-    Accounts.emailTemplates.enrollAccount.html = function (user, url) {
+    Accounts.emailTemplates.enrollAccount.html = (user, url) => {
         const urlWithoutHash = url.replace('#/', '');
         const userData = userprofileApi.findOne({_id: user._id}) || {};
-        const l = userData && userData.language ? userData.language : 'pt-BR';
+
         const email = (
             `${`<p>Olá ${userData.username || 'usuário'},</p>`
             + '<p>Seja bem vindo ao &nbsp;<strong>MeteorReactBase-MUI</strong>.</p>'
@@ -148,12 +148,11 @@ Meteor.startup(() => {
     // endregion
 
     // region ALTERAR_SENHA
-    Accounts.emailTemplates.resetPassword.subject = function () {
+    Accounts.emailTemplates.resetPassword.subject = () => {
         return settings.name;
     };
-    Accounts.emailTemplates.resetPassword.html = function (user, url) {
+    Accounts.emailTemplates.resetPassword.html = (user, url) => {
         const userData = userprofileApi.findOne({_id: user._id}) || {};
-        const l = userData && userData.language ? userData.language : 'pt-BR';
         const urlWithoutHash = url.replace('#/', '');
         const email = (
             `${`<p>Olá ${userData.username || 'usuário'},</p>`
@@ -177,7 +176,7 @@ Meteor.startup(() => {
             ? userprofileApi.find({_id: params.user._id}).fetch()[0]
             : undefined;
 
-        const userLanguage = userProfile && userProfile.language ? userProfile.language : 'pt-BR';
+        // const userLanguage = userProfile && userProfile.language ? userProfile.language : 'pt-BR';
 
         if(userProfile) {
             userprofileApi.collectionInstance.update({_id:userProfile._id},{
@@ -185,7 +184,7 @@ Meteor.startup(() => {
             })
         }
 
-        params.connection.onClose(Meteor.bindEnvironment(function()
+        params.connection.onClose(Meteor.bindEnvironment(()=>
         {
             if(userProfile) {
                 userprofileApi.collectionInstance.update({_id:userProfile._id},{
@@ -193,7 +192,7 @@ Meteor.startup(() => {
                 })
             }
              // console.log('OnDesconect:',params.user._id); // called once the user disconnects
-        }, function(e){console.log('Error:',e)}))
+        }, (e)=>{console.log('Error:',e)}))
 
     });
 
