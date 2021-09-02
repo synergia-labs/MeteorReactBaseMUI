@@ -16,21 +16,21 @@
 
 const simpleImageStyle = {
   containerImage: {
-    display:'flex',
-    flexDirection:'column',
+    display: 'flex',
+    flexDirection: 'column',
   },
   containerImageButtons: {
-    display:'flex',
-    flexDirection:'column',
+    display: 'flex',
+    flexDirection: 'column',
   },
   containerShowImage: {
-    maxWidth:360,
-    maxHeight:320,
+    maxWidth: 360,
+    maxHeight: 320,
     width: 150,
     height: 150,
   },
   selectImage: {
-    cursor:'pointer',
+    cursor: 'pointer',
     fontSize: '12px',
     //fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     fontWeight: 400,
@@ -41,5 +41,5 @@ const simpleImageStyle = {
 };
 
 export {
-    simpleImageStyle,
+  simpleImageStyle,
 };

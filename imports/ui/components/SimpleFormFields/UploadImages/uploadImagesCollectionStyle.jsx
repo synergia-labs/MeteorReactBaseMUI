@@ -22,7 +22,7 @@ const uploadImagesStyle = {
     paddingLeft: '6%',
   },
   selectImage: {
-    cursor:'pointer',
+    cursor: 'pointer',
     fontSize: '12px',
     //fontFamily: '"PT"',
     fontWeight: 400,
@@ -31,18 +31,18 @@ const uploadImagesStyle = {
     color: 'rgba(108, 104, 104)',
   },
   media: {
-    position:'relative',
+    position: 'relative',
     backgroundColor: 'white',
     height: '100%',
     width: 255,
-    marginLeft:10,
+    marginLeft: 10,
     overflow: 'hidden',
     transition: '300ms',
     cursor: 'pointer',
   },
   mediaCaption: {
-    display:'flex',
-    flexDirection:'column',
+    display: 'flex',
+    flexDirection: 'column',
     bottom: 0,
     position: 'absolute',
     textOverflow: 'ellipsis',
@@ -50,7 +50,7 @@ const uploadImagesStyle = {
     color: 'white',
     opacity: 0.8,
     width: '100%',
-    maxWidth:'100%',
+    maxWidth: '100%',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     minHeight: '15%',
@@ -60,27 +60,27 @@ const uploadImagesStyle = {
     cursor: 'pointer',
   },
   caption: {
-    display:'flex',
-    flexDirection:'row',
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
-    maxWidth:'100%',
+    maxWidth: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     color: 'white',
     fontSize: 15,
     fontWeight: 200,
   },
-  delete:{
+  delete: {
     color: 'white',
     position: 'absolute',
     right: 30,
   },
-  download:{
+  download: {
     color: 'white',
     position: 'absolute',
     right: 60,
   },
-  expand:{
+  expand: {
     color: 'white',
     position: 'absolute',
     right: 0,
@@ -94,10 +94,10 @@ const uploadImagesStyle = {
     padding: '1%',
     transition: '300ms',
   },
-  containerEmptyImages:{
-    color:'#BBB',
+  containerEmptyImages: {
+    color: '#BBB',
   },
-  containerListReadOnly:{
+  containerListReadOnly: {
     padding: '0px 8px',
   },
   containerNoFiles: {
@@ -105,7 +105,7 @@ const uploadImagesStyle = {
   },
   containerDropzone: {
     width: '100%',
-    padding:'2rem',
+    padding: '2rem',
     textAlign: 'center',
     cursor: 'pointer',
   },
@@ -115,7 +115,7 @@ const uploadImagesStyle = {
   containerUploadFiles: {
     flex: 1,
     flexDirection: 'column',
-    marginBottom:8,
+    marginBottom: 8,
     display: 'flex',
     alignItems: 'center',
   },
@@ -123,8 +123,8 @@ const uploadImagesStyle = {
     width: '100%',
   },
   subContainerShowFiles: {
-    padding:10,
-    backgroundColor:'#EEE',
+    padding: 10,
+    backgroundColor: '#EEE',
   },
   containerGetConteudoDropzone: {
     display: 'flex',
@@ -133,7 +133,7 @@ const uploadImagesStyle = {
     flexWrap: 'wrap',
   },
   containerGetListFiles: {
-    padding:'0.5rem',
+    padding: '0.5rem',
     borderRadius: 10,
     borderStyle: 'groove',
     boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
@@ -141,5 +141,5 @@ const uploadImagesStyle = {
 };
 
 export {
-    uploadImagesStyle,
+  uploadImagesStyle,
 };

@@ -14,12 +14,8 @@
 
  */
 
-import { max } from "lodash";
-import {isMobile} from "/imports/libs/deviceVerify";
-
-const devUtilsStyles = {
-};
+const devUtilsStyles = {};
 
 export {
-    devUtilsStyles,
+  devUtilsStyles,
 };

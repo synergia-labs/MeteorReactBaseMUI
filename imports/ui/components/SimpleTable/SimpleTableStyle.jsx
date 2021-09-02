@@ -27,18 +27,18 @@ const simpleTableStyle = {
     textAlign: 'flex-start',
     fontSize: '0.75rem',
     padding: '5px',
-    color:'#FFF',
-    backgroundColor:appStyles.primaryColor,
+    color: '#FFF',
+    backgroundColor: appStyles.primaryColor,
   },
   tableCell: {
     textAlign: 'flex-start',
-    whiteSpace: 'nowrap', 
+    whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
   tableCellActions: {
     textAlign: 'flex-start',
-    width:80,
+    width: 80,
   },
   spanHead: {
     border: 0,

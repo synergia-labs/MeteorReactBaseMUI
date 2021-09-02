@@ -14,8 +14,7 @@
 
  */
 
-import { max } from 'lodash';
-import { isMobile } from '/imports/libs/deviceVerify';
+import {isMobile} from '/imports/libs/deviceVerify';
 
 const primaryColor = '#5a9902';
 const secondaryColor = '#3e6b01';
@@ -74,7 +73,7 @@ const subtituloInfoComplementar = {
 const avisoFinalPag = {
   width: '100%',
   minHeight: 300,
-  display: 'flex',justifyContent: 'center', alignItems: 'center',
+  display: 'flex', justifyContent: 'center', alignItems: 'center',
   backgroundColor: '#dcd9d5',
 };
 
@@ -89,7 +88,7 @@ const containerHome = {
 };
 
 const formGroup = {
-  width:'100%',
+  width: '100%',
   display: 'flex',
   flexDirection: isMobile ? 'column' : 'row',
   justifyContent: 'space-between',
@@ -97,7 +96,7 @@ const formGroup = {
 };
 
 const formGroup2 = {
-  width:'70%',
+  width: '70%',
   maxWidth: '70%',
   display: 'flex',
   flexDirection: 'row',
@@ -106,8 +105,8 @@ const formGroup2 = {
 
 const row = {
   display: 'flex',
-  flexDirection:'row',
-  flexWrap:'wrap',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
 };
 
 const form = {
@@ -127,10 +126,10 @@ const column = {
 };
 
 const fieldContainer = {
-  flex:1,
+  flex: 1,
   padding: 4,
-  paddingBottom:0,
-}
+  paddingBottom: 0,
+};
 // Messages
 const warningColor = '#ff9800';
 const dangerColor = '#f55a4e';
@@ -147,7 +146,7 @@ const transition = {
 // Boxes
 const boxShadow = {
   boxShadow:
-        '0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
+      '0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
 };
 
 // Button
@@ -158,7 +157,7 @@ export {
   primaryColor,
   secondaryColor,
 
-    //Backgorund colors
+  //Backgorund colors
   systemBackgroundColor,
   pageBackgroundColor,
 

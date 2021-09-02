@@ -1,11 +1,9 @@
-import { withTracker } from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
-import { attachmentsCollection } from '/imports/api/attachmentsCollection';
+import {attachmentsCollection} from '/imports/api/attachmentsCollection';
 import Carousel from 'react-material-ui-carousel';
-
-import { isMobile } from '/imports/libs/deviceVerify';
 
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
@@ -13,8 +11,7 @@ import Image from '@material-ui/icons/Image';
 import VideoLibrary from '@material-ui/icons/VideoLibrary';
 import Book from '@material-ui/icons/Book';
 import AttachFile from '@material-ui/icons/AttachFile';
-import AddIcon from '@material-ui/icons/Add';
-import { Meteor } from 'meteor/meteor';
+import {Meteor} from 'meteor/meteor';
 
 import Snackbar from '@mui/material/Snackbar';
 
@@ -25,74 +22,68 @@ import IconButton from '@mui/material/IconButton';
 import LinearProgress from '@mui/material/LinearProgress';
 import Delete from '@material-ui/icons/Delete';
 import Download from '@material-ui/icons/GetApp';
-import CloudUpload from '@material-ui/icons/CloudUpload';
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
-import { uploadImagesStyle } from './uploadImagesCollectionStyle';
-import Card from "@mui/material/Card";
+import {uploadImagesStyle} from './uploadImagesCollectionStyle';
+import Card from '@mui/material/Card';
 
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-
-
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
-import OpenWithIcon from '@material-ui/icons/OpenWith';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 
-const { grey100, grey500, grey700 } = ['#eeeeee', '#c9c9c9', '#a1a1a1'];
+const {grey100, grey500, grey700} = ['#eeeeee', '#c9c9c9', '#a1a1a1'];
 
 const styles = {
   textoUploadArquivo: {
-      color: grey700,
-      //fontFamily: '\'PT\'',
-      fontSize: '1.8rem',
+    color: grey700,
+    //fontFamily: '\'PT\'',
+    fontSize: '1.8rem',
   },
   defaultStyle: {
-      width: '100%',
-      minHeight: 80,
-      flex: 1,
-      textAlign: 'center',
-      borderColor: grey500,
-      backgroundColor: grey100,
-      borderWidth: '2px',
-      borderStyle: 'dashed',
+    width: '100%',
+    minHeight: 80,
+    flex: 1,
+    textAlign: 'center',
+    borderColor: grey500,
+    backgroundColor: grey100,
+    borderWidth: '2px',
+    borderStyle: 'dashed',
   },
   estiloDoOu: {
-      fontSize: '1.5rem',
-      color: grey700,
-      //fontFamily: '\'PT\'',
-      marginBottom: '0.2em',
+    fontSize: '1.5rem',
+    color: grey700,
+    //fontFamily: '\'PT\'',
+    marginBottom: '0.2em',
   },
   iconStyles: {
-      fontSize: '3.8rem',
-      color: grey700,
+    fontSize: '3.8rem',
+    color: grey700,
   },
   botaoUploadStyle: {},
 
   linhaExclusaoStyle: {
-      backgroundColor: grey700,
-      textDecoration: 'line-through',
+    backgroundColor: grey700,
+    textDecoration: 'line-through',
   },
 
   estiloDoContainerDoUploadFile: {
-      height: '170px',
+    height: '170px',
   },
 
   circularProgress: {
-      paddingTop: '50px',
+    paddingTop: '50px',
   },
   divTeste: {
-      position: 'absolute',
-      top: '190%',
-      left: '50%',
-      button: '-50%',
-      transform: 'translate(-50%, -50%)',
+    position: 'absolute',
+    top: '190%',
+    left: '50%',
+    button: '-50%',
+    transform: 'translate(-50%, -50%)',
   },
 };
 
@@ -130,7 +121,7 @@ interface IUploadFileState {
   msgError?: string | null;
   uploading?: [];
   uploadFileSize?: string;
-  uploadFileMimeType?: string
+  uploadFileMimeType?: string;
 }
 
 class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollection, IUploadFileState> {
@@ -150,7 +141,7 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
       isEmUpload: false,
       arquivos: this.props.attachments || [],
       openSnackBar: null,
-      open:false,
+      open: false,
       itemDialog: null,
     };
   }
@@ -164,10 +155,12 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
     };
   }
 
-  componentDidUpdate(prevProps: IUploadFileProps, prevState: IUploadFileState, snapshot) {
+  componentDidUpdate(
+      prevProps: IUploadFileProps, prevState: IUploadFileState, snapshot) {
     const arquivos = this.props.attachments || [];
 
-    if (!_.isEqual(this.props.attachments, prevProps.attachments) || this.props.attachments.length > 0 && this.state.links.length === 0) {
+    if (!_.isEqual(this.props.attachments, prevProps.attachments) ||
+        this.props.attachments.length > 0 && this.state.links.length === 0) {
       this.fileQueue.forEach((arquivo) => {
         arquivos.push(arquivo);
       });
@@ -180,13 +173,14 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
   getFileSize = (size: number) => {
     if (size > (this.props.maxSize)) {
       this.setState({
-        msgError: `O tamanho do arquivo excede o limite de ${(this.props.maxSize / (1024 * 1024)).toFixed()}MB permitido.`,
+        msgError: `O tamanho do arquivo excede o limite de ${(this.props.maxSize /
+            (1024 * 1024)).toFixed()}MB permitido.`,
       });
-      this.setState({ openSnackBar: true });
+      this.setState({openSnackBar: true});
     }
 
     return ((size / 1024 < 1000) ? `${(size / 1024).toFixed(2)}KB` : `${(size /
-      (1024 * 1024)).toFixed(2)}MB`);
+        (1024 * 1024)).toFixed(2)}MB`);
   };
 
   onChange = (value: any) => {
@@ -199,14 +193,14 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
 
     };
     if (this.props.saveOnChange) {
-      this.props.saveOnChange({ ...this.props.doc, [this.props.name]: value });
+      this.props.saveOnChange({...this.props.doc, [this.props.name]: value});
     }
     this.props.onChange(event);
   };
 
   onClose = () => {
-  this.setState({ open: false });
-  }
+    this.setState({open: false});
+  };
 
   getIcon = (mimeType) => {
     if (!mimeType) {
@@ -220,25 +214,25 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
 
     switch (type.base) {
       case 'text':
-        return <LibraryBooks />;
+        return <LibraryBooks/>;
       case 'audio':
-        return <LibraryMusic />;
+        return <LibraryMusic/>;
       case 'image':
-        return <Image />;
+        return <Image/>;
       case 'video':
-        return <VideoLibrary />;
+        return <VideoLibrary/>;
 
       case 'application':
         if (type.fileType === 'pdf') {
-          return <Book />;
+          return <Book/>;
         }
         if (type.fileType.indexOf('msword') !== -1) {
-          return <Book />;
+          return <Book/>;
         }
-        return <AttachFile />;
+        return <AttachFile/>;
 
       default:
-        return <AttachFile />;
+        return <AttachFile/>;
     }
   };
 
@@ -249,8 +243,8 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
     if (arquivos.length > 0) {
       listaArquivos = arquivos.map((item) => {
         const link = item.status && item.status === 'InProgress'
-          ? item.link
-          : attachmentsCollection.attachments.findOne({ _id: item._id }).link();
+            ? item.link
+            : attachmentsCollection.attachments.findOne({_id: item._id}).link();
         return {
           name: item.name,
           id: item._id,
@@ -265,11 +259,11 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
     }
 
     const preparedList = [];
-    listaArquivos.forEach(arq=>{
-      if(!preparedList.find(f=>(f.id+f.name)===arq.id+arq.name)) {
-        preparedList.push(arq)
+    listaArquivos.forEach(arq => {
+      if (!preparedList.find(f => (f.id + f.name) === arq.id + arq.name)) {
+        preparedList.push(arq);
       }
-    })
+    });
 
     this.setState({
       links: [...preparedList],
@@ -282,8 +276,10 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
    * @param acceptedFiles - array com arquivos aceitos pelos parametros do component Dropzone
    * @param rejectedFiles - array com arquivos recusados pelos parametros do component Dropzone
    */
-  // TODO limitar a n arquivos, parametrizado, no componente UploadPhotoComponent
-  onDrop = (acceptedFiles: {name: string, preview: string, size: number }[], rejectedFiles: []) => {
+      // TODO limitar a n arquivos, parametrizado, no componente UploadPhotoComponent
+  onDrop = (
+      acceptedFiles: { name: string, preview: string, size: number }[],
+      rejectedFiles: []) => {
     if (rejectedFiles.length === 0) {
       const arquivos = this.state.arquivos;
       const self = this;
@@ -314,23 +310,22 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
       });
 
       self.setState(
-        {
-          arquivos,
-          uploading: [],
-          progress: 0,
-          inProgress: false,
-        },
-        () => {
-          self.mostrarLinksArquivos(arquivos);
-          self.uploadIt(null, firstFile);
-        },
+          {
+            arquivos,
+            uploading: [],
+            progress: 0,
+            inProgress: false,
+          },
+          () => {
+            self.mostrarLinksArquivos(arquivos);
+            self.uploadIt(null, firstFile);
+          },
       );
-    }
-    else {
+    } else {
       this.setState({
         msgError: `${this.props.mensagens.arquivosRejeitados}`,
       });
-      this.setState({ openSnackBar: true });
+      this.setState({openSnackBar: true});
     }
   };
 
@@ -341,8 +336,8 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
     link.click();
   };
 
-  showDialog = (item:object) => {
-    this.setState({ open: true, itemDialog: item });
+  showDialog = (item: object) => {
+    this.setState({open: true, itemDialog: item});
   };
 
   getList = (links, numCardPage, readOnly) => {
@@ -354,48 +349,69 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
         const item = links[i];
         const media = (
             <CardMedia
-              key={item.link+item.status}
-              style={uploadImagesStyle.media}
-              image={item.status && item.status === 'InProgress' ? (undefined):item.link}
-              title={item.name}
-              key={item.id}
-              onClick={() => this.showDialog(item)}
+                key={item.link + item.status}
+                style={uploadImagesStyle.media}
+                image={item.status && item.status === 'InProgress'
+                    ? (undefined)
+                    : item.link}
+                title={item.name}
+                key={item.id}
+                onClick={() => this.showDialog(item)}
             >
               {item.status && item.status === 'InProgress' ? (
-              <div style={item.status && item.status === 'InProgress'?{width:'100%',height:'100%',display:'flex',flexDirection:'column',justifyContent:'center'}:uploadImagesStyle.caption}>
-                   <LinearProgress
-                        color={item.status && item.status === 'InProgress' ? 'secondary' : 'primary'}
+                  <div style={item.status && item.status === 'InProgress'
+                      ? {
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                      }
+                      : uploadImagesStyle.caption}>
+                    <LinearProgress
+                        color={item.status && item.status === 'InProgress'
+                            ? 'secondary'
+                            : 'primary'}
                         classes={item.status && item.status === 'InProgress'
                             ? {barColorSecondary: '#DDF'}
                             : undefined}
                         variant="determinate"
-                        value={item.status && item.status === 'InProgress' && item.index ===
-                        this.currentFileUpload ? this.state.progress : (item.status && item.status ===
-                        'InProgress' ? 0 : 100)}
+                        value={item.status && item.status === 'InProgress' &&
+                        item.index ===
+                        this.currentFileUpload
+                            ? this.state.progress
+                            : (item.status && item.status ===
+                            'InProgress' ? 0 : 100)}
                     />
-              </div>):(
+                  </div>) : (
                   <div style={uploadImagesStyle.mediaCaption}>
-                    {item.id?<div style={uploadImagesStyle.caption}>
+                    {item.id ? <div style={uploadImagesStyle.caption}>
                       {item.name}
-                      <IconButton style={!readOnly ? uploadImagesStyle.download: {...uploadImagesStyle.download, right:30}} onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        this.downloadURI(item.link, item.name)
-                      }}>
-                        <Download fontSize="small" style={uploadImagesStyle.deleteIcon} />
+                      <IconButton style={!readOnly
+                          ? uploadImagesStyle.download
+                          : {...uploadImagesStyle.download, right: 30}}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    this.downloadURI(item.link, item.name);
+                                  }}>
+                        <Download fontSize="small"
+                                  style={uploadImagesStyle.deleteIcon}/>
                       </IconButton>
                       {!readOnly && <IconButton
                           style={uploadImagesStyle.delete} onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
-                        this.excluirArquivo(item.id)
+                        this.excluirArquivo(item.id);
                       }}
                       >
-                        <Delete fontSize="small" style={uploadImagesStyle.deleteIcon}/>
+                        <Delete fontSize="small"
+                                style={uploadImagesStyle.deleteIcon}/>
                       </IconButton>}
-                    </div>:null}
+                    </div> : null}
                     <div style={uploadImagesStyle.caption}>
-                      {item.size / 1024 < 1000 ? `${(item.size / 1024).toFixed(2)}KB` : `${(item.size /
+                      {item.size / 1024 < 1000 ? `${(item.size / 1024).toFixed(
+                          2)}KB` : `${(item.size /
                           (1024 * 1024)).toFixed(2)}MB`
                       }
                     </div>
@@ -408,32 +424,40 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
       }
 
       return (
-        <Card key={'photos'+items.length} raised style={uploadImagesStyle.banner}>
-          <Grid container spacing={1} style={uploadImagesStyle.bannerGrid}>
-            {items}
-          </Grid>
-        </Card>
+          <Card key={'photos' + items.length} raised
+                style={uploadImagesStyle.banner}>
+            <Grid container spacing={1} style={uploadImagesStyle.bannerGrid}>
+              {items}
+            </Grid>
+          </Card>
       );
     }
     return null;
   };
 
   getConteudoDropzoneEmUpload = () => (
-    <div style={uploadImagesStyle.containerStatusUpload}>
-      {'Enviando'}
-    </div>
+      <div style={uploadImagesStyle.containerStatusUpload}>
+        {'Enviando'}
+      </div>
   );
 
-  getConteudoDropzone = (getRootProps: any, getInputProps: any, isDragActive: boolean) => (
-    <div data-cy="dropzone" style={{
+  getConteudoDropzone = (
+      getRootProps: any, getInputProps: any, isDragActive: boolean) => (
+      <div data-cy="dropzone" style={{
         ...uploadImagesStyle.containerDropzone,
         backgroundColor: isDragActive ? '#f2f2f2' : undefined,
-        }}
-         {...getRootProps()}>
+      }}
+           {...getRootProps()}>
         <input {...getInputProps()} />
-        <div style={{display:'flex', flexDirection: 'column', justifyContent: 'center',alignItems:'center', color: '#858585'}}>
-            <div style={{textAlign:'center'}}>
-              <Typography
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: '#858585',
+        }}>
+          <div style={{textAlign: 'center'}}>
+            <Typography
                 style={{
                   //fontFamily: 'PT',
                   fontSize: '36px',
@@ -443,29 +467,29 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
                   lineHeight: 1.2,
                   letterSpacing: '0.7px',
                   textAlign: 'center',
-                  color: appStyle.primaryColor
+                  color: appStyle.primaryColor,
                 }}>
-                  {'+'}
-                </Typography>
-                <Typography
-                  style={{
-                    paddingTop: 15,
-                    paddingBottom: 15,
-                    //fontFamily: 'PT',
-                    fontSize: '17px',
-                    fontWeight: 'bold',
-                    fontStretch: 'normal',
-                    fontStyle: 'normal',
-                    lineHeight: 1.2,
-                    letterSpacing: '0.7px',
-                    textAlign: 'center',
-                    color: appStyle.primaryColor
-                  }}>
-                    {'Imagens Complementares'}
-                  </Typography>
-            </div>
+              {'+'}
+            </Typography>
+            <Typography
+                style={{
+                  paddingTop: 15,
+                  paddingBottom: 15,
+                  //fontFamily: 'PT',
+                  fontSize: '17px',
+                  fontWeight: 'bold',
+                  fontStretch: 'normal',
+                  fontStyle: 'normal',
+                  lineHeight: 1.2,
+                  letterSpacing: '0.7px',
+                  textAlign: 'center',
+                  color: appStyle.primaryColor,
+                }}>
+              {'Imagens Complementares'}
+            </Typography>
+          </div>
         </div>
-    </div>
+      </div>
   );
 
   excluirArquivo = (id: string) => {
@@ -479,11 +503,10 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
     Meteor.call('RemoveFile', id, (err: boolean) => {
       if (err) {
         console.log(err);
-      }
-      else {
+      } else {
         const arquivos = self.state.arquivos.filter(item => item._id !== id);
         self.onChange(arquivos);
-        self.setState({ arquivos }, () => self.mostrarLinksArquivos(arquivos));
+        self.setState({arquivos}, () => self.mostrarLinksArquivos(arquivos));
       }
     });
   };
@@ -500,12 +523,13 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
         // there was multiple files selected
         file = e.currentTarget.files[0];
       }
-    }
-    else {
+    } else {
       file = fileUpload.file;
     }
 
-    const doc = typeof this.props.doc === 'function' ? this.props.doc() : this.props.doc;
+    const doc = typeof this.props.doc === 'function'
+        ? this.props.doc()
+        : this.props.doc;
 
     if (file) {
       const uploadInstance = attachmentsCollection.attachments.insert({
@@ -540,97 +564,96 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
         });
       });
 
-      uploadInstance.on('uploaded', (error: string | null, fileObj: any): void => {
-        if (error) {
-          console.log(error);
-          this.setState({
-            msgError: `${this.props.mensagens.arquivosRejeitados}`,
+      uploadInstance.on('uploaded',
+          (error: string | null, fileObj: any): void => {
+            if (error) {
+              console.log(error);
+              this.setState({
+                msgError: `${this.props.mensagens.arquivosRejeitados}`,
+              });
+              this.setState({openSnackBar: true});
+            }
+
+            const attachs = [];
+            let hasInsertedOjb = false;
+            attachmentsCollection.attachments.find({
+              'meta.docId': self.props.doc._id,
+              'meta.fieldName': self.props.name,
+            }).fetch().forEach((file: any) => {
+              attachs.push({
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                link: file.link ? file.link() : null,
+                isAudio: file.isAudio,
+                isText: file.isText,
+                isJSON: file.isJSON,
+                isPDF: file.isPDF,
+                isVideo: file.isVideo,
+              });
+              if (!!file && !!fileObj && (file._id === fileObj._id)) {
+                hasInsertedOjb = true;
+              }
+            });
+
+            if (!hasInsertedOjb && !!fileObj) {
+              // const fileInsert = attachmentsCollection.attachments.findOne({ _id: fileObj._id });
+              attachs.push({
+                name: fileObj.name,
+                size: fileObj.size,
+                type: fileObj.type,
+                isAudio: fileObj.isAudio,
+                isText: fileObj.isText,
+                isJSON: fileObj.isJSON,
+                isPDF: fileObj.isPDF,
+                isVideo: fileObj.isVideo,
+              });
+            }
+
+            const newFileQueue = self.fileQueue;
+
+            newFileQueue.shift(); // Remove Actual File Upload
+
+            // console.log('newFileQueue.length',newFileQueue.length)
+
+            if (newFileQueue.length > 0) {
+              const nextFile = newFileQueue[0];
+              self.uploadIt(null, nextFile);
+            } else {
+              // console.log('attachs',attachs)
+              self.onChange(attachs);
+              // Remove the filename from the upload box
+              const refsName: string = `fileinput ${this.props.name} ${this.props.key}`;
+
+              if (this[refsName]) {
+                this[refsName].value = '';
+              } else {
+                console.log('refsName not found: ', refsName);
+              }
+
+              // Reset our state for the next file
+              self.setState({
+                uploading: [],
+                progress: 0,
+                inProgress: false,
+              });
+            }
           });
-          this.setState({ openSnackBar: true });
-        }
-
-        const attachs = [];
-        let hasInsertedOjb = false;
-        attachmentsCollection.attachments.find({
-          'meta.docId': self.props.doc._id,
-          'meta.fieldName': self.props.name,
-        }).fetch().forEach((file: any) => {
-          attachs.push({
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            link: file.link ? file.link() : null,
-            isAudio: file.isAudio,
-            isText: file.isText,
-            isJSON: file.isJSON,
-            isPDF: file.isPDF,
-            isVideo: file.isVideo,
-          });
-          if (!!file && !!fileObj && (file._id === fileObj._id)) {
-            hasInsertedOjb = true;
-          }
-        });
-
-
-        if (!hasInsertedOjb && !!fileObj) {
-          // const fileInsert = attachmentsCollection.attachments.findOne({ _id: fileObj._id });
-          attachs.push({
-            name: fileObj.name,
-            size: fileObj.size,
-            type: fileObj.type,
-            isAudio: fileObj.isAudio,
-            isText: fileObj.isText,
-            isJSON: fileObj.isJSON,
-            isPDF: fileObj.isPDF,
-            isVideo: fileObj.isVideo,
-          });
-        }
-
-        const newFileQueue = self.fileQueue;
-
-        newFileQueue.shift(); // Remove Actual File Upload
-
-        // console.log('newFileQueue.length',newFileQueue.length)
-
-        if (newFileQueue.length > 0) {
-          const nextFile = newFileQueue[0];
-          self.uploadIt(null, nextFile);
-        }
-        else {
-          // console.log('attachs',attachs)
-          self.onChange(attachs);
-          // Remove the filename from the upload box
-          const refsName: string = `fileinput ${this.props.name} ${this.props.key}`;
-
-          if (this[refsName]) {
-            this[refsName].value = '';
-          }
-          else {
-            console.log('refsName not found: ', refsName);
-          }
-
-          // Reset our state for the next file
-          self.setState({
-            uploading: [],
-            progress: 0,
-            inProgress: false,
-          });
-        }
-      });
 
       uploadInstance.on('error', (error: string) => {
         console.log(`Error during upload: ${error}`);
         this.setState({
           msgError: `${this.props.mensagens.arquivosRejeitados}`,
         });
-        this.setState({ openSnackBar: true });
+        this.setState({openSnackBar: true});
       });
 
       uploadInstance.on('progress', (progress: number, fileObj: IArquivo) => {
         const uploadSize = (Number(progress) / 100) * fileObj.size;
         // Update our progress bar
         self.setState({
-          uploadFileSize: `${this.getFileSize(uploadSize)}/${this.getFileSize(fileObj.size)}`,
+          uploadFileSize: `${this.getFileSize(uploadSize)}/${this.getFileSize(
+              fileObj.size)}`,
           progress,
           uploadFileMimeType: fileObj['mime-type'],
         });
@@ -640,21 +663,21 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
     }
   };
 
-
   render() {
-    const doc = typeof this.props.doc === 'function' ? this.props.doc() : this.props.doc;
-    const { links } = this.state;
+    const doc = typeof this.props.doc === 'function'
+        ? this.props.doc()
+        : this.props.doc;
+    const {links} = this.state;
     const linksSplice = [];
 
     //usar 1, 2, 3, 4, 6 ou 12
     const numCardPage = this.props.readOnly ? 4 : 3;
 
-    if (links.length > numCardPage-1) {
+    if (links.length > numCardPage - 1) {
       for (let i = 0; i <= links.length - 1; i += numCardPage) {
         linksSplice.push(links.slice(i, i + numCardPage));
       }
-    }
-    else {
+    } else {
       linksSplice.push(links);
     }
 
@@ -663,123 +686,172 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
     }
 
     return (
-      <div key={this.props.name} style={{ ...uploadImagesStyle.containerUploadFiles, backgroundColor: this.props.error ? '#FFF6F6' : undefined }}>
-        { this.state.itemDialog && <Dialog onClose={this.onClose} aria-labelledby="Imagem Complementar" open={this.state.open} fullWidth maxWidth="xl">
+        <div key={this.props.name} style={{
+          ...uploadImagesStyle.containerUploadFiles,
+          backgroundColor: this.props.error ? '#FFF6F6' : undefined,
+        }}>
+          {this.state.itemDialog &&
+          <Dialog onClose={this.onClose} aria-labelledby="Imagem Complementar"
+                  open={this.state.open} fullWidth maxWidth="xl">
             <DialogTitle id={this.props.name}>
               {this.props.label}
             </DialogTitle>
-            <DialogContent style={{overflow:'hidden',position:'relative',maxHeight:'100%',maxWidth:'100%',display:'contents'}}>
-              <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',overflow:'auto',position:'relative',alignItems:'center'}}>
-                <img src={this.state.itemDialog.link} style={{maxWidth: '100%', maxHeight: '100%'}}/>
+            <DialogContent style={{
+              overflow: 'hidden',
+              position: 'relative',
+              maxHeight: '100%',
+              maxWidth: '100%',
+              display: 'contents',
+            }}>
+              <div style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'auto',
+                position: 'relative',
+                alignItems: 'center',
+              }}>
+                <img src={this.state.itemDialog.link}
+                     style={{maxWidth: '100%', maxHeight: '100%'}}/>
               </div>
-              <div style={{...uploadImagesStyle.mediaCaption, minHeight: '15%',width:'100%'}}>
+              <div style={{
+                ...uploadImagesStyle.mediaCaption,
+                minHeight: '15%',
+                width: '100%',
+              }}>
                 <Typography style={uploadImagesStyle.caption}>
                   {this.state.itemDialog.name}
                 </Typography>
                 <Typography style={uploadImagesStyle.caption}>
-                  {this.state.itemDialog.size / 1024 < 1000 ? `${(this.state.itemDialog.size / 1024).toFixed(2)}KB` : `${(this.state.itemDialog.size / (1024 * 1024)).toFixed(2)}MB`}
+                  {this.state.itemDialog.size / 1024 < 1000
+                      ? `${(this.state.itemDialog.size / 1024).toFixed(2)}KB`
+                      : `${(this.state.itemDialog.size / (1024 * 1024)).toFixed(
+                          2)}MB`}
                 </Typography>
               </div>
 
             </DialogContent>
             <DialogActions>
-                <Button id='Fechar' autoFocus onClick={this.onClose} variant={"contained"} color={"primary"}>
-                    {'Fechar'}
-                </Button>
+              <Button id="Fechar" autoFocus onClick={this.onClose}
+                      variant={'contained'} color={'primary'}>
+                {'Fechar'}
+              </Button>
             </DialogActions>
-        </Dialog>}
+          </Dialog>}
 
-        {this.props.readOnly ? (links.length > 0 ?
-          <Carousel
-            className="Example"
-            autoPlay
-            animation={'fade'}
-            timeout={500}
-            cycleNavigation
-            navButtonsAlwaysVisible={true}
-            navButtonsAlwaysInvisible={false}
-            indicators={false}
-          >
-            {linksSplice.map(link => this.getList(link, numCardPage, this.props.readOnly ))}
-            {/*{this.getListReadOnly()}*/}
-          </Carousel> : <div style={uploadImagesStyle.containerNoFiles}>{'Não há imagens complementares'}</div>
-        )
-          : (
-            <div style={uploadImagesStyle.containerShowFiles}>
-              <div>
-                {!!this.state.msgError &&
-                <Snackbar
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  open={this.state.openSnackBar}
-                  autoHideDuration={16000}
-                  onClose={() => this.setState({ openSnackBar: null })}
-                >
-                  <Alert id={'message-id'} icon={false} arialabel={'message-id'} onClose={() => this.setState({ openSnackBar: null })} severity={'error'} elevation={6} variant="filled">
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
-                      <div>
-                        {'Erro ao realizar upload de arquivo!'}
-                      </div>
-                      <div>
-                        {this.state.msgError}
-                      </div>
+          {this.props.readOnly ? (links.length > 0 ?
+                      <Carousel
+                          className="Example"
+                          autoPlay
+                          animation={'fade'}
+                          timeout={500}
+                          cycleNavigation
+                          navButtonsAlwaysVisible={true}
+                          navButtonsAlwaysInvisible={false}
+                          indicators={false}
+                      >
+                        {linksSplice.map(link => this.getList(link, numCardPage,
+                            this.props.readOnly))}
+                        {/*{this.getListReadOnly()}*/}
+                      </Carousel> : <div
+                          style={uploadImagesStyle.containerNoFiles}>{'Não há imagens complementares'}</div>
+              )
+              : (
+                  <div style={uploadImagesStyle.containerShowFiles}>
+                    <div>
+                      {!!this.state.msgError &&
+                      <Snackbar
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                          }}
+                          open={this.state.openSnackBar}
+                          autoHideDuration={16000}
+                          onClose={() => this.setState({openSnackBar: null})}
+                      >
+                        <Alert id={'message-id'} icon={false}
+                               arialabel={'message-id'}
+                               onClose={() => this.setState(
+                                   {openSnackBar: null})} severity={'error'}
+                               elevation={6} variant="filled">
+                          <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'left',
+                          }}>
+                            <div>
+                              {'Erro ao realizar upload de arquivo!'}
+                            </div>
+                            <div>
+                              {this.state.msgError}
+                            </div>
+                          </div>
+                        </Alert>
+                      </Snackbar>
+                      }
                     </div>
-                  </Alert>
-                </Snackbar>
-                }
-              </div>
-              <div style={{padding: 10, backgroundColor:'rgb(238, 238, 238)'}}>
-                <Dropzone
-                  onDrop={this.onDrop}
-                  style={styles.defaultStyle}
-                  activeStyle={this.props.activeStyle}
-                  activeClassName={this.props.activeClassName}
-                  preventDropOnDocument={this.props.preventDropOnDocument}
-                  disableClick={this.props.disableClick}
-                  multiple={this.props.multiple}
-                  minSize={this.props.minSize}
-                  maxSize={this.props.maxSize}
-                  accept={this.props.accept}
-                  ref={(fileInputRef => this[`fileinput${this.props.name}${this.props.key}`] = fileInputRef)}
-                >
-                  {({ getRootProps, getInputProps, isDragActive }) => (
+                    <div style={{
+                      padding: 10,
+                      backgroundColor: 'rgb(238, 238, 238)',
+                    }}>
+                      <Dropzone
+                          onDrop={this.onDrop}
+                          style={styles.defaultStyle}
+                          activeStyle={this.props.activeStyle}
+                          activeClassName={this.props.activeClassName}
+                          preventDropOnDocument={this.props.preventDropOnDocument}
+                          disableClick={this.props.disableClick}
+                          multiple={this.props.multiple}
+                          minSize={this.props.minSize}
+                          maxSize={this.props.maxSize}
+                          accept={this.props.accept}
+                          ref={(fileInputRef => this[`fileinput${this.props.name}${this.props.key}`] = fileInputRef)}
+                      >
+                        {({getRootProps, getInputProps, isDragActive}) => (
 
-                    <div
-                      style={{
-                        ...uploadImagesStyle.containerGetConteudoDropzone,
-                        border: isDragActive ? '0.5px dashed green' : '0.5px dashed black',
-                      }}
-                    >
-                      {this.state.inProgress
-                        ? this.getConteudoDropzoneEmUpload()
-                        : this.getConteudoDropzone(getRootProps, getInputProps, isDragActive)}
+                            <div
+                                style={{
+                                  ...uploadImagesStyle.containerGetConteudoDropzone,
+                                  border: isDragActive
+                                      ? '0.5px dashed green'
+                                      : '0.5px dashed black',
+                                }}
+                            >
+                              {this.state.inProgress
+                                  ? this.getConteudoDropzoneEmUpload()
+                                  : this.getConteudoDropzone(getRootProps,
+                                      getInputProps, isDragActive)}
+                            </div>
+                        )}
+
+                      </Dropzone>
+                      {linksSplice.length > 0 &&
+                      <div style={{
+                        ...uploadImagesStyle.containerGetListFiles,
+                        width: '100%',
+                      }}>
+                        <Carousel
+                            className="Example"
+                            autoPlay
+                            animation={'fade'}
+                            timeout={400}
+                            cycleNavigation
+                            navButtonsAlwaysVisible={true}
+                            navButtonsAlwaysInvisible={false}
+                            indicators={false}
+                        >
+                          {linksSplice.map(
+                              link => this.getList(link, numCardPage,
+                                  this.props.readOnly))}
+                        </Carousel>
+                      </div>
+                      }
                     </div>
-                  )}
+                  </div>
+              )}
 
-                </Dropzone>
-                { linksSplice.length > 0 &&
-                <div style={{...uploadImagesStyle.containerGetListFiles,  width: '100%'} }>
-                  <Carousel
-                    className="Example"
-                    autoPlay
-                    animation={'fade'}
-                    timeout={400}
-                    cycleNavigation
-                    navButtonsAlwaysVisible={true}
-                    navButtonsAlwaysInvisible={false}
-                    indicators={false}
-                  >
-                    {linksSplice.map(link => this.getList(link, numCardPage, this.props.readOnly ))}
-                  </Carousel>
-                </div>
-                }
-              </div>
-            </div>
-          )}
-
-      </div>
+        </div>
     );
   }
 }
@@ -821,7 +893,7 @@ interface IUploadImagesCollection {
   saveOnChange: (doc: object) => void;
   typeConteudo: string;
   value: [];
-  doc?: {_id: number};
+  doc?: { _id: number };
   label?: string;
   readOnly?: boolean;
   isPublic: boolean;
@@ -838,7 +910,9 @@ const UploadImagesCollection = withTracker((props: IUploadImagesCollection) => {
   const loading = !handleAttachments.ready();
   const attachments = attachmentsCollection.find({
     'meta.docId': doc ? doc._id || 'No-ID' : 'No-ID',
-    'meta.fieldName': props.name ? props.name || 'No-FieldName' : 'No-FieldName',
+    'meta.fieldName': props.name
+        ? props.name || 'No-FieldName'
+        : 'No-FieldName',
   }).fetch();
   const attachmentsExists = !loading && !!attachments;
 

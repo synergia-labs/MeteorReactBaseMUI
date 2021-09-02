@@ -14,31 +14,30 @@
 
  */
 
-import { max } from "lodash";
-import {isMobile} from "/imports/libs/deviceVerify";
+import {isMobile} from '/imports/libs/deviceVerify';
 
 const homeStyles = {
   title: {
-      fontSize: isMobile?'20px':'30px',
-      paddingTop: isMobile?'20px':'20px',
-      paddingBottom: isMobile?'20px':'20px',
-      fontWeight: isMobile?'500':'500',
+    fontSize: isMobile ? '20px' : '30px',
+    paddingTop: isMobile ? '20px' : '20px',
+    paddingBottom: isMobile ? '20px' : '20px',
+    fontWeight: isMobile ? '500' : '500',
   },
   subTitle: {
-      fontSize: isMobile?'15px':'25px',
-      paddingTop: isMobile?'10px':'10px',
-      paddingBottom: isMobile?'20px':'20px',
-      fontWeight: isMobile?'300':'300',
-      textAlign: 'justify',
-      textJustify: 'inter-word',
+    fontSize: isMobile ? '15px' : '25px',
+    paddingTop: isMobile ? '10px' : '10px',
+    paddingBottom: isMobile ? '20px' : '20px',
+    fontWeight: isMobile ? '300' : '300',
+    textAlign: 'justify',
+    textJustify: 'inter-word',
   },
   containerHome: {
-     marginTop: '2em',
-     maxWidth: '100%',
-     maxHeight: '100%',
-  }
+    marginTop: '2em',
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
 };
 
 export {
-    homeStyles,
+  homeStyles,
 };

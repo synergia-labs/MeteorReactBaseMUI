@@ -15,11 +15,11 @@
  */
 
 const datePickerStyle = {
-    labelTitle: {
-        marginBottom:'1rem'
-    }
+  labelTitle: {
+    marginBottom: '1rem',
+  },
 };
 
 export {
-    datePickerStyle,
+  datePickerStyle,
 };

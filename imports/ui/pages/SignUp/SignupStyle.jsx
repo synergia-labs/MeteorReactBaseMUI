@@ -15,33 +15,33 @@
  */
 
 const signupStyle = {
-  containerSignUp:{
-    width:'100%',
-    maxWidth:400,
+  containerSignUp: {
+    width: '100%',
+    maxWidth: 400,
   },
   labelRegisterSystem: {
-    textAlign:"center",
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'center',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   imageLogo: {
-    maxWidth:100,
+    maxWidth: 100,
   },
   containerButtonOptions: {
-    marginTop:30,
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'flex-end',
-    alignItems:'center',
+    marginTop: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   containerRouterSignIn: {
-    marginTop:35,
-    color:"#444",
-  }
+    marginTop: 35,
+    color: '#444',
+  },
 };
 
 export {
-    signupStyle,
+  signupStyle,
 };

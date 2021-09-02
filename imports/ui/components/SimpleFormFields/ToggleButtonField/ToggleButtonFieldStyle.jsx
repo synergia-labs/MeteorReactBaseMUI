@@ -15,17 +15,17 @@
  */
 
 const toggleButtonStyle = {
-    fieldError: {
-      border:  '1px solid red'
-    },
-    radio: {
-      display:  'flex',
-      flexDirection: 'row',
-      justifyContent: 'left',
-        flexWrap:'wrap',
-    },
+  fieldError: {
+    border: '1px solid red',
+  },
+  radio: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'left',
+    flexWrap: 'wrap',
+  },
 };
 
 export {
-    toggleButtonStyle,
+  toggleButtonStyle,
 };

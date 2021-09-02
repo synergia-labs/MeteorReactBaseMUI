@@ -5,6 +5,6 @@ export const userprofileMenuItemList = [
   {
     path: '/userprofile',
     name: 'Usuários',
-    icon: <Person />,
+    icon: <Person/>,
   },
 ];

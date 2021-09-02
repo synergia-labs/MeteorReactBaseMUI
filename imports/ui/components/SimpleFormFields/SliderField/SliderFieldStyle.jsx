@@ -14,8 +14,6 @@
 
  */
 
- import {isMobile} from "/imports/libs/deviceVerify";
-
 const sliderFieldStyle = {
   slider: {
     padding: '10px 10px',
@@ -23,31 +21,31 @@ const sliderFieldStyle = {
     margin: '10px 10px',
   },
   containerSlider: {
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    marginTop:16,
-    width:'100%',
-    marginBottom:16,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: 16,
+    width: '100%',
+    marginBottom: 16,
   },
   subContainerSlider: {
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'left',
-    marginTop:20,
-    width:'100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'left',
+    marginTop: 20,
+    width: '100%',
   },
-  containerSliderError:{
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'left',
-    marginTop:16,
-    width:'100%',
-    marginBottom:16,
-    border:'1px solid red'
+  containerSliderError: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'left',
+    marginTop: 16,
+    width: '100%',
+    marginBottom: 16,
+    border: '1px solid red',
   },
 };
 
 export {
-    sliderFieldStyle,
+  sliderFieldStyle,
 };

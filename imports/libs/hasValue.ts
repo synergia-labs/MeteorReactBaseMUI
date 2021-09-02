@@ -3,7 +3,8 @@ export const isBoolean = (value: any) => {
     return false;
   }
 
-  if (typeof value === 'boolean' || (typeof value === 'object' && (value.toString() === 'false' || value.toString() === 'true'))) {
+  if (typeof value === 'boolean' || (typeof value === 'object' &&
+      (value.toString() === 'false' || value.toString() === 'true'))) {
     return true;
   }
 
@@ -11,12 +12,12 @@ export const isBoolean = (value: any) => {
 };
 
 export const hasValue = (value: any) => {
-  const getTypeOf = (obj: any) => ({}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase());
+  const getTypeOf = (obj: any) => ({}.toString.call(obj).split(' ')[1].slice(0,
+      -1).toLowerCase());
 
   if (isBoolean(value)) {
     return true;
   }
-
 
   switch (getTypeOf(value)) {
     case 'undefined':

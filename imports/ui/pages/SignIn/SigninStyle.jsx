@@ -15,34 +15,34 @@
  */
 
 const signinStyle = {
-  containerSignIn:{
-    width:'100%',
-    maxWidth:400,
+  containerSignIn: {
+    width: '100%',
+    maxWidth: 400,
   },
-  subContainerSignIn:{
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'center',
+  subContainerSignIn: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   labelAccessSystem: {
-    textAlign:"center",
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'center',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   imageLogo: {
-    maxWidth:100,
+    maxWidth: 100,
   },
   containerButtonOptions: {
-    marginTop:30,
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
+    marginTop: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  containerSocialLoginButton:{
+  containerSocialLoginButton: {
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -54,7 +54,7 @@ const signinStyle = {
     marginLeft: 15,
   },
   containerRouterSignUp: {
-    marginTop:15,
+    marginTop: 15,
   },
   containerLoginOptions: {
     paddingRight: 5,
@@ -73,15 +73,15 @@ const signinStyle = {
   buttonLoginGoogle: {
     background: '#dd4b39',
     width: '100%',
-    cursor:'pointer',
+    cursor: 'pointer',
   },
   buttonLoginFacebook: {
     background: '#3B5998',
     width: '100%',
-    cursor:'pointer',
-  }
+    cursor: 'pointer',
+  },
 };
 
 export {
-    signinStyle,
+  signinStyle,
 };

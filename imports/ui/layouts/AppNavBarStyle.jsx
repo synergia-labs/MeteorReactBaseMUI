@@ -15,43 +15,43 @@
  */
 
 const appNavBarStyle = {
-    containerNavBar: {
-        display: 'flex',
-        flexDirection: 'row',
-    },
-    subContainerNavBar: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        paddingTop: 15,
-        paddingRight: 30,
-    },
-    containerAccountCircle: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-    },
-    buttonMenuItem: {
-        // fontFamily: 'PTSans',
-        fontSize: '12px',
-        fontWeight: 'normal',
-        fontStretch: 'normal',
-        fontStyle: 'normal',
-        lineHeight: 1.2,
-        letterSpacing: '0.55px',
-        textAlign: 'left',
-        color: '#ffffff',
-        textTransform: 'none',
-    },
-    accountCircle: {
-        color: '#3e6b01',
-    },
-    dropDown: {
-        color: '#ffffff',
-        width: 17,
-    },
+  containerNavBar: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  subContainerNavBar: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    paddingTop: 15,
+    paddingRight: 30,
+  },
+  containerAccountCircle: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  buttonMenuItem: {
+    // fontFamily: 'PTSans',
+    fontSize: '12px',
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 1.2,
+    letterSpacing: '0.55px',
+    textAlign: 'left',
+    color: '#ffffff',
+    textTransform: 'none',
+  },
+  accountCircle: {
+    color: '#3e6b01',
+  },
+  dropDown: {
+    color: '#ffffff',
+    width: 17,
+  },
 };
 
 export {
-    appNavBarStyle,
+  appNavBarStyle,
 };

@@ -24,20 +24,20 @@ export const userProfileSch = {
     label: 'Telefone',
     defaultValue: '',
     optional: false,
-    mask : '(##) ####-####',
+    mask: '(##) ####-####',
   },
   roles: {
-    type: [ String ],
+    type: [String],
     label: 'Access profile',
     defaultValue: [],
     optional: false,
     componentName: 'ChipSelect',
     options: [
-        {
-        value:'Administrador',label:'Admnistrador',
-        },
       {
-        value:'Usuario',label:'Usuário',
+        value: 'Administrador', label: 'Admnistrador',
+      },
+      {
+        value: 'Usuario', label: 'Usuário',
       },
     ],
 

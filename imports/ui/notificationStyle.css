@@ -373,9 +373,8 @@
 
 #awn-toast-container.awn-toast.awn-toast-tip {
     left: 24px;
-    right:auto;
+    right: auto;
 }
-
 
 
 [class^=awn-] {

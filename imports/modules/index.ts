@@ -1,8 +1,6 @@
-import React from 'react';
 import userprofile from '../userprofile/config';
 import example from './example/config';
 import pages from '../ui/config/index';
-
 
 class Modules {
   constructor() {

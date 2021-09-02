@@ -30,12 +30,12 @@ export const exampleSch = {
     label: 'Tipo',
     defaultValue: '',
     optional: true,
-    multiple:true,
-    options:[
-      {value:'normal',label:'Normal'},
-      {value:'hard',label:'Dificil'},
-      {value:'internal',label:'Interna'},
-      {value:'extra',label:'Extra'},
+    multiple: true,
+    options: [
+      {value: 'normal', label: 'Normal'},
+      {value: 'hard', label: 'Dificil'},
+      {value: 'internal', label: 'Interna'},
+      {value: 'extra', label: 'Extra'},
     ],
   },
   type: {
@@ -49,11 +49,11 @@ export const exampleSch = {
     label: 'Tipo com vários valores',
     defaultValue: '',
     optional: true,
-    multiple:true,
-    options:[
-      {value:'normal',label:'Normal'},
-      {value:'extra',label:'Extra'},
-      {value:'minimo',label:'Minimo'},
+    multiple: true,
+    options: [
+      {value: 'normal', label: 'Normal'},
+      {value: 'extra', label: 'Extra'},
+      {value: 'minimo', label: 'Minimo'},
     ],
   },
   date: {
@@ -67,7 +67,7 @@ export const exampleSch = {
     label: 'Arquivos',
     defaultValue: '',
     optional: true,
-    isUpload:true,
+    isUpload: true,
   },
   chip: {
     type: [String],
@@ -86,16 +86,16 @@ export const exampleSch = {
         label: 'Telefone',
         defaultValue: '',
         optional: true,
-        mask : '(##) ####-####',
+        mask: '(##) ####-####',
       },
       cpf: {
         type: String,
         label: 'CPF',
         defaultValue: '',
         optional: true,
-        mask : '###.###.###-##',
+        mask: '###.###.###-##',
       },
-    }
+    },
   },
   tasks: {
     type: [Object],
@@ -115,20 +115,20 @@ export const exampleSch = {
         defaultValue: '',
         optional: true,
       },
-    }
+    },
   },
   audio: {
     type: String,
     label: 'Áudio',
     defaultValue: '',
     optional: true,
-    isAudio:true,
+    isAudio: true,
   },
   address: {
     type: Object,
     label: 'Localização',
     defaultValue: '',
-    isMapLocation:true,
+    isMapLocation: true,
     optional: true,
   },
   slider: {
@@ -151,7 +151,7 @@ export const exampleSch = {
     label: 'Status Toogle',
     defaultValue: false,
     optional: true,
-  }
+  },
 };
 
 export interface IExample {

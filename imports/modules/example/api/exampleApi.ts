@@ -1,13 +1,13 @@
 // region Imports
-import { ApiBase } from '../../../api/base';
-import { exampleSch } from './exampleSch';
+import {ApiBase} from '../../../api/base';
+import {exampleSch} from './exampleSch';
 
 // endregion
 
 class ExampleApi extends ApiBase {
   constructor(props) {
-      super('example', exampleSch);
-    }
+    super('example', exampleSch);
+  }
 
 }
 

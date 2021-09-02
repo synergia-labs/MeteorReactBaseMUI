@@ -16,12 +16,12 @@
 
 const appGeneralStyle = {
   containerOptions: {
-    display:'flex',
-    flexDirection:'row',
-    alignItems:'center'
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 };
 
 export {
-    appGeneralStyle,
+  appGeneralStyle,
 };

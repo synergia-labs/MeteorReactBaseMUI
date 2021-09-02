@@ -16,7 +16,7 @@
 
 const avatarGeneratorStyle = {
   selectImage: {
-    cursor:'pointer',
+    cursor: 'pointer',
     fontSize: '12px',
     //fontFamily: '"PT"',
     fontWeight: 400,
@@ -25,10 +25,10 @@ const avatarGeneratorStyle = {
     color: 'rgba(108, 104, 104)',
   },
   containerEmptyAvatar: {
-    color:'#BBB',
+    color: '#BBB',
   },
 };
 
 export {
-    avatarGeneratorStyle,
+  avatarGeneratorStyle,
 };

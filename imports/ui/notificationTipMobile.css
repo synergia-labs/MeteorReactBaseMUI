@@ -1,8 +1,8 @@
 .awn-toast.awn-toast-tip {
     background-color: #1069a3;
-    color:#FFFFFF;
+    color: #FFFFFF;
     font-weight: bold;
-    left:0;
-    right:auto;
-    width:calc(80vw);
+    left: 0;
+    right: auto;
+    width: calc(80vw);
 }

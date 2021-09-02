@@ -1,12 +1,12 @@
 .awn-toast.awn-toast-tip {
     background-color: #1068a299;
-    color:#FFFFFF;
+    color: #FFFFFF;
     font-weight: bold;
-    left:0;
-    right:auto;
-    width:auto;
-    min-width:40vw;
-    max-width:calc(100vw - 400px);
+    left: 0;
+    right: auto;
+    width: auto;
+    min-width: 40vw;
+    max-width: calc(100vw - 400px);
     font-size: 22px;
 }
 

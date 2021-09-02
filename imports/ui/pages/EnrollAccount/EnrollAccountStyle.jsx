@@ -15,18 +15,18 @@
  */
 
 const enrollAccountStyle = {
-  labelStatus:{
-    textAlign:"center",
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'center',
+  labelStatus: {
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   imageLogo: {
-    maxWidth:100,
+    maxWidth: 100,
   },
 };
 
 export {
-    enrollAccountStyle,
+  enrollAccountStyle,
 };

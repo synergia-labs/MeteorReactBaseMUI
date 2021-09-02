@@ -1,10 +1,9 @@
 // region Imports
-import { Meteor } from 'meteor/meteor';
-import { Roles } from 'meteor/alanning:roles';
-import { Accounts } from 'meteor/accounts-base';
-import { OfflineBaseApi } from '../../api/offlinebase';
-import { userProfileSch } from './UserProfileSch';
-import { getUser,userprofileData } from '../../libs/getUser';
+import {Meteor} from 'meteor/meteor';
+import {Accounts} from 'meteor/accounts-base';
+import {OfflineBaseApi} from '../../api/offlinebase';
+import {userProfileSch} from './UserProfileSch';
+import {getUser, userprofileData} from '../../libs/getUser';
 import settings from '../../../settings.json';
 
 // endregion
@@ -24,7 +23,6 @@ class UserProfileApi extends OfflineBaseApi {
     this.insertNewUser = this.insertNewUser.bind(this);
 
     this.afterInsert = this.afterInsert.bind(this);
-
 
     if (Meteor.isServer) {
       this.registerMethod('sendVerificationEmail', userData => {
@@ -61,32 +59,29 @@ class UserProfileApi extends OfflineBaseApi {
 
     }
 
-
-    this.addPublication('getListOfusers', (filter={}, options, userDoc) => {
+    this.addPublication('getListOfusers', (filter = {}, options, userDoc) => {
 
       const queryOptions = {
-        fields: { 'photo': 1, 'email': 1, 'username': 1 },
+        fields: {'photo': 1, 'email': 1, 'username': 1},
       };
 
       return this.collectionInstance.find(Object.assign({},
-        { ...filter }), queryOptions);
+          {...filter}), queryOptions);
     });
 
     this.addPublication('getLoggedUserProfile', () => {
 
       const user = Meteor.user();
 
-      if(!user) {
+      if (!user) {
         return;
       }
-      return this.collectionInstance.find({email:user?user.profile.email:null})
+      return this.collectionInstance.find(
+          {email: user ? user.profile.email : null});
     });
-
 
     userprofileData.collectionInstance = this.collectionInstance;
   }
-
-
 
   registrarUserProfileNoMeteor = (userprofile) => {
     if (Meteor.isServer) {
@@ -105,14 +100,14 @@ class UserProfileApi extends OfflineBaseApi {
     }
   };
 
-  serverInsert(dataObj,context) {
+  serverInsert(dataObj, context) {
 
     let insertId = null;
     try {
-      const { password } = dataObj;
-      dataObj = this.checkDataBySchema(dataObj)
+      const {password} = dataObj;
+      dataObj = this.checkDataBySchema(dataObj);
       if (password) {
-        dataObj = Object.assign({}, dataObj, { password });
+        dataObj = Object.assign({}, dataObj, {password});
       }
 
       this.includeAuditData(dataObj, 'insert');
@@ -121,19 +116,24 @@ class UserProfileApi extends OfflineBaseApi {
         this.registrarUserProfileNoMeteor(dataObj);
         delete dataObj.password;
         if (!dataObj.roles) {
-          dataObj.roles = [ 'Usuario' ];
+          dataObj.roles = ['Usuario'];
         } else if (dataObj.roles.indexOf('Usuario') === -1) {
           dataObj.roles.push('Usuario');
         }
 
-        const userProfile = this.collectionInstance.findOne({ email: dataObj.email });
+        const userProfile = this.collectionInstance.findOne(
+            {email: dataObj.email});
         if (!userProfile) {
-          dataObj.otheraccounts = [ { _id: dataObj._id, service: settings.service } ];
+          dataObj.otheraccounts = [
+            {
+              _id: dataObj._id,
+              service: settings.service,
+            }];
 
           insertId = this.collectionInstance.insert(dataObj);
 
           delete dataObj.otheraccounts;
-          Meteor.users.update({ _id: dataObj._id||insertId }, {
+          Meteor.users.update({_id: dataObj._id || insertId}, {
             $set: {
               profile: {
                 name: dataObj.username,
@@ -145,7 +145,7 @@ class UserProfileApi extends OfflineBaseApi {
 
           insertId = userProfile._id;
 
-          Meteor.users.update({ _id: dataObj._id }, {
+          Meteor.users.update({_id: dataObj._id}, {
             $set: {
               profile: {
                 name: dataObj.username,
@@ -154,8 +154,13 @@ class UserProfileApi extends OfflineBaseApi {
               roles: dataObj.roles,
             },
           });
-          this.collectionInstance.update({ _id: userProfile._id }, {
-            $addToSet: { otheraccounts: { _id: dataObj._id, service: settings.service } },
+          this.collectionInstance.update({_id: userProfile._id}, {
+            $addToSet: {
+              otheraccounts: {
+                _id: dataObj._id,
+                service: settings.service,
+              },
+            },
           });
         }
 
@@ -197,33 +202,33 @@ class UserProfileApi extends OfflineBaseApi {
         check(userId, String);
         const user = getUser();
 
-        if (user.roles.indexOf('Administrador')!==-1) {
+        if (user.roles.indexOf('Administrador') !== -1) {
           return Meteor.users.find(
-            {},
-            {
-              fields: {
-                _id: 1,
-                username: 1,
-                'emails.verified': 1,
-                'emails.address': 1,
-                roles: 1,
-                productProfile: 1,
+              {},
+              {
+                fields: {
+                  _id: 1,
+                  username: 1,
+                  'emails.verified': 1,
+                  'emails.address': 1,
+                  roles: 1,
+                  productProfile: 1,
+                },
               },
-            },
           );
         }
-        return Meteor.users.find({ _id: userId });
+        return Meteor.users.find({_id: userId});
       });
       Meteor.publish('user', function() {
         if (this.userId) {
           return Meteor.users.find(
-            { _id: this.userId },
-            {
-              fields: {
-                emails: 1,
-                username: 1,
+              {_id: this.userId},
+              {
+                fields: {
+                  emails: 1,
+                  username: 1,
+                },
               },
-            },
           );
         }
         return this.ready();
@@ -237,13 +242,13 @@ class UserProfileApi extends OfflineBaseApi {
       Meteor.publish('userprofile-profile', function() {
         if (this.userId) {
           return Meteor.users.find(
-            { _id: this.userId },
-            {
-              fields: {
-                'emails.address': 1,
-                productProfile: 1,
+              {_id: this.userId},
+              {
+                fields: {
+                  'emails.address': 1,
+                  productProfile: 1,
+                },
               },
-            },
           );
         }
         this.ready();
@@ -267,11 +272,14 @@ class UserProfileApi extends OfflineBaseApi {
 
   beforeUpdate(docObj, context) {
     const user = getUser();
-    if(!docObj._id||(user._id!==docObj._id&&user.roles.indexOf('Administrador')===-1)) {
-      throw new Meteor.Error('Acesso negado', `Vocẽ não tem permissão para alterar esses dados`);
+    if (!docObj._id ||
+        (user._id !== docObj._id && user.roles.indexOf('Administrador') ===
+            -1)) {
+      throw new Meteor.Error('Acesso negado',
+          `Vocẽ não tem permissão para alterar esses dados`);
     }
 
-    if(user.roles.indexOf('Administrador')===-1) {  // prevent user change your self roles
+    if (user.roles.indexOf('Administrador') === -1) {  // prevent user change your self roles
       delete docObj.roles;
     }
 
@@ -280,7 +288,7 @@ class UserProfileApi extends OfflineBaseApi {
 
   beforeRemove(docObj, context) {
     super.beforeRemove(docObj, context);
-    Meteor.users.remove({ _id: docObj._id });
+    Meteor.users.remove({_id: docObj._id});
     return true;
   }
 
@@ -293,7 +301,7 @@ class UserProfileApi extends OfflineBaseApi {
     }
   }
 
-  insertNewUser(userData,callback=(e,r)=>{console.log(e,r)}){
+  insertNewUser(userData, callback = (e, r) => {console.log(e, r);}) {
     this.callMethod('insert', userData, callback);
   }
 
