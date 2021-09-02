@@ -3,9 +3,9 @@ import React, {useState} from "react";
 import FileInputComponent from 'react-file-input-previews-base64'
 import {hasValue} from "../../../../libs/hasValue";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@mui/material/Avatar';
 
 import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
 import {simpleImageStyle} from "./SimpleImageUploadBase64Style";

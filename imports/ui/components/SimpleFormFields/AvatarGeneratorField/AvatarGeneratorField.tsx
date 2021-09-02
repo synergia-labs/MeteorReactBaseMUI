@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import Konva from 'konva';
@@ -10,7 +10,7 @@ import Konva from 'konva';
 import {characteres} from "./Characteres";
 
 import {avatarGeneratorStyle} from "./AvatarGeneratorFieldStyle";
-import Avatar from "@material-ui/core/Avatar/Avatar";
+import Avatar from "@mui/material/Avatar/Avatar";
 
 import FaceIcon from '@material-ui/icons/Face';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";

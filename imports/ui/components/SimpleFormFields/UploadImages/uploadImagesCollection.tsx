@@ -16,40 +16,32 @@ import AttachFile from '@material-ui/icons/AttachFile';
 import AddIcon from '@material-ui/icons/Add';
 import { Meteor } from 'meteor/meteor';
 
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 
-import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
+import Alert from '@mui/material/Alert';
 
-import LinearProgress from '@material-ui/core/LinearProgress';
+import IconButton from '@mui/material/IconButton';
+
+import LinearProgress from '@mui/material/LinearProgress';
 import Delete from '@material-ui/icons/Delete';
 import Download from '@material-ui/icons/GetApp';
 import CloudUpload from '@material-ui/icons/CloudUpload';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
 import { uploadImagesStyle } from './uploadImagesCollectionStyle';
-import { simpleLabelStyle } from '/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle';
+import Card from "@mui/material/Card";
 
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Grid,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  FormLabel,
-  Slider,
-} from '@material-ui/core';
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 import OpenWithIcon from '@material-ui/icons/OpenWith';
 

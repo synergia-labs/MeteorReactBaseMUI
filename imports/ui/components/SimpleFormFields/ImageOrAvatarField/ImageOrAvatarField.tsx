@@ -3,8 +3,8 @@ import React from 'react';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
 import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 import {imageOrAvatarStyle} from './ImageOrAvatarFieldStyle';
 import {hasValue} from '/imports/libs/hasValue';

@@ -2,10 +2,10 @@ import React from 'react';
 import {withTracker} from "meteor/react-meteor-data";
 import {userprofileApi} from "../../../api/UserProfileApi";
 import SimpleForm from "../../../../ui/components/SimpleForm/SimpleForm";
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import FormGroup from '@material-ui/core/FormGroup';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import FormGroup from '@mui/material/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';;
 
 import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 import Add from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
+import Fab from '@mui/material/Fab';
 import DragHandle from '@material-ui/icons/DragHandle';
 import Delete from '@material-ui/icons/Delete';
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/material/Alert';
+
 import _ from 'lodash';
 import shortid from 'shortid';
 import { ReactSortable } from 'react-sortablejs';
 
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
 import { hasValue, isBoolean } from '../../../libs/hasValue';

@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/styles';
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 import TextField from "/imports/ui/components/SimpleFormFields/TextField/TextField";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import SelectField from "/imports/ui/components/SimpleFormFields/SelectField/SelectField";
 import CheckBoxField from "/imports/ui/components/SimpleFormFields/CheckBoxField/CheckBoxField";
 
@@ -163,7 +163,7 @@ export default function DevUtils() {
                 <SimpleForm
                 onSubmit={(doc)=>{
                     console.log('Doc',doc);
-                    const schema = window.['$app'].api[doc.api].getSchema()
+                    const schema = window['$app'].api[doc.api].getSchema()
 
                     const imports = [];
                     const formFields = [];
@@ -184,13 +184,13 @@ export default function DevUtils() {
                     <SelectField
                         onChange={(event)=>{
                             const selectedApi = event.target.value;
-                            const schema = window.['$app'].api[selectedApi].getSchema()
+                            const schema = window['$app'].api[selectedApi].getSchema()
                             setApi(selectedApi);
                             setFields(Object.keys(schema));
                             console.log(selectedApi,Object.keys(schema));
                         }}
                     name={'api'}
-                    options={Object.keys(window.['$app'].api)}
+                    options={Object.keys(window['$app'].api)}
                     />
 
                     {fields&&fields.length>0?(                        <CheckBoxField

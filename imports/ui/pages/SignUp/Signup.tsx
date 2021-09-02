@@ -5,9 +5,9 @@
 // Authentication errors modify the component’s state to be displayed
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import {userprofileApi} from "../../../userprofile/api/UserProfileApi";
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 

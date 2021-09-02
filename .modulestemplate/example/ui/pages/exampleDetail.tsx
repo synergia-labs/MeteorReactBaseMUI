@@ -2,28 +2,20 @@ import React from 'react';
 import {withTracker} from "meteor/react-meteor-data";
 import {exampleApi} from "../../api/exampleApi";
 import SimpleForm from "../../../../ui/components/SimpleForm/SimpleForm";
-import SimpleImageUploadBase64 from "../../../../ui/components/SimpleFormFields/ImageUpload/SimpleImageUploadBase64";
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import FormGroup from '@material-ui/core/FormGroup';
+import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 import ToggleSwitchField from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
 import RadioButtonField from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
-import DatePickerField from '../../../../ui/components/SimpleFormFields/DatePickerField/DatePickerField';
+
 import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
-// import GoogleApiWrapper from '/imports/ui/components/SimpleFormFields/MapsField/MapsField'
-import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 
+import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
-import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
-
 import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
-import ImageOrAvatar from '/imports/ui/components/SimpleFormFields/ImageOrAvatarField/ImageOrAvatarField';
-
-import Typography from '@material-ui/core/Typography';
 import * as appStyle from "/imports/materialui/styles";
 import Print from '@material-ui/icons/Print';
 import Close from '@material-ui/icons/Close';
@@ -42,7 +34,6 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
     const handleSubmit = (doc: object) => {
         save(doc);
     }
-
     return (
         <PageLayout
             title={screenState === 'view' ? 'Visualizar exemplo' : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
@@ -66,24 +57,10 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                 onSubmit={handleSubmit}
                 loading={loading}
             >
-                <SimpleImageUploadBase64
-                    label={'Imagem'}
-                    name={'image'}
-                />
-
-                <AvatarGeneratorField
-                  label={'Avatar'}
-                  name={'avatar'}
-                />
 
                 <ImageCompactField
                   label={'Imagem Zoom+Slider'}
-                  name={'imageC'}
-                />
-
-                <ImageOrAvatar
-                  label={'Imagem ou Avatar'}
-                  name={'imageOrAvatar'}
+                  name={'image'}
                 />
 
                 <FormGroup key={'fieldsOne'}>
@@ -112,10 +89,6 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                         placeholder='Tipo2'
                         id='Tipo2'
                         name='type2'
-                    />
-                    <DatePickerField
-                        placeholder='Data'
-                        name='date'
                     />
                 </FormGroup>
                 <FormGroup key={'fieldsThree'} formType={'subform'} name={'contacts'}>
@@ -152,6 +125,12 @@ const ExampleDetail = ({isPrintView, screenState, loading, exampleDoc, save, his
                 <RadioButtonField
                     placeholder='Opções da Tarefa'
                     name='statusRadio'
+                    options={[
+                        {value:'valA',label:'Valor A'},
+                        {value:'valB',label:'Valor B'},
+                        {value:'valC',label:'Valor C'},
+
+                    ]}
                 />
 
                 <FormGroup key={'fields'}>
@@ -210,10 +189,8 @@ interface IExampleDetailContainer {
 
 export const ExampleDetailContainer = withTracker((props: IExampleDetailContainer) => {
     const {screenState, id} = props;
-    const subHandle = exampleApi.subscribe('default', {_id: id});
-    let exampleDoc = subHandle.ready() ? exampleApi.findOne({_id: id}) : {};
-
-    exampleDoc = !!exampleDoc && !!exampleDoc._id ? exampleDoc : {_id:id};
+    const subHandle = !!id?exampleApi.subscribe('default', {_id: id}):null;
+    let exampleDoc = id&&subHandle.ready() ? exampleApi.findOne({_id: id}) : {};
 
     return ({
         screenState,

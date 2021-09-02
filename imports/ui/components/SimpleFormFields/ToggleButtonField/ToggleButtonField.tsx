@@ -3,10 +3,12 @@ import React, {useState} from "react";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import {hasValue} from "/imports/libs/hasValue";
 
-import FormControl from '@material-ui/core/FormControl';
+import FormControl from '@mui/material/FormControl';
 import Check from "@material-ui/icons/Check";
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+
 import {toggleButtonStyle} from './ToggleButtonFieldStyle'
 
 import * as appStyle from '/imports/materialui/styles';

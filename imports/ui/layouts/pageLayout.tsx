@@ -1,8 +1,8 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import {Button} from '@material-ui/core';
+import Button from '@mui/material/Button';
 import * as appSyles from '../../materialui/styles';
 export const PageLayout = ({title, children, backButton, actions, viewer, history, onBack}) => (
     <div

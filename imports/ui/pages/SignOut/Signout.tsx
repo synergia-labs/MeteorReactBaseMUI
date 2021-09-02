@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meteor } from 'meteor/meteor'
-import Container from "@material-ui/core/Container";
+import Container from "@mui/material/Container";
 
 import {cleanUserCache} from '../../../libs/userAccount';
 

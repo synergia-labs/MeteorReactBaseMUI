@@ -1,7 +1,7 @@
 import React from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
+import withStyles from '@mui/styles/withStyles';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
-import FormGroup from "@material-ui/core/FormGroup";
+import FormGroup from "@mui/material/FormGroup";
 import settings from '/settings.json'
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import {mapsFieldStyles} from './MapsFieldStyles'

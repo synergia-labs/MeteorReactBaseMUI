@@ -6,11 +6,11 @@ import _ from 'lodash';
 
 import Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
-import TextField from "@material-ui/core/TextField";
-import Fab from "@material-ui/core/Fab";
-import TablePagination from '@material-ui/core/TablePagination';
-import {makeStyles} from "@material-ui/core/styles";
+import Button from '@mui/material/Button';
+import TextField from "@mui/material/TextField";
+import Fab from "@mui/material/Fab";
+import TablePagination from '@mui/material/TablePagination';
+import {makeStyles} from "@mui/styles";
 import {ReactiveVar} from "meteor/reactive-var";
 import {initSearch} from '../../../../libs/searchUtils';
 
@@ -134,10 +134,10 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                    action={{ icon: 'search',onClick:click }}
             />
             <SimpleTable
-                schema={_.pick(exampleApi.schema,['image','title','description','date','statusToggle','chip','type'])}
+                schema={_.pick(exampleApi.schema,['image','title','description','date'])}
                 data={examples}
                 onClick={onClick}
-                actions={[{icon:<Delete color={'primary'} />, id: "delete", onClick:callRemove}]}
+                actions={[{icon:<Delete />, id: "delete", onClick:callRemove}]}
             />
             <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                 <TablePagination

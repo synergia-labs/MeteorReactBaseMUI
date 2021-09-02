@@ -3,9 +3,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Accounts } from 'meteor/accounts-base'
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
 
 import {resetPasswordStyle} from "./ResetPasswordStyle";

@@ -12,28 +12,26 @@ import Image from '@material-ui/icons/Image';
 import VideoLibrary from '@material-ui/icons/VideoLibrary';
 import Book from '@material-ui/icons/Book';
 import AttachFile from '@material-ui/icons/AttachFile';
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import Avatar from "@material-ui/core/Avatar/Avatar";
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import {hasValue} from "/imports/libs/hasValue";
+import ListItem from "@mui/material/ListItem/ListItem";
+import Avatar from "@mui/material/Avatar/Avatar";
+import ListItemText from "@mui/material/ListItemText/ListItemText";
 import { Meteor } from 'meteor/meteor';
 
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 
-import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
+import Alert from '@mui/material/Alert';
 
-import LinearProgress from '@material-ui/core/LinearProgress';
+import IconButton from '@mui/material/IconButton';
+
+import LinearProgress from '@mui/material/LinearProgress';
 import Delete from '@material-ui/icons/Delete';
 import CloudUpload from '@material-ui/icons/CloudUpload';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import * as appStyle from "/imports/materialui/styles";
 
 const {grey100, grey500, grey700} = ['#eeeeee','#c9c9c9','#a1a1a1'];
-
 import {uploadFilesStyle} from "./uploadFilesCollectionStyle";
-import {simpleLabelStyle} from "/imports/ui/components/SimpleLabelView/SimpleLabelViewStyle";
-import { Typography } from '@material-ui/core';
+import Typography from "@mui/material/Typography";
 
 const styles = {
     textoUploadArquivo: {

@@ -1,14 +1,14 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import {createFilterOptions} from '@mui/material/Autocomplete';
 
 import localidades from '/imports/modules/bemcultural/api/localidades.json';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, withStyles, Theme } from '@mui/styles';
 
 import * as appStyle from "/imports/materialui/styles";
-import InputBase from '@material-ui/core/InputBase';
+import InputBase from '@mui/material/InputBase';
 
 const filterOptions = createFilterOptions({
     matchFrom: 'any',

@@ -1,18 +1,18 @@
 import React from 'react';
-import {InputLabel} from '@material-ui/core';
-import Chip from '@material-ui/core/Chip';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import InputLabel from '@mui/material/InputLabel';
+import Chip from '@mui/material/Chip';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import {hasValue} from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
+import {createStyles, Theme, withStyles} from '@mui/styles';
+import InputBase from '@mui/material/InputBase';
 import * as appStyle from "/imports/materialui/styles";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import omit from 'lodash/omit';
-import MenuItem from '@material-ui/core/MenuItem';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
 
 
 interface IOtherProps {

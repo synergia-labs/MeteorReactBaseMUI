@@ -1,5 +1,5 @@
 import React from "react";
-import FormControl from '@material-ui/core/FormControl';
+import FormControl from '@mui/material/FormControl';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import { CirclePicker } from 'react-color';
 

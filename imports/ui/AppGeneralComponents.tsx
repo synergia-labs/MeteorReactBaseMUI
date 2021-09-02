@@ -1,22 +1,17 @@
 import React from 'react';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
 import Close from '@material-ui/icons/Close';
 import AWN from "awesome-notifications"
 import {appGeneralStyle} from './AppGeneralComponentsStyle';
-import MuiAlert from '@material-ui/lab/Alert';
 import {isMobile} from "/imports/libs/deviceVerify";
-import {useTheme} from "@material-ui/core/styles";
+import {useTheme} from "@mui/styles";
 import {StaticRouter, MemoryRouter} from "react-router";
 import AppRouterSwitch from './layouts/AppRouterSwitch'
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
 import {useAccount} from "/imports/libs/userAccount";
 import './notificationStyle.css';
 

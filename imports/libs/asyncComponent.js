@@ -1,6 +1,6 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const asyncComponent = (importingComponent, LoadingComponent = (() => <CircularProgress color="secondary" />)) => (
   Loadable({

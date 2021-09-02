@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import {hasValue} from "/imports/libs/hasValue";
-import Checkbox from "@material-ui/core/Checkbox";
+import Checkbox from "@mui/material/Checkbox";
 import _ from "lodash";
 import {checkBoxStyle} from './CheckBoxFieldStyle'
 import Check from "@material-ui/icons/Check";

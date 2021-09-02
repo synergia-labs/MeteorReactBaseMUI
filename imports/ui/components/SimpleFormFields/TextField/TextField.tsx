@@ -1,9 +1,9 @@
 import React from "react";
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-import InputBase from '@material-ui/core/InputBase';
+import InputBase from '@mui/material/InputBase';
 import * as appStyle from "/imports/materialui/styles";
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/styles';
 import omit from 'lodash/omit';
 
 

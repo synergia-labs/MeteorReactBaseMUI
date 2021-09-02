@@ -1,8 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import InputBase from '@material-ui/core/InputBase';
+import InputBase from '@mui/material/InputBase';
 import * as appStyle from '/imports/materialui/styles';
 
 export default ({

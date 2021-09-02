@@ -1,13 +1,13 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 import {hasValue} from '/imports/libs/hasValue';
 
 import {simpleLabelStyle} from './SimpleLabelViewStyle';
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 import Help from '@material-ui/icons/Help';
 
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {createStyles, makeStyles, Theme} from '@mui/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

@@ -1,10 +1,10 @@
 import React from 'react';
 import AppLayoutFixedMenu from './layouts/AppLayoutFixedMenu.tsx';
 import GeneralComponents from './AppGeneralComponents';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import {theme} from "/imports/materialui/theme";
 import {useAccount} from "/imports/libs/userAccount";
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/styles';
 
 const AppContainer = (props) => {
     const { isLoggedIn, user,userLoading } = useAccount();

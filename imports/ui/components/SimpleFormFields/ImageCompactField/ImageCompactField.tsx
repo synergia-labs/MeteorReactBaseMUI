@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import Button from '@material-ui/core/Button';
-import Slider from '@material-ui/core/Slider';
+import Button from '@mui/material/Button';
+import Slider from '@mui/material/Slider';
 import AvatarEditor from 'react-avatar-editor';
 
 import {isMobile} from "/imports/libs/deviceVerify";
@@ -9,8 +9,9 @@ import {hasValue} from "/imports/libs/hasValue";
 import {compactImageStyle} from "./ImageCompactFieldStyle";
 import * as appStyle from "/imports/materialui/styles";
 
-import {Button, Slider, Typography,} from '@material-ui/core';
-
+import Button from '@mui/material/Button';
+import Slider from '@mui/material/Slider';
+import Typography from '@mui/material/Typography';
 export default ({name, label, value, onChange, readOnly, error, help, ...otherProps}: IBaseSimpleFormComponent) => {
     const [values, setValues] = React.useState({
         allowZoomOut: false,

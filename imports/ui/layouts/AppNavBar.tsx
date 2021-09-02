@@ -1,21 +1,21 @@
 import React from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Modules from '../../modules';
 import {isMobile} from '/imports/libs/deviceVerify';
-import Tabs from '@material-ui/core/Tabs';
+import Tabs from '@mui/material/Tabs';
 import {appNavBarStyle} from './AppNavBarStyle';
-import AppBar from '@material-ui/core/AppBar';
+import AppBar from '@mui/material/AppBar';
 import {appLayoutMenuStyle} from '/imports/ui/layouts/AppLayoutFixedMenuStyle';
-import Toolbar from '@material-ui/core/Toolbar';
+import Toolbar from '@mui/material/Toolbar';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import * as appStyle from '/imports/materialui/styles';
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 
 const HomeIconButton = withRouter((props)=>{
     return <NavLink to={'/'}><div style={appLayoutMenuStyle.containerHomeIconButton}>
@@ -25,7 +25,7 @@ const HomeIconButton = withRouter((props)=>{
 
 
 const AppNavBar = ({user, history, showDrawer, showWindow, theme, location}) => {
-    if (location.pathname.indexOf('/full') !== -1 || location.pathname.indexOf('/print') !== -1) {
+    if (location&&location.pathname.indexOf('/full') !== -1 || location&&location.pathname.indexOf('/print') !== -1) {
         return null;
     }
 
@@ -57,7 +57,7 @@ const AppNavBar = ({user, history, showDrawer, showWindow, theme, location}) => 
     };
 
     const pathIndex = (Modules.getAppMenuItemList() || []).filter(item => !item.isProtected || user && user.roles.indexOf('Publico') === -1).findIndex(menuData => menuData.path === '/' && history.location.pathname === '/'
-        || menuData.path !== '/' && history.location.pathname.indexOf(menuData.path) === 0);
+        || menuData.path !== '/' && history.location&&history.location.pathname.indexOf(menuData.path) === 0);
     if (isMobile) {
         return (
             <div style={{minHeight: 55, width: '100%', backgroundColor: theme.palette.primary.main}}>
@@ -150,13 +150,13 @@ const AppNavBar = ({user, history, showDrawer, showWindow, theme, location}) => 
                             onClose={handleClose}
                         >
                             {!user || !user._id ? (
-                                [<MenuItem key={'signin'} as={NavLink} onClick={openPage('/signin')}>Entrar</MenuItem>]
+                                [<MenuItem key={'signin'} onClick={openPage('/signin')}>Entrar</MenuItem>]
                             ) : (
                                 [<MenuItem
-                                    key={'userprofile'} as={NavLink}
+                                    key={'userprofile'}
                                     onClick={viewProfile}
                                 >{user.username||'Editar'}</MenuItem>,
-                                    <MenuItem key={'signout'} as={NavLink} onClick={openPage('/signout')}><ExitToAppIcon
+                                    <MenuItem key={'signout'}  onClick={openPage('/signout')}><ExitToAppIcon
                                         fontSize="small"
                                     /> Sair</MenuItem>]
                             )}

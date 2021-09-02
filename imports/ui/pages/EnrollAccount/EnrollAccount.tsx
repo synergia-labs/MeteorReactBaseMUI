@@ -1,8 +1,8 @@
 import React from 'react'
 import { Accounts } from 'meteor/accounts-base'
-import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 import {enrollAccountStyle} from "./EnrollAccountStyle";
 
@@ -28,7 +28,7 @@ const EnrollAccount = (props) => {
                 },2000)
                 setStatus('Email verificado com sucesso! Redirecionando, aguarde....');
             }
-        }
+        })
     }
 
     return (

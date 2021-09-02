@@ -7,7 +7,7 @@ import {
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { hasValue } from '/imports/libs/hasValue';
 import * as appStyle from "/imports/materialui/styles";
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
 export default ({ name, label, value, onChange, readOnly, error, style, ...otherProps }: IBaseSimpleFormComponent) => {
 

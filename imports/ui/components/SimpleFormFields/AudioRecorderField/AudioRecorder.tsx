@@ -1,14 +1,10 @@
 import React from "react";
 
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-
-import Fab from '@material-ui/core/Fab';
+import Fab from '@mui/material/Fab';
 import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
-import TextField from "@material-ui/core/TextField";
 import StopIcon from '@material-ui/icons/Stop';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-
 import {audioRecorderStyle} from "./AudioRecorderStyle";
 
 import {hasValue} from "/imports/libs/hasValue";

@@ -4,8 +4,8 @@ import {userprofileApi} from "../../../api/UserProfileApi";
 import SimpleTable from "/imports/ui/components/SimpleTable/SimpleTable";
 import _ from 'lodash';
 
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
 import * as appStyle from "/imports/materialui/styles";
 import {PageLayout} from "/imports/ui/layouts/pageLayout";
