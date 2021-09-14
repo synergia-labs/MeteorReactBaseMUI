@@ -5,6 +5,7 @@ import SimpleLabelView
 import InputBase from '@mui/material/InputBase';
 import * as appStyle from '/imports/materialui/styles';
 import {createStyles, makeStyles, Theme} from '@material-ui/styles';
+
 import omit from 'lodash/omit';
 
 export default ({

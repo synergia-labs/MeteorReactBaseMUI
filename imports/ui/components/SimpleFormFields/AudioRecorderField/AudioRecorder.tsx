@@ -3,9 +3,9 @@ import React from 'react';
 import SimpleLabelView
   from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import Fab from '@mui/material/Fab';
-import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
-import StopIcon from '@material-ui/icons/Stop';
-import DeleteIcon from '@material-ui/icons/Delete';
+import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
+import StopIcon from '@mui/icons-material/Stop';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {audioRecorderStyle} from './AudioRecorderStyle';
 
 import {hasValue} from '/imports/libs/hasValue';

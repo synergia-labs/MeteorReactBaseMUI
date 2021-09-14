@@ -3,7 +3,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
-import Check from '@material-ui/icons/Check';
+import Check from '@mui/icons-material/Check';
 import SimpleLabelView
   from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import {hasValue} from '/imports/libs/hasValue';

@@ -14,6 +14,7 @@
 
  */
 import * as appStyles from '/imports/materialui/styles';
+import {isMobile} from "/imports/libs/deviceVerify";
 
 const simpleTableStyle = {
   containerRenderType: {
@@ -37,8 +38,9 @@ const simpleTableStyle = {
     textOverflow: 'ellipsis',
   },
   tableCellActions: {
-    textAlign: 'flex-start',
-    width: 80,
+    textAlign: 'center',
+    width: isMobile?'100%':80,
+    maxWidth: isMobile?'100%':80,
   },
   spanHead: {
     border: 0,

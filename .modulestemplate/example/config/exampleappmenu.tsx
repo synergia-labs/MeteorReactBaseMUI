@@ -1,5 +1,5 @@
 import React from 'react';
-import Class from '@material-ui/icons/Class';
+import Class from '@mui/icons-material/Class';
 
 export const exampleMenuItemList = [
   {

@@ -5,12 +5,12 @@ import _ from 'lodash';
 import {attachmentsCollection} from '/imports/api/attachmentsCollection';
 import Carousel from 'react-material-ui-carousel';
 
-import LibraryBooks from '@material-ui/icons/LibraryBooks';
-import LibraryMusic from '@material-ui/icons/LibraryMusic';
-import Image from '@material-ui/icons/Image';
-import VideoLibrary from '@material-ui/icons/VideoLibrary';
-import Book from '@material-ui/icons/Book';
-import AttachFile from '@material-ui/icons/AttachFile';
+import LibraryBooks from '@mui/icons-material/LibraryBooks';
+import LibraryMusic from '@mui/icons-material/LibraryMusic';
+import Image from '@mui/icons-material/Image';
+import VideoLibrary from '@mui/icons-material/VideoLibrary';
+import Book from '@mui/icons-material/Book';
+import AttachFile from '@mui/icons-material/AttachFile';
 import {Meteor} from 'meteor/meteor';
 
 import Snackbar from '@mui/material/Snackbar';
@@ -20,8 +20,8 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 
 import LinearProgress from '@mui/material/LinearProgress';
-import Delete from '@material-ui/icons/Delete';
-import Download from '@material-ui/icons/GetApp';
+import Delete from '@mui/icons-material/Delete';
+import Download from '@mui/icons-material/GetApp';
 
 import {uploadImagesStyle} from './uploadImagesCollectionStyle';
 import Card from '@mui/material/Card';

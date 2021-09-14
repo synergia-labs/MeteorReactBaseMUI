@@ -5,7 +5,7 @@ import {hasValue} from '../../../../libs/hasValue';
 import SimpleLabelView
   from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import Button from '@mui/material/Button';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import Avatar from '@mui/material/Avatar';
 import {simpleImageStyle} from './SimpleImageUploadBase64Style';
 

@@ -4,8 +4,8 @@ import {exampleApi} from '../../api/exampleApi';
 import SimpleTable from '/imports/ui/components/SimpleTable/SimpleTable';
 import _ from 'lodash';
 
-import Add from '@material-ui/icons/Add';
-import Delete from '@material-ui/icons/Delete';
+import Add from '@mui/icons-material/Add';
+import Delete from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Fab from '@mui/material/Fab';

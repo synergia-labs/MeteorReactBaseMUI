@@ -5,7 +5,7 @@ import {hasValue} from '/imports/libs/hasValue';
 
 import {simpleLabelListStyle} from './SimpleLabelViewListStyle';
 import Tooltip from '@mui/material/Tooltip';
-import Help from '@material-ui/icons/Help';
+import Help from '@mui/icons-material/Help';
 
 import {createStyles, makeStyles, Theme} from '@mui/styles';
 

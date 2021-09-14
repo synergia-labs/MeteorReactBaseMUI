@@ -423,7 +423,7 @@ Na pasta *config* há os arquivos:
 O arquivo *pagesappmenu* contém as definições sobre a exibição de itens do menu do aplicação referente ao módulo. O arquivo possui a seguinte estrutura:
 
 import React from 'react';
-import Home from '@material-ui/icons/Home';
+import Home from '@mui/icons-material/Home';
 
 
 export const pagesMenuItemList = [

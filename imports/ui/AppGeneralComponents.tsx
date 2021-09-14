@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import Close from '@material-ui/icons/Close';
+import Close from '@mui/icons-material/Close';
 import AWN from 'awesome-notifications';
 import {appGeneralStyle} from './AppGeneralComponentsStyle';
 import {isMobile} from '/imports/libs/deviceVerify';

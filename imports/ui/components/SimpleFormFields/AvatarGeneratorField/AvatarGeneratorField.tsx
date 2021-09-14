@@ -3,7 +3,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import Konva from 'konva';
 
@@ -11,7 +11,7 @@ import {characteres} from './Characteres';
 
 import {avatarGeneratorStyle} from './AvatarGeneratorFieldStyle';
 
-import FaceIcon from '@material-ui/icons/Face';
+import FaceIcon from '@mui/icons-material/Face';
 import SimpleLabelView
   from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 

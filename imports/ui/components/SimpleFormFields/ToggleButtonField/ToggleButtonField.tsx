@@ -5,7 +5,7 @@ import SimpleLabelView
 import {hasValue} from '/imports/libs/hasValue';
 
 import FormControl from '@mui/material/FormControl';
-import Check from '@material-ui/icons/Check';
+import Check from '@mui/icons-material/Check';
 
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -52,8 +52,12 @@ export default ({
                       flex: 1,
                       margin: 3,
                       borderRadius: 15,
-                      minWidth: isMobile ? '45%' : '25%',
-                      maxWidth: isMobile ? '95%' : '30%',
+                      minWidth: 150,
+                      fontSize:10,
+                      width: 160,
+                      height: 60,
+                      maxWidth: 160,
+                      maxHeight: 60,
                       backgroundColor: (typeof itemCheck === 'object' &&
                           itemCheck.value === value || itemCheck === value)
                           ? appStyle.primaryColor

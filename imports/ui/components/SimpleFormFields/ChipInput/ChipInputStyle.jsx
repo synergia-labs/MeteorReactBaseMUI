@@ -14,35 +14,34 @@
 
  */
 
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '100%',
-  },
-  input: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'nowrap',
-    flexDirection: 'row',
-    padding: 5,
-    backgroundColor: '#FFF',
-  },
-  title: {
-    marginBottom: '1rem',
-  },
-  chip: {
-    margin: '0.5rem',
-  },
-  containerEmptyChips: {
-    color: '#BBB',
-  },
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-};
+ const styles = {
+     container: {
+         display:'flex',
+         flexDirection:'column',
+         maxWidth: '100%',
+         width: '100%',
+
+     },
+     input: {
+         display: 'flex',
+         alignItems: 'center',
+         width:'100%',
+     },
+     title: {
+         marginBottom:'1rem',
+     },
+     chip:{
+         margin:'0.5rem',
+     },
+     containerEmptyChips:{
+       color:'#BBB',
+     },
+     root: {
+         display: 'flex',
+         flexWrap: 'wrap',
+     },
+ };
 
 export {
-  styles,
+    styles,
 };

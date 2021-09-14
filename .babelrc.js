@@ -2,7 +2,7 @@ const plugins = [
     [
         'babel-plugin-import',
         {
-            'libraryName': '@material-ui/core',
+            'libraryName': '@mui/material',
             // Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
             'libraryDirectory': 'esm',
             'camel2DashComponentName': false
@@ -12,7 +12,7 @@ const plugins = [
     [
         'babel-plugin-import',
         {
-            'libraryName': '@material-ui/icons',
+            'libraryName': '@mui/icons-material',
             // Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
             'libraryDirectory': 'esm',
             'camel2DashComponentName': false

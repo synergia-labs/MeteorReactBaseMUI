@@ -6,7 +6,7 @@ import {hasValue} from '/imports/libs/hasValue';
 import Checkbox from '@mui/material/Checkbox';
 import _ from 'lodash';
 import {checkBoxStyle} from './CheckBoxFieldStyle';
-import Check from '@material-ui/icons/Check';
+import Check from '@mui/icons-material/Check';
 
 export default ({
   name,

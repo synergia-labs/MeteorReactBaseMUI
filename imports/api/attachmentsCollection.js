@@ -10,7 +10,7 @@ if (Meteor.isServer) {
       slice(0, -1).
       join('/')}/uploads/meteorUploads`;
 
-  console.log('UPLOAD PATH:', uploadPaths);
+
 
   if (!fs.existsSync(uploadPaths)) {
     fs.mkdirSync(uploadPaths, {recursive: true});

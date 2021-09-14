@@ -6,12 +6,12 @@ import {attachmentsCollection} from '/imports/api/attachmentsCollection';
 
 import {isMobile} from '/imports/libs/deviceVerify';
 
-import LibraryBooks from '@material-ui/icons/LibraryBooks';
-import LibraryMusic from '@material-ui/icons/LibraryMusic';
-import Image from '@material-ui/icons/Image';
-import VideoLibrary from '@material-ui/icons/VideoLibrary';
-import Book from '@material-ui/icons/Book';
-import AttachFile from '@material-ui/icons/AttachFile';
+import LibraryBooks from '@mui/icons-material/LibraryBooks';
+import LibraryMusic from '@mui/icons-material/LibraryMusic';
+import Image from '@mui/icons-material/Image';
+import VideoLibrary from '@mui/icons-material/VideoLibrary';
+import Book from '@mui/icons-material/Book';
+import AttachFile from '@mui/icons-material/AttachFile';
 import ListItem from '@mui/material/ListItem/ListItem';
 import Avatar from '@mui/material/Avatar/Avatar';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
@@ -24,8 +24,8 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 
 import LinearProgress from '@mui/material/LinearProgress';
-import Delete from '@material-ui/icons/Delete';
-import CloudUpload from '@material-ui/icons/CloudUpload';
+import Delete from '@mui/icons-material/Delete';
+import CloudUpload from '@mui/icons-material/CloudUpload';
 import SimpleLabelView
     from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import * as appStyle from '/imports/materialui/styles';

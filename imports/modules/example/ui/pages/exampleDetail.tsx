@@ -27,8 +27,8 @@ import AudioRecorder
 import ImageCompactField
     from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 import * as appStyle from '/imports/materialui/styles';
-import Print from '@material-ui/icons/Print';
-import Close from '@material-ui/icons/Close';
+import Print from '@mui/icons-material/Print';
+import Close from '@mui/icons-material/Close';
 import {PageLayout} from '/imports/ui/layouts/pageLayout';
 
 interface IExampleDetail {

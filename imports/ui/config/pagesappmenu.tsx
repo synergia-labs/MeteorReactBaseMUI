@@ -1,6 +1,6 @@
 import React from 'react';
 import {isMobile} from '/imports/libs/deviceVerify';
-import Home from '@material-ui/icons/Home';
+import Home from '@mui/icons-material/Home';
 
 export const pagesMenuItemList = [
   isMobile ? {
