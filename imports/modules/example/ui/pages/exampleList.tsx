@@ -116,10 +116,12 @@ const ExampleList = ({
       content: () => <p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
       actions: ({closeDialog}) => [
         <Button
+            variant={'outlined'}
             color={'secondary'}
             onClick={closeDialog}
         >{'Não'}</Button>,
         <Button
+            variant={'contained'}
             onClick={() => {
               remove(doc);
               closeDialog();
@@ -142,7 +144,7 @@ const ExampleList = ({
         />
         <SimpleTable
             schema={_.pick(exampleApi.schema,
-                ['image', 'title', 'description', 'date'])}
+                ['image', 'title', 'description'])}
             data={examples}
             onClick={onClick}
             actions={[{icon: <Delete/>, id: 'delete', onClick: callRemove}]}
@@ -162,7 +164,7 @@ const ExampleList = ({
               count={total}
               rowsPerPage={pageProperties.pageSize}
               page={pageProperties.currentPage - 1}
-              onChangePage={handleChangePage}
+              onPageChange={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
               labelDisplayedRows={({
                 from,
@@ -211,6 +213,8 @@ const exampleSearch = initSearch(
 );
 
 let onSearchExampleTyping;
+
+
 export const ExampleListContainer = withTracker((props) => {
 
   //Reactive Search/Filter
@@ -225,17 +229,19 @@ export const ExampleListContainer = withTracker((props) => {
   const filter = {
     ...config.filter,
   };
-  const limit = config.pageProperties.pageSize *
-      config.pageProperties.currentPage;
-  const skip = (config.pageProperties.currentPage - 1) *
-      config.pageProperties.pageSize;
+
+  const limit = config.pageProperties.pageSize;
+  const skip = (config.pageProperties.currentPage - 1) * config.pageProperties.pageSize;
+
 
   //Collection Subscribe
-  const subHandle = exampleApi.subscribe('default', filter,
+  const subHandle = exampleApi.subscribe('exampleList', filter,
       {sort, limit, skip});
   const examples = subHandle.ready()
       ? exampleApi.find(filter, {sort}).fetch()
       : [];
+
+  console.log('examples',examples)
 
   return ({
     examples,

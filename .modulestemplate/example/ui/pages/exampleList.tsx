@@ -148,7 +148,7 @@ const ExampleList = ({examples,history,remove,showDialog,onSearch,total,loading,
                     count={total}
                     rowsPerPage={pageProperties.pageSize}
                     page={pageProperties.currentPage - 1}
-                    onChangePage={handleChangePage}
+                    onPageChange={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                     labelDisplayedRows={({from, to, count}) => (`${from}-${to} de ${count}`)}
                     SelectProps={{

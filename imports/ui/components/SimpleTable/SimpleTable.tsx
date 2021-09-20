@@ -372,7 +372,7 @@ export default function SimpleTable({
           count={row}
           rowsPerPage={rowsPerPage}
           page={page}
-          onChangePage={handleChangePage}
+          onPageChange={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />{*/}
         </Table>

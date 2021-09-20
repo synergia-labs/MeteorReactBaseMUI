@@ -40,7 +40,6 @@ const defaultOptions = {
 
 // region Base Model
 export class ApiBase {
-  dao;
   isTest;
   publications;
   logCollection;

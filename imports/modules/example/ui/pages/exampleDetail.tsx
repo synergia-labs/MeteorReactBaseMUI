@@ -80,7 +80,7 @@ const ExampleDetail = ({
       >
         <SimpleForm
             mode={screenState}
-            schema={exampleApi.schema}
+            schema={exampleApi.getSchema()}
             doc={exampleDoc}
             onSubmit={handleSubmit}
             loading={loading}
@@ -230,7 +230,7 @@ export const ExampleDetailContainer = withTracker(
     (props: IExampleDetailContainer) => {
       const {screenState, id} = props;
       const subHandle = !!id
-          ? exampleApi.subscribe('default', {_id: id})
+          ? exampleApi.subscribe('exampleDetail', {_id: id})
           : null;
       let exampleDoc = id && subHandle.ready()
           ? exampleApi.findOne({_id: id})

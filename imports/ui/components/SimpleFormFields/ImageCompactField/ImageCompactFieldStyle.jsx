@@ -15,47 +15,47 @@
  */
 
 const compactImageStyle = {
-  containerImage: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  containerGetConteudoDropzone: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-  containerDropzone: {
-    width: '100%',
-    padding: '2rem',
-    textAlign: 'center',
-    cursor: 'pointer',
-  },
-  containerShowImage: {
-    maxWidth: 360,
-    maxHeight: 320,
-    width: 150,
-    height: 150,
-  },
-  selectImage: {
-    // fontFamily: 'PTSans',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 1.2,
-    letterSpacing: '0.7px',
-    textAlign: 'center',
-    color: '#e26139',
-    textTransform: 'none',
-  },
-  containerEmptyImageC: {
-    color: '#BBB',
-  },
+    containerImage: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    containerGetConteudoDropzone: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+    },
+    containerDropzone: {
+        width: '100%',
+        padding: '2rem',
+        textAlign: 'center',
+        cursor: 'pointer',
+    },
+    containerShowImage: {
+        maxWidth: 360,
+        maxHeight: 320,
+        width: 150,
+        height: 150,
+    },
+    selectImage: {
+        // fontFamily: 'PTSans',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        fontStretch: 'normal',
+        fontStyle: 'normal',
+        lineHeight: 1.2,
+        letterSpacing: '0.7px',
+        textAlign: 'center',
+        color: '#e26139',
+        textTransform: 'none',
+    },
+    containerEmptyImageC: {
+        color: '#BBB',
+    },
 };
 
 export {
-  compactImageStyle,
+    compactImageStyle,
 };
