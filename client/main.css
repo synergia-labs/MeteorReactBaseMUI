@@ -12,3 +12,28 @@ body {
   margin:0px;
   user-select: none;
 }
+
+
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3e6b01 #ccc;
+  box-sizing:border-box;
+
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ccc;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #3e6b01;
+  border-radius: 20px;
+  border: 3px solid #ccc;
+}

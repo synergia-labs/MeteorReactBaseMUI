@@ -257,7 +257,7 @@ export const ExampleListContainer = withTracker((props) => {
         } else {
           console.log('Error:', e);
           props.showNotification({
-            type: 'error',
+            type: 'warning',
             title: 'Operação não realizada!',
             message: `Erro ao realizar a operação: ${e.message}`,
           });

@@ -38,7 +38,7 @@ export default class Signin extends React.Component {
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
         this.props.showNotification({
-          type: 'error',
+          type: 'warning',
           title: 'Acesso negado!',
           description: err.reason === 'Incorrect password'
               ? 'Email ou senha inválidos'

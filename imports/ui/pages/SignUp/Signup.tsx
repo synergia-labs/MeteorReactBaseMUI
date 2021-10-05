@@ -36,7 +36,7 @@ export default class Signup extends React.Component {
           if (err) {
             console.log('Login err', err);
             this.props.showNotification({
-              type: 'error',
+              type: 'warning',
               title: 'Problema na criação do usuário!',
               description: 'Erro ao fazer registro em nossa base de dados!',
             });

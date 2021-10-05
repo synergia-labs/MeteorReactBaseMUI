@@ -16,7 +16,7 @@ export default class ResetPassword extends React.Component {
     const {password, repassword} = doc;
     if (password !== repassword) {
       this.props.showNotification({
-        type: 'error',
+        type: 'warning',
         title: 'Error!',
         description: 'As senhas não conferem!!Digite novamente!',
       });
@@ -28,7 +28,7 @@ export default class ResetPassword extends React.Component {
         (err, res) => {
           if (err) {
             this.props.showNotification({
-              type: 'error',
+              type: 'warning',
               title: 'Problema na definição da senha!',
               description: 'Não foi possível atualizar a sua senha, faça contato com o administrador!',
             });

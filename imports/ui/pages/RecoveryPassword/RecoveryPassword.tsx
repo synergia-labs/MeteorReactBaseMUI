@@ -21,13 +21,13 @@ export default class RecoveryPassword extends React.Component {
       if (err) {
         if (err.message === 'User not found [403]') {
           this.props.showNotification({
-            type: 'error',
+            type: 'warning',
             title: 'Problema na recuperação da senha!',
             description: 'Este email não está cadastrado em nossa base de dados!',
           });
         } else {
           this.props.showNotification({
-            type: 'error',
+            type: 'warning',
             title: 'Problema na recuperação da senha!',
             description: 'Erro ao recriar a senha, faça contato com o administrador!!',
           });

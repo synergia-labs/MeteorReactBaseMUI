@@ -206,7 +206,7 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
             } else {
                 console.log('Error:', e);
                 props.showNotification({
-                    type: 'error',
+                    type: 'warning',
                     title: 'Operação não realizada!',
                     description: `Erro ao realizar a operação: ${e.message}`,
                 })

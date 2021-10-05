@@ -7,7 +7,7 @@ const EmailVerify = props => {
     if (err) {
       if (!emailVerified) {
         props.showNotification({
-          type: 'error',
+          type: 'warning',
           title: 'Problema com o Token!',
           description: 'Email não verificado. Solicite um novo token!',
         });
