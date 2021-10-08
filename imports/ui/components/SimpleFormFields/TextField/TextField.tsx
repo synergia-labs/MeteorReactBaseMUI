@@ -1,12 +1,18 @@
 import React from 'react';
-import TextField from '@mui/material/TextField';
-import SimpleLabelView
-  from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import InputBase from '@mui/material/InputBase';
-import * as appStyle from '/imports/materialui/styles';
-import {createStyles, makeStyles, Theme} from '@material-ui/styles';
 
 import omit from 'lodash/omit';
+
+import InputBase from '@mui/material/InputBase';
+import TextField from '@mui/material/TextField';
+
+import makeStyles from '@mui/styles/makeStyles';
+import { createStyles, Theme } from '@mui/material/styles';
+
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+
+import * as appStyle from '/imports/materialui/styles';
+
+
 
 export default ({
   name,
@@ -20,7 +26,6 @@ export default ({
   ...otherProps
 }: IBaseSimpleFormComponent) => {
   const {schema} = otherProps;
-
   const fieldValue = value === '-' ? '-' : (schema && schema.type === Date &&
   !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value);
 
@@ -48,9 +53,9 @@ export default ({
                                                        help={help}/> : null}
       <TextField variant={'outlined'} InputProps={otherProps.rounded
           ? {classes: classes}
-          : undefined} key={name} onChange={onFieldChange} value={fieldValue}
+          : undefined} {...(omit(otherProps, ['placeholder']))} key={name} onChange={onFieldChange} value={fieldValue}
                  error={!!error} disabled={!!readOnly} id={name}
-                 name={name} {...(omit(otherProps, ['placeholder']))}
+                 name={name}
                  label={otherProps.rounded ? label : null} type={'text'}/>
     </div>);
   }
@@ -74,8 +79,8 @@ export default ({
       borderColor: '#f2f2f2',
     }} variant={'outlined'} InputProps={otherProps.rounded || otherProps.field
         ? {root: classes.root}
-        : undefined} key={name} onChange={onFieldChange} value={fieldValue}
+        : undefined} {...otherProps} key={name} onChange={onFieldChange} value={fieldValue}
                error={!!error} disabled={!!readOnly} id={name} name={name}
-               label={otherProps.rounded ? label : null} {...otherProps}/>
+               label={otherProps.rounded ? label : null} />
   </div>);
 }

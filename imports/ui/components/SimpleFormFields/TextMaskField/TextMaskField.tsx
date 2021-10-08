@@ -5,6 +5,9 @@ import SimpleLabelView
   from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import InputBase from '@mui/material/InputBase';
 import * as appStyle from '/imports/materialui/styles';
+import omit from "lodash/omit";
+import makeStyles from '@mui/styles/makeStyles';
+import { createStyles, Theme } from '@mui/material/styles';
 
 export default ({
   name,
@@ -15,8 +18,18 @@ export default ({
   schema,
   error,
   placeholder,
-  ...otherProps
+    help,
+  style,...otherProps
 }: IBaseSimpleFormComponent) => {
+
+  const useStyles = makeStyles((theme: Theme) =>
+      createStyles({
+        root: {height: 50},
+      }),
+  );
+
+  const classes = useStyles();
+
 
   const fieldValue = value === '-' ? '-' : (schema && schema.type === Date &&
   !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value);
@@ -116,26 +129,29 @@ export default ({
     }
   };
 
+  console.log('ReadtOnly',name,readOnly)
+
   if (readOnly) {
     return (<div key={name} style={{
       display: 'flex',
       flexDirection: 'column', ...appStyle.fieldContainer,
     }}>
-      <SimpleLabelView label={label}/>
-      <TextField
-          variant={'outlined'}
-          key={name}
-          onChange={onChange}
-          value={fieldValue}
-          error={!!error}
-          disabled={!!readOnly}
-          id={name}
-          name={name}
-          label={null}
-          {..._.omit(otherProps, ['placeholder'])}
-      />
+      {(label && !otherProps.rounded) ? <SimpleLabelView label={label}
+                                                       style={style
+                                                           ? style.displayLabel
+                                                           : undefined}
+                                                       help={help}/> : null}
+      <TextField variant={'outlined'} InputProps={otherProps.rounded
+          ? {classes: classes}
+          : undefined}
+                 {...(omit(otherProps, ['placeholder']))}
+                 key={name} onChange={onFieldChange} value={fieldValue}
+                 error={!!error} disabled={!!readOnly} id={name}
+                 name={name}
+                 label={otherProps.rounded ? label : null} type={'text'}/>
     </div>);
   }
+
   if (otherProps.isNaked) {
     return (
         <InputBase
@@ -150,12 +166,16 @@ export default ({
             {...otherProps}
         />);
   }
+
+  console.log('OK',name);
+
   return (<div key={name} style={{
     display: 'flex',
     flexDirection: 'column', ...appStyle.fieldContainer,
   }}>
     <SimpleLabelView label={label}/>
     <TextField
+        {...otherProps}
         variant={'outlined'}
         key={name}
         onChange={handleApplyMask}
@@ -165,7 +185,9 @@ export default ({
         id={name}
         name={name}
         label={null}
-        {...otherProps}
-    />
+        help={help}
+        style={style
+            ? {displayLabel: style.displayLabel}
+            : undefined}/>
   </div>);
 };
