@@ -264,7 +264,7 @@ export class ApiBase {
                     res.writeHead(200, {
                       'Content-Type': response.type,
                       'Cache-Control': 'max-age=120, must-revalidate, public',
-                      'Last-Modified': (doc.lastupdate ||
+                      'Last-Modified': ( new Date(doc.lastupdate) ||
                           new Date()).toUTCString(),
                     });
                     res.write(response.data);
