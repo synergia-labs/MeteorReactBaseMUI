@@ -198,11 +198,9 @@ export class ApiBase {
 
     Object.keys(this.schema).forEach(field => {
       if (this.schema[field].isImage) {
-        doc[field] = doc[field] || this.schema[field].isAvatar
-            ? (`${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/${doc._id}?date=${doc.lastupdate
-            && doc.lastupdate.toISOString ? doc.lastupdate.toISOString()
-                : '1'}`)
-            : undefined;
+        doc[field] = (`${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/${doc._id}?date=${doc.lastupdate
+        && doc.lastupdate.toISOString ? doc.lastupdate.toISOString()
+            : '1'}`);
       }
     });
     return doc;
@@ -264,7 +262,7 @@ export class ApiBase {
                     res.writeHead(200, {
                       'Content-Type': response.type,
                       'Cache-Control': 'max-age=120, must-revalidate, public',
-                      'Last-Modified': ( new Date(doc.lastupdate) ||
+                      'Last-Modified': (doc.lastupdate ||
                           new Date()).toUTCString(),
                     });
                     res.write(response.data);
@@ -325,17 +323,17 @@ export class ApiBase {
       Meteor.publish(`${self.collectionName}.${publication}`,
           function(query, options) {
             const subHandle = newPublicationsFunction(query, options).
-                observeChanges({
-                  added: (id, fields) => {
-                    this.added(`${self.collectionName}`, id,
-                        transformDocFunc(fields));
+                observe({
+                  added: (document) => {
+                    this.added(`${self.collectionName}`, document._id,
+                        transformDocFunc(document));
                   },
-                  changed: (id, fields) => {
-                    this.changed(`${self.collectionName}`, id,
-                        transformDocFunc(fields));
+                  changed: (newDocument, oldDocument) => {
+                    this.changed(`${self.collectionName}`, newDocument._id,
+                        transformDocFunc(newDocument));
                   },
-                  removed: (id) => {
-                    this.removed(`${self.collectionName}`, id);
+                  removed: (oldDocument) => {
+                    this.removed(`${self.collectionName}`, oldDocument._id);
                   },
                 });
             this.ready();
@@ -410,7 +408,7 @@ export class ApiBase {
 
     const method = {
       [methodFullName](...param) {
-        console.log('CALL Method:', name, !!param ? Object.keys(param) : '-');
+        console.log('CALL Method:', name, param ? Object.keys(param) : '-');
         // Prevent unauthorized access
         const user = getUser(null, this.connection);
 
@@ -465,6 +463,14 @@ export class ApiBase {
       optionsPub = {limit: 0, skip: 0};
     }
 
+    if(optionsPub.skip<0) {
+      optionsPub.skip = 0;
+    }
+
+    if(optionsPub.limit<0) {
+      optionsPub.limit = 0;
+    }
+
     // Use the default subschema if no one was defined.
     if (!optionsPub.projection || Object.keys(optionsPub.projection).length ===
         0) {
@@ -477,6 +483,15 @@ export class ApiBase {
 
       optionsPub.projection = tempProjection;
     }
+
+    Object.keys(this.schema).forEach(field=>{
+      if(this.schema[field].isImage) {
+        delete optionsPub.projection[field]
+      }
+    });
+
+
+
 
     const queryOptions = {
       fields: {...optionsPub.projection},
@@ -496,8 +511,9 @@ export class ApiBase {
       queryOptions.sort = optionsPub.sort;
     }
 
+
     return this.getCollectionInstance().find({...filter}, queryOptions);
-  };
+  }
 
   defaultCounterCollectionPublication = (
       collection, publishName) => function(...params) {
@@ -1144,6 +1160,6 @@ export class ApiBase {
 
     }
     return null;
-  };
+  }
 
 }

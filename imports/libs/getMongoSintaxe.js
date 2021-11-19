@@ -3,7 +3,7 @@ const getMongoDBFilterSintaxe = (operator, value, type) => {
     value = Number(value);
   }
   if (type == 'date') {
-    value = (new Date(value)).toISOString();
+    value = (new Date(value));
   }
   switch (operator) {
     case '==':

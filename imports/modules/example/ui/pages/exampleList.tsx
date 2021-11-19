@@ -133,15 +133,14 @@ const ExampleList = ({
     showDialog(dialogOptions);
   };
 
+
+
   return (
       <PageLayout
           title={'Lista de Exemplos'}
           actions={[]}
       >
-        <TextField value={text} onChange={change} onKeyPress={keyPress}
-                   placeholder="Pesquisar..."
-                   action={{icon: 'search', onClick: click}}
-        />
+
         <SimpleTable
             schema={_.pick(exampleApi.schema,
                 ['image', 'title', 'description'])}
