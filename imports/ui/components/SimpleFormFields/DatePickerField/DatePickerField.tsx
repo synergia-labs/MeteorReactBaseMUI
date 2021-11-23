@@ -34,7 +34,11 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
 
     const handleChange = (evt) => {
         timeoutOnChange&&clearTimeout(timeoutOnChange);
-
+        if(!evt.target.value){
+            onChange({name, target: {name, value: null}});
+            setDateValue(evt.target.value);
+            return;
+        }
         timeoutOnChange = setTimeout(()=>{
             try {
                 const date = new Date(evt.target.value)
