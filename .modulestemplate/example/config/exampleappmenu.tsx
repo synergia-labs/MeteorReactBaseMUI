@@ -5,6 +5,6 @@ export const exampleMenuItemList = [
   {
     path: '/example',
     name: 'Exemplos',
-    icon: <Class />,
+    icon: <Class/>,
   },
 ];

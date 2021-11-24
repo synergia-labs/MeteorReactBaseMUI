@@ -5,16 +5,16 @@ export const exampleRouterList = [
   {
     path: '/example/:screenState/:exampleId',
     component: ExampleContainer,
-    isProtected:true,
+    isProtected: true,
   },
   {
     path: '/example/:screenState',
     component: ExampleContainer,
-    isProtected:true,
+    isProtected: true,
   },
   {
     path: '/example',
     component: ExampleContainer,
-    isProtected:true,
+    isProtected: true,
   },
 ];

@@ -7,7 +7,6 @@ import _ from 'lodash';
 import Add from '@mui/icons-material/Add';
 import Delete from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Fab from '@mui/material/Fab';
 import TablePagination from '@mui/material/TablePagination';
 import {makeStyles} from '@mui/styles';
@@ -133,8 +132,6 @@ const ExampleList = ({
     showDialog(dialogOptions);
   };
 
-
-
   return (
       <PageLayout
           title={'Lista de Exemplos'}
@@ -213,7 +210,6 @@ const exampleSearch = initSearch(
 
 let onSearchExampleTyping;
 
-
 export const ExampleListContainer = withTracker((props) => {
 
   //Reactive Search/Filter
@@ -230,8 +226,8 @@ export const ExampleListContainer = withTracker((props) => {
   };
 
   const limit = config.pageProperties.pageSize;
-  const skip = (config.pageProperties.currentPage - 1) * config.pageProperties.pageSize;
-
+  const skip = (config.pageProperties.currentPage - 1) *
+      config.pageProperties.pageSize;
 
   //Collection Subscribe
   const subHandle = exampleApi.subscribe('exampleList', filter,
@@ -240,7 +236,7 @@ export const ExampleListContainer = withTracker((props) => {
       ? exampleApi.find(filter, {sort}).fetch()
       : [];
 
-  console.log('examples',examples)
+  console.log('examples', examples);
 
   return ({
     examples,

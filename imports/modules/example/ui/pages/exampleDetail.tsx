@@ -5,27 +5,27 @@ import SimpleForm from '../../../../ui/components/SimpleForm/SimpleForm';
 import Button from '@mui/material/Button';
 import FormGroup from '@mui/material/FormGroup';
 import TextField
-    from '/imports/ui/components/SimpleFormFields/TextField/TextField';
+  from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField
-    from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
+  from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
 import ToggleSwitchField
-    from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
+  from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
 import RadioButtonField
-    from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
+  from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
 
 import SelectField
-    from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
+  from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection
-    from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
+  from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
 
 import ChipInput
-    from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
+  from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 import SliderField
-    from '/imports/ui/components/SimpleFormFields/SliderField/SliderField';
+  from '/imports/ui/components/SimpleFormFields/SliderField/SliderField';
 import AudioRecorder
-    from '/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder';
+  from '/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder';
 import ImageCompactField
-    from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
+  from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 import * as appStyle from '/imports/materialui/styles';
 import Print from '@mui/icons-material/Print';
 import Close from '@mui/icons-material/Close';
@@ -52,6 +52,7 @@ const ExampleDetail = ({
   const handleSubmit = (doc: object) => {
     save(doc);
   };
+
   return (
       <PageLayout
           title={screenState === 'view'
@@ -101,22 +102,14 @@ const ExampleDetail = ({
                 name="description"
             />
           </FormGroup>
-          {/*<GoogleApiWrapper*/}
-          {/*    name={'address'}*/}
-          {/*/>*/}
           <FormGroup key={'fieldsTwo'}>
             <SelectField
-                placeholder="Tipo"
-                options={[
-                  {value: 'normal', label: 'Normal'},
-                  {value: 'extra', label: 'Extra'},
-                ]}
+                placeholder="Selecione um tipo"
                 name="type"
             />
             <SelectField
-                placeholder="Tipo2"
-                id="Tipo2"
-                name="type2"
+                placeholder="Selecione alguns tipos"
+                name="typeMulti"
             />
           </FormGroup>
           <FormGroup key={'fieldsThree'} formType={'subform'} name={'contacts'}>
@@ -200,8 +193,10 @@ const ExampleDetail = ({
 
 
             {!isPrintView && screenState === 'view' ? (
-                <Button key={'b2'} onClick={() => history.push(
-                    `/example/edit/${exampleDoc._id}`)}
+                <Button key={'b2'} onClick={() => {
+                  history.push(
+                      `/example/edit/${exampleDoc._id}`);
+                }}
                         color={'primary'} variant="contained">
                   {'Editar'}
                 </Button>

@@ -25,12 +25,11 @@ export const exampleSch = {
     optional: true,
     options: ['Todo', 'Doing', 'Done'],
   },
-  typeMult: {
-    type: [String],
+  type: {
+    type: String,
     label: 'Tipo',
     defaultValue: '',
-    optional: true,
-    multiple: true,
+    optional: false,
     options: [
       {value: 'normal', label: 'Normal'},
       {value: 'hard', label: 'Dificil'},
@@ -38,18 +37,13 @@ export const exampleSch = {
       {value: 'extra', label: 'Extra'},
     ],
   },
-  type: {
-    type: String,
-    label: 'Tipo',
-    defaultValue: '',
-    optional: true,
-  },
-  type2: {
+  typeMulti: {
     type: [String],
     label: 'Tipo com vários valores',
     defaultValue: '',
-    optional: true,
+    optional: false,
     multiple: true,
+    visibilityFunction: (doc) => !!doc.type && doc.type === 'extra',
     options: [
       {value: 'normal', label: 'Normal'},
       {value: 'extra', label: 'Extra'},
