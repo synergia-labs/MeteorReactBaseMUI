@@ -883,7 +883,9 @@ class SimpleForm extends Component<ISimpleFormProps> {
         (this.props.mode !== prevProps.mode) ||
         (!_.isEqual(this.props.children, prevProps.children))) {
       const update = true;
-      this.setDoc({...this.docValue, ...(this.props.doc || {})});
+
+      (!_.isEqual(this.props.doc, prevProps.doc))&&this.setDoc({...this.docValue, ...(this.props.doc || {})});
+
       this.formElements = this.initFormElements(update);
       (this.props.mode !== prevProps.mode) &&
       this.setState({mode: this.props.mode});
