@@ -473,7 +473,9 @@ const FieldComponent = ({reactElement, name, ...props}: IFieldComponent) => {
 
   props.setFieldMethods({
     validateRequired: () => {
-      if (!hasValue(value)) {
+      if (!hasValue(value)&&(!props.fieldSchema||!props.fieldSchema.visibilityFunction||
+          (!!props.fieldSchema.visibilityFunction&&props.fieldSchema.visibilityFunction(props.getDoc()))
+      )) {
         setError(true);
         return false;
       }
@@ -596,6 +598,9 @@ class SimpleForm extends Component<ISimpleFormProps> {
       if (this.props.schema[field] &&
           this.props.schema[field].visibilityFunction(this.docValue)) {
         hasVisibilityUpdate = true;
+        this.fields[field] = this.hiddenFields[field];
+        delete this.hiddenFields[field];
+
       }
     });
     Object.keys(this.fields).forEach(field => {
@@ -603,6 +608,8 @@ class SimpleForm extends Component<ISimpleFormProps> {
           this.props.schema[field].visibilityFunction &&
           !this.props.schema[field].visibilityFunction(this.docValue)) {
         hasVisibilityUpdate = true;
+        this.hiddenFields[field] = this.fields[field];
+        delete this.fields[field];
       }
     });
     if (hasVisibilityUpdate) {
@@ -622,23 +629,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
         this.docValue = {...newDoc};
         self.props.onFormChange(newDoc);
       }
-      // this.setState({ formElements: this.initFormElements(true) },()=>{
-      //     if (self.props.onFormChange) {
-      //         const newDoc = {...self.docValue};
-      //         if(self.props.submitVisibleFields) {
-      //             const visibleFiedls = Object.keys(self.fields);
-      //             Object.keys(newDoc).forEach(field=>{
-      //                 if(visibleFiedls.indexOf(field)===-1) {
-      //                     delete newDoc[field];
-      //
-      //                 }
-      //             })
-      //         }
-      //
-      //         this.docValue = {...newDoc};
-      //         self.props.onFormChange(newDoc);
-      //     }
-      // });
+
     } else {
       if (this.props.onFormChange) {
 
@@ -655,7 +646,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
       return schema.defaultValue;
     }
     if (schema && schema.type === Date) {
-      return new Date();
+      return undefined;
     }
     return '';
   };
@@ -712,6 +703,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
               : this.initialValueDefault(self.props.schema[element.props.name])}
           reactElement={element}
           setDoc={this.setDoc}
+          getDoc={this.getDoc}
           mode={self.props.mode}
           setFieldMethods={methods => self.fields[element.props.name] = {...methods}}
       />);
@@ -731,6 +723,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
               : this.initialValueDefault(self.props.schema[element.props.name])}
           reactElement={element}
           setDoc={this.setDoc}
+          getDoc={this.getDoc}
           mode={self.props.mode}
           setFieldMethods={methods => self.fields[element.props.name] = {...self.fields[element.props.name], ...methods}}
       />);
@@ -759,6 +752,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
                 self.props.schema[element.props.name]) : undefined)}
         reactElement={element}
         setDoc={self.setDoc}
+        getDoc={this.getDoc}
         mode={self.props.mode}
         setFieldMethods={methods => {
           self.fields[element.props.name] = {...self.fields[element.props.name], ...methods};
@@ -811,6 +805,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
             !this.fields[field].validateRequired() &&
             fielsWithError.indexOf(this.props.schema[field].label) === -1
         ) {
+          console.log('Error')
           fielsWithError.push(this.props.schema[field].label);
         }
 
@@ -821,6 +816,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
             !this.props.schema[field].validate(this.docValue[field],
                 this.docValue)
         ) {
+
           fielsWithError.push(this.props.schema[field].label);
         }
 
@@ -840,13 +836,6 @@ class SimpleForm extends Component<ISimpleFormProps> {
     }
 
     if (fielsWithError.length > 0) {
-      // showNotification({
-      //     type:'warning',
-      //     title:'Campos obrigatórios',
-      //     //description:`Os seguintes campos são obrigatórios e precisam ser preenchidos: ${(fielsWithError.join(', ').replaceAll("*", "")) + '.'}`,
-      //     description:`Há campos obrigatórios não preenchidos!`,
-      //     durations:2500,
-      // })
       this.setState({error: fielsWithError});
     } else if (this.state.error) {
       this.setState({error: null});
