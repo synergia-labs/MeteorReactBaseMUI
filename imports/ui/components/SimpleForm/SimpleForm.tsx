@@ -805,7 +805,6 @@ class SimpleForm extends Component<ISimpleFormProps> {
             !this.fields[field].validateRequired() &&
             fielsWithError.indexOf(this.props.schema[field].label) === -1
         ) {
-          console.log('Error')
           fielsWithError.push(this.props.schema[field].label);
         }
 
@@ -893,7 +892,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
         <div style={this.props.style || {width: '100%'}}>
           {this.formElements}
           {this.state.error ?
-              (<div style={{
+              (<div style={this.props.errorStyles || {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'flex-end',

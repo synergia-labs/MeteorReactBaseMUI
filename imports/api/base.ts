@@ -123,7 +123,7 @@ export class ApiBase {
   }
 
   getSchema = () => {
-    return this.schema;
+    return {...this.schema};
   };
 
   initCollection(apiName) {
@@ -511,7 +511,6 @@ export class ApiBase {
       queryOptions.sort = optionsPub.sort;
     }
 
-
     return this.getCollectionInstance().find({...filter}, queryOptions);
   }
 
@@ -523,23 +522,30 @@ export class ApiBase {
     // `observeChanges` only returns after the initial `added` callbacks have run.
     // Until then, we don't want to send a lot of `changed` messages—hence
     // tracking the `initializing` state.
-    const handle = collection.publications[publishName](...params).
-        observeChanges({
-          added: (id) => {
-            count += 1;
+    let handle;
+    const handlePub = collection.publications[publishName](...params);
+    if(handlePub) {
+      handle = handlePub.observeChanges({
+        added: (id) => {
+          count += 1;
 
-            if (!initializing) {
-              this.changed('counts', `${publishName}Total`, {count});
-            }
-          },
-
-          removed: (id) => {
-            count -= 1;
+          if (!initializing) {
             this.changed('counts', `${publishName}Total`, {count});
-          },
+          }
+        },
 
-          // We don't care about `changed` events.
-        });
+        removed: (id) => {
+          count -= 1;
+          this.changed('counts', `${publishName}Total`, {count});
+        },
+
+        // We don't care about `changed` events.
+      });
+    }
+
+    if(!handle) {
+      return;
+    }
 
     // Instead, we'll send one `added` message right after `observeChanges` has
     // returned, and mark the subscription as ready.
@@ -638,7 +644,7 @@ export class ApiBase {
    * @returns {Object} - The checked object for the subschema.
    */
   checkDataBySchema = (dataObj): any => {
-    const schema = this.schema;
+    const schema = this.getSchema();
     const schemaKeys = Object.keys(schema);
     const newDataObj = this.prepareData(dataObj);
 
@@ -650,10 +656,13 @@ export class ApiBase {
     // Remove from the Schema the optional fields not present in the DataObj.
     schemaKeys.forEach(field => {
 
-      if (!schema[field].optional && keysOfDataObj.indexOf(field) !== -1 &&
+      if(schema[field].visibilityFunction&&!schema[field].visibilityFunction(newDataObj)) {
+        delete newDataObj[field];
+        return;
+      } else if (!schema[field].optional && keysOfDataObj.indexOf(field) !== -1 &&
           !hasValue(newDataObj[field])) {
         throw new Meteor.Error('Obrigatoriedade',
-            `O campo "${field}" é obrigatório`);
+            `O campo "${schema[field].label||field}" é obrigatório`);
 
       } else if (keysOfDataObj.indexOf(field) !== -1) {
         newSchema[field] = schema[field].type;
@@ -962,6 +971,21 @@ export class ApiBase {
       ...dataObj,
       collection: this.collectionName,
     };
+
+    const schema = this.getSchema();
+    const unsetFields = {};
+    Object.keys(schema).forEach(field=>{
+      if(schema[field].visibilityFunction&&!schema[field].visibilityFunction(dataObj)) {
+        unsetFields[field] = '';
+      }
+    });
+
+    if(Object.keys(unsetFields).length>0) {
+      this.getCollectionInstance().update({_id:dataObj._id},{
+        $unset: unsetFields
+      });
+    }
+
     return document;
   }
 
@@ -1142,8 +1166,9 @@ export class ApiBase {
           `${this.collectionName}.count${api}`,
           param[0] || {},
       );
-      const count = subHandleCounter.ready() ? self.counts.findOne(
-          {_id: api + 'Total'}).count || 0 : 0;
+      const countResult = subHandleCounter.ready() ? self.counts.findOne(
+          {_id: api + 'Total'}):null;
+      const count = countResult?countResult.count : 0;
 
       if (subHandleCounter.ready()) {
         subsHandle.total = count;
