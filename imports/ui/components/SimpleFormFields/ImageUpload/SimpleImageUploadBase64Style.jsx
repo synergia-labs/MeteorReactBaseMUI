@@ -15,31 +15,31 @@
  */
 
 const simpleImageStyle = {
-  containerImage: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  containerImageButtons: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  containerShowImage: {
-    maxWidth: 360,
-    maxHeight: 320,
-    width: 150,
-    height: 150,
-  },
-  selectImage: {
-    cursor: 'pointer',
-    fontSize: '12px',
-    //fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: 400,
-    lineHeight: 1,
-    letterSpacing: '0.00938em',
-    color: 'rgba(108, 104, 104)',
-  },
+    containerImage: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    containerImageButtons: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    containerShowImage: {
+        maxWidth: 360,
+        maxHeight: 320,
+        width: 150,
+        height: 150,
+    },
+    selectImage: {
+        cursor: 'pointer',
+        fontSize: '12px',
+        // fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+        fontWeight: 400,
+        lineHeight: 1,
+        letterSpacing: '0.00938em',
+        color: 'rgba(108, 104, 104)',
+    },
 };
 
 export {
-  simpleImageStyle,
+    simpleImageStyle,
 };

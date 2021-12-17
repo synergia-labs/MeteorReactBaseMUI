@@ -21,7 +21,6 @@ export default ({
     help,
   style,...otherProps
 }: IBaseSimpleFormComponent) => {
-
   const useStyles = makeStyles((theme: Theme) =>
       createStyles({
         root: {height: 50},
@@ -129,7 +128,6 @@ export default ({
     }
   };
 
-  console.log('ReadtOnly',name,readOnly)
 
   if (readOnly) {
     return (<div key={name} style={{
@@ -141,7 +139,7 @@ export default ({
                                                            ? style.displayLabel
                                                            : undefined}
                                                        help={help}/> : null}
-      <TextField variant={'outlined'} InputProps={otherProps.rounded
+      <TextField InputProps={otherProps.rounded
           ? {classes: classes}
           : undefined}
                  {...(omit(otherProps, ['placeholder']))}
@@ -167,8 +165,6 @@ export default ({
         />);
   }
 
-  console.log('OK',name);
-
   return (<div key={name} style={{
     display: 'flex',
     flexDirection: 'column', ...appStyle.fieldContainer,
@@ -176,7 +172,6 @@ export default ({
     <SimpleLabelView label={label}/>
     <TextField
         {...otherProps}
-        variant={'outlined'}
         key={name}
         onChange={handleApplyMask}
         value={fieldValue}

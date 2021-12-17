@@ -35,8 +35,6 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
         onChange({name, target: {name, value: date}});
     };
 
-    console.log('dateValue', dateValue);
-
     return (<div key={name} style={{display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer}}>
         <SimpleLabelView label={label}/>
         <TextField

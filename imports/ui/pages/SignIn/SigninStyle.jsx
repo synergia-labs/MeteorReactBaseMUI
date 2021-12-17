@@ -48,7 +48,7 @@ const signinStyle = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center', height: 50,
-    color: 'white',
+    color: '#FFF',
   },
   socialLoginButtonText: {
     marginLeft: 15,

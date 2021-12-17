@@ -94,7 +94,7 @@ export default class Signin extends React.Component {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center', height: 50,
-              color: 'white',
+              color: '#FFF',
               ...customCss,
             }}
         >

@@ -51,9 +51,9 @@ export default ({
                                                            ? style.displayLabel
                                                            : undefined}
                                                        help={help}/> : null}
-      <TextField variant={'outlined'} InputProps={otherProps.rounded
+      <TextField InputProps={otherProps.rounded
           ? {classes: classes}
-          : undefined} {...(omit(otherProps, ['placeholder']))} key={name} onChange={onFieldChange} value={fieldValue}
+          : undefined} {...(otherProps)} key={name} onChange={onFieldChange} value={fieldValue}
                  error={!!error} disabled={!!readOnly} id={name}
                  name={name}
                  label={otherProps.rounded ? label : null} type={'text'}/>
@@ -75,9 +75,9 @@ export default ({
                                                          ? {displayLabel: style.displayLabel}
                                                          : undefined}/> : null}
     <TextField style={style ? style : {
-      backgroundColor: 'white',
+      backgroundColor: '#FFF',
       borderColor: '#f2f2f2',
-    }} variant={'outlined'} InputProps={otherProps.rounded || otherProps.field
+    }} InputProps={otherProps.rounded || otherProps.field
         ? {root: classes.root}
         : undefined} {...otherProps} key={name} onChange={onFieldChange} value={fieldValue}
                error={!!error} disabled={!!readOnly} id={name} name={name}

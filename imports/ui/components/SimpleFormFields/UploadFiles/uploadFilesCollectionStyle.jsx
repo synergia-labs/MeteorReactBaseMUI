@@ -15,47 +15,47 @@
  */
 
 const uploadFilesStyle = {
-  containerListReadOnly: {
-    padding: '0px 8px',
-  },
-  containerNoFiles: {
-    color: '#BBB',
-  },
-  containerDropzone: {
-    width: '100%',
-    padding: '2rem',
-    textAlign: 'center',
-    cursor: 'pointer',
-  },
-  containerStatusUpload: {
-    width: '100%',
-  },
-  containerUploadFiles: {
-    flex: 1,
-    flexDirection: 'column',
-    marginBottom: 8,
-  },
-  containerShowFiles: {
-    width: '100%',
-  },
-  subContainerShowFiles: {
-    padding: 10,
-    backgroundColor: '#EEE',
-  },
-  containerGetConteudoDropzone: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-  containerGetListFiles: {
-    padding: '0.5rem',
-    borderRadius: 10,
-    borderStyle: 'groove',
-    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-  },
+    containerListReadOnly: {
+        padding: '0px 8px',
+    },
+    containerNoFiles: {
+        color: '#BBB',
+    },
+    containerDropzone: {
+        width: '100%',
+        padding: '2rem',
+        textAlign: 'center',
+        cursor: 'pointer',
+    },
+    containerStatusUpload: {
+        width: '100%',
+    },
+    containerUploadFiles: {
+        flex: 1,
+        flexDirection: 'column',
+        marginBottom: 8,
+    },
+    containerShowFiles: {
+        width: '100%',
+    },
+    subContainerShowFiles: {
+        padding: 10,
+        backgroundColor: '#EEE',
+    },
+    containerGetConteudoDropzone: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+    },
+    containerGetListFiles: {
+        padding: '0.5rem',
+        borderRadius: 10,
+        borderStyle: 'groove',
+        boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
+    },
 };
 
 export {
-  uploadFilesStyle,
+    uploadFilesStyle,
 };

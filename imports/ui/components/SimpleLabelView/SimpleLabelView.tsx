@@ -5,9 +5,10 @@ import {hasValue} from '/imports/libs/hasValue';
 
 import {simpleLabelStyle} from './SimpleLabelViewStyle';
 import Tooltip from '@mui/material/Tooltip';
-import Help from '@mui/icons-material/Help';
+import Info from '@mui/icons-material/InfoOutlined';
 
 import {createStyles, makeStyles, Theme} from '@mui/styles';
+import * as appStyles from '../../../materialui/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,41 +29,28 @@ interface ISimpleLabelView {
 
 export default ({label, value, help, style}: ISimpleLabelView) => {
     const classes = useStyles();
+    return null;
     return (
         hasValue(value) || hasValue(label) ?
             <div id={label} style={{...simpleLabelStyle.container}}>
-                <div style={{display: 'flex', flexDirection: 'row', maxHeight: 30}}>
+                <div style={{display: 'flex', flexDirection: 'row', maxHeight: 30, justifyContent: 'space-between'}}>
                     {hasValue(label) ?
-                        <label
-                            style={!!style && !!style.displayLabel ? style.displayLabel : simpleLabelStyle.displayLabel}
+                        <label><Typography variant={'body2'}
+                                           color={'textSecondary'}
+                                           style={!!style && !!style.displayLabel ? style.displayLabel : simpleLabelStyle.displayLabel}
                         >
                             {label}
-                        </label> : null}
+                        </Typography></label> : null}
                     {help && (
-                        <div style={{position: 'relative', maxHeight: 10, maxWidth: 10}}>
-                            <div
-                                style={{
-                                    backgroundColor: '#999',
-                                    borderRadius: '50%',
-                                    position: 'absolute',
-                                    top: 5,
-                                    right: -20,
-                                    width: 14,
-                                    height: 15,
-                                }}
-                            >
-                                <Tooltip
-                                    classes={{tooltip: classes.customWidth}}
-                                    title={help}
-                                >
-                                    <Help style={{color: '#FFF', fontSize: 13}}/>
-                                </Tooltip>
-                            </div>
-                        </div>
-
+                        <Tooltip
+                            classes={{tooltip: classes.customWidth}}
+                            title={help}
+                        >
+                            <Info style={{color: appStyles.textSecondary, fontSize: 16}}/>
+                        </Tooltip>
                     )}
                 </div>
-                {hasValue(value) ? <Typography
+                {hasValue(value) ? <Typography variant={'body2'} color={'textSecondary'}
                     style={style && style.displayValue ? style.displayValue : simpleLabelStyle.displayLabel}
                 >{value}</Typography> : null}
             </div>

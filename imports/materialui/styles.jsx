@@ -14,69 +14,156 @@
 
  */
 
-import {isMobile} from '/imports/libs/deviceVerify';
+import { isMobile } from '/imports/libs/deviceVerify';
 
+
+// Cores principais
 const primaryColor = '#5a9902';
+const primaryBlue = '#0071bb';
+const primaryGreen = '#00b4c2';
+const primaryGradient = `linear-gradient(to right, ${ primaryBlue } 0%, ${ primaryGreen } 100%)`;
+const primaryGradientOnHover = `linear-gradient(to left, ${ primaryBlue } 0%, ${ primaryGreen } 100%)`;
 const secondaryColor = '#3e6b01';
+const secondaryColorOnHover = 'rgba(0, 0, 0, 0.15)';
 
-//Background Color
+// Cores de texto
+const textPrimary = '#000000';
+const textSecondary = '#404040';
+const textDisabled = '#888888';
+const textAuxiliar = '#888888';
+const textWhite = '#ffffff';
+
+// Cores de elementos e superfícies
+const supportColor = '#c4c4c4';
+const disabledBackground = '#e6e6e6';
+const backgroundColor = '#f2f2f2';
+const surfaceColor = '#ffffff';
+const infoBackground = '#daf0ff';
+
+// Cores relacionadas às dimensões
+const dimAtores = '#f1667c';
+const dimCultura = '#7e78b8';
+const dimEstrutura = '#44c8f5';
+const dimPoliticas = '#fbb040';
+const dimRecursos = '#42c1c7';
+
+const dimAtoresSuave = 'rgba(241,102,124,0.35)';
+const dimCulturaSuave = 'rgba(126,120,184,0.35)';
+const dimEstruturaSuave = 'rgba(68,200,245,0.35)';
+const dimPoliticasSuave = 'rgba(251,176,64,0.35)';
+const dimRecursosSuave = 'rgba(66,193,199,0.35)';
+
+const dimGradient = `linear-gradient(to right, ${ dimAtores } 0%, ${ dimCultura } 25%, ${ dimEstrutura } 50%, ${ dimRecursos } 75%, ${ dimPoliticas } 100%)`;
+const dimAngularGradient = `conic-gradient(${ dimAtoresSuave }, ${ dimCulturaSuave }, ${ dimEstruturaSuave }, ${ dimRecursosSuave }, ${ dimPoliticasSuave }, ${ dimAtoresSuave })`;
+
+const errorColor= '#FF3858';
+
+// Messages (Boilerplate)
+const warningColor = '#ff9800';
+const dangerColor = '#f55a4e';
+const successColor = '#4caf50';
+const infoColor = '#00acc1';
+const textColorMessages = '#002e07';
+const textColorGray = '#999999';
+
+// Background Color
 const systemBackgroundColor = '#eeeeee';
 const pageBackgroundColor = '#FFF';
 
-// Pages
-const titleTextColor = '#000000';
-const titleSecondaryTextColor = '#858585';
-const title = {
-  color: titleTextColor,
-  fontSize: isMobile ? '16px' : '30px',
-  paddingTop: isMobile ? '20px' : '20px',
-  paddingBottom: isMobile ? '30px' : '40px',
-  fontWeight: isMobile ? '800' : '800',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  width: 632.3,
-  height: 54.5,
-  margin: '0px 96.3px 44.2px 0px',
-  fontStretch: 'normal',
-  fontStyle: 'normal',
-  lineHeight: 1.67,
-  letterSpacing: 0.9,
-  textAlign: 'left',
-  textTransform: 'none',
+
+
+
+
+// Tipografia
+const h1 = {
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    fontSize: isMobile ? '2.25rem' : '3rem', //36px ou 48px
+    fontWeight: 800,
+    lineHeight: 'normal',
+};
+const h2 = {
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    fontSize: isMobile ? '1.75rem' : '2.25rem', //28px ou 36px
+    fontWeight: 800,
+    lineHeight: 'normal',
+};
+const h3 = {
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    fontSize: isMobile ? '1.5rem' : '1.75rem', //24px ou 28px
+    fontWeight: 800,
+    lineHeight: 'normal',
+};
+const h4 = {
+    fontSize: isMobile ? '1.5rem' : '1.75rem', //24px ou 28px
+    fontWeight: 400,
+    lineHeight: 'normal',
+};
+const h5 = {
+    fontFamily: "'M PLUS Rounded 1c', sans-serif",
+    fontSize: isMobile ? '1.25rem' : '1.5rem', //20px ou 24px
+    fontWeight: 800,
+    lineHeight: 'normal',
+};
+const h6 = {
+    fontSize: isMobile ? '1.125rem' : '1.25rem', //18px ou 20px
+    fontWeight: 400,
+    lineHeight: 'normal',
+};
+const button = {
+    fontSize: isMobile ? '1rem' : '1.125rem', //16px ou 18px
+    fontWeight: 700,
+    letterSpacing: '0.01em',
+    lineHeight: 'normal',
+};
+const subtitle1 = {
+    fontSize: isMobile ? '1rem' : '1.125rem', //16px ou 18px
+    fontWeight: 700,
+    letterSpacing: '0.01em',
+    lineHeight: 'normal',
+};
+const body1 = {
+    fontSize: isMobile ? '0.875rem' : '1rem', //14px ou 16px
+    fontWeight: 400,
+    lineHeight: 'normal',
+};
+const subtitle2 = {
+    fontSize: isMobile ? '0.875rem' : '1rem', //14px ou 16px
+    fontWeight: 700,
+    letterSpacing: '0.01em',
+    lineHeight: 'normal',
+};
+const body2 = {
+    fontSize: isMobile ? '0.75rem' : '0.875rem', //12px ou 14px
+    fontWeight: 400,
+    lineHeight: 'normal',
+};
+const caption = {
+    fontSize: isMobile ? '0.625rem' : '0.75rem', //10px ou 12px
+    fontWeight: 400,
+    letterSpacing: '0.02em',
+    lineHeight: 'normal',
 };
 
-const subtitle = {
-  color: titleSecondaryTextColor,
-  fontSize: isMobile ? '15px' : '25px',
-  paddingTop: isMobile ? '20px' : '20px',
-  paddingBottom: isMobile ? '30px' : '30px',
-  fontWeight: isMobile ? '100' : '100',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-};
 
-const subtituloInfoComplementar = {
-  margin: isMobile ? '30px 0px 16px 20px' : '50.6px 47.2px 16.2px 0.6px',
-  fontSize: isMobile ? '14px' : '20px',
-  fontWeight: 'normal',
-  fontStretch: 'normal',
-  fontStyle: 'normal',
-  lineHeight: 1.2,
-  letterSpacing: '0.7px',
-  textAlign: 'left',
-  color: '#858585',
-};
 
-const avisoFinalPag = {
-  width: '100%',
-  minHeight: 300,
-  display: 'flex', justifyContent: 'center', alignItems: 'center',
-  backgroundColor: '#dcd9d5',
-};
 
+
+// Sombras
+const sombraCard = '0px 2px 4px rgba(0, 0, 0, 0.15)';
+const sombraCardOnHover = '0px 2px 9px 3px rgba(0, 0, 0, 0.15)';
+const sombraSuperficie = '1px 3px 12px rgba(0, 0, 0, 0.15)';
+
+
+
+
+// Tamanhos
+const alturaBarraInstituicao = 42;
+const alturaBarraProgresso = 10;
+
+
+
+
+// Outros
 const fabContainer = {
   position: 'fixed',
   bottom: isMobile ? 80 : 30,
@@ -93,14 +180,6 @@ const formGroup = {
   flexDirection: isMobile ? 'column' : 'row',
   justifyContent: 'space-between',
   padding: isMobile ? '0 20px' : 'none',
-};
-
-const formGroup2 = {
-  width: '70%',
-  maxWidth: '70%',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
 };
 
 const row = {
@@ -130,44 +209,51 @@ const fieldContainer = {
   padding: 4,
   paddingBottom: 0,
 };
-// Messages
-const warningColor = '#ff9800';
-const dangerColor = '#f55a4e';
-const successColor = '#4caf50';
-const infoColor = '#00acc1';
-const textColorMessages = '#002e07';
-const textColorGray = '#999999';
-
-// Transition
-const transition = {
-  transition: 'all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)',
-};
-
-// Boxes
-const boxShadow = {
-  boxShadow:
-      '0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
-};
 
 // Button
 const textButtonColor = '#FFF';
 
+
+
+
 export {
-  // theme
-  primaryColor,
+
+  //Paleta
+  primaryBlue,
+  primaryGreen,
+  primaryGradient,
+  primaryGradientOnHover,
   secondaryColor,
+  secondaryColorOnHover,
 
-  //Backgorund colors
-  systemBackgroundColor,
-  pageBackgroundColor,
+  textPrimary,
+  textSecondary,
+  textDisabled,
+  textAuxiliar,
+  textWhite,
 
-  // pages
-  titleTextColor,
-  titleSecondaryTextColor,
-  title,
-  subtituloInfoComplementar,
-  fabContainer,
-  containerHome,
+  supportColor,
+  disabledBackground,
+  backgroundColor,
+  surfaceColor,
+  infoBackground,
+
+  dimAtores,
+  dimCultura,
+  dimEstrutura,
+  dimPoliticas,
+  dimRecursos,
+
+  dimAtoresSuave,
+  dimCulturaSuave,
+  dimEstruturaSuave,
+  dimPoliticasSuave,
+  dimRecursosSuave,
+
+  dimAngularGradient,
+  dimGradient,
+
+  errorColor,
 
   // messages
   warningColor,
@@ -177,29 +263,46 @@ export {
   textColorMessages,
   textColorGray,
 
-  //two column
+  // theme
+  primaryColor,
+
+  //Backgorund colors
+  systemBackgroundColor,
+  pageBackgroundColor,
+
+  //Tipografia
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  button,
+  subtitle1,
+  body1,
+  subtitle2,
+  body2,
+  caption,
+
+  // Sombras
+  sombraCard,
+  sombraCardOnHover,
+  sombraSuperficie,
+
+  // Tamanhos
+  alturaBarraInstituicao,
+  alturaBarraProgresso,
+
+  //Outros
+  fabContainer,
+  containerHome,
   row,
   column,
-
-  //form
   form,
-
   logo,
-
-  //form group
   formGroup,
-  formGroup2,
-
-  // transition
-  transition,
-
-  // box
-  boxShadow,
+  fieldContainer,
 
   // button
   textButtonColor,
-
-  fieldContainer,
-
-  avisoFinalPag,
 };

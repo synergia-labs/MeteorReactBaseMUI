@@ -9,8 +9,6 @@ import {hasValue} from "/imports/libs/hasValue";
 import {compactImageStyle} from "./ImageCompactFieldStyle";
 import * as appStyle from "/imports/materialui/styles";
 
-import Button from '@mui/material/Button';
-import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 
 export default ({name, label, value, onChange, readOnly, error, ...otherProps}: IBaseSimpleFormComponent) => {
@@ -73,15 +71,25 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
             };
             img.src = objectUrl;
         }
-        handleSave()
+        handleSave();
+        try {
+            const fileinput = document.getElementById(e.target.id);
+            fileinput.files = null;
+            fileinput.value = '';
+        } catch (e) {
+
+        }
+
     };
 
     useEffect(() => {
-        if (!!readOnly || !actualImage && !!value && !image) {
+        if(!!readOnly||!image) {
             setActualImage(value);
+            setScale(0.9);
+            setWidth(otherProps.width || 300)
+            setHeight(otherProps.height || 300)
         }
-
-    })
+    },[value,readOnly])
 
 
     const handlePositionChange = position => {
@@ -110,29 +118,37 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
             }
         }}>
             {readOnly ? ((hasValue(actualImage) && actualImage != '' && actualImage != '-') ?
-                    (
-                        <div key={name} style={{
-                            minWidth: isMobile ? 250 : 0,
-                            minHeight: isMobile ? 250 : 0,
-                            alignItems: 'center',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center'
-                        }}>
-                            <img
-                                id={`image${name}`}
-                                src={actualImage}
-                                style={{maxWidth: isMobile ? 250 : 500, maxHeight: isMobile ? 250 : 500}}
-                            />
-                        </div>) : <img src="/images/wireframe/imagem_default.png"
-                                   style={{maxWidth: height, maxHeight: width, height: '100%', width: '100%'}}/>
+                        (
+                            <div key={name+'readOnly'} style={{
+                                minWidth: isMobile ? 250 : 0,
+                                minHeight: isMobile ? 250 : 0,
+                                alignItems: 'center',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center'
+                            }}>
+                                <img
+                                    id={`image${name}ReadOnly`}
+                                    key={`image${name}ReadOnly`}
+                                    src={actualImage}
+                                    onError={(e)=>{
+                                        e.target.onerror = null;
+                                        e.target.width=250;
+                                        e.target.height=250;
+                                        e.target.style = '';
+                                        e.target.src="/images/wireframe/imagem_default.png";
+                                    }}
+                                    style={{width:'100%',height:'auto',maxWidth: isMobile ? 250 : 500, maxHeight: isMobile ? 250 : 500}}
+                                />
+                            </div>) : <img src="/images/wireframe/imagem_default.png"
+                                           style={{maxWidth: 250, maxHeight: 250, height: '100%', width: '100%'}}/>
                 )
                 : null}
 
             {!readOnly ?
                 (!actualImage && !!image ?
                     (
-                        <div style={{padding: 10, backgroundColor: 'rgb(238, 238, 238)'}}>
+                        <div key={name+'hasImage'} style={{padding: 10, backgroundColor: 'rgb(238, 238, 238)'}}>
                             <div style={{
                                 ...compactImageStyle.containerGetConteudoDropzone,
                                 border: '0.5px dashed black',
@@ -188,20 +204,22 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
                             </div>
                         </div>
                     ) :
-                    (hasValue(actualImage) && actualImage != '' && actualImage != '-' ?
+                    (hasValue(actualImage) && actualImage !== '' && actualImage !== '-' ?
                             (
-                                <div key={name} style={{
+                                <div key={name+'hasActualImage'} style={{
                                     height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
-                                    // transform: (window.innerWidth) < 901 ? `scale(${((window.innerWidth -
-                                    //     (isMobile ? 44 : 130)) / 900)})` : undefined,
-                                    // transformOrigin: undefined,//(window.innerWidth) < 901 ? '0 0' : undefined,
+                                    display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',
                                 }}>
                                     <img
-                                        id={`image${name}`}
+                                        id={`image${name}ActualImage`}
+                                        key={`image${name}ActualImage`}
                                         src={actualImage}
+                                        onError={(e)=>{
+                                            setActualImage(null);
+                                        }}
                                         style={{
                                             maxHeight: height,
-                                            height: '100%', width: '100%',
+                                            height: 'auto', width: '100%',
                                             maxWidth: width,
                                         }}
                                     />

@@ -107,27 +107,51 @@ interface ISimpleTable {
     actions: object[];
 }
 
-export default function SimpleTable({
-                                        schema,
-                                        data,
-                                        onClick,
-                                        actions,
-                                        initialSort,
-                                        initialOrder,
-                                        disabledOrder,
-                                        filterByField,
-                                        styles,
-                                    }: ISimpleTable) {
+const SimpleTable = React.memo(({
+                                    schema,
+                                    data,
+                                    onClick,
+                                    actions,
+                                    initialSort,
+                                    initialOrder,
+                                    disabledOrder,
+                                    filterByField,
+                                    sort,
+                                    onSort,
+                                    styles,
+
+                                }: ISimpleTable) => {
     const [filter, setFilter] = React.useState(null);
     const [order, setOrder] = React.useState(initialOrder || 'asc');
     const [orderBy, setOrderBy] = React.useState(initialSort);
 
+    React.useEffect(()=>{
+        if(sort) {
+            const fields = Object.keys(sort);
+            if(fields.length === 0) return;
+            if(!sort.field) {
+                setOrderBy(sort.field);
+                setOrder(sort.sortAscending?'asc':'desc');
+            } else {
+                setOrderBy(fields[0]);
+                setOrder(sort[fields[0]]===1?'asc':'desc');
+            }
+
+        }
+    },sort)
+
     const handleRequestSort = (event, property) => {
+        if(onSort) {
+            onSort({field:property,sortAscending:(sort&&sort.field===property?(!sort.sortAscending):
+                    (sort&&sort[property]?(sort[property]===1?false:true):(sort?true:(orderBy===property?(order==='asc'?false:true):true)) ) )});
+            setOrderBy(property);
+            setOrder((sort&&sort.field===property?(sort.sortAscending?'desc':'asc'):( sort&&sort[property]?(sort[property]===1?'desc':'asc'):(sort?'asc':(orderBy===property?(order==='asc'?'desc':'asc'):'asc')) ) ));
+            return;
+        }
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
-
 
     const hasOnClick = !!onClick;
     const handleRowClick = (id: string, doc: object) => (event: React.SyntheticEvent) => {
@@ -236,7 +260,8 @@ export default function SimpleTable({
             type: getType(schema[field]),
         }));
 
-    const newDate = !data ? null : stableSort(data, getComparator(order, orderBy));
+
+    const newDate = onSort?data:(!data ? null : stableSort(data, getComparator(order, orderBy)));
 
     const filterList = {};
     const tableBody = ((filter ? (newDate.filter(d => d[filterByField] === filter)) : newDate).map((row, index) => {
@@ -257,19 +282,12 @@ export default function SimpleTable({
                         ...simpleTableStyle.tableCell,
                         backgroundColor: col.colBold ? selectRowBackground : undefined,
                         textAlign: (col.type === 'image' || col.type === 'dom') ? 'flex-start' : undefined,
-                        display: col.type === 'dom' ? 'flex' : undefined,
+                        // display: col.type === 'dom' ? 'flex' : undefined,
                         justifyContent: col.type === 'dom' ? 'flex-start' : undefined,
                         flexDirection: col.type === 'dom' ? 'row' : undefined,
                     }}
                 >
-                    {col.type === 'text' && row[col.field] && (renderType(col.type, row[col.field], col.field)).length > 35 ?
-                        <div className="tooltip">
-                            {renderType(col.type, row[col.field], col.field)}
-                            <div className="tooltiptext">
-                                {renderType(col.type, row[col.field], col.field)}
-                            </div>
-                        </div>
-                        : renderType(col.type, row[col.field], col.field)}
+                    {renderType(col.type, row[col.field], col.field)}
 
                     {/* }  {renderType(col.type, row[col.field], col.field)}
      { */}
@@ -359,4 +377,6 @@ export default function SimpleTable({
             </Table>
         </div>
     );
-}
+});
+
+export default SimpleTable;

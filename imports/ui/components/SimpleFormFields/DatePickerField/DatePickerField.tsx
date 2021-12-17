@@ -12,7 +12,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
         return (<div key={name} style={{display: 'flex', flexDirection: 'column'}}>
             <SimpleLabelView label={label}/>
             <TextField
-                variant={'outlined'} key={name} value={value?value.toLocaleDateString():undefined} error={!!error} disabled={!!readOnly} id={name}
+                key={name} value={value?value.toLocaleDateString():undefined} error={!!error} disabled={!!readOnly} id={name}
                 name={name} {...otherProps} label={null}
             />
         </div>);
@@ -73,7 +73,6 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
     return (<div key={name} style={{display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer}}>
         <SimpleLabelView label={label}/>
         <TextField
-            variant={'outlined'}
             key={name}
             onChange={handleChange}
             onBlur={onBlur}
