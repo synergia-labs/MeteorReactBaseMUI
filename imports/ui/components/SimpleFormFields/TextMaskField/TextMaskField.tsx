@@ -17,10 +17,37 @@ export default ({
   readOnly,
   schema,
   error,
+  noShowMsgError,
   placeholder,
-    help,
+  help,
   style,...otherProps
 }: IBaseSimpleFormComponent) => {
+
+  const [fieldValue,setFieldValue] = React.useState(value)
+  const [maskError,setMaskError] = React.useState(false)
+
+
+  React.useEffect(()=>{
+    const val = schema && schema.type === Date &&
+    !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value;
+    (val||!val&&!!fieldValue&&fieldValue.length>0)&&setFieldValue(val);
+  },[value])
+
+  const mask = otherProps && otherProps.mask ?
+      otherProps.mask : (schema && schema.mask ? schema.mask : undefined);
+
+  const validate = (paramValue) => {
+    if(mask&&(paramValue||fieldValue)&&(paramValue||fieldValue).length>0&&(paramValue||fieldValue||'').length!==mask.length) {
+      !maskError&&setMaskError(true);
+      return false;
+    } else if(maskError) {
+      setMaskError(false);
+      return true;
+    }
+    return true;
+  }
+
+
   const useStyles = makeStyles((theme: Theme) =>
       createStyles({
         root: {height: 50},
@@ -30,8 +57,7 @@ export default ({
   const classes = useStyles();
 
 
-  const fieldValue = value === '-' ? '-' : (schema && schema.type === Date &&
-  !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value);
+
 
   const applyMask = (inputValue: string, mask: string) => {
     let text = '';
@@ -50,7 +76,6 @@ export default ({
       m = mask.charAt(i);
 
       if (valueCharCount >= data.length) {
-        // console.log("break;");
         break;
       }
 
@@ -60,10 +85,8 @@ export default ({
           if (/\d/.test(c)) {
             text += c;
             valueCharCount++;
-            // console.log("text += c;");
           } else {
             x = 0;
-            // console.log("x = 0;");
           }
           break;
 
@@ -110,13 +133,22 @@ export default ({
 
   const onFieldChange = (e) => {
     const newValue = e.target.value;
-    onChange({name, target: {name, value: newValue}}, {name, value: newValue});
+    if(fieldValue&&fieldValue.length===mask.length) {
+      validate(newValue);
+    }
+    setFieldValue(newValue);
+    if(maskError) {
+      setMaskError(false);
+    }
+    if(mask&&newValue.length===mask.length) {
+      onChange({name, target: {name, value: newValue}}, {name, value: newValue});
+    } else if(value) {
+      onChange({name, target: {name, value: undefined}}, {name, value: undefined});
+    }
+
   };
 
   const handleApplyMask = (event: React.BaseSyntheticEvent) => {
-    const mask = otherProps && otherProps.mask ?
-        otherProps.mask : (schema && schema.mask ? schema.mask : undefined);
-
     if (mask) {
       const inputValue = applyMask(event.target.value, mask);
       onFieldChange({name, target: {name, value: inputValue}},
@@ -135,10 +167,10 @@ export default ({
       flexDirection: 'column', ...appStyle.fieldContainer,
     }}>
       {(label && !otherProps.rounded) ? <SimpleLabelView label={label}
-                                                       style={style
-                                                           ? style.displayLabel
-                                                           : undefined}
-                                                       help={help}/> : null}
+                                                         style={style
+                                                             ? style.displayLabel
+                                                             : undefined}
+                                                         help={help}/> : null}
       <TextField InputProps={otherProps.rounded
           ? {classes: classes}
           : undefined}
@@ -149,6 +181,8 @@ export default ({
                  label={otherProps.rounded ? label : null} type={'text'}/>
     </div>);
   }
+
+
 
   if (otherProps.isNaked) {
     return (
@@ -162,6 +196,7 @@ export default ({
             name={name}
             label={otherProps.labelDisable ? undefined : label}
             {...otherProps}
+            onBlur={()=>validate()}
         />);
   }
 
@@ -181,8 +216,10 @@ export default ({
         name={name}
         label={null}
         help={help}
+        onBlur={()=>validate()}
         style={style
             ? {displayLabel: style.displayLabel}
             : undefined}/>
+    {!noShowMsgError&&maskError&&<div style={{width:'100%',textAlign:'right',margin:0,padding:1,color:'#DD0000',fontSize:10}}>{`${label||'Valor'} inválido!`}</div>}
   </div>);
 };

@@ -13,6 +13,9 @@ body {
   user-select: none;
 }
 
+.MuiModal-root .MuiBox-root{
+  max-height: 100vh;
+}
 
 
 /* Works on Firefox */

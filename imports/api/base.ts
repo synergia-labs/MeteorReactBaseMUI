@@ -494,7 +494,7 @@ export class ApiBase {
 
 
     const queryOptions = {
-      fields: {...optionsPub.projection},
+      fields: {...optionsPub.projection,lastupdate:1},
       limit: optionsPub.limit || 0,
       skip: optionsPub.skip || 0,
       transform: (doc) => { // for get path of image fields.
@@ -721,18 +721,13 @@ export class ApiBase {
       dataObj = this.checkDataBySchema(dataObj);
       this.includeAuditData(dataObj, 'insert');
       const insertId = this.getCollectionInstance().insert(dataObj);
-      // console.log('Inser >>>', insert);
       return {_id: insertId, ...dataObj};
     }
-    // const update = this.serverUpdate(dataObj, context);
     let docToSave = null;
-    // console.log('DOC', dataObj, oldDoc);
     if (!!dataObj.lastupdate && !!oldDoc.lastupdate &&
         new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
-      console.log('APP MAIOR');
       docToSave = dataObj;
     } else {
-      console.log('Server MAIOR');
       docToSave = oldDoc;
     }
 
@@ -1080,7 +1075,6 @@ export class ApiBase {
         newObj[key] = docObj[key];
       }
     });
-    // console.log('newObj>>>>',newObj)
 
     return this.callMethod('update', newObj, callback);
   }
