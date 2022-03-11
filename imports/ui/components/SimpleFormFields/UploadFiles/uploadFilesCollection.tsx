@@ -370,7 +370,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                 </ListItem>
             );
         })
-        : <div style={uploadFilesStyle.containerNoFiles}>{'Não há arquivos'}</div>);
+        : <Typography style={uploadFilesStyle.containerNoFiles}>{'Não há arquivos'}</Typography>);
 
 
     getList = () => (this.state.links.length > 0
@@ -553,11 +553,9 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
             // These are the event functions, don't need most of them, it shows where we are in the process
             uploadInstance.on('start', () => {
-                // console.log('Starting');
             });
 
             uploadInstance.on('end', () => {
-                // console.log('End');
                 self.setState({
                     progress: 0,
                 });
@@ -609,13 +607,11 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
                 newFileQueue.shift(); // Remove Actual File Upload
 
-                // console.log('newFileQueue.length',newFileQueue.length)
 
                 if (newFileQueue.length > 0) {
                     const nextFile = newFileQueue[0];
                     self.uploadIt(null, nextFile);
                 } else {
-                    // console.log('attachs',attachs)
                     self.onChange(attachs);
                     // Remove the filename from the upload box
                     const refsName = `fileinput${this.props.name}${this.props.key}`;
@@ -623,14 +619,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
                     if (this[refsName]) {
                         this[refsName].value = '';
                     } else {
-                        console.log('refsName not found', refsName);
                     }
-
-
-                    // console.log('refsName',refsName);
-                    // console.log('self.refs',Object.keys(self.refs));
-                    //
-                    // self.refs[ refsName ].value = '';
 
                     // Reset our state for the next file
                     self.setState({

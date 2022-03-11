@@ -10,6 +10,7 @@ import * as appStyle from '/imports/materialui/styles';
 import {radioButtonStyle} from './RadioButtonFieldStyle';
 
 import {makeStyles} from '@mui/styles';
+import {Typography} from "@mui/material";
 
 const useStyles = makeStyles(theme => ({
     radioLabel: {
@@ -65,7 +66,7 @@ export default ({
                         key={itemCheck.value}
                         value={itemCheck.value}
                         id={itemCheck.value}
-                        label={itemCheck.label||''}
+                        label={itemCheck.label}
                         control={<Radio color="secondary" size="small" inputProps={{'aria-label': itemCheck.label}}/>}
                     />)}
                 </RadioGroup>) : (
@@ -82,14 +83,11 @@ export default ({
                     >
                         {list.filter(itemCheck => !!value && (value === itemCheck || value === itemCheck.value)).map(itemCheck =>
                             <div
-                                style={{color: (value !== itemCheck && value !== itemCheck.value) ? '#999' : undefined}}
+                                style={{color: (value !== itemCheck && value !== itemCheck.value) ? '#999' : undefined, display: 'flex'}}
                             >{((value === itemCheck) || (value === itemCheck.value)) ?
                                 <Check
-                                    style={{
-                                        fontSize: 12,
-                                        paddingRight: 10,
-                                    }}
-                                /> : ''}{itemCheck.label || itemCheck}</div>)}
+                                    style={{paddingRight: 10}}
+                                /> : ''}<Typography>{itemCheck.label || itemCheck}</Typography></div>)}
                     </div>
                 ) : null
             )}

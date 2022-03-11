@@ -1,99 +1,185 @@
 import React from 'react';
-import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import Snackbar from '@mui/material/Snackbar';
+
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Close from '@mui/icons-material/Close';
-import AWN from 'awesome-notifications';
-import {appGeneralStyle} from './AppGeneralComponentsStyle';
-import {isMobile} from '/imports/libs/deviceVerify';
-import {useTheme} from '@mui/styles';
-import {MemoryRouter} from 'react-router';
-import AppRouterSwitch from './layouts/AppRouterSwitch';
-import {useAccount} from '/imports/libs/userAccount';
-import './notificationStyle.css';
+import CloseIcon from '@mui/icons-material/Close';
 
-if (isMobile) {
-  import './notificationTipMobile.css';
-} else {
-  import './notificationTipWeb.css';
+import AppBar from '@mui/material/AppBar';
+import Slide from '@mui/material/Slide';
+import AppRouterSwitch from './layouts/AppRouterSwitch';
+import {isMobile} from '/imports/libs/deviceVerify';
+import {makeStyles, useTheme} from '@mui/styles';
+import {MemoryRouter} from 'react-router';
+import {useAccount} from '/imports/libs/userAccount';
+import * as appStyles from "/imports/materialui/styles";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {appGeneralStyle} from "/imports/ui/AppGeneralComponentsStyle";
+
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+
+function Alert(props) {
+
+  const severityStyle = {
+    transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    boxShadow: 'none',
+    fontWeight: 400,
+    fontSize: '0.875rem',
+    lineHeight: 1.43,
+    letterSpacing: '0.01071em',
+    borderRadius: 4,
+    display: 'flex',
+    padding: '6px 16px',
+  }
+  if(props.severity==='error') {
+    severityStyle.backgroundColor = 'rgb(253, 237, 237)';
+    severityStyle.color =  'rgb(95, 33, 32)';
+  } else if(props.severity==='warning') {
+    severityStyle.backgroundColor = 'rgb(255, 244, 229)';
+    severityStyle.color =  'rgb(102, 60, 0)';
+  } else if(props.severity==='info') {
+    severityStyle.backgroundColor = 'rgb(229, 246, 253)';
+    severityStyle.color =  'rgb(1, 67, 97)';
+  } else if(props.severity==='success') {
+    severityStyle.backgroundColor = 'rgb(237, 247, 237)';
+    severityStyle.color =  'rgb(30, 70, 32)';
+  }
+
+  return <div style={severityStyle}>
+    {props.children}
+  </div>
 }
 
-let notifier = new AWN({position: 'bottom-left', maxNotifications: 5});
-
 const DialogContainer = (options = {
-  open: false, onClose: () => {
-  }, onOpen: () => {
+  open: false,
+  onClose: () => {
   },
-}) => {
-  return (
-      <Dialog aria-labelledby="Modal"
-              onClose={options.onClose}
-              onOpen={options.onOpen}
-              open={options.open}
-      >
-        {options.title ? (
-            <DialogTitle id="simple-dialog-title">
-              <div style={appGeneralStyle.containerOptions}>
-                {options.icon ? options.icon : null}
-                {options.title}
-              </div>
+  onOpen: () => {
+  },
+}) => (
+    <Dialog
+        aria-labelledby="Modal"
+        onClose={options.onClose}
+        onOpen={options.onOpen}
+        onOpen={options.onOpen}
+        open={options.open}
+    >
 
-            </DialogTitle>
+      {!!options.title && options.title.trim && options.title.trim().length > 0 ? (
+          <div
+              style={{
+                position: 'relative',
+                zIndex: 2,
+                top: 0,
+                left: 0,
+                width: '100%',
+                backgroundColor: appStyles.primaryColor,
+                color: '#FFF',
+                height: 45,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+          >
+
+            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center',padding:8}}>
+              <Typography
+                  style={{
+                    display: 'flex',
+                    // fontFamily: 'PTSans-Bold',
+                    fontSize: '15px',
+                    fontWeight: 'bold',
+                    fontStretch: 'normal',
+                    fontStyle: 'normal',
+                    lineHeight: 1.2,
+                    letterSpacing: '0.78px',
+                    textAlign: 'center',
+                    color: '#ffffff',
+                    textTransform: 'none',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+              >
+                {options.title}
+              </Typography>
+            </div>
+            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+              <IconButton onClick={options.onClose}>
+                <Close style={{color:'#FFF'}} />
+              </IconButton>
+            </div>
+          </div>
+
+
+      ) : null}
+
+      <DialogContent>
+        {options.content(options)}
+      </DialogContent>
+      <DialogActions>
+        {options.actions ? (
+            options.actions(options)
         ) : null}
-        <DialogContent>
-          {options.content(options)}
-        </DialogContent>
-        <DialogActions>
-          {options.actions ? (
-              options.actions(options)
-          ) : null}
-        </DialogActions>
-      </Dialog>
-  );
-};
+      </DialogActions>
+    </Dialog>
+);
 
 const DrawerContainer = (options = {
-  open: false, onClose: () => {
-  }, onOpen: () => {
+  open: false,
+  onClose: () => {
+  },
+  onOpen: () => {
   },
 }) => {
   const theme = useTheme();
   const {isLoggedIn, user, userLoading} = useAccount();
 
+
   const Component = options.component;
   const url = options.url;
   return (
-      <Drawer aria-labelledby="Drawer"
-              onClose={options.onClose}
-              open={options.open}
-              anchor={options.anchor || 'right'}
+      <Drawer
+          aria-labelledby="Drawer"
+          onClose={options.onClose}
+          open={options.open}
+          anchor={options.anchor || 'right'}
       >
-        <div style={{
-          height: '100%',
-          maxHeight: '100vh',
-          minWidth: isMobile ? '100%' : 360,
-          maxWidth: 460,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}>
+        <div
+            style={{
+              height: '100%',
+              minHeight: '100%',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              minWidth: isMobile ? '100%' : 360,
+              maxWidth: 460,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+        >
           {options.title ? (
-              <div style={{
-                backgroundColor: theme.palette.primary.main,
-                color: '#FFF',
-                width: '100%',
-                minHeight: 40,
-                height: 40,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingLeft: 8,
-              }}>
-                <IconButton onClick={options.onClose}>
-                  <Close style={{color: '#FFF'}}/>
+              <div
+                  style={{
+                    backgroundColor: theme.palette.primary.main,
+                    color: '#FFF',
+                    width: '100%',
+                    minHeight: 50,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingLeft: 8,
+                  }}
+              >
+                <IconButton color={'secondary'} onClick={options.onClose}>
+                  <Close/>
                 </IconButton>
                 <h3 style={{paddingLeft: 8}}>{options.title}</h3>
               </div>
@@ -111,7 +197,8 @@ const DrawerContainer = (options = {
                     user={user}
                     isLoggedIn={isLoggedIn}
                     userLoading={userLoading}
-                    theme={theme}/>
+                    theme={theme}
+                />
               </MemoryRouter>
           ) : null}
 
@@ -122,38 +209,68 @@ const DrawerContainer = (options = {
   );
 };
 
+
 const WindowContainer = (options = {
-  open: false, onClose: () => {
-  }, onOpen: () => {
+  open: false,
+  onClose: () => {
+  },
+  onOpen: () => {
   },
 }) => {
   const theme = useTheme();
-
   const {isLoggedIn, user, userLoading} = useAccount();
+
   const Component = options.component;
   const url = options.url;
-
   return (
-      <div className={'fadeDiv'} style={{
-        position: 'fixed',
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-        zIndex: 1200,
-        backgroundColor: '#FFF',
-        top: 0,
-        left: 0,
-      }}>
-        <div style={{
-          height: '100%',
-          maxHeight: '100%',
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          minWidth: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}>
+      <Dialog fullScreen open={options.open} onClose={options.onClose} TransitionComponent={Transition}>
+        <div style={{position:'absolute',width:'100%',display:'relative',top:0}}>
+          <div
+              style={{
+                backgroundColor: '#000',
+                color: '#FFF',
+                width: '100%',
+                minHeight: 50,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+
+              }}
+          >
+
+            <div
+                style={{
+                  fontSize: isMobile ? 12 : 20,
+                  marginLeft: isMobile ? 5 : 10,
+                  color: '#FFF',
+                  fontWeight: 'bold',
+                }}
+            >
+              {options.title ? (options.title) : null}
+            </div>
+            <IconButton
+                style={{marginRight: 20}} edge="start" color="inherit" onClick={options.onClose}
+                aria-label="close"
+            >
+              <CloseIcon/>
+            </IconButton>
+
+          </div>
+        </div>
+        <div
+            style={{
+              height: 'calc(100% - 50px)',
+              minHeight: 'calc(100% - 50px)',
+              marginTop: 50,
+              maxHeight: 'calc(100% - 50px)',
+              overflow: 'hidden',
+              minWidth: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+        >
           {Component ? (<Component/>) : null}
           {url ? (
               <MemoryRouter
@@ -167,40 +284,51 @@ const WindowContainer = (options = {
                     user={user}
                     isLoggedIn={isLoggedIn}
                     userLoading={userLoading}
-                    theme={theme}/>
+                    theme={theme}
+                />
               </MemoryRouter>
           ) : null}
 
         </div>
 
 
-      </div>
+      </Dialog>
   );
 };
 
-export const showNotification = (options = {}) => {
-
-  if (!options || !options.type || !notifier[options.type]) {
-    return;
-  }
-
-  const notificationOptions = {
-    labels: {
-      [options.type]: options.title.toUpperCase(),
-    },
-    icons: {
-      enabled: true,
-    },
-    durations: {
-      [options.type]: options.durations ? options.durations : (options.type ===
-      'tip' ? 30000 : 2000),
-    },
-
-  };
-
-  notifier[options.type](options.description, notificationOptions);
-
-};
+const SnackBarContainer = (options = {
+  open: false,
+  onClose: () => {
+  },
+  onOpen: () => {
+  },
+}) => (
+    <Snackbar
+        anchorOrigin={{ vertical: 'bottom',
+          horizontal: 'left',}}
+        open={options.open}
+        onClose={options.onClose}
+        autoHideDuration={5000}
+        message={(
+            <Alert
+                id={'message-id'} icon={false} arialabel={'message-id'}
+                severity={options.type}
+            >
+              <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    maxHeight: 'auto',
+                    height: 'auto',
+                  }}
+              >
+                {options.description}
+              </div>
+            </Alert>
+        )}
+    />
+);
 
 class GeneralComponents extends React.Component {
   constructor(props) {
@@ -212,10 +340,23 @@ class GeneralComponents extends React.Component {
 
     };
     this.RenderAppComponent = props.render({
-      showNotification: showNotification,
+      showNotification: this.showNotification,
       showDialog: this.showDialog,
       showDrawer: this.showDrawer,
       showWindow: this.showWindow,
+    });
+  }
+
+  showNotification = (options = {}) => {
+    this.setState({
+      snackbarOptions: {
+        open: true,
+        onClose: () => this.setState({snackbarOptions: null}),
+        onOpen: () => {
+        },
+        closeDialog: () => this.setState({snackbarOptions: null}),
+        ...options,
+      },
     });
   }
 
@@ -230,7 +371,7 @@ class GeneralComponents extends React.Component {
         ...options,
       },
     });
-  };
+  }
 
   showDrawer = (options = {}) => {
     this.setState({
@@ -241,25 +382,13 @@ class GeneralComponents extends React.Component {
         },
         closeDrawer: () => this.setState({drawerOptions: null}),
         ...{...this.props, render: undefined},
-        showNotification: showNotification,
+        showNotification: this.showNotification,
         showDialog: this.showDialog,
         showDrawer: this.showDrawer,
         showWindow: this.showWindow,
         ...options,
       },
     });
-  };
-
-  componentDidMount() {
-    const self = this;
-    if (window.history) {
-      window.history.pushState(null, null, window.location.href);
-
-      window.onpopstate = function() {
-        window.history.go(1);
-      };
-    }
-
   }
 
   showWindow = (options = {}) => {
@@ -271,26 +400,24 @@ class GeneralComponents extends React.Component {
         },
         closeWindow: () => this.setState({windowOptions: null}),
         ...{...this.props, render: undefined},
-        showNotification: showNotification,
+        showNotification: this.showNotification,
         showDialog: this.showDialog,
         showDrawer: this.showDrawer,
         showWindow: this.showWindow,
         ...options,
       },
     });
-  };
+  }
 
   render() {
     return (
         <React.Fragment>
-          {this.state.dialogOptions ?
-              <DialogContainer {...this.state.dialogOptions} /> : null}
+          {this.state.dialogOptions ? <DialogContainer {...this.state.dialogOptions} /> : null}
           {this.state.drawerOptions ?
-              <DrawerContainer {...this.state.drawerOptions}
-                               theme={this.props.theme}/> : null}
+              <DrawerContainer {...this.state.drawerOptions} theme={this.props.theme}/> : null}
           {this.state.windowOptions ?
-              <WindowContainer {...this.state.windowOptions}
-                               theme={this.props.theme}/> : null}
+              <WindowContainer {...this.state.windowOptions} theme={this.props.theme}/> : null}
+          {this.state.snackbarOptions ? <SnackBarContainer {...this.state.snackbarOptions} /> : null}
           {this.RenderAppComponent}
         </React.Fragment>
     );

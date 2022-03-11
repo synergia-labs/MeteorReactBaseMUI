@@ -65,6 +65,7 @@ export class ApiBase {
         defaultOptions,
         options,
     );
+    this.noImagePath = options.noImagePath;
     this.collectionName = apiName;
     this.restApiOptions = options.restApi;
     this.schema = apiSch;
@@ -208,9 +209,14 @@ export class ApiBase {
   addImgPathToFields = (doc) => {
     Object.keys(this.schema).forEach(field => {
       if (this.schema[field].isImage) {
-        doc[field] = (`${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${doc._id}?date=${doc.lastupdate
-        && doc.lastupdate.toISOString ? doc.lastupdate.toISOString()
-            : '1'}`);
+        if(doc['has'+field]) {
+          doc[field] = (`${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${doc._id}?date=${doc.lastupdate
+          && doc.lastupdate.toISOString ? doc.lastupdate.toISOString()
+              : '1'}`);
+        } else{
+          doc[field] = (this.noImagePath?this.noImagePath:`${Meteor.absoluteUrl()}images/noimage.jpg`);
+        }
+
       }
     });
     return doc;
@@ -571,7 +577,7 @@ export class ApiBase {
 
     Object.keys(this.schema).forEach(field=>{
       if(this.schema[field].isImage) {
-        imgFields['is'+field] = {$or:'$'+field};
+        imgFields['has'+field] = {$or:'$'+field};
         delete optionsPub.projection[field]
       }
     });

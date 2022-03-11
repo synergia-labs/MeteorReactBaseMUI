@@ -11,6 +11,8 @@ import { createStyles, Theme } from '@mui/material/styles';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
 import * as appStyle from '/imports/materialui/styles';
+import {Search} from "@mui/icons-material";
+import {InputAdornment} from "@mui/material";
 
 
 
@@ -29,10 +31,11 @@ export default ({
   const fieldValue = value === '-' ? '-' : (schema && schema.type === Date &&
   !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value);
 
-  const useStyles = makeStyles((theme: Theme) =>
-      createStyles({
-        root: {height: 50},
-      }),
+  const useStyles = makeStyles((theme: Theme) => createStyles({
+      root: {
+          borderRadius: style ? style.borderRadius : 4,
+          backgroundColor: style ? style.backgroundColor : 'white'},
+  })
   );
   const classes = useStyles();
 
@@ -51,12 +54,13 @@ export default ({
                                                            ? style.displayLabel
                                                            : undefined}
                                                        help={help}/> : null}
-      <TextField InputProps={otherProps.rounded
+      <TextField variant={'outlined'} InputProps={otherProps.rounded
           ? {classes: classes}
-          : undefined} {...(otherProps)} key={name} onChange={onFieldChange} value={fieldValue}
+          : undefined} {...(omit(otherProps, ['placeholder']))} key={name} onChange={onFieldChange} value={fieldValue}
                  error={!!error} disabled={!!readOnly} id={name}
                  name={name}
-                 label={otherProps.rounded ? label : null} type={'text'}/>
+                 // label={otherProps.rounded ? label : null}
+                 type={'text'}/>
     </div>);
   }
   if (otherProps.isNaked) {
@@ -66,21 +70,38 @@ export default ({
         ? undefined
         : label} {...otherProps} />);
   }
-  return (<div key={name} style={{
-    display: 'flex',
-    flexDirection: 'column', ...appStyle.fieldContainer,
-  }}>
-    {label && !otherProps.rounded ? <SimpleLabelView label={label} help={help}
-                                                     style={style
-                                                         ? {displayLabel: style.displayLabel}
-                                                         : undefined}/> : null}
-    <TextField style={style ? style : {
-      backgroundColor: '#FFF',
-      borderColor: '#f2f2f2',
-    }} InputProps={otherProps.rounded || otherProps.field
-        ? {root: classes.root}
-        : undefined} {...otherProps} key={name} onChange={onFieldChange} value={fieldValue}
-               error={!!error} disabled={!!readOnly} id={name} name={name}
-               label={otherProps.rounded ? label : null} />
-  </div>);
+  return (
+      <div key={name} style={{display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer}}>
+
+        {label && !otherProps.rounded ?
+          <SimpleLabelView
+              label={label} help={help}
+              style={style ? {displayLabel: style.displayLabel} : undefined}
+          />
+         : null}
+
+          <TextField
+          style={style ? style : {
+            backgroundColor: 'white',
+            borderColor: '#f2f2f2',
+          }}
+          variant={'outlined'}
+          InputProps={ otherProps.rounded || otherProps.field ? {
+              className: classes.root} : otherProps.search ? {
+              endAdornment: (
+                  <InputAdornment position="end">
+                      <Search/>
+                  </InputAdornment>
+              )} : undefined }
+          {...otherProps}
+          key={name}
+          onChange={onFieldChange}
+          value={fieldValue}
+          error={!!error}
+          disabled={!!readOnly}
+          id={name}
+          name={name}
+          // label={otherProps.rounded ? label : null}
+        />
+      </div>);
 }

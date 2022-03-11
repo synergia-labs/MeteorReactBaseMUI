@@ -10,7 +10,7 @@ const SimpleExportCSV = ({filter,options,publishName,api,filename}: any) => {
 
     const [showLoading, setShowLoading] = React.useState(false);
 
-    const showSnackBar = () => (
+    const showNotification = () => (
         <Snackbar
             anchorOrigin={{
                 vertical: 'bottom',
@@ -76,7 +76,7 @@ const SimpleExportCSV = ({filter,options,publishName,api,filename}: any) => {
             >
                 {'Exportar para CSV'}
             </Button>
-            {showLoading && showSnackBar()}
+            {showLoading && showNotification()}
         </div>
     );
 };

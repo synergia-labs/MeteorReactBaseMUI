@@ -22,6 +22,8 @@ class UserProfileApi extends OfflineBaseApi {
     this.includeAuditData = this.includeAuditData.bind(this);
     this.insertNewUser = this.insertNewUser.bind(this);
 
+    this.noImagePath = `${Meteor.absoluteUrl()}images/wireframe/user_no_photo.png`;
+
     this.afterInsert = this.afterInsert.bind(this);
 
     if (Meteor.isServer) {

@@ -13,12 +13,13 @@ import omit from 'lodash/omit';
 import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
-import {Typography} from "@mui/material";
+import {isMobile} from "/imports/libs/deviceVerify";
 
 interface IOtherProps {
     options: {
         value: any;
         label: string;
+        description:string;
     }[];
 }
 
@@ -26,6 +27,7 @@ export default ({
                     name,
                     label,
                     value,
+                    description,
                     menuNone = false,
                     onChange,
                     readOnly,
@@ -55,35 +57,29 @@ export default ({
                 //     //'PT',
                 // ].join(','),
                 '&:focus': {
-                    borderRadius: 4,
-                    boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+                    borderRadius: style ? style.borderRadius : 4,
+                    boxShadow: '0 0 0 0.2rem rgba(126,97,57,.25)',
                 },
             },
         }),
     )(InputBase);
 
-    const RounedInput = withStyles((theme: Theme) =>
+    const RoundedInput = withStyles((theme: Theme) =>
         createStyles({
-            root: {
-                'label + &': {
-                    marginTop: theme.spacing(3),
-                },
-            },
             input: {
                 borderRadius: 40,
                 position: 'relative',
-                backgroundColor: style ? style.backgroundColor : '#FFF',
+                backgroundColor: style ? style.backgroundColor : 'white',
                 border: '1px solid #b9bec4',
-                fontSize: 16,
+                fontSize: 14,
+                marginTop:4,
                 padding: '7px 26px 10px 12px',
                 transition: theme.transitions.create(['border-color', 'border-size', 'box-shadow']),
                 // Use the system font instead of the default Roboto font.
-                // fontFamily: [
-                //   //  'PT',,
-                // ].join(','),
+                fontFamily: 'PT Sans',
                 '&:focus': {
-                    borderRadius: 4,
-                    boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+                    borderRadius: 40,
+                    boxShadow: '0 0 0 0.2rem rgba(126,97,57,.25)',
                 },
             },
         }),
@@ -157,13 +153,13 @@ export default ({
                     flexDirection: 'column', ...(otherProps.style || {}), ...appStyle.fieldContainer
                 }}>
                     {label ? <SimpleLabelView label={label}/> : null}
-                    <Typography id={name} key={name}
+                    <div id={name} key={name}
                          style={{color: '#222', padding: 5, height: 35, marginTop: 4, marginBottom: 8}}>
                         {value.length > 0
                             ? objValue
                             : 'Nenhum valor selecionado!'
                         }
-                    </Typography>
+                    </div>
                 </div>
             );
         }
@@ -187,6 +183,7 @@ export default ({
                     }
                     disabled={true}
                     label={otherProps.rounded ? label : null}
+                    variant={'outlined'}
                 />
             </div>
         );
@@ -210,8 +207,8 @@ export default ({
 
     const getLabelFromValue = (value) => {
         const objValue = otherProps.options ?
-            otherProps.options.find(object => (object.label === value || object === value)) :
-            schema.options.find(object => (label.value === value || object === value));
+            otherProps.options.find(object => (object.value === value || object === value)) :
+            schema.options.find(object => (object.value === value || object === value));
         return (objValue && (objValue.label || objValue.value) || value);
     };
 
@@ -219,8 +216,10 @@ export default ({
         if (multiple) {
             return (
                 <div>
+                    
                     {values.map(value => (
                         <Chip key={value} label={getLabelFromValue(value)}/>
+                       
                     ))}
                 </div>);
         }
@@ -241,21 +240,31 @@ export default ({
             }}
         >
             {label && !otherProps.rounded ? <SimpleLabelView label={label} help={help} /> : null}
-            {label && !!otherProps.rounded ? <InputLabel>{label}</InputLabel> : null}
+            {label && !!otherProps.rounded ? <InputLabel style={{backgroundColor: 'white', marginLeft: 4}}>{label}</InputLabel> : null}
 
             <Select
                 labelId={label + name}
                 key={{ name }}
                 id={name}
                 placeholder={placeholder}
-                style={{...(style ? style : null), ...({marginTop: '4px'})}}
+                style={{
+                    ...(style
+                        ? style
+                        : {
+                            borderColor: '#f2f2f2',
+                            marginTop:4,
+                        }),
+                    ...{
+                        border: error ? '1px solid #ff0000' : 'undefined',
+                        borderRadius: error ? '4px' : undefined,
+                    },
+                }}
                 value={value || (multiple ? [] : '')}
                 onChange={onChangeSelect}
                 disabled={!!readOnly}
-                // input={otherProps.rounded ? <RounedInput /> : <BootstrapInput />}
+                input={otherProps.rounded ? <RoundedInput /> : <BootstrapInput />}
                 multiple={multiple}
-                renderValue={multiple?(renderValue||defaultRenderValue):undefined}
-                error={!!error}
+                renderValue={defaultRenderValue}
                 {...omit(otherProps, ['options'])}
             >
                 {menuNone && !multiple && (
@@ -263,12 +272,12 @@ export default ({
                         {<em>Nenhum</em>}
                     </MenuItem>
                 )}
-                {!multiple&&<MenuItem
+                {!multiple&&(!otherProps.hiddenNotSelected)&&<MenuItem
                     id={'noSelect'}
                     key={'noSelect'}
-                    value={'#-#'}
+                    value={""}
                 >
-                    - Não selecionado -
+                    <ListItemText primary={'- Não selecionado -'} />
                 </MenuItem>}
 
                 {(options || []).map((opt) => (
@@ -277,13 +286,14 @@ export default ({
                         key={opt.value || opt}
                         value={opt.value ? opt.value : opt}
                     >
-                        {multiple && <Checkbox checked={!!value && value.includes(opt.value || opt)} />}{opt.label ? opt.label : opt}
+                        {multiple && <Checkbox checked={!!value && value.includes(opt.value || opt)} />}
+                        <ListItemText primary={opt.label ? opt.label : opt} secondary={opt.description?opt.description:''} style={{width: style?.listItemWidth ? style.listItemWidth : 'unset', whiteSpace: isMobile ? 'normal' : 'unset'}}/>
                     </MenuItem>
                 ))}
 
                 {options?.length === 0 && (
                     <MenuItem id={'NoValues'} disabled value="">
-                        Nenhuma opção para selecionar
+                        <ListItemText primary="Nenhuma opção para selecionar" />
                     </MenuItem>
                 )}
             </Select>

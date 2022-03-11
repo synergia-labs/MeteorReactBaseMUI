@@ -14,16 +14,12 @@
 
  */
 
-// ##############################
-// // // Variables - Styles that are used on more than one component
-// #############################
-
-const selectAutoCompleteStyle = {
-    containerEmptyItens: {
-        color: '#BBB',
+const formatedDatePickerStyle = {
+    labelTitle: {
+        marginBottom: '1rem',
     },
 };
 
 export {
-    selectAutoCompleteStyle,
+    formatedDatePickerStyle,
 };

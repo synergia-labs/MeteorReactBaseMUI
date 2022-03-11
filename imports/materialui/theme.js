@@ -386,8 +386,8 @@ export const theme = createTheme({
             defaultProps: {},
             styleOverrides: {
                 paper: {
-                    minWidth: isMobile ? '90%' : '600px',
-                    minHeight: isMobile ? '30%' :'300px',
+                    minWidth: isMobile ? '90%' : '400px',
+                    minHeight: isMobile ? '30%' :'190',
                     maxHeight: isMobile ? '90%' :'90%',
                     // maxWidth:'90%',
                     maxWidth: isMobile ? '90%' : '1200px'

@@ -223,7 +223,6 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
         const imageData = this.defaultStage.toDataURL({
             mimeType: 'image/png',
             quality: 1,
-            // pixelRatio: Math.round(6/(Math.max(this.boardState.scale,1))),
             x: 0,
             y: 0,
             width: 198,
@@ -319,7 +318,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                                 >
                                     <div
                                         id={`avatarContainer${this.props.name}`} style={{
-                                        backgroundColor: '#FFF',
+                                        backgroundColor: 'white',
                                         width: 198,
                                         height: 198,
                                     }}
@@ -328,7 +327,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                                         id="Avatar Aleatório"
                                         variant={'outlined'}
                                         color={'#74B9FF'}
-                                        style={{borderColor: '#74B9FF', color: '#74B9FF', backgroundColor: '#FFF'}}
+                                        style={{borderColor: '#74B9FF', color: '#74B9FF', backgroundColor: 'white'}}
                                         onClick={() => {
                                             const newAvatar = {};
                                             list.filter(item => ['neck', 'nose'].indexOf(item) === -1).forEach((chr) => {
@@ -379,7 +378,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                                                         },
                                                     })}
                                                     style={{
-                                                        backgroundColor: '#FFF',
+                                                        backgroundColor: 'white',
                                                         width: 60,
                                                         display: 'flex',
                                                         flexDirection: 'column',
@@ -403,7 +402,6 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                                                         }}
                                                     />
                                                 </div>
-                                                {/* <span style={{fontWeight:'bold',height:25}}>{character}</span> */}
                                                 <div
                                                     key={character} style={{
                                                     display: 'flex',
@@ -472,7 +470,7 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
                                 </Button>
                                 <Button
                                     id="Salvar Avatar" onClick={this.onSave} variant={'contained'} color={'#74B9FF'}
-                                    style={{borderColor: '#74B9FF', backgroundColor: '#74B9FF', color: '#FFF'}}
+                                    style={{borderColor: '#74B9FF', backgroundColor: '#74B9FF', color: 'white'}}
                                 >
                                     {'Salvar'}
                                 </Button>
@@ -483,14 +481,5 @@ class AvatarGeneratorField extends React.Component <IBaseSimpleFormComponent> {
         );
     }
 }
-
-
-// const mouths = {
-//     colors:['#000000'],
-//     fillOpacity:0.7,
-//     formats: {
-//
-//     }
-// }
 
 export default AvatarGeneratorField;

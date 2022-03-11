@@ -63,7 +63,7 @@ const audioRecorderStyle = {
         height: 40,
         borderRadius: '15px',
         backgroundColor: '#5a9902',
-        color: '#FFF',
+        color: 'white',
         marginLeft: '10px',
         paddingLeft: 10,
         paddingRight: 10,

@@ -118,30 +118,30 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
             }
         }}>
             {readOnly ? ((hasValue(actualImage) && actualImage != '' && actualImage != '-') ?
-                        (
-                            <div key={name+'readOnly'} style={{
-                                minWidth: isMobile ? 250 : 0,
-                                minHeight: isMobile ? 250 : 0,
-                                alignItems: 'center',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center'
-                            }}>
-                                <img
-                                    id={`image${name}ReadOnly`}
-                                    key={`image${name}ReadOnly`}
-                                    src={actualImage}
-                                    onError={(e)=>{
-                                        e.target.onerror = null;
-                                        e.target.width=250;
-                                        e.target.height=250;
-                                        e.target.style = '';
-                                        e.target.src="/images/wireframe/imagem_default.png";
-                                    }}
-                                    style={{width:'100%',height:'auto',maxWidth: isMobile ? 250 : 500, maxHeight: isMobile ? 250 : 500}}
-                                />
-                            </div>) : <img src="/images/wireframe/imagem_default.png"
-                                           style={{maxWidth: 250, maxHeight: 250, height: '100%', width: '100%'}}/>
+                    (
+                        <div key={name+'readOnly'} style={{
+                            minWidth: isMobile ? 250 : 0,
+                            minHeight: isMobile ? 250 : 0,
+                            alignItems: 'center',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center'
+                        }}>
+                            <img
+                                id={`image${name}ReadOnly`}
+                                key={`image${name}ReadOnly`}
+                                src={actualImage}
+                                onError={(e)=>{
+                                    e.target.onerror = null;
+                                    e.target.width=250;
+                                    e.target.height=250;
+                                    e.target.style = '';
+                                    e.target.src="/images/wireframe/imagem_default.png";
+                                }}
+                                style={{width:'100%',height:'auto',maxWidth: isMobile ? 250 : 500, maxHeight: isMobile ? 250 : 500}}
+                            />
+                        </div>) : <img src="/images/wireframe/imagem_default.png"
+                                   style={{maxWidth: 250, maxHeight: 250, height: '100%', width: '100%'}}/>
                 )
                 : null}
 
@@ -169,7 +169,8 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
                                                 display: 'flex',
                                                 flexDirection: 'column',
                                                 overflow: 'hidden',
-                                                width: 'auto'
+                                                width: 'auto',
+                                                alignItems: 'center'
                                             }}>
                                                 <AvatarEditor
                                                     id={`avatarEditor${name}`}
@@ -177,7 +178,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
                                                         setEditor(ref);
                                                     }}
                                                     scale={parseFloat(scale)}
-                                                    width={width}
+                                                    width={isMobile? window.innerWidth*0.7 : width}
                                                     height={height}
                                                     position={values.position}
                                                     onPositionChange={handlePositionChange}
@@ -195,7 +196,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
                                                     step={0.1}
                                                     value={scale}
                                                     onChange={handleScale}
-                                                    style={{padding: '10px 10px', width: width, margin: '10px 10px'}}
+                                                    style={{padding: '10px 10px', width: isMobile? window.innerWidth*0.7 : width, margin: '10px 10px'}}
                                                 />
                                             </div>
                                         </div>
@@ -207,7 +208,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
                     (hasValue(actualImage) && actualImage !== '' && actualImage !== '-' ?
                             (
                                 <div key={name+'hasActualImage'} style={{
-                                    height: (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
+                                    height: isMobile ? 'unset' :  (window.innerWidth) < 901 ? (window.innerWidth / 3) : 'auto',
                                     display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',
                                 }}>
                                     <img
@@ -293,7 +294,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
                     key={'b1'}
                     style={{
                         width: 'fit-content', height: 25, padding: '21.5px 75.5px 18.9px 74.9px',
-                        borderRadius: '8px', backgroundColor: '#e26139'
+                        borderRadius: '8px', backgroundColor: '#e26139', marginTop: '10px'
                     }}
                     onClick={deleteImageCompact}
                     color={'secondary'}

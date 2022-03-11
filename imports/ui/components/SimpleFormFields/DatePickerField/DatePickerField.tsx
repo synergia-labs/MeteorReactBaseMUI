@@ -12,7 +12,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
         return (<div key={name} style={{display: 'flex', flexDirection: 'column'}}>
             <SimpleLabelView label={label}/>
             <TextField
-                key={name} value={value?value.toLocaleDateString():undefined} error={!!error} disabled={!!readOnly} id={name}
+                variant={'outlined'} key={name} value={value?value.toLocaleDateString():undefined} error={!!error} disabled={!!readOnly} id={name}
                 name={name} {...otherProps} label={null}
             />
         </div>);
@@ -39,8 +39,12 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
             setDateValue(evt.target.value);
             return;
         }
+
         timeoutOnChange = setTimeout(()=>{
             try {
+                if(evt.target.value === ''){
+                    onChange({name, target: {name, value: evt.target.value}});
+                }
                 const date = new Date(evt.target.value)
                 if(!isNaN(date.getTime())) {
                     date.setHours(date.getHours() + 10);
@@ -73,6 +77,7 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
     return (<div key={name} style={{display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer}}>
         <SimpleLabelView label={label}/>
         <TextField
+            variant={'outlined'}
             key={name}
             onChange={handleChange}
             onBlur={onBlur}
@@ -85,6 +90,9 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
             name={name}
             label={null}
             type="date"
+            inputProps={{
+                max: '9999-12-31'
+            }}
             InputLabelProps={{
                 shrink: true,
             }}

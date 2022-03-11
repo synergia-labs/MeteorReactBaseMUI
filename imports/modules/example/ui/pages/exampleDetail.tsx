@@ -8,8 +8,7 @@ import TextField
   from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField
   from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
-import ToggleSwitchField
-  from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
+
 import RadioButtonField
   from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
 
@@ -137,11 +136,6 @@ const ExampleDetail = ({
           <SliderField
               placeholder="Slider"
               name="slider"
-          />
-
-          <ToggleSwitchField
-              placeholder="Status da Tarefa"
-              name="statusToggle"
           />
 
           <RadioButtonField

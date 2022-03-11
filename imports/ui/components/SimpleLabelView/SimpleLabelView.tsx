@@ -29,7 +29,6 @@ interface ISimpleLabelView {
 
 export default ({label, value, help, style}: ISimpleLabelView) => {
     const classes = useStyles();
-    return null;
     return (
         hasValue(value) || hasValue(label) ?
             <div id={label} style={{...simpleLabelStyle.container}}>

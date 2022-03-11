@@ -29,7 +29,7 @@ export default ({name, label, value, onChange, readOnly, schema, error, ...other
                         key={itemCheck}
                         value={value}
                         id={itemCheck}
-                        label={itemCheck||''}
+                        label={itemCheck}
                         {...(_.omit(otherProps, ['disabled', 'checked']))}
                     />)}
                 </div>

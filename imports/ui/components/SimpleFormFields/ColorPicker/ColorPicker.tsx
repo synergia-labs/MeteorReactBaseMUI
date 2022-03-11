@@ -6,7 +6,6 @@ import {CirclePicker} from 'react-color';
 export default ({name, renderValue, label, value, onChange, readOnly, error, ...otherProps}) => {
     const handleChange = (color) => {
         if (color) {
-            console.log('Color', color);
             onChange({name, target: {name, value: color.hex}});
         }
     };
