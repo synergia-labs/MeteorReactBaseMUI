@@ -1,35 +1,37 @@
 import React from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import {Redirect, Route, Switch,useLocation} from 'react-router-dom';
 
 import Modules from '../../modules';
 import NotFound from '../pages/NotFound/NotFound';
 
-class AppRouterSwitch extends React.Component {
+  function AppRouterSwitch(props) {
+  let location = useLocation();
 
-  render() {
-    return (<Switch>
-      {
-        (Modules.getListOfRouterModules() || []).filter(r => !!r).
-            map(routerData => {
-              if (routerData.isProtected) {
-                return <ProtectedRoute key={routerData.path}
-                                       exact={!!routerData.exact}
-                                       path={routerData.path}
-                                       generalProps={this.props}
-                                       component={routerData.component}/>;
-              } else {
-                return <PublicRoute key={routerData.path}
-                                    exact={!!routerData.exact}
-                                    path={routerData.path}
-                                    generalProps={this.props}
-                                    component={routerData.component}/>;
+    return (
+            <Switch location={location}>
+              {
+                (Modules.getListOfRouterModules() || []).filter(r => !!r).
+                    map(routerData => {
+                      if (routerData.isProtected) {
+                        return <ProtectedRoute key={routerData.path}
+                                               exact={!!routerData.exact}
+                                               path={routerData.path}
+                                               generalProps={props}
+                                               component={routerData.component}/>;
+                      } else {
+                        return <PublicRoute key={routerData.path}
+                                            exact={!!routerData.exact}
+                                            path={routerData.path}
+                                            generalProps={props}
+                                            component={routerData.component}/>;
+                      }
+
+                    })
               }
+              <Route component={NotFound}/>
+            </Switch>
+    );
 
-            })
-      }
-      <Route component={NotFound}/>
-    </Switch>);
-  }
 }
 
 /**

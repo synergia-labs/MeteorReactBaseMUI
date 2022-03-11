@@ -46,17 +46,19 @@ export const theme = createTheme({
         body2: appStyles.body2,
         caption: appStyles.caption,
     },
-    shape: {
-        borderRadius: '16px',
-    },
+    // shape: {
+    //     borderRadius: '16px',
+    // },
     components: {
         muiChip: {
             defaultProps: {},
             styleOverrides: {
                 root: {
+                    fontFamily: 'PT Sans',
                     margin: isMobile ? 0 : 4,
                 },
                 text: { // Name of the rule
+                    fontFamily: 'PT Sans',
                     color: appStyles.textButtonColor, // Some CSS
                 },
             },
@@ -85,76 +87,34 @@ export const theme = createTheme({
         },
         MuiButton: {
             defaultProps: {
-                size: 'small',
-                variant: 'secondary',
+                
             },
             styleOverrides: {
                 root: {
-                    borderRadius: 30,
-                    padding: '6px 24px',
-                    margin: isMobile ? '0 8px' : '0 16px',
-                    textTransform: 'none',
-                    '&.MuiButton-sizeSmall': {
-                        padding: '4px 22px',
-                    },
-                    '&.MuiButton-sizeLarge': {
-                        padding: '10px 46px',
-                    },
+                    margin: isMobile ? 0 : 4,
+                    fontFamily: 'PT Sans',
                 },
-                primary: {
-                    padding: '6px 24px',
-                    backgroundImage: appStyles.primaryGradient,
-                    color: appStyles.textWhite,
-                    '&:hover': {
-                        backgroundImage: appStyles.primaryGradientOnHover,
-                    },
-                    '&:focus': {
-                        outline: 'none',
-                    },
-                    '&.MuiButton-sizeSmall': {
-                        padding: '6px 24px',
-                    },
-                    '&.MuiButton-sizeLarge': {
-                        padding: '12px 48px',
-                    },
-                    '&.Mui-disabled': {
-                        color: appStyles.textDisabled,
-                        backgroundColor: appStyles.disabledBackground,
-                        backgroundImage: 'none',
-                        opacity: 1,
-                    },
-                },
-                secondary: {
-                    padding: '4px 22px',
-                    border: `2px solid ${appStyles.secondaryColor}`,
-                    '&:hover': {
-                        backgroundColor: appStyles.secondaryColorOnHover,
-                        border: `2px solid ${appStyles.secondaryColor}`,
-                    },
-                    '&:focus': {
-                        outline: 'none',
-                        backgroundColor: appStyles.secondaryColorOnHover,
-                    },
-                    '&.MuiButton-sizeSmall': {
-                        padding: '4px 22px',
-                    },
-                    '&.MuiButton-sizeLarge': {
-                        padding: '10px 46px',
-                    },
-                    '&.Mui-disabled': {
-                        color: appStyles.textDisabled,
-                        borderColor: appStyles.supportColor,
-                        opacity: 1,
-                    },
+                text: { // Name of the rule
+                    color: appStyles.textButtonColor, // Some CSS
+                    fontFamily: 'PT Sans',
                 },
             },
+
         },
 
         MuiButtonBase: { // Name of the component ⚛️ / style sheet
             defaultProps: {
-                size: 'small',
             },
-            styleOverrides: {},
+            styleOverrides: {
+                root: {
+                    fontFamily: 'PT Sans',
+                },
+                text: { // Name of the rule
+                    color: appStyles.textButtonColor, // Some CSS
+                    fontFamily: 'PT Sans',
+                },
+            },
+
         },
 
         MuiFormHelperText: {
@@ -166,10 +126,16 @@ export const theme = createTheme({
 
         MuiIconButton: {
             defaultProps: {
-                size: 'small',
-                color: 'primary',
+                
             },
-            styleOverrides: {},
+            styleOverrides: {
+                root: {
+                    // Ajusta o espaçamento para atingir o mínimo de toque
+                    marginLeft: 4,
+                    marginRight: 4,
+                    padding: 12,
+                },
+            },
         },
 
         MuiIcon: {
@@ -205,10 +171,57 @@ export const theme = createTheme({
             },
             styleOverrides: {
                 root: {
-                    borderRadius: 30,
-                    '&.Mui-disabled': {
-                        color: appStyles.textDisabled,
+                    fontFamily: 'PT Sans',
+                    fontSize: '14px',
+                    fontWeight: 'normal',
+                    fontStretch: 'normal',
+                    fontStyle: 'normal',
+                    lineHeight: 1.2,
+                    letterSpacing: '0.7px',
+                    textAlign: 'left',
+                    color: '#222020',
+                    textTransform: 'none',
+                    outline: 'none',
+                    borderRadius: 15,
+                    marginTop:4,
+                    '&$disabled': {
+                        color: '#777',
+                        backgroundColor: '#f2f2f2',
+                        outline: 'none',
                     },
+                },
+                input: {
+                    '&$disabled': {
+                        color: '#777',
+                        backgroundColor: '#f2f2f2',
+                        outline: 'none',
+                    },
+                    fontFamily: 'PT Sans !important' ,
+                    fontSize: '14px !important',
+                    fontWeight: 'normal !important',
+                    fontStretch: 'normal !important',
+                    fontStyle: 'normal !important',
+                    lineHeight: 1.2,
+                    letterSpacing: '0.7px !important',
+                    textAlign: 'left !important',
+                    color: '#222020',
+                },
+            },
+        },
+
+        MuiOutlinedInput: {
+            defaultProps: {
+                margin: 'dense',
+            },
+            styleOverrides: {
+                input: {
+                    backgroundColor:'#FFFFFF',
+                    '&.Mui-disabled': {
+                        color: '#777',
+                        backgroundColor: '#f2f2f2',
+                        outline: 'none',
+                    },
+
                 },
             },
         },
@@ -227,7 +240,7 @@ export const theme = createTheme({
             },
             styleOverrides: {
                 root: {
-                    borderRadius: 30,
+                    borderRadius: 15,
                     backgroundColor: appStyles.surfaceColor,
                     border: `1px solid ${appStyles.supportColor}`,
                     transition: 'background-color 300ms',
@@ -266,14 +279,14 @@ export const theme = createTheme({
 
         MuiFab: {
             defaultProps: {
-                size: 'small',
+                
             },
             styleOverrides: {},
         },
 
         MuiTable: {
             defaultProps: {
-                size: 'small',
+                
             },
             styleOverrides: {},
         },
@@ -286,6 +299,7 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     width: '100%',
+                    marginTop:0,
                 },
             },
         },
@@ -301,7 +315,7 @@ export const theme = createTheme({
             defaultProps: {},
             styleOverrides: {
                 indicator: {
-                    backgroundImage: appStyles.primaryGradient,
+                    background: appStyles.secondaryColor,
                     height: '4px',
                 },
             },
@@ -311,12 +325,8 @@ export const theme = createTheme({
             defaultProps: {},
             styleOverrides: {
                 root: {
+                    fontFamily: 'PT Sans',
                     margin: isMobile ? 0 : 4,
-                    textTransform: 'none',
-                    '&.Mui-focused': {
-                        outline: 'none',
-                    },
-                    ...appStyles.h6,
                 },
             },
         },
@@ -325,7 +335,8 @@ export const theme = createTheme({
             defaultProps: {},
             styleOverrides: {
                 root: {
-                  borderRadius:30,
+                    borderRadius:30,
+                    backgroundColor:'#FFFFFF',
                 },
                 marginNormal: {
                     marginTop: 4,
@@ -334,17 +345,38 @@ export const theme = createTheme({
         },
 
         MuiSelect: {
-            defaultProps: {
-                margin: 'normal',
-                variant: 'filled',
-            },
+            defaultProps: {},
             styleOverrides: {
                 root: {
-                    borderRadius: 30,
-                    width: '100%',
+                    fontFamily: 'PT Sans',
+                    fontSize: '14px',
+                    fontWeight: 'normal',
+                    fontStretch: 'normal',
+                    fontStyle: 'normal',
+                    lineHeight: 1.2,
+                    letterSpacing: '0.7px',
+                    textAlign: 'left',
+                    color: '#222020',
+                    textTransform: 'none',
+                    outline: 'none',
                 },
-                icon: {
-                    color: appStyles.primaryColor,
+                select: {
+                    fontFamily: 'PT Sans',
+                    fontSize: '14px',
+                    fontWeight: 'normal',
+                    fontStretch: 'normal',
+                    fontStyle: 'normal',
+                    lineHeight: 1.2,
+                    letterSpacing: '0.7px',
+                    textAlign: 'left',
+                    color: '#222020',
+                    textTransform: 'none',
+                    outline: 'none',
+                    height:51,
+                    paddingTop:0,
+                    paddingBottom:0,
+                    display:'flex',flxDirection:'row',alignItems:'center',
+                    backgroundColor: '#ffffff',
                 },
             },
         },
@@ -354,12 +386,22 @@ export const theme = createTheme({
             defaultProps: {},
             styleOverrides: {
                 paper: {
-                    minWidth:'50%',
-                    minHeight:'40%',
-                    maxHeight:'90%',
-                    maxWidth:'90%'
+                    minWidth: isMobile ? '90%' : '600px',
+                    minHeight: isMobile ? '30%' :'300px',
+                    maxHeight: isMobile ? '90%' :'90%',
+                    // maxWidth:'90%',
+                    maxWidth: isMobile ? '90%' : '1200px'
                 },
 
+            },
+        },
+
+        MuiDrawer: {
+            defaultProps: {},
+            styleOverrides: {
+                paper: {
+                    width: isMobile ? '100%' : 'unset'
+                },
             },
         },
 
@@ -383,7 +425,6 @@ export const theme = createTheme({
             },
 
         },
-
         MuiTypography: {
             defaultProps: {
                 variantMapping: {
@@ -393,6 +434,20 @@ export const theme = createTheme({
                     body1: 'p', body2: 'p', caption: 'p',
                 },
             },
+            styleOverrides: {
+                root: {
+                    fontFamily: 'PT Sans',
+                    fontSize: '14px',
+                    fontWeight: 'normal',
+                    fontStretch: 'normal',
+                    fontStyle: 'normal',
+                    width: '100%',
+                },
+                h6: {
+                    width: '100%',
+                },
+            },
+
         },
 
         MuiCard: {

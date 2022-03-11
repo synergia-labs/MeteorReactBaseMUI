@@ -4,6 +4,7 @@ import {hasValue} from '../libs/hasValue';
 import {getUser} from '/imports/libs/getUser';
 import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
+import { Match } from 'meteor/check';
 
 // Conters
 const Counts = new Mongo.Collection('counts');
@@ -40,6 +41,7 @@ const defaultOptions = {
 
 // region Base Model
 export class ApiBase {
+  dao;
   isTest;
   publications;
   logCollection;
@@ -52,9 +54,9 @@ export class ApiBase {
 
   /**
    * Constructor
-   * @param  {String} apiName
-   * @param  {Object} apiSch
+   * @param  {Object} daoBase - The DAO created by other collection.
    * @param  {Object} options
+   * @param  {Object} isTest - To use the model in unit tests.
    */
   constructor(apiName: string, apiSch: any, options?: object) {
 
@@ -90,17 +92,26 @@ export class ApiBase {
     this.beforeUpdate = this.beforeUpdate.bind(this);
     this.beforeRemove = this.beforeRemove.bind(this);
     this.sync = this.sync.bind(this);
+    this.createAPIRESTForIMGFields = this.createAPIRESTForIMGFields.bind(this);
+    this.createAPIRESTThumbnailForIMGFields = this.createAPIRESTThumbnailForIMGFields.bind(this);
+
+
 
     this.countDocuments = this.countDocuments.bind(this);
     this.callMethod = this.callMethod.bind(this);
-    this.defaultCollectionPublication = this.defaultCollectionPublication.bind(
-        this);
+    this.defaultCollectionPublication = this.defaultCollectionPublication.bind(this);
 
     this.registerPublications(options);
     this.registerAllMethods();
     this.includeAuditData = this.includeAuditData.bind(this);
 
     this.createAPIRESTForIMGFields();
+
+    if(Meteor.isServer) {
+      import sharp from "sharp"
+      this.createAPIRESTThumbnailForIMGFields(sharp);
+    }
+
 
     if (Meteor.isClient && !Meteor.isProduction) {
       // ##################################
@@ -195,10 +206,9 @@ export class ApiBase {
   }
 
   addImgPathToFields = (doc) => {
-
     Object.keys(this.schema).forEach(field => {
       if (this.schema[field].isImage) {
-        doc[field] = (`${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/${doc._id}?date=${doc.lastupdate
+        doc[field] = (`${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${doc._id}?date=${doc.lastupdate
         && doc.lastupdate.toISOString ? doc.lastupdate.toISOString()
             : '1'}`);
       }
@@ -220,12 +230,20 @@ export class ApiBase {
           }));
 
         },
+        addThumbnailRoute: (path, handle) => {
+
+          console.log('Path', path);
+          WebApp.connectHandlers.use(connectRoute((router) => {
+            router.get('/thumbnail/' + path, handle);
+          }));
+
+        },
       };
     }
 
   };
 
-  createAPIRESTForIMGFields = () => {
+  createAPIRESTForIMGFields () {
     if (Meteor.isServer) {
       const self = this;
       const schema = self.schema;
@@ -243,17 +261,16 @@ export class ApiBase {
                       ? params.image.split('.png')[0]
                       : params.image.split('.jpg')[0];
                   const doc = self.getCollectionInstance().
-                      findOne({_id: docID});
+                  findOne({_id: docID});
 
-                  if (doc && !!doc[field]) {
+                  if (doc && !!doc[field]&&doc[field]!=='-') {
                     const matches = doc[field].match(
                         /^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
                     const response = {};
 
                     if (!matches || matches.length !== 3) {
                       const noimg = getNoImage(schema[field].isAvatar);
-                      const tempImg = noimg.match(
-                          /^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
+                      const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
                       return new Buffer(tempImg[2], 'base64');
                     }
 
@@ -262,19 +279,18 @@ export class ApiBase {
                     res.writeHead(200, {
                       'Content-Type': response.type,
                       'Cache-Control': 'max-age=120, must-revalidate, public',
-                      'Last-Modified': (doc.lastupdate ||
-                          new Date()).toUTCString(),
+                      'Last-Modified': (doc.lastupdate || new Date()).toUTCString(),
                     });
                     res.write(response.data);
                     res.end(); // Must call this immediately before return!
                     return;
                   }
-                  res.writeHead(200);
+                  res.writeHead(404);
                   res.end();
                   return;
 
                 }
-                res.writeHead(200);
+                res.writeHead(404);
                 res.end();
                 return;
               },
@@ -282,7 +298,75 @@ export class ApiBase {
         }
       });
     }
-  };
+  }
+  createAPIRESTThumbnailForIMGFields (sharp) {
+    if (Meteor.isServer) {
+      const self = this;
+      const schema = self.schema;
+      Object.keys(schema).forEach(field => {
+        if (schema[field].isImage) {
+          console.log('CREATE ENDPOINT GET ' +
+              `thumbnail/${this.collectionName}/${field}/:image ########## IMAGE #############`);
+          this.apiRestImage.addThumbnailRoute(`${this.collectionName}/${field}/:image`,
+              async (req, res, next) => {
+
+                const {params} = req;
+
+                if (params && !!params.image) {
+                  const docID = params.image.indexOf('.png') !== -1
+                      ? params.image.split('.png')[0]
+                      : params.image.split('.jpg')[0];
+                  const doc = self.getCollectionInstance().
+                  findOne({_id: docID});
+
+                  if (doc && !!doc[field]&&doc[field]!=='-') {
+
+                    const destructImage = doc[field].split(";");
+                    const mimType = destructImage[0].split(":")[1];
+                    const imageData = destructImage[1].split(",")[1];
+
+
+
+
+
+                    try {
+                      let resizedImage = Buffer.from(imageData, "base64")
+                      resizedImage = await sharp(resizedImage).resize({
+                        fit: 'contain',
+                        background: { r: 255, g: 255, b: 255, alpha: 0.01 },
+                        width: 300,
+                        height:200
+                      }).toFormat('png').toBuffer()
+
+                      res.writeHead(200, {
+                        'Content-Type': mimType,
+                        'Cache-Control': 'max-age=120, must-revalidate, public',
+                        'Last-Modified': (doc.lastupdate ||
+                            new Date()).toUTCString(),
+                      });
+                      res.write(resizedImage);
+                      res.end(); // Must call this immediately before return!
+                      return;
+
+                      //To Save Base64 IMG
+                      // return `data:${mimType};base64,${resizedImage.toString("base64")}`
+                    } catch (error) {
+                      res.writeHead(200);
+                      res.end();
+                      return;
+                    }
+
+                  }
+                  res.writeHead(404);
+                  res.end();
+                  return;
+                }
+              });
+        }
+      });
+    }
+  }
+
 
   /**
    * Wrapper to register a publication of an collection.
@@ -323,19 +407,19 @@ export class ApiBase {
       Meteor.publish(`${self.collectionName}.${publication}`,
           function(query, options) {
             const subHandle = newPublicationsFunction(query, options).
-                observe({
-                  added: (document) => {
-                    this.added(`${self.collectionName}`, document._id,
-                        transformDocFunc(document));
-                  },
-                  changed: (newDocument, oldDocument) => {
-                    this.changed(`${self.collectionName}`, newDocument._id,
-                        transformDocFunc(newDocument));
-                  },
-                  removed: (oldDocument) => {
-                    this.removed(`${self.collectionName}`, oldDocument._id);
-                  },
-                });
+            observe({
+              added: (document) => {
+                this.added(`${self.collectionName}`, document._id,
+                    transformDocFunc(document));
+              },
+              changed: (newDocument, oldDocument) => {
+                this.changed(`${self.collectionName}`, newDocument._id,
+                    transformDocFunc(newDocument));
+              },
+              removed: (oldDocument) => {
+                this.removed(`${self.collectionName}`, oldDocument._id);
+              },
+            });
             this.ready();
             this.onStop(() => {
               subHandle.stop();
@@ -470,22 +554,24 @@ export class ApiBase {
     if(optionsPub.limit<0) {
       optionsPub.limit = 0;
     }
-
     // Use the default subschema if no one was defined.
     if (!optionsPub.projection || Object.keys(optionsPub.projection).length ===
         0) {
       const tempProjection = {};
       Object.keys(this.schema).
-          concat(['_id', 'createdby', 'createdat', 'lastupdate', 'updatedby']).
-          forEach((key) => {
-            tempProjection[key] = 1;
-          });
+      concat(['_id', 'createdby', 'createdat', 'lastupdate', 'updatedby']).
+      forEach((key) => {
+        tempProjection[key] = 1;
+      });
 
       optionsPub.projection = tempProjection;
     }
 
+    const imgFields = {};
+
     Object.keys(this.schema).forEach(field=>{
       if(this.schema[field].isImage) {
+        imgFields['is'+field] = {$or:'$'+field};
         delete optionsPub.projection[field]
       }
     });
@@ -494,7 +580,9 @@ export class ApiBase {
 
 
     const queryOptions = {
-      fields: {...optionsPub.projection,lastupdate:1},
+      fields: {...optionsPub.projection,
+        ...imgFields,
+      },
       limit: optionsPub.limit || 0,
       skip: optionsPub.skip || 0,
       transform: (doc) => { // for get path of image fields.
@@ -594,8 +682,10 @@ export class ApiBase {
       if (schemaKeys.indexOf(key) !== -1) {
         if (!!schema[key].isImage &&
             (!hasValue(dataObj[key]) || hasValue(dataObj[key]) &&
-                dataObj[key].indexOf('data:image') === -1)) {
+                dataObj[key].indexOf('data:image') === -1) && dataObj[key] !== '-') {
           // dont update if not have value field of image
+        } else if (!!schema[key].isImage && dataObj[key] === '-') {
+          newDataObj[key] = null;
         } else if (
             hasValue(dataObj[key])
             && schema[key]
@@ -665,13 +755,14 @@ export class ApiBase {
             `O campo "${schema[field].label||field}" é obrigatório`);
 
       } else if (keysOfDataObj.indexOf(field) !== -1) {
-        newSchema[field] = schema[field].type;
-
+        if(!!newDataObj[field]||newDataObj[field]===0) {
+          // Call the check from Meteor.
+          check(newDataObj[field],schema[field].type)
+        }
       }
     });
 
-    // Call the check from Meteor.
-    check(newDataObj, newSchema);
+
     return newDataObj;
   };
 
@@ -717,7 +808,6 @@ export class ApiBase {
     }
 
     if (!oldDoc || !oldDoc._id) {
-      // const insert = this.serverInsert(dataObj, context);
       dataObj = this.checkDataBySchema(dataObj);
       this.includeAuditData(dataObj, 'insert');
       const insertId = this.getCollectionInstance().insert(dataObj);
@@ -726,8 +816,10 @@ export class ApiBase {
     let docToSave = null;
     if (!!dataObj.lastupdate && !!oldDoc.lastupdate &&
         new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
+      console.log('APP MAIOR');
       docToSave = dataObj;
     } else {
+      console.log('Server MAIOR');
       docToSave = oldDoc;
     }
 
@@ -775,13 +867,16 @@ export class ApiBase {
     }
   }
 
-  preparaDocForUpdate = (doc, oldDoc) => {
+  preparaDocForUpdate = (doc, oldDoc,nullValues) => {
     const newDoc = {};
-
     Object.keys(doc).forEach(key => {
       const isDate = doc[key] && (doc[key] instanceof Date) &&
           !isNaN(doc[key].valueOf());
-      if (key !== '_id' &&
+
+
+      if(!doc[key]&&doc[key]!==0&&typeof doc[key] !=="boolean") {
+        nullValues[key] = '';
+      } else if (key !== '_id' &&
           ['lastupdate', 'createdat', 'createdby', 'updatedby'].indexOf(key) ===
           -1 && !isDate && (isObject(doc[key]) && !isArray(doc[key]))) {
         newDoc[key] = merge(oldDoc[key] || {}, doc[key]);
@@ -805,9 +900,19 @@ export class ApiBase {
         dataObj = this.checkDataBySchema(dataObj);
         this.includeAuditData(dataObj, 'update');
         const oldData = this.getCollectionInstance().findOne({_id: id}) || {};
-        const preparedData = this.preparaDocForUpdate(dataObj, oldData);
+        const nullValues = {};
+
+        const preparedData = this.preparaDocForUpdate(dataObj, oldData,nullValues);
+        console.log('nullValues',nullValues)
+        const action = {
+          $set: preparedData,
+        }
+        if(Object.keys(nullValues).length>0) {
+          action['$unset'] = nullValues;
+        };
+
         const result = this.getCollectionInstance().
-            update({_id: id}, {$set: preparedData});
+        update({_id: id}, action);
         preparedData._id = id;
         this.afterUpdate(preparedData, context);
         return result;
@@ -980,7 +1085,6 @@ export class ApiBase {
         $unset: unsetFields
       });
     }
-
     return document;
   }
 
@@ -1051,8 +1155,7 @@ export class ApiBase {
     Object.keys(docObj).forEach(key => {
       if (!!schema[key] &&
           (!schema[key].isImage && !schema[key].isAvatar ||
-              docObj[key].indexOf('/img/') ===
-              -1)) {
+              docObj[key].indexOf('/img/') ===-1&&docObj[key].indexOf('/thumbnail/') ===-1)) {
         newObj[key] = docObj[key];
       }
     });
@@ -1071,7 +1174,7 @@ export class ApiBase {
       if (!!schema[key] &&
           (!schema[key].isImage && !schema[key].isAvatar ||
               typeof docObj[key] === 'string' &&
-              docObj[key].indexOf('/img/') === -1)) {
+              docObj[key].indexOf('/img/') === -1&&docObj[key].indexOf('/thumbnail/') === -1)) {
         newObj[key] = docObj[key];
       }
     });

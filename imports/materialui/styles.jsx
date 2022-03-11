@@ -110,7 +110,7 @@ const h6 = {
     lineHeight: 'normal',
 };
 const button = {
-    fontSize: isMobile ? '1rem' : '1.125rem', //16px ou 18px
+    fontSize: isMobile ? '1rem' : '1rem', //16px
     fontWeight: 700,
     letterSpacing: '0.01em',
     lineHeight: 'normal',
