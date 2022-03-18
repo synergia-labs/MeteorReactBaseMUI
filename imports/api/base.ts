@@ -880,7 +880,7 @@ export class ApiBase {
           !isNaN(doc[key].valueOf());
 
 
-      if(!doc[key]&&doc[key]!==0&&typeof doc[key] !=="boolean") {
+      if(!!nullValues&&!doc[key]&&doc[key]!==0&&typeof doc[key] !=="boolean") {
         nullValues[key] = '';
       } else if (key !== '_id' &&
           ['lastupdate', 'createdat', 'createdby', 'updatedby'].indexOf(key) ===
