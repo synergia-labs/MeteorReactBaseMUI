@@ -30,7 +30,7 @@
     "jquery": "^3.6.0",
     "konva": "^8.3.0",
     "lodash": "^4.17.21",
-    "meteor-node-stubs": "^1.1.0",
+    "meteor-node-stubs": "^1.2.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-addons-pure-render-mixin": "^15.6.3",
