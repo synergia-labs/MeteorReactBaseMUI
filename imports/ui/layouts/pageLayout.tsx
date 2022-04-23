@@ -8,9 +8,8 @@ import * as appSyles from '../../materialui/styles';
 export const PageLayout = ({
   title,
   children,
-  backButton,
   actions,
-  viewer,
+  hiddenTitleBar,
   history,
   onBack,
 }) => (
@@ -24,7 +23,7 @@ export const PageLayout = ({
           maxHeight: '100%',
         }}
     >
-      {!viewer ? <div
+      {!hiddenTitleBar ? <div
           style={{
             position: 'relative',
             zIndex: 2,
@@ -97,7 +96,7 @@ export const PageLayout = ({
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            paddingBottom: viewer ? 60 : undefined,
+            paddingBottom: hiddenTitleBar ? 60 : undefined,
             overflowX: 'hidden',
             overflowY: 'auto',
             maxHeight: '100%',

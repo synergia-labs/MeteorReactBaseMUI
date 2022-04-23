@@ -873,7 +873,7 @@ export class ApiBase {
     }
   }
 
-  preparaDocForUpdate = (doc, oldDoc,nullValues) => {
+  prepareDocForUpdate = (doc, oldDoc,nullValues) => {
     const newDoc = {};
     Object.keys(doc).forEach(key => {
       const isDate = doc[key] && (doc[key] instanceof Date) &&
@@ -908,7 +908,7 @@ export class ApiBase {
         const oldData = this.getCollectionInstance().findOne({_id: id}) || {};
         const nullValues = {};
 
-        const preparedData = this.preparaDocForUpdate(dataObj, oldData,nullValues);
+        const preparedData = this.prepareDocForUpdate(dataObj, oldData,nullValues);
         console.log('nullValues',nullValues)
         const action = {
           $set: preparedData,

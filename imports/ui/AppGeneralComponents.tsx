@@ -11,7 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import AppBar from '@mui/material/AppBar';
 import Slide from '@mui/material/Slide';
-import AppRouterSwitch from './layouts/AppRouterSwitch';
+import AppRouterSwitch from './layouts/appRouterSwitch';
 import {isMobile} from '/imports/libs/deviceVerify';
 import {makeStyles, useTheme} from '@mui/styles';
 import {MemoryRouter} from 'react-router';
@@ -193,7 +193,7 @@ const DrawerContainer = (options = {
                 <AppRouterSwitch
                     {...options}
                     close={options.onClose}
-                    viewer={'drawer'}
+                    hiddenTitleBar={true}
                     user={user}
                     isLoggedIn={isLoggedIn}
                     userLoading={userLoading}
@@ -280,7 +280,7 @@ const WindowContainer = (options = {
                 <AppRouterSwitch
                     {...options}
                     close={options.onClose}
-                    viewer={'window'}
+                    hiddenTitleBar={true}
                     user={user}
                     isLoggedIn={isLoggedIn}
                     userLoading={userLoading}

@@ -18,7 +18,7 @@ const UserProfileDetail = ({
   user,
   save,
   history,
-  viewer,
+  hiddenTitleBar,
   close,
 }) => {
 
@@ -33,7 +33,7 @@ const UserProfileDetail = ({
               ? 'Visualizar usuário'
               : (screenState === 'edit' ? 'Editar Usuário' : 'Criar usuário')}
           onBack={() => history.push('/example')}
-          viewer={viewer}
+          hiddenTitleBar={!!hiddenTitleBar}
       >
         <SimpleForm
             mode={screenState}
@@ -65,7 +65,7 @@ const UserProfileDetail = ({
             <Button
                 onClick={screenState === 'edit' ? () => history.push(
                     `/userprofile/view/${user._id}`) : (
-                    !!viewer ? close : () => history.push(`/userprofile/list`)
+                    !!hiddenTitleBar ? close : () => history.push(`/userprofile/list`)
                 )}
                 color={'secondary'} variant="contained">
               {screenState === 'view' ? 'Voltar' : 'Cancelar'}

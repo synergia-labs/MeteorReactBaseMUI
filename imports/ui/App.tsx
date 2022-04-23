@@ -1,5 +1,5 @@
 import React from 'react';
-import AppLayoutFixedMenu from './layouts/AppLayoutFixedMenu.tsx';
+import AppLayoutFixedMenu from './layouts/appLayoutFixedMenu.tsx';
 import GeneralComponents from './AppGeneralComponents';
 import {ThemeProvider} from '@mui/material/styles';
 import {theme} from '/imports/materialui/theme';

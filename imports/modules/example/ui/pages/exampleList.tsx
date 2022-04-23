@@ -236,8 +236,6 @@ export const ExampleListContainer = withTracker((props) => {
       ? exampleApi.find(filter, {sort}).fetch()
       : [];
 
-  console.log('examples', examples);
-
   return ({
     examples,
     loading: !!subHandle && !subHandle.ready(),
