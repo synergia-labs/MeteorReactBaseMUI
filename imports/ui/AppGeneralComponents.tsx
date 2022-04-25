@@ -9,7 +9,6 @@ import IconButton from '@mui/material/IconButton';
 import Close from '@mui/icons-material/Close';
 import CloseIcon from '@mui/icons-material/Close';
 
-import AppBar from '@mui/material/AppBar';
 import Slide from '@mui/material/Slide';
 import AppRouterSwitch from './layouts/appRouterSwitch';
 import {isMobile} from '/imports/libs/deviceVerify';
@@ -18,10 +17,17 @@ import {MemoryRouter} from 'react-router';
 import {useAccount} from '/imports/libs/userAccount';
 import * as appStyles from "/imports/materialui/styles";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {appGeneralStyle} from "/imports/ui/AppGeneralComponentsStyle";
+import AWN from "awesome-notifications"
+
+import './notificationStyle.css';
+
+if(isMobile) {
+  import './notificationTipMobile.css';
+} else {
+  import './notificationTipWeb.css';
+}
+
+let notifier = new AWN({position:'bottom-left',maxNotifications:1});
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
@@ -348,16 +354,22 @@ class GeneralComponents extends React.Component {
   }
 
   showNotification = (options = {}) => {
-    this.setState({
-      snackbarOptions: {
-        open: true,
-        onClose: () => this.setState({snackbarOptions: null}),
-        onOpen: () => {
-        },
-        closeDialog: () => this.setState({snackbarOptions: null}),
-        ...options,
+
+    const notificationOptions = {
+      labels:{
+        [options.type]:options.title.toUpperCase(),
       },
-    });
+      icons:{
+        enabled:true,
+      },
+      durations:{
+        [options.type]:options.type==='tip'?30000:2000,
+      },
+
+    };
+
+    notifier[options.type](options.description,notificationOptions);
+
   }
 
   showDialog = (options = {}) => {

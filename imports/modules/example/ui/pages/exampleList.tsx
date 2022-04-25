@@ -17,6 +17,8 @@ import * as appStyle from '/imports/materialui/styles';
 
 import shortid from 'shortid';
 import {PageLayout} from '/imports/ui/layouts/pageLayout';
+import TextField
+  from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 
 interface IExampleList {
   examples: object[];
@@ -89,7 +91,6 @@ const ExampleList = ({
     setText(e.target.value);
   };
   const keyPress = (e, a) => {
-
     // if (e.key === 'Enter') {
     if (text && text.trim().length > 0) {
       onSearch(text.trim());
@@ -137,7 +138,9 @@ const ExampleList = ({
           title={'Lista de Exemplos'}
           actions={[]}
       >
-
+        <TextField label={'Pesquisar'} value={text} onChange={change} onKeyPress={keyPress}  placeholder='Digite aqui o que deseja pesquisa...'
+                   action={{ icon: 'search',onClick:click }}
+        />
         <SimpleTable
             schema={_.pick(exampleApi.schema,
                 ['image', 'title', 'description'])}

@@ -205,7 +205,6 @@ const column = {
 };
 
 const fieldContainer = {
-  flex: 1,
   padding: 4,
   paddingBottom: 0,
 };

@@ -108,6 +108,7 @@ export const PageLayout = ({
             id={'pageContainer'} style={{
           display: 'flex',
           flexDirection: 'column',
+          justifyContent:'flex-start',
           width: '100%',
           flex: 1,
           padding: 8,
