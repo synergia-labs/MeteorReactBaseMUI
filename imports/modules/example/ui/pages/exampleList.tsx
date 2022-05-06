@@ -9,88 +9,52 @@ import Delete from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import TablePagination from '@mui/material/TablePagination';
-import {makeStyles} from '@mui/styles';
 import {ReactiveVar} from 'meteor/reactive-var';
 import {initSearch} from '../../../../libs/searchUtils';
-
 import * as appStyle from '/imports/materialui/styles';
-
 import shortid from 'shortid';
 import {PageLayout} from '/imports/ui/layouts/pageLayout';
 import TextField
   from '/imports/ui/components/SimpleFormFields/TextField/TextField';
+import { IDefaultContainerProps, IDefaultListProps, IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
+import { IExample } from '../../api/exampleSch';
+import { useStylesExampleList } from './style/exampleListStyle';
 
-interface IExampleList {
-  examples: object[];
-  history: object;
-  remove: (doc: object) => void;
-  showDialog: (dialog: object) => void;
-  onSearch: (text?: string) => void;
-  total: number;
-  loading: boolean;
-  setPage: (page: number) => void;
-  setPageSize: (pageSize: number) => void;
-  searchBy?: any;
-  pageProperties: object;
+interface IExampleList extends IDefaultListProps {
+  examples: IExample[];
+  showDialog: (options?: Object) => void;
 }
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 500,
-  },
-  selectDropdown: {color: '#fff', backgroundColor: '#1b1f38'},
-  menuItem: {
-    '&:hover': {
-      backgroundColor: '#3b3f58',
-    },
-  },
-  space: {
-    flex: 'none',
-    width: 'fit-content',
-  },
-  caption: {
-    flex: 'none',
-    width: 'fit-content',
-  },
-});
+const ExampleList = (props: IExampleList) => {
 
-const ExampleList = ({
-  examples,
-  history,
-  remove,
-  showDialog,
-  onSearch,
-  total,
-  loading,
-  setPage,
-  setPageSize,
-  searchBy,
-  pageProperties,
-}: IExampleList) => {
+  const {examples, history, remove, showDialog, onSearch, total, loading, setPage,
+    setPageSize, searchBy, pageProperties} = props;
 
-  const classes = useStyles();
+  const classes = useStylesExampleList();
 
   const idExample = shortid.generate();
-  const onClick = (event, id, doc, showDialog) => {
+  const onClick = (event: React.SyntheticEvent, id: string) => {
     history.push('/example/view/' + id);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: React.SyntheticEvent, newPage: number) => {
     setPage(newPage + 1);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPageSize(parseInt(event.target.value, 10));
     setPage(1);
   };
+
   const [text, setText] = React.useState(searchBy || '');
-  const change = (e) => {
+
+  const change = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (text.length !== 0 && e.target.value.length === 0) {
       onSearch();
     }
     setText(e.target.value);
   };
-  const keyPress = (e, a) => {
+  const keyPress = (e: React.SyntheticEvent, a) => {
     // if (e.key === 'Enter') {
     if (text && text.trim().length > 0) {
       onSearch(text.trim());
@@ -100,7 +64,7 @@ const ExampleList = ({
     // }
   };
 
-  const click = (...e) => {
+  const click = (...e: any) => {
     if (text && text.trim().length > 0) {
       onSearch(text.trim());
     } else {
@@ -109,12 +73,12 @@ const ExampleList = ({
 
   };
 
-  const callRemove = (doc) => {
+  const callRemove = (doc: IExample) => {
     const dialogOptions = {
       icon: <Delete/>,
       title: 'Remover exemplo',
       content: () => <p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
-      actions: ({closeDialog}) => [
+      actions: ({closeDialog}: {closeDialog: () => void}) => [
         <Button
             variant={'outlined'}
             color={'secondary'}
@@ -211,9 +175,11 @@ const exampleSearch = initSearch(
     ['title', 'description'], // list of fields
 );
 
-let onSearchExampleTyping;
+let onSearchExampleTyping: any;
 
-export const ExampleListContainer = withTracker((props) => {
+export const ExampleListContainer = withTracker((props: IDefaultContainerProps) => {
+
+  const {showNotification} = props;
 
   //Reactive Search/Filter
   const config = subscribeConfig.get();
@@ -235,41 +201,39 @@ export const ExampleListContainer = withTracker((props) => {
   //Collection Subscribe
   const subHandle = exampleApi.subscribe('exampleList', filter,
       {sort, limit, skip});
-  const examples = subHandle.ready()
+  const examples = subHandle?.ready()
       ? exampleApi.find(filter, {sort}).fetch()
       : [];
 
   return ({
     examples,
     loading: !!subHandle && !subHandle.ready(),
-    remove: (doc) => {
-      exampleApi.remove(doc, (e, r) => {
+    remove: (doc: IExample) => {
+      exampleApi.remove(doc, (e: IMeteorError, r) => {
         if (!e) {
-          props.showNotification({
+          showNotification({
             type: 'success',
             title: 'Operação realizada!',
             message: `O exemplo foi removido com sucesso!`,
           });
         } else {
           console.log('Error:', e);
-          props.showNotification({
+          showNotification({
             type: 'warning',
             title: 'Operação não realizada!',
             message: `Erro ao realizar a operação: ${e.message}`,
           });
         }
-
       });
     },
     searchBy: config.searchBy,
-    onSearch: (...params) => {
+    onSearch: (...params: any) => {
       onSearchExampleTyping && clearTimeout(onSearchExampleTyping);
       onSearchExampleTyping = setTimeout(() => {
         config.pageProperties.currentPage = 1;
         subscribeConfig.set(config);
         exampleSearch.onSearch(...params);
       }, 1000);
-
     },
     total: subHandle ? subHandle.total : examples.length,
     pageProperties: config.pageProperties,
@@ -282,14 +246,14 @@ export const ExampleListContainer = withTracker((props) => {
     setFilter: (newFilter = {}) => {
       config.filter = ({...filter, ...newFilter});
       Object.keys(config.filter).forEach((key) => {
-        if (config.filter[key] === null || config.filter[key] === undefined) {
+        if (config.filter[key] === null || config.filter[key] === undefined) { 
           delete config.filter[key];
         }
       });
       subscribeConfig.set(config);
     },
-    setSort: (sort = {}) => {
-      config.sort = sort;
+    setSort: (sort = {field: 'createdat', sortAscending: true}) => {
+      config.sortProperties = sort;
       subscribeConfig.set(config);
     },
     setPageSize: (size = 25) => {

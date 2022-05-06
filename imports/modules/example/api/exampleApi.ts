@@ -2,11 +2,10 @@
 import {ApiBase} from '../../../api/base';
 import {exampleSch} from './exampleSch';
 import {getUser} from '/imports/libs/getUser';
-
 // endregion
 
 class ExampleApi extends ApiBase {
-  constructor(props) {
+  constructor() {
     super('example', exampleSch);
 
     this.addPublication('exampleList', (filter = {}, options = {}) => {

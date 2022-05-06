@@ -4,6 +4,7 @@ import {get, set, Store} from 'idb-keyval';
 import {parse, stringify} from 'zipson';
 import {EnumUserRoles} from '/imports/userprofile/api/EnumUser';
 import settings from '/settings.json';
+import { IUserProfile } from '../userprofile/api/UserProfileSch';
 
 class LoggedUserStore {
   userStore = new Store(`${settings.name}_` + 'loggedUser', 'LoggedUser-store');
@@ -33,7 +34,7 @@ export const userprofileData = {
  * @return {Object} Logged User
  */
 export const getUser = (
-    userDoc: object, connection: { id: string }): object => {
+    userDoc?: object, connection?: { id: string }): object => {
   if (userDoc) {
     return userDoc;
   }

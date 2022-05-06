@@ -1,8 +1,9 @@
 import React from 'react';
 import {ExampleListContainer} from './exampleList';
 import {ExampleDetailContainer} from './exampleDetail';
+import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 
-export default (props: any) => {
+export default (props: IDefaultContainerProps) => {
 
   const validState = ['view', 'edit', 'create'];
 

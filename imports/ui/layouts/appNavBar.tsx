@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink, withRouter} from 'react-router-dom';
+import {NavLink, withRouter, RouteComponentProps} from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
@@ -16,8 +16,11 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import * as appStyle from '/imports/materialui/styles';
 import Container from '@mui/material/Container';
+import { Theme } from '@mui/material';
+import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
+import { IAppMenu } from '/imports/modules/modulesTypings';
 
-const HomeIconButton = withRouter((props) => {
+const HomeIconButton = withRouter(() => {
   return <NavLink to={'/'}>
     <div style={appLayoutMenuStyle.containerHomeIconButton}>
       <img style={appLayoutMenuStyle.homeIconButton}
@@ -26,23 +29,28 @@ const HomeIconButton = withRouter((props) => {
   </NavLink>;
 });
 
-const AppNavBar = ({
-  user,
-  history,
-  showDrawer,
-  showWindow,
-  theme,
-  location,
-}) => {
+interface IAppNavBar{
+  user: IUserProfile;
+  history: RouteComponentProps['history'];
+  showDrawer: (options?: Object) => void;
+  showWindow: (options?: Object) => void;
+  theme: Theme;
+  location: RouteComponentProps['location'];
+}
+
+const AppNavBar = (props: IAppNavBar) => {
+
+  const { user, history, showDrawer, showWindow, theme, location} = props;
+
   if (location && location.pathname.indexOf('/full') !== -1 || location &&
       location.pathname.indexOf('/print') !== -1) {
     return null;
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<Object | null>(null);
   const open = Boolean(anchorEl);
 
-  const handleMenu = (event) => {
+  const handleMenu = (event: React.SyntheticEvent) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -50,7 +58,7 @@ const AppNavBar = ({
     setAnchorEl(null);
   };
 
-  const openPage = url => () => {
+  const openPage = (url: string) => () => {
     handleClose();
     history.push(url);
   };
@@ -66,12 +74,12 @@ const AppNavBar = ({
   };
 
   const pathIndex = (Modules.getAppMenuItemList() || []).filter(
-      item => !item.isProtected || user && user.roles.indexOf('Publico') ===
+      (item: (IAppMenu | null)) => !item?.isProtected || user && user.roles.indexOf('Publico') ===
           -1).
       findIndex(
-          menuData => menuData.path === '/' && history.location.pathname === '/'
-              || menuData.path !== '/' && history.location &&
-              history.location.pathname.indexOf(menuData.path) === 0);
+          menuData => menuData?.path === '/' && history.location.pathname === '/'
+              || menuData?.path !== '/' && history.location &&
+              history.location.pathname.indexOf(menuData?.path) === 0);
   if (isMobile) {
     return (
         <div style={{
@@ -86,11 +94,11 @@ const AppNavBar = ({
           >
             {
               (Modules.getAppMenuItemList() || []).filter(
-                  item => !item.isProtected || user &&
+                (item: (IAppMenu | null)) => !item?.isProtected || user &&
                       user.roles.indexOf('Publico') === -1).
                   map((menuData, menuIndex) => (
-                      <Button key={menuData.path}
-                              onClick={() => history.push(menuData.path)}>
+                      <Button key={menuData?.path}
+                              onClick={() => history.push(menuData?.path)}>
                         <div
                             style={{
                               display: 'flex',
@@ -100,7 +108,7 @@ const AppNavBar = ({
                               paddingTop: 10,
                             }}
                         >
-                          {menuData.icon ? menuData.icon : null}
+                          {menuData?.icon ? menuData?.icon : null}
                         </div>
 
                       </Button>
@@ -130,7 +138,7 @@ const AppNavBar = ({
                 >
                   {
                     (Modules.getAppMenuItemList() || []).filter(
-                        item => !item.isProtected || user &&
+                      (item: (IAppMenu | null)) => !item?.isProtected || user &&
                             user.roles.indexOf('Publico') === -1).
                         map((menuData, ind) => (
                             <Button
@@ -139,10 +147,10 @@ const AppNavBar = ({
                                   color: pathIndex === ind
                                       ? appStyle.secondaryColor
                                       : undefined,
-                                }} key={menuData.path}
-                                onClick={() => history.push(menuData.path)}
+                                }} key={menuData?.path}
+                                onClick={() => history.push(menuData?.path)}
                             >
-                              {menuData.name}
+                              {menuData?.name}
                             </Button>
                         ))
                   }
