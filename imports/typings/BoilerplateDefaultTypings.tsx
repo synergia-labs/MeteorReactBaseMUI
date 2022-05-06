@@ -10,7 +10,6 @@ export interface IBoilerplateShowMethods{
   showDrawer?: (options?: Object) => void;
   showWindow?: (options?: Object) => void;    
 }
-
 export interface IDefaultContainerProps extends IBoilerplateShowMethods{
   history: RouteComponentProps['history'];
   location: RouteComponentProps['location'];

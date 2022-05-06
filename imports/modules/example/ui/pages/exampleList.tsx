@@ -246,8 +246,7 @@ export const ExampleListContainer = withTracker((props: IDefaultContainerProps) 
     setFilter: (newFilter = {}) => {
       config.filter = ({...filter, ...newFilter});
       Object.keys(config.filter).forEach((key) => {
-        //@ts-ignore
-        if (config.filter[key] === null || config.filter[key] === undefined) {  //@ts-ignore
+        if (config.filter[key] === null || config.filter[key] === undefined) { 
           delete config.filter[key];
         }
       });
