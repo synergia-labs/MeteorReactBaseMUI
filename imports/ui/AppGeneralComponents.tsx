@@ -17,6 +17,7 @@ import { useAccount } from '/imports/libs/userAccount';
 import './notificationStyle.css';
 import AppRouterSwitch from './layouts/appRouterSwitch';
 import { Theme } from '@mui/material';
+import { IBoilerplateShowMethods } from '../typings/BoilerplateDefaultTypings';
 
 if (isMobile) {
   import './notificationTipMobile.css';
@@ -27,19 +28,13 @@ if (isMobile) {
 let notifier = new AWN({ position: 'bottom-left', maxNotifications: 5 });
 
 const commonOptions = {open: false, onClose: () => {}, onOpen: () => {}};
-
-interface ICommonOptions{
+interface ICommonOptions extends IBoilerplateShowMethods{
   open: boolean;
   onClose: () => void;
   onOpen: () => void;
-  showNotification?: () => void;
-  showDialog?: () => void;
-  showDrawer?: () => void;
-  showWindow?: () => void;  
   closeComponent?: () => void;
   theme?: Theme;
 }
-
 interface IDialogContainerOptions extends ICommonOptions{
   customPaperProps?: any;
   customDialogActionsProps?: any;
