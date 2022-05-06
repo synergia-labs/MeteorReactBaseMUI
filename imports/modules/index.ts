@@ -1,8 +1,13 @@
 import userprofile from '../userprofile/config';
 import example from './example/config';
 import pages from '../ui/config/index';
+import { IAppMenu, IModules, IRoute } from './modulesTypings';
 
-class Modules {
+class Modules implements IModules{
+
+  modulesRouterList: (IRoute | null)[] = [null];
+  modulesAppMenuItemList: (IAppMenu | null)[] = [null];
+  
   constructor() {
     // Create modules router list
     this.modulesRouterList = [
