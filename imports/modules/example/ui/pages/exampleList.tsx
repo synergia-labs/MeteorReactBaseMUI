@@ -102,7 +102,7 @@ const ExampleList = (props: IExampleList) => {
           title={'Lista de Exemplos'}
           actions={[]}
       >
-        <TextField label={'Pesquisar'} value={text} onChange={change} onKeyPress={keyPress}  placeholder='Digite aqui o que deseja pesquisa...'
+        <TextField name={'pesquisar'} label={'Pesquisar'} value={text} onChange={change} onKeyPress={keyPress}  placeholder='Digite aqui o que deseja pesquisa...'
                    action={{ icon: 'search',onClick:click }}
         />
         <SimpleTable
@@ -209,7 +209,7 @@ export const ExampleListContainer = withTracker((props: IDefaultContainerProps) 
     examples,
     loading: !!subHandle && !subHandle.ready(),
     remove: (doc: IExample) => {
-      exampleApi.remove(doc, (e: IMeteorError, r) => {
+      exampleApi.remove(doc, (e: IMeteorError) => {
         if (!e) {
           showNotification({
             type: 'success',

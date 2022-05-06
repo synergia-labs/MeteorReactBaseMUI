@@ -16,17 +16,18 @@ import {InputAdornment} from "@mui/material";
 
 
 
-export default ({
-  name,
-  label,
-  value,
-  onChange,
-  readOnly,
-  error,
-  help,
-  style,
-  ...otherProps
-}: IBaseSimpleFormComponent) => {
+export default (props: IBaseSimpleFormComponent) => {
+  const {
+    name,
+    label,
+    value,
+    onChange,
+    readOnly,
+    error,
+    help,
+    style,
+    ...otherProps
+  } = props;
   const {schema} = otherProps;
   const fieldValue = value === '-' ? '-' : (schema && schema.type === Date &&
   !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value);
