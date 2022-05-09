@@ -19,6 +19,10 @@ import shortid from 'shortid';
 import {PageLayout} from '/imports/ui/layouts/pageLayout';
 import TextField
   from '/imports/ui/components/SimpleFormFields/TextField/TextField';
+import { IDefaultContainerProps, IDefaultListProps, IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
+import { IExample } from '../../api/exampleSch';
+import { useStylesExampleList } from './style/exampleListStyle';
+import { IConfigList } from '/imports/typings/IFilterProperties';
 
 interface IExampleList {
   examples: object[];
@@ -195,7 +199,7 @@ const ExampleList = ({
 
 };
 
-export const subscribeConfig = new ReactiveVar({
+export const subscribeConfig = new ReactiveVar<IConfigList>({
   pageProperties: {
     currentPage: 1,
     pageSize: 25,
