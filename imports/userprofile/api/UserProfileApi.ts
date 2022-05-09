@@ -89,13 +89,13 @@ class UserProfileApi extends OfflineBaseApi {
     if (Meteor.isServer) {
       if (userprofile.password) {
         userprofile._id = Accounts.createUser({
-          username: userprofile.username,
+          username: userprofile.email,
           password: userprofile.password,
           email: userprofile.email,
         });
       } else {
         userprofile._id = Accounts.createUser({
-          username: userprofile.username,
+          username: userprofile.email,
           email: userprofile.email,
         });
       }

@@ -4,15 +4,27 @@ import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '@mui/material/Button';
 import * as appSyles from '../../materialui/styles';
+import props from '../../userprofile/ui/pages/userprofileContainer';
 
-export const PageLayout = ({
-  title,
-  children,
-  actions,
-  hiddenTitleBar,
-  history,
-  onBack,
-}) => (
+export interface IPageLayout {
+  title: string;
+  children?:any[];
+  actions?:object[];
+  hiddenTitleBar?: boolean;
+  history?:() => void;
+  onBack?:() => void;
+}
+
+export const PageLayout = (props:IPageLayout) => {
+  const {
+    title,
+    children,
+    actions,
+    hiddenTitleBar,
+    history,
+    onBack,
+  } = props;
+  return (
     <div
         style={{
           width: '100%',
@@ -120,3 +132,4 @@ export const PageLayout = ({
       </div>
     </div>
 );
+}

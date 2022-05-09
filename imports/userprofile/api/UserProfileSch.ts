@@ -44,7 +44,7 @@ export const userProfileSch = {
   },
 };
 
-export interface UserProfile {
+export interface IUserProfile {
   _id?: string;
   photo: string;
   username: string;

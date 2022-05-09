@@ -6,7 +6,15 @@ import {theme} from '/imports/materialui/theme';
 import {useAccount} from '/imports/libs/userAccount';
 import {useTheme} from '@mui/styles';
 
-const AppContainer = (props) => {
+interface IAppContainer{
+  showDialog?: () => void;
+  showDrawer?: () => void;
+  showWindow?: () => void;  
+  showModal?: () => void;  
+  showNotification?: () => void;  
+}
+
+const AppContainer = (props: IAppContainer) => {
   const {isLoggedIn, user, userLoading} = useAccount();
 
   const theme = useTheme();
@@ -18,11 +26,8 @@ const AppContainer = (props) => {
 
 export const App = () => {
   return (
-      <ThemeProvider theme={theme}>
-        <GeneralComponents
-            render={(props) => <AppContainer {...props} />}
-        />
-      </ThemeProvider>
-
+    <ThemeProvider theme={theme}>
+      <GeneralComponents render={(props) => <AppContainer {...props} />}/>
+    </ThemeProvider>
   );
 };
