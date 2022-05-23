@@ -1,4 +1,4 @@
-import {segurancaApi} from "/imports/modules/seguranca/api/SegurancaApi";
+import {segurancaApi} from "/imports/seguranca/api/SegurancaApi";
 import {getUser} from "/imports/libs/getUser";
 
 type RenderComPermissaoProps = {

@@ -3,7 +3,7 @@ import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Modules from '../../modules';
 import NotFound from '../pages/NotFound/NotFound';
 import { getUser } from '/imports/libs/getUser';
-import { segurancaApi } from '/imports/modules/seguranca/api/SegurancaApi';
+import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
 import { IRoute } from '/imports/modules/modulesTypings';
 
 interface IPublicRoute extends IRoute {

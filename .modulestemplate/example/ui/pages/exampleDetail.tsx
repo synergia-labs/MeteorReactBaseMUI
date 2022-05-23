@@ -1,5 +1,6 @@
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
+import {RouteComponentProps} from 'react-router-dom';
 import {exampleApi} from '../../api/exampleApi';
 import SimpleForm from '../../../../ui/components/SimpleForm/SimpleForm';
 import Button from '@mui/material/Button';
@@ -8,8 +9,7 @@ import TextField
   from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField
   from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
-import ToggleSwitchField
-  from '../../../../ui/components/SimpleFormFields/ToggleField/ToggleField';
+
 import RadioButtonField
   from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
 
@@ -30,26 +30,23 @@ import * as appStyle from '/imports/materialui/styles';
 import Print from '@mui/icons-material/Print';
 import Close from '@mui/icons-material/Close';
 import {PageLayout} from '/imports/ui/layouts/pageLayout';
+import { IExample } from '../../api/exampleSch';
+import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
 
 interface IExampleDetail {
   screenState: string;
   loading: boolean;
   isPrintView: boolean;
-  exampleDoc: object;
-  save: { (doc: object, callback?: {}): void };
-  history: { push(url: string): void };
+  exampleDoc: IExample;
+  save: (doc: IExample, callback?: () => void) => void;
+  history: RouteComponentProps['history'];
 }
 
-const ExampleDetail = ({
-  isPrintView,
-  screenState,
-  loading,
-  exampleDoc,
-  save,
-  history,
-}: IExampleDetail) => {
+const ExampleDetail = (props: IExampleDetail) => {
 
-  const handleSubmit = (doc: object) => {
+  const {isPrintView, screenState, loading, exampleDoc, save, history} = props;
+
+  const handleSubmit = (doc: IExample) => {
     save(doc);
   };
 
@@ -139,11 +136,6 @@ const ExampleDetail = ({
               name="slider"
           />
 
-          <ToggleSwitchField
-              placeholder="Status da Tarefa"
-              name="statusToggle"
-          />
-
           <RadioButtonField
               placeholder="Opções da Tarefa"
               name="statusRadio"
@@ -217,45 +209,48 @@ const ExampleDetail = ({
 interface IExampleDetailContainer {
   screenState: string;
   id: string;
-  history: { push(url: string): void };
+  history: RouteComponentProps['history'];
   showNotification: (data: { type: string, title: string, description: string }) => void;
 }
 
-export const ExampleDetailContainer = withTracker(
-    (props: IExampleDetailContainer) => {
-      const {screenState, id} = props;
-      const subHandle = !!id
-          ? exampleApi.subscribe('exampleDetail', {_id: id})
-          : null;
-      let exampleDoc = id && subHandle.ready()
-          ? exampleApi.findOne({_id: id})
-          : {};
+export const ExampleDetailContainer = withTracker((props: IExampleDetailContainer) => {
 
-      return ({
-        screenState,
-        exampleDoc,
-        save: (doc, callback) => exampleApi[screenState === 'create'
-            ? 'insert'
-            : 'update'](doc, (e, r) => {
-          if (!e) {
-            props.history.push(
-                `/example/view/${screenState === 'create' ? r : doc._id}`);
-            props.showNotification({
-              type: 'success',
-              title: 'Operação realizada!',
-              description: `O exemplo foi ${doc._id
-                  ? 'atualizado'
-                  : 'cadastrado'} com sucesso!`,
-            });
-          } else {
-            console.log('Error:', e);
-            props.showNotification({
-              type: 'warning',
-              title: 'Operação não realizada!',
-              description: `Erro ao realizar a operação: ${e.reason}`,
-            });
-          }
+  const {screenState, id, history, showNotification } = props;
 
-        }),
-      });
-    })(ExampleDetail);
+  const subHandle = !!id
+    ? exampleApi.subscribe('exampleDetail', {_id: id})
+    : null;
+  let exampleDoc = id && subHandle?.ready()
+    ? exampleApi.findOne({_id: id})
+    : {};
+
+  return ({
+    screenState,
+    exampleDoc,
+    save: (doc: IExample, callback: () => void) => {
+      const selectedAction = screenState === 'create'? 'insert' : 'update';
+      exampleApi[selectedAction](doc, (e: IMeteorError, r: string) => {
+        if (!e) {
+
+          history.push(`/example/view/${screenState === 'create' ? r : doc._id}`);
+          showNotification({
+            type: 'success',
+            title: 'Operação realizada!',
+            description: `O exemplo foi ${doc._id
+                ? 'atualizado'
+                : 'cadastrado'} com sucesso!`,
+          });
+          callback(e,r);
+        } else {
+          console.log('Error:', e);
+          showNotification({
+            type: 'warning',
+            title: 'Operação não realizada!',
+            description: `Erro ao realizar a operação: ${e.reason}`,
+          });
+          callback(e,r);
+        }
+      })
+    },
+  });
+})(ExampleDetail);

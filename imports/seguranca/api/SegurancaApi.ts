@@ -1,5 +1,5 @@
 import {IUserProfile} from "/imports/userprofile/api/UserProfileSch";
-import {mapRolesRecursos} from "/imports/modules/seguranca/config/MapRolesRecursos";
+import {mapRolesRecursos} from "/imports/seguranca/config/MapRolesRecursos";
 import {Meteor} from "meteor/meteor";
 import {getSystemUserProfile} from "/imports/libs/getUser";
 
@@ -26,6 +26,7 @@ class SegurancaApi {
 
 	/**
 	 * Returna true se alguns se usuario logado possui acesso a algum recursos.
+	 * @param user
 	 * @param recursosTestados
 	 */
 	podeAcessarRecurso(user: IUserProfile, ...recursosTestados: string[]): boolean {
@@ -41,6 +42,7 @@ class SegurancaApi {
 
 	/**
 	 * Lança erro se não tiver nenhum dos recursos. (Ou seja se possuir apenas um é valido)
+	 * @param user
 	 * @param recursos
 	 * @param msgErro
 	 */

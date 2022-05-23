@@ -1,5 +1,5 @@
 {
-  "name": "MeteorReactBase-MUI",
+  "name": "MeteorReactBaseMUI",
   "private": true,
   "scripts": {
     "start": "meteor run",
@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
+    "@types/lodash": "^4.14.182",
     "@types/meteor": "^1.4.84",
     "@types/mocha": "^9.0.0",
     "@types/react": "^17.0.40",

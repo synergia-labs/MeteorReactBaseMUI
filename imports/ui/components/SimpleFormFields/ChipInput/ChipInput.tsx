@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import {styles} from './ChipInputStyle';
 import _ from 'lodash';
+import {IBaseSimpleFormComponent} from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 
 export default ({name, label, value, onChange, readOnly, error, ...otherProps}: IBaseSimpleFormComponent) => {
     const [chipText, setChipText] = useState('');
@@ -30,10 +31,8 @@ export default ({name, label, value, onChange, readOnly, error, ...otherProps}: 
     };
 
     const isFieldValid = (field: string) => {
-        if (hasValue(field)) {
-            return true;
-        }
-        return false;
+        return hasValue(field);
+
     };
 
     return (

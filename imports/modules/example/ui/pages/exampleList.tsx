@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import TablePagination from '@mui/material/TablePagination';
 import {ReactiveVar} from 'meteor/reactive-var';
-import {initSearch} from '../../../../libs/searchUtils';
+import {initSearch} from '/imports/libs/searchUtils';
 import * as appStyle from '/imports/materialui/styles';
 import shortid from 'shortid';
 import {PageLayout} from '/imports/ui/layouts/pageLayout';
@@ -20,7 +20,7 @@ import { IDefaultContainerProps, IDefaultListProps, IMeteorError } from '/import
 import { IExample } from '../../api/exampleSch';
 import { useStylesExampleList } from './style/exampleListStyle';
 import { IConfigList } from '/imports/typings/IFilterProperties';
-import { RenderComPermissao } from '/imports/modules/seguranca/ui/components/RenderComPermisao';
+import { RenderComPermissao } from '/imports/seguranca/ui/components/RenderComPermisao';
 import { Recurso } from '../../config/Recursos';
 
 interface IExampleList extends IDefaultListProps {

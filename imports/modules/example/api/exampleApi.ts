@@ -1,7 +1,7 @@
 // region Imports
 import { Meteor } from 'meteor/meteor';
 import {ApiBase} from '../../../api/base';
-import { segurancaApi } from '../../seguranca/api/SegurancaApi';
+import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
 import { Recurso } from '../config/Recursos';
 import {exampleSch, IExample} from './exampleSch';
 import {getUser} from '/imports/libs/getUser';
@@ -26,7 +26,6 @@ class ExampleApi extends ApiBase<IExample> {
     });
 
     this.addPublication('exampleDetail', (filter = {}, options = {}) => {
-      const user = getUser();
       const newFilter = {...filter};
       const newOptions = {...options};
       return this.defaultCollectionPublication(newFilter, newOptions);

@@ -1,6 +1,6 @@
 import { Recurso as Exemplo } from "/imports/modules/example/config/Recursos";
 
-import { RoleType } from "/imports/modules/seguranca/config/RoleType";
+import { RoleType } from "/imports/seguranca/config/RoleType";
 
 type MapRolesRecursos = {
   [key: string]: string[];
