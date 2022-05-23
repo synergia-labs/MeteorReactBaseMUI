@@ -9,11 +9,7 @@ import EmailVerify from '../pages/EmailVerify/EmailVerify';
 import RecoveryPassword
   from '/imports/ui/pages/RecoveryPassword/RecoveryPassword';
 import ResetPassword from '/imports/ui/pages/ResetPassword/ResetPassword';
-import asyncComponent from '/imports/libs/asyncComponent';
-
-const DevUtils = asyncComponent(() => {
-  return import('../pages/DevUtils/DevUtils');
-});
+//import asyncComponent from '/imports/libs/asyncComponent';
 
 export const pagesRouterList = [
   {
@@ -53,10 +49,4 @@ export const pagesRouterList = [
     path: '/verify-email/:token',
     component: EmailVerify,
   },
-  !Meteor.isProduction ?
-      {
-        path: '/devUtils',
-        component: DevUtils,
-      }
-      : null,
 ];
