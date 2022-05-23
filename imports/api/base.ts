@@ -5,6 +5,7 @@ import {getUser} from '/imports/libs/getUser';
 import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
 import { Match } from 'meteor/check';
+import { ISchema } from '../typings/ISchema';
 
 // Conters
 const Counts = new Mongo.Collection('counts');
@@ -40,16 +41,15 @@ const defaultOptions = {
 };
 
 // region Base Model
-export class ApiBase {
-  dao;
+export class ApiBase<Doc extends IDoc>  {
   isTest;
   publications;
   logCollection;
   restApiOptions;
   restApi = {};
-  schema: any;
+  schema: ISchema<Doc>;
   collectionName: string | null;
-  collectionInstance: Mongo.Collection<any>;
+  collectionInstance: Mongo.Collection<Partial<Doc>>;
   counts: Mongo.Collection<any>;
 
   /**
