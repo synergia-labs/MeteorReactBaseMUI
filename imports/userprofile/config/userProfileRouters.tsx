@@ -1,7 +1,7 @@
 import React from 'react';
-import UserProfileContainer from '../ui/pages/userprofileContainer';
+import UserProfileContainer from '../ui/pages/userProfileContainer';
 
-export const userprofileRouterList = [
+export const userProfileRouterList = [
   {
     path: '/userprofile/:screenState/:userprofileId',
     component: UserProfileContainer,

@@ -39,7 +39,7 @@ interface IExampleDetail {
   loading: boolean;
   isPrintView: boolean;
   exampleDoc: IExample;
-  save: { (doc: IExample, callback?: {}): void };
+  save: (doc: IExample, callback?: () => void) => void;
   history: RouteComponentProps['history'];
 }
 
@@ -245,10 +245,10 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
           showNotification({
             type: 'warning',
             title: 'Operação não realizada!',
-            description: `Erro ao realizar a operação: ${e.message}`,
+            description: `Erro ao realizar a operação: ${e.reason}`,
           });
         }
-      })      
+      })
     },
   });
 })(ExampleDetail);

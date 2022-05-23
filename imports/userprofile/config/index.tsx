@@ -1,8 +1,8 @@
 import React from 'react';
-import {userprofileMenuItemList} from './userprofileappmenu';
-import {userprofileRouterList} from './userprofilerouters';
+import {userProfileMenuItemList} from './userProfileAppMenu';
+import {userProfileRouterList} from './userProfileRouters';
 
 export default {
-  userprofileMenuItemList,
-  userprofileRouterList,
+  userProfileMenuItemList,
+  userProfileRouterList,
 };

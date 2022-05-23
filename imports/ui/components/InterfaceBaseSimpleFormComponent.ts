@@ -1,4 +1,4 @@
-interface IBaseSimpleFormComponent {
+export interface IBaseSimpleFormComponent {
   name: string;
   label?: string;
   placeholder?: string;

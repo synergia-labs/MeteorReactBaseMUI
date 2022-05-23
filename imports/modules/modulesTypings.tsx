@@ -4,16 +4,15 @@ export interface IAppMenu{
   path?: string;
   name?: string;
   isProtected?: boolean;
-  icon?: React.ReactFragment;  
+  icon?: React.ReactFragment;
 }
-
 export interface IRoute{
   path?: string;
-  component?: React.ReactFragment;
+  component: React.ReactFragment | React.Component | React.FunctionComponent<any> | React.ComponentType<any>;
   isProtected?: boolean;
-  exact?: string | undefined;
+  exact?: string | boolean | undefined;
+	resources?: string[];
 }
-
 export interface IModules{
   modulesRouterList: (IRoute | null)[];
   modulesAppMenuItemList: (IAppMenu | null)[];

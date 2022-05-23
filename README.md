@@ -586,6 +586,15 @@ A verificação se o cliente está acessando ou não através de um dispositivo 
 **Observação**: Caso seja necessário modificar a forma de identificar se o dispositivo terá um acesso WEB ou Mobile será necessário mudar a regra de definição da constante "**isMobile**".
 
 ## OUTROS RECURSOS ##       
+
+### Perfis e controle de acesso ###
+
+O controle de acesso através de perfis está implementado no múdulo "seguranca", e funciona da seguinte forma: no arquivo "RoleType.tsx" são definidos os perfis de acesso disponívels na aplicação. Cada módulo deverá possuir seu próprio arquivo de recursos, chamado "Recurso" na pasta "config" do próprio módulo. Nele, são definidos os recursos necessários para utilização daquele módulo. Basta agora atribuir os recursos necessários para cada perfil de usuário no arquivo "MapRolesRecursos.tsx". Nele, devem ser atribuidos para cada perfil os recursos que o mesmo possui. Como exemplo, já temos implementados recursos para o módulo "example" e perfil "Administrador".
+
+Como funciona a validação dos recursos? Para validações no backend, utilize a função podeAcessarRecurso. Para validações no frontend, utilize o componente funcional "RenderComPermissao", que somente renderizará qualquer JSX passado como children caso a validação de recursos retorne verdadeiro. Para validação de acesso a rotas do sistema, a propriedade "resources" deve ser informada na configuração da rota, no arquivo "nomeDoModuloRouters.tsx". Exemplos de uso para todos os três casos estão implementados no módulo "example".
+
+Caso não queira utilizar essa implementação de controle de acesso, não utilize as funções mencionadas acima e remova a validação por perfil de acesso no arquivo "appRouterSwitch.tsx", linhas 66-67.
+
 ### Contexto geral da aplicação ###
 
 O boilerplate possui propriedades e métodos armazenados em contexto geral que está disponível para todas as telas/componentes. Esse contexto é implementado utilizando as duas formas de contexto presentes na biblioteca ReactJS.

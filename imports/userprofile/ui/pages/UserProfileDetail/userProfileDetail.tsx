@@ -10,8 +10,6 @@ import ImageCompactField
   from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 import {PageLayout} from '/imports/ui/layouts/pageLayout';
 
-
-
 const UserProfileDetail = ({
   screenState,
   loading,
@@ -113,7 +111,7 @@ export const UserProfileDetailContainer = withTracker((props) => {
         props.showNotification({
           type: 'warning',
           title: 'Operação não realizada!',
-          description: `Erro ao realizar a operação: ${e.message}`,
+          description: `Erro ao realizar a operação: ${e.reason}`,
         });
       }
 

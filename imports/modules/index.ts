@@ -12,16 +12,15 @@ class Modules implements IModules{
     // Create modules router list
     this.modulesRouterList = [
       ...pages.pagesRouterList,
-      ...userprofile.userprofileRouterList,
+      ...userprofile.userProfileRouterList,
       ...example.exampleRouterList,
     ];
 
     // Create modules App Menu Item list
     this.modulesAppMenuItemList = [
       ...pages.pagesMenuItemList,
-      ...userprofile.userprofileMenuItemList,
+      ...userprofile.userProfileMenuItemList,
       ...example.exampleMenuItemList,
-
     ];
   }
 
