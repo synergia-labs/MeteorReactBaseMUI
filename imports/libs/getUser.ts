@@ -33,11 +33,7 @@ export const userprofileData = {
  * Return Logged User if exists.
  * @return {Object} Logged User
  */
-export const getUser = (
-    userDoc?: object, connection?: { id: string }): object => {
-  if (userDoc) {
-    return userDoc;
-  }
+ export const getUser = (connection?: { id: string }|null): IUserProfile => {
 
   if (Meteor.isClient && Meteor.status().status !== 'connected') {
     if (!!window && !!window.$app && !!window.$app.user) {
@@ -81,3 +77,21 @@ export const getUser = (
     });
   }
 };
+
+const SYSTEM_USER = Object.freeze({
+  email: "SYSTEM@SYSTEM", username: "Sistema",
+  _id: 'SYSTEM',
+  blocked: false,
+  createdat: new Date(),
+  createdby: 'SYSTEM',
+});
+
+/**
+ * Usuario reprensentando o sistema, para ações não realizadas por usuarios.
+ */
+ export function getSystemUserProfile(): IUserProfile | undefined {
+  if (Meteor.isClient) {
+    return undefined;
+  }
+  return SYSTEM_USER;
+}

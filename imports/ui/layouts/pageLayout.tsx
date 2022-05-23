@@ -4,18 +4,17 @@ import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Button from '@mui/material/Button';
 import * as appSyles from '../../materialui/styles';
-import props from '../../userprofile/ui/pages/userprofileContainer';
 
 export interface IPageLayout {
   title: string;
-  children?:any[];
-  actions?:object[];
+  children?: React.ReactNode;
+  actions?: object[];
   hiddenTitleBar?: boolean;
-  history?:() => void;
-  onBack?:() => void;
+  history?: {goBack: () => void};
+  onBack?: () => void;
 }
 
-export const PageLayout = (props:IPageLayout) => {
+export const PageLayout = (props: IPageLayout) => {
   const {
     title,
     children,

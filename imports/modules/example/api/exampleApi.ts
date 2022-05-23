@@ -1,5 +1,8 @@
 // region Imports
+import { Meteor } from 'meteor/meteor';
 import {ApiBase} from '../../../api/base';
+import { segurancaApi } from '../../seguranca/api/SegurancaApi';
+import { Recurso } from '../config/Recursos';
 import {exampleSch} from './exampleSch';
 import {getUser} from '/imports/libs/getUser';
 // endregion
@@ -10,6 +13,10 @@ class ExampleApi extends ApiBase {
 
     this.addPublication('exampleList', (filter = {}, options = {}) => {
       const user = getUser();
+
+			if (!segurancaApi.podeAcessarRecurso(user, Recurso.EXEMPLO_VIEW))
+			  throw new Meteor.Error('erro.example.permissaoInsuficiente', 'Você não possui permissão o suficiente para visualizar estes dados!');
+
       const newFilter = {...filter};
       const newOptions = {
         ...options,

@@ -254,7 +254,7 @@ export const ExampleListContainer = withTracker((props) => {
           props.showNotification({
             type: 'warning',
             title: 'Operação não realizada!',
-            message: `Erro ao realizar a operação: ${e.message}`,
+            message: `Erro ao realizar a operação: ${e.reason}`,
           });
         }
 

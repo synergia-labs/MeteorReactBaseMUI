@@ -8,6 +8,7 @@ import * as appStyle from '/imports/materialui/styles';
 import omit from "lodash/omit";
 import makeStyles from '@mui/styles/makeStyles';
 import { createStyles, Theme } from '@mui/material/styles';
+import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 export default ({
   name,
@@ -29,7 +30,6 @@ export default ({
   );
 
   const classes = useStyles();
-
 
   const fieldValue = value === '-' ? '-' : (schema && schema.type === Date &&
   !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value);

@@ -1,8 +1,10 @@
 import React from 'react';
-import {UserProfileListContainer} from './UserprofileList/userprofileList';
-import {UserProfileDetailContainer} from './UserprofileDetail/userprofileDetail';
+import {UserProfileListContainer} from './UserProfileList/userProfileList';
+import {UserProfileDetailContainer} from './UserProfileDetail/userProfileDetail';
+import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
+import { Meteor } from 'meteor/meteor';
 
-export default props => {
+export default (props: IDefaultContainerProps) => {
 
   const validState = ['view', 'edit', 'create'];
 

@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { hasValue } from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import { createStyles, Theme, withStyles } from '@mui/styles';
+import { createStyles, withStyles } from '@mui/styles';
 import InputBase from '@mui/material/InputBase';
 import * as appStyle from '/imports/materialui/styles';
 import TextField from '@mui/material/TextField';
@@ -14,26 +14,36 @@ import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import {isMobile} from "/imports/libs/deviceVerify";
+import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import { Theme } from '@mui/material';
 
-interface IOtherProps {
-    options: {
-        value: any;
-        label: string;
-        description:string;
-    }[];
+interface IOption{
+	value: any;
+	label: string;
+	description: string;
 }
 
-export default ({
-                    name,
+interface IOtherProps {
+	options?: IOption[];
+	defaultValue?: string;
+	description?: string;
+	menuNone?: boolean;
+	menuNotSelected?: boolean;
+	[otherPropsKey: string]: any;
+}
+
+export default ({   name,
                     label,
                     value,
                     description,
                     menuNone = false,
+                    menuNotSelected = false,
                     onChange,
                     readOnly,
                     error,
                     help,
                     style,
+					defaultValue,
                     placeholder,
                     ...otherProps
                 }: IBaseSimpleFormComponent & IOtherProps) => {
@@ -92,9 +102,8 @@ export default ({
 
     if (readOnly) {
         if (multiple) {
-            if (!value || value.length === 0) {
-                return '-';
-            }
+            if (!value || value.length === 0)
+				return <span>'-'</span>;
             return (
                 <div
                     style={{
@@ -206,97 +215,95 @@ export default ({
     };
 
     const getLabelFromValue = (value) => {
-        const objValue = otherProps.options ?
-            otherProps.options.find(object => (object.value === value || object === value)) :
-            schema.options.find(object => (object.value === value || object === value));
-        return (objValue && (objValue.label || objValue.value) || value);
-    };
+			const objValue = otherProps.options ?
+					otherProps.options.find(object => (object.label === value || object === value)) :
+					schema.options.find(object => (label.value === value || object === value));
+			return (objValue && (objValue.label || objValue.value) || value);
+	};
 
-    const defaultRenderValue = (values) => {
-        if (multiple) {
-            return (
-                <div>
-                    
-                    {values.map(value => (
-                        <Chip key={value} label={getLabelFromValue(value)}/>
-                       
-                    ))}
-                </div>);
-        }
-        return <span>{getLabelFromValue(value)}</span>;
-    };
+	const defaultRenderValue = (values) => {
+			if (multiple) {
+					return (
+							<div>
+									{values.map(value => (
+											<Chip key={value} label={getLabelFromValue(value)} />
+									))}
+							</div>
+					);
+			}
+			return <span>{getLabelFromValue(value)}</span>;
+	};
 
+	return (
+			<FormControl
+					variant="outlined"
+					key={name}
+					style={{
+							...appStyle.fieldContainer,
+							display: 'flex',
+							flexDirection: 'column',
+							width: '100%',
+							...(otherProps.style || {}),
+					}}
+			>
+					{label && !otherProps.rounded ? <SimpleLabelView label={label} help={help} /> : null}
+					{label && !!otherProps.rounded ? <InputLabel style={{backgroundColor: 'white', marginLeft: 4}}>{label}</InputLabel> : null}
 
-    return (
-        <FormControl
-            variant="outlined"
-            key={name}
-            style={{
-                ...appStyle.fieldContainer,
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-                ...(otherProps.style || {}),
-            }}
-        >
-            {label && !otherProps.rounded ? <SimpleLabelView label={label} help={help} /> : null}
-            {label && !!otherProps.rounded ? <InputLabel style={{backgroundColor: 'white', marginLeft: 4}}>{label}</InputLabel> : null}
+					<Select
+							displayEmpty
+							labelId={label + name}
+							key={{ name }}
+							id={name}
+							placeholder={placeholder}
+							style={{
+									...(style
+											? style
+											: {
+													borderColor: '#f2f2f2',
+													marginTop:4,
+											}),
+									...{
+											border: error ? '1px solid #ff0000' : 'undefined',
+											borderRadius: error ? '4px' : undefined,
+									},
+							}}
+							value={value || (multiple ? [] : '')}
+							onChange={onChangeSelect}
+							disabled={!!readOnly}
+							input={otherProps.rounded ? <RoundedInput /> : <BootstrapInput />}
+							multiple={multiple}
+							renderValue={multiple ? (renderValue || defaultRenderValue) : undefined}
+							{...omit(otherProps, ['options'])}
+					>
+							{menuNone && !multiple && (
+								<MenuItem id={''} key={''} value={undefined}>
+									{<em>Nenhum</em>}
+								</MenuItem>
+							)}
 
-            <Select
-                labelId={label + name}
-                key={{ name }}
-                id={name}
-                placeholder={placeholder}
-                style={{
-                    ...(style
-                        ? style
-                        : {
-                            borderColor: '#f2f2f2',
-                            marginTop:4,
-                        }),
-                    ...{
-                        border: error ? '1px solid #ff0000' : 'undefined',
-                        borderRadius: error ? '4px' : undefined,
-                    },
-                }}
-                value={value || (multiple ? [] : '')}
-                onChange={onChangeSelect}
-                disabled={!!readOnly}
-                input={otherProps.rounded ? <RoundedInput /> : <BootstrapInput />}
-                multiple={multiple}
-                renderValue={defaultRenderValue}
-                {...omit(otherProps, ['options'])}
-            >
-                {menuNone && !multiple && (
-                    <MenuItem id={''} key={''} value={undefined}>
-                        {<em>Nenhum</em>}
-                    </MenuItem>
-                )}
-                {!multiple&&(!otherProps.hiddenNotSelected)&&<MenuItem
-                    id={'noSelect'}
-                    key={'noSelect'}
-                    value={""}
-                >
-                    <ListItemText primary={'- Não selecionado -'} />
-                </MenuItem>}
+							<MenuItem disabled value="">
+								{defaultValue ?? placeholder}
+							</MenuItem>
 
-                {(options || []).map((opt) => (
-                    <MenuItem
-                        id={opt.value ? opt.value : opt}
-                        key={opt.value || opt}
-                        value={opt.value ? opt.value : opt}
-                    >
-                        {multiple && <Checkbox checked={!!value && value.includes(opt.value || opt)} />}
-                        <ListItemText primary={opt.label ? opt.label : opt} secondary={opt.description?opt.description:''} style={{width: style?.listItemWidth ? style.listItemWidth : 'unset', whiteSpace: isMobile ? 'normal' : 'unset'}}/>
-                    </MenuItem>
-                ))}
+							{menuNotSelected && !multiple &&
+								<MenuItem id={'noSelect'} key={'noSelect'} value={'#-#'}>
+									- Não selecionado -
+								</MenuItem>
+							}
 
-                {options?.length === 0 && (
-                    <MenuItem id={'NoValues'} disabled value="">
-                        <ListItemText primary="Nenhuma opção para selecionar" />
-                    </MenuItem>
-                )}
-            </Select>
-        </FormControl>
-    );
+							{(options || []).map((opt: IOption) => (
+								<MenuItem	id={opt.value ? opt.value : opt} key={opt.value || opt}	value={opt.value ? opt.value : opt}>
+									{multiple && <Checkbox checked={!!value && value.includes(opt.value || opt)} />}
+									<ListItemText primary={opt.label ? opt.label : opt} secondary={opt.description?opt.description:''} style={{width: style?.listItemWidth ? style.listItemWidth : 'unset', whiteSpace: isMobile ? 'normal' : 'unset'}}/>
+								</MenuItem>
+							))}
+
+							{options?.length === 0 && (
+								<MenuItem id={'NoValues'} disabled value="">
+									<ListItemText primary="Nenhuma opção para selecionar" />
+								</MenuItem>
+							)}
+					</Select>
+			</FormControl>
+	);
 };

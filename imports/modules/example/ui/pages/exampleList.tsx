@@ -20,6 +20,8 @@ import { IDefaultContainerProps, IDefaultListProps, IMeteorError } from '/import
 import { IExample } from '../../api/exampleSch';
 import { useStylesExampleList } from './style/exampleListStyle';
 import { IConfigList } from '/imports/typings/IFilterProperties';
+import { RenderComPermissao } from '/imports/modules/seguranca/ui/components/RenderComPermisao';
+import { Recurso } from '../../config/Recursos';
 
 interface IExampleList extends IDefaultListProps {
   examples: IExample[];
@@ -119,6 +121,7 @@ const ExampleList = (props: IExampleList) => {
           flexDirection: 'row',
           justifyContent: 'center',
         }}>
+          {/*@ts-ignore*/}
           <TablePagination
               style={{width: 'fit-content', overflow: 'unset'}}
               rowsPerPageOptions={[10, 25, 50, 100]}
@@ -146,15 +149,17 @@ const ExampleList = (props: IExampleList) => {
               }}
           />
         </div>
-        <div style={appStyle.fabContainer}>
-          <Fab
-              id={'add'}
-              onClick={() => history.push(`/example/create/${idExample}`)}
-              color={'primary'}>
-            <Add/>
-          </Fab>
-        </div>
 
+				<RenderComPermissao recursos={ [Recurso.EXEMPLO_CREATE] }>
+					<div style={appStyle.fabContainer}>
+						<Fab
+								id={'add'}
+								onClick={() => history.push(`/example/create/${idExample}`)}
+								color={'primary'}>
+							<Add/>
+						</Fab>
+					</div>
+				</RenderComPermissao>
       </PageLayout>
   );
 
@@ -210,7 +215,7 @@ export const ExampleListContainer = withTracker((props: IDefaultContainerProps) 
     examples,
     loading: !!subHandle && !subHandle.ready(),
     remove: (doc: IExample) => {
-      exampleApi.remove(doc, (e: IMeteorError) => {
+      exampleApi.remove(doc, (e: IMeteorError, r) => {
         if (!e) {
           showNotification({
             type: 'success',
@@ -222,7 +227,7 @@ export const ExampleListContainer = withTracker((props: IDefaultContainerProps) 
           showNotification({
             type: 'warning',
             title: 'Operação não realizada!',
-            message: `Erro ao realizar a operação: ${e.message}`,
+            message: `Erro ao realizar a operação: ${e.reason}`,
           });
         }
       });
@@ -247,7 +252,7 @@ export const ExampleListContainer = withTracker((props: IDefaultContainerProps) 
     setFilter: (newFilter = {}) => {
       config.filter = ({...filter, ...newFilter});
       Object.keys(config.filter).forEach((key) => {
-        if (config.filter[key] === null || config.filter[key] === undefined) { 
+        if (config.filter[key] === null || config.filter[key] === undefined) {
           delete config.filter[key];
         }
       });
