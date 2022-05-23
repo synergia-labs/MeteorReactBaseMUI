@@ -6,7 +6,6 @@ import SimpleLabelView
 import InputBase from '@mui/material/InputBase';
 import * as appStyle from '/imports/materialui/styles';
 import omit from "lodash/omit";
-import makeStyles from '@mui/styles/makeStyles';
 import { createStyles, Theme } from '@mui/material/styles';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
@@ -22,14 +21,6 @@ export default ({
     help,
   style,...otherProps
 }: IBaseSimpleFormComponent) => {
-
-  const useStyles = makeStyles((theme: Theme) =>
-      createStyles({
-        root: {height: 50},
-      }),
-  );
-
-  const classes = useStyles();
 
   const fieldValue = value === '-' ? '-' : (schema && schema.type === Date &&
   !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value);
@@ -136,9 +127,7 @@ export default ({
                                                            ? style.displayLabel
                                                            : undefined}
                                                        help={help}/> : null}
-      <TextField variant={'outlined'} InputProps={otherProps.rounded
-          ? {classes: classes}
-          : undefined}
+      <TextField variant={'outlined'}
                  {...(omit(otherProps, ['placeholder']))}
                  key={name} onChange={onFieldChange} value={fieldValue}
                  error={!!error} disabled={!!readOnly} id={name}

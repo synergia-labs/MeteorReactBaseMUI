@@ -18,7 +18,6 @@ import TextField
   from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import { IDefaultContainerProps, IDefaultListProps, IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
 import { IExample } from '../../api/exampleSch';
-import { useStylesExampleList } from './style/exampleListStyle';
 import { IConfigList } from '/imports/typings/IFilterProperties';
 import { RenderComPermissao } from '/imports/seguranca/ui/components/RenderComPermisao';
 import { Recurso } from '../../config/Recursos';
@@ -32,8 +31,6 @@ const ExampleList = (props: IExampleList) => {
 
   const {examples, history, remove, showDialog, onSearch, total, loading, setPage,
     setPageSize, searchBy, pageProperties} = props;
-
-  const classes = useStylesExampleList();
 
   const idExample = shortid.generate();
   const onClick = (event: React.SyntheticEvent, id: string) => {
@@ -140,12 +137,6 @@ const ExampleList = (props: IExampleList) => {
               }) => (`${from}-${to} de ${count}`)}
               SelectProps={{
                 inputProps: {'aria-label': 'rows per page'},
-                MenuProps: {classes: {paper: classes.selectDropdown}},
-              }}
-              classes={{
-                menuItem: classes.menuItem,
-                spacer: classes.space,
-                caption: classes.caption,
               }}
           />
         </div>

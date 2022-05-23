@@ -1,9 +1,6 @@
 import React from 'react';
-import omit from 'lodash/omit';
 import InputBase from '@mui/material/InputBase';
 import TextField from '@mui/material/TextField';
-import makeStyles from '@mui/styles/makeStyles';
-import { createStyles, Theme } from '@mui/material/styles';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import * as appStyle from '/imports/materialui/styles';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
@@ -59,14 +56,6 @@ export default ({maxCaracteres, error, help, label, name, readOnly, style, place
 
   fieldValue = valueFormatter(fieldValue);
   fieldValue = applyMask(fieldValue);
-  const useStyles = makeStyles((theme: Theme) => createStyles({
-		root: {
-			borderRadius: style ? style.borderRadius : 4,
-			backgroundColor: style ? style.backgroundColor : 'white'},
-		})
-	);
-
-  const classes = useStyles();
 
 	const maxLength = maxCaracteres && maxCaracteres == 'short' ? 100 : (maxCaracteres == 'medium' ? 200 : 400);
 
@@ -103,7 +92,6 @@ export default ({maxCaracteres, error, help, label, name, readOnly, style, place
 
         <TextField
 					variant='outlined'
-          InputProps={otherProps.rounded ? {classes: classes} : undefined}
           {...(otherProps)}
           key={name}
           onChange={onFieldChange}
@@ -151,7 +139,6 @@ export default ({maxCaracteres, error, help, label, name, readOnly, style, place
       <TextField
 				variant='outlined'
         style={style}
-        InputProps={otherProps.rounded || otherProps.field ? {root: classes.root} : undefined}
         {...otherProps}
         key={name}
         onChange={onFieldChange}

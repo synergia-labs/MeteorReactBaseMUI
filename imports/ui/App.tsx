@@ -1,10 +1,9 @@
 import React from 'react';
 import AppLayoutFixedMenu from './layouts/appLayoutFixedMenu.tsx';
 import GeneralComponents from './AppGeneralComponents';
-import {ThemeProvider} from '@mui/material/styles';
+import {ThemeProvider,useTheme} from '@mui/material/styles';
 import {theme} from '/imports/materialui/theme';
 import {useAccount} from '/imports/libs/userAccount';
-import {useTheme} from '@mui/styles';
 
 interface IAppContainer{
   showDialog?: () => void;

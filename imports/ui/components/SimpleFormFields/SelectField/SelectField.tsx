@@ -5,7 +5,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { hasValue } from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import { createStyles, withStyles } from '@mui/styles';
 import InputBase from '@mui/material/InputBase';
 import * as appStyle from '/imports/materialui/styles';
 import TextField from '@mui/material/TextField';
@@ -47,53 +46,7 @@ export default ({   name,
                     placeholder,
                     ...otherProps
                 }: IBaseSimpleFormComponent & IOtherProps) => {
-    const BootstrapInput = withStyles((theme: Theme) =>
-        createStyles({
-            root: {
-                'label + &': {
-                    marginTop: theme.spacing(3),
-                },
-            },
-            input: {
-                borderRadius: style ? style.borderRadius : 4,
-                position: 'relative',
-                backgroundColor: '#f3f3f3',
-                border: '1px solid #b9bec4',
-                fontSize: 16,
-                padding: '7px 26px 10px 12px',
-                transition: theme.transitions.create(['border-color', 'border-size', 'box-shadow']),
-                // Use the system font instead of the default Roboto font.
-                // fontFamily: [
-                //     //'PT',
-                // ].join(','),
-                '&:focus': {
-                    borderRadius: style ? style.borderRadius : 4,
-                    boxShadow: '0 0 0 0.2rem rgba(126,97,57,.25)',
-                },
-            },
-        }),
-    )(InputBase);
 
-    const RoundedInput = withStyles((theme: Theme) =>
-        createStyles({
-            input: {
-                borderRadius: 40,
-                position: 'relative',
-                backgroundColor: style ? style.backgroundColor : 'white',
-                border: '1px solid #b9bec4',
-                fontSize: 14,
-                marginTop:4,
-                padding: '7px 26px 10px 12px',
-                transition: theme.transitions.create(['border-color', 'border-size', 'box-shadow']),
-                // Use the system font instead of the default Roboto font.
-                fontFamily: 'PT Sans',
-                '&:focus': {
-                    borderRadius: 40,
-                    boxShadow: '0 0 0 0.2rem rgba(126,97,57,.25)',
-                },
-            },
-        }),
-    )(InputBase);
 
     const { schema } = otherProps;
     const options = otherProps.options || (schema && schema.options ? schema.options : []);
@@ -270,7 +223,7 @@ export default ({   name,
 							value={value || (multiple ? [] : '')}
 							onChange={onChangeSelect}
 							disabled={!!readOnly}
-							input={otherProps.rounded ? <RoundedInput /> : <BootstrapInput />}
+							input={<InputBase />}
 							multiple={multiple}
 							renderValue={multiple ? (renderValue || defaultRenderValue) : undefined}
 							{...omit(otherProps, ['options'])}

@@ -11,12 +11,11 @@ import Modal from '@mui/material/Modal';
 import AWN from 'awesome-notifications';
 import { appGeneralStyle } from './AppGeneralComponentsStyle';
 import { isMobile } from '/imports/libs/deviceVerify';
-import { useTheme } from '@mui/styles';
 import { MemoryRouter } from 'react-router';
 import { useAccount } from '/imports/libs/userAccount';
 import './notificationStyle.css';
 import AppRouterSwitch from './layouts/appRouterSwitch';
-import { Theme } from '@mui/material';
+import { Theme,useTheme } from '@mui/material';
 import { IBoilerplateShowMethods } from '../typings/BoilerplateDefaultTypings';
 
 if (isMobile) {

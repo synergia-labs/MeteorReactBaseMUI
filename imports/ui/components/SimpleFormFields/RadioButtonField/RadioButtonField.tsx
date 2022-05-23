@@ -9,23 +9,8 @@ import {hasValue} from '/imports/libs/hasValue';
 import * as appStyle from '/imports/materialui/styles';
 import {radioButtonStyle} from './RadioButtonFieldStyle';
 
-import {makeStyles} from '@mui/styles';
 import {Typography} from "@mui/material";
 
-const useStyles = makeStyles(theme => ({
-    radioLabel: {
-        fontSize: 13,
-        // fontFamily: 'PTSans',
-        // fontWeight: 'bold',
-        fontStretch: 'normal',
-        fontStyle: 'normal',
-        lineHeight: 1.2,
-        letterSpacing: '0.7px',
-        textAlign: 'left',
-        // color: '#858585',
-        textTransform: 'none',
-    },
-}));
 
 export default ({
                     name,
@@ -38,7 +23,6 @@ export default ({
                     help,
                     ...otherProps
                 }: IBaseSimpleFormComponent) => {
-    const classes = useStyles();
 
     const list = otherProps.options && hasValue(otherProps.options) ? otherProps.options : (schema && hasValue(schema.options) ? schema.options : null);
 
@@ -60,9 +44,6 @@ export default ({
                     style={radioButtonStyle.radio}
                 >
                     {list.map(itemCheck => <FormControlLabel
-                        classes={{
-                            label: classes.radioLabel,
-                        }}
                         key={itemCheck.value}
                         value={itemCheck.value}
                         id={itemCheck.value}

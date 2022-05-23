@@ -7,19 +7,6 @@ import {simpleLabelListStyle} from './SimpleLabelViewListStyle';
 import Tooltip from '@mui/material/Tooltip';
 import Help from '@mui/icons-material/Help';
 
-import {createStyles, makeStyles, Theme} from '@mui/styles';
-
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        customWidth: {
-            backgroundColor: '#FFF',
-            maxWidth: 300,
-            color: '#777',
-            boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-        },
-    }),
-);
 
 interface ISimpleLabelView {
     label: string;
@@ -28,7 +15,6 @@ interface ISimpleLabelView {
 }
 
 export default ({label, value, help, style}: ISimpleLabelView) => {
-    const classes = useStyles();
 
     return (
         hasValue(value) || hasValue(label) ?
@@ -50,7 +36,6 @@ export default ({label, value, help, style}: ISimpleLabelView) => {
                                 }}
                             >
                                 <Tooltip
-                                    classes={{tooltip: classes.customWidth}}
                                     title={help}
                                 >
                                     <Help style={{color: '#FFF', fontSize: 20}}/>

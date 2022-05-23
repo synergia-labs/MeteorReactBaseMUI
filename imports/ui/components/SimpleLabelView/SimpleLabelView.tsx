@@ -7,19 +7,7 @@ import {simpleLabelStyle} from './SimpleLabelViewStyle';
 import Tooltip from '@mui/material/Tooltip';
 import Info from '@mui/icons-material/InfoOutlined';
 
-import {createStyles, makeStyles, Theme} from '@mui/styles';
 import * as appStyles from '../../../materialui/styles';
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        customWidth: {
-            backgroundColor: '#FFF',
-            maxWidth: 600,
-            color: '#777',
-            boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-        },
-    }),
-);
 
 interface ISimpleLabelView {
     label: string;
@@ -28,7 +16,6 @@ interface ISimpleLabelView {
 }
 
 export default ({label, value, help, style}: ISimpleLabelView) => {
-    const classes = useStyles();
     return (
         hasValue(value) || hasValue(label) ?
             <div id={label} style={{...simpleLabelStyle.container}}>
@@ -42,7 +29,6 @@ export default ({label, value, help, style}: ISimpleLabelView) => {
                         </Typography></label> : null}
                     {help && (
                         <Tooltip
-                            classes={{tooltip: classes.customWidth}}
                             title={help}
                         >
                             <Info style={{color: appStyles.textSecondary, fontSize: 16}}/>
