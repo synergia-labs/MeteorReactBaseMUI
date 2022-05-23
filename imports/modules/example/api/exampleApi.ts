@@ -3,11 +3,11 @@ import { Meteor } from 'meteor/meteor';
 import {ApiBase} from '../../../api/base';
 import { segurancaApi } from '../../seguranca/api/SegurancaApi';
 import { Recurso } from '../config/Recursos';
-import {exampleSch} from './exampleSch';
+import {exampleSch, IExample} from './exampleSch';
 import {getUser} from '/imports/libs/getUser';
 // endregion
 
-class ExampleApi extends ApiBase {
+class ExampleApi extends ApiBase<IExample> {
   constructor() {
     super('example', exampleSch);
 
