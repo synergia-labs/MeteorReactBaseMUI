@@ -38,7 +38,7 @@ export default class RecoveryPassword extends React.Component {
           title: 'Senha enviada!',
           description: 'Acesse seu email e clique no link para criar uma nova senha.',
         });
-        props.history.push('/');
+        props.navigate('/');
       }
     });
   };
@@ -71,7 +71,7 @@ export default class RecoveryPassword extends React.Component {
             />
             <div style={recoveryPasswordStyle.containerButtonOptions}>
               <Button color={'secondary'}
-                      onClick={() => this.props.history.push(
+                      onClick={() => this.props.navigate(
                           '/signin')}>{'Voltar'}</Button>
               <Button id="forgotPassword" color={'primary'} variant={'outlined'}
                       submit="true">{'Recuperar a senha'}</Button>

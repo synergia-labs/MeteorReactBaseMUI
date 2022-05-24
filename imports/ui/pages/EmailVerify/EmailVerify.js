@@ -11,7 +11,7 @@ const EmailVerify = props => {
           title: 'Problema com o Token!',
           description: 'Email não verificado. Solicite um novo token!',
         });
-        props.history.push('/');
+        props.navigate('/');
       }
 
     } else {
@@ -22,7 +22,7 @@ const EmailVerify = props => {
         description: 'Seu e-mail foi verificado com sucesso, seja bem vindo!',
       });
 
-      props.history.push('/');
+      props.navigate('/');
     }
   });
   return <div/>;

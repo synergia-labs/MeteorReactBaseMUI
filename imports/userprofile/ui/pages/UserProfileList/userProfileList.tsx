@@ -5,10 +5,10 @@ import SimpleTable from '/imports/ui/components/SimpleTable/SimpleTable';
 import _ from 'lodash';
 import {PageLayout} from '/imports/ui/layouts/pageLayout';
 
-const UserProfileList = ({users, history}) => {
+const UserProfileList = ({users, navigate}) => {
 
   const onClick = (event, id, doc) => {
-    history.push('/userprofile/view/' + id);
+    navigate('/userprofile/view/' + id);
   };
 
   return (

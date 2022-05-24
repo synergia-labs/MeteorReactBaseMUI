@@ -38,7 +38,7 @@ export default class ResetPassword extends React.Component {
               title: 'Senha atualizada!',
               description: 'Sua senha foi atualizada com sucesso!!',
             });
-            this.props.history.push('/');
+            this.props.navigate('/');
           }
         },
     );
@@ -79,7 +79,7 @@ export default class ResetPassword extends React.Component {
                 placeholder="Repita a nova senha"
             />
             <div style={resetPasswordStyle.containerButtonOptions}>
-              <Button onClick={() => this.props.history.push(
+              <Button onClick={() => this.props.navigate(
                   '//signin')}>{'Voltar'}</Button>
               <Button variant={'outlined'}
                       submit="true">{'Atualizar a senha'}</Button>

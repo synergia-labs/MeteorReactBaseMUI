@@ -15,7 +15,7 @@ const UserProfileDetail = ({
   loading,
   user,
   save,
-  history,
+  navigate,
   hiddenTitleBar,
   close,
 }) => {
@@ -30,7 +30,7 @@ const UserProfileDetail = ({
           title={screenState === 'view'
               ? 'Visualizar usuário'
               : (screenState === 'edit' ? 'Editar Usuário' : 'Criar usuário')}
-          onBack={() => history.push('/example')}
+          onBack={() => navigate('/example')}
           hiddenTitleBar={!!hiddenTitleBar}
       >
         <SimpleForm
@@ -61,16 +61,16 @@ const UserProfileDetail = ({
           </FormGroup>
           <div key={'Buttons'} style={{paddingTop: 20, paddingBottom: 20}}>
             <Button
-                onClick={screenState === 'edit' ? () => history.push(
+                onClick={screenState === 'edit' ? () => navigate(
                     `/userprofile/view/${user._id}`) : (
-                    !!hiddenTitleBar ? close : () => history.push(`/userprofile/list`)
+                    !!hiddenTitleBar ? close : () => navigate(`/userprofile/list`)
                 )}
                 color={'secondary'} variant="contained">
               {screenState === 'view' ? 'Voltar' : 'Cancelar'}
             </Button>
 
             {screenState === 'view' ? (
-                <Button onClick={() => history.push(
+                <Button onClick={() => navigate(
                     `/userprofile/edit/${user._id}`)}
                         color={'primary'} variant="contained">
                   {'Editar'}
@@ -97,7 +97,7 @@ export const UserProfileDetailContainer = withTracker((props) => {
     user,
     save: (doc) => userprofileApi.update(doc, (e, r) => {
       if (!e) {
-        props.history.push(
+        props.navigate(
             `/userprofile/view/${screenState === 'create' ? r : doc._id}`);
         props.showNotification({
           type: 'success',

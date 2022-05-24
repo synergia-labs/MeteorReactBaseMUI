@@ -217,7 +217,7 @@ class PersistentMinimongoStorage {
         if (!controlStore.updatedDocs) {
             controlStore.updatedDocs = [doc];
             if (historyItem) {
-                controlStore.syncHistory.push(historyItem);
+                controlStore.syncnavigate(historyItem);
             }
             self.updateControlStoreData(controlStore);
             return true;
@@ -225,7 +225,7 @@ class PersistentMinimongoStorage {
         controlStore.updatedDocs = controlStore.updatedDocs.filter(d => d._id !== doc._id);
         controlStore.updatedDocs.push(doc);
         if (historyItem) {
-            controlStore.syncHistory.push(historyItem);
+            controlStore.syncnavigate(historyItem);
         }
 
 
@@ -241,7 +241,7 @@ class PersistentMinimongoStorage {
         }
         controlStore.updatedDocs = controlStore.updatedDocs.filter(d => d._id !== doc._id);
         if (historyItem) {
-            controlStore.syncHistory.push(historyItem);
+            controlStore.syncnavigate(historyItem);
         }
         self.updateControlStoreData(controlStore);
         return true;
@@ -256,7 +256,7 @@ class PersistentMinimongoStorage {
             controlStore.removedDocs.push(doc._id);
         }
         if (historyItem) {
-            controlStore.syncHistory.push(historyItem);
+            controlStore.syncnavigate(historyItem);
         }
         self.updateControlStoreData(controlStore);
         return true;
@@ -269,7 +269,7 @@ class PersistentMinimongoStorage {
         }
         controlStore.removedDocs = controlStore.removedDocs.filter(d => d !== doc._id);
         if (historyItem) {
-            controlStore.syncHistory.push(historyItem);
+            controlStore.syncnavigate(historyItem);
         }
         self.updateControlStoreData(controlStore);
         return true;
@@ -279,7 +279,7 @@ class PersistentMinimongoStorage {
         const self = this;
         const controlStore = self.getControlStoreData();
         if (historyItem) {
-            controlStore.syncHistory.push(historyItem);
+            controlStore.syncnavigate(historyItem);
         }
         self.updateControlStoreData(controlStore);
         return true;

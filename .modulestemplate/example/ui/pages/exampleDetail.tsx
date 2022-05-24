@@ -55,7 +55,7 @@ const ExampleDetail = (props: IExampleDetail) => {
           title={screenState === 'view'
               ? 'Visualizar exemplo'
               : (screenState === 'edit' ? 'Editar Exemplo' : 'Criar exemplo')}
-          onBack={() => history.push('/example')}
+          onBack={() => navigate('/example')}
           actions={[
             !isPrintView ? (
                 <span style={{
@@ -63,7 +63,7 @@ const ExampleDetail = (props: IExampleDetail) => {
                   marginRight: 10,
                   color: appStyle.primaryColor,
                 }} onClick={() => {
-                  history.push(`/example/printview/${exampleDoc._id}`);
+                  navigate(`/example/printview/${exampleDoc._id}`);
                 }}><Print/></span>
             ) : (
                 <span style={{
@@ -71,7 +71,7 @@ const ExampleDetail = (props: IExampleDetail) => {
                   marginRight: 10,
                   color: appStyle.primaryColor,
                 }} onClick={() => {
-                  history.push(`/example/view/${exampleDoc._id}`);
+                  navigate(`/example/view/${exampleDoc._id}`);
                 }}><Close/></span>
             ),
           ]}
@@ -175,8 +175,8 @@ const ExampleDetail = (props: IExampleDetail) => {
                 <Button
                     key={'b1'}
                     style={{marginRight: 10}}
-                    onClick={screenState === 'edit' ? () => history.push(
-                        `/example/view/${exampleDoc._id}`) : () => history.push(
+                    onClick={screenState === 'edit' ? () => navigate(
+                        `/example/view/${exampleDoc._id}`) : () => navigate(
                         `/example/list`)}
                     color={'secondary'} variant="contained">
                   {screenState === 'view' ? 'Voltar' : 'Cancelar'}
@@ -186,7 +186,7 @@ const ExampleDetail = (props: IExampleDetail) => {
 
             {!isPrintView && screenState === 'view' ? (
                 <Button key={'b2'} onClick={() => {
-                  history.push(
+                  navigate(
                       `/example/edit/${exampleDoc._id}`);
                 }}
                         color={'primary'} variant="contained">
@@ -232,7 +232,7 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
       exampleApi[selectedAction](doc, (e: IMeteorError, r: string) => {
         if (!e) {
 
-          history.push(`/example/view/${screenState === 'create' ? r : doc._id}`);
+          navigate(`/example/view/${screenState === 'create' ? r : doc._id}`);
           showNotification({
             type: 'success',
             title: 'Operação realizada!',

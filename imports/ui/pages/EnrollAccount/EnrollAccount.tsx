@@ -23,7 +23,7 @@ const EnrollAccount = (props) => {
 
       } else {
         setTimeout(() => {
-          props.history.push('/');
+          props.navigate('/');
         }, 2000);
         setStatus('Email verificado com sucesso! Redirecionando, aguarde....');
       }

@@ -10,7 +10,7 @@ export interface IPageLayout {
   children?: React.ReactNode;
   actions?: object[];
   hiddenTitleBar?: boolean;
-  history?: {goBack: () => void};
+  navigate?: {goBack: () => void};
   onBack?: () => void;
 }
 
@@ -20,7 +20,7 @@ export const PageLayout = (props: IPageLayout) => {
     children,
     actions,
     hiddenTitleBar,
-    history,
+    navigate,
     onBack,
   } = props;
   return (
@@ -61,12 +61,12 @@ export const PageLayout = (props: IPageLayout) => {
             alignItems: 'center',
           }}>
 
-            {(onBack || history) && <Button
+            {(onBack || navigate) && <Button
                 onClick={() => {
                   if (onBack) {
                     onBack();
                   } else {
-                    history.goBack();
+                    navigate.goBack();
                   }
                 }}
             >

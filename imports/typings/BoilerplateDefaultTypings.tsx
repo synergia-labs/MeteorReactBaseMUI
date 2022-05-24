@@ -12,7 +12,7 @@ export interface IBoilerplateShowMethods{
   showWindow?: (options?: Object) => void;    
 }
 export interface IDefaultContainerProps extends IBoilerplateShowMethods{
-  history: RouteComponentProps['history'];
+  navigate: RouteComponentProps['navigate'];
   location: RouteComponentProps['location'];
   match: RouteComponentProps['match'];
   user: IUserProfile;
@@ -26,7 +26,7 @@ export interface IDefaultContainerProps extends IBoilerplateShowMethods{
 }
 
 export interface IDefaultListProps extends IBoilerplateShowMethods{
-  history: RouteComponentProps['history'];
+  navigate: RouteComponentProps['navigate'];
   user: IUserProfile;
   remove: (doc: object) => void;
   onSearch: (text?: string) => void;

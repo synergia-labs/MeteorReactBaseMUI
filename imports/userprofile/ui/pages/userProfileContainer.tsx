@@ -3,30 +3,31 @@ import {UserProfileListContainer} from './UserProfileList/userProfileList';
 import {UserProfileDetailContainer} from './UserProfileDetail/userProfileDetail';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import { Meteor } from 'meteor/meteor';
+import {useParams} from 'react-router-dom';
 
 export default (props: IDefaultContainerProps) => {
 
   const validState = ['view', 'edit', 'create'];
 
-  const screenState =
-      props.match && props.match.params && !!props.match.params.screenState
-          ? props.match.params.screenState
-          : undefined;
+  let { screenState,userprofileId } = useParams();
+
+  const state =
+      screenState?screenState
+          : props.screenState;
 
   const id =
-      props.match && props.match.params && !!props.match.params.userprofileId
-          ? props.match.params.userprofileId
+      userprofileId?userprofileId
           : Meteor.userId;
 
-  if (!!screenState && validState.indexOf(screenState) !== -1) {
-    if (screenState === 'view' && !!id) {
-      return <UserProfileDetailContainer {...props} screenState={screenState}
+  if (!!state && validState.indexOf(state) !== -1) {
+    if (state === 'view' && !!id) {
+      return <UserProfileDetailContainer {...props} screenState={state}
                                          id={id}/>;
-    } else if (screenState === 'edit' && !!id) {
-      return <UserProfileDetailContainer {...props} screenState={screenState}
+    } else if (state === 'edit' && !!id) {
+      return <UserProfileDetailContainer {...props} screenState={state}
                                          id={id} edit/>;
-    } else if (screenState === 'create') {
-      return <UserProfileDetailContainer {...props} screenState={screenState}
+    } else if (state === 'create') {
+      return <UserProfileDetailContainer {...props} screenState={state}
                                          create/>;
     }
   } else {

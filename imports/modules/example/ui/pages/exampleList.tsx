@@ -29,12 +29,15 @@ interface IExampleList extends IDefaultListProps {
 
 const ExampleList = (props: IExampleList) => {
 
-  const {examples, history, remove, showDialog, onSearch, total, loading, setPage,
+  const {examples, navigate, remove, showDialog, onSearch, total, loading, setPage,
     setPageSize, searchBy, pageProperties} = props;
+
+  console.log('navigate',navigate)
 
   const idExample = shortid.generate();
   const onClick = (event: React.SyntheticEvent, id: string) => {
-    history.push('/example/view/' + id);
+    console.log('Nav','/example/view/' + id)
+    navigate('/example/view/' + id);
   };
 
   const handleChangePage = (event: React.SyntheticEvent, newPage: number) => {
@@ -145,7 +148,7 @@ const ExampleList = (props: IExampleList) => {
 					<div style={appStyle.fabContainer}>
 						<Fab
 								id={'add'}
-								onClick={() => history.push(`/example/create/${idExample}`)}
+								onClick={() => navigate(`/example/create/${idExample}`)}
 								color={'primary'}>
 							<Add/>
 						</Fab>

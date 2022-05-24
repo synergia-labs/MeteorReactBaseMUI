@@ -3,7 +3,6 @@ import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import AppNavBar from './appNavBar';
 import AppRouterSwitch from './appRouterSwitch';
-import {isMobile} from '/imports/libs/deviceVerify';
 
 import {appLayoutMenuStyle} from './AppLayoutFixedMenuStyle';
 

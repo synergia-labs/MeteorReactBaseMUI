@@ -75,7 +75,7 @@ export default class Signin extends React.Component {
 
     if (!!user && !!user._id) {
       this.setState({redirectToReferer: true});
-      this.props.history.push('/');
+      this.props.navigate('/');
     }
 
     const SocialLoginButton = ({
@@ -115,7 +115,7 @@ export default class Signin extends React.Component {
         }
       } else {
         this.setState({redirectToReferer: true});
-        this.props.history.push('/');
+        this.props.navigate('/');
       }
     };
 
@@ -172,7 +172,7 @@ export default class Signin extends React.Component {
                   />
                   <div style={signinStyle.containerButtonOptions}>
                     <Button id="forgotPassword" color={'secondary'}
-                            onClick={() => this.props.history.push(
+                            onClick={() => this.props.navigate(
                                 '/recovery-password')}>{'Esqueci a minha senha'}</Button>
                     <Button id="btnEnter" variant={'outlined'} color={'primary'}
                             submit>{'Entrar'}</Button>
@@ -182,7 +182,7 @@ export default class Signin extends React.Component {
               </SimpleForm>
               <div style={signinStyle.containerRouterSignUp}>
                 <Button id="newUser" color={'secondary'}
-                        onClick={() => this.props.history.push(
+                        onClick={() => this.props.navigate(
                             '/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
               </div>
               <div key="loginoptions" style={{

@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink, withRouter, RouteComponentProps} from 'react-router-dom';
+import {HistoryRouterProps,useNavigate} from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
@@ -19,33 +19,33 @@ import Container from '@mui/material/Container';
 import { Theme } from '@mui/material';
 import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import { IAppMenu } from '/imports/modules/modulesTypings';
+import {IDefaultContainerProps} from '/imports/typings/BoilerplateDefaultTypings';
 
-const HomeIconButton = withRouter(() => {
-  return <NavLink to={'/'}>
-    <div style={appLayoutMenuStyle.containerHomeIconButton}>
-      <img style={appLayoutMenuStyle.homeIconButton}
-           src="/images/wireframe/logo.png"/>
-    </div>
-  </NavLink>;
-});
+
+const HomeIconButton = ({navigate}:any) => {
+  return (
+      <div onClick={()=>navigate('/')} style={appLayoutMenuStyle.containerHomeIconButton}>
+        <img style={appLayoutMenuStyle.homeIconButton}
+             src="/images/wireframe/logo.png"/>
+      </div>
+      )
+
+};
 
 interface IAppNavBar{
   user: IUserProfile;
-  history: RouteComponentProps['history'];
+  navigate: HistoryRouterProps;
   showDrawer: (options?: Object) => void;
   showWindow: (options?: Object) => void;
   theme: Theme;
-  location: RouteComponentProps['location'];
+  location: any;
 }
 
-const AppNavBar = (props: IAppNavBar) => {
+const AppNavBar = (props: any) => {
 
-  const { user, history, showDrawer, showWindow, theme, location} = props;
-
-  if (location && location.pathname.indexOf('/full') !== -1 || location &&
-      location.pathname.indexOf('/print') !== -1) {
-    return null;
-  }
+  const navigate = useNavigate();
+  
+  const { user, showDrawer, showWindow, theme} = props;
 
   const [anchorEl, setAnchorEl] = React.useState<Object | null>(null);
   const open = Boolean(anchorEl);
@@ -60,7 +60,7 @@ const AppNavBar = (props: IAppNavBar) => {
 
   const openPage = (url: string) => () => {
     handleClose();
-    history.push(url);
+    navigate(url);
   };
 
   const viewProfile = () => {
@@ -77,9 +77,9 @@ const AppNavBar = (props: IAppNavBar) => {
       (item: (IAppMenu | null)) => !item?.isProtected || user && user.roles.indexOf('Publico') ===
           -1).
       findIndex(
-          menuData => menuData?.path === '/' && history.location.pathname === '/'
-              || menuData?.path !== '/' && history.location &&
-              history.location.pathname.indexOf(menuData?.path) === 0);
+          menuData => menuData?.path === '/' && navigate.location.pathname === '/'
+              || menuData?.path !== '/' && navigate.location &&
+              navigate.location.pathname.indexOf(menuData?.path) === 0);
   if (isMobile) {
     return (
         <div style={{
@@ -98,7 +98,7 @@ const AppNavBar = (props: IAppNavBar) => {
                       user.roles.indexOf('Publico') === -1).
                   map((menuData, menuIndex) => (
                       <Button key={menuData?.path}
-                              onClick={() => history.push(menuData?.path)}>
+                              onClick={() => navigate(menuData?.path)}>
                         <div
                             style={{
                               display: 'flex',
@@ -129,7 +129,7 @@ const AppNavBar = (props: IAppNavBar) => {
   return (
       <AppBar position="static">
         <Container style={appLayoutMenuStyle.containerFixedMenu}>
-          <HomeIconButton/>
+          <HomeIconButton navigate={navigate}/>
           <Toolbar style={appLayoutMenuStyle.toolbarFixedMenu}>
             <div style={appNavBarStyle.containerNavBar}>
               <div style={appNavBarStyle.subContainerNavBar}>
@@ -148,7 +148,7 @@ const AppNavBar = (props: IAppNavBar) => {
                                       ? appStyle.secondaryColor
                                       : undefined,
                                 }} key={menuData?.path}
-                                onClick={() => history.push(menuData?.path)}
+                                onClick={() => navigate(menuData?.path)}
                             >
                               {menuData?.name}
                             </Button>
@@ -209,4 +209,4 @@ const AppNavBar = (props: IAppNavBar) => {
   );
 };
 
-export default withRouter(AppNavBar);
+export default AppNavBar;

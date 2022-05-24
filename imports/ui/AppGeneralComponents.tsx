@@ -358,11 +358,11 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
 
   componentDidMount() {
     const self = this;
-    if (window.history) {
-      window.history.pushState(null, null, window.location.href);
+    if (window.navigate) {
+      window.navigateState(null, null, window.location.href);
 
       window.onpopstate = function () {
-        window.history.go(1);
+        window.navigate.go(1);
       };
     }
 
