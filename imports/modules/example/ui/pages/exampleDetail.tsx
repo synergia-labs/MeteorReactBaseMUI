@@ -1,7 +1,6 @@
 import React from 'react';
 import Meteor from 'meteor/meteor';
 import {withTracker} from 'meteor/react-meteor-data';
-import {RouteComponentProps} from 'react-router-dom';
 import {exampleApi} from '../../api/exampleApi';
 import SimpleForm from '../../../../ui/components/SimpleForm/SimpleForm';
 import Button from '@mui/material/Button';
@@ -10,15 +9,12 @@ import TextField
   from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import TextMaskField
   from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
-
 import RadioButtonField
   from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
-
 import SelectField
   from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
 import UploadFilesCollection
   from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
-
 import ChipInput
   from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
 import SliderField
@@ -40,7 +36,7 @@ interface IExampleDetail {
   isPrintView: boolean;
   exampleDoc: IExample;
   save: (doc: IExample, callback?: () => void) => void;
-  navigate: RouteComponentProps['navigate'];
+  navigate: (url: string | -1, state?: object) => void;
 }
 
 const ExampleDetail = (props: IExampleDetail) => {
@@ -210,7 +206,7 @@ const ExampleDetail = (props: IExampleDetail) => {
 interface IExampleDetailContainer {
   screenState: string;
   id: string;
-  navigate: RouteComponentProps['navigate'];
+  navigate: (url: string | -1, state?: object) => void;
   showNotification: (data: { type: string, title: string, description: string }) => void;
 }
 

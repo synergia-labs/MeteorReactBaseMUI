@@ -14,7 +14,7 @@
 
  */
 
-const resetPasswordStylePasswordStyle = {
+ export const resetPasswordStyle = {
   containerResetPassword: {
     width: '100%',
     maxWidth: 400,
@@ -38,6 +38,3 @@ const resetPasswordStylePasswordStyle = {
   },
 };
 
-export {
-  resetPasswordStylePasswordStyle,
-};

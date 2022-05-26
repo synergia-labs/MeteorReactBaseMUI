@@ -1,5 +1,5 @@
 import React from 'react';
-import {HistoryRouterProps,useNavigate} from 'react-router-dom';
+import {useLocation,useNavigate} from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
@@ -16,34 +16,30 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import * as appStyle from '/imports/materialui/styles';
 import Container from '@mui/material/Container';
-import { Theme } from '@mui/material';
-import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import { IAppMenu } from '/imports/modules/modulesTypings';
-import {IDefaultContainerProps} from '/imports/typings/BoilerplateDefaultTypings';
-
+import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
+import { Theme } from '@mui/material';
 
 const HomeIconButton = ({navigate}:any) => {
   return (
-      <div onClick={()=>navigate('/')} style={appLayoutMenuStyle.containerHomeIconButton}>
-        <img style={appLayoutMenuStyle.homeIconButton}
-             src="/images/wireframe/logo.png"/>
-      </div>
-      )
-
+    <div onClick={()=>navigate('/')} style={appLayoutMenuStyle.containerHomeIconButton}>
+      <img style={appLayoutMenuStyle.homeIconButton}
+        src="/images/wireframe/logo.png"/>
+    </div>
+  )
 };
 
 interface IAppNavBar{
   user: IUserProfile;
-  navigate: HistoryRouterProps;
   showDrawer: (options?: Object) => void;
   showWindow: (options?: Object) => void;
   theme: Theme;
-  location: any;
 }
 
-const AppNavBar = (props: any) => {
+const AppNavBar = (props: IAppNavBar) => {
 
   const navigate = useNavigate();
+  const location = useLocation();
   
   const { user, showDrawer, showWindow, theme} = props;
 
@@ -77,9 +73,9 @@ const AppNavBar = (props: any) => {
       (item: (IAppMenu | null)) => !item?.isProtected || user && user.roles.indexOf('Publico') ===
           -1).
       findIndex(
-          menuData => menuData?.path === '/' && navigate.location.pathname === '/'
-              || menuData?.path !== '/' && navigate.location &&
-              navigate.location.pathname.indexOf(menuData?.path) === 0);
+          menuData => menuData?.path === '/' && location.pathname === '/'
+              || menuData?.path !== '/' && location &&
+              location.pathname.indexOf(menuData?.path) === 0);
   if (isMobile) {
     return (
         <div style={{
@@ -122,7 +118,6 @@ const AppNavBar = (props: any) => {
             <AccountCircle style={appNavBarStyle.accountCircle}/>
           </IconButton>
         </div>
-
     );
   }
 

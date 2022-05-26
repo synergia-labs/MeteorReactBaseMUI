@@ -1,8 +1,17 @@
 import React from 'react';
+import { Accounts } from 'meteor/accounts-base';
+import { useParams } from 'react-router-dom';
+import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 
 let emailVerified = false;
-const EmailVerify = props => {
-  Accounts.verifyEmail(props.match.params.token, (err, res) => {
+
+export const EmailVerify = (props: IDefaultContainerProps) => {
+
+	const {token} = useParams();
+
+	const {showNotification, navigate} = props;
+
+  Accounts.verifyEmail(token!, (err: any) => {
 
     if (err) {
       if (!emailVerified) {
@@ -11,21 +20,20 @@ const EmailVerify = props => {
           title: 'Problema com o Token!',
           description: 'Email não verificado. Solicite um novo token!',
         });
-        props.navigate('/');
+        navigate('/');
       }
 
     } else {
       emailVerified = true;
-      props.showNotification({
+      showNotification({
         type: 'success',
         title: 'Email Verificado',
         description: 'Seu e-mail foi verificado com sucesso, seja bem vindo!',
       });
-
-      props.navigate('/');
+      navigate('/');
     }
   });
-  return <div/>;
+
+	return <></>;
 };
 
-export default EmailVerify;
