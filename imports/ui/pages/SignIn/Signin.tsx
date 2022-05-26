@@ -42,6 +42,60 @@ export const SignIn = (props: any) => {
     });
   }
 
+  const SocialLoginButton = ({
+    onLogin,
+    buttonText,
+    iconClass,
+    customCss,
+    iconOnly,
+  }) => (
+      <div
+          onClick={onLogin}
+          className="material-button-contained"
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center', height: 50,
+            color: '#FFF',
+            ...customCss,
+          }}
+      >
+        <i className={iconClass}/>
+        {!iconOnly && <span style={{marginLeft: 15}}>{buttonText}</span>}
+      </div>
+  );  
+
+  const callbackLogin = (err) => {
+    if (err) {
+      console.log('Login Error: ', err);
+      if (err.errorType === 'Accounts.LoginCancelledError') {
+        showNotification('Autenticação cancelada', 'error');
+        //self.setState({ error: 'AUtenticação cancelada' })
+      } else {
+        showNotification(err.error, 'error');
+      }
+    } else {
+      setRedirectToReferer(true);
+      navigate('/');
+    }
+  };  
+
+  const loginFacebook = () => {
+    Meteor.loginWithFacebook(
+      {requestPermissions: ['public_profile', 'email']}, (err) => {
+        callbackLogin(err);
+      });
+  };
+
+  const loginGoogle = () => {
+    Meteor.loginWithGoogle({requestPermissions: ['profile', 'email']},
+      (err) => {
+        callbackLogin(err);
+      });
+  };
+
   const {from} = location.state || {from: {pathname: '/'}};
 
   if (redirectToReferer) {
@@ -116,6 +170,32 @@ export const SignIn = (props: any) => {
                 display: 'flex',
                 flexDirection: 'column',
               }}>
+                <div key="divBtnGoogle" style={{width: '100%'}}>
+                  <SocialLoginButton
+                      key="btnGoogle"
+                      iconClass={'google icon'}
+                      onLogin={loginGoogle}
+                      buttonText={'Login pelo Google'}
+                      customCss={{
+                        background: '#dd4b39',
+                        width: '100%',
+                        cursor: 'pointer',
+                      }}
+                  />
+                </div>
+                <div key="divBtnFaceboook" style={{width: '100%'}}>
+                  <SocialLoginButton
+                      key="btnFaceboook"
+                      iconClass={'facebook icon'}
+                      onLogin={loginFacebook}
+                      buttonText={'Login pelo Facebook'}
+                      customCss={{
+                        background: '#3B5998',
+                        width: '100%',
+                        cursor: 'pointer',
+                      }}
+                  />
+                  </div>
               </div>
             </div>
           </div>
