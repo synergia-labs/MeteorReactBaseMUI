@@ -16,8 +16,8 @@ const AppRouterSwitch = (switchProps: any) => {
 	const navigate = useNavigate();
 
 	return (
-		<Routes location={location}>
-			{(Modules.getListOfRouterModules() || [])
+			<Routes location={location}>
+				{(Modules.getListOfRouterModules() || [])
 				.filter(r => !!r)
 				.map((routerData: IRoute | null) => {
 					if (routerData?.isProtected) {
@@ -33,7 +33,7 @@ const AppRouterSwitch = (switchProps: any) => {
 								key={routerData?.path}
 								exact={true}
 								path={routerData?.path}
-								element={isLogged && possuiPermissao?<RenderedComponent navigate={navigate} {...switchProps} />:<SignIn navigate={navigate} location={location} {...switchProps} />}
+								element={isLogged && possuiPermissao?<RenderedComponent navigate={navigate} location={location} {...switchProps} />:<SignIn navigate={navigate} location={location} {...switchProps} />}
 						/>
 					} else {
 						const RenderedComponent = routerData.component as React.ElementType;
@@ -41,13 +41,13 @@ const AppRouterSwitch = (switchProps: any) => {
 								key={routerData?.path}
 								exact={true}
 								path={routerData?.path}
-								element={<RenderedComponent navigate={navigate} {...switchProps} />}
+								element={<RenderedComponent navigate={navigate} location={location} {...switchProps} />}
 
 						/>
 					}
 				})}
-			<Route element={NotFound} />
-		</Routes>
+				<Route element={NotFound} />
+			</Routes>
 	);
 }
 
