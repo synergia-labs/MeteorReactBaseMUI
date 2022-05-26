@@ -18,9 +18,9 @@ export const SignIn = (props: any) => {
 
   const { showNotification, navigate, user } = props;
 
-  const handleSubmit = (doc) => {
+  const handleSubmit = (doc: {email: string; password: string;}) => {
     const {email, password} = doc;
-    Meteor.loginWithPassword(email, password, (err) => {
+    Meteor.loginWithPassword(email, password, (err: any) => {
       if (err) {
         showNotification({
           type: 'warning',
@@ -42,21 +42,19 @@ export const SignIn = (props: any) => {
     });
   }
 
-  console.log(props, location)    
-
-  const {from} = location.state || {from: {pathname: '/'}};  
+  const {from} = location.state || {from: {pathname: '/'}};
 
   if (redirectToReferer) {
     if (from && from.pathname === '/signout')
       from.pathname = '/';
     // return <Redirect to={from}/>;
     navigate('/');
-  }  
+  }
 
   if (!!user && !!user._id) {
     setRedirectToReferer(true);
     navigate('/');
-  }  
+  }
 
   return (
     <>
@@ -95,7 +93,7 @@ export const SignIn = (props: any) => {
                       name="password"
                       placeholder="Digite sua senha"
                       type="password"
-                  /> 
+                  />
                   <div style={signinStyle.containerButtonOptions}>
                     <Button id="forgotPassword" color={'secondary'}
                             onClick={() => navigate(
@@ -103,7 +101,6 @@ export const SignIn = (props: any) => {
                     <Button id="btnEnter" variant={'outlined'} color={'primary'}
                             submit>{'Entrar'}</Button>
                   </div>
-
                 </div>
               </SimpleForm>
               <div style={signinStyle.containerRouterSignUp}>
@@ -119,30 +116,6 @@ export const SignIn = (props: any) => {
                 display: 'flex',
                 flexDirection: 'column',
               }}>
-                {/* <div key="divBtnGoogle" style={{width: '100%'}}>
-                  <SocialLoginButton
-                      key="btnGoogle"
-                      iconClass={'google icon'}
-                      onLogin={loginGoogle}
-                      buttonText={'Login pelo Google'}
-                      customCss={{
-                        background: '#dd4b39',
-                        width: '100%',
-                        cursor: 'pointer',
-                      }}
-                  /></div>
-                <div key="divBtnFaceboook" style={{width: '100%'}}>
-                  <SocialLoginButton
-                      key="btnFaceboook"
-                      iconClass={'facebook icon'}
-                      onLogin={loginFacebook}
-                      buttonText={'Login pelo Facebook'}
-                      customCss={{
-                        background: '#3B5998',
-                        width: '100%',
-                        cursor: 'pointer',
-                      }}
-                  /></div> */}
               </div>
             </div>
           </div>
@@ -150,6 +123,3 @@ export const SignIn = (props: any) => {
     </>
   )
 }
-
-
-

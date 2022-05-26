@@ -3,27 +3,22 @@ import {Accounts} from 'meteor/accounts-base';
 
 import {enrollAccountStyle} from './EnrollAccountStyle';
 import { useParams } from 'react-router-dom';
+import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 
 let emailVerified = false;
-const EnrollAccount = (props) => {
+export const EnrollAccount = (props: IDefaultContainerProps) => {
 
-  const [status, setStatus] = React.useState(null);
-  console.log('props', props);
+  const [status, setStatus] = React.useState<string | null>(null);
 
   const {token} = useParams();
 
   if (!status) {
-    // Accounts.verifyEmail(props.match.params.token, (err, res) => {
-      Accounts.verifyEmail(token, (err, res) => {
-
-      console.log(err, '<>', res);
+      Accounts.verifyEmail(token!, (err: any) => {
       if (err) {
         if (err.reason === 'Verify email link expired') {
-          setStatus(
-              'Problema na verificação do Email: Token expirado, solicite uma nova senha!');
+          setStatus('Problema na verificação do Email: Token expirado, solicite uma nova senha!');
         } else {
-          setStatus(
-              'Problema na verificação do Email: Token Inválido, tente novamente');
+          setStatus('Problema na verificação do Email: Token Inválido, tente novamente');
         }
 
       } else {
@@ -36,16 +31,12 @@ const EnrollAccount = (props) => {
   }
 
   return (
-      <h2 style={enrollAccountStyle.labelStatus}>
-        <img src="/images/wireframe/logo.png"
-             style={enrollAccountStyle.imageLogo}/>
-
-        <div>
-          <p>{!status ? 'Verificando token, aguarde....' : status}</p>
-        </div>
-
-      </h2>
+		<h2 style={enrollAccountStyle.labelStatus}>
+			<img src="/images/wireframe/logo.png" style={enrollAccountStyle.imageLogo}/>
+			<div>
+				<p>{!status ? 'Verificando token, aguarde....' : status}</p>
+			</div>
+		</h2>
   );
 };
 
-export default EnrollAccount;

@@ -21,7 +21,6 @@ const UserProfileDetail = ({
 }) => {
 
   const handleSubmit = (doc) => {
-    // console.log('doc',doc)
     save(doc);
   };
 

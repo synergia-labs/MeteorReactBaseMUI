@@ -32,11 +32,8 @@ const ExampleList = (props: IExampleList) => {
   const {examples, navigate, remove, showDialog, onSearch, total, loading, setPage,
     setPageSize, searchBy, pageProperties} = props;
 
-  console.log('navigate',navigate)
-
   const idExample = shortid.generate();
   const onClick = (event: React.SyntheticEvent, id: string) => {
-    console.log('Nav','/example/view/' + id)
     navigate('/example/view/' + id);
   };
 
