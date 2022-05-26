@@ -7,9 +7,11 @@ type MapRolesRecursos = {
 };
 
 // @ts-ignore
-function obterStringsEnum(enumValue: { [s: number]: string | number }): [string] {
-	// @ts-ignore
-	return Object.values(enumValue).filter(value => typeof (value) === 'string');
+function obterStringsEnum(enumValue: {
+  [s: number]: string | number;
+}): [string] {
+  // @ts-ignore
+  return Object.values(enumValue).filter((value) => typeof value === "string");
 }
 
 /**
@@ -24,11 +26,7 @@ function obterStringsEnum(enumValue: { [s: number]: string | number }): [string]
  *
  */
 export const mapRolesRecursos: MapRolesRecursos = {
-	[RoleType.ADMINISTRADOR]: [
-		Exemplo.EXEMPLO_VIEW,
-		Exemplo.EXEMPLO_CREATE,
-	],
-	[RoleType.PUBLICO]: [
-
-	],
-}
+  [RoleType.ADMINISTRADOR]: [Exemplo.EXEMPLO_VIEW, Exemplo.EXEMPLO_CREATE],
+  [RoleType.USUARIO]: [Exemplo.EXEMPLO_VIEW, Exemplo.EXEMPLO_CREATE],
+  [RoleType.PUBLICO]: [],
+};

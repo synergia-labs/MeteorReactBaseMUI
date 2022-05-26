@@ -44,9 +44,7 @@ export default class RecoveryPassword extends React.Component {
   };
 
   render() {
-    const self = this;
-    const {location} = this.props;
-    const {from} = location.state || {from: {pathname: '/'}};
+
     return (
         <Container style={recoveryPasswordStyle.containerRecoveryPassword}>
           <h2 style={recoveryPasswordStyle.labelAccessSystem}>

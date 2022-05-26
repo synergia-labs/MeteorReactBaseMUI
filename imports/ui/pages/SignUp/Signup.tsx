@@ -53,6 +53,9 @@ export default class Signup extends React.Component {
 
   render() {
     const {error} = this.state;
+
+
+
     return (
         <Container style={signupStyle.containerSignUp}>
           <h2 style={signupStyle.labelRegisterSystem}>
@@ -60,7 +63,20 @@ export default class Signup extends React.Component {
                  style={signupStyle.imageLogo}/>
             {'Cadastrar no sistema'}
           </h2>
-          <SimpleForm onSubmit={this.handleSubmit}>
+          <SimpleForm
+              schema={{
+                  email: {
+                      type:String,
+                      label:'Email',
+                      optional:false,
+                  },
+                  password: {
+                      type:String,
+                      label:'Senha',
+                      optional:false,
+                  },
+              }}
+              onSubmit={this.handleSubmit}>
             <TextField
                 id="Email"
                 label="Email"
