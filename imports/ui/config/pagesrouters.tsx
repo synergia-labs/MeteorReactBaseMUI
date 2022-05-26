@@ -1,7 +1,6 @@
 // @ts-ignore
 import React from 'react';
 import Home from '../pages/Home/Home';
-import Signin from '../pages/SignIn/Signin';
 import Signup from '../pages/SignUp/Signup';
 import Signout from '../pages/SignOut/Signout';
 import EnrollAccount from '../pages/EnrollAccount/EnrollAccount';
@@ -9,6 +8,7 @@ import EmailVerify from '../pages/EmailVerify/EmailVerify';
 import RecoveryPassword
   from '/imports/ui/pages/RecoveryPassword/RecoveryPassword';
 import ResetPassword from '/imports/ui/pages/ResetPassword/ResetPassword';
+import { SignIn } from '../pages/SignIn/Signin';
 //import asyncComponent from '/imports/libs/asyncComponent';
 
 export const pagesRouterList = [
@@ -20,7 +20,7 @@ export const pagesRouterList = [
   },
   {
     path: '/signin',
-    component: Signin,
+    component: SignIn,
     isProtected: false,
   },
   {

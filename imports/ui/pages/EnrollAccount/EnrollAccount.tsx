@@ -2,14 +2,19 @@ import React from 'react';
 import {Accounts} from 'meteor/accounts-base';
 
 import {enrollAccountStyle} from './EnrollAccountStyle';
+import { useParams } from 'react-router-dom';
 
 let emailVerified = false;
 const EnrollAccount = (props) => {
 
   const [status, setStatus] = React.useState(null);
   console.log('props', props);
+
+  const {token} = useParams();
+
   if (!status) {
-    Accounts.verifyEmail(props.match.params.token, (err, res) => {
+    // Accounts.verifyEmail(props.match.params.token, (err, res) => {
+      Accounts.verifyEmail(token, (err, res) => {
 
       console.log(err, '<>', res);
       if (err) {

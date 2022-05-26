@@ -1,28 +1,43 @@
 // login page overrides the form’s submit event and call Meteor’s loginWithPassword()
 // Authentication errors modify the component’s state to be displayed
 import React from 'react';
-import {useLocation} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {Redirect, useLocation} from 'react-router-dom';
 import {Meteor} from 'meteor/meteor';
 import Container from '@mui/material/Container';
-import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextField
+  from '../../../ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
 import {signinStyle} from './SigninStyle';
 
-export const SignIn = (props: any) => {
 
-  const [redirectToReferer, setRedirectToReferer] = React.useState(false);
 
-  const location = useLocation();
+export default class Signin extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      error: '',
+      redirectToReferer: false,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-  const { showNotification, navigate, user } = props;
+  // Using a ref is accessing the DOM directly and not preferred
+  // The React way to get the value from an input is using onChange
+  handleChange(e, {name, value}) {
+    this.setState({[name]: value});
+  }
 
-  const handleSubmit = (doc) => {
+  handleSubmit(doc) {
     const {email, password} = doc;
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
-        showNotification({
+        this.props.showNotification({
           type: 'warning',
           title: 'Acesso negado!',
           description: err.reason === 'Incorrect password'
@@ -32,34 +47,101 @@ export const SignIn = (props: any) => {
                   : '',
         });
       } else {
-        showNotification({
+        this.props.showNotification({
           type: 'sucess',
           title: 'Acesso autorizado!',
           description: 'Login de usuário realizado em nossa base de dados!',
         });
-        setRedirectToReferer(true);
+        this.setState({
+          redirectToReferer: true,
+        });
       }
     });
   }
 
-  console.log(props, location)    
+  render() {
 
-  const {from} = location.state || {from: {pathname: '/'}};  
+    const self = this;
+    const {user} = this.props;
+    const {redirectToReferer, error} = this.state;
 
-  if (redirectToReferer) {
-    if (from && from.pathname === '/signout')
-      from.pathname = '/';
-    // return <Redirect to={from}/>;
-    navigate('/');
-  }  
+    const location = useLocation();
 
-  if (!!user && !!user._id) {
-    setRedirectToReferer(true);
-    navigate('/');
-  }  
+    console.log(this.props)
+    console.log(this.state)
+    console.log(location)    
 
-  return (
-    <>
+    const {from} = location.state || {from: {pathname: '/'}};
+    // if correct authentication, redirect to page instead of login screen
+    if (redirectToReferer) {
+      if (from && from.pathname === '/signout') {
+        from.pathname = '/';
+      }
+      return <Redirect to={from}/>;
+
+    }
+
+    if (!!user && !!user._id) {
+      this.setState({redirectToReferer: true});
+      this.props.navigate('/');
+    }
+
+    const SocialLoginButton = ({
+      onLogin,
+      buttonText,
+      iconClass,
+      customCss,
+      iconOnly,
+    }) => (
+        <div
+            onClick={onLogin}
+            className="material-button-contained"
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center', height: 50,
+              color: '#FFF',
+              ...customCss,
+            }}
+        >
+          <i className={iconClass}/>
+          {!iconOnly && <span style={{marginLeft: 15}}>{buttonText}</span>}
+        </div>
+    );
+
+    const callbackLogin = (err) => {
+      if (err) {
+        console.log('Login Error: ', err);
+        if (err.errorType === 'Accounts.LoginCancelledError') {
+          this.props.showNotification('Autenticação cancelada', 'error');
+          //self.setState({ error: 'AUtenticação cancelada' })
+        } else {
+          this.props.showNotification(err.error, 'error');
+
+        }
+      } else {
+        this.setState({redirectToReferer: true});
+        this.props.navigate('/');
+      }
+    };
+
+    const loginFacebook = () => {
+      Meteor.loginWithFacebook(
+          {requestPermissions: ['public_profile', 'email']}, (err) => {
+            callbackLogin(err);
+          });
+    };
+
+    const loginGoogle = () => {
+      Meteor.loginWithGoogle({requestPermissions: ['profile', 'email']},
+          (err) => {
+            callbackLogin(err);
+          });
+    };
+
+    return (
         <Container style={{width: '100%', maxWidth: 400}}>
           <div style={{
             display: 'flex',
@@ -73,15 +155,15 @@ export const SignIn = (props: any) => {
                      style={signinStyle.imageLogo}/>
                 <div>{'Acessar o sistema'}</div>
               </h2>
-              <SimpleForm
+              {/* <SimpleForm
                   schema={{
                     email: {type: 'String', label: 'Email', optional: false},
                     password: {type: 'String', label: 'Senha', optional: false},
                   }}
 
-                  onSubmit={handleSubmit}>
+                  onSubmit={this.handleSubmit}>
                 <div stacked>
-                  <TextField
+                  {/* <TextField
                       label="Email"
                       fullWidth={true}
                       name="email"
@@ -98,17 +180,17 @@ export const SignIn = (props: any) => {
                   /> 
                   <div style={signinStyle.containerButtonOptions}>
                     <Button id="forgotPassword" color={'secondary'}
-                            onClick={() => navigate(
+                            onClick={() => this.props.navigate(
                                 '/recovery-password')}>{'Esqueci a minha senha'}</Button>
                     <Button id="btnEnter" variant={'outlined'} color={'primary'}
                             submit>{'Entrar'}</Button>
                   </div>
 
                 </div>
-              </SimpleForm>
+              </SimpleForm> */}
               <div style={signinStyle.containerRouterSignUp}>
                 <Button id="newUser" color={'secondary'}
-                        onClick={() => navigate(
+                        onClick={() => this.props.navigate(
                             '/signup')}>{'É novo por aqui? Clique aqui para se cadastrar!'}</Button>
               </div>
               <div key="loginoptions" style={{
@@ -119,7 +201,7 @@ export const SignIn = (props: any) => {
                 display: 'flex',
                 flexDirection: 'column',
               }}>
-                {/* <div key="divBtnGoogle" style={{width: '100%'}}>
+                <div key="divBtnGoogle" style={{width: '100%'}}>
                   <SocialLoginButton
                       key="btnGoogle"
                       iconClass={'google icon'}
@@ -142,14 +224,13 @@ export const SignIn = (props: any) => {
                         width: '100%',
                         cursor: 'pointer',
                       }}
-                  /></div> */}
+                  /></div>
               </div>
             </div>
           </div>
         </Container>
-    </>
-  )
+    );
+  }
 }
 
-
-
+Signin.propTypes = {location: PropTypes.object.isRequired};
