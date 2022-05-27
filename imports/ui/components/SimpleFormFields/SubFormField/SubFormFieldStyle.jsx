@@ -15,16 +15,14 @@
  */
 
 const subFormFieldStyle = {
-    subFormContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginLeft: '10px',
-    },
-    subFormContainerRight: {
-        paddingLeft: '10px',
-    },
+  subFormContainer: {
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: "10px",
+  },
+  subFormContainerRight: {
+    paddingLeft: "10px",
+  },
 };
 
-export {
-    subFormFieldStyle,
-};
+export { subFormFieldStyle };

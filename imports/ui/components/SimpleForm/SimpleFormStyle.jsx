@@ -19,46 +19,44 @@
 // #############################
 
 const simpleFormStyle = {
-    buttonForm: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-    },
-    containerLabel: {
-        marginTop: 5,
-        width: '100%',
-        marginBottom: 16,
-    },
-    containerForm: {
-        width: '100%',
-        marginLeft: 10,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'left',
-    },
-    containerSubForm: {
-        margin: 3,
-        display: 'flex',
-        flexDirection: 'row',
-    },
-    containerEmptyItens: {
-        color: '#BBB',
-    },
-    containerAddSubForm: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'left',
-        paddingLeft: '10px',
-    },
-    containerChildrenElements: {
-        margin: 3,
-        marginLeft: 10,
-    },
-    buttonAddSubForm: {
-        backgroundColor: '#5a9902',
-    },
+  buttonForm: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  containerLabel: {
+    marginTop: 5,
+    width: "100%",
+    marginBottom: 16,
+  },
+  containerForm: {
+    width: "100%",
+    marginLeft: 10,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "left",
+  },
+  containerSubForm: {
+    margin: 3,
+    display: "flex",
+    flexDirection: "row",
+  },
+  containerEmptyItens: {
+    color: "#BBB",
+  },
+  containerAddSubForm: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "left",
+    paddingLeft: "10px",
+  },
+  containerChildrenElements: {
+    margin: 3,
+    marginLeft: 10,
+  },
+  buttonAddSubForm: {
+    backgroundColor: "#5a9902",
+  },
 };
 
-export {
-    simpleFormStyle,
-};
+export { simpleFormStyle };

@@ -14,10 +14,6 @@
 
  */
 
-const selectFieldStyle = {
+const selectFieldStyle = {};
 
-};
-
-export {
-    selectFieldStyle,
-};
+export { selectFieldStyle };

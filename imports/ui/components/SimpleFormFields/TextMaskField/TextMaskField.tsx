@@ -1,13 +1,12 @@
-import React from 'react';
-import _ from 'lodash';
-import TextField from '@mui/material/TextField';
-import SimpleLabelView
-  from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import InputBase from '@mui/material/InputBase';
-import * as appStyle from '/imports/materialui/styles';
+import React from "react";
+import _ from "lodash";
+import TextField from "@mui/material/TextField";
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import InputBase from "@mui/material/InputBase";
+import * as appStyle from "/imports/materialui/styles";
 import omit from "lodash/omit";
-import { createStyles, Theme } from '@mui/material/styles';
-import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import { createStyles, Theme } from "@mui/material/styles";
+import { IBaseSimpleFormComponent } from "../../InterfaceBaseSimpleFormComponent";
 
 export default ({
   name,
@@ -18,15 +17,19 @@ export default ({
   schema,
   error,
   placeholder,
-    help,
-  style,...otherProps
+  help,
+  style,
+  ...otherProps
 }: IBaseSimpleFormComponent) => {
-
-  const fieldValue = value === '-' ? '-' : (schema && schema.type === Date &&
-  !!value && value instanceof Date ? value.toLocaleDateString('pt-BR') : value);
+  const fieldValue =
+    value === "-"
+      ? "-"
+      : schema && schema.type === Date && !!value && value instanceof Date
+      ? value.toLocaleDateString("pt-BR")
+      : value;
 
   const applyMask = (inputValue: string, mask: string) => {
-    let text = '';
+    let text = "";
     const data = inputValue;
     let c;
 
@@ -46,8 +49,8 @@ export default ({
       }
 
       switch (mask.charAt(i)) {
-        case '9': // Number
-        case '#': // Number
+        case "9": // Number
+        case "#": // Number
           if (/\d/.test(c)) {
             text += c;
             valueCharCount++;
@@ -56,8 +59,8 @@ export default ({
           }
           break;
 
-        case '8': // Alphanumeric
-        case 'A': // Alphanumeric
+        case "8": // Alphanumeric
+        case "A": // Alphanumeric
           if (/[a-z]/i.test(c)) {
             text += c;
             valueCharCount++;
@@ -66,8 +69,8 @@ export default ({
           }
           break;
 
-        case '7': // Number or Alphanumerica
-        case 'N': // Number or Alphanumerica
+        case "7": // Number or Alphanumerica
+        case "N": // Number or Alphanumerica
           if (/[a-z0-9]/i.test(c)) {
             text += c;
             valueCharCount++;
@@ -76,8 +79,8 @@ export default ({
           }
           break;
 
-        case '6': // Any
-        case 'X': // Any
+        case "6": // Any
+        case "X": // Any
           text += c;
           valueCharCount++;
 
@@ -99,66 +102,97 @@ export default ({
 
   const onFieldChange = (e) => {
     const newValue = e.target.value;
-    onChange({name, target: {name, value: newValue}}, {name, value: newValue});
+    onChange(
+      { name, target: { name, value: newValue } },
+      { name, value: newValue }
+    );
   };
 
   const handleApplyMask = (event: React.BaseSyntheticEvent) => {
-    const mask = otherProps && otherProps.mask ?
-        otherProps.mask : (schema && schema.mask ? schema.mask : undefined);
+    const mask =
+      otherProps && otherProps.mask
+        ? otherProps.mask
+        : schema && schema.mask
+        ? schema.mask
+        : undefined;
 
     if (mask) {
       const inputValue = applyMask(event.target.value, mask);
-      onFieldChange({name, target: {name, value: inputValue}},
-          {name, value: inputValue});
+      onFieldChange(
+        { name, target: { name, value: inputValue } },
+        { name, value: inputValue }
+      );
     } else {
       onFieldChange(
-          {name, target: {name, value: event.target.value}},
-          {name, value: event.target.value});
+        { name, target: { name, value: event.target.value } },
+        { name, value: event.target.value }
+      );
     }
   };
 
   if (readOnly) {
-    return (<div key={name} style={{
-      display: 'flex',
-      flexDirection: 'column', ...appStyle.fieldContainer,
-    }}>
-      {(label && !otherProps.rounded) ? <SimpleLabelView label={label}
-                                                       style={style
-                                                           ? style.displayLabel
-                                                           : undefined}
-                                                       help={help}/> : null}
-      <TextField variant={'outlined'}
-                 {...(omit(otherProps, ['placeholder']))}
-                 key={name} onChange={onFieldChange} value={fieldValue}
-                 error={!!error} disabled={!!readOnly} id={name}
-                 name={name}
-                 label={otherProps.rounded ? label : null} type={'text'}/>
-    </div>);
+    return (
+      <div
+        key={name}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          ...appStyle.fieldContainer,
+        }}
+      >
+        {label && !otherProps.rounded ? (
+          <SimpleLabelView
+            label={label}
+            style={style ? style.displayLabel : undefined}
+            help={help}
+          />
+        ) : null}
+        <TextField
+          variant={"outlined"}
+          {...omit(otherProps, ["placeholder"])}
+          key={name}
+          onChange={onFieldChange}
+          value={fieldValue}
+          error={!!error}
+          disabled={!!readOnly}
+          id={name}
+          name={name}
+          label={otherProps.rounded ? label : null}
+          type={"text"}
+        />
+      </div>
+    );
   }
 
   if (otherProps.isNaked) {
     return (
-        <InputBase
-            key={name}
-            onChange={onChange}
-            value={fieldValue}
-            error={!!error}
-            disabled={!!readOnly}
-            id={name}
-            name={name}
-            label={otherProps.labelDisable ? undefined : label}
-            {...otherProps}
-        />);
+      <InputBase
+        key={name}
+        onChange={onChange}
+        value={fieldValue}
+        error={!!error}
+        disabled={!!readOnly}
+        id={name}
+        name={name}
+        label={otherProps.labelDisable ? undefined : label}
+        {...otherProps}
+      />
+    );
   }
 
-  return (<div key={name} style={{
-    display: 'flex',
-    flexDirection: 'column', ...appStyle.fieldContainer,
-  }}>
-    <SimpleLabelView label={label}/>
-    <TextField
+  return (
+    <div
+      key={name}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        ...appStyle.fieldContainer,
+      }}
+    >
+      <SimpleLabelView label={label} />
+      <TextField
         {...otherProps}
-        variant={'outlined'}
+        variant={"outlined"}
         key={name}
         onChange={handleApplyMask}
         value={fieldValue}
@@ -169,8 +203,8 @@ export default ({
         label={null}
         help={help}
         placeholder={placeholder}
-        style={style
-            ? {displayLabel: style.displayLabel}
-            : undefined}/>
-  </div>);
+        style={style ? { displayLabel: style.displayLabel } : undefined}
+      />
+    </div>
+  );
 };

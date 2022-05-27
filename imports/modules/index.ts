@@ -1,13 +1,12 @@
-import userprofile from '../userprofile/config';
-import example from './example/config';
-import pages from '../ui/config/index';
-import { IAppMenu, IModules, IRoute } from './modulesTypings';
+import userprofile from "../userprofile/config";
+import example from "./example/config";
+import pages from "../ui/config/index";
+import { IAppMenu, IModules, IRoute } from "./modulesTypings";
 
-class Modules implements IModules{
-
+class Modules implements IModules {
   modulesRouterList: (IRoute | null)[] = [null];
   modulesAppMenuItemList: (IAppMenu | null)[] = [null];
-  
+
   constructor() {
     // Create modules router list
     this.modulesRouterList = [
@@ -44,4 +43,3 @@ class Modules implements IModules{
 }
 
 export default new Modules();
-

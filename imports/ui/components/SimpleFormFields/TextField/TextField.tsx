@@ -1,20 +1,23 @@
-import React from 'react';
-import InputBase from '@mui/material/InputBase';
-import TextField from '@mui/material/TextField';
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import * as appStyle from '/imports/materialui/styles';
-import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import React from "react";
+import InputBase from "@mui/material/InputBase";
+import TextField from "@mui/material/TextField";
+import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
+import * as appStyle from "/imports/materialui/styles";
+import { IBaseSimpleFormComponent } from "../../InterfaceBaseSimpleFormComponent";
 
 interface ITextFieldSimpleFormComponent extends IBaseSimpleFormComponent {
-  maxCaracteres?: 'short' | 'medium' | 'long';
-  help?: string,
+  maxCaracteres?: "short" | "medium" | "long";
+  help?: string;
   /**
    *
    * @param value valor que é exibido.
    * @param label nome do campo.
    * @return mensagem justificando valor invalido, ou true para mensagem padrão. Null se válido.
    */
-  invalidate?: (value: string | null, label: string) => string | null | true | false;
+  invalidate?: (
+    value: string | null,
+    label: string
+  ) => string | null | true | false;
   /**
    * transforma o dado do documento em string.
    */
@@ -37,50 +40,77 @@ interface ITextFieldSimpleFormComponent extends IBaseSimpleFormComponent {
   inlineError?: boolean;
   rows?: number;
   maxRows?: number;
-	[otherPropsKey: string]: any;
+  [otherPropsKey: string]: any;
 }
 
-export default ({maxCaracteres, error, help, label, name, readOnly, style, placeholder, value, onChange,
-                  valueTransformer = (v) => v,
-                  valueFormatter = (v) => v,
-                  applyMask = (v) => v,
-                  invalidate = () => null,
-                  inlineError,
-                  ...otherProps
-                }: ITextFieldSimpleFormComponent) => {
+export default ({
+  maxCaracteres,
+  error,
+  help,
+  label,
+  name,
+  readOnly,
+  style,
+  placeholder,
+  value,
+  onChange,
+  valueTransformer = (v) => v,
+  valueFormatter = (v) => v,
+  applyMask = (v) => v,
+  invalidate = () => null,
+  inlineError,
+  ...otherProps
+}: ITextFieldSimpleFormComponent) => {
+  const { schema } = otherProps;
 
-  const {schema} = otherProps;
-
-  let fieldValue = value === '-' ? '-' : (schema && schema.type === Date && !!value && value instanceof Date ?
-    value.toLocaleDateString('pt-BR') : value);
+  let fieldValue =
+    value === "-"
+      ? "-"
+      : schema && schema.type === Date && !!value && value instanceof Date
+      ? value.toLocaleDateString("pt-BR")
+      : value;
 
   fieldValue = valueFormatter(fieldValue);
   fieldValue = applyMask(fieldValue);
 
-	const maxLength = maxCaracteres && maxCaracteres == 'short' ? 100 : (maxCaracteres == 'medium' ? 200 : 400);
+  const maxLength =
+    maxCaracteres && maxCaracteres == "short"
+      ? 100
+      : maxCaracteres == "medium"
+      ? 200
+      : 400;
 
-	otherProps && maxCaracteres && (
-		otherProps.inputProps = otherProps.inputProps ? {...otherProps.inputProps, maxLength: maxLength} : {maxLength: maxLength}
-	);
+  otherProps &&
+    maxCaracteres &&
+    (otherProps.inputProps = otherProps.inputProps
+      ? { ...otherProps.inputProps, maxLength: maxLength }
+      : { maxLength: maxLength });
 
   let validateMsg = invalidate(fieldValue, label);
   error = error || !!validateMsg;
 
-  if (typeof validateMsg !== 'string') {
+  if (typeof validateMsg !== "string") {
     validateMsg = null;
   }
   const onFieldChange = (e: React.BaseSyntheticEvent) => {
     const maskedValue = applyMask(e.target.value);
     const newValue = valueTransformer(maskedValue);
-		//@ts-ignore
-    onChange({name, target: {name, value: newValue}}, {name, value: newValue});
+    //@ts-ignore
+    onChange(
+      { name, target: { name, value: newValue } },
+      { name, value: newValue }
+    );
   };
 
   if (readOnly) {
     return (
       <div
         key={name}
-        style={{display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer}}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          ...appStyle.fieldContainer,
+        }}
       >
         {label && !otherProps.rounded ? (
           <SimpleLabelView
@@ -91,8 +121,8 @@ export default ({maxCaracteres, error, help, label, name, readOnly, style, place
         ) : null}
 
         <TextField
-					variant='outlined'
-          {...(otherProps)}
+          variant="outlined"
+          {...otherProps}
           key={name}
           onChange={onFieldChange}
           value={fieldValue}
@@ -101,7 +131,7 @@ export default ({maxCaracteres, error, help, label, name, readOnly, style, place
           id={name}
           name={name}
           label={otherProps.rounded ? label : null}
-          type={'text'}
+          type={"text"}
         />
       </div>
     );
@@ -126,18 +156,22 @@ export default ({maxCaracteres, error, help, label, name, readOnly, style, place
   return (
     <div
       key={name}
-      style={{display: 'flex', flexDirection: 'column', ...appStyle.fieldContainer}}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        ...appStyle.fieldContainer,
+      }}
     >
-      {label && !otherProps.rounded ?
+      {label && !otherProps.rounded ? (
         <SimpleLabelView
           label={label}
           help={help}
-          style={style ? {displayLabel: style.displayLabel} : undefined}
+          style={style ? { displayLabel: style.displayLabel } : undefined}
         />
-        : null}
+      ) : null}
 
       <TextField
-				variant='outlined'
+        variant="outlined"
         style={style}
         {...otherProps}
         key={name}
@@ -151,11 +185,20 @@ export default ({maxCaracteres, error, help, label, name, readOnly, style, place
         label={otherProps.rounded ? label : null}
       />
 
-      {inlineError && error &&
-        <div style={{width: '100%', textAlign: 'right', margin: 0, padding: 1, color: '#DD0000', fontSize: 10}}>
-          {validateMsg || `${label || 'Valor'} inválido!`}
+      {inlineError && error && (
+        <div
+          style={{
+            width: "100%",
+            textAlign: "right",
+            margin: 0,
+            padding: 1,
+            color: "#DD0000",
+            fontSize: 10,
+          }}
+        >
+          {validateMsg || `${label || "Valor"} inválido!`}
         </div>
-      }
+      )}
     </div>
   );
-}
+};

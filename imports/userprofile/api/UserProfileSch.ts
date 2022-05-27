@@ -1,46 +1,46 @@
 export const userProfileSch = {
   photo: {
     type: String,
-    label: 'Photo',
-    defaultValue: '',
+    label: "Photo",
+    defaultValue: "",
     optional: true,
     isImage: true,
   },
   username: {
     type: String,
-    label: 'UserName',
-    defaultValue: '',
+    label: "UserName",
+    defaultValue: "",
     optional: true,
-
   },
   email: {
     type: String,
-    label: 'Email',
-    defaultValue: '',
+    label: "Email",
+    defaultValue: "",
     optional: false,
   },
   phone: {
     type: String,
-    label: 'Telefone',
-    defaultValue: '',
+    label: "Telefone",
+    defaultValue: "",
     optional: false,
-    mask: '(##) ####-####',
+    mask: "(##) ####-####",
   },
   roles: {
     type: [String],
-    label: 'Access profile',
+    label: "Access profile",
     defaultValue: [],
     optional: false,
-    componentName: 'ChipSelect',
+    componentName: "ChipSelect",
     options: [
       {
-        value: 'Administrador', label: 'Admnistrador',
+        value: "Administrador",
+        label: "Admnistrador",
       },
       {
-        value: 'Usuario', label: 'Usuário',
+        value: "Usuario",
+        label: "Usuário",
       },
     ],
-
   },
 };
 

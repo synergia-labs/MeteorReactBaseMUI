@@ -1,7 +1,7 @@
 export type LabelValue = {
-  value: string | number,
-  label: string
-}
+  value: string | number;
+  label: string;
+};
 
 interface IDefField<C> {
   type: object;
@@ -21,5 +21,3 @@ interface IDefField<C> {
 export interface ISchema<T extends IDoc> {
   [key: string]: IDefField<T>;
 }
-
-

@@ -16,39 +16,40 @@
 
 const signinStyle = {
   containerSignIn: {
-    width: '100%',
+    width: "100%",
     maxWidth: 400,
   },
   subContainerSignIn: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   labelAccessSystem: {
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   imageLogo: {
     maxWidth: 100,
   },
   containerButtonOptions: {
     marginTop: 30,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   containerSocialLoginButton: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center', height: 50,
-    color: '#FFF',
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 50,
+    color: "#FFF",
   },
   socialLoginButtonText: {
     marginLeft: 15,
@@ -58,30 +59,28 @@ const signinStyle = {
   },
   containerLoginOptions: {
     paddingRight: 5,
-    width: '102%',
+    width: "102%",
     margin: 0,
     padding: 0,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   containerButtonGoogle: {
-    width: '100%',
+    width: "100%",
   },
   containerButtonFacebook: {
-    width: '100%',
+    width: "100%",
   },
   buttonLoginGoogle: {
-    background: '#dd4b39',
-    width: '100%',
-    cursor: 'pointer',
+    background: "#dd4b39",
+    width: "100%",
+    cursor: "pointer",
   },
   buttonLoginFacebook: {
-    background: '#3B5998',
-    width: '100%',
-    cursor: 'pointer',
+    background: "#3B5998",
+    width: "100%",
+    cursor: "pointer",
   },
 };
 
-export {
-  signinStyle,
-};
+export { signinStyle };

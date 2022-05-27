@@ -1,5 +1,5 @@
 import React from "react";
-import {hasValue, isBoolean} from "/imports/libs/hasValue";
+import { hasValue, isBoolean } from "/imports/libs/hasValue";
 
 interface IFieldComponent {
   reactElement: any;
@@ -11,16 +11,22 @@ interface IFieldComponent {
   setFieldMethods: ({}) => any;
 }
 
-export const FieldComponent = ({reactElement, name, ...props}: IFieldComponent) => {
+export const FieldComponent = ({
+  reactElement,
+  name,
+  ...props
+}: IFieldComponent) => {
   const [error, setError] = React.useState(false);
-  const [value, setValue] = React.useState(hasValue(props.initialValue) ? props.initialValue : '');
-  const [mode, setMode] = React.useState(props.mode || 'edit');
+  const [value, setValue] = React.useState(
+    hasValue(props.initialValue) ? props.initialValue : ""
+  );
+  const [mode, setMode] = React.useState(props.mode || "edit");
   const [changeByUser, setChangeByUser] = React.useState(false);
 
   React.useEffect(() => {
     if (
-      !changeByUser && (!hasValue(value) ||
-        value !== props.initialValue) &&
+      !changeByUser &&
+      (!hasValue(value) || value !== props.initialValue) &&
       hasValue(props.initialValue)
     ) {
       setValue(props.initialValue);
@@ -28,12 +34,12 @@ export const FieldComponent = ({reactElement, name, ...props}: IFieldComponent) 
 
     if (mode !== props.mode) {
       setMode(props.mode);
-      if (props.mode === 'view') {
+      if (props.mode === "view") {
         setChangeByUser(false);
         setValue(props.initialValue);
       }
 
-      if (props.mode === 'view' && error) {
+      if (props.mode === "view" && error) {
         setError(false);
       }
     }
@@ -41,9 +47,13 @@ export const FieldComponent = ({reactElement, name, ...props}: IFieldComponent) 
 
   props.setFieldMethods({
     validateRequired: () => {
-      if (!hasValue(value) && (!props.fieldSchema || !props.fieldSchema.visibilityFunction ||
-        (!!props.fieldSchema.visibilityFunction && props.fieldSchema.visibilityFunction(props.getDoc()))
-      )) {
+      if (
+        !hasValue(value) &&
+        (!props.fieldSchema ||
+          !props.fieldSchema.visibilityFunction ||
+          (!!props.fieldSchema.visibilityFunction &&
+            props.fieldSchema.visibilityFunction(props.getDoc())))
+      ) {
         setError(true);
         return false;
       }
@@ -54,13 +64,13 @@ export const FieldComponent = ({reactElement, name, ...props}: IFieldComponent) 
         setValue(newValue);
         return true;
       } catch (e) {
-        console.log('Error', e);
+        console.log("Error", e);
         return false;
       }
     },
     clear: () => {
       setChangeByUser(true);
-      setValue('');
+      setValue("");
       return true;
     },
     setMode: (newMode: string) => {
@@ -82,18 +92,22 @@ export const FieldComponent = ({reactElement, name, ...props}: IFieldComponent) 
       ...(fieldData && fieldData.name ? fieldData : {}),
     };
 
-    if (props.fieldSchema && props.fieldSchema.type === Boolean && isBoolean(field.checked)) {
+    if (
+      props.fieldSchema &&
+      props.fieldSchema.type === Boolean &&
+      isBoolean(field.checked)
+    ) {
       setValue(field.checked);
-      props.setDoc({[name]: field.checked});
+      props.setDoc({ [name]: field.checked });
       if (!changeByUser) {
         setChangeByUser(true);
       }
       if (reactElement.props.onChange) {
-        reactElement.props.onChange(e, {...field, value: field.checked});
+        reactElement.props.onChange(e, { ...field, value: field.checked });
       }
     } else {
       setValue(field.value);
-      props.setDoc({[name]: field.value});
+      props.setDoc({ [name]: field.value });
       if (!changeByUser) {
         setChangeByUser(true);
       }
@@ -107,18 +121,22 @@ export const FieldComponent = ({reactElement, name, ...props}: IFieldComponent) 
     }
   };
 
-  return (React.cloneElement(reactElement, {
+  return React.cloneElement(reactElement, {
     value,
     onChange,
     error: error && (!value || value.length === 0) ? true : undefined,
-    label: reactElement.props.label || (props.fieldSchema ? props.fieldSchema.label : undefined),
-    disabled: mode === 'view',
-    readOnly: mode === 'view' || !!reactElement.props &&
-      !!reactElement.props.readOnly || !!props.fieldSchema &&
-      !!props.fieldSchema.readOnly,
+    label:
+      reactElement.props.label ||
+      (props.fieldSchema ? props.fieldSchema.label : undefined),
+    disabled: mode === "view",
+    readOnly:
+      mode === "view" ||
+      (!!reactElement.props && !!reactElement.props.readOnly) ||
+      (!!props.fieldSchema && !!props.fieldSchema.readOnly),
     schema: props.fieldSchema,
-    checked: (props.fieldSchema && props.fieldSchema.type === Boolean
-      ? value
-      : undefined),
-  }));
+    checked:
+      props.fieldSchema && props.fieldSchema.type === Boolean
+        ? value
+        : undefined,
+  });
 };

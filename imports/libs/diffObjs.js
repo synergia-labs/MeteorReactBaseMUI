@@ -1,4 +1,4 @@
-import {isEqual, isObject, transform} from 'lodash';
+import { isEqual, isObject, transform } from "lodash";
 
 /**
  * Deep diff between two object, using lodash
@@ -20,12 +20,15 @@ import {isEqual, isObject, transform} from 'lodash';
 //     });
 // };
 
-export const difference = (object, base) => transform(object,
-    (result, value, key) => {
-      if (!isEqual(value, base[key]) ||
-          (!Array.isArray(value) && isObject(value) && isObject(base[key]) &&
-              JSON.stringify(value) !== JSON.stringify(base[key])
-          )) {
-        result[key] = value;
-      }
-    });
+export const difference = (object, base) =>
+  transform(object, (result, value, key) => {
+    if (
+      !isEqual(value, base[key]) ||
+      (!Array.isArray(value) &&
+        isObject(value) &&
+        isObject(base[key]) &&
+        JSON.stringify(value) !== JSON.stringify(base[key]))
+    ) {
+      result[key] = value;
+    }
+  });

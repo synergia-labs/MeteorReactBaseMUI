@@ -1,19 +1,23 @@
-import React from 'react';
+import React from "react";
 
-export interface IAppMenu{
+export interface IAppMenu {
   path?: string;
   name?: string;
   isProtected?: boolean;
   icon?: React.ReactFragment;
 }
-export interface IRoute{
+export interface IRoute {
   path?: string;
-  component: React.ReactFragment | React.Component | React.FunctionComponent<any> | React.ComponentType<any>;
+  component:
+    | React.ReactFragment
+    | React.Component
+    | React.FunctionComponent<any>
+    | React.ComponentType<any>;
   isProtected?: boolean;
   exact?: string | boolean | undefined;
-	resources?: string[];
+  resources?: string[];
 }
-export interface IModules{
+export interface IModules {
   modulesRouterList: (IRoute | null)[];
   modulesAppMenuItemList: (IAppMenu | null)[];
 }

@@ -26,6 +26,4 @@ const textMaskStyle = {
       }, */
 };
 
-export {
-  textMaskStyle,
-};
+export { textMaskStyle };

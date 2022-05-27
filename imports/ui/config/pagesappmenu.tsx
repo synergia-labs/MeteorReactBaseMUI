@@ -1,13 +1,15 @@
-import React from 'react';
-import {isMobile} from '/imports/libs/deviceVerify';
-import Home from '@mui/icons-material/Home';
+import React from "react";
+import { isMobile } from "/imports/libs/deviceVerify";
+import Home from "@mui/icons-material/Home";
 
 export const pagesMenuItemList = [
-  isMobile ? {
-    path: '/',
-    name: 'Home',
-    icon: <Home/>,
-  } : null,
+  isMobile
+    ? {
+        path: "/",
+        name: "Home",
+        icon: <Home />,
+      }
+    : null,
   // {
   //   path: '/signin',
   //   name: 'SingIn',
@@ -33,5 +35,4 @@ export const pagesMenuItemList = [
   //   name: 'SingOut',
   //   icon: <i className="wheelchair icon"></i>,
   // }
-
-].filter(x => !!x);
+].filter((x) => !!x);

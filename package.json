@@ -7,7 +7,9 @@
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
     "cypress:gui": "cypress open",
-    "cypress:headless": "cypress run"
+    "cypress:headless": "cypress run",
+    "prepare": "husky install",
+    "prettier": "npx prettier --write ."
   },
   "dependencies": {
     "@babel/runtime": "^7.16.3",
@@ -67,7 +69,10 @@
     "cypress-cucumber-preprocessor": "^4.3.1",
     "cypress-file-upload": "^5.0.8",
     "cypress-xpath": "^1.6.2",
+    "husky": "^8.0.1",
     "less": "^4.1.2",
+    "lint-staged": "^12.4.2",
+    "prettier": "2.6.2",
     "typescript": "^4.5.2"
   },
   "cypress-cucumber-preprocessor": {
@@ -78,5 +83,8 @@
       "filePrefix": "",
       "fileSuffix": ".cucumber"
     }
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

@@ -7,7 +7,7 @@ export interface IContext {
   action: string;
   user: IUserProfile;
   rest?: any;
-  connection?: IConnection,
+  connection?: IConnection;
   schema: ISchema<any>;
   session: any;
 }

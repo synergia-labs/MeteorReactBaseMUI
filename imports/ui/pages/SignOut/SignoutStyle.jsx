@@ -16,21 +16,19 @@
 
 const signoutStyle = {
   containerSignOut: {
-    width: '100%',
+    width: "100%",
     maxWidth: 400,
   },
   labelExitSystem: {
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   imageLogo: {
     maxWidth: 100,
   },
 };
 
-export {
-  signoutStyle,
-};
+export { signoutStyle };

@@ -1,14 +1,14 @@
-import {noAvatarBase64, noImageBase64} from './noimage';
-import {isArray, isObject, merge} from 'lodash';
-import {hasValue} from '../libs/hasValue';
-import {getUser} from '/imports/libs/getUser';
-import {Mongo} from 'meteor/mongo';
-import {Meteor} from 'meteor/meteor';
-import { Match } from 'meteor/check';
-import { ISchema } from '../typings/ISchema';
+import { noAvatarBase64, noImageBase64 } from "./noimage";
+import { isArray, isObject, merge } from "lodash";
+import { hasValue } from "../libs/hasValue";
+import { getUser } from "/imports/libs/getUser";
+import { Mongo } from "meteor/mongo";
+import { Meteor } from "meteor/meteor";
+import { Match } from "meteor/check";
+import { ISchema } from "../typings/ISchema";
 
 // Conters
-const Counts = new Mongo.Collection('counts');
+const Counts = new Mongo.Collection("counts");
 Counts.deny({
   insert() {
     return true;
@@ -22,14 +22,15 @@ Counts.deny({
 });
 
 const getNoImage = (
-    isAvatar = false, name = 'dfasdfasfadsfadsdfasd', size = 64) => {
-
+  isAvatar = false,
+  name = "dfasdfasfadsfadsdfasd",
+  size = 64
+) => {
   if (!isAvatar) {
     return noImageBase64;
   } else {
     return noAvatarBase64;
   }
-
 };
 
 const defaultOptions = {
@@ -41,7 +42,7 @@ const defaultOptions = {
 };
 
 // region Base Model
-export class ApiBase<Doc extends IDoc>  {
+export class ApiBase<Doc extends IDoc> {
   isTest;
   publications;
   logCollection;
@@ -59,12 +60,7 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Object} isTest - To use the model in unit tests.
    */
   constructor(apiName: string, apiSch: any, options?: object) {
-
-    options = merge(
-        {},
-        defaultOptions,
-        options,
-    );
+    options = merge({}, defaultOptions, options);
     this.noImagePath = options.noImagePath;
     this.collectionName = apiName;
     this.restApiOptions = options.restApi;
@@ -94,13 +90,13 @@ export class ApiBase<Doc extends IDoc>  {
     this.beforeRemove = this.beforeRemove.bind(this);
     this.sync = this.sync.bind(this);
     this.createAPIRESTForIMGFields = this.createAPIRESTForIMGFields.bind(this);
-    this.createAPIRESTThumbnailForIMGFields = this.createAPIRESTThumbnailForIMGFields.bind(this);
-
-
+    this.createAPIRESTThumbnailForIMGFields =
+      this.createAPIRESTThumbnailForIMGFields.bind(this);
 
     this.countDocuments = this.countDocuments.bind(this);
     this.callMethod = this.callMethod.bind(this);
-    this.defaultCollectionPublication = this.defaultCollectionPublication.bind(this);
+    this.defaultCollectionPublication =
+      this.defaultCollectionPublication.bind(this);
 
     this.registerPublications(options);
     this.registerAllMethods();
@@ -108,11 +104,10 @@ export class ApiBase<Doc extends IDoc>  {
 
     this.createAPIRESTForIMGFields();
 
-    if(Meteor.isServer) {
-      import sharp from "sharp"
+    if (Meteor.isServer) {
+      import sharp from "sharp";
       this.createAPIRESTThumbnailForIMGFields(sharp);
     }
-
 
     if (Meteor.isClient && !Meteor.isProduction) {
       // ##################################
@@ -127,24 +122,23 @@ export class ApiBase<Doc extends IDoc>  {
         }
 
         window.$app.api[this.collectionName] = this;
-
       }
       // ####################################
     }
-
   }
 
   getSchema = () => {
-    return {...this.schema};
+    return { ...this.schema };
   };
 
   initCollection(apiName) {
     const self = this;
     this.collectionName = apiName;
     if (Meteor.isClient) {
-      if (this.collectionName !== 'users') {
+      if (this.collectionName !== "users") {
         this.collectionInstance = new Mongo.Collection(this.collectionName, {
-          transform: (doc) => { // for get path of image fields.
+          transform: (doc) => {
+            // for get path of image fields.
             return self.addImgPathToFields(doc);
           },
         });
@@ -175,7 +169,8 @@ export class ApiBase<Doc extends IDoc>  {
           },
         });
       }
-    } else if (this.collectionName !== 'users') { // If Is SERVER
+    } else if (this.collectionName !== "users") {
+      // If Is SERVER
       this.collectionInstance = new Mongo.Collection(this.collectionName);
       // Deny all client-side updates on the Lists collection
       this.getCollectionInstance().deny({
@@ -207,16 +202,21 @@ export class ApiBase<Doc extends IDoc>  {
   }
 
   addImgPathToFields = (doc) => {
-    Object.keys(this.schema).forEach(field => {
+    Object.keys(this.schema).forEach((field) => {
       if (this.schema[field].isImage) {
-        if(doc['has'+field]) {
-          doc[field] = (`${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${doc._id}?date=${doc.lastupdate
-          && doc.lastupdate.toISOString ? doc.lastupdate.toISOString()
-              : '1'}`);
-        } else{
-          doc[field] = (this.noImagePath?this.noImagePath:`${Meteor.absoluteUrl()}images/noimage.jpg`);
+        if (doc["has" + field]) {
+          doc[field] = `${Meteor.absoluteUrl()}thumbnail/${
+            this.collectionName
+          }/${field}/${doc._id}?date=${
+            doc.lastupdate && doc.lastupdate.toISOString
+              ? doc.lastupdate.toISOString()
+              : "1"
+          }`;
+        } else {
+          doc[field] = this.noImagePath
+            ? this.noImagePath
+            : `${Meteor.absoluteUrl()}images/noimage.jpg`;
         }
-
       }
     });
     return doc;
@@ -224,155 +224,164 @@ export class ApiBase<Doc extends IDoc>  {
 
   initApiRest = () => {
     if (Meteor.isServer) {
-      import {WebApp} from 'meteor/webapp';
-      import connectRoute from 'connect-route';
+      import { WebApp } from "meteor/webapp";
+      import connectRoute from "connect-route";
 
       this.apiRestImage = {
         addRoute: (path, handle) => {
-
-          console.log('Path', path);
-          WebApp.connectHandlers.use(connectRoute((router) => {
-            router.get('/img/' + path, handle);
-          }));
-
+          console.log("Path", path);
+          WebApp.connectHandlers.use(
+            connectRoute((router) => {
+              router.get("/img/" + path, handle);
+            })
+          );
         },
         addThumbnailRoute: (path, handle) => {
-
-          console.log('Path', path);
-          WebApp.connectHandlers.use(connectRoute((router) => {
-            router.get('/thumbnail/' + path, handle);
-          }));
-
+          console.log("Path", path);
+          WebApp.connectHandlers.use(
+            connectRoute((router) => {
+              router.get("/thumbnail/" + path, handle);
+            })
+          );
         },
       };
     }
-
   };
 
-  createAPIRESTForIMGFields () {
+  createAPIRESTForIMGFields() {
     if (Meteor.isServer) {
       const self = this;
       const schema = self.schema;
-      Object.keys(schema).forEach(field => {
+      Object.keys(schema).forEach((field) => {
         if (schema[field].isImage) {
-          console.log('CREATE ENDPOINT GET ' +
-              `img/${this.collectionName}/${field}/:image ########## IMAGE #############`);
-          this.apiRestImage.addRoute(`${this.collectionName}/${field}/:image`,
-              (req, res, next) => {
+          console.log(
+            "CREATE ENDPOINT GET " +
+              `img/${this.collectionName}/${field}/:image ########## IMAGE #############`
+          );
+          this.apiRestImage.addRoute(
+            `${this.collectionName}/${field}/:image`,
+            (req, res, next) => {
+              const { params } = req;
 
-                const {params} = req;
+              if (params && !!params.image) {
+                const docID =
+                  params.image.indexOf(".png") !== -1
+                    ? params.image.split(".png")[0]
+                    : params.image.split(".jpg")[0];
+                const doc = self
+                  .getCollectionInstance()
+                  .findOne({ _id: docID });
 
-                if (params && !!params.image) {
-                  const docID = params.image.indexOf('.png') !== -1
-                      ? params.image.split('.png')[0]
-                      : params.image.split('.jpg')[0];
-                  const doc = self.getCollectionInstance().
-                  findOne({_id: docID});
+                if (doc && !!doc[field] && doc[field] !== "-") {
+                  const matches = doc[field].match(
+                    /^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/
+                  );
+                  const response = {};
 
-                  if (doc && !!doc[field]&&doc[field]!=='-') {
-                    const matches = doc[field].match(
-                        /^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-                    const response = {};
-
-                    if (!matches || matches.length !== 3) {
-                      const noimg = getNoImage(schema[field].isAvatar);
-                      const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-                      return new Buffer(tempImg[2], 'base64');
-                    }
-
-                    response.type = matches[1];
-                    response.data = new Buffer(matches[2], 'base64');
-                    res.writeHead(200, {
-                      'Content-Type': response.type,
-                      'Cache-Control': 'max-age=120, must-revalidate, public',
-                      'Last-Modified': (doc.lastupdate || new Date()).toUTCString(),
-                    });
-                    res.write(response.data);
-                    res.end(); // Must call this immediately before return!
-                    return;
+                  if (!matches || matches.length !== 3) {
+                    const noimg = getNoImage(schema[field].isAvatar);
+                    const tempImg = noimg.match(
+                      /^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/
+                    );
+                    return new Buffer(tempImg[2], "base64");
                   }
-                  res.writeHead(404);
-                  res.end();
-                  return;
 
+                  response.type = matches[1];
+                  response.data = new Buffer(matches[2], "base64");
+                  res.writeHead(200, {
+                    "Content-Type": response.type,
+                    "Cache-Control": "max-age=120, must-revalidate, public",
+                    "Last-Modified": (
+                      doc.lastupdate || new Date()
+                    ).toUTCString(),
+                  });
+                  res.write(response.data);
+                  res.end(); // Must call this immediately before return!
+                  return;
                 }
                 res.writeHead(404);
                 res.end();
                 return;
-              },
+              }
+              res.writeHead(404);
+              res.end();
+              return;
+            }
           );
         }
       });
     }
   }
-  createAPIRESTThumbnailForIMGFields (sharp) {
+  createAPIRESTThumbnailForIMGFields(sharp) {
     if (Meteor.isServer) {
       const self = this;
       const schema = self.schema;
-      Object.keys(schema).forEach(field => {
+      Object.keys(schema).forEach((field) => {
         if (schema[field].isImage) {
-          console.log('CREATE ENDPOINT GET ' +
-              `thumbnail/${this.collectionName}/${field}/:image ########## IMAGE #############`);
-          this.apiRestImage.addThumbnailRoute(`${this.collectionName}/${field}/:image`,
-              async (req, res, next) => {
+          console.log(
+            "CREATE ENDPOINT GET " +
+              `thumbnail/${this.collectionName}/${field}/:image ########## IMAGE #############`
+          );
+          this.apiRestImage.addThumbnailRoute(
+            `${this.collectionName}/${field}/:image`,
+            async (req, res, next) => {
+              const { params } = req;
 
-                const {params} = req;
+              if (params && !!params.image) {
+                const docID =
+                  params.image.indexOf(".png") !== -1
+                    ? params.image.split(".png")[0]
+                    : params.image.split(".jpg")[0];
+                const doc = self
+                  .getCollectionInstance()
+                  .findOne({ _id: docID });
 
-                if (params && !!params.image) {
-                  const docID = params.image.indexOf('.png') !== -1
-                      ? params.image.split('.png')[0]
-                      : params.image.split('.jpg')[0];
-                  const doc = self.getCollectionInstance().
-                  findOne({_id: docID});
+                if (doc && !!doc[field] && doc[field] !== "-") {
+                  const destructImage = doc[field].split(";");
+                  const mimType = destructImage[0].split(":")[1];
+                  const imageData = destructImage[1].split(",")[1];
 
-                  if (doc && !!doc[field]&&doc[field]!=='-') {
-
-                    const destructImage = doc[field].split(";");
-                    const mimType = destructImage[0].split(":")[1];
-                    const imageData = destructImage[1].split(",")[1];
-
-
-
-
-
-                    try {
-                      let resizedImage = Buffer.from(imageData, "base64")
-                      resizedImage = await sharp(resizedImage).resize({
-                        fit: 'contain',
+                  try {
+                    let resizedImage = Buffer.from(imageData, "base64");
+                    resizedImage = await sharp(resizedImage)
+                      .resize({
+                        fit: "contain",
                         background: { r: 255, g: 255, b: 255, alpha: 0.01 },
                         width: 300,
-                        height:200
-                      }).toFormat('png').toBuffer()
+                        height: 200,
+                      })
+                      .toFormat("png")
+                      .toBuffer();
 
-                      res.writeHead(200, {
-                        'Content-Type': mimType,
-                        'Cache-Control': 'max-age=120, must-revalidate, public',
-                        'Last-Modified': (doc.lastupdate ||
-                            new Date()).toUTCString(),
-                      });
-                      res.write(resizedImage);
-                      res.end(); // Must call this immediately before return!
-                      return;
+                    res.writeHead(200, {
+                      "Content-Type": mimType,
+                      "Cache-Control": "max-age=120, must-revalidate, public",
+                      "Last-Modified": (
+                        doc.lastupdate || new Date()
+                      ).toUTCString(),
+                    });
+                    res.write(resizedImage);
+                    res.end(); // Must call this immediately before return!
+                    return;
 
-                      //To Save Base64 IMG
-                      // return `data:${mimType};base64,${resizedImage.toString("base64")}`
-                    } catch (error) {
-                      res.writeHead(200);
-                      res.end();
-                      return;
-                    }
-
+                    //To Save Base64 IMG
+                    // return `data:${mimType};base64,${resizedImage.toString("base64")}`
+                  } catch (error) {
+                    res.writeHead(200);
+                    res.end();
+                    return;
                   }
-                  res.writeHead(404);
-                  res.end();
-                  return;
                 }
-              });
+                res.writeHead(404);
+                res.end();
+                return;
+              }
+            }
+          );
         }
       });
     }
   }
-
 
   /**
    * Wrapper to register a publication of an collection.
@@ -384,68 +393,70 @@ export class ApiBase<Doc extends IDoc>  {
 
     if (Meteor.isServer) {
       Meteor.publish(
-          `${self.collectionName}.${publication}`,
-          newPublicationsFunction,
+        `${self.collectionName}.${publication}`,
+        newPublicationsFunction
       );
       self.publications[publication] = newPublicationsFunction;
 
       Meteor.publish(
-          `${self.collectionName}.${'count' + publication}`,
-          self.defaultCounterCollectionPublication(self, publication),
+        `${self.collectionName}.${"count" + publication}`,
+        self.defaultCounterCollectionPublication(self, publication)
       );
-      self.publications['count' +
-      publication] = self.defaultCounterCollectionPublication(self,
-          publication);
-
+      self.publications["count" + publication] =
+        self.defaultCounterCollectionPublication(self, publication);
     } else {
       this.publications[publication] = true;
     }
   };
 
   addTransformedPublication = (
-      publication: string, newPublicationsFunction: any,
-      transformDocFunc: any) => {
-
+    publication: string,
+    newPublicationsFunction: any,
+    transformDocFunc: any
+  ) => {
     const self = this;
 
     if (Meteor.isServer) {
-
-      Meteor.publish(`${self.collectionName}.${publication}`,
-          function(query, options) {
-            const subHandle = newPublicationsFunction(query, options).
-            observe({
-              added: (document) => {
-                this.added(`${self.collectionName}`, document._id,
-                    transformDocFunc(document));
-              },
-              changed: (newDocument, oldDocument) => {
-                this.changed(`${self.collectionName}`, newDocument._id,
-                    transformDocFunc(newDocument));
-              },
-              removed: (oldDocument) => {
-                this.removed(`${self.collectionName}`, oldDocument._id);
-              },
-            });
-            this.ready();
-            this.onStop(() => {
-              subHandle.stop();
-            });
+      Meteor.publish(
+        `${self.collectionName}.${publication}`,
+        function (query, options) {
+          const subHandle = newPublicationsFunction(query, options).observe({
+            added: (document) => {
+              this.added(
+                `${self.collectionName}`,
+                document._id,
+                transformDocFunc(document)
+              );
+            },
+            changed: (newDocument, oldDocument) => {
+              this.changed(
+                `${self.collectionName}`,
+                newDocument._id,
+                transformDocFunc(newDocument)
+              );
+            },
+            removed: (oldDocument) => {
+              this.removed(`${self.collectionName}`, oldDocument._id);
+            },
           });
+          this.ready();
+          this.onStop(() => {
+            subHandle.stop();
+          });
+        }
+      );
 
       self.publications[publication] = newPublicationsFunction;
 
       Meteor.publish(
-          `${self.collectionName}.${'count' + publication}`,
-          self.defaultCounterCollectionPublication(self, publication),
+        `${self.collectionName}.${"count" + publication}`,
+        self.defaultCounterCollectionPublication(self, publication)
       );
-      self.publications['count' +
-      publication] = self.defaultCounterCollectionPublication(self,
-          publication);
-
+      self.publications["count" + publication] =
+        self.defaultCounterCollectionPublication(self, publication);
     } else {
       this.publications[publication] = true;
     }
-
   };
 
   /**
@@ -458,8 +469,8 @@ export class ApiBase<Doc extends IDoc>  {
 
     if (Meteor.isServer) {
       Meteor.publish(
-          `${self.collectionName}.${publication}`,
-          newPublicationsFunction,
+        `${self.collectionName}.${publication}`,
+        newPublicationsFunction
       );
       self.publications[publication] = newPublicationsFunction;
     } else {
@@ -473,13 +484,15 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Function} newPublicationsFunction - Function the handle the publication of the data
    */
   addCompositePublication = (
-      publication: string, newPublicationsFunction: any) => {
+    publication: string,
+    newPublicationsFunction: any
+  ) => {
     const self = this;
 
     if (Meteor.isServer) {
       Meteor.publishComposite(
-          `${self.collectionName}.${publication}`,
-          newPublicationsFunction,
+        `${self.collectionName}.${publication}`,
+        newPublicationsFunction
       );
     }
   };
@@ -498,14 +511,14 @@ export class ApiBase<Doc extends IDoc>  {
 
     const method = {
       [methodFullName](...param) {
-        console.log('CALL Method:', name, param ? Object.keys(param) : '-');
+        console.log("CALL Method:", name, param ? Object.keys(param) : "-");
         // Prevent unauthorized access
         const user = getUser(null, this.connection);
 
         try {
           const userId = user ? user._id : null;
           const userRoles = user ? user.roles : [];
-          const {connection} = this;
+          const { connection } = this;
           const meteorContext = {
             collection,
             action,
@@ -518,7 +531,7 @@ export class ApiBase<Doc extends IDoc>  {
           // Here With pass the new Metoer Method with the framework
           // security and the meteor context.
           const functionResult = func(...param, meteorContext);
-          if (action === 'insert') {
+          if (action === "insert") {
             meteorContext.docId = functionResult;
           }
           return functionResult;
@@ -543,58 +556,54 @@ export class ApiBase<Doc extends IDoc>  {
     const self = this;
 
     if (!options.disableDefaultPublications) {
-      this.addPublication('default', this.defaultCollectionPublication);
+      this.addPublication("default", this.defaultCollectionPublication);
     }
-
   }
 
   defaultCollectionPublication(filter = {}, optionsPub) {
     if (!optionsPub) {
-      optionsPub = {limit: 0, skip: 0};
+      optionsPub = { limit: 0, skip: 0 };
     }
 
-    if(optionsPub.skip<0) {
+    if (optionsPub.skip < 0) {
       optionsPub.skip = 0;
     }
 
-    if(optionsPub.limit<0) {
+    if (optionsPub.limit < 0) {
       optionsPub.limit = 0;
     }
     // Use the default subschema if no one was defined.
-    if (!optionsPub.projection || Object.keys(optionsPub.projection).length ===
-        0) {
+    if (
+      !optionsPub.projection ||
+      Object.keys(optionsPub.projection).length === 0
+    ) {
       const tempProjection = {};
-      Object.keys(this.schema).
-      concat(['_id', 'createdby', 'createdat', 'lastupdate', 'updatedby']).
-      forEach((key) => {
-        tempProjection[key] = 1;
-      });
+      Object.keys(this.schema)
+        .concat(["_id", "createdby", "createdat", "lastupdate", "updatedby"])
+        .forEach((key) => {
+          tempProjection[key] = 1;
+        });
 
       optionsPub.projection = tempProjection;
     }
 
     const imgFields = {};
 
-    Object.keys(this.schema).forEach(field=>{
-      if(this.schema[field].isImage) {
-        imgFields['has'+field] = {$or:'$'+field};
-        delete optionsPub.projection[field]
+    Object.keys(this.schema).forEach((field) => {
+      if (this.schema[field].isImage) {
+        imgFields["has" + field] = { $or: "$" + field };
+        delete optionsPub.projection[field];
       }
     });
 
-
-
-
     const queryOptions = {
-      fields: {...optionsPub.projection,
-        ...imgFields,
-      },
+      fields: { ...optionsPub.projection, ...imgFields },
       limit: optionsPub.limit || 0,
       skip: optionsPub.skip || 0,
-      transform: (doc) => { // for get path of image fields.
+      transform: (doc) => {
+        // for get path of image fields.
         return this.addImgPathToFields(doc);
       },
-
     };
 
     if (optionsPub.transform) {
@@ -605,53 +614,53 @@ export class ApiBase<Doc extends IDoc>  {
       queryOptions.sort = optionsPub.sort;
     }
 
-    return this.getCollectionInstance().find({...filter}, queryOptions);
+    return this.getCollectionInstance().find({ ...filter }, queryOptions);
   }
 
-  defaultCounterCollectionPublication = (
-      collection, publishName) => function(...params) {
-    let count = 0;
-    let initializing = true;
+  defaultCounterCollectionPublication = (collection, publishName) =>
+    function (...params) {
+      let count = 0;
+      let initializing = true;
 
-    // `observeChanges` only returns after the initial `added` callbacks have run.
-    // Until then, we don't want to send a lot of `changed` messages—hence
-    // tracking the `initializing` state.
-    let handle;
-    const handlePub = collection.publications[publishName](...params);
-    if(handlePub) {
-      handle = handlePub.observeChanges({
-        added: (id) => {
-          count += 1;
+      // `observeChanges` only returns after the initial `added` callbacks have run.
+      // Until then, we don't want to send a lot of `changed` messages—hence
+      // tracking the `initializing` state.
+      let handle;
+      const handlePub = collection.publications[publishName](...params);
+      if (handlePub) {
+        handle = handlePub.observeChanges({
+          added: (id) => {
+            count += 1;
 
-          if (!initializing) {
-            this.changed('counts', `${publishName}Total`, {count});
-          }
-        },
+            if (!initializing) {
+              this.changed("counts", `${publishName}Total`, { count });
+            }
+          },
 
-        removed: (id) => {
-          count -= 1;
-          this.changed('counts', `${publishName}Total`, {count});
-        },
+          removed: (id) => {
+            count -= 1;
+            this.changed("counts", `${publishName}Total`, { count });
+          },
 
-        // We don't care about `changed` events.
-      });
-    }
+          // We don't care about `changed` events.
+        });
+      }
 
-    if(!handle) {
-      return;
-    }
+      if (!handle) {
+        return;
+      }
 
-    // Instead, we'll send one `added` message right after `observeChanges` has
-    // returned, and mark the subscription as ready.
-    initializing = false;
-    this.added('counts', `${publishName}Total`, {count});
-    this.ready();
+      // Instead, we'll send one `added` message right after `observeChanges` has
+      // returned, and mark the subscription as ready.
+      initializing = false;
+      this.added("counts", `${publishName}Total`, { count });
+      this.ready();
 
-    // Stop observing the cursor when the client unsubscribes. Stopping a
-    // subscription automatically takes care of sending the client any `removed`
-    // messages.
-    this.onStop(() => handle.stop());
-  };
+      // Stop observing the cursor when the client unsubscribes. Stopping a
+      // subscription automatically takes care of sending the client any `removed`
+      // messages.
+      this.onStop(() => handle.stop());
+    };
 
   /**
    * Get the collection instance.
@@ -666,14 +675,13 @@ export class ApiBase<Doc extends IDoc>  {
    * Meteor call.
    */
   registerAllMethods() {
-    this.registerMethod('update', this.serverUpdate);
-    this.registerMethod('insert', this.serverInsert);
-    this.registerMethod('remove', this.serverRemove);
-    this.registerMethod('upsert', this.serverUpsert);
-    this.registerMethod('sync', this.serverSync);
-    this.registerMethod('countDocuments', this.countDocuments);
-    this.registerMethod('getDocs', this.serverGetDocs);
-
+    this.registerMethod("update", this.serverUpdate);
+    this.registerMethod("insert", this.serverInsert);
+    this.registerMethod("remove", this.serverRemove);
+    this.registerMethod("upsert", this.serverUpsert);
+    this.registerMethod("sync", this.serverSync);
+    this.registerMethod("countDocuments", this.countDocuments);
+    this.registerMethod("getDocs", this.serverGetDocs);
   }
 
   prepareData = (dataObj) => {
@@ -681,50 +689,51 @@ export class ApiBase<Doc extends IDoc>  {
     const schemaKeys = Object.keys(this.schema);
     const newDataObj = {};
 
-    Object.keys(dataObj).forEach(key => {
-      const isDate = !!dataObj[key] && !!(dataObj[key] instanceof Date) &&
-          !isNaN(dataObj[key].valueOf());
+    Object.keys(dataObj).forEach((key) => {
+      const isDate =
+        !!dataObj[key] &&
+        !!(dataObj[key] instanceof Date) &&
+        !isNaN(dataObj[key].valueOf());
 
       if (schemaKeys.indexOf(key) !== -1) {
-        if (!!schema[key].isImage &&
-            (!hasValue(dataObj[key]) || hasValue(dataObj[key]) &&
-                dataObj[key].indexOf('data:image') === -1) && dataObj[key] !== '-') {
+        if (
+          !!schema[key].isImage &&
+          (!hasValue(dataObj[key]) ||
+            (hasValue(dataObj[key]) &&
+              dataObj[key].indexOf("data:image") === -1)) &&
+          dataObj[key] !== "-"
+        ) {
           // dont update if not have value field of image
-        } else if (!!schema[key].isImage && dataObj[key] === '-') {
+        } else if (!!schema[key].isImage && dataObj[key] === "-") {
           newDataObj[key] = null;
         } else if (
-            hasValue(dataObj[key])
-            && schema[key]
-            && schema[key].type === Number
+          hasValue(dataObj[key]) &&
+          schema[key] &&
+          schema[key].type === Number
         ) {
           newDataObj[key] = Number(dataObj[key]);
-        } else if (
-            schema[key]
-            && schema[key].type === Date
-            && !!isDate
-        ) {
+        } else if (schema[key] && schema[key].type === Date && !!isDate) {
           newDataObj[key] = new Date(dataObj[key]);
         } else if (
-            schema[key]
-            && Array.isArray(schema[key].type)
-            && !Array.isArray(dataObj[key])
+          schema[key] &&
+          Array.isArray(schema[key].type) &&
+          !Array.isArray(dataObj[key])
         ) {
           // No Save
         } else if (
-            schema[key]
-            && !Array.isArray(schema[key].type)
-            && typeof (schema[key].type) === 'object'
-            && !hasValue(dataObj[key])
+          schema[key] &&
+          !Array.isArray(schema[key].type) &&
+          typeof schema[key].type === "object" &&
+          !hasValue(dataObj[key])
         ) {
           // No Save
         } else if (
-            schema[key]
-            && schema[key].type === String
-            && dataObj[key] === null
+          schema[key] &&
+          schema[key].type === String &&
+          dataObj[key] === null
         ) {
           // No Save
-        } else if (schema[key]
-            && schema[key].type !== Date) {
+        } else if (schema[key] && schema[key].type !== Date) {
           newDataObj[key] = dataObj[key];
         }
       }
@@ -750,24 +759,29 @@ export class ApiBase<Doc extends IDoc>  {
     const newSchema = {};
 
     // Remove from the Schema the optional fields not present in the DataObj.
-    schemaKeys.forEach(field => {
-
-      if(schema[field].visibilityFunction&&!schema[field].visibilityFunction(newDataObj)) {
+    schemaKeys.forEach((field) => {
+      if (
+        schema[field].visibilityFunction &&
+        !schema[field].visibilityFunction(newDataObj)
+      ) {
         delete newDataObj[field];
         return;
-      } else if (!schema[field].optional && keysOfDataObj.indexOf(field) !== -1 &&
-          !hasValue(newDataObj[field])) {
-        throw new Meteor.Error('Obrigatoriedade',
-            `O campo "${schema[field].label||field}" é obrigatório`);
-
+      } else if (
+        !schema[field].optional &&
+        keysOfDataObj.indexOf(field) !== -1 &&
+        !hasValue(newDataObj[field])
+      ) {
+        throw new Meteor.Error(
+          "Obrigatoriedade",
+          `O campo "${schema[field].label || field}" é obrigatório`
+        );
       } else if (keysOfDataObj.indexOf(field) !== -1) {
-        if(!!newDataObj[field]||newDataObj[field]===0) {
+        if (!!newDataObj[field] || newDataObj[field] === 0) {
           // Call the check from Meteor.
-          check(newDataObj[field],schema[field].type)
+          check(newDataObj[field], schema[field].type);
         }
       }
     });
-
 
     return newDataObj;
   };
@@ -778,9 +792,9 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Object} doc - Collection document.
    * @param  {String} action - Action the will be perform.
    */
-  includeAuditData(doc, action, defaultUser = 'Anonymous') {
+  includeAuditData(doc, action, defaultUser = "Anonymous") {
     const userId = getUser() ? getUser()._id : defaultUser;
-    if (action === 'insert') {
+    if (action === "insert") {
       doc.createdby = userId;
       doc.createdat = new Date();
       doc.lastupdate = new Date();
@@ -798,7 +812,6 @@ export class ApiBase<Doc extends IDoc>  {
    * return {Object} doc inserted or updated
    */
   serverSync = (dataObj, context) => {
-
     if (!dataObj || !dataObj._id) {
       return false;
     }
@@ -806,36 +819,43 @@ export class ApiBase<Doc extends IDoc>  {
     if (dataObj.needSync) {
       delete dataObj.needSync;
     }
-    const oldDoc = this.getCollectionInstance().findOne({_id: dataObj._id});
+    const oldDoc = this.getCollectionInstance().findOne({ _id: dataObj._id });
 
-    if (!(((!oldDoc || !oldDoc._id) && this.beforeInsert(dataObj, context)) ||
-        (this.beforeUpdate(dataObj, context)))) {
+    if (
+      !(
+        ((!oldDoc || !oldDoc._id) && this.beforeInsert(dataObj, context)) ||
+        this.beforeUpdate(dataObj, context)
+      )
+    ) {
       return false;
     }
 
     if (!oldDoc || !oldDoc._id) {
       dataObj = this.checkDataBySchema(dataObj);
-      this.includeAuditData(dataObj, 'insert');
+      this.includeAuditData(dataObj, "insert");
       const insertId = this.getCollectionInstance().insert(dataObj);
-      return {_id: insertId, ...dataObj};
+      return { _id: insertId, ...dataObj };
     }
     let docToSave = null;
-    if (!!dataObj.lastupdate && !!oldDoc.lastupdate &&
-        new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)) {
-      console.log('APP MAIOR');
+    if (
+      !!dataObj.lastupdate &&
+      !!oldDoc.lastupdate &&
+      new Date(dataObj.lastupdate) > new Date(oldDoc.lastupdate)
+    ) {
+      console.log("APP MAIOR");
       docToSave = dataObj;
     } else {
-      console.log('Server MAIOR');
+      console.log("Server MAIOR");
       docToSave = oldDoc;
     }
 
     docToSave = this.checkDataBySchema(docToSave);
-    this.includeAuditData(docToSave, 'update');
+    this.includeAuditData(docToSave, "update");
 
     const update = this.getCollectionInstance().update(dataObj._id, {
       $set: docToSave,
     });
-    const newDoc = this.getCollectionInstance().findOne({_id: dataObj._id});
+    const newDoc = this.getCollectionInstance().findOne({ _id: dataObj._id });
     return newDoc;
   };
 
@@ -873,18 +893,27 @@ export class ApiBase<Doc extends IDoc>  {
     }
   }
 
-  prepareDocForUpdate = (doc, oldDoc,nullValues) => {
+  prepareDocForUpdate = (doc, oldDoc, nullValues) => {
     const newDoc = {};
-    Object.keys(doc).forEach(key => {
-      const isDate = doc[key] && (doc[key] instanceof Date) &&
-          !isNaN(doc[key].valueOf());
+    Object.keys(doc).forEach((key) => {
+      const isDate =
+        doc[key] && doc[key] instanceof Date && !isNaN(doc[key].valueOf());
 
-
-      if(!!nullValues&&!doc[key]&&doc[key]!==0&&typeof doc[key] !=="boolean") {
-        nullValues[key] = '';
-      } else if (key !== '_id' &&
-          ['lastupdate', 'createdat', 'createdby', 'updatedby'].indexOf(key) ===
-          -1 && !isDate && (isObject(doc[key]) && !isArray(doc[key]))) {
+      if (
+        !!nullValues &&
+        !doc[key] &&
+        doc[key] !== 0 &&
+        typeof doc[key] !== "boolean"
+      ) {
+        nullValues[key] = "";
+      } else if (
+        key !== "_id" &&
+        ["lastupdate", "createdat", "createdby", "updatedby"].indexOf(key) ===
+          -1 &&
+        !isDate &&
+        isObject(doc[key]) &&
+        !isArray(doc[key])
+      ) {
         newDoc[key] = merge(oldDoc[key] || {}, doc[key]);
       } else {
         newDoc[key] = doc[key];
@@ -904,21 +933,24 @@ export class ApiBase<Doc extends IDoc>  {
       const id = dataObj._id;
       if (this.beforeUpdate(dataObj, context)) {
         dataObj = this.checkDataBySchema(dataObj);
-        this.includeAuditData(dataObj, 'update');
-        const oldData = this.getCollectionInstance().findOne({_id: id}) || {};
+        this.includeAuditData(dataObj, "update");
+        const oldData = this.getCollectionInstance().findOne({ _id: id }) || {};
         const nullValues = {};
 
-        const preparedData = this.prepareDocForUpdate(dataObj, oldData,nullValues);
-        console.log('nullValues',nullValues)
+        const preparedData = this.prepareDocForUpdate(
+          dataObj,
+          oldData,
+          nullValues
+        );
+        console.log("nullValues", nullValues);
         const action = {
           $set: preparedData,
-        }
-        if(Object.keys(nullValues).length>0) {
-          action['$unset'] = nullValues;
         };
+        if (Object.keys(nullValues).length > 0) {
+          action["$unset"] = nullValues;
+        }
 
-        const result = this.getCollectionInstance().
-        update({_id: id}, action);
+        const result = this.getCollectionInstance().update({ _id: id }, action);
         preparedData._id = id;
         this.afterUpdate(preparedData, context);
         return result;
@@ -939,12 +971,15 @@ export class ApiBase<Doc extends IDoc>  {
       const id = dataObj._id;
       if (this.beforeInsert(dataObj, context)) {
         dataObj = this.checkDataBySchema(dataObj);
-        this.includeAuditData(dataObj, 'insert');
+        this.includeAuditData(dataObj, "insert");
         if (id) {
           dataObj._id = id;
         }
         const result = this.getCollectionInstance().insert(dataObj);
-        this.afterInsert(Object.assign({_id: id || result}, dataObj), context);
+        this.afterInsert(
+          Object.assign({ _id: id || result }, dataObj),
+          context
+        );
         if (context.rest) {
           context.rest.response.statusCode = 201;
         }
@@ -1080,16 +1115,22 @@ export class ApiBase<Doc extends IDoc>  {
 
     const schema = this.getSchema();
     const unsetFields = {};
-    Object.keys(schema).forEach(field=>{
-      if(schema[field].visibilityFunction&&!schema[field].visibilityFunction(dataObj)) {
-        unsetFields[field] = '';
+    Object.keys(schema).forEach((field) => {
+      if (
+        schema[field].visibilityFunction &&
+        !schema[field].visibilityFunction(dataObj)
+      ) {
+        unsetFields[field] = "";
       }
     });
 
-    if(Object.keys(unsetFields).length>0) {
-      this.getCollectionInstance().update({_id:dataObj._id},{
-        $unset: unsetFields
-      });
+    if (Object.keys(unsetFields).length > 0) {
+      this.getCollectionInstance().update(
+        { _id: dataObj._id },
+        {
+          $unset: unsetFields,
+        }
+      );
     }
     return document;
   }
@@ -1115,7 +1156,7 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {optionsPub} optionsPub - Options Publication, like publications.
    * @returns {Array} - Array of documents.
    */
-  serverGetDocs(publicationName = 'default', filter = {}, optionsPub) {
+  serverGetDocs(publicationName = "default", filter = {}, optionsPub) {
     const result = this.publications[publicationName](filter, optionsPub);
     if (result) {
       return result.fetch();
@@ -1135,10 +1176,9 @@ export class ApiBase<Doc extends IDoc>  {
     if (Meteor.status().connected) {
       Meteor.call(`${this.collectionName}.${name}`, ...params);
     } else {
-      console.log('Sem Conexão com o Servidor');
+      console.log("Sem Conexão com o Servidor");
       // window.$app.globalFunctions.openSnackBar('SEM CONEXÃO COM O SERVIDOR:Sua operçaão não será registrada. Verifique sua conexão com a internet.', 'info');
     }
-
   }
 
   /**
@@ -1146,8 +1186,13 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  import(docObj: object, callback = (e, r) => {console.log(e, r);}) {
-    this.callMethod('import', docObj, callback);
+  import(
+    docObj: object,
+    callback = (e, r) => {
+      console.log(e, r);
+    }
+  ) {
+    this.callMethod("import", docObj, callback);
   }
 
   /**
@@ -1156,16 +1201,19 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Function} callback - Callback Function
    */
   insert(docObj: any, callback: any) {
-    const newObj = {_id: docObj._id};
+    const newObj = { _id: docObj._id };
     const schema = this.getSchema();
-    Object.keys(docObj).forEach(key => {
-      if (!!schema[key] &&
-          (!schema[key].isImage && !schema[key].isAvatar ||
-              docObj[key].indexOf('/img/') ===-1&&docObj[key].indexOf('/thumbnail/') ===-1)) {
+    Object.keys(docObj).forEach((key) => {
+      if (
+        !!schema[key] &&
+        ((!schema[key].isImage && !schema[key].isAvatar) ||
+          (docObj[key].indexOf("/img/") === -1 &&
+            docObj[key].indexOf("/thumbnail/") === -1))
+      ) {
         newObj[key] = docObj[key];
       }
     });
-    this.callMethod('insert', newObj, callback);
+    this.callMethod("insert", newObj, callback);
   }
 
   /**
@@ -1173,19 +1221,27 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  update(docObj: object, callback = (e, r) => {console.log(e, r);}) {
-    const newObj = {_id: docObj._id};
+  update(
+    docObj: object,
+    callback = (e, r) => {
+      console.log(e, r);
+    }
+  ) {
+    const newObj = { _id: docObj._id };
     const schema = this.schema;
-    Object.keys(docObj).forEach(key => {
-      if (!!schema[key] &&
-          (!schema[key].isImage && !schema[key].isAvatar ||
-              typeof docObj[key] === 'string' &&
-              docObj[key].indexOf('/img/') === -1&&docObj[key].indexOf('/thumbnail/') === -1)) {
+    Object.keys(docObj).forEach((key) => {
+      if (
+        !!schema[key] &&
+        ((!schema[key].isImage && !schema[key].isAvatar) ||
+          (typeof docObj[key] === "string" &&
+            docObj[key].indexOf("/img/") === -1 &&
+            docObj[key].indexOf("/thumbnail/") === -1))
+      ) {
         newObj[key] = docObj[key];
       }
     });
 
-    return this.callMethod('update', newObj, callback);
+    return this.callMethod("update", newObj, callback);
   }
 
   /**
@@ -1205,8 +1261,13 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  remove(docObj: object, callback = (e, r) => {console.log(e, r);}) {
-    this.callMethod('remove', docObj, callback);
+  remove(
+    docObj: object,
+    callback = (e, r) => {
+      console.log(e, r);
+    }
+  ) {
+    this.callMethod("remove", docObj, callback);
   }
 
   /**
@@ -1215,9 +1276,14 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Function} callback - Callback Function
    */
   getDocs(
-      apiName = 'default', filter = {}, optionsPub = {},
-      callback = (e, r) => {console.log(e, r);}) {
-    this.callMethod('getDocs', apiName, filter, optionsPub, callback);
+    apiName = "default",
+    filter = {},
+    optionsPub = {},
+    callback = (e, r) => {
+      console.log(e, r);
+    }
+  ) {
+    this.callMethod("getDocs", apiName, filter, optionsPub, callback);
   }
 
   /**
@@ -1225,8 +1291,13 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {Object} docObj - Document from a collection.
    * @param  {Function} callback - Callback Function
    */
-  sync(docObj: object, callback = (e, r) => {console.log(e, r);}) {
-    this.callMethod('sync', docObj, callback);
+  sync(
+    docObj: object,
+    callback = (e, r) => {
+      console.log(e, r);
+    }
+  ) {
+    this.callMethod("sync", docObj, callback);
   }
 
   /**
@@ -1257,21 +1328,22 @@ export class ApiBase<Doc extends IDoc>  {
    * @param  {} api='default'
    * @param  {} ...param
    */
-  subscribe(api = 'default', ...param) {
+  subscribe(api = "default", ...param) {
     const self = this;
     if (Meteor.isClient) {
       const subsHandle = Meteor.subscribe(
-          `${this.collectionName}.${api}`,
-          ...param,
+        `${this.collectionName}.${api}`,
+        ...param
       );
 
       const subHandleCounter = Meteor.subscribe(
-          `${this.collectionName}.count${api}`,
-          param[0] || {},
+        `${this.collectionName}.count${api}`,
+        param[0] || {}
       );
-      const countResult = subHandleCounter.ready() ? self.counts.findOne(
-          {_id: api + 'Total'}):null;
-      const count = countResult?countResult.count : 0;
+      const countResult = subHandleCounter.ready()
+        ? self.counts.findOne({ _id: api + "Total" })
+        : null;
+      const count = countResult ? countResult.count : 0;
 
       if (subHandleCounter.ready()) {
         subsHandle.total = count;
@@ -1285,9 +1357,7 @@ export class ApiBase<Doc extends IDoc>  {
       }
 
       return subsHandle;
-
     }
     return null;
   }
-
 }

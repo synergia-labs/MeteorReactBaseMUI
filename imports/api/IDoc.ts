@@ -1,7 +1,7 @@
 interface IDoc {
-	_id?: string;
-	createdat?: Date;
-	updatedat?: Date;
-	updatedby?: string | null;
-	createdby?: string;
+  _id?: string;
+  createdat?: Date;
+  updatedat?: Date;
+  updatedby?: string | null;
+  createdby?: string;
 }
