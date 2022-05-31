@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "@mui/material/Button";
-import * as appSyles from "../../materialui/styles";
+import { useTheme } from "@mui/material/styles";
 
 export interface IPageLayout {
   title: string;
@@ -16,6 +16,9 @@ export interface IPageLayout {
 
 export const PageLayout = (props: IPageLayout) => {
   const { title, children, actions, hiddenTitleBar, navigate, onBack } = props;
+
+  const theme = useTheme();
+
   return (
     <div
       style={{
@@ -35,12 +38,12 @@ export const PageLayout = (props: IPageLayout) => {
             top: 0,
             left: 0,
             width: "100%",
-            backgroundColor: appSyles.primaryColor,
+            backgroundColor: theme.palette.primary.main,
           }}
         >
           <Container
             style={{
-              backgroundColor: appSyles.primaryColor,
+              backgroundColor: theme.palette.primary.main,
               color: "#FFF",
               height: 45,
               display: "flex",
@@ -123,7 +126,7 @@ export const PageLayout = (props: IPageLayout) => {
             width: "100%",
             flex: 1,
             padding: 8,
-            backgroundColor: appSyles.pageBackgroundColor,
+            backgroundColor: theme.palette.background.default,
           }}
         >
           {children}

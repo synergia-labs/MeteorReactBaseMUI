@@ -7,7 +7,7 @@ import { simpleLabelStyle } from "./SimpleLabelViewStyle";
 import Tooltip from "@mui/material/Tooltip";
 import Info from "@mui/icons-material/InfoOutlined";
 
-import * as appStyles from "../../../materialui/styles";
+import { useTheme } from "@mui/material/styles";
 
 interface ISimpleLabelView {
   label: string;
@@ -16,6 +16,8 @@ interface ISimpleLabelView {
 }
 
 export default ({ label, value, help, style }: ISimpleLabelView) => {
+  const theme = useTheme();
+
   return hasValue(value) || hasValue(label) ? (
     <div id={label} style={{ ...simpleLabelStyle.container }}>
       <div
@@ -43,7 +45,9 @@ export default ({ label, value, help, style }: ISimpleLabelView) => {
         ) : null}
         {help && (
           <Tooltip title={help}>
-            <Info style={{ color: appStyles.textSecondary, fontSize: 16 }} />
+            <Info
+              style={{ color: theme.palette.text.secondary, fontSize: 16 }}
+            />
           </Tooltip>
         )}
       </div>

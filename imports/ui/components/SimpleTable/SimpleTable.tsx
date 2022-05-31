@@ -13,11 +13,11 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
-import * as appStyles from "/imports/materialui/styles";
 import { selectRowBackground } from "/imports/materialui/styles";
 
 import { simpleTableStyle } from "./SimpleTableStyle";
 import "./simpletableCSS.css";
+import { useTheme } from "@mui/material/styles";
 
 const descendingComparator = (a, b, orderBy) => {
   if (b.noOrder || a.noOrder) {
@@ -60,6 +60,7 @@ const EnhancedTableHead = (props) => {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+  const theme = useTheme();
 
   return (
     <TableHead>
@@ -106,8 +107,6 @@ const EnhancedTableHead = (props) => {
             style={{
               ...simpleTableStyle.tableHeadCell,
               ...simpleTableStyle.tableCellActions,
-              backgroundColor: appStyles.systemBackgroundColor,
-              border: `1px solid ${appStyles.systemBackgroundColor}`,
             }}
           />
         ) : null}

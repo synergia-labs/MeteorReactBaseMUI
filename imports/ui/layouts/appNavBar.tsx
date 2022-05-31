@@ -18,7 +18,8 @@ import * as appStyle from "/imports/materialui/styles";
 import Container from "@mui/material/Container";
 import { IAppMenu } from "/imports/modules/modulesTypings";
 import { IUserProfile } from "/imports/userprofile/api/UserProfileSch";
-import { Theme } from "@mui/material";
+import { FormControlLabel, Theme } from "@mui/material";
+import Switch from "@mui/material/Switch";
 
 const HomeIconButton = ({ navigate }: any) => {
   return (
@@ -39,6 +40,10 @@ interface IAppNavBar {
   showDrawer: (options?: Object) => void;
   showWindow: (options?: Object) => void;
   theme: Theme;
+  themeOptions: {
+    setDarkThemeMode: (isDarkMode: boolean) => void;
+    isDarkThemeMode: boolean;
+  };
 }
 
 const AppNavBar = (props: IAppNavBar) => {
@@ -94,6 +99,18 @@ const AppNavBar = (props: IAppNavBar) => {
           backgroundColor: theme.palette.primary.main,
         }}
       >
+        <FormControlLabel
+          control={
+            <Switch
+              color={"secondary"}
+              value={props.themeOptions.isDarkThemeMode}
+              onChange={(evt) =>
+                props.themeOptions.setDarkThemeMode(evt.target.checked)
+              }
+            />
+          }
+          label="DarkMode"
+        />
         <Tabs value={pathIndex} aria-label="icon label tabs example" centered>
           {(Modules.getAppMenuItemList() || [])
             .filter(
@@ -131,9 +148,22 @@ const AppNavBar = (props: IAppNavBar) => {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" enableColorOnDark>
       <Container style={appLayoutMenuStyle.containerFixedMenu}>
         <HomeIconButton navigate={navigate} />
+        <FormControlLabel
+          control={
+            <Switch
+              color={"secondary"}
+              value={props.themeOptions.isDarkThemeMode}
+              onChange={(evt) =>
+                props.themeOptions.setDarkThemeMode(evt.target.checked)
+              }
+            />
+          }
+          label="DarkMode"
+        />
+
         <Toolbar style={appLayoutMenuStyle.toolbarFixedMenu}>
           <div style={appNavBarStyle.containerNavBar}>
             <div style={appNavBarStyle.subContainerNavBar}>

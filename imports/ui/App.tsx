@@ -1,25 +1,20 @@
 import React from "react";
 import AppLayoutFixedMenu from "./layouts/appLayoutFixedMenu.tsx";
-import GeneralComponents from "./AppGeneralComponents";
+import GeneralComponents, { AppContext } from "./AppGeneralComponents";
 import { ThemeProvider, useTheme } from "@mui/material/styles";
-import { theme } from "/imports/materialui/theme";
+import { getTheme, theme } from "/imports/materialui/theme";
 import { useAccount } from "/imports/libs/userAccount";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import CssBaseline from "@mui/material/CssBaseline";
 
-interface IAppContainer {
-  showDialog?: () => void;
-  showDrawer?: () => void;
-  showWindow?: () => void;
-  showModal?: () => void;
-  showNotification?: () => void;
-}
-
-const AppContainer = (props: IAppContainer) => {
+const AppContainer = () => {
   const { isLoggedIn, user, userLoading } = useAccount();
 
+  const context = React.useContext(AppContext);
   const theme = useTheme();
   return (
     <AppLayoutFixedMenu
-      {...props}
+      {...context}
       user={user}
       isLoggedIn={isLoggedIn}
       userLoading={userLoading}
@@ -29,9 +24,22 @@ const AppContainer = (props: IAppContainer) => {
 };
 
 export const App = () => {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+  const [darkThemeMode, setDarkThemeMode] = React.useState(!!prefersDarkMode);
+
+  const themeOptions = {
+    darkMode: darkThemeMode,
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <GeneralComponents render={(props) => <AppContainer {...props} />} />
+    <ThemeProvider theme={getTheme(themeOptions)}>
+      <CssBaseline />
+      <GeneralComponents
+        themeOptions={{ setDarkThemeMode, isDarkThemeMode: !!darkThemeMode }}
+      >
+        <AppContainer />
+      </GeneralComponents>
     </ThemeProvider>
   );
 };

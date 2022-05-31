@@ -307,6 +307,9 @@ interface IGeneralComponentsState {
   windowOptions: IWindowContainerOptions | null;
   modalOptions: IModalContainer | null;
 }
+
+export const AppContext = React.createContext();
+
 class GeneralComponents extends React.Component<
   IGeneralComponentsProps,
   IGeneralComponentsState
@@ -396,15 +399,17 @@ class GeneralComponents extends React.Component<
   };
 
   render() {
-    const RenderAppComponent = this.props.render({
-      showNotification: showNotification,
-      showDialog: this.showDialog,
-      showDrawer: this.showDrawer,
-      showWindow: this.showWindow,
-      showModal: this.showModal,
-    });
     return (
-      <React.Fragment>
+      <AppContext.Provider
+        value={{
+          showNotification: showNotification,
+          showDialog: this.showDialog,
+          showDrawer: this.showDrawer,
+          showWindow: this.showWindow,
+          showModal: this.showModal,
+          themeOptions: this.props.themeOptions,
+        }}
+      >
         {this.state.dialogOptions ? (
           <DialogContainer {...this.state.dialogOptions} />
         ) : null}
@@ -426,8 +431,9 @@ class GeneralComponents extends React.Component<
             theme={this.props.theme}
           />
         ) : null}
-        {RenderAppComponent}
-      </React.Fragment>
+
+        {this.props.children}
+      </AppContext.Provider>
     );
   }
 }

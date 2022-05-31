@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material/styles";
 import { isMobile } from "/imports/libs/deviceVerify";
 import * as appStyles from "./styles";
 
-export const theme = createTheme({
+const defaultLigthTheme = {
   palette: {
     primary: {
       main: appStyles.primaryColor,
@@ -60,7 +60,7 @@ export const theme = createTheme({
         text: {
           // Name of the rule
           fontFamily: "PT Sans",
-          color: appStyles.textButtonColor, // Some CSS
+          // color: appStyles.textButtonColor, // Some CSS
         },
       },
     },
@@ -172,21 +172,21 @@ export const theme = createTheme({
           lineHeight: 1.2,
           letterSpacing: "0.7px",
           textAlign: "left",
-          color: "#222020",
+          // color: "#222020",
           textTransform: "none",
           outline: "none",
           borderRadius: 15,
           marginTop: 4,
           "&$disabled": {
             color: "#777",
-            backgroundColor: "#f2f2f2",
+            // backgroundColor: "#f2f2f2",
             outline: "none",
           },
         },
         input: {
           "&$disabled": {
             color: "#777",
-            backgroundColor: "#f2f2f2",
+            // backgroundColor: "#f2f2f2",
             outline: "none",
           },
           fontFamily: "PT Sans !important",
@@ -197,7 +197,7 @@ export const theme = createTheme({
           lineHeight: 1.2,
           letterSpacing: "0.7px !important",
           textAlign: "left !important",
-          color: "#222020",
+          // color: "#222020",
         },
       },
     },
@@ -208,10 +208,10 @@ export const theme = createTheme({
       },
       styleOverrides: {
         input: {
-          backgroundColor: "#FFFFFF",
+          // backgroundColor: "#FFFFFF",
           "&.Mui-disabled": {
             color: "#777",
-            backgroundColor: "#f2f2f2",
+            // backgroundColor: "#f2f2f2",
             outline: "none",
           },
         },
@@ -233,23 +233,23 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 15,
-          backgroundColor: appStyles.surfaceColor,
-          border: `1px solid ${appStyles.supportColor}`,
+          // backgroundColor: appStyles.surfaceColor,
+          // border: `1px solid ${appStyles.supportColor}`,
           transition: "background-color 300ms",
           "&:hover": {
-            backgroundColor: appStyles.backgroundColor,
+            // backgroundColor: appStyles.backgroundColor,
             transition: "background-color 300ms",
           },
           "&.Mui-focused": {
-            border: `1px solid ${appStyles.secondaryColor}`,
+            // border: `1px solid ${appStyles.secondaryColor}`,
           },
           "&.Mui-disabled": {
-            backgroundColor: appStyles.disabledBackground,
-            border: `1px solid ${appStyles.disabledBackground}`,
-            color: appStyles.textDisabled,
+            // backgroundColor: appStyles.disabledBackground,
+            // border: `1px solid ${appStyles.disabledBackground}`,
+            // color: appStyles.textDisabled,
           },
           "&.Mui-error": {
-            border: `1px solid ${appStyles.errorColor}`,
+            // border: `1px solid ${appStyles.errorColor}`,
           },
         },
         input: {
@@ -303,7 +303,7 @@ export const theme = createTheme({
       defaultProps: {},
       styleOverrides: {
         indicator: {
-          background: appStyles.secondaryColor,
+          //background: appStyles.secondaryColor,
           height: "4px",
         },
       },
@@ -324,7 +324,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 30,
-          backgroundColor: "#FFFFFF",
+          // backgroundColor: "#FFFFFF",
         },
         marginNormal: {
           marginTop: 4,
@@ -344,7 +344,7 @@ export const theme = createTheme({
           lineHeight: 1.2,
           letterSpacing: "0.7px",
           textAlign: "left",
-          color: "#222020",
+          // color: "#222020",
           textTransform: "none",
           outline: "none",
         },
@@ -357,7 +357,7 @@ export const theme = createTheme({
           lineHeight: 1.2,
           letterSpacing: "0.7px",
           textAlign: "left",
-          color: "#222020",
+          // color: "#222020",
           textTransform: "none",
           outline: "none",
           height: 51,
@@ -366,7 +366,7 @@ export const theme = createTheme({
           display: "flex",
           flxDirection: "row",
           alignItems: "center",
-          backgroundColor: "#ffffff",
+          // backgroundColor: "#ffffff",
         },
       },
     },
@@ -405,7 +405,7 @@ export const theme = createTheme({
           },
         },
         popupIndicator: {
-          color: appStyles.primaryColor,
+          // color: appStyles.primaryColor,
         },
         endAdornment: {
           top: "unset",
@@ -457,11 +457,32 @@ export const theme = createTheme({
       },
       styleOverrides: {
         tooltip: {
-          backgroundColor: "rgba(30, 30, 30, 0.9)",
-          color: appStyles.textWhite,
+          // backgroundColor: "rgba(30, 30, 30, 0.9)",
+          // color: appStyles.textWhite,
           fontWeight: "normal",
         },
       },
     },
   },
-});
+};
+
+const defaultDarkTheme = {
+  ...defaultLigthTheme,
+  palette: {
+    mode: "dark",
+    primary: {
+      main: appStyles.primaryColorDark,
+    },
+    secondary: {
+      main: appStyles.secondaryColorDark,
+    },
+  },
+};
+
+export const getTheme = (options) => {
+  if (options.darkMode) {
+    return createTheme(defaultDarkTheme);
+  } else {
+    return createTheme(defaultLigthTheme);
+  }
+};

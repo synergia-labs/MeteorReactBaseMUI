@@ -14,12 +14,12 @@ import ChipInput from "../../../../ui/components/SimpleFormFields/ChipInput/Chip
 import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
 import AudioRecorder from "/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder";
 import ImageCompactField from "/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField";
-import * as appStyle from "/imports/materialui/styles";
 import Print from "@mui/icons-material/Print";
 import Close from "@mui/icons-material/Close";
 import { PageLayout } from "/imports/ui/layouts/pageLayout";
 import { IExample } from "../../api/exampleSch";
 import { IMeteorError } from "/imports/typings/BoilerplateDefaultTypings";
+import { useTheme } from "@mui/material/styles";
 
 interface IExampleDetail {
   screenState: string;
@@ -33,6 +33,8 @@ interface IExampleDetail {
 const ExampleDetail = (props: IExampleDetail) => {
   const { isPrintView, screenState, loading, exampleDoc, save, navigate } =
     props;
+
+  const theme = useTheme();
 
   const handleSubmit = (doc: IExample) => {
     save(doc);
@@ -54,7 +56,7 @@ const ExampleDetail = (props: IExampleDetail) => {
             style={{
               cursor: "pointer",
               marginRight: 10,
-              color: appStyle.primaryColor,
+              color: theme.palette.secondary.main,
             }}
             onClick={() => {
               navigate(`/example/printview/${exampleDoc._id}`);
@@ -67,7 +69,7 @@ const ExampleDetail = (props: IExampleDetail) => {
             style={{
               cursor: "pointer",
               marginRight: 10,
-              color: appStyle.primaryColor,
+              color: theme.palette.secondary.main,
             }}
             onClick={() => {
               navigate(`/example/view/${exampleDoc._id}`);

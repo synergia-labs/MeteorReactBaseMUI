@@ -5,16 +5,26 @@ import AppNavBar from "./appNavBar";
 import AppRouterSwitch from "./appRouterSwitch";
 
 import { appLayoutMenuStyle } from "./AppLayoutFixedMenuStyle";
+import { useTheme } from "@mui/material/styles";
 
-const FixedMenuLayout = (props) => (
-  <Router>
-    <div style={appLayoutMenuStyle.containerAppRouter}>
-      <AppNavBar {...props} />
-      <div style={appLayoutMenuStyle.routerSwitch}>
-        <AppRouterSwitch {...props} />
+const FixedMenuLayout = (props) => {
+  const theme = useTheme();
+
+  return (
+    <Router>
+      <div
+        style={{
+          ...appLayoutMenuStyle.containerAppRouter,
+          backgroundColor: theme.palette.background.default,
+        }}
+      >
+        <AppNavBar {...props} />
+        <div style={appLayoutMenuStyle.routerSwitch}>
+          <AppRouterSwitch {...props} />
+        </div>
       </div>
-    </div>
-  </Router>
-);
+    </Router>
+  );
+};
 
 export default FixedMenuLayout;
