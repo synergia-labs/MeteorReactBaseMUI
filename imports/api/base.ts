@@ -619,47 +619,21 @@ export class ApiBase<Doc extends IDoc> {
 
   defaultCounterCollectionPublication = (collection, publishName) =>
     function (...params) {
-      let count = 0;
-      let initializing = true;
-
       // `observeChanges` only returns after the initial `added` callbacks have run.
       // Until then, we don't want to send a lot of `changed` messages—hence
       // tracking the `initializing` state.
-      let handle;
       const handlePub = collection.publications[publishName](...params);
-      if (handlePub) {
-        handle = handlePub.observeChanges({
-          added: (id) => {
-            count += 1;
-
-            if (!initializing) {
-              this.changed("counts", `${publishName}Total`, { count });
-            }
-          },
-
-          removed: (id) => {
-            count -= 1;
-            this.changed("counts", `${publishName}Total`, { count });
-          },
-
-          // We don't care about `changed` events.
+      if (!!handlePub) {
+        this.added("counts", `${publishName}Total`, {
+          count: handlePub.count(),
         });
-      }
-
-      if (!handle) {
+        this.ready();
+        return;
+      } else {
+        this.added("counts", `${publishName}Total`, { count: 0 });
+        this.ready();
         return;
       }
-
-      // Instead, we'll send one `added` message right after `observeChanges` has
-      // returned, and mark the subscription as ready.
-      initializing = false;
-      this.added("counts", `${publishName}Total`, { count });
-      this.ready();
-
-      // Stop observing the cursor when the client unsubscribes. Stopping a
-      // subscription automatically takes care of sending the client any `removed`
-      // messages.
-      this.onStop(() => handle.stop());
     };
 
   /**

@@ -30,7 +30,7 @@ const UserProfileDetail = ({
           ? "Editar Usuário"
           : "Criar usuário"
       }
-      onBack={() => navigate("/example")}
+      onBack={() => navigate("/userprofile")}
       hiddenTitleBar={!!hiddenTitleBar}
     >
       <SimpleForm
