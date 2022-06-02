@@ -159,6 +159,7 @@ export const SignIn = (props: any) => {
                   <Button
                     id="forgotPassword"
                     color={"secondary"}
+                    variant={"outlined"}
                     onClick={() => navigate("/recovery-password")}
                   >
                     {"Esqueci a minha senha"}
@@ -178,6 +179,7 @@ export const SignIn = (props: any) => {
               <Button
                 id="newUser"
                 color={"secondary"}
+                variant={"outlined"}
                 onClick={() => navigate("/signup")}
               >
                 {"É novo por aqui? Clique aqui para se cadastrar!"}

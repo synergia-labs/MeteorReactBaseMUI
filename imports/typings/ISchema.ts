@@ -1,3 +1,5 @@
+import { IDoc } from "../api/IDoc";
+
 export type LabelValue = {
   value: string | number;
   label: string;

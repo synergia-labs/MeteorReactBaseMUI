@@ -2,9 +2,16 @@
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
 import { OfflineBaseApi } from "../../api/offlinebase";
-import { userProfileSch } from "./UserProfileSch";
+import { IUserProfile, userProfileSch } from "./UserProfileSch";
 import { getUser, userprofileData } from "../../libs/getUser";
 import settings from "../../../settings.json";
+import { check } from 'meteor/check';
+import { IContext } from "/imports/typings/IContext";
+import { IDoc } from "/imports/api/IDoc";
+
+interface IUserProfileEstendido extends IUserProfile {
+	password?: string;
+}
 
 // endregion
 
@@ -27,7 +34,7 @@ class UserProfileApi extends OfflineBaseApi {
     this.afterInsert = this.afterInsert.bind(this);
 
     if (Meteor.isServer) {
-      this.registerMethod("sendVerificationEmail", (userData) => {
+      this.registerMethod("sendVerificationEmail", (userData: IUserProfile) => {
         check(userData, Object);
         if (Meteor.isServer && userData) {
           if (userData._id) {
@@ -40,7 +47,8 @@ class UserProfileApi extends OfflineBaseApi {
           }
         }
       });
-      this.registerMethod("sendResetPasswordEmail", (userData) => {
+      
+      this.registerMethod("sendResetPasswordEmail", (userData: IUserProfile) => {
         check(userData, Object);
         if (Meteor.isServer && userData) {
           if (userData._id) {
@@ -85,7 +93,7 @@ class UserProfileApi extends OfflineBaseApi {
     userprofileData.collectionInstance = this.collectionInstance;
   }
 
-  registrarUserProfileNoMeteor = (userprofile) => {
+  registrarUserProfileNoMeteor = (userprofile: IUserProfileEstendido) => {
     if (Meteor.isServer) {
       if (userprofile.password) {
         userprofile._id = Accounts.createUser({
@@ -102,7 +110,7 @@ class UserProfileApi extends OfflineBaseApi {
     }
   };
 
-  serverInsert(dataObj, context) {
+  serverInsert(dataObj: IUserProfileEstendido & {otheraccounts: any}, context: IContext) {
     let insertId = null;
     try {
       const { password } = dataObj;
@@ -195,7 +203,7 @@ class UserProfileApi extends OfflineBaseApi {
    * @param  {String} action - Action the will be perform.
    * @param  {String} defaultUser - Value of default user
    */
-  includeAuditData(doc, action, defaultUser = "Anonymous") {
+  includeAuditData(doc: IDoc, action: string, defaultUser: string = "Anonymous") {
     if (action === "insert") {
       doc.createdby = getUser() ? getUser()._id : defaultUser;
       doc.createdat = new Date();
@@ -265,21 +273,21 @@ class UserProfileApi extends OfflineBaseApi {
     }
   };
 
-  beforeInsert(docObj, context) {
+  beforeInsert(docObj: IUserProfile, context: IContext) {
     return super.beforeInsert(docObj, context);
   }
 
-  afterInsert(doc) {
+  afterInsert(doc: IUserProfileEstendido) {
     if (Meteor.isServer) {
       if (doc.password) {
-        Accounts.sendVerificationEmail(doc._id);
+        Accounts.sendVerificationEmail(doc._id!);
       } else {
-        Accounts.sendEnrollmentEmail(doc._id);
+        Accounts.sendEnrollmentEmail(doc._id!);
       }
     }
   }
 
-  beforeUpdate(docObj, context) {
+  beforeUpdate(docObj: IUserProfile, context: IContext) {
     const user = getUser();
     if (
       !docObj._id ||
@@ -299,13 +307,13 @@ class UserProfileApi extends OfflineBaseApi {
     return super.beforeUpdate(docObj, context);
   }
 
-  beforeRemove(docObj, context) {
+  beforeRemove(docObj: IUserProfile, context: IContext) {
     super.beforeRemove(docObj, context);
     Meteor.users.remove({ _id: docObj._id });
     return true;
   }
 
-  insertError(user) {
+  insertError(user: IUserProfile) {
     if (Meteor.isClient) {
       // cliente.saveCancel(); //#ToDo
     }
@@ -315,8 +323,8 @@ class UserProfileApi extends OfflineBaseApi {
   }
 
   insertNewUser(
-    userData,
-    callback = (e, r) => {
+    userData: IUserProfile,
+    callback = (e: Error, r: any) => {
       console.log(e, r);
     }
   ) {
