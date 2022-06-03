@@ -4,8 +4,8 @@ import { hasValue } from "../libs/hasValue";
 import { getUser } from "/imports/libs/getUser";
 import { Mongo } from "meteor/mongo";
 import { Meteor } from "meteor/meteor";
-import { Match } from "meteor/check";
 import { ISchema } from "../typings/ISchema";
+import { IDoc } from "./IDoc";
 
 // Conters
 const Counts = new Mongo.Collection("counts");

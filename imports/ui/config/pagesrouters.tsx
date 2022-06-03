@@ -5,7 +5,7 @@ import Signup from "../pages/SignUp/Signup";
 import Signout from "../pages/SignOut/Signout";
 import { EnrollAccount } from "../pages/EnrollAccount/EnrollAccount";
 import { EmailVerify } from "../pages/EmailVerify/EmailVerify";
-import RecoveryPassword from "/imports/ui/pages/RecoveryPassword/RecoveryPassword";
+import { RecoveryPassword } from "/imports/ui/pages/RecoveryPassword/RecoveryPassword";
 import { ResetPassword } from "/imports/ui/pages/ResetPassword/ResetPassword";
 import { SignIn } from "../pages/SignIn/Signin";
 

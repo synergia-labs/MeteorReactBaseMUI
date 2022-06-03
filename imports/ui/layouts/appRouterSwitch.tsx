@@ -7,10 +7,6 @@ import { segurancaApi } from "/imports/seguranca/api/SegurancaApi";
 import { IRoute } from "/imports/modules/modulesTypings";
 import { SignIn } from "../pages/SignIn/Signin";
 
-interface IPublicRoute extends IRoute {
-  generalProps?: { isLoggedIn: boolean };
-}
-
 const AppRouterSwitch = (switchProps: any) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -55,7 +51,7 @@ const AppRouterSwitch = (switchProps: any) => {
               />
             );
           } else {
-            const RenderedComponent = routerData.component as React.ElementType;
+            const RenderedComponent = routerData?.component as React.ElementType;
             return (
               <Route
                 key={routerData?.path}
