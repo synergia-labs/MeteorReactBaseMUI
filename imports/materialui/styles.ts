@@ -73,75 +73,79 @@ const textColorGray = "#999999";
 const systemBackgroundColor = "#eeeeee";
 const pageBackgroundColor = "#FFF";
 
+//Família de Fontes
+const fontFamily = "PT Sans";
+const fontFamilyTitle = "'M PLUS Rounded 1c', sans-serif";
+
 // Tipografia
-const h1 = {
-  fontFamily: "'M PLUS Rounded 1c', sans-serif",
-  fontSize: isMobile ? "2.25rem" : "3rem", //36px ou 48px
+const h1 = (fontScale: number) => ({
+  fontFamily: fontFamilyTitle,
+  fontSize: (isMobile ? 36 : 48) * fontScale,
   fontWeight: 800,
   lineHeight: "normal",
-};
-const h2 = {
-  fontFamily: "'M PLUS Rounded 1c', sans-serif",
-  fontSize: isMobile ? "1.75rem" : "2.25rem", //28px ou 36px
+});
+const h2 = (fontScale: number) => ({
+  fontFamily: fontFamilyTitle,
+  fontSize: (isMobile ? 28 : 36) * fontScale,
   fontWeight: 800,
   lineHeight: "normal",
-};
-const h3 = {
-  fontFamily: "'M PLUS Rounded 1c', sans-serif",
-  fontSize: isMobile ? "1.5rem" : "1.75rem", //24px ou 28px
+});
+const h3 = (fontScale: number) => ({
+  fontFamily: fontFamilyTitle,
+  fontSize: (isMobile ? 24 : 28) * fontScale,
   fontWeight: 800,
   lineHeight: "normal",
-};
-const h4 = {
-  fontSize: isMobile ? "1.5rem" : "1.75rem", //24px ou 28px
+});
+const h4 = (fontScale: number) => ({
+  fontSize: (isMobile ? 24 : 28) * fontScale,
   fontWeight: 400,
   lineHeight: "normal",
-};
-const h5 = {
-  fontFamily: "'M PLUS Rounded 1c', sans-serif",
-  fontSize: isMobile ? "1.25rem" : "1.5rem", //20px ou 24px
+});
+const h5 = (fontScale: number) => ({
+  fontFamily: fontFamilyTitle,
+  fontSize: (isMobile ? 20 : 24) * fontScale,
   fontWeight: 800,
   lineHeight: "normal",
-};
-const h6 = {
-  fontSize: isMobile ? "1.125rem" : "1.25rem", //18px ou 20px
+});
+const h6 = (fontScale: number) => ({
+  fontSize: (isMobile ? 18 : 20) * fontScale,
   fontWeight: 400,
   lineHeight: "normal",
-};
-const button = {
-  fontSize: isMobile ? "1rem" : "1rem", //16px
+});
+const button = (fontScale: number) => ({
+  fontSize: (isMobile ? 16 : 16) * fontScale,
   fontWeight: 700,
   letterSpacing: "0.01em",
   lineHeight: "normal",
-};
-const subtitle1 = {
-  fontSize: isMobile ? "1rem" : "1.125rem", //16px ou 18px
+});
+const subtitle1 = (fontScale: number) => ({
+  fontSize: (isMobile ? 16 : 18) * fontScale,
   fontWeight: 700,
   letterSpacing: "0.01em",
   lineHeight: "normal",
-};
-const body1 = {
-  fontSize: isMobile ? "0.875rem" : "1rem", //14px ou 16px
+});
+const body1 = (fontScale: number) => ({
+  fontSize: (isMobile ? 14 : 16) * fontScale,
   fontWeight: 400,
   lineHeight: "normal",
-};
-const subtitle2 = {
-  fontSize: isMobile ? "0.875rem" : "1rem", //14px ou 16px
+});
+const subtitle2 = (fontScale: number) => ({
+  fontSize: (isMobile ? 14 : 16) * fontScale,
   fontWeight: 700,
   letterSpacing: "0.01em",
   lineHeight: "normal",
-};
-const body2 = {
-  fontSize: isMobile ? "0.75rem" : "0.875rem", //12px ou 14px
+});
+const body2 = (fontScale: number) => ({
+  fontSize: (isMobile ? 12 : 14) * fontScale,
   fontWeight: 400,
   lineHeight: "normal",
-};
-const caption = {
-  fontSize: isMobile ? "0.625rem" : "0.75rem", //10px ou 12px
+});
+const caption = (fontScale: number) => ({
+  fontSize: (isMobile ? 10 : 12) * fontScale,
   fontWeight: 400,
   letterSpacing: "0.02em",
   lineHeight: "normal",
-};
+});
 
 // Sombras
 const sombraCard = "0px 2px 4px rgba(0, 0, 0, 0.15)";
@@ -245,6 +249,9 @@ export {
   //Backgorund colors
   systemBackgroundColor,
   pageBackgroundColor,
+  //Fontes
+  fontFamily,
+  fontFamilyTitle,
   //Tipografia
   h1,
   h2,

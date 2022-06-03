@@ -32,7 +32,7 @@ const uploadImagesStyle = {
   },
   cardMedia: {
     position: "relative",
-    backgroundColor: "white",
+    backgroundColor: "#FFF",
     minWidth: 255,
     minHeight: 200,
     alignItems: "center",
@@ -43,7 +43,7 @@ const uploadImagesStyle = {
   media: {
     margin: 10,
     position: "relative",
-    backgroundColor: "white",
+    backgroundColor: "#FFF",
     minWidth: 255,
     minHeight: 200,
     alignItems: "center",
@@ -64,7 +64,7 @@ const uploadImagesStyle = {
     position: "absolute",
     textOverflow: "ellipsis",
     backgroundColor: "black",
-    color: "white",
+    color: "#FFF",
     opacity: 0.8,
     width: "100%",
     maxWidth: "100%",
@@ -86,7 +86,7 @@ const uploadImagesStyle = {
     maxWidth: "100%",
     overflow: "hidden",
     textOverflow: "ellipsis",
-    color: "white",
+    color: "#FFF",
     fontSize: 15,
     fontWeight: 200,
   },
@@ -97,22 +97,14 @@ const uploadImagesStyle = {
   download: {
     color: "#FFF",
   },
-  arrow: {
-    color: "black",
-    border: "2px solid white",
-    background: "white",
-    borderRadius: "50%",
-    height: "32px",
-    width: "32px",
-  },
   expand: {
-    color: "white",
+    color: "#FFF",
     position: "absolute",
     right: 0,
   },
   bannerGrid: {
     backgroundColor: "dark red",
-    color: "white",
+    color: "#FFF",
     height: "100%",
     position: "relative",
     cursor: "pointer",
@@ -143,7 +135,6 @@ const uploadImagesStyle = {
     marginBottom: 8,
     display: "flex",
     alignItems: "center",
-    width: "100%",
   },
   containerShowFiles: {
     width: "100%",

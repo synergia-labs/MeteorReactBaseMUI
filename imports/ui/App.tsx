@@ -27,16 +27,23 @@ export const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const [darkThemeMode, setDarkThemeMode] = React.useState(!!prefersDarkMode);
+  const [fontScale, setFontScale] = React.useState(1);
 
   const themeOptions = {
     darkMode: darkThemeMode,
+    fontScale,
   };
 
   return (
     <ThemeProvider theme={getTheme(themeOptions)}>
       <CssBaseline />
       <GeneralComponents
-        themeOptions={{ setDarkThemeMode, isDarkThemeMode: !!darkThemeMode }}
+        themeOptions={{
+          setFontScale,
+          fontScale,
+          setDarkThemeMode,
+          isDarkThemeMode: !!darkThemeMode,
+        }}
       >
         <AppContainer />
       </GeneralComponents>

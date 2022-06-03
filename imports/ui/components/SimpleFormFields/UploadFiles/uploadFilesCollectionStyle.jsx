@@ -15,15 +15,22 @@
  */
 
 const uploadFilesStyle = {
-  containerListReadOnly: {
+  containerList: {
     padding: "0px 8px",
+  },
+  containerListReadOnly: {
+    width: "100%",
+    borderRadius: 4,
+    boxShadow: "0px 1px 4px 1px rgba(0, 0, 0, 0.25)",
+    margin: "10px",
+    backgroundColor: "white",
   },
   containerNoFiles: {
     color: "#BBB",
   },
   containerDropzone: {
     width: "100%",
-    padding: "2rem",
+    padding: "1rem 2rem",
     textAlign: "center",
     cursor: "pointer",
   },
@@ -39,8 +46,8 @@ const uploadFilesStyle = {
     width: "100%",
   },
   subContainerShowFiles: {
-    padding: 10,
-    backgroundColor: "#EEE",
+    // padding: 10,
+    // backgroundColor: '#EEE',
   },
   containerGetConteudoDropzone: {
     display: "flex",
@@ -49,11 +56,11 @@ const uploadFilesStyle = {
     flexWrap: "wrap",
   },
   containerGetListFiles: {
-    padding: "0.5rem",
-    borderRadius: 10,
-    borderStyle: "groove",
-    boxShadow:
-      "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px",
+    marginTop: "1rem",
+    borderRadius: 4,
+    boxShadow: "0px 1px 4px 1px rgba(0, 0, 0, 0.25)",
+    margin: "10px",
+    backgroundColor: "white",
   },
 };
 

@@ -41,6 +41,8 @@ interface IAppNavBar {
   showWindow: (options?: Object) => void;
   theme: Theme;
   themeOptions: {
+    setFontScale: (scale: number) => void;
+    fontScale: number;
     setDarkThemeMode: (isDarkMode: boolean) => void;
     isDarkThemeMode: boolean;
   };
@@ -163,6 +165,36 @@ const AppNavBar = (props: IAppNavBar) => {
           }
           label="DarkMode"
         />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            border: "1px solid #CCC",
+          }}
+        >
+          <Button
+            style={{ width: 40, height: 40 }}
+            onClick={() =>
+              props.themeOptions.setFontScale(
+                props.themeOptions.fontScale * 0.85
+              )
+            }
+          >
+            {"-"}
+          </Button>
+          {"FontSize"}
+          <Button
+            style={{ width: 40, height: 40 }}
+            onClick={() =>
+              props.themeOptions.setFontScale(
+                props.themeOptions.fontScale * 1.15
+              )
+            }
+          >
+            {"+"}
+          </Button>
+        </div>
 
         <Toolbar style={appLayoutMenuStyle.toolbarFixedMenu}>
           <div style={appNavBarStyle.containerNavBar}>

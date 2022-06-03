@@ -32,8 +32,6 @@ const appNavBarStyle = {
     flexDirection: "row",
   },
   buttonMenuItem: {
-    // fontFamily: 'PTSans',
-    fontSize: "12px",
     fontWeight: "normal",
     fontStretch: "normal",
     fontStyle: "normal",

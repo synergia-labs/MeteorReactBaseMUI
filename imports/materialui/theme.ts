@@ -1,8 +1,8 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeOptions } from "@mui/material/styles";
 import { isMobile } from "/imports/libs/deviceVerify";
 import * as appStyles from "./styles";
 
-const defaultLigthTheme = {
+const getLightTheme = (fontScale: number): ThemeOptions => ({
   palette: {
     primary: {
       main: appStyles.primaryColor,
@@ -27,24 +27,24 @@ const defaultLigthTheme = {
     divider: appStyles.supportColor,
   },
   typography: {
-    fontFamily: "'Roboto Condensed', sans-serif",
-    fontSize: 16,
+    fontFamily: appStyles.fontFamilyTitle,
+    fontSize: 16 * fontScale,
     fontWeightLight: 400,
     fontWeightRegular: 400,
     fontWeightMedium: 700,
     fontWeightBold: 700,
-    h1: appStyles.h1,
-    h2: appStyles.h2,
-    h3: appStyles.h3,
-    h4: appStyles.h4,
-    h5: appStyles.h5,
-    h6: appStyles.h6,
-    button: appStyles.button,
-    subtitle1: appStyles.subtitle1,
-    body1: appStyles.body1,
-    subtitle2: appStyles.subtitle2,
-    body2: appStyles.body2,
-    caption: appStyles.caption,
+    h1: appStyles.h1(fontScale),
+    h2: appStyles.h2(fontScale),
+    h3: appStyles.h3(fontScale),
+    h4: appStyles.h4(fontScale),
+    h5: appStyles.h5(fontScale),
+    h6: appStyles.h6(fontScale),
+    button: appStyles.button(fontScale),
+    subtitle1: appStyles.subtitle1(fontScale),
+    body1: appStyles.body1(fontScale),
+    subtitle2: appStyles.subtitle2(fontScale),
+    body2: appStyles.body2(fontScale),
+    caption: appStyles.caption(fontScale),
   },
   // shape: {
   //     borderRadius: '16px',
@@ -54,12 +54,12 @@ const defaultLigthTheme = {
       defaultProps: {},
       styleOverrides: {
         root: {
-          fontFamily: "PT Sans",
+          fontFamily: appStyles.fontFamily,
           margin: isMobile ? 0 : 4,
         },
         text: {
           // Name of the rule
-          fontFamily: "PT Sans",
+          fontFamily: appStyles.fontFamily,
           // color: appStyles.textButtonColor, // Some CSS
         },
       },
@@ -87,12 +87,12 @@ const defaultLigthTheme = {
       styleOverrides: {
         root: {
           margin: isMobile ? 0 : 4,
-          fontFamily: "PT Sans",
+          fontFamily: appStyles.fontFamily,
         },
         text: {
           // Name of the rule
           color: appStyles.textButtonColor, // Some CSS
-          fontFamily: "PT Sans",
+          fontFamily: appStyles.fontFamily,
         },
       },
     },
@@ -102,12 +102,12 @@ const defaultLigthTheme = {
       defaultProps: {},
       styleOverrides: {
         root: {
-          fontFamily: "PT Sans",
+          fontFamily: appStyles.fontFamily,
         },
         text: {
           // Name of the rule
           color: appStyles.textButtonColor, // Some CSS
-          fontFamily: "PT Sans",
+          fontFamily: appStyles.fontFamily,
         },
       },
     },
@@ -135,7 +135,7 @@ const defaultLigthTheme = {
       defaultProps: {},
       styleOverrides: {
         root: {
-          fontSize: "1.5rem",
+          fontSize: 14 * fontScale,
         },
       },
     },
@@ -144,7 +144,7 @@ const defaultLigthTheme = {
       defaultProps: {},
       styleOverrides: {
         root: {
-          fontSize: "1.5rem",
+          fontSize: 14 * fontScale,
         },
       },
     },
@@ -164,8 +164,8 @@ const defaultLigthTheme = {
       },
       styleOverrides: {
         root: {
-          fontFamily: "PT Sans",
-          fontSize: "14px",
+          fontFamily: appStyles.fontFamily,
+          fontSize: 14 * fontScale,
           fontWeight: "normal",
           fontStretch: "normal",
           fontStyle: "normal",
@@ -189,8 +189,8 @@ const defaultLigthTheme = {
             // backgroundColor: "#f2f2f2",
             outline: "none",
           },
-          fontFamily: "PT Sans !important",
-          fontSize: "14px !important",
+          fontFamily: appStyles.fontFamily + " !important",
+          fontSize: 14 * fontScale + " !important",
           fontWeight: "normal !important",
           fontStretch: "normal !important",
           fontStyle: "normal !important",
@@ -313,7 +313,7 @@ const defaultLigthTheme = {
       defaultProps: {},
       styleOverrides: {
         root: {
-          fontFamily: "PT Sans",
+          fontFamily: appStyles.fontFamily,
           margin: isMobile ? 0 : 4,
         },
       },
@@ -336,8 +336,8 @@ const defaultLigthTheme = {
       defaultProps: {},
       styleOverrides: {
         root: {
-          fontFamily: "PT Sans",
-          fontSize: "14px",
+          fontFamily: appStyles.fontFamily,
+          fontSize: 14 * fontScale,
           fontWeight: "normal",
           fontStretch: "normal",
           fontStyle: "normal",
@@ -349,8 +349,8 @@ const defaultLigthTheme = {
           outline: "none",
         },
         select: {
-          fontFamily: "PT Sans",
-          fontSize: "14px",
+          fontFamily: appStyles.fontFamily,
+          fontSize: 14 * fontScale,
           fontWeight: "normal",
           fontStretch: "normal",
           fontStyle: "normal",
@@ -430,8 +430,8 @@ const defaultLigthTheme = {
       },
       styleOverrides: {
         root: {
-          fontFamily: "PT Sans",
-          fontSize: "14px",
+          fontFamily: appStyles.fontFamily,
+          fontSize: 14 * fontScale,
           fontWeight: "normal",
           fontStretch: "normal",
           fontStyle: "normal",
@@ -464,10 +464,10 @@ const defaultLigthTheme = {
       },
     },
   },
-};
+});
 
-const defaultDarkTheme = {
-  ...defaultLigthTheme,
+const getDarkTheme = (fontScale: number): ThemeOptions => ({
+  ...getLightTheme(fontScale),
   palette: {
     mode: "dark",
     primary: {
@@ -477,12 +477,14 @@ const defaultDarkTheme = {
       main: appStyles.secondaryColorDark,
     },
   },
-};
+});
 
-export const getTheme = (options) => {
+export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
+  const fontScale = options.fontScale || 1;
+  console.log(fontScale, options.darkMode);
   if (options.darkMode) {
-    return createTheme(defaultDarkTheme);
+    return createTheme(getDarkTheme(fontScale));
   } else {
-    return createTheme(defaultLigthTheme);
+    return createTheme(getLightTheme(fontScale));
   }
 };

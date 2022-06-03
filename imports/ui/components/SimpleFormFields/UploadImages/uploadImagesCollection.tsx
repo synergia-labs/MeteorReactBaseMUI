@@ -573,9 +573,12 @@ class UploadImage extends React.Component<
       });
 
       // These are the event functions, don't need most of them, it shows where we are in the process
-      uploadInstance.on("start", () => {});
+      uploadInstance.on("start", () => {
+        // console.log('Starting');
+      });
 
       uploadInstance.on("end", () => {
+        // console.log('End');
         self.setState({
           progress: 0,
         });
@@ -635,10 +638,13 @@ class UploadImage extends React.Component<
 
           newFileQueue.shift(); // Remove Actual File Upload
 
+          // console.log('newFileQueue.length',newFileQueue.length)
+
           if (newFileQueue.length > 0) {
             const nextFile = newFileQueue[0];
             self.uploadIt(null, nextFile);
           } else {
+            // console.log('attachs',attachs)
             self.onChange(attachs);
             // Remove the filename from the upload box
             const refsName = `fileinput ${this.props.name} ${this.props.key}`;
@@ -688,6 +694,8 @@ class UploadImage extends React.Component<
       typeof this.props.doc === "function" ? this.props.doc() : this.props.doc;
     const { links } = this.state;
     const linksSplice = links || []; //[];
+
+    console.log(">>>>>>>....", links);
 
     //usar 1, 2, 3, 4, 6 ou 12
     const numCardPage = this.props.readOnly ? 4 : 3;
@@ -878,7 +886,7 @@ class UploadImage extends React.Component<
             </div>
             <div
               style={{
-                minWidth: "100%",
+                width: "100%",
                 padding: 10,
                 backgroundColor: "rgb(238, 238, 238)",
               }}

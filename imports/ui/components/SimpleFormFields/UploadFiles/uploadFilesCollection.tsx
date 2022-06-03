@@ -5,6 +5,7 @@ import _ from "lodash";
 import { attachmentsCollection } from "/imports/api/attachmentsCollection";
 
 import { isMobile } from "/imports/libs/deviceVerify";
+import Box from "@mui/material/Box";
 
 import LibraryBooks from "@mui/icons-material/LibraryBooks";
 import LibraryMusic from "@mui/icons-material/LibraryMusic";
@@ -17,18 +18,21 @@ import Avatar from "@mui/material/Avatar/Avatar";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import { Meteor } from "meteor/meteor";
 
+import ClearIcon from "@mui/icons-material/Clear";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Snackbar from "@mui/material/Snackbar";
 
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 
 import LinearProgress from "@mui/material/LinearProgress";
-import Delete from "@mui/icons-material/Delete";
 import CloudUpload from "@mui/icons-material/CloudUpload";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import * as appStyle from "/imports/materialui/styles";
 import { uploadFilesStyle } from "./uploadFilesCollectionStyle";
 import Typography from "@mui/material/Typography";
+import AddIcon from "@mui/icons-material/Add";
+import { showNotification } from "/imports/ui/AppGeneralComponents";
 
 const { grey100, grey500, grey700 } = ["#eeeeee", "#c9c9c9", "#a1a1a1"];
 
@@ -81,7 +85,7 @@ const styles = {
   },
 };
 
-interface IArquivo {
+export interface IArquivo {
   name: string;
   type?: string;
   size: number;
@@ -156,7 +160,6 @@ class UploadFile extends React.Component<
     snapshot
   ) {
     const arquivos = this.props.attachments || [];
-
     if (
       !_.isEqual(this.props.attachments, prevProps.attachments) ||
       (this.props.attachments.length > 0 && this.state.links.length === 0)
@@ -214,25 +217,25 @@ class UploadFile extends React.Component<
 
     switch (type.base) {
       case "text":
-        return <LibraryBooks style={{ color: "#e26139" }} />;
+        return <LibraryBooks style={{ color: appStyle.darkElements }} />;
       case "audio":
-        return <LibraryMusic style={{ color: "#e26139" }} />;
+        return <LibraryMusic style={{ color: appStyle.darkElements }} />;
       case "image":
-        return <Image style={{ color: "#e26139" }} />;
+        return <Image style={{ color: appStyle.darkElements }} />;
       case "video":
-        return <VideoLibrary style={{ color: "#e26139" }} />;
+        return <VideoLibrary style={{ color: appStyle.darkElements }} />;
 
       case "application":
         if (type.fileType === "pdf") {
-          return <Book style={{ color: "#e26139" }} />;
+          return <Book style={{ color: appStyle.darkElements }} />;
         }
         if (type.fileType.indexOf("msword") !== -1) {
-          return <Book style={{ color: "#e26139" }} />;
+          return <Book style={{ color: appStyle.darkElements }} />;
         }
-        return <AttachFile style={{ color: "#e26139" }} />;
+        return <AttachFile style={{ color: appStyle.darkElements }} />;
 
       default:
-        return <AttachFile style={{ color: "#e26139" }} />;
+        return <AttachFile style={{ color: appStyle.darkElements }} />;
     }
   };
 
@@ -247,7 +250,7 @@ class UploadFile extends React.Component<
             ? item.link
             : attachmentsCollection.attachments
                 .findOne({ _id: item._id })
-                .link();
+                ?.link();
         return {
           name: item.name,
           id: item._id,
@@ -281,7 +284,6 @@ class UploadFile extends React.Component<
       const arquivos = this.state.arquivos;
       const self = this;
       let firstFile: Partial<IArquivo> | null = null;
-
       acceptedFiles.forEach((file, index: number) => {
         const arquivo: Partial<IArquivo> = {
           name: file.name.split(".")[0],
@@ -293,6 +295,15 @@ class UploadFile extends React.Component<
           index,
           file,
         };
+
+        if (arquivo.size <= 0) {
+          showNotification({
+            type: "alert",
+            title: "Arquivo não anexado",
+            description: `O arquivo "${file.name}" está vazio.`,
+          });
+          return;
+        }
 
         if (!firstFile) {
           firstFile = arquivo;
@@ -339,9 +350,11 @@ class UploadFile extends React.Component<
         const filetype = item.type ? item.type.split("/")[0] : null;
         return (
           <ListItem
+            sx={{
+              width: "inherit",
+            }}
             dense
             button
-            divider
             key={item.id || item.name}
             onClick={() => {
               if (
@@ -358,7 +371,13 @@ class UploadFile extends React.Component<
               }
             }}
           >
-            <Avatar alt={item.name}>
+            <Avatar
+              sx={{
+                color: "#fafafa",
+                backgroundColor: "#f1f1f1",
+              }}
+              alt={item.name}
+            >
               {filetype ? (
                 item.status && item.status === "InProgress" ? (
                   this.getIcon(this.state.uploadFileMimeType || null)
@@ -370,9 +389,19 @@ class UploadFile extends React.Component<
               )}
             </Avatar>
             <ListItemText
-              primary={item.name}
+              primary={
+                <Typography variant="subtitle2" color={"primary"}>
+                  <Box
+                    sx={{
+                      wordBreak: "break-all",
+                    }}
+                  >
+                    {item.name}
+                  </Box>
+                </Typography>
+              }
               secondary={
-                <span>
+                <Typography variant="body2" color={"textDisabled"}>
                   {item.status && item.status === "InProgress" ? (
                     <LinearProgress
                       color={
@@ -382,7 +411,7 @@ class UploadFile extends React.Component<
                       }
                       classes={
                         item.status && item.status === "InProgress"
-                          ? { barColorSecondary: "#e26139" }
+                          ? { barColorSecondary: appStyle.textSecondary }
                           : undefined
                       }
                       variant="determinate"
@@ -401,17 +430,18 @@ class UploadFile extends React.Component<
                   ) : (
                     `${(item.size / (1024 * 1024)).toFixed(2)}MB`
                   )}
-                </span>
+                </Typography>
               }
-              style={uploadFilesStyle.containerListReadOnly}
+              style={uploadFilesStyle.containerList}
             />
+            <IconButton>
+              <FileDownloadIcon sx={{ color: appStyle.darkElements }} />
+            </IconButton>
           </ListItem>
         );
       })
     ) : (
-      <Typography style={uploadFilesStyle.containerNoFiles}>
-        {"Não há arquivos"}
-      </Typography>
+      <div style={uploadFilesStyle.containerNoFiles}>{"Não há arquivos"}</div>
     );
 
   getList = () =>
@@ -419,8 +449,21 @@ class UploadFile extends React.Component<
       ? this.state.links.map((item) => {
           const filetype = item.type ? item.type.split("/")[0] : null;
           return (
-            <ListItem dense button divider key={item.id || item.name}>
-              <Avatar alt={item.name}>
+            <ListItem
+              sx={{
+                width: "inherit",
+              }}
+              dense
+              button
+              key={item.id || item.name}
+            >
+              <Avatar
+                sx={{
+                  color: "#fafafa",
+                  backgroundColor: "#f1f1f1",
+                }}
+                alt={item.name}
+              >
                 {filetype ? (
                   item.status && item.status === "InProgress" ? (
                     this.getIcon(this.state.uploadFileMimeType || null)
@@ -428,13 +471,23 @@ class UploadFile extends React.Component<
                     this.getIcon(item.type)
                   )
                 ) : (
-                  <CloudUpload style={{ color: "#e26139" }} />
+                  <CloudUpload />
                 )}
               </Avatar>
               <ListItemText
-                primary={item.name}
+                primary={
+                  <Typography variant="subtitle2" color={"primary"}>
+                    <Box
+                      sx={{
+                        wordBreak: "break-all",
+                      }}
+                    >
+                      {item.name}
+                    </Box>
+                  </Typography>
+                }
                 secondary={
-                  <span>
+                  <Typography variant="body2" color={"textDisabled"}>
                     {item.status && item.status === "InProgress" ? (
                       <LinearProgress
                         color={
@@ -444,7 +497,7 @@ class UploadFile extends React.Component<
                         }
                         classes={
                           item.status && item.status === "InProgress"
-                            ? { barColorSecondary: "#e26139" }
+                            ? { barColorSecondary: appStyle.textSecondary }
                             : undefined
                         }
                         variant="determinate"
@@ -463,12 +516,12 @@ class UploadFile extends React.Component<
                     ) : (
                       `${(item.size / (1024 * 1024)).toFixed(2)}MB`
                     )}
-                  </span>
+                  </Typography>
                 }
-                style={uploadFilesStyle.containerListReadOnly}
+                style={uploadFilesStyle.containerList}
               />
               <IconButton onClick={() => this.excluirArquivo(item.id)}>
-                <Delete style={{ color: "#e26139" }} />
+                <ClearIcon sx={{ color: appStyle.darkElements }} />
               </IconButton>
             </ListItem>
           );
@@ -500,56 +553,22 @@ class UploadFile extends React.Component<
           justifyContent: "center",
           alignItems: "center",
           color: "#858585",
-          paddingTop: 15,
         }}
       >
-        <img
-          src="/images/wireframe/dragActive.png"
-          style={{
-            maxWidth: 40,
-            maxHeight: 40,
-            height: "100%",
-            width: "100%",
-            paddingRight: 10,
-          }}
-        />
         <div style={{ textAlign: "center" }}>
-          <Typography
-            style={{
-              paddingTop: 15,
-              // fontFamily: 'PT',
-              fontSize: "15px",
-              fontWeight: "normal",
-              fontStretch: "normal",
-              fontStyle: "normal",
-              lineHeight: 1.36,
-              letterSpacing: "normal",
-              textAlign: "center",
-              color: "#b3b3b3",
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            {isDragActive
-              ? "Solte o arquivo aqui"
-              : isMobile
-              ? " Clique aqui para adicionar" + " arquivos"
-              : " Solte os arquivos aqui, ou clique no botão abaixo"}
-          </Typography>
-          <Typography
-            style={{
-              paddingTop: 15,
-              paddingBottom: 15,
-              // fontFamily: 'PT',
-              fontSize: "17px",
-              fontWeight: "bold",
-              fontStretch: "normal",
-              fontStyle: "normal",
-              lineHeight: 1.2,
-              letterSpacing: "0.7px",
-              textAlign: "center",
-              color: "#e26139",
-            }}
-          >
-            {"+ Adicionar Arquivos"}
+            <AddIcon />
+            <Typography variant="body1">Adicionar arquivos</Typography>
+          </Box>
+          <Typography variant="body2" color={"textDisabled"}>
+            {"Ou solte seus arquivos aqui"}
           </Typography>
         </div>
       </div>
@@ -582,28 +601,37 @@ class UploadFile extends React.Component<
         file = e.currentTarget.files[0];
       }
     } else {
-      file = fileUpload.file;
+      file = fileUpload?.file;
     }
-
-    console.log(file);
 
     const doc =
       typeof this.props.doc === "function" ? this.props.doc() : this.props.doc;
 
     if (file) {
-      const uploadInstance = attachmentsCollection.attachments.insert(
-        {
-          file,
-          meta: {
-            fieldName: this.props.name,
-            docId: doc._id || "Error",
-            userId: Meteor.userId(), // Optional, used to check on server for file tampering
+      let uploadInstance;
+      try {
+        uploadInstance = attachmentsCollection.attachments.insert(
+          {
+            file,
+            meta: {
+              fieldName: this.props.name,
+              docId: doc._id || "Error",
+              userId: Meteor.userId(), // Optional, used to check on server for file tampering
+            },
+            chunkSize: "dynamic",
+            allowWebWorkers: true, // If you see issues with uploads, change this to false
           },
-          chunkSize: "dynamic",
-          allowWebWorkers: true, // If you see issues with uploads, change this to false
-        },
-        false
-      );
+          false
+        );
+      } catch (e) {
+        console.error(e);
+        showNotification({
+          type: "alert",
+          title: "Erro ao anexar arquivo",
+          description: `O arquivo "${file.name}" não foi anexado.`,
+        });
+        return;
+      }
 
       this.currentFileUpload = fileUpload.index;
 
@@ -614,9 +642,12 @@ class UploadFile extends React.Component<
       });
 
       // These are the event functions, don't need most of them, it shows where we are in the process
-      uploadInstance.on("start", () => {});
+      uploadInstance.on("start", () => {
+        // console.log('Starting');
+      });
 
       uploadInstance.on("end", () => {
+        // console.log('End');
         self.setState({
           progress: 0,
         });
@@ -672,10 +703,13 @@ class UploadFile extends React.Component<
 
           newFileQueue.shift(); // Remove Actual File Upload
 
+          // console.log('newFileQueue.length',newFileQueue.length)
+
           if (newFileQueue.length > 0) {
             const nextFile = newFileQueue[0];
             self.uploadIt(null, nextFile);
           } else {
+            // console.log('attachs',attachs)
             self.onChange(attachs);
             // Remove the filename from the upload box
             const refsName = `fileinput${this.props.name}${this.props.key}`;
@@ -683,7 +717,13 @@ class UploadFile extends React.Component<
             if (this[refsName]) {
               this[refsName].value = "";
             } else {
+              console.log("refsName not found", refsName);
             }
+
+            // console.log('refsName',refsName);
+            // console.log('self.refs',Object.keys(self.refs));
+            //
+            // self.refs[ refsName ].value = '';
 
             // Reset our state for the next file
             self.setState({
@@ -718,7 +758,6 @@ class UploadFile extends React.Component<
   render() {
     const doc =
       typeof this.props.doc === "function" ? this.props.doc() : this.props.doc;
-
     if (!doc || !doc._id) {
       return null;
     }
@@ -734,7 +773,9 @@ class UploadFile extends React.Component<
       >
         <SimpleLabelView label={this.props.label} help={this.props.help} />
         {this.props.readOnly ? (
-          this.getListReadOnly()
+          <div style={uploadFilesStyle.containerListReadOnly}>
+            {this.getListReadOnly()}
+          </div>
         ) : (
           <div style={uploadFilesStyle.containerShowFiles}>
             <div style={uploadFilesStyle.subContainerShowFiles}>
@@ -790,9 +831,11 @@ class UploadFile extends React.Component<
                   <div
                     style={{
                       ...uploadFilesStyle.containerGetConteudoDropzone,
-                      border: isDragActive
-                        ? "0.5px dashed green"
-                        : "0.5px dashed black",
+                      border: this.props.error
+                        ? "1px dashed red"
+                        : isDragActive
+                        ? `1px dashed ${appStyle.textSecondary}`
+                        : "1px dashed rgb(189, 189, 189)",
                     }}
                   >
                     <div />
@@ -808,9 +851,9 @@ class UploadFile extends React.Component<
               </Dropzone>
             </div>
             {this.state.links.length > 0 ? (
-              <div style={uploadFilesStyle.containerGetListFiles}>
+              <Box style={uploadFilesStyle.containerGetListFiles}>
                 {this.getList()}
-              </div>
+              </Box>
             ) : null}
           </div>
         )}
@@ -882,7 +925,6 @@ const UploadFilesCollection = withTracker((props: IUploadFilesCollection) => {
     })
     .fetch();
   const attachmentsExists = !loading && !!attachments;
-
   return {
     loading,
     attachments,

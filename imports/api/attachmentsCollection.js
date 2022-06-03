@@ -62,6 +62,7 @@ class AttachmentsCollection {
               file.remove();
             }
           } catch (e) {
+            // console.log('Error on Remove File',e);
             return true;
           }
         },
@@ -112,23 +113,10 @@ class AttachmentsCollection {
     this.attachments.collection.insert(doc);
   };
 
-  serverRemoveByDocId = (docId) => {
-    if (Meteor.isServer) {
-      const fs = require("fs").promises;
-      const attachmentDocs = this.attachments.collection
-        .find({ "meta.docId": docId })
-        .fetch();
-      attachmentDocs.forEach((att) => {
-        fs.rm(`${uploadPaths}/${att.name}`);
-      });
-      this.attachments.collection.remove({ "meta.docId": docId });
-    }
-  };
-
-  serverSaveCSVFile = async (file) => {
+  serverSaveCSVFile = async (file, fileName) => {
     if (Meteor.isServer) {
       const fileId = shortid.generate();
-      const nameFile = `${fileId}.csv`;
+      const nameFile = `${fileName ? fileName : fileId}.csv`;
       const fs = require("fs").promises;
       const fileSave = await fs.writeFile(`${uploadPaths}/${nameFile}`, file);
       const fileStat = await fs.stat(`${uploadPaths}/${nameFile}`);
@@ -140,30 +128,6 @@ class AttachmentsCollection {
       };
       this.serverInsert(this.getAttachmentDoc(fileData));
       return `${Meteor.absoluteUrl()}cdn/storage/Attachments/${fileId}/original/${nameFile}`;
-    }
-  };
-
-  serverCopyFile = async (origFile, novoBemId) => {
-    if (Meteor.isServer) {
-      const fs = require("fs").promises;
-      const newFileId = shortid.generate();
-      const ext = origFile.extensionWithDot;
-      const newFilePath = `${uploadPaths}/${newFileId + ext}`;
-      const origFilePath = `${uploadPaths}/${origFile._id + ext}`;
-      const newFile = await fs.copyFile(origFilePath, newFilePath);
-      const fileData = {
-        ...origFile,
-        fileId: newFileId,
-        name: newFileId + ext,
-        path: newFilePath,
-        meta: {
-          fieldName: origFile.meta.fieldName,
-          docId: novoBemId,
-          userId: origFile.meta.userId,
-        },
-      };
-      this.attachments.addFile(newFilePath, fileData);
-      return newFileId;
     }
   };
 
