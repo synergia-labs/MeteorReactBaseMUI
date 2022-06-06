@@ -12,9 +12,9 @@ export interface IBoilerplateShowMethods {
   showWindow?: (options?: Object) => void;
 }
 export interface IDefaultContainerProps extends IBoilerplateShowMethods {
-  navigate: (url: string | -1, state?: object) => void;
+  navigate: RouteComponentProps["navigate"];
   location: RouteComponentProps["location"];
-  match: RouteComponentProps["match"];
+  params: any;
   user: IUserProfile;
   theme: Theme;
   userLoading: boolean;
@@ -26,7 +26,7 @@ export interface IDefaultContainerProps extends IBoilerplateShowMethods {
 }
 
 export interface IDefaultListProps extends IBoilerplateShowMethods {
-  navigate: (url: string | -1, state?: object) => void;
+  navigate: RouteComponentProps["navigate"];
   user: IUserProfile;
   remove: (doc: object) => void;
   onSearch: (text?: string) => void;
@@ -47,4 +47,16 @@ export interface IMeteorError extends Meteor.Error {
   message: string;
   reason: string;
   stack: string;
+}
+
+export interface ILayoutProps {
+  showNotification?: (options?: Object) => void;
+  showModal?: (options?: Object) => void;
+  showDialog?: (options?: Object) => void;
+  showDrawer?: (options?: Object) => void;
+  showWindow?: (options?: Object) => void;
+  user: IUserProfile;
+  theme: Theme;
+  isLoggedIn: boolean;
+  userLoading: boolean;
 }

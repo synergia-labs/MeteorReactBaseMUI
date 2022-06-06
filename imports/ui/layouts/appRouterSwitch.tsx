@@ -1,13 +1,42 @@
 import React from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  Routes,
+  useHistory,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import Modules from "../../modules";
 import NotFound from "../pages/NotFound/NotFound";
 import { getUser } from "/imports/libs/getUser";
 import { segurancaApi } from "/imports/seguranca/api/SegurancaApi";
 import { IRoute } from "/imports/modules/modulesTypings";
 import { SignIn } from "../pages/SignIn/Signin";
+import { subjectRouter } from "/imports/analytics/AnalyticsSubscriber";
+import { ILayoutProps } from "/imports/typings/BoilerplateDefaultTypings";
 
-const AppRouterSwitch = (switchProps: any) => {
+interface IWrapComponent extends ILayoutProps {
+  component: React.ElementType;
+  navigate: RouteComponentProps["navigate"];
+  location: RouteComponentProps["location"];
+}
+
+const WrapComponent = ({ component, ...props }: IWrapComponent) => {
+  const RenderedComponent = component;
+  const params = useParams();
+
+  subjectRouter.next({
+    pathname: location.pathname,
+    params,
+    user: props.user,
+  });
+
+  return <RenderedComponent {...props} />;
+};
+
+const AppRouterSwitch = React.memo((switchProps: ILayoutProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -17,7 +46,6 @@ const AppRouterSwitch = (switchProps: any) => {
         .filter((r) => !!r)
         .map((routerData: IRoute | null) => {
           if (routerData?.isProtected) {
-            const RenderedComponent = routerData.component as React.ElementType;
             const resources = routerData.resources;
 
             const isLogged = switchProps?.isLoggedIn;
@@ -35,13 +63,15 @@ const AppRouterSwitch = (switchProps: any) => {
                 path={routerData?.path}
                 element={
                   isLogged && possuiPermissao ? (
-                    <RenderedComponent
+                    <WrapComponent
+                      component={routerData.component as React.ElementType}
                       navigate={navigate}
                       location={location}
                       {...switchProps}
                     />
                   ) : (
-                    <SignIn
+                    <WrapComponent
+                      component={SignIn}
                       navigate={navigate}
                       location={location}
                       {...switchProps}
@@ -51,14 +81,14 @@ const AppRouterSwitch = (switchProps: any) => {
               />
             );
           } else {
-            const RenderedComponent = routerData?.component as React.ElementType;
             return (
               <Route
                 key={routerData?.path}
                 exact={true}
                 path={routerData?.path}
                 element={
-                  <RenderedComponent
+                  <WrapComponent
+                    component={routerData.component as React.ElementType}
                     navigate={navigate}
                     location={location}
                     {...switchProps}
@@ -71,6 +101,6 @@ const AppRouterSwitch = (switchProps: any) => {
       <Route element={NotFound} />
     </Routes>
   );
-};
+});
 
 export default AppRouterSwitch;

@@ -174,6 +174,8 @@ const AppNavBar = (props: IAppNavBar) => {
           }}
         >
           <Button
+            variant={"contained"}
+            color={"secondary"}
             style={{ width: 40, height: 40 }}
             onClick={() =>
               props.themeOptions.setFontScale(
@@ -185,6 +187,8 @@ const AppNavBar = (props: IAppNavBar) => {
           </Button>
           {"FontSize"}
           <Button
+            variant={"contained"}
+            color={"secondary"}
             style={{ width: 40, height: 40 }}
             onClick={() =>
               props.themeOptions.setFontScale(
@@ -208,12 +212,11 @@ const AppNavBar = (props: IAppNavBar) => {
                   )
                   .map((menuData, ind) => (
                     <Button
+                      variant={pathIndex !== ind ? "outlined" : "contained"}
                       style={{
                         ...appNavBarStyle.buttonMenuItem,
                         color:
-                          pathIndex === ind
-                            ? appStyle.secondaryColor
-                            : undefined,
+                          pathIndex !== ind ? appStyle.secondaryColor : "#FFF",
                       }}
                       key={menuData?.path}
                       onClick={() => navigate(menuData?.path)}

@@ -1,4 +1,5 @@
 import "./browserPolicy";
+import "./databaseIndexes";
 import "./registerApi";
 import "./fixtures";
 import "./accounts";

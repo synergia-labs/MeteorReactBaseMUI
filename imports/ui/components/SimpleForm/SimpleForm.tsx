@@ -348,7 +348,8 @@ class SimpleForm extends Component<ISimpleFormProps> {
               : undefined
           }
           initialValue={
-            self.docValue && self.docValue[element.props.name]
+            hasValue(self.docValue) &&
+            hasValue(self.docValue[element.props.name])
               ? self.docValue[element.props.name]
               : this.initialValueDefault(self.props.schema[element.props.name])
           }
@@ -377,7 +378,8 @@ class SimpleForm extends Component<ISimpleFormProps> {
               : undefined
           }
           initialValue={
-            self.docValue && self.docValue[element.props.name]
+            hasValue(self.docValue) &&
+            hasValue(self.docValue[element.props.name])
               ? self.docValue[element.props.name]
               : this.initialValueDefault(self.props.schema[element.props.name])
           }
@@ -423,7 +425,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
           self.props.schema ? self.props.schema[element.props.name] : undefined
         }
         initialValue={
-          self.docValue && self.docValue[element.props.name]
+          hasValue(self.docValue) && hasValue(self.docValue[element.props.name])
             ? self.docValue[element.props.name]
             : self.props.schema
             ? self.initialValueDefault(self.props.schema[element.props.name])

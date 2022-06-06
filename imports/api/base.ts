@@ -1300,19 +1300,19 @@ export class ApiBase<Doc extends IDoc> {
   /**
    * Make a subscribe for a collection.
    * @param  {} api='default'
-   * @param  {} ...param
+   * @param params
    */
-  subscribe(api = "default", ...param) {
+  subscribe(api: string = "default", ...params: object[]) {
     const self = this;
     if (Meteor.isClient) {
       const subsHandle = Meteor.subscribe(
         `${this.collectionName}.${api}`,
-        ...param
+        ...params
       );
 
       const subHandleCounter = Meteor.subscribe(
         `${this.collectionName}.count${api}`,
-        param[0] || {}
+        params[0] || {}
       );
       const countResult = subHandleCounter.ready()
         ? self.counts.findOne({ _id: api + "Total" })

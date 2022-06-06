@@ -189,11 +189,12 @@ export default ({
   const getLabelFromValue = (value) => {
     const objValue = otherProps.options
       ? otherProps.options.find(
-          (object) => object.label === value || object === value
+          (object) => object.value === value || object === value
         )
       : schema.options.find(
-          (object) => label.value === value || object === value
+          (object) => object.value === value || object === value
         );
+    console.log("objValue", objValue);
     return (objValue && (objValue.label || objValue.value)) || value;
   };
 
@@ -249,7 +250,7 @@ export default ({
             borderRadius: error ? "4px" : undefined,
           },
         }}
-        value={value || (multiple ? [] : "")}
+        value={hasValue(value) ? value : multiple ? [] : ""}
         onChange={onChangeSelect}
         disabled={!!readOnly}
         input={<InputBase />}
@@ -258,7 +259,7 @@ export default ({
         {...omit(otherProps, ["options"])}
       >
         {menuNone && !multiple && (
-          <MenuItem id={""} key={""} value={undefined}>
+          <MenuItem id={"-"} key={"-"} value={undefined}>
             {<em>Nenhum</em>}
           </MenuItem>
         )}
@@ -273,25 +274,29 @@ export default ({
           </MenuItem>
         )}
 
-        {(options || []).map((opt: IOption) => (
-          <MenuItem
-            id={opt.value ? opt.value : opt}
-            key={opt.value || opt}
-            value={opt.value ? opt.value : opt}
-          >
-            {multiple && (
-              <Checkbox checked={!!value && value.includes(opt.value || opt)} />
-            )}
-            <ListItemText
-              primary={opt.label ? opt.label : opt}
-              secondary={opt.description ? opt.description : ""}
-              style={{
-                width: style?.listItemWidth ? style.listItemWidth : "unset",
-                whiteSpace: isMobile ? "normal" : "unset",
-              }}
-            />
-          </MenuItem>
-        ))}
+        {(options || []).map((opt: IOption) => {
+          return (
+            <MenuItem
+              id={hasValue(opt.value) ? opt.value : opt}
+              key={hasValue(opt.value) ? opt.value + "" : opt}
+              value={hasValue(opt.value) ? opt.value : opt}
+            >
+              {multiple && (
+                <Checkbox
+                  checked={hasValue(value) && value.includes(opt.value || opt)}
+                />
+              )}
+              <ListItemText
+                primary={opt.label ? opt.label : opt}
+                secondary={opt.description ? opt.description : ""}
+                style={{
+                  width: style?.listItemWidth ? style.listItemWidth : "unset",
+                  whiteSpace: isMobile ? "normal" : "unset",
+                }}
+              />
+            </MenuItem>
+          );
+        })}
 
         {options?.length === 0 && (
           <MenuItem id={"NoValues"} disabled value="">
