@@ -49,7 +49,7 @@ export default ({
       >
         {value === index && (
           <Box p={3}>
-            <Typography>{children}</Typography>
+            <Typography component={"p"}>{children}</Typography>
           </Box>
         )}
       </div>

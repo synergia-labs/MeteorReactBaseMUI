@@ -77,38 +77,46 @@ const pageBackgroundColor = "#FFF";
 const fontFamily = "PT Sans";
 const fontFamilyTitle = "'M PLUS Rounded 1c', sans-serif";
 
+//Others Colors
+const color1 = "#ff9800";
+const color2 = "#f55a4e";
+const color3 = "#4caf50";
+const color1dark = "#814d00";
+const color2dark = "#8d342d";
+const color3dark = "#153116";
+
 // Tipografia
 const h1 = (fontScale: number) => ({
-  fontFamily: fontFamilyTitle,
-  fontSize: (isMobile ? 36 : 48) * fontScale,
-  fontWeight: 800,
-  lineHeight: "normal",
-});
-const h2 = (fontScale: number) => ({
   fontFamily: fontFamilyTitle,
   fontSize: (isMobile ? 28 : 36) * fontScale,
   fontWeight: 800,
   lineHeight: "normal",
 });
-const h3 = (fontScale: number) => ({
+const h2 = (fontScale: number) => ({
   fontFamily: fontFamilyTitle,
   fontSize: (isMobile ? 24 : 28) * fontScale,
   fontWeight: 800,
   lineHeight: "normal",
 });
-const h4 = (fontScale: number) => ({
-  fontSize: (isMobile ? 24 : 28) * fontScale,
-  fontWeight: 400,
-  lineHeight: "normal",
-});
-const h5 = (fontScale: number) => ({
+const h3 = (fontScale: number) => ({
   fontFamily: fontFamilyTitle,
   fontSize: (isMobile ? 20 : 24) * fontScale,
   fontWeight: 800,
   lineHeight: "normal",
 });
+const h4 = (fontScale: number) => ({
+  fontSize: (isMobile ? 18 : 22) * fontScale,
+  fontWeight: 400,
+  lineHeight: "normal",
+});
+const h5 = (fontScale: number) => ({
+  fontFamily: fontFamilyTitle,
+  fontSize: (isMobile ? 18 : 22) * fontScale,
+  fontWeight: 800,
+  lineHeight: "normal",
+});
 const h6 = (fontScale: number) => ({
-  fontSize: (isMobile ? 18 : 20) * fontScale,
+  fontSize: (isMobile ? 18 : 22) * fontScale,
   fontWeight: 400,
   lineHeight: "normal",
 });
@@ -126,7 +134,6 @@ const subtitle1 = (fontScale: number) => ({
 });
 const body1 = (fontScale: number) => ({
   fontSize: (isMobile ? 14 : 16) * fontScale,
-  fontWeight: 400,
   lineHeight: "normal",
 });
 const subtitle2 = (fontScale: number) => ({
@@ -136,9 +143,8 @@ const subtitle2 = (fontScale: number) => ({
   lineHeight: "normal",
 });
 const body2 = (fontScale: number) => ({
-  fontSize: (isMobile ? 12 : 14) * fontScale,
+  fontSize: (isMobile ? 14 : 16) * fontScale,
   fontWeight: 400,
-  lineHeight: "normal",
 });
 const caption = (fontScale: number) => ({
   fontSize: (isMobile ? 10 : 12) * fontScale,
@@ -252,6 +258,13 @@ export {
   //Fontes
   fontFamily,
   fontFamilyTitle,
+  //other colors
+  color1,
+  color2,
+  color3,
+  color1dark,
+  color2dark,
+  color3dark,
   //Tipografia
   h1,
   h2,

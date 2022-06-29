@@ -95,7 +95,7 @@ export default class Signup extends React.Component {
             onChange={this.handleChange}
           />
           <div style={signupStyle.containerButtonOptions}>
-            <Button color={"primary"} variant={"outlined"} submit>
+            <Button color={"primary"} variant={"outlined"} submit={"true"}>
               {"Cadastrar"}
             </Button>
           </div>

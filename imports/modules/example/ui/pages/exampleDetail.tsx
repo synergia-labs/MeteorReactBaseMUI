@@ -42,6 +42,7 @@ const ExampleDetail = (props: IExampleDetail) => {
 
   return (
     <PageLayout
+      key={"ExemplePageLayoutDetailKEY"}
       title={
         screenState === "view"
           ? "Visualizar exemplo"
@@ -53,6 +54,7 @@ const ExampleDetail = (props: IExampleDetail) => {
       actions={[
         !isPrintView ? (
           <span
+            key={"ExempleDetail-spanPrintViewKEY"}
             style={{
               cursor: "pointer",
               marginRight: 10,
@@ -62,10 +64,11 @@ const ExampleDetail = (props: IExampleDetail) => {
               navigate(`/example/printview/${exampleDoc._id}`);
             }}
           >
-            <Print />
+            <Print key={"ExempleDetail-spanPrintKEY"} />
           </span>
         ) : (
           <span
+            key={"ExempleDetail-spanNotPrintViewKEY"}
             style={{
               cursor: "pointer",
               marginRight: 10,
@@ -75,40 +78,74 @@ const ExampleDetail = (props: IExampleDetail) => {
               navigate(`/example/view/${exampleDoc._id}`);
             }}
           >
-            <Close />
+            <Close key={"ExempleDetail-spanCloseKEY"} />
           </span>
         ),
       ]}
     >
       <SimpleForm
+        key={"ExempleDetail-SimpleFormKEY"}
         mode={screenState}
         schema={exampleApi.getSchema()}
         doc={exampleDoc}
         onSubmit={handleSubmit}
         loading={loading}
       >
-        <ImageCompactField label={"Imagem Zoom+Slider"} name={"image"} />
+        <ImageCompactField
+          key={"ExempleDetail-ImageCompactFieldKEY"}
+          label={"Imagem Zoom+Slider"}
+          name={"image"}
+        />
 
         <FormGroup key={"fieldsOne"}>
-          <TextField placeholder="Titulo" name="title" />
-          <TextField placeholder="Descrição" name="description" />
+          <TextField key={"f1-tituloKEY"} placeholder="Titulo" name="title" />
+          <TextField
+            key={"f1-descricaoKEY"}
+            placeholder="Descrição"
+            name="description"
+          />
         </FormGroup>
         <FormGroup key={"fieldsTwo"}>
-          <SelectField placeholder="Selecione um tipo" name="type" />
-          <SelectField placeholder="Selecione alguns tipos" name="typeMulti" />
+          <SelectField
+            key={"f2-tipoKEY"}
+            placeholder="Selecione um tipo"
+            name="type"
+          />
+          <SelectField
+            key={"f2-multiTipoKEY"}
+            placeholder="Selecione alguns tipos"
+            name="typeMulti"
+          />
         </FormGroup>
         <FormGroup key={"fieldsThree"} formType={"subform"} name={"contacts"}>
-          <TextMaskField placeholder="Telefone" name="phone" />
-          <TextMaskField placeholder="CPF" name="cpf" />
+          <TextMaskField
+            key={"f3-TelefoneKEY"}
+            placeholder="Telefone"
+            name="phone"
+          />
+          <TextMaskField key={"f3-CPFKEY"} placeholder="CPF" name="cpf" />
         </FormGroup>
         <FormGroup key={"fieldsFour"} formType={"subformArray"} name={"tasks"}>
-          <TextField placeholder="Nome da Tarefa" name="name" />
-          <TextField placeholder="Descrição da Tarefa" name="description" />
+          <TextField
+            key={"f4-nomeTarefaKEY"}
+            placeholder="Nome da Tarefa"
+            name="name"
+          />
+          <TextField
+            key={"f4-descricaoTarefaKEY"}
+            placeholder="Descrição da Tarefa"
+            name="description"
+          />
         </FormGroup>
 
-        <SliderField placeholder="Slider" name="slider" />
+        <SliderField
+          key={"ExempleDetail-SliderFieldKEY"}
+          placeholder="Slider"
+          name="slider"
+        />
 
         <RadioButtonField
+          key={"ExempleDetail-RadioKEY"}
           placeholder="Opções da Tarefa"
           name="statusRadio"
           options={[
@@ -118,17 +155,18 @@ const ExampleDetail = (props: IExampleDetail) => {
           ]}
         />
 
-        <FormGroup key={"fields"}>
-          <AudioRecorder placeholder="Áudio" name="audio" />
+        <FormGroup key={"fieldsFifth"}>
+          <AudioRecorder key={"f5-audioKEY"} placeholder="Áudio" name="audio" />
         </FormGroup>
 
         <UploadFilesCollection
+          key={"ExempleDetail-UploadsFilesKEY"}
           name="files"
           label={"Arquivos"}
           doc={exampleDoc}
         />
-        <FormGroup key={"fieldsFive"} name={"chips"}>
-          <ChipInput name="chip" placeholder="Chip" />
+        <FormGroup key={"fieldsSixth"} name={"chips"}>
+          <ChipInput key={"f6-cipsKEY"} name="chip" placeholder="Chip" />
         </FormGroup>
         <div
           key={"Buttons"}

@@ -506,6 +506,7 @@ class UploadImage extends React.Component<
       >
         <div style={{ textAlign: "center" }}>
           <Typography
+            component={"p"}
             style={{
               //fontFamily: 'PT',
               fontSize: "36px",
@@ -521,6 +522,7 @@ class UploadImage extends React.Component<
             {"+"}
           </Typography>
           <Typography
+            component={"p"}
             style={{
               paddingTop: 15,
               paddingBottom: 15,
@@ -797,7 +799,7 @@ class UploadImage extends React.Component<
                   />
                 </div>
                 <Grid container spacing={2} style={{ position: "absolute" }}>
-                  <Grid item xs={6}>
+                  <Grid item mobile={6}>
                     <IconButton
                       onClick={(e) => {
                         e.stopPropagation();
@@ -813,7 +815,7 @@ class UploadImage extends React.Component<
                   </Grid>
                   <Grid
                     item
-                    xs={6}
+                    mobile={6}
                     display={"flex"}
                     justifyContent="right"
                     flexDirection={"row-reverse"}

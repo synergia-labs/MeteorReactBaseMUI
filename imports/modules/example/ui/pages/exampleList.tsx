@@ -4,10 +4,8 @@ import { exampleApi } from "../../api/exampleApi";
 import { userprofileApi } from "../../../../userprofile/api/UserProfileApi";
 import SimpleTable from "/imports/ui/components/SimpleTable/SimpleTable";
 import _ from "lodash";
-
 import Add from "@mui/icons-material/Add";
 import Delete from "@mui/icons-material/Delete";
-import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
 import TablePagination from "@mui/material/TablePagination";
 import { ReactiveVar } from "meteor/reactive-var";
@@ -29,7 +27,12 @@ import { RenderComPermissao } from "/imports/seguranca/ui/components/RenderComPe
 
 interface IExampleList extends IDefaultListProps {
   examples: IExample[];
-  showDialog: (options?: Object) => void;
+  showDeleteDialog: (
+    title: string,
+    message: string,
+    doc: Object,
+    remove: (doc: Object) => void
+  ) => void;
   setFilter: (newFilter: Object) => void;
   clearFilter: () => void;
 }
@@ -39,7 +42,7 @@ const ExampleList = (props: IExampleList) => {
     examples,
     navigate,
     remove,
-    showDialog,
+    showDeleteDialog,
     onSearch,
     total,
     loading,
@@ -96,27 +99,9 @@ const ExampleList = (props: IExampleList) => {
   };
 
   const callRemove = (doc: IExample) => {
-    const dialogOptions = {
-      icon: <Delete />,
-      title: "Remover exemplo",
-      content: () => <p>{`Deseja remover o exemplo "${doc.title}"?`}</p>,
-      actions: ({ closeDialog }: { closeDialog: () => void }) => [
-        <Button variant={"outlined"} color={"secondary"} onClick={closeDialog}>
-          {"Não"}
-        </Button>,
-        <Button
-          variant={"contained"}
-          onClick={() => {
-            remove(doc);
-            closeDialog();
-          }}
-          color={"primary"}
-        >
-          {"Sim"}
-        </Button>,
-      ],
-    };
-    showDialog(dialogOptions);
+    const title = "Remover exemplo";
+    const message = `Deseja remover o exemplo "${doc.title}"?`;
+    showDeleteDialog(title, message, doc, remove);
   };
 
   const handleSearchDocChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -172,17 +157,16 @@ const ExampleList = (props: IExampleList) => {
           justifyContent: "center",
         }}
       >
-        {/* @ts-ignore */}
         <TablePagination
           style={{ width: "fit-content", overflow: "unset" }}
           rowsPerPageOptions={[10, 25, 50, 100]}
-          labelRowsPerPage={<div style={{ width: 0, padding: 0, margin: 0 }} />}
+          labelRowsPerPage={""}
           component="div"
-          count={total}
+          count={total || 0}
           rowsPerPage={pageProperties.pageSize}
           page={pageProperties.currentPage - 1}
           onPageChange={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
           labelDisplayedRows={({ from, to, count }) =>
             `${from}-${to} de ${count}`
           }

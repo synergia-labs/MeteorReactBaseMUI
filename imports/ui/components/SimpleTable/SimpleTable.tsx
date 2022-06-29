@@ -70,7 +70,7 @@ const EnhancedTableHead = (props) => {
             key={headCell.sortField || headCell.field}
             style={{ ...simpleTableStyle.tableHeadCell, ...headCell.styles }}
             align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "default"}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={
               orderBy === (headCell.sortField || headCell.field) ? order : false
             }
@@ -271,13 +271,18 @@ const SimpleTable = React.memo(
         return data.toLocaleDateString();
       } else if (type === "list") {
         return (
-          <Typography style={{ wordBreak: "break-word" }}>
+          <Typography component={"div"} style={{ wordBreak: "break-word" }}>
             {!data
               ? null
               : data.map((item, index, array) => {
                   if (typeof item === "string") {
                     return (
-                      <Chip variant="outlined" label={item} color={"primary"} />
+                      <Chip
+                        key={(item || index).toString()}
+                        variant="outlined"
+                        label={item}
+                        color={"primary"}
+                      />
                     );
                     // return index===array.length-1 ? item + '.': item + ', '
                   }
@@ -489,7 +494,7 @@ const SimpleTable = React.memo(
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />{ */}
         </Table>
       </div>

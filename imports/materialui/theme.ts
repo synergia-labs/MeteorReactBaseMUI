@@ -2,7 +2,22 @@ import { createTheme, ThemeOptions } from "@mui/material/styles";
 import { isMobile } from "/imports/libs/deviceVerify";
 import * as appStyles from "./styles";
 
-const getLightTheme = (fontScale: number): ThemeOptions => ({
+interface IBackgroundThemeOptions extends ThemeOptions.palette.background {
+  color1: string;
+  color2: string;
+  color3: string;
+}
+
+export interface IThemeOptionsBoilerplate extends ThemeOptions {
+  palette: ThemeOptions["palette"] & {
+    background: IBackgroundThemeOptions;
+    textDisabled: string;
+    textAuxiliar: string;
+    textWhite: string;
+  };
+}
+
+const getLightTheme = (fontScale: number): IThemeOptionsBoilerplate => ({
   palette: {
     primary: {
       main: appStyles.primaryColor,
@@ -20,6 +35,9 @@ const getLightTheme = (fontScale: number): ThemeOptions => ({
     background: {
       paper: appStyles.surfaceColor,
       default: appStyles.surfaceColor,
+      color1: appStyles.color1,
+      color2: appStyles.color2,
+      color3: appStyles.color3,
     },
     textDisabled: appStyles.textDisabled,
     textAuxiliar: appStyles.textAuxiliar,
@@ -28,14 +46,14 @@ const getLightTheme = (fontScale: number): ThemeOptions => ({
   },
   typography: {
     fontFamily: appStyles.fontFamilyTitle,
-    fontSize: 16 * fontScale,
+    fontSize: 18 * fontScale,
     fontWeightLight: 400,
     fontWeightRegular: 400,
     fontWeightMedium: 700,
     fontWeightBold: 700,
-    h1: appStyles.h1(fontScale),
-    h2: appStyles.h2(fontScale),
-    h3: appStyles.h3(fontScale),
+    h1: { ...appStyles.h1(fontScale), color: appStyles.primaryColor },
+    h2: { ...appStyles.h2(fontScale), color: appStyles.secondaryColor },
+    h3: { ...appStyles.h3(fontScale), color: "#D3D3D3" },
     h4: appStyles.h4(fontScale),
     h5: appStyles.h5(fontScale),
     h6: appStyles.h6(fontScale),
@@ -306,12 +324,7 @@ const getLightTheme = (fontScale: number): ThemeOptions => ({
 
     MuiTabs: {
       defaultProps: {},
-      styleOverrides: {
-        indicator: {
-          //background: appStyles.secondaryColor,
-          height: "4px",
-        },
-      },
+      styleOverrides: {},
     },
 
     MuiTab: {
@@ -320,8 +333,6 @@ const getLightTheme = (fontScale: number): ThemeOptions => ({
         root: {
           fontFamily: appStyles.fontFamily,
           margin: isMobile ? 0 : 4,
-          width: "fit-content",
-          maxWidth: 70,
         },
       },
     },
@@ -446,19 +457,7 @@ const getLightTheme = (fontScale: number): ThemeOptions => ({
           caption: "p",
         },
       },
-      styleOverrides: {
-        root: {
-          fontFamily: appStyles.fontFamily,
-          fontSize: 14 * fontScale,
-          fontWeight: "normal",
-          fontStretch: "normal",
-          fontStyle: "normal",
-          width: "100%",
-        },
-        h6: {
-          width: "100%",
-        },
-      },
+      styleOverrides: {},
     },
 
     MuiCard: {
@@ -484,7 +483,7 @@ const getLightTheme = (fontScale: number): ThemeOptions => ({
   },
 });
 
-const getDarkTheme = (fontScale: number): ThemeOptions => ({
+const getDarkTheme = (fontScale: number): IThemeOptionsBoilerplate => ({
   ...getLightTheme(fontScale),
   palette: {
     mode: "dark",
@@ -494,12 +493,36 @@ const getDarkTheme = (fontScale: number): ThemeOptions => ({
     secondary: {
       main: appStyles.secondaryColorDark,
     },
+    background: {
+      color1: appStyles.color1dark,
+      color2: appStyles.color2dark,
+      color3: appStyles.color3dark,
+    },
+  },
+  typography: {
+    fontFamily: appStyles.fontFamilyTitle,
+    fontSize: 18 * fontScale,
+    fontWeightLight: 400,
+    fontWeightRegular: 400,
+    fontWeightMedium: 700,
+    fontWeightBold: 700,
+    h1: { ...appStyles.h1(fontScale), color: appStyles.primaryColorDark },
+    h2: { ...appStyles.h2(fontScale), color: appStyles.secondaryColorDark },
+    h3: { ...appStyles.h3(fontScale), color: "#D3D3D3" },
+    h4: appStyles.h4(fontScale),
+    h5: appStyles.h5(fontScale),
+    h6: appStyles.h6(fontScale),
+    button: appStyles.button(fontScale),
+    subtitle1: appStyles.subtitle1(fontScale),
+    body1: appStyles.body1(fontScale),
+    subtitle2: appStyles.subtitle2(fontScale),
+    body2: appStyles.body2(fontScale),
+    caption: appStyles.caption(fontScale),
   },
 });
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
   const fontScale = options.fontScale || 1;
-  console.log(fontScale, options.darkMode);
   if (options.darkMode) {
     return createTheme(getDarkTheme(fontScale));
   } else {

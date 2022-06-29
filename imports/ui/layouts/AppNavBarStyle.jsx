@@ -18,13 +18,14 @@ const appNavBarStyle = {
   containerNavBar: {
     display: "flex",
     flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
   },
   subContainerNavBar: {
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    paddingTop: 15,
-    paddingRight: 30,
+    flexWrap: "nowrap",
   },
   containerAccountCircle: {
     width: "100%",

@@ -31,13 +31,16 @@ export default ({ label, value, help, style }: ISimpleLabelView) => {
         {hasValue(label) ? (
           <label>
             <Typography
+              component={"p"}
               variant={"body2"}
               color={"textSecondary"}
-              style={
-                !!style && !!style.displayLabel
-                  ? style.displayLabel
-                  : simpleLabelStyle.displayLabel
-              }
+              style={{
+                fontSize: 16,
+                lineHeight: "normal",
+                fontFamily:
+                  '"Helvetica Neue", "Helvetica", "Arial", sans-serif',
+                padding: 8,
+              }}
             >
               {label}
             </Typography>
@@ -53,6 +56,7 @@ export default ({ label, value, help, style }: ISimpleLabelView) => {
       </div>
       {hasValue(value) ? (
         <Typography
+          component={"p"}
           variant={"body2"}
           color={"textSecondary"}
           style={

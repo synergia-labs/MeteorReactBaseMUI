@@ -210,7 +210,7 @@ export default ({
           {formatOptions.map((option) => {
             return (
               <MenuItem value={option.value}>
-                <Typography>{option.label}</Typography>
+                <Typography component={"p"}>{option.label}</Typography>
               </MenuItem>
             );
           })}

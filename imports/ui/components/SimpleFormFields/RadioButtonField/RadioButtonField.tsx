@@ -57,7 +57,7 @@ export default ({
           onChange={handleChangeCheck}
           style={radioButtonStyle.radio}
         >
-          {list.map((itemCheck) => (
+          {list.map((itemCheck, index) => (
             <FormControlLabel
               key={itemCheck.value}
               value={itemCheck.value}
@@ -65,6 +65,7 @@ export default ({
               label={itemCheck.label}
               control={
                 <Radio
+                  key={`${index}`}
                   color="secondary"
                   size="small"
                   inputProps={{ "aria-label": itemCheck.label }}
@@ -89,8 +90,9 @@ export default ({
               (itemCheck) =>
                 !!value && (value === itemCheck || value === itemCheck.value)
             )
-            .map((itemCheck) => (
+            .map((itemCheck, index) => (
               <div
+                key={`${index}`}
                 style={{
                   color:
                     value !== itemCheck && value !== itemCheck.value
@@ -104,7 +106,9 @@ export default ({
                 ) : (
                   ""
                 )}
-                <Typography>{itemCheck.label || itemCheck}</Typography>
+                <Typography component={"p"}>
+                  {itemCheck.label || itemCheck}
+                </Typography>
               </div>
             ))}
         </div>

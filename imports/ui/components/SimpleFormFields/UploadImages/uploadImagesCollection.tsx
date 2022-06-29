@@ -475,6 +475,7 @@ class UploadImage extends React.Component<
       >
         <div style={{ textAlign: "center" }}>
           <Typography
+            component={"p"}
             style={{
               //fontFamily: 'PT',
               fontSize: "36px",
@@ -490,6 +491,7 @@ class UploadImage extends React.Component<
             {"+"}
           </Typography>
           <Typography
+            component={"p"}
             style={{
               paddingTop: 15,
               paddingBottom: 15,
@@ -694,8 +696,6 @@ class UploadImage extends React.Component<
       typeof this.props.doc === "function" ? this.props.doc() : this.props.doc;
     const { links } = this.state;
     const linksSplice = links || []; //[];
-
-    console.log(">>>>>>>....", links);
 
     //usar 1, 2, 3, 4, 6 ou 12
     const numCardPage = this.props.readOnly ? 4 : 3;

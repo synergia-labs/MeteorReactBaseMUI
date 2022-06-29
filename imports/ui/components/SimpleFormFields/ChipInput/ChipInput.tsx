@@ -71,8 +71,9 @@ export default ({
               startAdornment: (
                 <div>
                   {hasValue(value) &&
-                    value.map((chip: string) => (
+                    value.map((chip: string, index: number) => (
                       <Chip
+                        key={`${chip}-${index}`}
                         variant="outlined"
                         label={chip}
                         color={"primary"}
@@ -95,9 +96,9 @@ export default ({
       <div>
         {readOnly &&
           hasValue(value) &&
-          value.map((chip: string) => (
+          value.map((chip: string, index: number) => (
             <Chip
-              key={chip}
+              key={`${chip}-${index}`}
               variant="outlined"
               label={chip}
               color={"primary"}

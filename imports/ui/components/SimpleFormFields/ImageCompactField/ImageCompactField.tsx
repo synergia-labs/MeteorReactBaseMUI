@@ -217,26 +217,25 @@ export default ({
                         position={values.position}
                         onPositionChange={handlePositionChange}
                         rotate={parseFloat(values.rotate)}
-                        onSave={handleSave}
                         onImageReady={handleSave}
-                        // onImageReady={handleSave}
                         image={image}
-                        style={{ position: "relative" }}
-                      />
-                      <Slider
-                        id={`slider${name}`}
-                        min={1}
-                        max={4}
-                        step={0.1}
-                        value={scale}
-                        onChange={handleScale}
-                        style={{
-                          padding: "10px 10px",
-                          width: isMobile ? window.innerWidth * 0.7 : width,
-                          margin: "10px 10px",
-                        }}
+                        style={{ position: "relative", width: 300 }}
                       />
                     </div>
+                    <Slider
+                      id={`slider${name}`}
+                      min={1}
+                      max={4}
+                      step={0.1}
+                      value={scale}
+                      onChange={handleScale}
+                      style={{
+                        width: isMobile ? window.innerWidth * 0.7 : width,
+                        maxWidth: 280,
+                        marginTop: 10,
+                        marginBottom: 10,
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -324,6 +323,7 @@ export default ({
                   />
                   <div style={{ textAlign: "center" }}>
                     <Typography
+                      component={"p"}
                       style={{
                         paddingTop: 15,
                         paddingBottom: 15,
@@ -366,6 +366,7 @@ export default ({
           variant="filled"
         >
           <Typography
+            component={"p"}
             style={{
               // fontFamily: 'PTSans',
               fontSize: "16px",

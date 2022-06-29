@@ -113,7 +113,7 @@ const AppNavBar = (props: IAppNavBar) => {
           }
           label="DarkMode"
         />
-        <Tabs value={pathIndex} aria-label="icon label tabs example" centered>
+        <div style={{ width: "100%" }}>
           {(Modules.getAppMenuItemList() || [])
             .filter(
               (item: IAppMenu | null) =>
@@ -138,7 +138,7 @@ const AppNavBar = (props: IAppNavBar) => {
                 </div>
               </Button>
             ))}
-        </Tabs>
+        </div>
         <IconButton
           onClick={viewProfileMobile}
           style={{ position: "absolute", right: 10, bottom: 13 }}
@@ -203,28 +203,26 @@ const AppNavBar = (props: IAppNavBar) => {
         <Toolbar style={appLayoutMenuStyle.toolbarFixedMenu}>
           <div style={appNavBarStyle.containerNavBar}>
             <div style={appNavBarStyle.subContainerNavBar}>
-              <Tabs aria-label="icon label tabs example">
-                {(Modules.getAppMenuItemList() || [])
-                  .filter(
-                    (item: IAppMenu | null) =>
-                      !item?.isProtected ||
-                      (user && user.roles.indexOf("Publico") === -1)
-                  )
-                  .map((menuData, ind) => (
-                    <Button
-                      variant={pathIndex !== ind ? "outlined" : "contained"}
-                      style={{
-                        ...appNavBarStyle.buttonMenuItem,
-                        color:
-                          pathIndex !== ind ? appStyle.secondaryColor : "#FFF",
-                      }}
-                      key={menuData?.path}
-                      onClick={() => navigate(menuData?.path)}
-                    >
-                      {menuData?.name}
-                    </Button>
-                  ))}
-              </Tabs>
+              {(Modules.getAppMenuItemList() || [])
+                .filter(
+                  (item: IAppMenu | null) =>
+                    !item?.isProtected ||
+                    (user && user.roles.indexOf("Publico") === -1)
+                )
+                .map((menuData, ind) => (
+                  <Button
+                    variant={pathIndex !== ind ? "outlined" : "contained"}
+                    style={{
+                      ...appNavBarStyle.buttonMenuItem,
+                      color:
+                        pathIndex !== ind ? appStyle.secondaryColor : "#FFF",
+                    }}
+                    key={menuData?.path}
+                    onClick={() => navigate(menuData?.path)}
+                  >
+                    {menuData?.name}
+                  </Button>
+                ))}
             </div>
             <Button
               aria-label="account of current user"

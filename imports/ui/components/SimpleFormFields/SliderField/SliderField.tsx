@@ -3,6 +3,7 @@ import Slider from "@mui/material/Slider";
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
 import { hasValue } from "/imports/libs/hasValue";
 import { sliderFieldStyle } from "./SliderFieldStyle";
+import { IBaseSimpleFormComponent } from "../../InterfaceBaseSimpleFormComponent";
 
 export default ({
   name,
@@ -38,8 +39,8 @@ export default ({
         {!hasValue(value) || value != "-" ? (
           <Slider
             id={`slider${name}`}
-            value={value}
-            step={10}
+            value={value === "" ? 0 : value}
+            step={otherProps.step || 10}
             min={otherProps.min}
             max={otherProps.max}
             disabled={readOnly}

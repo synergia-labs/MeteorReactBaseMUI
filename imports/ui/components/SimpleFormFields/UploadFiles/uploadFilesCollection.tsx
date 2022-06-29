@@ -1,6 +1,6 @@
 import { withTracker } from "meteor/react-meteor-data";
 import React from "react";
-import Dropzone from "react-dropzone";
+import Dropzone, { Accept } from "react-dropzone";
 import _ from "lodash";
 import { attachmentsCollection } from "/imports/api/attachmentsCollection";
 
@@ -390,7 +390,11 @@ class UploadFile extends React.Component<
             </Avatar>
             <ListItemText
               primary={
-                <Typography variant="subtitle2" color={"primary"}>
+                <Typography
+                  component={"div"}
+                  variant="subtitle2"
+                  color={"primary"}
+                >
                   <Box
                     sx={{
                       wordBreak: "break-all",
@@ -401,7 +405,11 @@ class UploadFile extends React.Component<
                 </Typography>
               }
               secondary={
-                <Typography variant="body2" color={"textDisabled"}>
+                <Typography
+                  component={"div"}
+                  variant="body2"
+                  color={"textDisabled"}
+                >
                   {item.status && item.status === "InProgress" ? (
                     <LinearProgress
                       color={
@@ -476,7 +484,11 @@ class UploadFile extends React.Component<
               </Avatar>
               <ListItemText
                 primary={
-                  <Typography variant="subtitle2" color={"primary"}>
+                  <Typography
+                    component={"div"}
+                    variant="subtitle2"
+                    color={"primary"}
+                  >
                     <Box
                       sx={{
                         wordBreak: "break-all",
@@ -487,7 +499,11 @@ class UploadFile extends React.Component<
                   </Typography>
                 }
                 secondary={
-                  <Typography variant="body2" color={"textDisabled"}>
+                  <Typography
+                    component={"div"}
+                    variant="body2"
+                    color={"textDisabled"}
+                  >
                     {item.status && item.status === "InProgress" ? (
                       <LinearProgress
                         color={
@@ -565,9 +581,11 @@ class UploadFile extends React.Component<
             }}
           >
             <AddIcon />
-            <Typography variant="body1">Adicionar arquivos</Typography>
+            <Typography component={"p"} variant="body1">
+              Adicionar arquivos
+            </Typography>
           </Box>
-          <Typography variant="body2" color={"textDisabled"}>
+          <Typography component={"p"} variant="body2" color={"textDisabled"}>
             {"Ou solte seus arquivos aqui"}
           </Typography>
         </div>
@@ -868,9 +886,23 @@ UploadFile.defaultProps = {
   multiple: true,
   minSize: 0,
   maxSize: 1048576 * 15, // (15MB)
-  accept:
-    ".xlsx, .xls, image/jpeg, image/png, image/jpg, image/svg, image/bmp, image/gif," +
-    " .doc, .docx, .csv, .odt, .ods, .txt, .pdf, .zip, .rar, .gz",
+  accept: {
+    "image/*": [".jpeg", ".png", ".jpg", ".svg", ".bmp", ".gif"],
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+      ".xlsx",
+    ],
+    "application/vnd.ms-excel": [".xls"],
+    "application/msword": [".doc"],
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
+      ".docx",
+    ],
+    "text/*": [".csv", ".txt"],
+    "application/vnd.oasis.opendocument.": [".odt", ".ods"],
+    "application/pdf": [".pdf"],
+    "application/zip": [".zip"],
+    "application/vnd.rar": [".rar"],
+    "application/gzip": [".gz"],
+  },
   mensagens: {
     label: "Selecione ou solte seu arquivo aqui.",
     arquivosRejeitados:
@@ -892,7 +924,7 @@ interface IUploadFilesCollection {
   multiple: boolean;
   minSize: number;
   maxSize: number;
-  accept: string;
+  accept: Accept;
   mensagens: {
     label: string;
     arquivosRejeitados: string;

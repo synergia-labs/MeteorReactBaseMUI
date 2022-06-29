@@ -19,7 +19,7 @@ import { Theme } from "@mui/material";
 interface IOption {
   value: any;
   label: string;
-  description: string;
+  description?: string;
 }
 
 interface IOtherProps {
@@ -90,6 +90,7 @@ export default ({
                     : hasValue(val) && val;
                   return (
                     <Chip
+                      key={(val || "").toString()}
                       variant="outlined"
                       label={
                         objValue && objValue.label ? objValue.label : objValue
@@ -152,7 +153,7 @@ export default ({
         {label && !otherProps.rounded ? (
           <SimpleLabelView label={label} help={help} />
         ) : null}
-        <TextField
+        <SimpleLabelView
           id={name}
           key={name}
           value={
@@ -160,11 +161,8 @@ export default ({
               ? "-"
               : objValue && objValue.label
               ? objValue.label
-              : objValue || null
+              : objValue
           }
-          disabled={true}
-          label={otherProps.rounded ? label : null}
-          variant={"outlined"}
         />
       </div>
     );
@@ -194,7 +192,6 @@ export default ({
       : schema.options.find(
           (object) => object.value === value || object === value
         );
-    console.log("objValue", objValue);
     return (objValue && (objValue.label || objValue.value)) || value;
   };
 
@@ -212,8 +209,7 @@ export default ({
   };
 
   return (
-    <FormControl
-      variant="outlined"
+    <div
       key={name}
       style={{
         ...appStyle.fieldContainer,
@@ -234,7 +230,7 @@ export default ({
 
       <Select
         displayEmpty
-        labelId={label + name}
+        labelId={`${label}${name}`}
         key={{ name }}
         id={name}
         placeholder={placeholder}
@@ -249,6 +245,7 @@ export default ({
             border: error ? "1px solid #ff0000" : "undefined",
             borderRadius: error ? "4px" : undefined,
           },
+          paddingLeft: 15,
         }}
         value={hasValue(value) ? value : multiple ? [] : ""}
         onChange={onChangeSelect}
@@ -304,6 +301,6 @@ export default ({
           </MenuItem>
         )}
       </Select>
-    </FormControl>
+    </div>
   );
 };

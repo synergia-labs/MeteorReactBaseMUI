@@ -616,7 +616,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
                 }
               }
             >
-              <Typography color="#FF1010" variant="subtitle2">
+              <Typography component={"p"} color="#FF1010" variant="subtitle2">
                 {"Há campos obrigatórios não preenchidos"}
               </Typography>
             </div>

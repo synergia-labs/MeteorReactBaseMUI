@@ -140,7 +140,7 @@ export const SignIn = (props: any) => {
               }}
               onSubmit={handleSubmit}
             >
-              <div stacked>
+              <div style={{ width: "100%" }}>
                 <TextField
                   label="Email"
                   fullWidth={true}
@@ -168,7 +168,7 @@ export const SignIn = (props: any) => {
                     id="btnEnter"
                     variant={"outlined"}
                     color={"primary"}
-                    submit
+                    submit={"true"}
                   >
                     {"Entrar"}
                   </Button>

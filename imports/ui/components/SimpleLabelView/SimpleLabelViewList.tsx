@@ -39,7 +39,7 @@ export default ({ label, value, help, style }: ISimpleLabelView) => {
         ) : null}
       </div>
       {hasValue(value) ? (
-        <Typography style={simpleLabelListStyle.displayValue}>
+        <Typography component={"p"} style={simpleLabelListStyle.displayValue}>
           {value}
         </Typography>
       ) : null}
