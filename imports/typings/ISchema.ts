@@ -1,4 +1,4 @@
-import { IDoc } from "../api/IDoc";
+import { IDoc } from "./IDoc";
 
 export type LabelValue = {
   value: string | number;
@@ -6,7 +6,7 @@ export type LabelValue = {
 };
 
 interface IDefField<C> {
-  type: object;
+  type: any;
   label?: string;
   defaultValue?: any;
   optional?: boolean;
@@ -14,6 +14,7 @@ interface IDefField<C> {
   subSchema?: ISchema<any>;
   visibilityFunction?: (doc: C) => boolean;
   isImage?: boolean;
+  isAvatar?: boolean;
   isUpload?: boolean;
   multiple?: boolean;
   options?: string[] | LabelValue[];

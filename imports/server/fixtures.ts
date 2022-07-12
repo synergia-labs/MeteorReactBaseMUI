@@ -1,6 +1,6 @@
 import { Accounts } from "meteor/accounts-base";
 import { Meteor } from "meteor/meteor";
-import { userprofileApi } from "../userprofile/api/UserProfileApi";
+import { userprofileServerApi } from "../userprofile/api/UserProfileServerApi";
 
 const rootPath = Meteor.rootPath;
 const absolutePath = Meteor.absolutePath;
@@ -30,7 +30,7 @@ function createDefautUser() {
       }
     );
 
-    userprofileApi.collectionInstance.insert({
+    userprofileServerApi.collectionInstance.insert({
       _id: createdUserId,
       username: "Administrador",
       email: "admin@mrb.com",

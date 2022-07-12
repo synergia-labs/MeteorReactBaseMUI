@@ -1,13 +1,21 @@
 import { IUserProfile } from "../userprofile/api/UserProfileSch";
-import { RouteComponentProps } from "react-router-dom";
 import { Theme } from "@mui/material";
 import { Meteor } from "meteor/meteor";
 import { ISortProperties } from "./IFilterProperties";
+
+// @ts-ignore
+import { RouteComponentProps } from "react-router-dom";
 
 export interface IBoilerplateShowMethods {
   showNotification?: (options?: Object) => void;
   showModal?: (options?: Object) => void;
   showDialog?: (options?: Object) => void;
+  showDeleteDialog?: (
+    title: string,
+    message: string,
+    doc: Object,
+    remove: (doc: Object) => void
+  ) => void;
   showDrawer?: (options?: Object) => void;
   showWindow?: (options?: Object) => void;
 }
@@ -17,6 +25,8 @@ export interface IDefaultContainerProps extends IBoilerplateShowMethods {
   params: any;
   user: IUserProfile;
   theme: Theme;
+  loading: boolean | null;
+  isPrintView: any;
   userLoading: boolean;
   staticContext: boolean | undefined;
   isLoggedIn: boolean;

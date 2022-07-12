@@ -5,7 +5,7 @@ import { Meteor } from "meteor/meteor";
 import { OAuth } from "meteor/oauth";
 import { HTTP } from "meteor/http";
 import _ from "lodash";
-import { userprofileApi } from "../userprofile/api/UserProfileApi";
+import { userprofileServerApi } from "../userprofile/api/UserProfileServerApi";
 import settings from "../../settings.json";
 
 const whitelistedFields = [
@@ -189,7 +189,7 @@ const registerGoogleMobileLoginHandler = () => {
     user.name = `${serviceData.name}`;
     user.email = serviceData.email;
 
-    const userProfile = userprofileApi.collectionInstance.findOne({
+    const userProfile = userprofileServerApi.collectionInstance.findOne({
       email: user.email,
     });
 
@@ -198,7 +198,8 @@ const registerGoogleMobileLoginHandler = () => {
       user.roles = ["Usuario"];
       user.otheraccounts = [{ _id: user._id, service: "Google" }];
 
-      const userProfileID = userprofileApi.collectionInstance.insert(user);
+      const userProfileID =
+        userprofileServerApi.collectionInstance.insert(user);
 
       delete user.otheraccounts;
 
@@ -246,7 +247,7 @@ const registerGoogleMobileLoginHandler = () => {
           }
         );
 
-        userprofileApi.collectionInstance.update(
+        userprofileServerApi.collectionInstance.update(
           { _id: userProfile._id },
           {
             $addToSet: {

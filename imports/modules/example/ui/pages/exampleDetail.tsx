@@ -163,7 +163,7 @@ const ExampleDetail = (props: IExampleDetail) => {
           key={"ExempleDetail-UploadsFilesKEY"}
           name="files"
           label={"Arquivos"}
-          doc={exampleDoc}
+          doc={{ _id: exampleDoc?._id }}
         />
         <FormGroup key={"fieldsSixth"} name={"chips"}>
           <ChipInput key={"f6-cipsKEY"} name="chip" placeholder="Chip" />

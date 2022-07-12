@@ -1,3 +1,3 @@
-import { userprofileApi } from "/imports/userprofile/api/UserProfileApi";
+import { userprofileServerApi } from "/imports/userprofile/api/UserProfileServerApi";
 
-userprofileApi.getCollectionInstance().createIndex({ _id: 1, name: 1 });
+userprofileServerApi.getCollectionInstance().createIndex({ _id: 1, name: 1 });

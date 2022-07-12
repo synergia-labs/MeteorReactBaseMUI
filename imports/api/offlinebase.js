@@ -517,17 +517,13 @@ export class OfflineBaseApi extends ApiBase {
     this.findOne = this.findOne.bind(this);
     this.find = this.find.bind(this);
     this.callMethod = this.callMethod.bind(this);
-    this.registerMethod("GetDocsForSync", this.serverGetDocsForSync);
 
-    if (Meteor.isClient) {
-      // Init chached collection
-      this.minimongoStorage = new PersistentMinimongoStorage(
-        apiName,
-        this.collectionInstance
-      );
-      this.persistentCollectionInstance =
-        this.minimongoStorage.cachedCollection;
-    }
+    // Init chached collection
+    this.minimongoStorage = new PersistentMinimongoStorage(
+      apiName,
+      this.collectionInstance
+    );
+    this.persistentCollectionInstance = this.minimongoStorage.cachedCollection;
   }
 
   /**

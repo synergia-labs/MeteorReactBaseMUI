@@ -1,31 +1,7 @@
 import shortid from "shortid";
 import { Meteor } from "meteor/meteor";
-import { get, set, Store } from "idb-keyval";
-import { parse, stringify } from "zipson";
 import { EnumUserRoles } from "/imports/userprofile/api/EnumUser";
-import settings from "/settings.json";
 import { IUserProfile } from "../userprofile/api/UserProfileSch";
-
-class LoggedUserStore {
-  userStore = new Store(`${settings.name}_` + "loggedUser", "LoggedUser-store");
-  updateDateOnJson = (object) => {
-    function reviver(key, value) {
-      if (`${value}`.length === 24 && !!Date.parse(value)) {
-        return new Date(value);
-      }
-      return value;
-    }
-
-    return JSON.parse(JSON.stringify(object), reviver);
-  };
-  getUser = async () =>
-    await get("user", this.userStore).then((result) =>
-      this.updateDateOnJson(parse(result))
-    );
-  setUser = (userDoc) => {
-    set("user", stringify(userDoc), this.userStore);
-  };
-}
 
 export const userprofileData = {
   collectionInstance: undefined,

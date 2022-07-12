@@ -10,7 +10,7 @@ import { Mongo } from "meteor/mongo";
 import Selector = Mongo.Selector;
 import { SxProps } from "@mui/system";
 import { IBaseSimpleFormComponent } from "../../InterfaceBaseSimpleFormComponent";
-import { IDoc } from "/imports/api/IDoc";
+import { IDoc } from "/imports/typings/IDoc";
 
 interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {
   api: ApiBase<T>;

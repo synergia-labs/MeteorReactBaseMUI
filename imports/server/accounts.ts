@@ -1,6 +1,6 @@
 import { Accounts } from "meteor/accounts-base";
 import { Meteor } from "meteor/meteor";
-import { userprofileApi } from "../userprofile/api/UserProfileApi";
+import { userprofileServerApi } from "../userprofile/api/UserProfileServerApi";
 import { getHTMLEmailTemplate } from "./email";
 import settings from "/settings";
 import req from "request";
@@ -33,7 +33,7 @@ function updateUserProfileImageFromURL(userId, urlImage) {
     Meteor.bindEnvironment((err, res) => {
       // Everything is good now
       if (!err) {
-        userprofileApi.collectionInstance.update(userId, {
+        userprofileServerApi.collectionInstance.update(userId, {
           $set: { photo: res, lastupdate: new Date() },
         });
       }
@@ -48,7 +48,7 @@ function validateSocialLoginAndUpdateProfile(userProfile, user, serviceName) {
     user.otheraccounts = [{ _id: user._id, service: serviceName }];
     user.createdat = new Date();
     user.lastupdate = new Date();
-    const userProfileID = userprofileApi.collectionInstance.insert(user);
+    const userProfileID = userprofileServerApi.collectionInstance.insert(user);
     delete user.otheraccounts;
     Meteor.users.update(
       { _id: user._id },
@@ -78,7 +78,7 @@ function validateSocialLoginAndUpdateProfile(userProfile, user, serviceName) {
         },
       }
     );
-    userprofileApi.collectionInstance.update(
+    userprofileServerApi.collectionInstance.update(
       { _id: userProfile._id },
       {
         $addToSet: { otheraccounts: { _id: user._id, service: serviceName } },
@@ -108,7 +108,7 @@ function validateLoginGoogle(user) {
   user.name = `${user.services.google.name}`;
   user.email = user.services.google.email;
   const serviceName = "google";
-  const userProfile = userprofileApi.collectionInstance.findOne({
+  const userProfile = userprofileServerApi.collectionInstance.findOne({
     email: user.email,
   });
 
@@ -120,7 +120,7 @@ function validateLoginFacebook(user) {
   user.username = `${user.services.facebook.name}_facebook`;
   user.name = `${user.services.facebook.name}`;
   user.email = user.services.facebook.email;
-  const userProfile = userprofileApi.collectionInstance.findOne({
+  const userProfile = userprofileServerApi.collectionInstance.findOne({
     email: user.email,
   });
 
@@ -138,7 +138,7 @@ Meteor.startup(() => {
   };
   Accounts.emailTemplates.verifyEmail.html = (user, url) => {
     const urlWithoutHash = url.replace("#/", "");
-    const userData = userprofileApi.findOne({ _id: user._id }) || {};
+    const userData = userprofileServerApi.findOne({ _id: user._id }) || {};
     const email =
       `${
         `<p>Olá ${userData.username || "usuário"},</p>` +
@@ -158,7 +158,7 @@ Meteor.startup(() => {
 
   Accounts.emailTemplates.enrollAccount.html = (user, url) => {
     const urlWithoutHash = url.replace("#/", "");
-    const userData = userprofileApi.findOne({ _id: user._id }) || {};
+    const userData = userprofileServerApi.findOne({ _id: user._id }) || {};
 
     const email =
       `${
@@ -180,7 +180,7 @@ Meteor.startup(() => {
     return settings.name;
   };
   Accounts.emailTemplates.resetPassword.html = (user, url) => {
-    const userData = userprofileApi.findOne({ _id: user._id }) || {};
+    const userData = userprofileServerApi.findOne({ _id: user._id }) || {};
     const urlWithoutHash = url.replace("#/", "");
     const email =
       `${
@@ -207,13 +207,13 @@ Meteor.startup(() => {
     );
 
     const userProfile = params.user
-      ? userprofileApi.find({ _id: params.user._id }).fetch()[0]
+      ? userprofileServerApi.find({ _id: params.user._id }).fetch()[0]
       : undefined;
 
     // const userLanguage = userProfile && userProfile.language ? userProfile.language : 'pt-BR';
 
     if (userProfile) {
-      userprofileApi.collectionInstance.update(
+      userprofileServerApi.collectionInstance.update(
         { _id: userProfile._id },
         {
           $set: { lastacess: new Date(), connected: true },
@@ -225,7 +225,7 @@ Meteor.startup(() => {
       Meteor.bindEnvironment(
         () => {
           if (userProfile) {
-            userprofileApi.collectionInstance.update(
+            userprofileServerApi.collectionInstance.update(
               { _id: userProfile._id },
               {
                 $set: { lastacess: new Date(), connected: false },
@@ -243,11 +243,11 @@ Meteor.startup(() => {
 
   Accounts.onLogout((params) => {
     const userProfile = params.user
-      ? userprofileApi.find({ _id: params.user._id }).fetch()[0]
+      ? userprofileServerApi.find({ _id: params.user._id }).fetch()[0]
       : undefined;
 
     if (userProfile) {
-      userprofileApi.collectionInstance.update(
+      userprofileServerApi.collectionInstance.update(
         { _id: userProfile._id },
         {
           $set: { lastacess: new Date(), connected: false },

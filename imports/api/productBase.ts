@@ -1,9 +1,20 @@
 import { ApiBase } from "/imports/api/base";
 import { getUser } from "/imports/libs/getUser";
+import { IDoc } from "/imports/typings/IDoc";
+import { ISchema } from "/imports/typings/ISchema";
+import { IProductBaseOptions } from "/imports/typings/IBaseOptions";
 
-export class ProductBase extends ApiBase<any> {
-  constructor(apiName: string, apiSch: any, options?: object) {
+export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
+  private enableCallMethodObserver: boolean | undefined;
+  private enableSubscribeObserver: boolean | undefined;
+  private _tmpLastSubscribeRegister: string | undefined;
+  constructor(
+    apiName: string,
+    apiSch: ISchema<Doc>,
+    options?: IProductBaseOptions | undefined
+  ) {
     super(apiName, apiSch, options);
+
     if (options && options.enableCallMethodObserver) {
       this.enableCallMethodObserver = true;
     }
@@ -14,19 +25,19 @@ export class ProductBase extends ApiBase<any> {
     this.callMethod = this.callMethod.bind(this);
   }
 
-  callMethod(name, ...params) {
-    if (Meteor.isClient && this.enableCallMethodObserver) {
+  callMethod(name: string, ...params: (string | object | any)[]) {
+    if (this.enableCallMethodObserver) {
       const self = this;
       import("../analytics/AnalyticsSubscriber").then(
         ({ subjectCallMethod }) => {
           const preparedParams = params
             ? Object.keys(params)
                 .filter(
-                  (key) =>
+                  (key: any) =>
                     Array.isArray(params[key]) ||
                     typeof params[key] !== "function"
                 )
-                .reduce((obj, key) => {
+                .reduce((obj, key: any) => {
                   return Object.assign(obj, {
                     [key]: params[key],
                   });
@@ -54,18 +65,18 @@ export class ProductBase extends ApiBase<any> {
     api: string = "default",
     ...params: object[]
   ): { stop(): void; ready: () => boolean } | null {
-    if (Meteor.isClient && this.enableSubscribeObserver) {
+    if (this.enableSubscribeObserver) {
       const self = this;
       import("../analytics/AnalyticsSubscriber").then(
         ({ subjectSubscribe }) => {
           const preparedParams = params
             ? Object.keys(params)
                 .filter(
-                  (key) =>
+                  (key: any) =>
                     Array.isArray(params[key]) ||
                     typeof params[key] !== "function"
                 )
-                .reduce((obj, key) => {
+                .reduce((obj, key: any) => {
                   return Object.assign(obj, {
                     [key]: params[key],
                   });
