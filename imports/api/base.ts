@@ -4,19 +4,7 @@ import { IDoc } from "../typings/IDoc";
 import { ISchema } from "../typings/ISchema";
 import { IBaseOptions } from "/imports/typings/IBaseOptions";
 import { IMeteorError } from "/imports/typings/BoilerplateDefaultTypings";
-
-const Counts = new Mongo.Collection("counts");
-Counts.deny({
-  insert() {
-    return true;
-  },
-  update() {
-    return true;
-  },
-  remove() {
-    return true;
-  },
-});
+import { countsCollection } from "/imports/api/countCollection";
 
 const defaultOptions = {
   disableDefaultPublications: true,
@@ -56,63 +44,54 @@ export class ApiBase<Doc extends IDoc> {
     this.noImagePath = this.options.noImagePath;
     this.collectionName = apiName;
     this.schema = apiSch;
-    this.counts = Counts;
+    this.counts = countsCollection;
     this.publications = {};
 
-    this.initCollection(apiName);
     this.initCollection = this.initCollection.bind(this);
-    this.subscribe = this.subscribe.bind(this);
+
+    //**GETS **
     this.getSchema = this.getSchema.bind(this);
-    this.findOne = this.findOne.bind(this);
-    this.find = this.find.bind(this);
-    this.sync = this.sync.bind(this);
-    this.countDocuments = this.countDocuments.bind(this);
-    this.callMethod = this.callMethod.bind(this);
     this.getCollectionInstance = this.getCollectionInstance.bind(this);
+    this.countDocuments = this.countDocuments.bind(this);
 
-    // Put model on Window variable
-    if (window) {
-      // @ts-ignore
-      if (!window.$app) {
+    //**AUXS METHODS**
+    this._addImgPathToFields = this._addImgPathToFields.bind(this);
+
+    //**API/DB METHODS**
+    this.callMethod = this.callMethod.bind(this);
+    this.insert = this.insert.bind(this);
+    this.update = this.update.bind(this);
+    this.upsert = this.upsert.bind(this);
+    this.remove = this.remove.bind(this);
+    this.sync = this.sync.bind(this);
+    this.getDocs = this.getDocs.bind(this);
+
+    this.find = this.find.bind(this);
+    this.findOne = this.findOne.bind(this);
+    this.subscribe = this.subscribe.bind(this);
+
+    this.initCollection(apiName);
+
+    if (Meteor.isDevelopment) {
+      // Put model on Window variable
+      if (window) {
         // @ts-ignore
-        window.$app = {};
-      }
-      // @ts-ignore
-      if (!window.$app.api) {
-        // @ts-ignore
-        window.$app.api = {};
-      }
-
-      // @ts-ignore
-      window.$app.api[this.collectionName] = this;
-    }
-    // ####################################
-  }
-
-  getSchema = () => {
-    return { ...this.schema };
-  };
-
-  addImgPathToFields = (doc: any) => {
-    Object.keys(this.schema).forEach((field) => {
-      if (this.schema[field].isImage) {
-        if (doc["has" + field]) {
-          doc[field] = `${Meteor.absoluteUrl()}thumbnail/${
-            this.collectionName
-          }/${field}/${doc._id}?date=${
-            doc.lastupdate && doc.lastupdate.toISOString
-              ? doc.lastupdate.toISOString()
-              : "1"
-          }`;
-        } else {
-          doc[field] = this.noImagePath
-            ? this.noImagePath
-            : `${Meteor.absoluteUrl()}images/noimage.jpg`;
+        if (!window.$app) {
+          // @ts-ignore
+          window.$app = {};
         }
+        // @ts-ignore
+        if (!window.$app.api) {
+          // @ts-ignore
+          window.$app.api = {};
+        }
+
+        // @ts-ignore
+        window.$app.api[this.collectionName] = this;
       }
-    });
-    return doc;
-  };
+      // ####################################
+    }
+  }
 
   initCollection(apiName: string) {
     const self = this;
@@ -121,7 +100,7 @@ export class ApiBase<Doc extends IDoc> {
       this.collectionInstance = new Mongo.Collection(this.collectionName, {
         transform: (doc) => {
           // for get path of image fields.
-          return self.addImgPathToFields(doc);
+          return self._addImgPathToFields(doc);
         },
       });
       // Deny all client-side updates on the Lists collection
@@ -153,6 +132,32 @@ export class ApiBase<Doc extends IDoc> {
     }
   }
 
+  getSchema = () => {
+    return { ...this.schema };
+  };
+
+  _addImgPathToFields = (doc: any) => {
+    Object.keys(this.schema).forEach((field) => {
+      if (this.schema[field].isImage) {
+        if (doc["has" + field]) {
+          doc[field] = `${Meteor.absoluteUrl()}thumbnail/${
+            this.collectionName
+          }/${field}/${doc._id}?date=${
+            doc.lastupdate && doc.lastupdate.toISOString
+              ? doc.lastupdate.toISOString()
+              : "1"
+          }`;
+        } else {
+          doc[field] = this.noImagePath
+            ? this.noImagePath
+            : `${Meteor.absoluteUrl()}images/noimage.jpg`;
+        }
+      }
+    });
+    return doc;
+  };
+
+  //**GETS **
   /**
    * Get the collection instance.
    * @returns {Object} - Collection.
@@ -168,6 +173,8 @@ export class ApiBase<Doc extends IDoc> {
     return this.getCollectionInstance().find().count();
   }
 
+  //**API/DB METHODS**
+
   /**
    * Wrapper to the Meteor call. This check if the user has
    * connection with the server, in this way we can return the result from
@@ -181,20 +188,6 @@ export class ApiBase<Doc extends IDoc> {
     } else {
       console.log("Sem Conexão com o Servidor");
     }
-  }
-
-  /**
-   * Wrapper for a Meteor call.
-   * @param  {Object} docObj - Document from a collection.
-   * @param  {Function} callback - Callback Function
-   */
-  import(
-    docObj: Doc | Partial<Doc>,
-    callback = (e: IMeteorError, r: any) => {
-      console.log(e, r);
-    }
-  ) {
-    this.callMethod("import", docObj, callback);
   }
 
   /**

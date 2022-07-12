@@ -23,6 +23,7 @@ import {
   IMeteorError,
 } from "/imports/typings/BoilerplateDefaultTypings";
 import { useTheme } from "@mui/material/styles";
+import { showLoading } from "/imports/ui/components/Loading/Loading";
 
 interface IExampleDetail extends IDefaultDetailProps {
   exampleDoc: IExample;
@@ -268,4 +269,4 @@ export const ExampleDetailContainer = withTracker(
       },
     };
   }
-)(ExampleDetail);
+)(showLoading(ExampleDetail));

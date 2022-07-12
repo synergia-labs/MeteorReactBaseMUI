@@ -10,6 +10,7 @@ import Fab from "@mui/material/Fab";
 import TablePagination from "@mui/material/TablePagination";
 import { ReactiveVar } from "meteor/reactive-var";
 import { initSearch } from "/imports/libs/searchUtils";
+import * as appStyle from "/imports/materialui/styles";
 import shortid from "shortid";
 import { PageLayout } from "/imports/ui/layouts/pageLayout";
 import TextField from "/imports/ui/components/SimpleFormFields/TextField/TextField";
@@ -24,6 +25,7 @@ import { IConfigList } from "/imports/typings/IFilterProperties";
 import { Recurso } from "../../config/Recursos";
 import { RenderComPermissao } from "/imports/seguranca/ui/components/RenderComPermisao";
 import { isMobile } from "/imports/libs/deviceVerify";
+import { showLoading } from "/imports/ui/components/Loading/Loading";
 
 interface IExampleList extends IDefaultListProps {
   remove: (doc: IExample) => void;
@@ -307,4 +309,4 @@ export const ExampleListContainer = withTracker(
       },
     };
   }
-)(ExampleList);
+)(showLoading(ExampleList));

@@ -10,20 +10,7 @@ import { ISchema } from "../typings/ISchema";
 import { IContext } from "../typings/IContext";
 import sharp from "sharp";
 import { IBaseOptions } from "/imports/typings/IBaseOptions";
-
-// Conters
-const Counts = new Mongo.Collection("counts");
-Counts.deny({
-  insert() {
-    return true;
-  },
-  update() {
-    return true;
-  },
-  remove() {
-    return true;
-  },
-});
+import { countsCollection } from "/imports/api/countCollection";
 
 const getNoImage = (isAvatar = false) => {
   if (!isAvatar) {
@@ -61,10 +48,10 @@ export class ServerApiBase<Doc extends IDoc> {
   restApi = {};
   schema: ISchema<Doc>;
   collectionName: string | null;
-  // @ts-ignore
-  collectionInstance: Mongo.Collection<any>;
   counts: Mongo.Collection<any>;
   apiRestImage?: IApiRestImage | undefined;
+  // @ts-ignore
+  collectionInstance: Mongo.Collection<any>;
 
   /**
    * Constructor
@@ -77,51 +64,76 @@ export class ServerApiBase<Doc extends IDoc> {
     this.noImagePath = options?.noImagePath;
     this.collectionName = apiName;
     this.schema = apiSch;
-
-    this.initCollection(apiName);
-    this.initApiRest();
     this.publications = {};
-
-    this.counts = Counts;
+    this.counts = countsCollection;
 
     this.initCollection = this.initCollection.bind(this);
+
+    //**GETS **
     this.getSchema = this.getSchema.bind(this);
-    this.findOne = this.findOne.bind(this);
-    this.find = this.find.bind(this);
     this.getCollectionInstance = this.getCollectionInstance.bind(this);
+    this.countDocuments = this.countDocuments.bind(this);
 
-    this.addPublication = this.addPublication.bind(this);
-    this.addTransformedPublication = this.addTransformedPublication.bind(this);
-    this.registerAllMethods = this.registerAllMethods.bind(this);
-    this.serverUpdate = this.serverUpdate.bind(this);
-    this.serverInsert = this.serverInsert.bind(this);
-    this.serverRemove = this.serverRemove.bind(this);
-    this.serverUpsert = this.serverUpsert.bind(this);
-    this.serverGetDocs = this.serverGetDocs.bind(this);
+    //**AUXS METHODS**
+    this._addImgPathToFields = this._addImgPathToFields.bind(this);
+    this._prepareData = this._prepareData.bind(this);
+    this._checkDataBySchema = this._checkDataBySchema.bind(this);
+    this._includeAuditData = this._includeAuditData.bind(this);
+    this._prepareDocForUpdate = this._prepareDocForUpdate.bind(this);
 
-    this.afterInsert = this.afterInsert.bind(this);
-    this.beforeUpdate = this.beforeUpdate.bind(this);
-    this.beforeRemove = this.beforeRemove.bind(this);
+    //**API REST**
+    this.initApiRest = this.initApiRest.bind(this);
     this.createAPIRESTForIMGFields = this.createAPIRESTForIMGFields.bind(this);
     this.createAPIRESTThumbnailForIMGFields =
       this.createAPIRESTThumbnailForIMGFields.bind(this);
 
-    this.countDocuments = this.countDocuments.bind(this);
+    //**PUBLICATIONS**
+    this.registerPublications = this.registerPublications.bind(this);
+    this.addPublication = this.addPublication.bind(this);
+    this.addTransformedPublication = this.addTransformedPublication.bind(this);
+    this.updatePublication = this.updatePublication.bind(this);
+    this.addCompositePublication = this.addCompositePublication.bind(this);
+
+    //**DEFAULT PUBLICATIONS**
     this.defaultCollectionPublication =
       this.defaultCollectionPublication.bind(this);
+    this.defaultCounterCollectionPublication =
+      this.defaultCounterCollectionPublication.bind(this);
 
+    //**METHODS**
+    this.registerMethod = this.registerMethod.bind(this);
+    this.registerAllMethods = this.registerAllMethods.bind(this);
+
+    //**API/DB METHODS**
+    this.serverSync = this.serverSync.bind(this);
+
+    this.serverInsert = this.serverInsert.bind(this);
+    this.beforeInsert = this.beforeInsert.bind(this);
+    this.afterInsert = this.afterInsert.bind(this);
+
+    this.serverUpdate = this.serverUpdate.bind(this);
+    this.beforeUpdate = this.beforeUpdate.bind(this);
+    this.afterUpdate = this.afterUpdate.bind(this);
+
+    this.serverRemove = this.serverRemove.bind(this);
+    this.beforeRemove = this.beforeRemove.bind(this);
+    this.afterRemove = this.afterRemove.bind(this);
+
+    this.serverUpsert = this.serverUpsert.bind(this);
+    this.beforeUpsert = this.beforeUpsert.bind(this);
+
+    this.serverGetDocs = this.serverGetDocs.bind(this);
+
+    this.findOne = this.findOne.bind(this);
+    this.find = this.find.bind(this);
+
+    this.initCollection(apiName);
+    this.initApiRest();
     this.registerPublications(options);
     this.registerAllMethods();
-    this.includeAuditData = this.includeAuditData.bind(this);
-
     this.createAPIRESTForIMGFields();
-
     this.createAPIRESTThumbnailForIMGFields(sharp);
   }
-
-  getSchema = () => {
-    return { ...this.schema };
-  };
 
   initCollection(apiName: string) {
     this.collectionName = apiName;
@@ -157,7 +169,28 @@ export class ServerApiBase<Doc extends IDoc> {
     }
   }
 
-  addImgPathToFields = (doc: any) => {
+  //**GETS **
+  getSchema = () => {
+    return { ...this.schema };
+  };
+
+  /**
+   * Get the collection instance.
+   * @returns {Object} - Collection.
+   */
+  getCollectionInstance() {
+    return this.collectionInstance;
+  }
+
+  /**
+   * @returns {String} - Return the number of documents from a collection.
+   */
+  countDocuments() {
+    return this.getCollectionInstance().find().count();
+  }
+
+  //**AUXS METHODS**
+  _addImgPathToFields = (doc: any) => {
     Object.keys(this.schema).forEach((field) => {
       if (this.schema[field].isImage) {
         if (doc["has" + field]) {
@@ -178,6 +211,168 @@ export class ServerApiBase<Doc extends IDoc> {
     return doc;
   };
 
+  _prepareData = (_docObj: Doc) => {
+    const schema = this.schema;
+    const schemaKeys = Object.keys(this.schema);
+    const newDataObj: any = {};
+
+    Object.keys(_docObj).forEach((key: string) => {
+      let isDate: boolean;
+      let data: any;
+
+      // @ts-ignore
+      data = _docObj[key];
+      isDate = data && data instanceof Date && !isNaN(data.valueOf());
+
+      if (schemaKeys.indexOf(key) !== -1) {
+        let schemaData: any;
+        schemaData = schema[key];
+        if (
+          schemaData.isImage &&
+          (!hasValue(data) ||
+            (hasValue(data) && data?.indexOf("data:image") === -1)) &&
+          data !== "-"
+        ) {
+          // dont update if not have value field of image
+        } else if (schema[key].isImage && data === "-") {
+          newDataObj[key] = null;
+        } else if (
+          hasValue(data) &&
+          schema[key] &&
+          schema[key].type === Number
+        ) {
+          newDataObj[key] = Number(data);
+        } else if (schema[key] && schema[key].type === Date && isDate) {
+          newDataObj[key] = new Date(data);
+        } else if (
+          schema[key] &&
+          Array.isArray(schema[key].type) &&
+          !Array.isArray(data)
+        ) {
+          // No Save
+        } else if (
+          schema[key] &&
+          !Array.isArray(schema[key].type) &&
+          typeof schema[key].type === "object" &&
+          !hasValue(data)
+        ) {
+          // No Save
+        } else if (
+          schema[key] &&
+          schema[key].type === String &&
+          data === null
+        ) {
+          // No Save
+        } else if (schema[key] && schema[key].type !== Date) {
+          newDataObj[key] = data;
+        }
+      }
+    });
+
+    return newDataObj;
+  };
+
+  /**
+   * Check collections fields.
+   * @param  {Object} _docObj - Document/Object the will be inseted.
+   * @returns {Object} - The checked object for the subschema.
+   */
+  _checkDataBySchema = (_docObj: Doc) => {
+    const schema = this.getSchema();
+    const schemaKeys = Object.keys(schema);
+    const newDataObj = this._prepareData(_docObj);
+
+    // Don't need to inform every field, but if they was listed
+    // or informed, they can't be null.it
+    const keysOfDataObj = Object.keys(newDataObj);
+
+    // Remove from the Schema the optional fields not present in the DataObj.
+    schemaKeys.forEach((field) => {
+      if (
+        schema[field].visibilityFunction &&
+        !schema[field].visibilityFunction!(newDataObj)
+      ) {
+        delete newDataObj[field];
+        return;
+      } else if (
+        !schema[field].optional &&
+        keysOfDataObj.indexOf(field) !== -1 &&
+        !hasValue(newDataObj[field])
+      ) {
+        throw new Meteor.Error(
+          "Obrigatoriedade",
+          `O campo "${schema[field].label || field}" é obrigatório`
+        );
+      } else if (keysOfDataObj.indexOf(field) !== -1) {
+        if (!!newDataObj[field] || newDataObj[field] === 0) {
+          // Call the check from Meteor.
+          check(newDataObj[field], schema[field].type);
+        }
+      }
+    });
+
+    return newDataObj;
+  };
+
+  /**
+   * Check if any updates occurs in
+   * any document by any action.
+   * @param  {Object} doc - Collection document.
+   * @param  {String} action - Action the will be perform.
+   * @param defaultUser
+   */
+  _includeAuditData(
+    doc: Doc | Partial<Doc>,
+    action: string,
+    defaultUser: string = "Anonymous"
+  ) {
+    const userId = getUser() ? getUser()?._id : defaultUser;
+    if (action === "insert") {
+      doc.createdby = userId;
+      doc.createdat = new Date();
+      doc.lastupdate = new Date();
+      doc.updatedby = userId;
+    } else {
+      doc.lastupdate = new Date();
+      doc.updatedby = userId;
+    }
+  }
+  _prepareDocForUpdate = (
+    doc: Doc,
+    oldDoc: any,
+    nullValues: { [key: string]: string }
+  ) => {
+    const newDoc: any = {};
+    Object.keys(doc).forEach((key: any) => {
+      // @ts-ignore
+      let docData = doc[key];
+      const isDate =
+        docData && docData instanceof Date && !isNaN(docData.valueOf());
+
+      if (
+        !!nullValues &&
+        !docData &&
+        docData !== 0 &&
+        typeof docData !== "boolean"
+      ) {
+        nullValues[key] = "";
+      } else if (
+        key !== "_id" &&
+        ["lastupdate", "createdat", "createdby", "updatedby"].indexOf(key) ===
+          -1 &&
+        !isDate &&
+        isObject(docData) &&
+        !isArray(docData)
+      ) {
+        newDoc[key] = merge(oldDoc[key] || {}, docData);
+      } else {
+        newDoc[key] = docData;
+      }
+    });
+    return newDoc;
+  };
+
+  //**API REST**
   initApiRest = () => {
     if (Meteor.isServer) {
       // @ts-ignore
@@ -271,6 +466,7 @@ export class ServerApiBase<Doc extends IDoc> {
       });
     }
   }
+
   createAPIRESTThumbnailForIMGFields(sharp: any) {
     if (Meteor.isServer) {
       const self = this;
@@ -340,6 +536,20 @@ export class ServerApiBase<Doc extends IDoc> {
             );
         }
       });
+    }
+  }
+
+  //**PUBLICATIONS**
+  /**
+   * Wrapper to register de default publication.
+   * This is necessary to pass any publication for
+   * every ACL rule, projection rules,
+   * optimization process for the return of the data.
+   * Any Mongo collection options will be set up here.
+   */
+  registerPublications(options: IBaseOptions) {
+    if (!options.disableDefaultPublications) {
+      this.addPublication("default", this.defaultCollectionPublication);
     }
   }
 
@@ -458,6 +668,92 @@ export class ServerApiBase<Doc extends IDoc> {
     }
   };
 
+  //**DEFAULT PUBLICATIONS**
+  defaultCollectionPublication(
+    filter = {},
+    optionsPub: Partial<IMongoOptions<Doc>>
+  ) {
+    if (!optionsPub) {
+      optionsPub = { limit: 0, skip: 0 };
+    }
+
+    if (optionsPub.skip! < 0) {
+      optionsPub.skip = 0;
+    }
+
+    if (optionsPub.limit! < 0) {
+      optionsPub.limit = 0;
+    }
+    // Use the default subschema if no one was defined.
+    if (
+      !optionsPub.projection ||
+      Object.keys(optionsPub.projection).length === 0
+    ) {
+      const tempProjection: { [key: string]: number } = {};
+      Object.keys(this.schema)
+        .concat(["_id", "createdby", "createdat", "lastupdate", "updatedby"])
+        .forEach((key) => {
+          tempProjection[key] = 1;
+        });
+
+      optionsPub.projection = tempProjection;
+    }
+
+    const imgFields: { [key: string]: any } = {};
+
+    Object.keys(this.schema).forEach((field) => {
+      if (this.schema[field].isImage) {
+        imgFields["has" + field] = { $or: "$" + field };
+        delete optionsPub.projection[field];
+      }
+    });
+
+    const queryOptions = {
+      fields: { ...optionsPub.projection, ...imgFields },
+      limit: optionsPub.limit || 0,
+      skip: optionsPub.skip || 0,
+      transform: (doc: any) => {
+        // for get path of image fields.
+        return this._addImgPathToFields(doc);
+      },
+      sort: {},
+    };
+
+    if (optionsPub.transform) {
+      queryOptions.transform = optionsPub.transform;
+    }
+
+    if (optionsPub.sort) {
+      queryOptions.sort = optionsPub.sort;
+    }
+
+    return this.getCollectionInstance().find({ ...filter }, queryOptions);
+  }
+
+  defaultCounterCollectionPublication = (
+    collection: ServerApiBase<Doc>,
+    publishName: string
+  ) => {
+    return function (this: Subscription, ...params: any[]) {
+      // observeChanges only returns after the initial added callbacks have run.
+      // Until then, we don't want to send a lot of changed messages—hence
+      // tracking the initializing state.
+      const handlePub = collection.publications[publishName](...params);
+      if (!!handlePub) {
+        this.added("counts", `${publishName}Total`, {
+          count: handlePub.count(),
+        });
+        this.ready();
+        return;
+      } else {
+        this.added("counts", `${publishName}Total`, { count: 0 });
+        this.ready();
+        return;
+      }
+    };
+  };
+
+  //**METHODS**
   /**
    * Wrapper to create a Meteor Method.
    * @param  {String} name - Name of the new Meteor Method.
@@ -506,111 +802,6 @@ export class ServerApiBase<Doc extends IDoc> {
   };
 
   /**
-   * Wrapper to register de default publication.
-   * This is necessary to pass any publication for
-   * every ACL rule, projection rules,
-   * optimization process for the return of the data.
-   * Any Mongo collection options will be set up here.
-   */
-  registerPublications(options: IBaseOptions) {
-    if (!options.disableDefaultPublications) {
-      this.addPublication("default", this.defaultCollectionPublication);
-    }
-  }
-
-  defaultCollectionPublication(
-    filter = {},
-    optionsPub: Partial<IMongoOptions<Doc>>
-  ) {
-    if (!optionsPub) {
-      optionsPub = { limit: 0, skip: 0 };
-    }
-
-    if (optionsPub.skip! < 0) {
-      optionsPub.skip = 0;
-    }
-
-    if (optionsPub.limit! < 0) {
-      optionsPub.limit = 0;
-    }
-    // Use the default subschema if no one was defined.
-    if (
-      !optionsPub.projection ||
-      Object.keys(optionsPub.projection).length === 0
-    ) {
-      const tempProjection: { [key: string]: number } = {};
-      Object.keys(this.schema)
-        .concat(["_id", "createdby", "createdat", "lastupdate", "updatedby"])
-        .forEach((key) => {
-          tempProjection[key] = 1;
-        });
-
-      optionsPub.projection = tempProjection;
-    }
-
-    const imgFields: { [key: string]: any } = {};
-
-    Object.keys(this.schema).forEach((field) => {
-      if (this.schema[field].isImage) {
-        imgFields["has" + field] = { $or: "$" + field };
-        delete optionsPub.projection[field];
-      }
-    });
-
-    const queryOptions = {
-      fields: { ...optionsPub.projection, ...imgFields },
-      limit: optionsPub.limit || 0,
-      skip: optionsPub.skip || 0,
-      transform: (doc: any) => {
-        // for get path of image fields.
-        return this.addImgPathToFields(doc);
-      },
-      sort: {},
-    };
-
-    if (optionsPub.transform) {
-      queryOptions.transform = optionsPub.transform;
-    }
-
-    if (optionsPub.sort) {
-      queryOptions.sort = optionsPub.sort;
-    }
-
-    return this.getCollectionInstance().find({ ...filter }, queryOptions);
-  }
-
-  defaultCounterCollectionPublication = (
-    collection: ServerApiBase<Doc>,
-    publishName: string
-  ) => {
-    return function (this: Subscription, ...params: any[]) {
-      // observeChanges only returns after the initial added callbacks have run.
-      // Until then, we don't want to send a lot of changed messages—hence
-      // tracking the initializing state.
-      const handlePub = collection.publications[publishName](...params);
-      if (!!handlePub) {
-        this.added("counts", `${publishName}Total`, {
-          count: handlePub.count(),
-        });
-        this.ready();
-        return;
-      } else {
-        this.added("counts", `${publishName}Total`, { count: 0 });
-        this.ready();
-        return;
-      }
-    };
-  };
-
-  /**
-   * Get the collection instance.
-   * @returns {Object} - Collection.
-   */
-  getCollectionInstance() {
-    return this.collectionInstance;
-  }
-
-  /**
    * Register the CRUD methods to use then as
    * Meteor call.
    */
@@ -622,133 +813,6 @@ export class ServerApiBase<Doc extends IDoc> {
     this.registerMethod("sync", this.serverSync);
     this.registerMethod("countDocuments", this.countDocuments);
     this.registerMethod("getDocs", this.serverGetDocs);
-  }
-
-  prepareData = (_docObj: Doc) => {
-    const schema = this.schema;
-    const schemaKeys = Object.keys(this.schema);
-    const newDataObj: any = {};
-
-    Object.keys(_docObj).forEach((key: string) => {
-      let isDate: boolean;
-      let data: any;
-
-      // @ts-ignore
-      data = _docObj[key];
-      isDate = data && data instanceof Date && !isNaN(data.valueOf());
-
-      if (schemaKeys.indexOf(key) !== -1) {
-        let schemaData: any;
-        schemaData = schema[key];
-        if (
-          schemaData.isImage &&
-          (!hasValue(data) ||
-            (hasValue(data) && data?.indexOf("data:image") === -1)) &&
-          data !== "-"
-        ) {
-          // dont update if not have value field of image
-        } else if (schema[key].isImage && data === "-") {
-          newDataObj[key] = null;
-        } else if (
-          hasValue(data) &&
-          schema[key] &&
-          schema[key].type === Number
-        ) {
-          newDataObj[key] = Number(data);
-        } else if (schema[key] && schema[key].type === Date && isDate) {
-          newDataObj[key] = new Date(data);
-        } else if (
-          schema[key] &&
-          Array.isArray(schema[key].type) &&
-          !Array.isArray(data)
-        ) {
-          // No Save
-        } else if (
-          schema[key] &&
-          !Array.isArray(schema[key].type) &&
-          typeof schema[key].type === "object" &&
-          !hasValue(data)
-        ) {
-          // No Save
-        } else if (
-          schema[key] &&
-          schema[key].type === String &&
-          data === null
-        ) {
-          // No Save
-        } else if (schema[key] && schema[key].type !== Date) {
-          newDataObj[key] = data;
-        }
-      }
-    });
-
-    return newDataObj;
-  };
-
-  /**
-   * Check collections fields.
-   * @param  {Object} _docObj - Document/Object the will be inseted.
-   * @returns {Object} - The checked object for the subschema.
-   */
-  checkDataBySchema = (_docObj: Doc) => {
-    const schema = this.getSchema();
-    const schemaKeys = Object.keys(schema);
-    const newDataObj = this.prepareData(_docObj);
-
-    // Don't need to inform every field, but if they was listed
-    // or informed, they can't be null.it
-    const keysOfDataObj = Object.keys(newDataObj);
-
-    // Remove from the Schema the optional fields not present in the DataObj.
-    schemaKeys.forEach((field) => {
-      if (
-        schema[field].visibilityFunction &&
-        !schema[field].visibilityFunction!(newDataObj)
-      ) {
-        delete newDataObj[field];
-        return;
-      } else if (
-        !schema[field].optional &&
-        keysOfDataObj.indexOf(field) !== -1 &&
-        !hasValue(newDataObj[field])
-      ) {
-        throw new Meteor.Error(
-          "Obrigatoriedade",
-          `O campo "${schema[field].label || field}" é obrigatório`
-        );
-      } else if (keysOfDataObj.indexOf(field) !== -1) {
-        if (!!newDataObj[field] || newDataObj[field] === 0) {
-          // Call the check from Meteor.
-          check(newDataObj[field], schema[field].type);
-        }
-      }
-    });
-
-    return newDataObj;
-  };
-
-  /**
-   * Check if any updates occurs in
-   * any document by any action.
-   * @param  {Object} doc - Collection document.
-   * @param  {String} action - Action the will be perform.
-   * @param defaultUser
-   */
-  includeAuditData(
-    doc: Doc | Partial<Doc>,
-    action: string,
-    defaultUser: string = "Anonymous"
-  ) {
-    const userId = getUser() ? getUser()?._id : defaultUser;
-    if (action === "insert") {
-      doc.createdby = userId;
-      doc.createdat = new Date();
-      doc.lastupdate = new Date();
-      doc.updatedby = userId;
-    } else {
-      doc.lastupdate = new Date();
-      doc.updatedby = userId;
-    }
   }
 
   /**
@@ -777,8 +841,8 @@ export class ServerApiBase<Doc extends IDoc> {
     }
 
     if (!oldDoc || !oldDoc._id) {
-      _docObj = this.checkDataBySchema(_docObj);
-      this.includeAuditData(_docObj, "insert");
+      _docObj = this._checkDataBySchema(_docObj);
+      this._includeAuditData(_docObj, "insert");
       const insertId = this.getCollectionInstance().insert(_docObj);
       return { ..._docObj, _id: insertId };
     }
@@ -795,14 +859,73 @@ export class ServerApiBase<Doc extends IDoc> {
       docToSave = oldDoc;
     }
 
-    docToSave = this.checkDataBySchema(docToSave);
-    this.includeAuditData(docToSave, "update");
+    docToSave = this._checkDataBySchema(docToSave);
+    this._includeAuditData(docToSave, "update");
 
     this.getCollectionInstance().update(_docObj._id, {
       $set: docToSave,
     });
     return this.getCollectionInstance().findOne({ _id: _docObj._id });
   };
+
+  /**
+   * Perform a insert on an collection.
+   * @param  {Object} _docObj - Collection document the will be inserted.
+   * @param  {Object} _context - Meteor this _context.
+   */
+  serverInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    try {
+      const id = _docObj._id;
+      if (this.beforeInsert(_docObj, _context)) {
+        _docObj = this._checkDataBySchema(_docObj as Doc);
+        this._includeAuditData(_docObj, "insert");
+        if (id) {
+          _docObj._id = id;
+        }
+        const result = this.getCollectionInstance().insert(_docObj);
+        this.afterInsert(
+          Object.assign({ _id: id || result }, _docObj),
+          _context
+        );
+        if (_context.rest) {
+          _context.rest.response.statusCode = 201;
+        }
+        return result;
+      }
+      return null;
+    } catch (insertError) {
+      throw insertError;
+    }
+  }
+
+  /**
+   * Perform an action before allows an document be inserted.
+   * In this case, we have a check ACL for the user and the collection the will be
+   * affected by any updates. So this guarantees the user has to have
+   * access to modify this collection.
+   * Others actions can be executed in here.
+   * @param  {Object} _docObj - Document the will be inserted.
+   * @param  {Object} _context - Meteor this _context.
+   * (If we don't have _context, undefied will be set to this.)
+   * @returns {Boolean} - Returns true for any action.
+   */
+  beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    return true;
+  }
+
+  /**
+   * Use this as an extension point, to perform any action
+   * after or before action modify a collection/document.
+   * @param  {Object} _docObj - Document the will be changed
+   * @param _context
+   * @returns {Object} - Object updated with the current status.
+   */
+  afterInsert(_docObj: Doc | Partial<Doc>, _context?: IContext) {
+    return {
+      ..._docObj,
+      collection: this.collectionName,
+    };
+  }
 
   /**
    * Perform a insert or update on collection.
@@ -821,59 +944,17 @@ export class ServerApiBase<Doc extends IDoc> {
   }
 
   /**
-   * Perform a remove on an collection.
-   * @param  {Object} _docObj - Collection document the will be removed.
-   * @param  {Object} _context - Meteor this _context.
+   * Use this as an extension point, to perform any action
+   * after or before action modify a collection/document.
+   * @param  {Object} _docObj - Document the will be changed
+   * @returns {Object} - Object updated with the current status.
    */
-  serverRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
-    try {
-      if (this.beforeRemove(_docObj, _context)) {
-        const id = _docObj._id;
-        check(id, String);
-        const result = this.getCollectionInstance().remove(id);
-        this.afterRemove(_docObj, _context);
-        return result;
-      }
-      return null;
-    } catch (error) {
-      throw error;
-    }
+  beforeUpsert(_docObj: Doc | Partial<Doc>) {
+    return {
+      ..._docObj,
+      collection: this.collectionName,
+    };
   }
-
-  prepareDocForUpdate = (
-    doc: Doc,
-    oldDoc: any,
-    nullValues: { [key: string]: string }
-  ) => {
-    const newDoc: any = {};
-    Object.keys(doc).forEach((key: any) => {
-      // @ts-ignore
-      let docData = doc[key];
-      const isDate =
-        docData && docData instanceof Date && !isNaN(docData.valueOf());
-
-      if (
-        !!nullValues &&
-        !docData &&
-        docData !== 0 &&
-        typeof docData !== "boolean"
-      ) {
-        nullValues[key] = "";
-      } else if (
-        key !== "_id" &&
-        ["lastupdate", "createdat", "createdby", "updatedby"].indexOf(key) ===
-          -1 &&
-        !isDate &&
-        isObject(docData) &&
-        !isArray(docData)
-      ) {
-        newDoc[key] = merge(oldDoc[key] || {}, docData);
-      } else {
-        newDoc[key] = docData;
-      }
-    });
-    return newDoc;
-  };
 
   /**
    * Perform a Update on an collection.
@@ -885,12 +966,12 @@ export class ServerApiBase<Doc extends IDoc> {
       check(_docObj._id, String);
       const id = _docObj._id;
       if (this.beforeUpdate(_docObj, _context)) {
-        _docObj = this.checkDataBySchema(_docObj as Doc);
-        this.includeAuditData(_docObj, "update");
+        _docObj = this._checkDataBySchema(_docObj as Doc);
+        this._includeAuditData(_docObj, "update");
         const oldData = this.getCollectionInstance().findOne({ _id: id }) || {};
         const nullValues = {};
 
-        const preparedData = this.prepareDocForUpdate(
+        const preparedData = this._prepareDocForUpdate(
           _docObj as Doc,
           oldData,
           nullValues
@@ -914,73 +995,6 @@ export class ServerApiBase<Doc extends IDoc> {
   }
 
   /**
-   * Perform a insert on an collection.
-   * @param  {Object} _docObj - Collection document the will be inserted.
-   * @param  {Object} _context - Meteor this _context.
-   */
-  serverInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
-    try {
-      const id = _docObj._id;
-      if (this.beforeInsert(_docObj, _context)) {
-        _docObj = this.checkDataBySchema(_docObj as Doc);
-        this.includeAuditData(_docObj, "insert");
-        if (id) {
-          _docObj._id = id;
-        }
-        const result = this.getCollectionInstance().insert(_docObj);
-        this.afterInsert(
-          Object.assign({ _id: id || result }, _docObj),
-          _context
-        );
-        if (_context.rest) {
-          _context.rest.response.statusCode = 201;
-        }
-        return result;
-      }
-      return null;
-    } catch (insertError) {
-      throw insertError;
-    }
-  }
-
-  /**
-   * @returns {String} - Return the number of documents from a collection.
-   */
-  countDocuments() {
-    return this.getCollectionInstance().find().count();
-  }
-
-  /**
-   * Perform an action before allows an document be inserted.
-   * In this case, we have a check ACL for the user and the collection the will be
-   * affected by any updates. So this guarantees the user has to have
-   * access to modify this collection.
-   * Others actions can be executed in here.
-   * @param  {Object} _docObj - Document the will be inserted.
-   * @param  {Object} _context - Meteor this _context.
-   * (If we don't have _context, undefied will be set to this.)
-   * @returns {Boolean} - Returns true for any action.
-   */
-  beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
-    return true;
-  }
-
-  /**
-   * Perform an action before allows an documents be imported.
-   * In this case, we have a check ACL for the user and the collection the will be
-   * affected by any updates. So this guarantees the user has to have
-   * access to modify this collection.
-   * Others actions can be executed in here.
-   * @param _docObj
-   * @param  {Object} _context - Meteor this _context.
-   * If we don't have _context, undefied will be set to this.)
-   * @returns {Boolean} - Returns true for any action.
-   */
-  beforeImport(_docObj: Doc | Partial<Doc>, _context: IContext) {
-    return true;
-  }
-
-  /**
    * Perform an action before allows an documents be updated.
    * In this case, we have a check ACL for the user and the collection the will be
    * affected by any updates. So this guarantees the user has to have
@@ -993,61 +1007,6 @@ export class ServerApiBase<Doc extends IDoc> {
    */
   beforeUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
     return true;
-  }
-
-  /**
-   * Perform an action before allows an documents be removed.
-   * In this case, we have a check ACL for the user and the collection the will be
-   * affected by any updates. So this guarantees the user has to have
-   * access to modify this collection.
-   * Others actions can be executed in here.
-   * @param  {Object} _docObj - Documents the will be removed.
-   * @param  {Object} _context - Meteor this _context.
-   * (If we don't have _context, undefied will be set to this.)
-   * @returns {Boolean} - Returns true for any action.
-   */
-  beforeRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
-    return true;
-  }
-
-  /**
-   * Use this as an extension point, to perform any action
-   * after or before action modify a collection/document.
-   * @param  {Object} _docObj - Document the will be changed
-   * @returns {Object} - Object updated with the current status.
-   */
-  beforeUpsert(_docObj: Doc | Partial<Doc>) {
-    return {
-      ..._docObj,
-      collection: this.collectionName,
-    };
-  }
-
-  /**
-   * Use this as an extension point, to perform any action
-   * after or before action modify a collection/document.
-   * @param  {Object} _docObj - Document the will be changed
-   * @returns {Object} - Object updated with the current status.
-   */
-  afterImport(_docObj: Doc | Partial<Doc>) {
-    return {
-      ..._docObj,
-      collection: this.collectionName,
-    };
-  }
-
-  /**
-   * Use this as an extension point, to perform any action
-   * after or before action modify a collection/document.
-   * @param  {Object} _docObj - Document the will be changed
-   * @param _context
-   * @returns {Object} - Object updated with the current status.
-   */
-  afterInsert(_docObj: Doc | Partial<Doc>, _context?: IContext) {
-    return {
-      ..._docObj,
-      collection: this.collectionName,
-    };
   }
 
   /**
@@ -1083,6 +1042,41 @@ export class ServerApiBase<Doc extends IDoc> {
       );
     }
     return document;
+  }
+
+  /**
+   * Perform a remove on an collection.
+   * @param  {Object} _docObj - Collection document the will be removed.
+   * @param  {Object} _context - Meteor this _context.
+   */
+  serverRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    try {
+      if (this.beforeRemove(_docObj, _context)) {
+        const id = _docObj._id;
+        check(id, String);
+        const result = this.getCollectionInstance().remove(id);
+        this.afterRemove(_docObj, _context);
+        return result;
+      }
+      return null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Perform an action before allows an documents be removed.
+   * In this case, we have a check ACL for the user and the collection the will be
+   * affected by any updates. So this guarantees the user has to have
+   * access to modify this collection.
+   * Others actions can be executed in here.
+   * @param  {Object} _docObj - Documents the will be removed.
+   * @param  {Object} _context - Meteor this _context.
+   * (If we don't have _context, undefied will be set to this.)
+   * @returns {Boolean} - Returns true for any action.
+   */
+  beforeRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    return true;
   }
 
   /**
