@@ -11,23 +11,27 @@ export default (props: IDefaultContainerProps) => {
 
   const state = screenState ? screenState : props.screenState;
 
-  const id = exampleId ? exampleId : props.exampleId;
+  const id = exampleId ? exampleId : props.id;
 
   if (!!state && validState.indexOf(state) !== -1) {
     if (state === "view" && !!id) {
       return <ExampleDetailContainer {...props} screenState={state} id={id} />;
     } else if (state === "edit" && !!id) {
       return (
-        <ExampleDetailContainer {...props} screenState={state} id={id} edit />
+        <ExampleDetailContainer
+          {...props}
+          screenState={state}
+          id={id}
+          {...{ edit: true }}
+        />
       );
     } else if (state === "create") {
       return (
         <ExampleDetailContainer
-          DetailContainer
           {...props}
           screenState={state}
           id={id}
-          create
+          {...{ create: true }}
         />
       );
     }

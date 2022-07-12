@@ -11,7 +11,12 @@ export const userprofileData = {
  * Return Logged User if exists.
  * @return {Object} Logged User
  */
-export const getUser = (connection?: { id: string } | null): IUserProfile => {
+export const getUser = (
+  connection?: { id: string } | undefined
+):
+  | IUserProfile
+  | (Meteor.User & { roles?: string[]; profile?: { email?: string } })
+  | undefined => {
   if (Meteor.isClient && Meteor.status().status !== "connected") {
     if (!!window && !!window.$app && !!window.$app.user) {
       return window.$app.user;
@@ -23,6 +28,7 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
       console.log("UserProfile Collection not Avaliable");
       return Meteor.user();
     }
+
     const userProfile = userprofileData.collectionInstance.findOne({
       email: Meteor.user().profile.email,
     });
@@ -39,7 +45,6 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
         : shortid.generate();
 
     return {
-      id,
       _id: id,
       roles: [EnumUserRoles.PUBLICO],
     };
@@ -70,7 +75,18 @@ const SYSTEM_USER = Object.freeze({
 /**
  * Usuario reprensentando o sistema, para ações não realizadas por usuarios.
  */
-export function getSystemUserProfile(): IUserProfile | undefined {
+export function getSystemUserProfile(): Readonly<
+  | {
+      createdat: Date;
+      blocked: boolean;
+      createdby: string;
+      _id: string;
+      email: string;
+      username: string;
+    }
+  | IUserProfile
+  | undefined
+> {
   if (Meteor.isClient) {
     return undefined;
   }

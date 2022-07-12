@@ -1,5 +1,4 @@
 import React from "react";
-import Meteor from "meteor/meteor";
 import { withTracker } from "meteor/react-meteor-data";
 import { exampleApi } from "../../api/exampleApi";
 import SimpleForm from "../../../../ui/components/SimpleForm/SimpleForm";
@@ -18,16 +17,16 @@ import Print from "@mui/icons-material/Print";
 import Close from "@mui/icons-material/Close";
 import { PageLayout } from "/imports/ui/layouts/pageLayout";
 import { IExample } from "../../api/exampleSch";
-import { IMeteorError } from "/imports/typings/BoilerplateDefaultTypings";
+import {
+  IDefaultContainerProps,
+  IDefaultDetailProps,
+  IMeteorError,
+} from "/imports/typings/BoilerplateDefaultTypings";
 import { useTheme } from "@mui/material/styles";
 
-interface IExampleDetail {
-  screenState: string;
-  loading: boolean;
-  isPrintView: boolean;
+interface IExampleDetail extends IDefaultDetailProps {
   exampleDoc: IExample;
-  save: (doc: IExample, callback?: () => void) => void;
-  navigate: (url: string | -1, state?: object) => void;
+  save: (doc: IExample, _callback?: any) => void;
 }
 
 const ExampleDetail = (props: IExampleDetail) => {
@@ -117,7 +116,10 @@ const ExampleDetail = (props: IExampleDetail) => {
             name="typeMulti"
           />
         </FormGroup>
-        <FormGroup key={"fieldsThree"} formType={"subform"} name={"contacts"}>
+        <FormGroup
+          key={"fieldsThree"}
+          {...{ formType: "subform", name: "contacts" }}
+        >
           <TextMaskField
             key={"f3-TelefoneKEY"}
             placeholder="Telefone"
@@ -125,7 +127,10 @@ const ExampleDetail = (props: IExampleDetail) => {
           />
           <TextMaskField key={"f3-CPFKEY"} placeholder="CPF" name="cpf" />
         </FormGroup>
-        <FormGroup key={"fieldsFour"} formType={"subformArray"} name={"tasks"}>
+        <FormGroup
+          key={"fieldsFour"}
+          {...{ formType: "subformArray", name: "tasks" }}
+        >
           <TextField
             key={"f4-nomeTarefaKEY"}
             placeholder="Nome da Tarefa"
@@ -163,9 +168,9 @@ const ExampleDetail = (props: IExampleDetail) => {
           key={"ExempleDetail-UploadsFilesKEY"}
           name="files"
           label={"Arquivos"}
-          doc={exampleDoc}
+          doc={{ _id: exampleDoc?._id }}
         />
-        <FormGroup key={"fieldsSixth"} name={"chips"}>
+        <FormGroup key={"fieldsSixth"} {...{ name: "chips" }}>
           <ChipInput key={"f6-cipsKEY"} name="chip" placeholder="Chip" />
         </FormGroup>
         <div
@@ -211,7 +216,7 @@ const ExampleDetail = (props: IExampleDetail) => {
               key={"b3"}
               color={"primary"}
               variant="contained"
-              submit="true"
+              {...{ submit: true }}
             >
               {"Salvar"}
             </Button>
@@ -222,16 +227,7 @@ const ExampleDetail = (props: IExampleDetail) => {
   );
 };
 
-interface IExampleDetailContainer {
-  screenState: string;
-  id: string;
-  navigate: (url: string | -1, state?: object) => void;
-  showNotification: (data: {
-    type: string;
-    title: string;
-    description: string;
-  }) => void;
-}
+interface IExampleDetailContainer extends IDefaultContainerProps {}
 
 export const ExampleDetailContainer = withTracker(
   (props: IExampleDetailContainer) => {
@@ -246,25 +242,27 @@ export const ExampleDetailContainer = withTracker(
     return {
       screenState,
       exampleDoc,
-      save: (doc: IExample, callback: () => void) => {
+      save: (doc: IExample, _callback: () => void) => {
         const selectedAction = screenState === "create" ? "insert" : "update";
         exampleApi[selectedAction](doc, (e: IMeteorError, r: string) => {
           if (!e) {
             navigate(`/example/view/${screenState === "create" ? r : doc._id}`);
-            showNotification({
-              type: "success",
-              title: "Operação realizada!",
-              description: `O exemplo foi ${
-                doc._id ? "atualizado" : "cadastrado"
-              } com sucesso!`,
-            });
+            showNotification &&
+              showNotification({
+                type: "success",
+                title: "Operação realizada!",
+                description: `O exemplo foi ${
+                  doc._id ? "atualizado" : "cadastrado"
+                } com sucesso!`,
+              });
           } else {
             console.log("Error:", e);
-            showNotification({
-              type: "warning",
-              title: "Operação não realizada!",
-              description: `Erro ao realizar a operação: ${e.reason}`,
-            });
+            showNotification &&
+              showNotification({
+                type: "warning",
+                title: "Operação não realizada!",
+                description: `Erro ao realizar a operação: ${e.reason}`,
+              });
           }
         });
       },

@@ -2,12 +2,15 @@ import { Accounts } from "meteor/accounts-base";
 import { Meteor } from "meteor/meteor";
 import { userprofileServerApi } from "../userprofile/api/UserProfileServerApi";
 import { getHTMLEmailTemplate } from "./email";
-import settings from "/settings";
 import req from "request";
 
+// @ts-ignore
+import settings from "/settings";
+import { Mongo } from "meteor/mongo";
+
 function getBase64FromURLImage(
-  urlImage,
-  callback = (e, r) => {
+  urlImage: string,
+  callback = (e: any, r: any) => {
     console.log(e, r);
   }
 ) {
@@ -27,10 +30,13 @@ function getBase64FromURLImage(
   });
 }
 
-function updateUserProfileImageFromURL(userId, urlImage) {
+function updateUserProfileImageFromURL(
+  userId: string | Mongo.ObjectID | Mongo.Selector<any>,
+  urlImage: string
+) {
   getBase64FromURLImage(
     urlImage,
-    Meteor.bindEnvironment((err, res) => {
+    Meteor.bindEnvironment((err: any, res: any) => {
       // Everything is good now
       if (!err) {
         userprofileServerApi.collectionInstance.update(userId, {
@@ -41,7 +47,14 @@ function updateUserProfileImageFromURL(userId, urlImage) {
   );
 }
 
-function validateSocialLoginAndUpdateProfile(userProfile, user, serviceName) {
+function validateSocialLoginAndUpdateProfile(
+  userProfile: {
+    _id: string | Mongo.ObjectID | Mongo.Selector<any>;
+    photo: any;
+  },
+  user: Mongo.OptionalId<any>,
+  serviceName: string
+) {
   if (!userProfile) {
     console.log("##Novo Usuário## >>>>>>>", user.profile, null, user.services);
     user.roles = ["Usuario"];
@@ -102,7 +115,9 @@ function validateSocialLoginAndUpdateProfile(userProfile, user, serviceName) {
   return true;
 }
 
-function validateLoginGoogle(user) {
+function validateLoginGoogle(
+  user: Meteor.User & { name?: string; email?: string }
+) {
   console.log("Login com Google");
   user.username = `${user.services.google.name}`;
   user.name = `${user.services.google.name}`;
@@ -115,7 +130,9 @@ function validateLoginGoogle(user) {
   return validateSocialLoginAndUpdateProfile(userProfile, user, serviceName);
 }
 
-function validateLoginFacebook(user) {
+function validateLoginFacebook(
+  user: Meteor.User & { name?: string; email?: string }
+) {
   const serviceName = "facebook";
   user.username = `${user.services.facebook.name}_facebook`;
   user.name = `${user.services.facebook.name}`;
@@ -195,35 +212,38 @@ Meteor.startup(() => {
     return getHTMLEmailTemplate("Alteração da senha atual", email, footer);
   };
 
-  Accounts.onLogin((params) => {
-    console.log(
-      "OnLogin:",
-      params && params.user
-        ? {
-            _id: params.user._id,
-            username: params.user.username,
-          }
-        : "-"
-    );
-
-    const userProfile = params.user
-      ? userprofileServerApi.find({ _id: params.user._id }).fetch()[0]
-      : undefined;
-
-    // const userLanguage = userProfile && userProfile.language ? userProfile.language : 'pt-BR';
-
-    if (userProfile) {
-      userprofileServerApi.collectionInstance.update(
-        { _id: userProfile._id },
-        {
-          $set: { lastacess: new Date(), connected: true },
-        }
+  Accounts.onLogin(
+    (params: {
+      user: { _id: any; username: any };
+      connection: { onClose: (arg0: () => void) => void };
+    }) => {
+      console.log(
+        "OnLogin:",
+        params && params.user
+          ? {
+              _id: params.user._id,
+              username: params.user.username,
+            }
+          : "-"
       );
-    }
 
-    params.connection.onClose(
-      Meteor.bindEnvironment(
-        () => {
+      const userProfile = params.user
+        ? userprofileServerApi.find({ _id: params.user._id }).fetch()[0]
+        : undefined;
+
+      // const userLanguage = userProfile && userProfile.language ? userProfile.language : 'pt-BR';
+
+      if (userProfile) {
+        userprofileServerApi.collectionInstance.update(
+          { _id: userProfile._id },
+          {
+            $set: { lastacess: new Date(), connected: true },
+          }
+        );
+      }
+
+      params.connection.onClose(
+        Meteor.bindEnvironment(() => {
           if (userProfile) {
             userprofileServerApi.collectionInstance.update(
               { _id: userProfile._id },
@@ -233,13 +253,10 @@ Meteor.startup(() => {
             );
           }
           // console.log('OnDesconect:',params.user._id); // called once the user disconnects
-        },
-        (e) => {
-          console.log("Error:", e);
-        }
-      )
-    );
-  });
+        })
+      );
+    }
+  );
 
   Accounts.onLogout((params) => {
     const userProfile = params.user
@@ -262,35 +279,37 @@ Meteor.startup(() => {
     forbidClientAccountCreation: false, // impede que um usuário seja criado pelo cliente
   });
 
-  Accounts.validateLoginAttempt(({ user, allowed }) => {
-    // console.log('user, allowed',user, allowed)
-    if (!allowed) {
-      console.log("Acesso não autorizado");
-      return allowed;
-    }
+  Accounts.validateLoginAttempt(
+    ({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {
+      // console.log('user, allowed',user, allowed)
+      if (!allowed) {
+        console.log("Acesso não autorizado");
+        return allowed;
+      }
 
-    // ################################ FACEBOOK ################################################
-    if (user.services.facebook) {
-      user.profile = {
-        name: user.services.facebook.name,
-        email: user.services.facebook.email,
-      };
-      return validateLoginFacebook(user);
-    } else if (user.services.google) {
-      // ################################ GOOGLE ################################################
-      user.profile = {
-        name: user.services.google.name,
-        email: user.services.google.email,
-      };
-      return validateLoginGoogle(user);
+      // ################################ FACEBOOK ################################################
+      if (user.services.facebook) {
+        user.profile = {
+          name: user.services.facebook.name,
+          email: user.services.facebook.email,
+        };
+        return validateLoginFacebook(user);
+      } else if (user.services.google) {
+        // ################################ GOOGLE ################################################
+        user.profile = {
+          name: user.services.google.name,
+          email: user.services.google.email,
+        };
+        return validateLoginGoogle(user);
+      }
+      if (!user || !user.emails || !user.emails[0].verified) {
+        throw new Meteor.Error(
+          "Email ñao verificado",
+          `Este email ainda não foi verificado!`
+        );
+      }
+      console.log("Acesso autorizado");
+      return true;
     }
-    if (!user.emails[0].verified) {
-      throw new Meteor.Error(
-        "Email ñao verificado",
-        `Este email ainda não foi verificado!`
-      );
-    }
-    console.log("Acesso autorizado");
-    return true;
-  });
+  );
 });

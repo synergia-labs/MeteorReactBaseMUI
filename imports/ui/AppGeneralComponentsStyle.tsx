@@ -14,7 +14,11 @@
 
  */
 
-const appGeneralStyle = {
+const appGeneralStyle: {
+  [key: string]:
+    | { [subkey: string]: React.CSSProperties }
+    | React.CSSProperties;
+} = {
   containerOptions: {
     display: "flex",
     flexDirection: "row",

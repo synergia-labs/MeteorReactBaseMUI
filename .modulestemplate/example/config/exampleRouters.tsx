@@ -1,8 +1,9 @@
 import React from "react";
 import ExampleContainer from "../ui/pages/exampleContainer";
 import { Recurso } from "./Recursos";
+import { IRoute } from "/imports/modules/modulesTypings";
 
-export const exampleRouterList = [
+export const exampleRouterList: IRoute[] = [
   {
     path: "/example/:screenState/:exampleId",
     component: ExampleContainer,

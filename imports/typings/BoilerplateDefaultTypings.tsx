@@ -14,7 +14,7 @@ export interface IBoilerplateShowMethods {
     title: string,
     message: string,
     doc: Object,
-    remove: (doc: Object) => void
+    remove: (doc: any) => void
   ) => void;
   showDrawer?: (options?: Object) => void;
   showWindow?: (options?: Object) => void;
@@ -30,22 +30,21 @@ export interface IDefaultContainerProps extends IBoilerplateShowMethods {
   userLoading: boolean;
   staticContext: boolean | undefined;
   isLoggedIn: boolean;
-  id?: string;
+  id?: string | undefined;
   screenState?: string;
-  showNotification: (options?: Object) => void; // aqui a função não é opcional.
 }
 
-export interface IDefaultListProps extends IBoilerplateShowMethods {
+export interface IDefaultDetailProps extends IDefaultContainerProps {}
+export interface IDefaultListProps extends IDefaultContainerProps {
   navigate: RouteComponentProps["navigate"];
   user: IUserProfile;
-  remove: (doc: object) => void;
   onSearch: (text?: string) => void;
   total: number;
   loading: boolean;
   setPage: (page: number) => void;
   setPageSize: (pageSize: number) => void;
   setSort: (sort: ISortProperties) => void;
-  searchBy?: string;
+  searchBy?: string | null;
   pageProperties: { currentPage: number; pageSize: number };
 }
 

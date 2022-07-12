@@ -17,10 +17,14 @@ import "./notificationStyle.css";
 import AppRouterSwitch from "./layouts/appRouterSwitch";
 import { Theme, useTheme } from "@mui/material";
 import { IBoilerplateShowMethods } from "../typings/BoilerplateDefaultTypings";
+import Delete from "@mui/icons-material/Delete";
+import Button from "@mui/material/Button";
 
 if (isMobile) {
+  // @ts-ignore
   import "./notificationTipMobile.css";
 } else {
+  // @ts-ignore
   import "./notificationTipWeb.css";
 }
 
@@ -56,7 +60,6 @@ const DialogContainer = (
     <Dialog
       aria-labelledby="Modal"
       onClose={options.onClose}
-      onOpen={options.onOpen}
       open={options.open}
       PaperProps={options.customPaperProps}
     >
@@ -268,6 +271,7 @@ interface IShowNotificationOptions {
 }
 
 export const showNotification = (options: IShowNotificationOptions = {}) => {
+  // @ts-ignore
   if (!options || !options.type || !notifier[options.type]) {
     return;
   }
@@ -336,6 +340,37 @@ class GeneralComponents extends React.Component<
     });
   };
 
+  showDeleteDialog = (
+    title: string,
+    message: string,
+    doc: Object,
+    remove: (doc: Object) => void
+  ) => {
+    const dialogOptions = {
+      icon: <Delete />,
+      title,
+      content: () => {
+        return <p>{message}</p>;
+      },
+      actions: ({ closeDialog }: { closeDialog: () => void }) => [
+        <Button variant={"outlined"} color={"secondary"} onClick={closeDialog}>
+          {"Não"}
+        </Button>,
+        <Button
+          variant={"contained"}
+          onClick={() => {
+            remove(doc);
+            closeDialog();
+          }}
+          color={"primary"}
+        >
+          {"Sim"}
+        </Button>,
+      ],
+    };
+    this.showDialog(dialogOptions);
+  };
+
   showModal = (options = {}) => {
     this.setState({
       modalOptions: {
@@ -346,6 +381,7 @@ class GeneralComponents extends React.Component<
         ...{ ...this.props, render: undefined },
         showNotification: showNotification,
         showDialog: this.showDialog,
+        showDeleteDialog: this.showDeleteDialog,
         showDrawer: this.showDrawer,
         showWindow: this.showWindow,
         ...options,
@@ -363,6 +399,7 @@ class GeneralComponents extends React.Component<
         ...{ ...this.props, render: undefined },
         showNotification: showNotification,
         showDialog: this.showDialog,
+        showDeleteDialog: this.showDeleteDialog,
         showDrawer: this.showDrawer,
         showWindow: this.showWindow,
         ...options,
@@ -371,7 +408,6 @@ class GeneralComponents extends React.Component<
   };
 
   componentDidMount() {
-    const self = this;
     if (window.navigate) {
       window.navigateState(null, null, window.location.href);
 
@@ -391,6 +427,7 @@ class GeneralComponents extends React.Component<
         ...{ ...this.props, render: undefined },
         showNotification: showNotification,
         showDialog: this.showDialog,
+        showDeleteDialog: this.showDeleteDialog,
         showDrawer: this.showDrawer,
         showWindow: this.showWindow,
         ...options,
@@ -404,6 +441,7 @@ class GeneralComponents extends React.Component<
         value={{
           showNotification: showNotification,
           showDialog: this.showDialog,
+          showDeleteDialog: this.showDeleteDialog,
           showDrawer: this.showDrawer,
           showWindow: this.showWindow,
           showModal: this.showModal,

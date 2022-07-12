@@ -1,3 +1,5 @@
+import { IDoc } from "/imports/typings/IDoc";
+
 export const userProfileSch = {
   photo: {
     type: String,
@@ -44,13 +46,9 @@ export const userProfileSch = {
   },
 };
 
-export interface IUserProfile {
-  _id?: string;
-  photo: string;
+export interface IUserProfile extends IDoc {
+  photo?: string;
   username: string;
   email: string;
-  roles: [string];
-  createdat: Date;
-  updatedat: Date;
-  createdby: string;
+  roles?: string[];
 }

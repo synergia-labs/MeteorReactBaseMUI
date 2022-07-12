@@ -1,7 +1,6 @@
 // region Imports
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
-import { OfflineBaseApi } from "../../api/offlinebase";
 import { IUserProfile, userProfileSch } from "./UserProfileSch";
 import { getUser, userprofileData } from "../../libs/getUser";
 import settings from "../../../settings.json";
@@ -16,7 +15,7 @@ interface IUserProfileEstendido extends IUserProfile {
 
 // endregion
 
-class UserProfileServerApi extends ProductServerBase {
+class UserProfileServerApi extends ProductServerBase<IUserProfile> {
   constructor() {
     super("userprofile", userProfileSch);
     this.addPublicationMeteorUsers();
@@ -42,7 +41,7 @@ class UserProfileServerApi extends ProductServerBase {
           const user = Meteor.users.findOne({
             "emails.address": userData.email,
           });
-          Accounts.sendVerificationEmail(user._id);
+          Accounts.sendVerificationEmail(user?._id ?? "");
         }
       }
     });
@@ -66,7 +65,7 @@ class UserProfileServerApi extends ProductServerBase {
       return true;
     });
 
-    this.addPublication("getListOfusers", (filter = {}, options, userDoc) => {
+    this.addPublication("getListOfusers", (filter = {}) => {
       const queryOptions = {
         fields: { photo: 1, email: 1, username: 1 },
       };
@@ -84,10 +83,14 @@ class UserProfileServerApi extends ProductServerBase {
         return;
       }
       return this.collectionInstance.find({
-        email: user ? user.profile.email : null,
+        email:
+          user && user.profile && user.profile.email
+            ? user.profile.email
+            : null,
       });
     });
 
+    // @ts-ignore
     userprofileData.collectionInstance = this.collectionInstance;
   }
 
@@ -209,8 +212,9 @@ class UserProfileServerApi extends ProductServerBase {
     action: string,
     defaultUser: string = "Anonymous"
   ) {
+    const user = getUser();
     if (action === "insert") {
-      doc.createdby = getUser() ? getUser()._id : defaultUser;
+      doc.createdby = user ? user._id : defaultUser;
       doc.createdat = new Date();
       doc.lastupdate = new Date();
     } else {
@@ -224,7 +228,7 @@ class UserProfileServerApi extends ProductServerBase {
         check(userId, String);
         const user = getUser();
 
-        if (user.roles.indexOf("Administrador") !== -1) {
+        if (user && user.roles && user.roles.indexOf("Administrador") !== -1) {
           return Meteor.users.find(
             {},
             {
@@ -282,7 +286,7 @@ class UserProfileServerApi extends ProductServerBase {
     return super.beforeInsert(docObj, context);
   }
 
-  afterInsert(doc: IUserProfileEstendido) {
+  afterInsert(doc: IUserProfileEstendido, _context: IContext) {
     if (Meteor.isServer) {
       if (doc.password) {
         Accounts.sendVerificationEmail(doc._id!);
@@ -296,7 +300,11 @@ class UserProfileServerApi extends ProductServerBase {
     const user = getUser();
     if (
       !docObj._id ||
-      (user._id !== docObj._id && user.roles.indexOf("Administrador") === -1)
+      (user &&
+        user._id !== docObj._id &&
+        user &&
+        user.roles &&
+        user.roles.indexOf("Administrador") === -1)
     ) {
       throw new Meteor.Error(
         "Acesso negado",
@@ -304,9 +312,9 @@ class UserProfileServerApi extends ProductServerBase {
       );
     }
 
-    if (user.roles.indexOf("Administrador") === -1) {
+    if (user && user.roles && user.roles.indexOf("Administrador") === -1) {
       // prevent user change your self roles
-      delete docObj.roles;
+      if (docObj && docObj.roles) delete docObj.roles;
     }
 
     return super.beforeUpdate(docObj, context);

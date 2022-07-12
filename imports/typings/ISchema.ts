@@ -5,7 +5,7 @@ export type LabelValue = {
   label: string;
 };
 
-interface IDefField<C> {
+export interface IDefField<C> {
   type: any;
   label?: string;
   defaultValue?: any;
@@ -18,6 +18,7 @@ interface IDefField<C> {
   isUpload?: boolean;
   multiple?: boolean;
   options?: string[] | LabelValue[];
+  readOnly?: boolean;
 }
 
 // @ts-ignore

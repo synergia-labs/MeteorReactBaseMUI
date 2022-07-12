@@ -64,7 +64,11 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
   subscribe(
     api: string = "default",
     ...params: object[]
-  ): { stop(): void; ready: () => boolean } | null {
+  ): {
+    total: any;
+    stop(): void;
+    ready: () => boolean;
+  } | null {
     if (this.enableSubscribeObserver) {
       const self = this;
       import("../analytics/AnalyticsSubscriber").then(

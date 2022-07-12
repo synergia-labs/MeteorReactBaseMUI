@@ -184,7 +184,14 @@ const registerGoogleMobileLoginHandler = () => {
 
     console.log("@@@@@@@ >>>NEW serviceData 2:", serviceData);
 
-    const user = {};
+    const user: {
+      _id: string;
+      username: string;
+      name: string;
+      email: string;
+      roles: string[];
+      otheraccounts?: object[];
+    } = {};
     user.username = `${serviceData.name}`;
     user.name = `${serviceData.name}`;
     user.email = serviceData.email;

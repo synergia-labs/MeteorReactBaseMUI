@@ -4,11 +4,17 @@ import { Meteor } from "meteor/meteor";
 import { getSystemUserProfile } from "/imports/libs/getUser";
 
 type Recurso = string;
+
 /**
  * Fornece acesso a informações de permissão de acesso do usuário a determinado recursos.
  */
 class SegurancaApi {
-  _getRecursosUsuario(user: IUserProfile): Set<Recurso> {
+  _getRecursosUsuario(
+    user:
+      | IUserProfile
+      | (Meteor.User & { roles?: string[] | undefined })
+      | undefined
+  ): Set<Recurso> {
     let roles = user && user.roles;
     if (!roles) roles = ["Public"];
     const resources = new Set<string>();
@@ -28,7 +34,10 @@ class SegurancaApi {
    * @param recursosTestados
    */
   podeAcessarRecurso(
-    user: IUserProfile,
+    user:
+      | IUserProfile
+      | (Meteor.User & { roles?: string[] | undefined })
+      | undefined,
     ...recursosTestados: string[]
   ): boolean {
     if (!!user && getSystemUserProfile() === user) return true;

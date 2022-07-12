@@ -1,3 +1,5 @@
+import { IDoc } from "/imports/typings/IDoc";
+
 export const exampleSch = {
   image: {
     type: String,
@@ -43,7 +45,7 @@ export const exampleSch = {
     defaultValue: "",
     optional: false,
     multiple: true,
-    visibilityFunction: (doc) => !!doc.type && doc.type === "extra",
+    visibilityFunction: (doc: any) => !!doc.type && doc.type === "extra",
     options: [
       { value: "normal", label: "Normal" },
       { value: "extra", label: "Extra" },
@@ -148,14 +150,10 @@ export const exampleSch = {
   },
 };
 
-export interface IExample {
-  _id?: string;
+export interface IExample extends IDoc {
   image: string;
   title: string;
   description: string;
-  createdat: Date;
-  updatedat: Date;
-  createdby: string;
   audio: string;
   statusCheck: object;
   statusToggle: boolean;

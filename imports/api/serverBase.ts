@@ -85,10 +85,13 @@ export class ServerApiBase<Doc extends IDoc> {
     this.counts = Counts;
 
     this.initCollection = this.initCollection.bind(this);
+    this.getSchema = this.getSchema.bind(this);
     this.findOne = this.findOne.bind(this);
     this.find = this.find.bind(this);
+    this.getCollectionInstance = this.getCollectionInstance.bind(this);
 
     this.addPublication = this.addPublication.bind(this);
+    this.addTransformedPublication = this.addTransformedPublication.bind(this);
     this.registerAllMethods = this.registerAllMethods.bind(this);
     this.serverUpdate = this.serverUpdate.bind(this);
     this.serverInsert = this.serverInsert.bind(this);
@@ -809,6 +812,8 @@ export class ServerApiBase<Doc extends IDoc> {
   serverUpsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
     if (!_docObj._id) {
       const insert = this.serverInsert(_docObj, _context);
+
+      // @ts-ignore
       _docObj._id = insert;
       return insert;
     }

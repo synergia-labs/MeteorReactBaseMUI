@@ -9,8 +9,7 @@ import Delete from "@mui/icons-material/Delete";
 import Fab from "@mui/material/Fab";
 import TablePagination from "@mui/material/TablePagination";
 import { ReactiveVar } from "meteor/reactive-var";
-import { initSearch } from "../../../../libs/searchUtils";
-import * as appStyle from "/imports/materialui/styles";
+import { initSearch } from "/imports/libs/searchUtils";
 import shortid from "shortid";
 import { PageLayout } from "/imports/ui/layouts/pageLayout";
 import TextField from "/imports/ui/components/SimpleFormFields/TextField/TextField";
@@ -24,15 +23,11 @@ import { IExample } from "../../api/exampleSch";
 import { IConfigList } from "/imports/typings/IFilterProperties";
 import { Recurso } from "../../config/Recursos";
 import { RenderComPermissao } from "/imports/seguranca/ui/components/RenderComPermisao";
+import { isMobile } from "/imports/libs/deviceVerify";
 
 interface IExampleList extends IDefaultListProps {
+  remove: (doc: IExample) => void;
   examples: IExample[];
-  showDeleteDialog: (
-    title: string,
-    message: string,
-    doc: Object,
-    remove: (doc: Object) => void
-  ) => void;
   setFilter: (newFilter: Object) => void;
   clearFilter: () => void;
 }
@@ -45,7 +40,6 @@ const ExampleList = (props: IExampleList) => {
     showDeleteDialog,
     onSearch,
     total,
-    loading,
     setFilter,
     clearFilter,
     setPage,
@@ -56,11 +50,14 @@ const ExampleList = (props: IExampleList) => {
 
   const idExample = shortid.generate();
 
-  const onClick = (event: React.SyntheticEvent, id: string) => {
+  const onClick = (_event: React.SyntheticEvent, id: string) => {
     navigate("/example/view/" + id);
   };
 
-  const handleChangePage = (event: React.SyntheticEvent, newPage: number) => {
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    newPage: number
+  ) => {
     setPage(newPage + 1);
   };
 
@@ -80,7 +77,7 @@ const ExampleList = (props: IExampleList) => {
     }
     setText(e.target.value);
   };
-  const keyPress = (e: React.SyntheticEvent, a) => {
+  const keyPress = (_e: React.SyntheticEvent) => {
     // if (e.key === 'Enter') {
     if (text && text.trim().length > 0) {
       onSearch(text.trim());
@@ -90,7 +87,7 @@ const ExampleList = (props: IExampleList) => {
     // }
   };
 
-  const click = (...e: any) => {
+  const click = (_e: any) => {
     if (text && text.trim().length > 0) {
       onSearch(text.trim());
     } else {
@@ -101,13 +98,15 @@ const ExampleList = (props: IExampleList) => {
   const callRemove = (doc: IExample) => {
     const title = "Remover exemplo";
     const message = `Deseja remover o exemplo "${doc.title}"?`;
-    showDeleteDialog(title, message, doc, remove);
+    showDeleteDialog && showDeleteDialog(title, message, doc, remove);
   };
 
   const handleSearchDocChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     !!e.target.value ? setFilter({ createdby: e.target.value }) : clearFilter();
   };
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <PageLayout title={"Lista de Exemplos"} actions={[]}>
       <SearchDocField
@@ -177,7 +176,13 @@ const ExampleList = (props: IExampleList) => {
       </div>
 
       <RenderComPermissao recursos={[Recurso.EXEMPLO_CREATE]}>
-        <div style={appStyle.fabContainer}>
+        <div
+          style={{
+            position: "fixed",
+            bottom: isMobile ? 80 : 30,
+            right: 30,
+          }}
+        >
           <Fab
             id={"add"}
             onClick={() => navigate(`/example/create/${idExample}`)}
@@ -243,20 +248,22 @@ export const ExampleListContainer = withTracker(
       examples,
       loading: !!subHandle && !subHandle.ready(),
       remove: (doc: IExample) => {
-        exampleApi.remove(doc, (e: IMeteorError, r) => {
+        exampleApi.remove(doc, (e: IMeteorError) => {
           if (!e) {
-            showNotification({
-              type: "success",
-              title: "Operação realizada!",
-              message: `O exemplo foi removido com sucesso!`,
-            });
+            showNotification &&
+              showNotification({
+                type: "success",
+                title: "Operação realizada!",
+                message: `O exemplo foi removido com sucesso!`,
+              });
           } else {
             console.log("Error:", e);
-            showNotification({
-              type: "warning",
-              title: "Operação não realizada!",
-              message: `Erro ao realizar a operação: ${e.reason}`,
-            });
+            showNotification &&
+              showNotification({
+                type: "warning",
+                title: "Operação não realizada!",
+                message: `Erro ao realizar a operação: ${e.reason}`,
+              });
           }
         });
       },

@@ -3,6 +3,7 @@ import { Meteor } from "meteor/meteor";
 import { IDoc } from "../typings/IDoc";
 import { ISchema } from "../typings/ISchema";
 import { IBaseOptions } from "/imports/typings/IBaseOptions";
+import { IMeteorError } from "/imports/typings/BoilerplateDefaultTypings";
 
 const Counts = new Mongo.Collection("counts");
 Counts.deny({
@@ -61,11 +62,13 @@ export class ApiBase<Doc extends IDoc> {
     this.initCollection(apiName);
     this.initCollection = this.initCollection.bind(this);
     this.subscribe = this.subscribe.bind(this);
+    this.getSchema = this.getSchema.bind(this);
     this.findOne = this.findOne.bind(this);
     this.find = this.find.bind(this);
     this.sync = this.sync.bind(this);
     this.countDocuments = this.countDocuments.bind(this);
     this.callMethod = this.callMethod.bind(this);
+    this.getCollectionInstance = this.getCollectionInstance.bind(this);
 
     // Put model on Window variable
     if (window) {
@@ -187,7 +190,7 @@ export class ApiBase<Doc extends IDoc> {
    */
   import(
     docObj: Doc | Partial<Doc>,
-    callback = (e: Error, r: any) => {
+    callback = (e: IMeteorError, r: any) => {
       console.log(e, r);
     }
   ) {
@@ -222,7 +225,7 @@ export class ApiBase<Doc extends IDoc> {
    */
   update(
     docObj: any,
-    callback = (e: Error, r: any) => {
+    callback = (e: IMeteorError, r: any) => {
       console.log(e, r);
     }
   ) {
@@ -262,7 +265,7 @@ export class ApiBase<Doc extends IDoc> {
    */
   remove(
     docObj: object,
-    callback = (e: Error, r: any) => {
+    callback = (e: IMeteorError, r: any) => {
       console.log(e, r);
     }
   ) {
@@ -280,7 +283,7 @@ export class ApiBase<Doc extends IDoc> {
     apiName = "default",
     filter = {},
     optionsPub = {},
-    callback = (e: Error, r: any) => {
+    callback = (e: IMeteorError, r: any) => {
       console.log(e, r);
     }
   ) {
@@ -294,7 +297,7 @@ export class ApiBase<Doc extends IDoc> {
    */
   sync(
     docObj: Doc | Partial<Doc>,
-    callback = (e: Error, r: any) => {
+    callback = (e: IMeteorError, r: any) => {
       console.log(e, r);
     }
   ) {
