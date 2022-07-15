@@ -2,9 +2,7 @@ import { IUserProfile } from '../userprofile/api/UserProfileSch'
 import { Theme } from '@mui/material'
 import { Meteor } from 'meteor/meteor'
 import { ISortProperties } from './IFilterProperties'
-
-// @ts-ignore
-import { RouteComponentProps } from 'react-router-dom'
+import { NavigateFunction } from 'react-router-dom'
 
 export interface IBoilerplateShowMethods {
     showNotification?: (options?: Object) => void
@@ -20,8 +18,8 @@ export interface IBoilerplateShowMethods {
     showWindow?: (options?: Object) => void
 }
 export interface IDefaultContainerProps extends IBoilerplateShowMethods {
-    navigate: RouteComponentProps['navigate']
-    location: RouteComponentProps['location']
+    navigate: NavigateFunction
+    location: Location
     params: any
     user: IUserProfile
     theme: Theme
@@ -36,7 +34,7 @@ export interface IDefaultContainerProps extends IBoilerplateShowMethods {
 
 export interface IDefaultDetailProps extends IDefaultContainerProps {}
 export interface IDefaultListProps extends IDefaultContainerProps {
-    navigate: RouteComponentProps['navigate']
+    navigate: NavigateFunction
     user: IUserProfile
     onSearch: (text?: string) => void
     total: number

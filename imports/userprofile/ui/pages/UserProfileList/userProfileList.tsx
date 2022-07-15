@@ -1,11 +1,18 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import { userprofileApi } from '../../../api/UserProfileApi'
-import SimpleTable from '/imports/ui/components/SimpleTable/SimpleTable'
+import { SimpleTable } from '/imports/ui/components/SimpleTable/SimpleTable'
 import _ from 'lodash'
 import { PageLayout } from '/imports/ui/layouts/pageLayout'
+import { IUserProfile } from '/imports/userprofile/api/UserProfileSch'
+import { NavigateFunction } from 'react-router-dom'
 
-const UserProfileList = ({ users, navigate }) => {
+interface IUserProfileList {
+    users: IUserProfile[]
+    navigate: NavigateFunction
+}
+
+const UserProfileList = ({ users, navigate }: IUserProfileList) => {
     const onClick = (event, id, doc) => {
         navigate('/userprofile/view/' + id)
     }

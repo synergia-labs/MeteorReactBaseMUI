@@ -504,7 +504,7 @@ export class OfflineBaseApi extends ApiBase {
      * @param  {Object} query - Params to query a document.
      * @param  {Object} projection - Params to define which fiedls will return.
      */
-    find(query, projection) {
+    find(query, projection = {}) {
         if (Meteor.isClient) {
             return this.persistentCollectionInstance.find(query, projection)
         }

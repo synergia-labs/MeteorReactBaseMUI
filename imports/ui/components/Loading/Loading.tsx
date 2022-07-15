@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import React from 'react'
 import { loadingStyleSx } from './LoadingStyle'
 import Typography from '@mui/material/Typography'
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings'
 
 export const Loading = (): JSX.Element => {
     return (

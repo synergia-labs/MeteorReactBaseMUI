@@ -1,7 +1,8 @@
 import React from 'react'
 import {
+    Location,
+    NavigateFunction,
     Route,
-    RouteComponentProps,
     Routes,
     useLocation,
     useNavigate,
@@ -18,8 +19,8 @@ import { ILayoutProps } from '/imports/typings/BoilerplateDefaultTypings'
 
 interface IWrapComponent extends ILayoutProps {
     component: React.ElementType
-    navigate: RouteComponentProps['navigate']
-    location: RouteComponentProps['location']
+    navigate: NavigateFunction
+    location: Location
 }
 
 const WrapComponent = ({ component, ...props }: IWrapComponent) => {

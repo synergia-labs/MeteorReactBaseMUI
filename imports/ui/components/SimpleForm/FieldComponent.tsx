@@ -5,48 +5,56 @@ interface IFieldComponent {
     reactElement: any
     name: string
     mode: string
-    fieldSchema: object
+    fieldSchema: {
+        type?: BooleanConstructor
+        visibilityFunction: (x: Object) => boolean
+        label: string
+        readOnly: boolean
+    }
     initialValue?: any
     setDoc: ({}) => void
+    getDoc: () => object
     setFieldMethods: ({}) => any
 }
 
-export const FieldComponent = ({ reactElement, name, ...props }: IFieldComponent) => {
+export const FieldComponent = ({ reactElement, name, ...otherProps }: IFieldComponent) => {
     const [error, setError] = React.useState(false)
-    const [value, setValue] = React.useState(hasValue(props.initialValue) ? props.initialValue : '')
-    const [mode, setMode] = React.useState(props.mode || 'edit')
+    const [value, setValue] = React.useState(
+        hasValue(otherProps.initialValue) ? otherProps.initialValue : ''
+    )
+    const [mode, setMode] = React.useState(otherProps.mode || 'edit')
     const [changeByUser, setChangeByUser] = React.useState(false)
 
     React.useEffect(() => {
         if (
             !changeByUser &&
-            (!hasValue(value) || value !== props.initialValue) &&
-            hasValue(props.initialValue)
+            (!hasValue(value) || value !== otherProps.initialValue) &&
+            hasValue(otherProps.initialValue)
         ) {
-            setValue(props.initialValue)
+            setValue(otherProps.initialValue)
         }
 
-        if (mode !== props.mode) {
-            setMode(props.mode)
-            if (props.mode === 'view') {
+        if (mode !== otherProps.mode) {
+            setMode(otherProps.mode)
+            if (otherProps.mode === 'view') {
                 setChangeByUser(false)
-                setValue(props.initialValue)
+                setValue(otherProps.initialValue)
             }
 
-            if (props.mode === 'view' && error) {
+            if (otherProps.mode === 'view' && error) {
                 setError(false)
             }
         }
-    }, [props.mode, props.initialValue])
+    }, [otherProps.mode, otherProps.initialValue])
 
-    props.setFieldMethods({
+    otherProps.setFieldMethods({
         validateRequired: () => {
             if (
                 !hasValue(value) &&
-                (!props.fieldSchema ||
-                    !props.fieldSchema.visibilityFunction ||
-                    (!!props.fieldSchema.visibilityFunction &&
-                        props.fieldSchema.visibilityFunction(props.getDoc())))
+                (!otherProps.fieldSchema ||
+                    !otherProps.fieldSchema.visibilityFunction ||
+                    (!!otherProps.fieldSchema.visibilityFunction &&
+                        otherProps.fieldSchema.visibilityFunction(otherProps.getDoc())))
             ) {
                 setError(true)
                 return false
@@ -74,21 +82,28 @@ export const FieldComponent = ({ reactElement, name, ...props }: IFieldComponent
             }
             return false
         },
-        setError: (value) => {
+        setError: (value: any) => {
             setError(value)
         },
     })
 
-    const onChange = (e, fieldData = {}) => {
+    const onChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        fieldData: { name?: string } = {}
+    ) => {
         const field = {
-            ...(props.fieldSchema ? props.fieldSchema : {}),
+            ...(otherProps.fieldSchema ? otherProps.fieldSchema : {}),
             ...(e ? e.target : {}),
             ...(fieldData && fieldData.name ? fieldData : {}),
         }
 
-        if (props.fieldSchema && props.fieldSchema.type === Boolean && isBoolean(field.checked)) {
+        if (
+            otherProps.fieldSchema &&
+            otherProps.fieldSchema.type === Boolean &&
+            isBoolean(field.checked)
+        ) {
             setValue(field.checked)
-            props.setDoc({ [name]: field.checked })
+            otherProps.setDoc({ [name]: field.checked })
             if (!changeByUser) {
                 setChangeByUser(true)
             }
@@ -97,7 +112,7 @@ export const FieldComponent = ({ reactElement, name, ...props }: IFieldComponent
             }
         } else {
             setValue(field.value)
-            props.setDoc({ [name]: field.value })
+            otherProps.setDoc({ [name]: field.value })
             if (!changeByUser) {
                 setChangeByUser(true)
             }
@@ -116,13 +131,15 @@ export const FieldComponent = ({ reactElement, name, ...props }: IFieldComponent
         onChange,
         error: error && (!value || value.length === 0) ? true : undefined,
         label:
-            reactElement.props.label || (props.fieldSchema ? props.fieldSchema.label : undefined),
+            reactElement.props.label ||
+            (otherProps.fieldSchema ? otherProps.fieldSchema.label : undefined),
         disabled: mode === 'view',
         readOnly:
             mode === 'view' ||
             (!!reactElement.props && !!reactElement.props.readOnly) ||
-            (!!props.fieldSchema && !!props.fieldSchema.readOnly),
-        schema: props.fieldSchema,
-        checked: props.fieldSchema && props.fieldSchema.type === Boolean ? value : undefined,
+            (!!otherProps.fieldSchema && !!otherProps.fieldSchema.readOnly),
+        schema: otherProps.fieldSchema,
+        checked:
+            otherProps.fieldSchema && otherProps.fieldSchema.type === Boolean ? value : undefined,
     })
 }

@@ -1,5 +1,4 @@
-import React, { CSSProperties } from 'react'
-import { SxProps } from '@mui/system'
+import React from 'react'
 import Fab from '@mui/material/Fab'
 import { simpleFormStyle } from '/imports/ui/components/SimpleForm/SimpleFormStyle'
 import Add from '@mui/icons-material/Add'
@@ -12,22 +11,25 @@ import IconButton from '@mui/material/IconButton'
 import Delete from '@mui/icons-material/Delete'
 import DragHandle from '@mui/icons-material/DragHandle'
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm'
+import { ISxStyleObject } from '/imports/typings/ISxStyleObject'
 
 interface ISubFormArrayComponent {
-    reactElement: any
-    childrensElements: any
+    reactElement: (React.ComponentType | React.ReactElement<any>) & {
+        props: { [key: string]: any }
+    }
+    childrensElements: React.ReactNode | React.ReactNode[]
     name: string
     mode: string
-    fieldSchema: object
+    fieldSchema: { type?: BooleanConstructor; label: string; subSchema: Object }
     initialValue?: any
     setDoc: ({}) => void
     setFieldMethods: ({}) => any
     addElement?: React.Component | JSX.Element
     disableSort?: boolean
-    removeIcon?: any
+    removeIcon?: React.ReactNode
     noItensText?: string
-    removeIconButtonSx?: SxProps
-    iconButtonContainerStyle?: CSSProperties
+    removeIconButtonSx?: ISxStyleObject
+    iconButtonContainerStyle?: ISxStyleObject
 }
 
 function createAddElementSubArrayButtom(addElement: any, addSubForm: () => void, error: boolean) {
@@ -61,13 +63,13 @@ export const SubFormArrayComponent = ({
     removeIconButtonSx,
     iconButtonContainerStyle,
     noItensText = 'Não há itens',
-    ...props
+    ...otherProps
 }: ISubFormArrayComponent) => {
     const [error, setError] = React.useState(false)
     const [value, setValue] = React.useState(initialValue || [])
-    const [mode, setMode] = React.useState(props.mode || 'edit')
+    const [mode, setMode] = React.useState(otherProps.mode || 'edit')
     const [changeByUser, setChangeByUser] = React.useState(false)
-    const formRefs = {}
+    const formRefs: { [key: string]: any } = {}
 
     React.useEffect(() => {
         if (
@@ -77,19 +79,19 @@ export const SubFormArrayComponent = ({
         ) {
             setValue(initialValue)
         }
-        if (mode !== props.mode) {
-            setMode(props.mode)
-            if (props.mode === 'view') {
+        if (mode !== otherProps.mode) {
+            setMode(otherProps.mode)
+            if (otherProps.mode === 'view') {
                 setChangeByUser(false)
             }
 
-            if (props.mode === 'view' && error) {
+            if (otherProps.mode === 'view' && error) {
                 setError(false)
             }
         }
     })
 
-    props.setFieldMethods({
+    otherProps.setFieldMethods({
         validateRequired: (_hasError: boolean) => {
             if (!hasValue(value)) {
                 setError(true)
@@ -132,16 +134,23 @@ export const SubFormArrayComponent = ({
         },
     })
 
-    const onChange = (e, fieldData = {}) => {
+    const onChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        fieldData: { name?: string } = {}
+    ) => {
         const field = {
-            ...(props.fieldSchema ? props.fieldSchema : {}),
+            ...(otherProps.fieldSchema ? otherProps.fieldSchema : {}),
             ...(e ? e.target : {}),
             ...(fieldData && fieldData.name ? fieldData : {}),
         }
 
-        if (props.fieldSchema && props.fieldSchema.type === Boolean && isBoolean(field.checked)) {
+        if (
+            otherProps.fieldSchema &&
+            otherProps.fieldSchema.type === Boolean &&
+            isBoolean(field.checked)
+        ) {
             setValue(field.checked)
-            props.setDoc({ [name]: field.checked })
+            otherProps.setDoc({ [name]: field.checked })
             if (!changeByUser && (field.value || []).length > 0) {
                 setChangeByUser(true)
             }
@@ -150,7 +159,7 @@ export const SubFormArrayComponent = ({
             }
         } else {
             setValue(field.value)
-            props.setDoc({ [name]: field.value })
+            otherProps.setDoc({ [name]: field.value })
             if (!changeByUser && (field.value || []).length > 0) {
                 setChangeByUser(true)
             }
@@ -164,7 +173,7 @@ export const SubFormArrayComponent = ({
         }
     }
 
-    const onSortDocs = (newList) => {
+    const onSortDocs = (newList: any[]) => {
         const list = newList.map((l) => {
             delete l.chosen
             return l
@@ -172,47 +181,43 @@ export const SubFormArrayComponent = ({
         setValue(list)
         onChange({
             target: {
+                //@ts-ignore
                 value: list,
             },
         })
     }
 
     const addSubForm = () => {
-        const newValue = (value || []).filter((subDoc) => subDoc.id)
-
-        newValue.push({
-            id: shortid.generate(),
-        })
-
+        const newValue = (value || []).filter((subDoc: { id: string }) => subDoc.id)
+        newValue.push({ id: shortid.generate() })
         setValue(newValue)
         onChange({
+            //@ts-ignore
             target: {
                 value: newValue,
             },
         })
     }
 
-    const onFormChangeHandle = (formId) => (doc) => {
-        const newDoc = (value || []).map((subDoc) => {
-            if (subDoc.id === formId) {
-                subDoc = { ...subDoc, ...doc }
-            }
-
+    const onFormChangeHandle = (formId: string) => (doc: Object) => {
+        const newDoc = (value || []).map((subDoc: { id: string; chosen?: boolean }) => {
+            if (subDoc.id === formId) subDoc = { ...subDoc, ...doc }
             delete subDoc.chosen
-
             return subDoc
         })
 
         onChange({
+            //@ts-ignore
             target: {
                 value: newDoc,
             },
         })
     }
 
-    const onClickDelete = (formId) => (doc) => {
-        const newDoc = (value || []).filter((subDoc) => subDoc.id !== formId)
+    const onClickDelete = (formId: string) => (doc: Object) => {
+        const newDoc = (value || []).filter((subDoc: { id: string }) => subDoc.id !== formId)
         onChange({
+            //@ts-ignore
             target: {
                 value: newDoc,
             },
@@ -220,9 +225,10 @@ export const SubFormArrayComponent = ({
     }
 
     const label =
-        reactElement.props.label || (props.fieldSchema ? props.fieldSchema.label : undefined)
+        reactElement.props.label ||
+        (otherProps.fieldSchema ? otherProps.fieldSchema.label : undefined)
 
-    let AddElement = createAddElementSubArrayButtom(addElement, addSubForm, error)
+    const AddElement = createAddElementSubArrayButtom(addElement, addSubForm, error)
     return (
         <div
             key={name}
@@ -239,7 +245,7 @@ export const SubFormArrayComponent = ({
                     setList={onSortDocs}
                     handle={'.dragButton'}
                 >
-                    {(value || []).map((subForm, subFormIndex) => {
+                    {(value || []).map((subForm: { id: string }, subFormIndex: number) => {
                         if (subForm && subForm.id) {
                             return (
                                 <div key={subForm.id} style={simpleFormStyle.containerSubForm}>
@@ -249,9 +255,10 @@ export const SubFormArrayComponent = ({
                                         key={subForm.id}
                                         mode={mode}
                                         schema={
-                                            props.fieldSchema && props.fieldSchema.subSchema
-                                                ? props.fieldSchema.subSchema
-                                                : undefined
+                                            otherProps.fieldSchema &&
+                                            otherProps.fieldSchema.subSchema
+                                                ? otherProps.fieldSchema.subSchema
+                                                : {}
                                         }
                                         doc={subForm}
                                         onFormChange={onFormChangeHandle(subForm.id)}
@@ -292,7 +299,7 @@ export const SubFormArrayComponent = ({
                     })}
                 </ReactSortable>
 
-                <div style={simpleFormStyle.containerItens}>
+                <div>
                     {!value || value.length === 0 || Object.keys(value[0]).length === 0 ? (
                         <div style={simpleFormStyle.containerEmptyItens}>{noItensText}</div>
                     ) : null}
