@@ -15,27 +15,27 @@
  */
 
 const recoveryPasswordStyle = {
-  containerRecoveryPassword: {
-    width: "100%",
-    maxWidth: 400,
-  },
-  labelAccessSystem: {
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  imageLogo: {
-    maxWidth: 100,
-  },
-  containerButtonOptions: {
-    marginTop: 30,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-};
+    containerRecoveryPassword: {
+        width: '100%',
+        maxWidth: 400,
+    },
+    labelAccessSystem: {
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imageLogo: {
+        maxWidth: 100,
+    },
+    containerButtonOptions: {
+        marginTop: 30,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+}
 
-export { recoveryPasswordStyle };
+export { recoveryPasswordStyle }

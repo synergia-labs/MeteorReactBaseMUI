@@ -15,72 +15,75 @@
  */
 
 const signinStyle = {
-  containerSignIn: {
-    width: "100%",
-    maxWidth: 400,
-  },
-  subContainerSignIn: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  labelAccessSystem: {
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  imageLogo: {
-    maxWidth: 100,
-  },
-  containerButtonOptions: {
-    marginTop: 30,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  containerSocialLoginButton: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    height: 50,
-    color: "#FFF",
-  },
-  socialLoginButtonText: {
-    marginLeft: 15,
-  },
-  containerRouterSignUp: {
-    marginTop: 15,
-  },
-  containerLoginOptions: {
-    paddingRight: 5,
-    width: "102%",
-    margin: 0,
-    padding: 0,
-    display: "flex",
-    flexDirection: "column",
-  },
-  containerButtonGoogle: {
-    width: "100%",
-  },
-  containerButtonFacebook: {
-    width: "100%",
-  },
-  buttonLoginGoogle: {
-    background: "#dd4b39",
-    width: "100%",
-    cursor: "pointer",
-  },
-  buttonLoginFacebook: {
-    background: "#3B5998",
-    width: "100%",
-    cursor: "pointer",
-  },
-};
+    containerSignIn: {
+        width: '100%',
+        maxWidth: 400,
+    },
+    subContainerSignIn: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    labelAccessSystem: {
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imageLogo: {
+        backgroundColor: '#ff9937',
+        maxWidth: 100,
+        borderRadius: 30,
+        padding: 5,
+    },
+    containerButtonOptions: {
+        marginTop: 30,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    containerSocialLoginButton: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 50,
+        color: '#FFF',
+    },
+    socialLoginButtonText: {
+        marginLeft: 15,
+    },
+    containerRouterSignUp: {
+        marginTop: 15,
+    },
+    containerLoginOptions: {
+        paddingRight: 5,
+        width: '102%',
+        margin: 0,
+        padding: 0,
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    containerButtonGoogle: {
+        width: '100%',
+    },
+    containerButtonFacebook: {
+        width: '100%',
+    },
+    buttonLoginGoogle: {
+        background: '#dd4b39',
+        width: '100%',
+        cursor: 'pointer',
+    },
+    buttonLoginFacebook: {
+        background: '#3B5998',
+        width: '100%',
+        cursor: 'pointer',
+    },
+}
 
-export { signinStyle };
+export { signinStyle }

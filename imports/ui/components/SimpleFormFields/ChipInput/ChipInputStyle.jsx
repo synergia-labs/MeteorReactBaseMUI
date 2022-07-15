@@ -15,29 +15,29 @@
  */
 
 const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    maxWidth: "100%",
-  },
-  input: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-  title: {
-    marginBottom: "1rem",
-  },
-  chip: {
-    margin: "0.5rem",
-  },
-  containerEmptyChips: {
-    color: "#BBB",
-  },
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
-};
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        maxWidth: '100%',
+    },
+    input: {
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+    },
+    title: {
+        marginBottom: '1rem',
+    },
+    chip: {
+        margin: '0.5rem',
+    },
+    containerEmptyChips: {
+        color: '#BBB',
+    },
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+}
 
-export { styles };
+export { styles }

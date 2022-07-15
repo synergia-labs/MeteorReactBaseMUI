@@ -19,9 +19,9 @@
 // #############################
 
 const selectAutoCompleteStyle = {
-  containerEmptyItens: {
-    color: "#BBB",
-  },
-};
+    containerEmptyItens: {
+        color: '#BBB',
+    },
+}
 
-export { selectAutoCompleteStyle };
+export { selectAutoCompleteStyle }
