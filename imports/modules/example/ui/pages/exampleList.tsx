@@ -2,7 +2,7 @@ import React from "react";
 import { withTracker } from "meteor/react-meteor-data";
 import { exampleApi } from "../../api/exampleApi";
 import { userprofileApi } from "../../../../userprofile/api/UserProfileApi";
-import SimpleTable from "/imports/ui/components/SimpleTable/SimpleTable";
+import { SimpleTable } from "/imports/ui/components/SimpleTable/SimpleTable";
 import _ from "lodash";
 import Add from "@mui/icons-material/Add";
 import Delete from "@mui/icons-material/Delete";
@@ -26,9 +26,11 @@ import { Recurso } from "../../config/Recursos";
 import { RenderComPermissao } from "/imports/seguranca/ui/components/RenderComPermisao";
 import { isMobile } from "/imports/libs/deviceVerify";
 import { showLoading } from "/imports/ui/components/Loading/Loading";
+import { ComplexTable } from "/imports/ui/components/ComplexTable/ComplexTable";
 
 interface IExampleList extends IDefaultListProps {
   remove: (doc: IExample) => void;
+  viewComplexTable: boolean;
   examples: IExample[];
   setFilter: (newFilter: Object) => void;
   clearFilter: () => void;
@@ -42,6 +44,8 @@ const ExampleList = (props: IExampleList) => {
     showDeleteDialog,
     onSearch,
     total,
+    loading,
+    viewComplexTable,
     setFilter,
     clearFilter,
     setPage,
@@ -107,8 +111,6 @@ const ExampleList = (props: IExampleList) => {
     !!e.target.value ? setFilter({ createdby: e.target.value }) : clearFilter();
   };
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <PageLayout title={"Lista de Exemplos"} actions={[]}>
       <SearchDocField
@@ -129,27 +131,57 @@ const ExampleList = (props: IExampleList) => {
         key={"SearchDocKey"}
       />
 
-      <TextField
-        name={"pesquisar"}
-        label={"Pesquisar"}
-        value={text}
-        onChange={change}
-        onKeyPress={keyPress}
-        placeholder="Digite aqui o que deseja pesquisa..."
-        action={{ icon: "search", onClick: click }}
-      />
-      <SimpleTable
-        schema={_.pick(
-          {
-            ...exampleApi.schema,
-            nomeUsuario: { type: String, label: "Criado por" },
-          },
-          ["image", "title", "description", "nomeUsuario"]
-        )}
-        data={examples}
-        onClick={onClick}
-        actions={[{ icon: <Delete />, id: "delete", onClick: callRemove }]}
-      />
+      {!viewComplexTable && (
+        <>
+          <TextField
+            name={"pesquisar"}
+            label={"Pesquisar"}
+            value={text}
+            onChange={change}
+            onKeyPress={keyPress}
+            placeholder="Digite aqui o que deseja pesquisa..."
+            action={{ icon: "search", onClick: click }}
+          />
+
+          <SimpleTable
+            schema={_.pick(
+              {
+                ...exampleApi.schema,
+                nomeUsuario: { type: String, label: "Criado por" },
+              },
+              ["image", "title", "description", "nomeUsuario"]
+            )}
+            data={examples}
+            onClick={onClick}
+            actions={[{ icon: <Delete />, id: "delete", onClick: callRemove }]}
+          />
+        </>
+      )}
+
+      {viewComplexTable && (
+        <ComplexTable
+          data={examples}
+          schema={_.pick(
+            {
+              ...exampleApi.schema,
+              nomeUsuario: { type: String, label: "Criado por" },
+            },
+            ["image", "title", "description", "nomeUsuario"]
+          )}
+          onRowClick={(row) => navigate("/example/view/" + row.id)}
+          searchPlaceholder={"Pesquisar exemplo"}
+          onDelete={callRemove}
+          onEdit={(row) => navigate("/example/edit/" + row._id)}
+          toolbar={{
+            selectColumns: true,
+            exportTable: { csv: true, print: true },
+            searchFilter: true,
+          }}
+          onFilterChange={onSearch}
+          loading={loading}
+        />
+      )}
+
       <div
         style={{
           width: "100%",
@@ -198,7 +230,9 @@ const ExampleList = (props: IExampleList) => {
   );
 };
 
-export const subscribeConfig = new ReactiveVar<IConfigList>({
+export const subscribeConfig = new ReactiveVar<
+  IConfigList & { viewComplexTable: boolean }
+>({
   pageProperties: {
     currentPage: 1,
     pageSize: 25,
@@ -206,6 +240,7 @@ export const subscribeConfig = new ReactiveVar<IConfigList>({
   sortProperties: { field: "createdat", sortAscending: true },
   filter: {},
   searchBy: null,
+  viewComplexTable: false,
 });
 
 const exampleSearch = initSearch(
@@ -269,6 +304,7 @@ export const ExampleListContainer = withTracker(
           }
         });
       },
+      viewComplexTable: false,
       searchBy: config.searchBy,
       onSearch: (...params: any) => {
         onSearchExampleTyping && clearTimeout(onSearchExampleTyping);

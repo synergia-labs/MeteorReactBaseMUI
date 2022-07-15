@@ -100,6 +100,39 @@ const getLightTheme = (fontScale: number): IThemeOptionsBoilerplate => ({
         },
       },
     },
+    MuiDataGrid: {
+      defaultProps: {},
+      styleOverrides: {
+        root: {
+          border: 0,
+          color: appStyles.textDarkHighlight,
+          "& .MuiCircularProgress-root": {
+            color: appStyles.secondary,
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            "& .MuiDataGrid-columnSeparator": {
+              visibility: "hidden",
+            },
+            borderRadius: "0px",
+            borderTop: `2px solid ${appStyles.secondary}`,
+            borderBottom: `2px solid ${appStyles.secondary}`,
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: `1px solid ${appStyles.supportColor}`,
+          },
+          "& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within":
+            {
+              outline: "none",
+            },
+          "& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within": {
+            outline: "none",
+          },
+        },
+        row: {
+          cursor: "pointer",
+        },
+      },
+    },
     MuiButton: {
       defaultProps: {},
       styleOverrides: {

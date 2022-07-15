@@ -1,22 +1,35 @@
-import React, { Component } from "react";
-
+import React, { Component, ReactNode } from "react";
 import _ from "lodash";
 import Typography from "@mui/material/Typography";
-
 import { hasValue, isBoolean } from "../../../libs/hasValue";
-
 import SimpleLabelView from "/imports/ui/components/SimpleLabelView/SimpleLabelView";
-
 import { simpleFormStyle } from "./SimpleFormStyle";
 import { SubFormArrayComponent } from "/imports/ui/components/SimpleForm/SubFormArrayComponent";
 import { FieldComponent } from "/imports/ui/components/SimpleForm/FieldComponent";
+import { ISxStyleObject } from "/imports/typings/ISxStyleObject";
+
+interface IElementProps {
+  id: string;
+  name: string;
+  type: any;
+  mode?: string;
+  formType: string;
+  children: React.ElementType | React.ReactNode | React.ReactNode[];
+  noItensText: string;
+  addElement: any;
+  disableSort: boolean;
+  removeIcon: React.ElementType;
+  iconButtonContainerStyle: ISxStyleObject;
+  removeIconButtonSx: ISxStyleObject;
+}
 
 interface ISubFormComponent {
-  reactElement: any;
-  childrensElements: any;
+  id?: string;
+  reactElement: React.ReactElement<any>;
+  childrensElements: React.ReactNode | React.ReactNode[];
   name: string;
   mode: string;
-  fieldSchema: object;
+  fieldSchema: { type?: BooleanConstructor; label: string; subSchema: {} | [] };
   initialValue?: any;
   setDoc: ({}) => void;
   setFieldMethods: ({}) => any;
@@ -33,7 +46,7 @@ const SubFormComponent = ({
   const [mode, setMode] = React.useState(props.mode || "edit");
   const [changeByUser, setChangeByUser] = React.useState(false);
 
-  let formRef = {};
+  let formRef: SimpleForm;
 
   React.useEffect(() => {
     if (
@@ -88,12 +101,15 @@ const SubFormComponent = ({
       }
       return false;
     },
-    setError: (value) => {
+    setError: (value: any) => {
       setError(value);
     },
   });
 
-  const onChange = (e, fieldData = {}) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldData: { name?: string } = {}
+  ) => {
     const field = {
       ...(props.fieldSchema ? props.fieldSchema : {}),
       ...(e ? e.target : {}),
@@ -129,7 +145,7 @@ const SubFormComponent = ({
     }
   };
 
-  const onFormChangeHandle = (doc) => {
+  const onFormChangeHandle = (doc: any) => {
     onChange({
       target: {
         value: doc,
@@ -152,7 +168,7 @@ const SubFormComponent = ({
           schema={
             props.fieldSchema && props.fieldSchema.subSchema
               ? props.fieldSchema.subSchema
-              : undefined
+              : {}
           }
           doc={value}
           onFormChange={onFormChangeHandle}
@@ -170,31 +186,34 @@ interface ISimpleFormProps {
    */
   dontReloadOnView?: boolean;
   errorStyles?: object;
-  children?: object[] | object;
+  children?: ReactNode[] | ReactNode;
   doc?: object;
   isSubForm?: boolean;
   loading?: boolean | null;
   mode?: string;
-  schema: [] | {};
+  schema: { [key: string]: any };
   styles?: object;
-  onFormChange?: (onChange: () => void) => void;
+  onFormChange?: (onChange: () => void) => void | Object;
   onSubmit?: (submit: any) => void;
   showNotification?: (data: {
     type: string;
     title: string;
     description: string;
   }) => void;
+  submitVisibleFields?: boolean;
 }
 
 class SimpleForm extends Component<ISimpleFormProps> {
-  docValue = { ...(this.props.doc || {}) };
-  fields = {};
-  hiddenFields = {};
+  docValue: { [key: string]: any } = { ...(this.props.doc || {}) };
+  fields: { [key: string]: any } = {};
+  hiddenFields: { [key: string]: any } = {};
   state = {
     error: null,
     mode: this.props.mode || "edit",
     open: true,
   };
+  formElements: any;
+  fieldsRequired: boolean = false;
 
   clearForm = () => {
     const self = this;
@@ -206,8 +225,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
     });
     this.initFormElements(true);
   };
-
-  setDoc = (newDoc) => {
+  setDoc = (newDoc: {}) => {
     const self = this;
     this.docValue = { ...this.docValue, ...newDoc };
     let hasVisibilityUpdate = false;
@@ -235,7 +253,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
     if (hasVisibilityUpdate) {
       this.formElements = this.initFormElements(true);
       if (self.props.onFormChange) {
-        const newDoc = { ...self.docValue };
+        const newDoc: { [key: string]: Object } = { ...self.docValue };
         if (self.props.submitVisibleFields) {
           const visibleFiedls = Object.keys(self.fields);
           Object.keys(newDoc).forEach((field) => {
@@ -278,7 +296,10 @@ class SimpleForm extends Component<ISimpleFormProps> {
 
   getDoc = () => this.docValue;
 
-  initialValueDefault = (schema) => {
+  initialValueDefault = (schema: {
+    defaultValue?: string;
+    type: DateConstructor;
+  }) => {
     if (schema && schema.defaultValue) {
       return schema.defaultValue;
     }
@@ -288,11 +309,11 @@ class SimpleForm extends Component<ISimpleFormProps> {
     return "";
   };
 
-  wrapElement = (element, index) => {
+  wrapElement = (element: React.ReactElement<IElementProps>, index: number) => {
     const self = this;
 
     if (
-      !element.type &&
+      !element.type! &&
       (!self.props.schema ||
         !element.props ||
         !element.props.name ||
@@ -339,7 +360,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
       return (
         <SubFormComponent
           name={element.props.name}
-          childrensElements={element.props.children}
+          childrensElements={element.props.children as ReactNode[]}
           id={element.props.name ? element.props.name : `el${index}`}
           key={element.props.name ? element.props.name : `el${index}`}
           fieldSchema={
@@ -348,15 +369,14 @@ class SimpleForm extends Component<ISimpleFormProps> {
               : undefined
           }
           initialValue={
-            hasValue(self.docValue) &&
-            hasValue(self.docValue[element.props.name])
+            self.docValue && self.docValue[element.props.name]
               ? self.docValue[element.props.name]
               : this.initialValueDefault(self.props.schema[element.props.name])
           }
           reactElement={element}
           setDoc={this.setDoc}
           getDoc={this.getDoc}
-          mode={self.props.mode}
+          mode={self.props.mode!}
           setFieldMethods={(methods) =>
             (self.fields[element.props.name] = { ...methods })
           }
@@ -369,7 +389,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
       return (
         <SubFormArrayComponent
           name={element.props.name}
-          childrensElements={element.props.children}
+          childrensElements={element.props.children as ReactNode[]}
           id={element.props.name ? element.props.name : `el${index}`}
           key={element.props.name ? element.props.name : `el${index}`}
           fieldSchema={
@@ -378,21 +398,20 @@ class SimpleForm extends Component<ISimpleFormProps> {
               : undefined
           }
           initialValue={
-            hasValue(self.docValue) &&
-            hasValue(self.docValue[element.props.name])
+            self.docValue && self.docValue[element.props.name]
               ? self.docValue[element.props.name]
               : this.initialValueDefault(self.props.schema[element.props.name])
           }
           reactElement={element}
           noItensText={element.props.noItensText}
           addElement={element.props.addElement}
-          removeIcon={element.props.removeIcon}
+          removeIcon={element.props.removeIcon as React.ReactNode}
           iconButtonContainerStyle={element.props.iconButtonContainerStyle}
           removeIconButtonSx={element.props.removeIconButtonSx}
           disableSort={element.props.disableSort}
           setDoc={this.setDoc}
           getDoc={this.getDoc}
-          mode={self.props.mode}
+          mode={self.props.mode!}
           setFieldMethods={(methods) =>
             (self.fields[element.props.name] = {
               ...self.fields[element.props.name],
@@ -404,15 +423,19 @@ class SimpleForm extends Component<ISimpleFormProps> {
     } else if (
       element.type.name === "FormGroup" ||
       element.type.name === "Segment" ||
-      React.Children.toArray(element.props.children).length > 0
+      React.Children.toArray(element.props.children as React.ReactNode).length >
+        0
     ) {
-      const subElements = React.Children.toArray(element.props.children).map(
-        (element, index) => self.wrapElement(element, index)
+      const subElements = React.Children.toArray(
+        element.props.children as React.ReactNode
+      ).map((element, index) => self.wrapElement(element, index));
+      const newElement: React.ReactHTMLElement<any> = React.cloneElement(
+        element,
+        {
+          key: `el${index}`,
+          children: subElements,
+        }
       );
-      const newElement = React.cloneElement(element, {
-        key: `el${index}`,
-        children: subElements,
-      });
       return newElement;
     }
 
@@ -425,7 +448,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
           self.props.schema ? self.props.schema[element.props.name] : undefined
         }
         initialValue={
-          hasValue(self.docValue) && hasValue(self.docValue[element.props.name])
+          self.docValue && self.docValue[element.props.name]
             ? self.docValue[element.props.name]
             : self.props.schema
             ? self.initialValueDefault(self.props.schema[element.props.name])
@@ -434,7 +457,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
         reactElement={element}
         setDoc={self.setDoc}
         getDoc={this.getDoc}
-        mode={self.props.mode}
+        mode={self.props.mode!}
         setFieldMethods={(methods) => {
           self.fields[element.props.name] = {
             ...self.fields[element.props.name],
@@ -537,7 +560,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
     return fielsWithError.length === 0;
   };
 
-  onSubmitForm = (event, ...others) => {
+  onSubmitForm = (event: React.FormEvent, ...others: any[]) => {
     const docResult = this.docValue;
     if (this.props.submitVisibleFields) {
       const visibleFiedls = Object.keys(this.fields);
@@ -559,7 +582,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
     this.docValue = { ...this.docValue, ...(this.props.doc || {}) };
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps: Readonly<ISimpleFormProps>) {
     const isDocDifferent = !_.isEqual(this.props.doc, prevProps.doc);
     const isModeDifferent = this.props.mode !== prevProps.mode;
     this._computeRequiredFields();
@@ -616,8 +639,8 @@ class SimpleForm extends Component<ISimpleFormProps> {
                 }
               }
             >
-              <Typography component={"p"} color="#FF1010" variant="subtitle2">
-                {"Há campos obrigatórios não preenchidos"}
+              <Typography color="#FF1010" variant="subtitle2">
+                Há campos obrigatórios não preenchidos
               </Typography>
             </div>
           ))}

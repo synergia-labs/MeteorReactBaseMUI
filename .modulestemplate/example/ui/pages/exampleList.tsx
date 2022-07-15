@@ -2,7 +2,7 @@ import React from "react";
 import { withTracker } from "meteor/react-meteor-data";
 import { exampleApi } from "../../api/exampleApi";
 import { userprofileApi } from "../../../../userprofile/api/UserProfileApi";
-import SimpleTable from "/imports/ui/components/SimpleTable/SimpleTable";
+import { SimpleTable } from "/imports/ui/components/SimpleTable/SimpleTable";
 import _ from "lodash";
 import Add from "@mui/icons-material/Add";
 import Delete from "@mui/icons-material/Delete";
