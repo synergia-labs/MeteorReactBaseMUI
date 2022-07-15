@@ -1,18 +1,18 @@
-import Box from "@mui/material/Box";
-import React from "react";
-import { loadingStyleSx } from "/imports/ui/components/Loading/LoadingStyle";
-import { Carregando } from "/imports/ui/components/Loading/Carregando";
+import Box from '@mui/material/Box'
+import React from 'react'
+import { loadingStyleSx } from './LoadingStyle'
+import Typography from '@mui/material/Typography'
 
-export function Loading(): JSX.Element {
-  return (
-    <Box component={"div"} sx={loadingStyleSx.container}>
-      <Carregando />
-    </Box>
-  );
+export const Loading = (): JSX.Element => {
+    return (
+        <Box component={'div'} sx={loadingStyleSx.container}>
+            <Typography>Carregando ...</Typography>
+        </Box>
+    )
 }
 
 interface ILoading {
-  loading: boolean;
+    loading: boolean | null
 }
 
 /**
@@ -20,13 +20,14 @@ interface ILoading {
  * @param Component
  */
 export function showLoading<P extends object>(
-  Component: React.ComponentType<P>
-): React.ComponentType<P & ILoading> {
-  return ({ loading, ...props }) => {
-    if (loading) {
-      return <Loading />;
-    } else {
-      return <Component {...(props as P)} />;
+    Component: React.ComponentType<P>
+): React.ComponentType<P | any> {
+    return ({ loading, ...props }) => {
+        return (
+            <>
+                <Component {...(props as P)} />
+                {loading && <Loading />}
+            </>
+        )
     }
-  };
 }

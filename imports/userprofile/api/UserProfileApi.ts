@@ -1,28 +1,28 @@
 // region Imports
-import { Meteor } from "meteor/meteor";
-import { OfflineBaseApi } from "../../api/offlinebase";
-import { IUserProfile, userProfileSch } from "./UserProfileSch";
-import { userprofileData } from "/imports/libs/getUser";
+import { Meteor } from 'meteor/meteor'
+import { OfflineBaseApi } from '../../api/offlinebase'
+import { IUserProfile, userProfileSch } from './UserProfileSch'
+import { userprofileData } from '/imports/libs/getUser'
 
 // endregion
 
 class UserProfileApi extends OfflineBaseApi {
-  constructor() {
-    super("userprofile", userProfileSch);
-    this.insertNewUser = this.insertNewUser.bind(this);
-    this.noImagePath = `${Meteor.absoluteUrl()}images/wireframe/user_no_photo.png`;
-    // @ts-ignore
-    userprofileData.collectionInstance = this.collectionInstance; //create globalvar userprofileData
-  }
-
-  insertNewUser(
-    userData: IUserProfile,
-    callback = (e: Error, r: any) => {
-      console.log(e, r);
+    constructor() {
+        super('userprofile', userProfileSch)
+        this.insertNewUser = this.insertNewUser.bind(this)
+        this.noImagePath = `${Meteor.absoluteUrl()}images/wireframe/user_no_photo.png`
+        // @ts-ignore
+        userprofileData.collectionInstance = this.collectionInstance //create globalvar userprofileData
     }
-  ) {
-    this.callMethod("insert", userData, callback);
-  }
+
+    insertNewUser(
+        userData: IUserProfile,
+        callback = (e: Error, r: any) => {
+            console.log(e, r)
+        }
+    ) {
+        this.callMethod('insert', userData, callback)
+    }
 }
 
-export const userprofileApi = new UserProfileApi();
+export const userprofileApi = new UserProfileApi()

@@ -1,13 +1,16 @@
-import { IUserProfile } from "../userprofile/api/UserProfileSch";
-import { IConnection } from "./IConnection";
-import { ISchema } from "./ISchema";
+import { IUserProfile } from '../userprofile/api/UserProfileSch'
+import { IConnection } from './IConnection'
+import { ISchema } from './ISchema'
+import { Validador } from '/imports/libs/Validador'
 
 export interface IContext {
-  collection: string;
-  action: string;
-  user: IUserProfile;
-  rest?: any;
-  connection?: IConnection;
-  schema: ISchema<any>;
-  session: any;
+    docId?: string
+    collection: string
+    action: string
+    user: IUserProfile
+    rest?: any
+    connection?: IConnection
+    validador: Validador
+    schema: ISchema<any>
+    session: any
 }

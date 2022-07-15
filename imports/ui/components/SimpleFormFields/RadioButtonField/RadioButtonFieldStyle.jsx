@@ -15,14 +15,14 @@
  */
 
 const radioButtonStyle = {
-  fieldError: {
-    border: "1px solid red",
-  },
-  radio: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "left",
-  },
-};
+    fieldError: {
+        border: '1px solid red',
+    },
+    radio: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'left',
+    },
+}
 
-export { radioButtonStyle };
+export { radioButtonStyle }

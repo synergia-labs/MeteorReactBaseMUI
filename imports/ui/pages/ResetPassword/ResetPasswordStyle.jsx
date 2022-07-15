@@ -15,25 +15,25 @@
  */
 
 export const resetPasswordStyle = {
-  containerResetPassword: {
-    width: "100%",
-    maxWidth: 400,
-  },
-  labelAccessSystem: {
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  imageLogo: {
-    maxWidth: 100,
-  },
-  containerButtonOptions: {
-    marginTop: 30,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-};
+    containerResetPassword: {
+        width: '100%',
+        maxWidth: 400,
+    },
+    labelAccessSystem: {
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imageLogo: {
+        maxWidth: 100,
+    },
+    containerButtonOptions: {
+        marginTop: 30,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+}

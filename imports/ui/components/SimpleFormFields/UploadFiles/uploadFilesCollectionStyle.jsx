@@ -15,53 +15,52 @@
  */
 
 const uploadFilesStyle = {
-  containerList: {
-    padding: "0px 8px",
-  },
-  containerListReadOnly: {
-    width: "100%",
-    borderRadius: 4,
-    boxShadow: "0px 1px 4px 1px rgba(0, 0, 0, 0.25)",
-    margin: "10px",
-    backgroundColor: "white",
-  },
-  containerNoFiles: {
-    color: "#BBB",
-  },
-  containerDropzone: {
-    width: "100%",
-    padding: "1rem 2rem",
-    textAlign: "center",
-    cursor: "pointer",
-  },
-  containerStatusUpload: {
-    width: "100%",
-  },
-  containerUploadFiles: {
-    flex: 1,
-    flexDirection: "column",
-    marginBottom: 8,
-  },
-  containerShowFiles: {
-    width: "100%",
-  },
-  subContainerShowFiles: {
-    // padding: 10,
-    // backgroundColor: '#EEE',
-  },
-  containerGetConteudoDropzone: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-  containerGetListFiles: {
-    marginTop: "1rem",
-    borderRadius: 4,
-    boxShadow: "0px 1px 4px 1px rgba(0, 0, 0, 0.25)",
-    margin: "10px",
-    backgroundColor: "white",
-  },
-};
+    containerList: {
+        padding: '0px 8px',
+    },
+    containerListReadOnly: {
+        borderRadius: 4,
+        boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
+        margin: '10px',
+        backgroundColor: 'white',
+    },
+    containerNoFiles: {
+        color: '#BBB',
+    },
+    containerDropzone: {
+        width: '100%',
+        padding: '1rem 2rem',
+        textAlign: 'center',
+        cursor: 'pointer',
+    },
+    containerStatusUpload: {
+        width: '100%',
+    },
+    containerUploadFiles: {
+        flex: 1,
+        flexDirection: 'column',
+        marginBottom: 8,
+    },
+    containerShowFiles: {
+        width: '100%',
+    },
+    subContainerShowFiles: {
+        // padding: 10,
+        // backgroundColor: '#EEE',
+    },
+    containerGetConteudoDropzone: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+    },
+    containerGetListFiles: {
+        marginTop: '1rem',
+        borderRadius: 4,
+        boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
+        margin: '10px',
+        backgroundColor: 'white',
+    },
+}
 
-export { uploadFilesStyle };
+export { uploadFilesStyle }
