@@ -89,18 +89,13 @@ export const SignIn = (props: any) => {
         })
     }
 
-    const { from } = location.state || { from: { pathname: '/' } }
+    React.useEffect(() => {
+        if (!!user && !!user._id) navigate('/')
+    }, [user])
 
-    if (redirectToReferer) {
-        if (from && from.pathname === '/signout') from.pathname = '/'
-        // return <Redirect to={from}/>;
-        navigate('/')
-    }
-
-    if (!!user && !!user._id) {
-        setRedirectToReferer(true)
-        navigate('/')
-    }
+    React.useEffect(() => {
+        if (location.pathname === '/signout') navigate('/signin')
+    }, [location.pathname])
 
     return (
         <>
