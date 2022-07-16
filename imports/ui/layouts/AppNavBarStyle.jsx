@@ -18,6 +18,7 @@ const appNavBarStyle = {
     containerNavBar: {
         display: 'flex',
         flexDirection: 'row',
+        width: '100%',
     },
     subContainerNavBar: {
         width: '100%',
@@ -27,7 +28,6 @@ const appNavBarStyle = {
         paddingRight: 30,
     },
     containerAccountCircle: {
-        width: '100%',
         display: 'flex',
         flexDirection: 'row',
     },
@@ -48,6 +48,6 @@ const appNavBarStyle = {
         color: '#ffffff',
         width: 17,
     },
-}
+};
 
-export { appNavBarStyle }
+export { appNavBarStyle };

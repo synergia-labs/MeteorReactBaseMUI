@@ -57,6 +57,7 @@ const appLayoutMenuStyle = {
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
+        width: '100%',
     },
     containerAppRouter: {
         display: 'flex',
@@ -69,6 +70,6 @@ const appLayoutMenuStyle = {
         overflow: 'hidden',
         margin: 0,
     },
-}
+};
 
-export { appLayoutMenuStyle }
+export { appLayoutMenuStyle };

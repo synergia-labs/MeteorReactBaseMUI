@@ -1,51 +1,51 @@
-import React from 'react'
-import DialogTitle from '@mui/material/DialogTitle'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import Drawer from '@mui/material/Drawer'
-import IconButton from '@mui/material/IconButton'
-import Close from '@mui/icons-material/Close'
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
-import AWN from 'awesome-notifications'
-import { appGeneralStyle } from './AppGeneralComponentsStyle'
-import { isMobile } from '/imports/libs/deviceVerify'
-import { MemoryRouter } from 'react-router'
-import { useAccount } from '/imports/libs/userAccount'
-import './notificationStyle.css'
-import AppRouterSwitch from './layouts/appRouterSwitch'
-import { Theme, useTheme } from '@mui/material'
-import { IBoilerplateShowMethods } from '../typings/BoilerplateDefaultTypings'
-import Delete from '@mui/icons-material/Delete'
-import Button from '@mui/material/Button'
+import React from 'react';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Close from '@mui/icons-material/Close';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import AWN from 'awesome-notifications';
+import { appGeneralStyle } from './AppGeneralComponentsStyle';
+import { isMobile } from '/imports/libs/deviceVerify';
+import { MemoryRouter } from 'react-router';
+import { useAccount } from '/imports/libs/userAccount';
+import './notificationStyle.css';
+import AppRouterSwitch from './layouts/appRouterSwitch';
+import { Theme, useTheme } from '@mui/material';
+import { IBoilerplateShowMethods } from '../typings/BoilerplateDefaultTypings';
+import Delete from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
 
 if (isMobile) {
     // @ts-ignore
-    import './notificationTipMobile.css'
+    import './notificationTipMobile.css';
 } else {
     // @ts-ignore
-    import './notificationTipWeb.css'
+    import './notificationTipWeb.css';
 }
 
-let notifier = new AWN({ position: 'bottom-left', maxNotifications: 5 })
+let notifier = new AWN({ position: 'bottom-left', maxNotifications: 5 });
 
-const commonOptions = { open: false, onClose: () => {}, onOpen: () => {} }
+const commonOptions = { open: false, onClose: () => {}, onOpen: () => {} };
 interface ICommonOptions extends IBoilerplateShowMethods {
-    open: boolean
-    onClose: () => void
-    onOpen: () => void
-    closeComponent?: () => void
-    theme?: Theme
+    open: boolean;
+    onClose: () => void;
+    onOpen: () => void;
+    closeComponent?: () => void;
+    theme?: Theme;
 }
 interface IDialogContainerOptions extends ICommonOptions {
-    customPaperProps?: any
-    customDialogActionsProps?: any
-    icon?: any
-    title?: any
-    content?: (arg1: IDialogContainerOptions) => React.ReactNode
-    actions?: (arg1: IDialogContainerOptions) => React.ReactNode
-    closeDialog?: () => void
+    customPaperProps?: any;
+    customDialogActionsProps?: any;
+    icon?: any;
+    title?: any;
+    content?: (arg1: IDialogContainerOptions) => React.ReactNode;
+    actions?: (arg1: IDialogContainerOptions) => React.ReactNode;
+    closeDialog?: () => void;
 }
 
 const DialogContainer = (
@@ -76,21 +76,21 @@ const DialogContainer = (
                 {options.actions ? options.actions(options) : null}
             </DialogActions>
         </Dialog>
-    )
-}
+    );
+};
 
 interface IModalContainer extends ICommonOptions {
-    url?: string
-    style?: object
-    component?: any
-    modalOnClose?: boolean
+    url?: string;
+    style?: object;
+    component?: any;
+    modalOnClose?: boolean;
 }
 
 const ModalContainer = (options: IModalContainer = commonOptions) => {
-    const theme = useTheme()
-    const { isLoggedIn, user, userLoading } = useAccount()
-    const Component = options.component
-    const url = options.url
+    const theme = useTheme();
+    const { isLoggedIn, user, userLoading } = useAccount();
+    const Component = options.component;
+    const url = options.url;
 
     const style = options.style
         ? options.style
@@ -107,7 +107,7 @@ const ModalContainer = (options: IModalContainer = commonOptions) => {
               p: 4,
               overflowX: 'none',
               overflowY: 'auto',
-          }
+          };
 
     return (
         <Modal
@@ -133,22 +133,22 @@ const ModalContainer = (options: IModalContainer = commonOptions) => {
                 ) : null}
             </Box>
         </Modal>
-    )
-}
+    );
+};
 
 interface IDrawerContainerOptions extends ICommonOptions {
-    component?: typeof React.Component
-    url?: string
-    anchor?: 'bottom' | 'left' | 'right' | 'top' | undefined
-    title?: string
+    component?: typeof React.Component;
+    url?: string;
+    anchor?: 'bottom' | 'left' | 'right' | 'top' | undefined;
+    title?: string;
 }
 
 const DrawerContainer = (options: IDrawerContainerOptions = commonOptions) => {
-    const theme = useTheme()
-    const { isLoggedIn, user, userLoading } = useAccount()
+    const theme = useTheme();
+    const { isLoggedIn, user, userLoading } = useAccount();
 
-    const Component = options.component
-    const url = options.url
+    const Component = options.component;
+    const url = options.url;
     return (
         <Drawer
             aria-labelledby="Drawer"
@@ -203,20 +203,20 @@ const DrawerContainer = (options: IDrawerContainerOptions = commonOptions) => {
                 ) : null}
             </div>
         </Drawer>
-    )
-}
+    );
+};
 
 interface IWindowContainerOptions extends ICommonOptions {
-    component?: typeof React.Component
-    url?: string
+    component?: typeof React.Component;
+    url?: string;
 }
 
 const WindowContainer = (options: IWindowContainerOptions = commonOptions) => {
-    const theme = useTheme()
+    const theme = useTheme();
 
-    const { isLoggedIn, user, userLoading } = useAccount()
-    const Component = options.component
-    const url = options.url
+    const { isLoggedIn, user, userLoading } = useAccount();
+    const Component = options.component;
+    const url = options.url;
 
     return (
         <div
@@ -260,20 +260,20 @@ const WindowContainer = (options: IWindowContainerOptions = commonOptions) => {
                 ) : null}
             </div>
         </div>
-    )
-}
+    );
+};
 
 interface IShowNotificationOptions {
-    type?: string
-    title?: string
-    durations?: number
-    description?: string
+    type?: string;
+    title?: string;
+    durations?: number;
+    description?: string;
 }
 
 export const showNotification = (options: IShowNotificationOptions = {}) => {
     // @ts-ignore
     if (!options || !options.type || !notifier[options.type]) {
-        return
+        return;
     }
     const notificationOptions = {
         labels: {
@@ -289,40 +289,47 @@ export const showNotification = (options: IShowNotificationOptions = {}) => {
                 ? 30000
                 : 5000,
         },
-    }
+    };
 
-    notifier[options.type](options.description, notificationOptions)
-}
+    notifier[options.type](options.description, notificationOptions);
+};
 
 interface IGeneralComponentsProps {
-    theme?: Theme
+    theme?: Theme;
+    themeOptions: {
+        isMobile: boolean;
+        setFontScale: (p: boolean) => void;
+        fontScale: number;
+        setDarkThemeMode: (p: boolean) => void;
+        isDarkThemeMode: boolean;
+    };
     render: (options: {
-        showNotification: (options?: Object) => void
-        showDialog: (options?: Object) => void
-        showDrawer: (options?: Object) => void
-        showWindow: (options?: Object) => void
-        showModal: (options?: Object) => void
-    }) => React.ReactFragment
+        showNotification: (options?: Object) => void;
+        showDialog: (options?: Object) => void;
+        showDrawer: (options?: Object) => void;
+        showWindow: (options?: Object) => void;
+        showModal: (options?: Object) => void;
+    }) => React.ReactFragment;
 }
 
 interface IGeneralComponentsState {
-    dialogOptions: IDialogContainerOptions | null
-    drawerOptions: IDrawerContainerOptions | null
-    windowOptions: IWindowContainerOptions | null
-    modalOptions: IModalContainer | null
+    dialogOptions: IDialogContainerOptions | null;
+    drawerOptions: IDrawerContainerOptions | null;
+    windowOptions: IWindowContainerOptions | null;
+    modalOptions: IModalContainer | null;
 }
 
-export const AppContext = React.createContext()
+export const AppContext = React.createContext();
 
 class GeneralComponents extends React.Component<IGeneralComponentsProps, IGeneralComponentsState> {
     constructor(props: IGeneralComponentsProps) {
-        super(props)
+        super(props);
         this.state = {
             dialogOptions: null,
             drawerOptions: null,
             windowOptions: null,
             modalOptions: null,
-        }
+        };
     }
 
     showDialog = (options = {}) => {
@@ -334,8 +341,8 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
                 closeDialog: () => this.setState({ dialogOptions: null }),
                 ...options,
             },
-        })
-    }
+        });
+    };
 
     showDeleteDialog = (
         title: string,
@@ -347,7 +354,7 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
             icon: <Delete />,
             title,
             content: () => {
-                return <p>{message}</p>
+                return <p>{message}</p>;
             },
             actions: ({ closeDialog }: { closeDialog: () => void }) => [
                 <Button
@@ -362,17 +369,17 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
                     key={'botaoSim'}
                     variant={'contained'}
                     onClick={() => {
-                        remove(doc)
-                        closeDialog()
+                        remove(doc);
+                        closeDialog();
                     }}
                     color={'primary'}
                 >
                     {'Sim'}
                 </Button>,
             ],
-        }
-        this.showDialog(dialogOptions)
-    }
+        };
+        this.showDialog(dialogOptions);
+    };
 
     showModal = (options = {}) => {
         this.setState({
@@ -389,8 +396,8 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
                 showWindow: this.showWindow,
                 ...options,
             },
-        })
-    }
+        });
+    };
 
     showDrawer = (options = {}) => {
         this.setState({
@@ -407,17 +414,17 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
                 showWindow: this.showWindow,
                 ...options,
             },
-        })
-    }
+        });
+    };
 
     componentDidMount() {
-        const self = this
+        const self = this;
         if (window.navigate) {
-            window.navigateState(null, null, window.location.href)
+            window.navigateState(null, null, window.location.href);
 
             window.onpopstate = function () {
-                window.navigate.go(1)
-            }
+                window.navigate.go(1);
+            };
         }
     }
 
@@ -436,8 +443,8 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
                 showWindow: this.showWindow,
                 ...options,
             },
-        })
-    }
+        });
+    };
 
     render() {
         return (
@@ -449,6 +456,7 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
                     showDrawer: this.showDrawer,
                     showWindow: this.showWindow,
                     showModal: this.showModal,
+                    isMobile: this.props.themeOptions!.isMobile,
                     themeOptions: this.props.themeOptions,
                 }}
             >
@@ -467,8 +475,8 @@ class GeneralComponents extends React.Component<IGeneralComponentsProps, IGenera
 
                 {this.props.children}
             </AppContext.Provider>
-        )
+        );
     }
 }
 
-export default GeneralComponents
+export default GeneralComponents;
