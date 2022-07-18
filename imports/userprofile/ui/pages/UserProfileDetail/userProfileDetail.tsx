@@ -1,12 +1,14 @@
-import React from 'react'
-import { withTracker } from 'meteor/react-meteor-data'
-import { userprofileApi } from '../../../api/UserProfileApi'
-import SimpleForm from '../../../../ui/components/SimpleForm/SimpleForm'
-import Button from '@mui/material/Button'
-import FormGroup from '@mui/material/FormGroup'
-import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField'
-import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField'
-import { PageLayout } from '/imports/ui/layouts/pageLayout'
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
+import { userprofileApi } from '../../../api/UserProfileApi';
+import SimpleForm from '../../../../ui/components/SimpleForm/SimpleForm';
+import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
+import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
+import { PageLayout } from '/imports/ui/layouts/pageLayout';
+import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
+import { IDefaultDetailProps } from '/imports/typings/BoilerplateDefaultTypings';
 
 const UserProfileDetail = ({
     screenState,
@@ -17,9 +19,9 @@ const UserProfileDetail = ({
     hiddenTitleBar,
     close,
 }) => {
-    const handleSubmit = (doc) => {
-        save(doc)
-    }
+    const handleSubmit = (doc: IUserProfile) => {
+        save(doc);
+    };
 
     return (
         <PageLayout
@@ -71,28 +73,28 @@ const UserProfileDetail = ({
                         </Button>
                     ) : null}
                     {screenState !== 'view' ? (
-                        <Button color={'primary'} variant="contained" submit="true">
+                        <Button id="submit" color={'primary'} variant="contained">
                             {'Salvar'}
                         </Button>
                     ) : null}
                 </div>
             </SimpleForm>
         </PageLayout>
-    )
-}
+    );
+};
 
-export const UserProfileDetailContainer = withTracker((props) => {
-    const { screenState, id } = props
-    const subHandle = userprofileApi.subscribe('userProfileDetail', { _id: id })
-    const user = subHandle.ready() ? userprofileApi.findOne({ _id: id }) : {}
+export const UserProfileDetailContainer = withTracker((props: IDefaultDetailProps) => {
+    const { screenState, id } = props;
+    const subHandle = userprofileApi.subscribe('userProfileDetail', { _id: id });
+    const user = subHandle.ready() ? userprofileApi.findOne({ _id: id }) : {};
 
     return {
         screenState,
         user,
-        save: (doc) =>
+        save: (doc: IUserProfile) =>
             userprofileApi.update(doc, (e, r) => {
                 if (!e) {
-                    props.navigate(`/userprofile/view/${screenState === 'create' ? r : doc._id}`)
+                    props.navigate(`/userprofile/view/${screenState === 'create' ? r : doc._id}`);
                     props.showNotification &&
                         props.showNotification({
                             type: 'success',
@@ -100,16 +102,16 @@ export const UserProfileDetailContainer = withTracker((props) => {
                             description: `O usuário foi ${
                                 doc._id ? 'atualizado' : 'cadastrado'
                             } com sucesso!`,
-                        })
+                        });
                 } else {
-                    console.log('Error:', e)
+                    console.log('Error:', e);
                     props.showNotification &&
                         props.showNotification({
                             type: 'warning',
                             title: 'Operação não realizada!',
                             description: `Erro ao realizar a operação: ${e.reason}`,
-                        })
+                        });
                 }
             }),
-    }
-})(UserProfileDetail)
+    };
+})(UserProfileDetail);

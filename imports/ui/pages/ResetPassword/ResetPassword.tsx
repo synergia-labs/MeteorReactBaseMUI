@@ -1,30 +1,30 @@
 // login page overrides the form’s submit event and call Meteor’s loginWithPassword()
 // Authentication errors modify the component’s state to be displayed
-import React from 'react'
-import { Accounts } from 'meteor/accounts-base'
-import Container from '@mui/material/Container'
-import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField'
-import Button from '@mui/material/Button'
-import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm'
+import React from 'react';
+import { Accounts } from 'meteor/accounts-base';
+import Container from '@mui/material/Container';
+import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
+import Button from '@mui/material/Button';
+import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
-import { resetPasswordStyle } from './ResetPasswordStyle'
-import { useParams } from 'react-router-dom'
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings'
+import { resetPasswordStyle } from './ResetPasswordStyle';
+import { useParams } from 'react-router-dom';
+import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 
 export const ResetPassword = (props: IDefaultContainerProps) => {
-    const { showNotification, navigate } = props
+    const { showNotification, navigate } = props;
 
-    const { token } = useParams()
+    const { token } = useParams();
 
     const handleSubmit = (doc: { password: string; repassword: string }) => {
-        const { password, repassword } = doc
+        const { password, repassword } = doc;
         if (password !== repassword) {
             showNotification({
                 type: 'warning',
                 title: 'Error!',
                 description: 'As senhas não conferem! Por gentileza, digite novamente.',
-            })
-            return
+            });
+            return;
         }
 
         Accounts.resetPassword(token!, password, (err: any) => {
@@ -34,17 +34,17 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
                     title: 'Problema na definição da senha!',
                     description:
                         'Não foi possível atualizar a sua senha, faça contato com o administrador!',
-                })
+                });
             } else {
                 showNotification({
                     type: 'success',
                     title: 'Senha atualizada!',
                     description: 'Sua senha foi atualizada com sucesso!!',
-                })
-                navigate('/')
+                });
+                navigate('/');
             }
-        })
-    }
+        });
+    };
 
     return (
         <Container style={resetPasswordStyle.containerResetPassword}>
@@ -80,12 +80,12 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
                 />
                 <div style={resetPasswordStyle.containerButtonOptions}>
                     <Button onClick={() => navigate('/signin')}> Voltar </Button>
-                    <Button variant={'outlined'} submit="true">
+                    <Button id="submit" variant={'outlined'}>
                         {' '}
                         Atualizar a senha{' '}
                     </Button>
                 </div>
             </SimpleForm>
         </Container>
-    )
-}
+    );
+};
