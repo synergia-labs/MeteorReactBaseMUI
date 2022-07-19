@@ -1,24 +1,24 @@
 // login page overrides the form’s submit event and call Meteor’s loginWithPassword()
 // Authentication errors modify the component’s state to be displayed
-import React from 'react'
-import { useLocation } from 'react-router-dom'
-import { Meteor } from 'meteor/meteor'
-import Container from '@mui/material/Container'
-import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField'
-import Button from '@mui/material/Button'
-import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
+import Container from '@mui/material/Container';
+import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
+import Button from '@mui/material/Button';
+import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
-import { signinStyle } from './SigninStyle'
+import { signinStyle } from './SigninStyle';
 
 export const SignIn = (props: any) => {
-    const [redirectToReferer, setRedirectToReferer] = React.useState(false)
+    const [redirectToReferer, setRedirectToReferer] = React.useState(false);
 
-    const location = useLocation()
+    const location = useLocation();
 
-    const { showNotification, navigate, user } = props
+    const { showNotification, navigate, user } = props;
 
     const handleSubmit = (doc: { email: string; password: string }) => {
-        const { email, password } = doc
+        const { email, password } = doc;
         Meteor.loginWithPassword(email, password, (err: any) => {
             if (err) {
                 showNotification({
@@ -30,17 +30,17 @@ export const SignIn = (props: any) => {
                             : err.reason === 'User not found'
                             ? 'Este email não está cadastrado em nossa base de dados.'
                             : '',
-                })
+                });
             } else {
                 showNotification({
                     type: 'sucess',
                     title: 'Acesso autorizado!',
                     description: 'Login de usuário realizado em nossa base de dados!',
-                })
-                setRedirectToReferer(true)
+                });
+                setRedirectToReferer(true);
             }
-        })
-    }
+        });
+    };
 
     const SocialLoginButton = ({ onLogin, buttonText, iconClass, customCss, iconOnly }) => (
         <div
@@ -60,42 +60,42 @@ export const SignIn = (props: any) => {
             <i className={iconClass} />
             {!iconOnly && <span style={{ marginLeft: 15 }}>{buttonText}</span>}
         </div>
-    )
+    );
 
     const callbackLogin = (err) => {
         if (err) {
-            console.log('Login Error: ', err)
+            console.log('Login Error: ', err);
             if (err.errorType === 'Accounts.LoginCancelledError') {
-                showNotification('Autenticação cancelada', 'error')
+                showNotification('Autenticação cancelada', 'error');
                 //self.setState({ error: 'AUtenticação cancelada' })
             } else {
-                showNotification(err.error, 'error')
+                showNotification(err.error, 'error');
             }
         } else {
-            setRedirectToReferer(true)
-            navigate('/')
+            setRedirectToReferer(true);
+            navigate('/');
         }
-    }
+    };
 
     const loginFacebook = () => {
         Meteor.loginWithFacebook({ requestPermissions: ['public_profile', 'email'] }, (err) => {
-            callbackLogin(err)
-        })
-    }
+            callbackLogin(err);
+        });
+    };
 
     const loginGoogle = () => {
         Meteor.loginWithGoogle({ requestPermissions: ['profile', 'email'] }, (err) => {
-            callbackLogin(err)
-        })
-    }
+            callbackLogin(err);
+        });
+    };
 
     React.useEffect(() => {
-        if (!!user && !!user._id) navigate('/')
-    }, [user])
+        if (!!user && !!user._id) navigate('/');
+    }, [user]);
 
     React.useEffect(() => {
-        if (location.pathname === '/signout') navigate('/signin')
-    }, [location.pathname])
+        if (location.pathname === '/signout') navigate('/signin');
+    }, [location.pathname]);
 
     return (
         <>
@@ -146,12 +146,7 @@ export const SignIn = (props: any) => {
                                     >
                                         {'Esqueci a minha senha'}
                                     </Button>
-                                    <Button
-                                        id="btnEnter"
-                                        variant={'outlined'}
-                                        color={'primary'}
-                                        submit={'true'}
-                                    >
+                                    <Button id="submit" variant={'outlined'} color={'primary'}>
                                         {'Entrar'}
                                     </Button>
                                 </div>
@@ -208,5 +203,5 @@ export const SignIn = (props: any) => {
                 </div>
             </Container>
         </>
-    )
-}
+    );
+};

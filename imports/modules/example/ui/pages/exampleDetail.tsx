@@ -1,43 +1,43 @@
-import React from 'react'
-import { withTracker } from 'meteor/react-meteor-data'
-import { exampleApi } from '../../api/exampleApi'
-import SimpleForm from '../../../../ui/components/SimpleForm/SimpleForm'
-import Button from '@mui/material/Button'
-import FormGroup from '@mui/material/FormGroup'
-import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField'
-import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField'
-import RadioButtonField from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField'
-import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField'
-import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection'
-import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput'
-import SliderField from '/imports/ui/components/SimpleFormFields/SliderField/SliderField'
-import AudioRecorder from '/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder'
-import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField'
-import Print from '@mui/icons-material/Print'
-import Close from '@mui/icons-material/Close'
-import { PageLayout } from '/imports/ui/layouts/pageLayout'
-import { IExample } from '../../api/exampleSch'
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
+import { exampleApi } from '../../api/exampleApi';
+import SimpleForm from '../../../../ui/components/SimpleForm/SimpleForm';
+import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
+import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
+import TextMaskField from '../../../../ui/components/SimpleFormFields/TextMaskField/TextMaskField';
+import RadioButtonField from '../../../../ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
+import SelectField from '../../../../ui/components/SimpleFormFields/SelectField/SelectField';
+import UploadFilesCollection from '../../../../ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection';
+import ChipInput from '../../../../ui/components/SimpleFormFields/ChipInput/ChipInput';
+import SliderField from '/imports/ui/components/SimpleFormFields/SliderField/SliderField';
+import AudioRecorder from '/imports/ui/components/SimpleFormFields/AudioRecorderField/AudioRecorder';
+import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
+import Print from '@mui/icons-material/Print';
+import Close from '@mui/icons-material/Close';
+import { PageLayout } from '/imports/ui/layouts/pageLayout';
+import { IExample } from '../../api/exampleSch';
 import {
     IDefaultContainerProps,
     IDefaultDetailProps,
     IMeteorError,
-} from '/imports/typings/BoilerplateDefaultTypings'
-import { useTheme } from '@mui/material/styles'
-import { showLoading } from '/imports/ui/components/Loading/Loading'
+} from '/imports/typings/BoilerplateDefaultTypings';
+import { useTheme } from '@mui/material/styles';
+import { showLoading } from '/imports/ui/components/Loading/Loading';
 
 interface IExampleDetail extends IDefaultDetailProps {
-    exampleDoc: IExample
-    save: (doc: IExample, _callback?: any) => void
+    exampleDoc: IExample;
+    save: (doc: IExample, _callback?: any) => void;
 }
 
 const ExampleDetail = (props: IExampleDetail) => {
-    const { isPrintView, screenState, loading, exampleDoc, save, navigate } = props
+    const { isPrintView, screenState, loading, exampleDoc, save, navigate } = props;
 
-    const theme = useTheme()
+    const theme = useTheme();
 
     const handleSubmit = (doc: IExample) => {
-        save(doc)
-    }
+        save(doc);
+    };
 
     return (
         <PageLayout
@@ -60,7 +60,7 @@ const ExampleDetail = (props: IExampleDetail) => {
                             color: theme.palette.secondary.main,
                         }}
                         onClick={() => {
-                            navigate(`/example/printview/${exampleDoc._id}`)
+                            navigate(`/example/printview/${exampleDoc._id}`);
                         }}
                     >
                         <Print key={'ExempleDetail-spanPrintKEY'} />
@@ -74,7 +74,7 @@ const ExampleDetail = (props: IExampleDetail) => {
                             color: theme.palette.secondary.main,
                         }}
                         onClick={() => {
-                            navigate(`/example/view/${exampleDoc._id}`)
+                            navigate(`/example/view/${exampleDoc._id}`);
                         }}
                     >
                         <Close key={'ExempleDetail-spanCloseKEY'} />
@@ -181,7 +181,7 @@ const ExampleDetail = (props: IExampleDetail) => {
                         <Button
                             key={'b2'}
                             onClick={() => {
-                                navigate(`/example/edit/${exampleDoc._id}`)
+                                navigate(`/example/edit/${exampleDoc._id}`);
                             }}
                             color={'primary'}
                             variant="contained"
@@ -190,37 +190,32 @@ const ExampleDetail = (props: IExampleDetail) => {
                         </Button>
                     ) : null}
                     {!isPrintView && screenState !== 'view' ? (
-                        <Button
-                            key={'b3'}
-                            color={'primary'}
-                            variant="contained"
-                            {...{ submit: true }}
-                        >
+                        <Button id="submit" key={'b3'} color={'primary'} variant="contained">
                             {'Salvar'}
                         </Button>
                     ) : null}
                 </div>
             </SimpleForm>
         </PageLayout>
-    )
-}
+    );
+};
 
 interface IExampleDetailContainer extends IDefaultContainerProps {}
 
 export const ExampleDetailContainer = withTracker((props: IExampleDetailContainer) => {
-    const { screenState, id, navigate, showNotification } = props
+    const { screenState, id, navigate, showNotification } = props;
 
-    const subHandle = !!id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null
-    let exampleDoc = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {}
+    const subHandle = !!id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
+    let exampleDoc = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {};
 
     return {
         screenState,
         exampleDoc,
         save: (doc: IExample, _callback: () => void) => {
-            const selectedAction = screenState === 'create' ? 'insert' : 'update'
+            const selectedAction = screenState === 'create' ? 'insert' : 'update';
             exampleApi[selectedAction](doc, (e: IMeteorError, r: string) => {
                 if (!e) {
-                    navigate(`/example/view/${screenState === 'create' ? r : doc._id}`)
+                    navigate(`/example/view/${screenState === 'create' ? r : doc._id}`);
                     showNotification &&
                         showNotification({
                             type: 'success',
@@ -228,17 +223,17 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
                             description: `O exemplo foi ${
                                 doc._id ? 'atualizado' : 'cadastrado'
                             } com sucesso!`,
-                        })
+                        });
                 } else {
-                    console.log('Error:', e)
+                    console.log('Error:', e);
                     showNotification &&
                         showNotification({
                             type: 'warning',
                             title: 'Operação não realizada!',
                             description: `Erro ao realizar a operação: ${e.reason}`,
-                        })
+                        });
                 }
-            })
+            });
         },
-    }
-})(showLoading(ExampleDetail))
+    };
+})(showLoading(ExampleDetail));
