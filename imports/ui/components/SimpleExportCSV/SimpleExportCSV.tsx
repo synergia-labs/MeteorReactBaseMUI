@@ -1,12 +1,12 @@
-import React from 'react'
-import Button from '@mui/material/Button'
-import { simpleExportCSVStyle, colors } from './SimpleExportCSVStyle'
-import CircularProgress from '@mui/material/CircularProgress'
-import Snackbar from '@mui/material/Snackbar'
-import Alert from '@mui/material/Alert'
+import React from 'react';
+import Button from '@mui/material/Button';
+import { simpleExportCSVStyle, colors } from './SimpleExportCSVStyle';
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) => {
-    const [showLoading, setShowLoading] = React.useState(false)
+    const [showLoading, setShowLoading] = React.useState(false);
 
     const showNotification = () => (
         <Snackbar
@@ -42,22 +42,22 @@ const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) =
                 </div>
             </Alert>
         </Snackbar>
-    )
+    );
 
     const downloadCSV = () => {
         api.downloadCSV(publishName, filter, options, (err: boolean, csvLink) => {
             if (err) {
-                console.log(err)
+                console.log(err);
             } else {
-                console.log(csvLink)
-                setShowLoading(false)
-                const link = document.createElement('a')
-                link.download = (filename || 'dadosExportados') + '.csv'
-                link.href = csvLink
-                link.click()
+                console.log(csvLink);
+                setShowLoading(false);
+                const link = document.createElement('a');
+                link.download = (filename || 'dadosExportados') + '.csv';
+                link.href = csvLink;
+                link.click();
             }
-        })
-    }
+        });
+    };
 
     return (
         <div style={simpleExportCSVStyle.containerDoubleSelect}>
@@ -79,15 +79,15 @@ const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) =
                 }}
                 color={'secondary'}
                 onClick={() => {
-                    setShowLoading(true)
-                    downloadCSV()
+                    setShowLoading(true);
+                    downloadCSV();
                 }}
             >
                 {'Exportar para CSV'}
             </Button>
             {showLoading && showNotification()}
         </div>
-    )
-}
+    );
+};
 
-export default SimpleExportCSV
+export default SimpleExportCSV;

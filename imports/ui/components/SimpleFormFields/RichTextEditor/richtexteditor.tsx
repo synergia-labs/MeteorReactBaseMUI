@@ -1,13 +1,13 @@
-import './quill.bubble.css'
-import React from 'react'
-import Quill from 'quill'
-import IconButton from '@mui/material/IconButton'
-import Edit from '@mui/icons-material/Edit' // ES6
-import Save from '@mui/icons-material/Save' // ES6
-import Cancel from '@mui/icons-material/Cancel'
-import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent' // ES6
+import './quill.bubble.css';
+import React from 'react';
+import Quill from 'quill';
+import IconButton from '@mui/material/IconButton';
+import Edit from '@mui/icons-material/Edit'; // ES6
+import Save from '@mui/icons-material/Save'; // ES6
+import Cancel from '@mui/icons-material/Cancel';
+import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent'; // ES6
 
-var Delta = Quill.import('delta')
+var Delta = Quill.import('delta');
 
 const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -27,7 +27,7 @@ const toolbarOptions = [
     [{ align: [] }],
 
     ['clean'], // remove formatting button
-]
+];
 
 export const RichTextEditorField = ({
     name,
@@ -40,7 +40,7 @@ export const RichTextEditorField = ({
     onEdit,
     onCloseEdit,
 }: IBaseSimpleFormComponent) => {
-    const [state, setState] = React.useState('view')
+    const [state, setState] = React.useState('view');
     const [data, setData] = React.useState(
         value
             ? value
@@ -48,57 +48,57 @@ export const RichTextEditorField = ({
                   text: placeholder || 'Digite seu texto aqui',
                   html: `<p>${placeholder || 'Digite seu texto aqui'}</p>`,
               }
-    )
-    const [quill, setQuill] = React.useState()
+    );
+    const [quill, setQuill] = React.useState();
     const [trackChanges, setTrackChanges] = React.useState({
         changes: new Delta(),
-    })
+    });
 
     React.useEffect(() => {
-        if (state === 'view') return
-        const editorContainer = document.getElementById('editor_' + name)
-        editorContainer.innerHTML = data.html
+        if (state === 'view') return;
+        const editorContainer = document.getElementById('editor_' + name);
+        editorContainer.innerHTML = data.html;
         const newQuill = new Quill('#editor_' + name, {
             modules: {
                 toolbar: toolbarOptions,
             },
             theme: 'bubble',
             bounds: '#editor_' + name,
-        })
+        });
 
         // Store accumulated changes
         newQuill.on('text-change', function (delta) {
-            trackChanges.changes = trackChanges.changes.compose(delta)
-        })
+            trackChanges.changes = trackChanges.changes.compose(delta);
+        });
 
-        setQuill(newQuill)
+        setQuill(newQuill);
 
         return () => {
             //Ao desmontar o componente
             if (trackChanges.changes.length() > 0) {
-                alert('As alterações não salvas serão perdidas...')
+                alert('As alterações não salvas serão perdidas...');
             }
-        }
-    }, [state])
+        };
+    }, [state]);
 
     const handleCancel = () => {
-        trackChanges.changes = new Delta()
-        setState('view')
-        onCloseEdit && onCloseEdit()
-    }
+        trackChanges.changes = new Delta();
+        setState('view');
+        onCloseEdit && onCloseEdit();
+    };
 
     const handleSave = () => {
-        trackChanges.changes = new Delta()
+        trackChanges.changes = new Delta();
         const value = {
             text: quill.getText(),
             html: quill.root.innerHTML + '',
             //contents:quill.getContents()
-        }
-        setData(value)
-        setState('view')
-        onCloseEdit && onCloseEdit()
-        onChange({ target: { name, value } }, { name, value })
-    }
+        };
+        setData(value);
+        setState('view');
+        onCloseEdit && onCloseEdit();
+        onChange({ target: { name, value } }, { name, value });
+    };
 
     if (state === 'view' || readOnly) {
         return (
@@ -128,8 +128,8 @@ export const RichTextEditorField = ({
                         <IconButton
                             style={{ width: 20, height: 20 }}
                             onClick={() => {
-                                setState('edit')
-                                onEdit && onEdit()
+                                setState('edit');
+                                onEdit && onEdit();
                             }}
                         >
                             <Edit style={{ fontSize: 20 }} />
@@ -137,7 +137,7 @@ export const RichTextEditorField = ({
                     </div>
                 )}
             </div>
-        )
+        );
     } else {
         return (
             <div
@@ -176,6 +176,6 @@ export const RichTextEditorField = ({
                     </IconButton>
                 </div>
             </div>
-        )
+        );
     }
-}
+};

@@ -47,6 +47,6 @@ const imageOrAvatarStyle = {
     containerEmptyMidia: {
         color: '#BBB',
     },
-}
+};
 
-export { imageOrAvatarStyle }
+export { imageOrAvatarStyle };

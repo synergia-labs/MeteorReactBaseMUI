@@ -1,26 +1,26 @@
-import React from 'react'
-import TextField from '@mui/material/TextField'
-import Autocomplete from '@mui/material/Autocomplete'
+import React from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
-import bemculturalLocalidade from '/imports/modules/bemcultural/api/distritos.json'
+import bemculturalLocalidade from '/imports/modules/bemcultural/api/distritos.json';
 
-import RadioButtonField from '/imports/ui/components/SimpleFormFields/RadioButtonField/RadioButtonField'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { createStyles, Theme, withStyles } from '@mui/styles'
+import RadioButtonField from '/imports/ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { createStyles, Theme, withStyles } from '@mui/styles';
 
-import { selectAutoCompleteStyle } from './SelectAutoCompleteFieldStyle'
-import { hasValue } from '/imports/libs/hasValue'
-import * as appStyle from '/imports/materialui/styles'
-import InputBase from '@mui/material/InputBase'
+import { selectAutoCompleteStyle } from './SelectAutoCompleteFieldStyle';
+import { hasValue } from '/imports/libs/hasValue';
+import * as appStyle from '/imports/materialui/styles';
+import InputBase from '@mui/material/InputBase';
 
 function downloadObjectAsJson(exportObj, exportName) {
-    const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(exportObj))}`
-    const downloadAnchorNode = document.createElement('a')
-    downloadAnchorNode.setAttribute('href', dataStr)
-    downloadAnchorNode.setAttribute('download', `${exportName}.json`)
-    document.body.appendChild(downloadAnchorNode) // required for firefox
-    downloadAnchorNode.click()
-    downloadAnchorNode.remove()
+    const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(exportObj))}`;
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', `${exportName}.json`);
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
 }
 
 export const getLocalidade = () => {
@@ -34,16 +34,16 @@ export const getLocalidade = () => {
                   l.municipio['regiao-imediata']['regiao-intermediaria'] &&
                   l.municipio['regiao-imediata']['regiao-intermediaria'].UF
                 ? l.municipio['regiao-imediata']['regiao-intermediaria'].UF.sigla
-                : null
+                : null;
 
         return {
             u: uf,
             m: l.nome === l.municipio.nome ? l.nome : l.municipio.nome,
             d: l.nome !== l.municipio.nome ? l.nome : undefined,
-        }
-    })
-    downloadObjectAsJson(newLocalidade, 'localidades')
-}
+        };
+    });
+    downloadObjectAsJson(newLocalidade, 'localidades');
+};
 
 const BootstrapInput = withStyles((theme: Theme) =>
     createStyles({
@@ -71,17 +71,17 @@ const BootstrapInput = withStyles((theme: Theme) =>
             },
         },
     })
-)(InputBase)
+)(InputBase);
 
 interface IOtherProps {
     options: {
-        value: any
-        label: string
-    }[]
-    mode: any
-    estadoOn: boolean
-    distritoOn: boolean
-    municipioOn: boolean
+        value: any;
+        label: string;
+    }[];
+    mode: any;
+    estadoOn: boolean;
+    distritoOn: boolean;
+    municipioOn: boolean;
 }
 
 export default ({
@@ -97,7 +97,7 @@ export default ({
     error,
     ...otherProps
 }: IBaseSimpleFormComponent & IOtherProps) => {
-    const mode = otherProps.mode
+    const mode = otherProps.mode;
 
     const opcoesEstados = [
         {
@@ -110,7 +110,7 @@ export default ({
                 nome: 'Sudeste',
             },
         },
-    ]
+    ];
 
     const municipios =
         value.estado && value.estado.id
@@ -119,7 +119,7 @@ export default ({
                       x.municipio.microrregiao.mesorregiao.UF.id === value.estado.id &&
                       x.municipio.nome === x.nome
               )
-            : bemculturalLocalidade.filter((x) => x.municipio.nome === x.nome)
+            : bemculturalLocalidade.filter((x) => x.municipio.nome === x.nome);
 
     const distritos = (municipio) =>
         municipio && municipio.nome
@@ -127,13 +127,13 @@ export default ({
                   (x) =>
                       x.municipio.nome === value.municipio.nome && x.nome !== value.municipio.nome
               )
-            : []
+            : [];
     const onChangeFields = (evt: React.BaseSyntheticEvent, nameField: string, values: [string]) => {
         onChange(
             { name, target: { name, value: { ...value, [nameField]: values } } },
             { name, value: { ...value, [nameField]: values } }
-        )
-    }
+        );
+    };
 
     const onChangeOrigem = (evt: React.BaseSyntheticEvent) => {
         onChange(
@@ -145,8 +145,8 @@ export default ({
                 },
             },
             { name, value: { ...value, identificada: evt.target.value === 'Sim' } }
-        )
-    }
+        );
+    };
 
     if (readOnly) {
         return (
@@ -172,7 +172,7 @@ export default ({
                     </div>
                 )}
             </div>
-        )
+        );
     }
 
     return (
@@ -259,5 +259,5 @@ export default ({
                 </div>
             )}
         </div>
-    )
-}
+    );
+};

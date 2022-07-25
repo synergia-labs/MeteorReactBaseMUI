@@ -1,11 +1,11 @@
-import userprofile from '../userprofile/config'
-import example from './example/config'
-import pages from '../ui/config/index'
-import { IAppMenu, IModules, IRoute } from './modulesTypings'
+import userprofile from '../userprofile/config';
+import example from './example/config';
+import pages from '../ui/config/index';
+import { IAppMenu, IModules, IRoute } from './modulesTypings';
 
 class Modules implements IModules {
-    modulesRouterList: (IRoute | null)[] = [null]
-    modulesAppMenuItemList: (IAppMenu | null)[] = [null]
+    modulesRouterList: (IRoute | null)[] = [null];
+    modulesAppMenuItemList: (IAppMenu | null)[] = [null];
 
     constructor() {
         // Create modules router list
@@ -13,14 +13,14 @@ class Modules implements IModules {
             ...pages.pagesRouterList,
             ...userprofile.userProfileRouterList,
             ...example.exampleRouterList,
-        ]
+        ];
 
         // Create modules App Menu Item list
         this.modulesAppMenuItemList = [
             ...pages.pagesMenuItemList,
             ...userprofile.userProfileMenuItemList,
             ...example.exampleMenuItemList,
-        ]
+        ];
     }
 
     /**
@@ -29,8 +29,8 @@ class Modules implements IModules {
      * @returns {Array}
      */
     getListOfRouterModules = () => {
-        return this.modulesRouterList
-    }
+        return this.modulesRouterList;
+    };
 
     /**
      * Retorna todos os items de menu lateral para os módulos
@@ -38,8 +38,8 @@ class Modules implements IModules {
      * @returns {Array}
      */
     getAppMenuItemList = () => {
-        return this.modulesAppMenuItemList
-    }
+        return this.modulesAppMenuItemList;
+    };
 }
 
-export default new Modules()
+export default new Modules();

@@ -1,23 +1,23 @@
-import React from 'react'
-import Typography from '@mui/material/Typography'
+import React from 'react';
+import Typography from '@mui/material/Typography';
 
-import { hasValue } from '/imports/libs/hasValue'
+import { hasValue } from '/imports/libs/hasValue';
 
-import { simpleLabelStyle } from './SimpleLabelViewStyle'
-import Tooltip from '@mui/material/Tooltip'
-import Info from '@mui/icons-material/InfoOutlined'
+import { simpleLabelStyle } from './SimpleLabelViewStyle';
+import Tooltip from '@mui/material/Tooltip';
+import Info from '@mui/icons-material/InfoOutlined';
 
-import { useTheme } from '@mui/material/styles'
+import { useTheme } from '@mui/material/styles';
 
 interface ISimpleLabelView {
-    label: string
-    value?: string
-    style?: object
-    help?: string
+    label: string;
+    value?: string;
+    style?: object;
+    help?: string;
 }
 
 export default ({ label, value, help, style }: ISimpleLabelView) => {
-    const theme = useTheme()
+    const theme = useTheme();
 
     return hasValue(value) || hasValue(label) ? (
         <div id={label} style={{ ...simpleLabelStyle.container }}>
@@ -67,5 +67,5 @@ export default ({ label, value, help, style }: ISimpleLabelView) => {
                 </Typography>
             ) : null}
         </div>
-    ) : null
-}
+    ) : null;
+};

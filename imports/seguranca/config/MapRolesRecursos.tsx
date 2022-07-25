@@ -1,15 +1,15 @@
-import { Recurso as Exemplo } from '/imports/modules/example/config/Recursos'
+import { Recurso as Exemplo } from '/imports/modules/example/config/Recursos';
 
-import { RoleType } from '/imports/seguranca/config/RoleType'
+import { RoleType } from '/imports/seguranca/config/RoleType';
 
 type MapRolesRecursos = {
-    [key: string]: string[]
-}
+    [key: string]: string[];
+};
 
 // @ts-ignore
 function obterStringsEnum(enumValue: { [s: number]: string | number }): [string] {
     // @ts-ignore
-    return Object.values(enumValue).filter((value) => typeof value === 'string')
+    return Object.values(enumValue).filter((value) => typeof value === 'string');
 }
 
 /**
@@ -24,7 +24,17 @@ function obterStringsEnum(enumValue: { [s: number]: string | number }): [string]
  *
  */
 export const mapRolesRecursos: MapRolesRecursos = {
-    [RoleType.ADMINISTRADOR]: [Exemplo.EXEMPLO_VIEW, Exemplo.EXEMPLO_CREATE],
-    [RoleType.USUARIO]: [Exemplo.EXEMPLO_VIEW, Exemplo.EXEMPLO_CREATE],
+    [RoleType.ADMINISTRADOR]: [
+        Exemplo.EXAMPLE_VIEW,
+        Exemplo.EXAMPLE_CREATE,
+        Exemplo.EXAMPLE_UPDATE,
+        Exemplo.EXAMPLE_REMOVE,
+    ],
+    [RoleType.USUARIO]: [
+        Exemplo.EXAMPLE_VIEW,
+        Exemplo.EXAMPLE_CREATE,
+        Exemplo.EXAMPLE_UPDATE,
+        Exemplo.EXAMPLE_REMOVE,
+    ],
     [RoleType.PUBLICO]: [],
-}
+};

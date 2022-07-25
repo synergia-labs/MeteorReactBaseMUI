@@ -3,7 +3,7 @@ import AppLayoutFixedMenu from './layouts/appLayoutFixedMenu.tsx';
 import GeneralComponents, { AppContext } from './AppGeneralComponents';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import { getTheme, theme } from '/imports/materialui/theme';
-import { useAccount } from '/imports/libs/userAccount';
+import { useAccount } from '/imports/hooks/userAccount';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 

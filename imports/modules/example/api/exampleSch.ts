@@ -1,4 +1,4 @@
-import { IDoc } from '/imports/typings/IDoc'
+import { IDoc } from '/imports/typings/IDoc';
 
 export const exampleSch = {
     image: {
@@ -148,13 +148,13 @@ export const exampleSch = {
         defaultValue: false,
         optional: true,
     },
-}
+};
 
 export interface IExample extends IDoc {
-    image: string
-    title: string
-    description: string
-    audio: string
-    statusCheck: object
-    statusToggle: boolean
+    image: string;
+    title: string;
+    description: string;
+    audio: string;
+    statusCheck: object;
+    statusToggle: boolean;
 }

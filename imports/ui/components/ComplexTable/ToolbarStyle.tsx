@@ -1,16 +1,16 @@
-import { ISxStyleObject } from "/imports/typings/ISxStyleObject";
+import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
 
 export const toolbarStyle: ISxStyleObject = {
-  container: {
-    padding: 0,
-    marginBottom: "1em",
-    justifyContent: "space-between",
-    flexDirection: { xs: "column-reverse", sm: "row" },
-  },
-  searchFilter: {
-    mb: 0,
-    pb: { xs: 0, sm: "calc(0.3em + 2px)" },
-    "& .MuiInputBase-input": { pl: "1px", pr: "2px" },
-    "& .MuiTextField-root": { mb: 0 },
-  },
+    container: {
+        padding: 0,
+        marginBottom: '1em',
+        justifyContent: 'space-between',
+        flexDirection: { xs: 'column-reverse', sm: 'row' },
+    },
+    searchFilter: {
+        mb: 0,
+        pb: { xs: 0, sm: 'calc(0.3em + 2px)' },
+        '& .MuiInputBase-input': { pl: '1px', pr: '2px' },
+        '& .MuiTextField-root': { mb: 0 },
+    },
 };

@@ -24,4 +24,4 @@ export const UserTypeDictionary: { [id: string]: string } = {
     [EnumUserTypes.ADMINISTRADOR]: 'Administrador',
     [EnumUserTypes.CONVIDADO]: 'Convidado(a)',
     [EnumUserTypes.FUNCIONARIO]: 'Funcionário(a)',
-}
+};

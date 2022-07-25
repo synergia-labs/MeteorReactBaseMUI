@@ -1,6 +1,6 @@
-import React from 'react'
-import UserProfileContainer from '../ui/pages/userProfileContainer'
-import { IRoute } from '/imports/modules/modulesTypings'
+import React from 'react';
+import UserProfileContainer from '../ui/pages/userProfileContainer';
+import { IRoute } from '/imports/modules/modulesTypings';
 
 export const userProfileRouterList: IRoute[] = [
     {
@@ -18,4 +18,4 @@ export const userProfileRouterList: IRoute[] = [
         component: UserProfileContainer,
         isProtected: true,
     },
-]
+];

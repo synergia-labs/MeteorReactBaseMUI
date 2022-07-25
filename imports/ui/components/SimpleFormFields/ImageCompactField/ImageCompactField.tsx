@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react'
-import Button from '@mui/material/Button'
-import Slider from '@mui/material/Slider'
-import AvatarEditor from 'react-avatar-editor'
+import React, { useEffect } from 'react';
+import Button from '@mui/material/Button';
+import Slider from '@mui/material/Slider';
+import AvatarEditor from 'react-avatar-editor';
 
-import { isMobile } from '/imports/libs/deviceVerify'
-import { hasValue } from '/imports/libs/hasValue'
+import { isMobile } from '/imports/libs/deviceVerify';
+import { hasValue } from '/imports/libs/hasValue';
 
-import { compactImageStyle } from './ImageCompactFieldStyle'
-import * as appStyle from '/imports/materialui/styles'
+import { compactImageStyle } from './ImageCompactFieldStyle';
+import * as appStyle from '/imports/materialui/styles';
 
-import Typography from '@mui/material/Typography'
-import DeleteIcon from '@mui/icons-material/Delete'
-import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent'
-import { showNotification } from '/imports/ui/AppGeneralComponents'
+import Typography from '@mui/material/Typography';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
+import { showNotification } from '/imports/ui/AppGeneralComponents';
 
 export default ({
     name,
@@ -28,29 +28,29 @@ export default ({
         position: { x: 0.5, y: 0.5 },
         rotate: 0,
         preview: null,
-    })
+    });
 
-    const [editor, setEditor] = React.useState(null)
-    const [image, setImage] = React.useState(null)
-    const [actualImage, setActualImage] = React.useState(value)
+    const [editor, setEditor] = React.useState(null);
+    const [image, setImage] = React.useState(null);
+    const [actualImage, setActualImage] = React.useState(value);
 
-    const [scale, setScale] = React.useState(0.9)
-    const [width, setWidth] = React.useState(otherProps.width || 250)
-    const [height, setHeight] = React.useState(otherProps.height || 250)
+    const [scale, setScale] = React.useState(0.9);
+    const [width, setWidth] = React.useState(otherProps.width || 250);
+    const [height, setHeight] = React.useState(otherProps.height || 250);
 
     const handleScale = (e, valueScale) => {
-        setScale(valueScale)
-        handleSave()
-    }
+        setScale(valueScale);
+        handleSave();
+    };
 
     const handleSave = () => {
         if (editor) {
-            const img = otherProps.nocompress
+            const img = !otherProps.compress
                 ? editor.getImage().toDataURL()
-                : editor.getImageScaledToCanvas().toDataURL()
-            onChange({ target: { value: img } }, { name, value: img })
+                : editor.getImageScaledToCanvas().toDataURL();
+            onChange({ target: { value: img } }, { name, value: img });
         }
-    }
+    };
 
     const handleNewImage = (e) => {
         if (!_validarImagem(e.target.files[0])) {
@@ -60,43 +60,43 @@ export default ({
                 description:
                     'Tipos de arquivos permitidos: .tiff, .ico, .bmp, .webp,' +
                     ' .avif, .apng, .jpeg, .png, .jpg, .svg, .bmp, .gif, .xml',
-            })
-            return
+            });
+            return;
         }
-        setActualImage(null)
-        setImage(e.target.files[0])
-        const image = e.target.files[0]
+        setActualImage(null);
+        setImage(e.target.files[0]);
+        const image = e.target.files[0];
         if (image) {
-            const _URL = window.URL || window.webkitURL
-            const img = new Image()
-            const objectUrl = _URL.createObjectURL(image)
+            const _URL = window.URL || window.webkitURL;
+            const img = new Image();
+            const objectUrl = _URL.createObjectURL(image);
             img.onload = function () {
-                const maxValue = 250 ///window.innerWidth>550?550:window.innerWidth;
-                const width = img.width
-                const height = img.height
+                const maxValue = 250; ///window.innerWidth>550?550:window.innerWidth;
+                const width = img.width;
+                const height = img.height;
                 if (width > height) {
                     // const acceptMaxValue = (maxValue / width) * height < 300;
-                    const newW = maxValue
-                    const newH = (maxValue / width) * height
-                    newW !== width && setWidth(newW)
-                    newH !== height && setHeight(newH)
+                    const newW = maxValue;
+                    const newH = (maxValue / width) * height;
+                    newW !== width && setWidth(newW);
+                    newH !== height && setHeight(newH);
                 } else {
-                    const newW = (maxValue / height) * width
-                    const newH = maxValue
-                    newW !== width && setWidth(newW)
-                    newH !== height && setHeight(newH)
+                    const newW = (maxValue / height) * width;
+                    const newH = maxValue;
+                    newW !== width && setWidth(newW);
+                    newH !== height && setHeight(newH);
                 }
-                _URL.revokeObjectURL(objectUrl)
-            }
-            img.src = objectUrl
+                _URL.revokeObjectURL(objectUrl);
+            };
+            img.src = objectUrl;
         }
-        handleSave()
+        handleSave();
         try {
-            const fileinput = document.getElementById(e.target.id)
-            fileinput.files = null
-            fileinput.value = ''
+            const fileinput = document.getElementById(e.target.id);
+            fileinput.files = null;
+            fileinput.value = '';
         } catch (e) {}
-    }
+    };
 
     const _validarImagem = (imagem: any): boolean => {
         const listaFormatosSuportados = [
@@ -110,39 +110,39 @@ export default ({
             'image/bmp',
             'image/x-icon',
             'image/tiff',
-        ]
+        ];
         if (!listaFormatosSuportados.includes(imagem.type)) {
-            return false
+            return false;
         }
-        return true
-    }
+        return true;
+    };
 
     useEffect(() => {
         if (!!readOnly || !image) {
-            setActualImage(value)
-            setScale(1)
-            setWidth(otherProps.width || 250)
-            setHeight(otherProps.height || 250)
+            setActualImage(value);
+            setScale(1);
+            setWidth(otherProps.width || 250);
+            setHeight(otherProps.height || 250);
         }
         if (readOnly) {
-            setImage(null)
+            setImage(null);
         }
-    }, [value, readOnly])
+    }, [value, readOnly]);
 
     const handlePositionChange = (position) => {
         setValues({
             ...values,
             ['position']: position,
-        })
-        handleSave()
-    }
+        });
+        handleSave();
+    };
 
     const deleteImageCompact = () => {
-        setImage(null)
-        setActualImage(null)
+        setImage(null);
+        setActualImage(null);
 
-        onChange({ target: { value: '' } }, { name, value: '' })
-    }
+        onChange({ target: { value: '' } }, { name, value: '' });
+    };
 
     return (
         <div
@@ -174,11 +174,11 @@ export default ({
                             key={`image${name}ReadOnly`}
                             src={actualImage}
                             onError={(e) => {
-                                e.target.onerror = null
-                                e.target.width = 250
-                                e.target.height = 250
-                                e.target.style = ''
-                                e.target.src = '/images/wireframe/imagem_default.png'
+                                e.target.onerror = null;
+                                e.target.width = 250;
+                                e.target.height = 250;
+                                e.target.style = '';
+                                e.target.src = '/images/wireframe/imagem_default.png';
                             }}
                             style={{
                                 width: '100%',
@@ -242,7 +242,7 @@ export default ({
                                             <AvatarEditor
                                                 id={`avatarEditor${name}`}
                                                 ref={(ref) => {
-                                                    setEditor(ref)
+                                                    setEditor(ref);
                                                 }}
                                                 scale={parseFloat(scale)}
                                                 width={width}
@@ -285,7 +285,7 @@ export default ({
                             key={`image${name}ActualImage`}
                             src={actualImage}
                             onError={(e) => {
-                                setActualImage(null)
+                                setActualImage(null);
                             }}
                             style={{
                                 maxHeight: height,
@@ -367,5 +367,5 @@ export default ({
                 ) : null}
             </div>
         </div>
-    )
-}
+    );
+};

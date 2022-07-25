@@ -40,6 +40,6 @@ const signupStyle = {
         marginTop: 35,
         color: '#444',
     },
-}
+};
 
-export { signupStyle }
+export { signupStyle };

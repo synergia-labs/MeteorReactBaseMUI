@@ -44,6 +44,6 @@ const sliderFieldStyle = {
         marginBottom: 16,
         border: '1px solid red',
     },
-}
+};
 
-export { sliderFieldStyle }
+export { sliderFieldStyle };

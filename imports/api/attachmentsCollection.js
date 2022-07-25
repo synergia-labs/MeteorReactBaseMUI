@@ -1,15 +1,15 @@
-import { FilesCollection } from 'meteor/ostrio:files'
-import { Meteor } from 'meteor/meteor'
-import shortid from 'shortid'
+import { FilesCollection } from 'meteor/ostrio:files';
+import { Meteor } from 'meteor/meteor';
+import shortid from 'shortid';
 
-let uploadPaths = null
+let uploadPaths = null;
 if (Meteor.isServer) {
-    const fs = require('fs')
+    const fs = require('fs');
 
-    uploadPaths = `${Meteor.absolutePath.split('/').slice(0, -1).join('/')}/uploads/meteorUploads`
+    uploadPaths = `${Meteor.absolutePath.split('/').slice(0, -1).join('/')}/uploads/meteorUploads`;
 
     if (!fs.existsSync(uploadPaths)) {
-        fs.mkdirSync(uploadPaths, { recursive: true })
+        fs.mkdirSync(uploadPaths, { recursive: true });
     }
 }
 
@@ -33,46 +33,46 @@ class AttachmentsCollection {
                         file.extension
                     )
                 ) {
-                    return true
+                    return true;
                 }
-                return 'Please upload image, with size equal or less than 10MB'
+                return 'Please upload image, with size equal or less than 10MB';
             },
-        })
+        });
         if (Meteor.isServer) {
             /* Allow all
              * @see http://docs.meteor.com/#/full/allow
              */
-            this.attachments.allowClient()
+            this.attachments.allowClient();
         }
-        this.applyPublication()
+        this.applyPublication();
     }
 
     applyPublication = () => {
-        const self = this
+        const self = this;
         if (Meteor.isServer) {
             Meteor.methods({
                 RemoveFile: (id) => {
-                    check(id, String)
+                    check(id, String);
                     try {
-                        const file = self.attachments.findOne({ _id: id })
+                        const file = self.attachments.findOne({ _id: id });
                         if (file) {
-                            file.remove()
+                            file.remove();
                         }
                     } catch (e) {
                         // console.log('Error on Remove File',e);
-                        return true
+                        return true;
                     }
                 },
-            })
+            });
 
             Meteor.publish('files-attachments', (filter) => {
-                check(filter, Object)
-                return self.attachments.collection.find({ ...filter })
-            })
+                check(filter, Object);
+                return self.attachments.collection.find({ ...filter });
+            });
         }
-    }
+    };
 
-    find = (filter) => this.attachments.collection.find(filter)
+    find = (filter) => this.attachments.collection.find(filter);
 
     getAttachmentDoc = (doc) => ({
         _id: doc._id,
@@ -104,33 +104,33 @@ class AttachmentsCollection {
         isPDF: false,
         _storagePath: '/meteorUploads',
         public: false,
-    })
+    });
 
     serverInsert = (doc) => {
-        this.attachments.collection.insert(doc)
-    }
+        this.attachments.collection.insert(doc);
+    };
 
     serverSaveCSVFile = async (file, fileName) => {
         if (Meteor.isServer) {
-            const fileId = shortid.generate()
-            const nameFile = `${fileName ? fileName : fileId}.csv`
-            const fs = require('fs').promises
-            const fileSave = await fs.writeFile(`${uploadPaths}/${nameFile}`, file)
-            const fileStat = await fs.stat(`${uploadPaths}/${nameFile}`)
+            const fileId = shortid.generate();
+            const nameFile = `${fileName ? fileName : fileId}.csv`;
+            const fs = require('fs').promises;
+            const fileSave = await fs.writeFile(`${uploadPaths}/${nameFile}`, file);
+            const fileStat = await fs.stat(`${uploadPaths}/${nameFile}`);
             const fileData = {
                 _id: fileId,
                 name: nameFile,
                 size: fileStat.size,
                 path: `${uploadPaths}/${nameFile}`,
-            }
-            this.serverInsert(this.getAttachmentDoc(fileData))
-            return `${Meteor.absoluteUrl()}cdn/storage/Attachments/${fileId}/original/${nameFile}`
+            };
+            this.serverInsert(this.getAttachmentDoc(fileData));
+            return `${Meteor.absoluteUrl()}cdn/storage/Attachments/${fileId}/original/${nameFile}`;
         }
-    }
+    };
 
-    findOne = (filter) => this.attachments.findOne(filter)
+    findOne = (filter) => this.attachments.findOne(filter);
 
-    getCollection = () => this.attachments
+    getCollection = () => this.attachments;
 }
 
-export const attachmentsCollection = new AttachmentsCollection()
+export const attachmentsCollection = new AttachmentsCollection();

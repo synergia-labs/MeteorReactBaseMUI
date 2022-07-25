@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
     Location,
     NavigateFunction,
@@ -7,38 +7,38 @@ import {
     useLocation,
     useNavigate,
     useParams,
-} from 'react-router-dom'
-import Modules from '../../modules'
-import NotFound from '../pages/NotFound/NotFound'
-import { getUser } from '/imports/libs/getUser'
-import { segurancaApi } from '/imports/seguranca/api/SegurancaApi'
-import { IRoute } from '/imports/modules/modulesTypings'
-import { SignIn } from '../pages/SignIn/Signin'
-import { subjectRouter } from '/imports/analytics/AnalyticsSubscriber'
-import { ILayoutProps } from '/imports/typings/BoilerplateDefaultTypings'
+} from 'react-router-dom';
+import Modules from '../../modules';
+import NotFound from '../pages/NotFound/NotFound';
+import { getUser } from '/imports/libs/getUser';
+import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
+import { IRoute } from '/imports/modules/modulesTypings';
+import { SignIn } from '../pages/SignIn/Signin';
+import { subjectRouter } from '/imports/analytics/AnalyticsSubscriber';
+import { ILayoutProps } from '/imports/typings/BoilerplateDefaultTypings';
 
 interface IWrapComponent extends ILayoutProps {
-    component: React.ElementType
-    navigate: NavigateFunction
-    location: Location
+    component: React.ElementType;
+    navigate: NavigateFunction;
+    location: Location;
 }
 
 const WrapComponent = ({ component, ...props }: IWrapComponent) => {
-    const RenderedComponent = component
-    const params = useParams()
+    const RenderedComponent = component;
+    const params = useParams();
 
     subjectRouter.next({
         pathname: location.pathname,
         params,
         user: props.user,
-    })
+    });
 
-    return <RenderedComponent {...props} />
-}
+    return <RenderedComponent {...props} />;
+};
 
 const AppRouterSwitch = React.memo((switchProps: ILayoutProps) => {
-    const location = useLocation()
-    const navigate = useNavigate()
+    const location = useLocation();
+    const navigate = useNavigate();
 
     return (
         <Routes location={location}>
@@ -46,15 +46,15 @@ const AppRouterSwitch = React.memo((switchProps: ILayoutProps) => {
                 .filter((r) => !!r)
                 .map((routerData: IRoute | null) => {
                     if (routerData?.isProtected) {
-                        const resources = routerData.resources
+                        const resources = routerData.resources;
 
-                        const isLogged = switchProps?.isLoggedIn
-                        let possuiPermissao = true
+                        const isLogged = switchProps?.isLoggedIn;
+                        let possuiPermissao = true;
                         if (resources) {
                             possuiPermissao = segurancaApi.podeAcessarRecurso(
                                 getUser(),
                                 ...resources
-                            )
+                            );
                         }
                         return (
                             <Route
@@ -79,7 +79,7 @@ const AppRouterSwitch = React.memo((switchProps: ILayoutProps) => {
                                     )
                                 }
                             />
-                        )
+                        );
                     } else {
                         return (
                             <Route
@@ -95,12 +95,12 @@ const AppRouterSwitch = React.memo((switchProps: ILayoutProps) => {
                                     />
                                 }
                             />
-                        )
+                        );
                     }
                 })}
             <Route element={NotFound} />
         </Routes>
-    )
-})
+    );
+});
 
-export default AppRouterSwitch
+export default AppRouterSwitch;

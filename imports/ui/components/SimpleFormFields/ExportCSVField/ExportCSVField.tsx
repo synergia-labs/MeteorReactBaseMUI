@@ -1,11 +1,11 @@
-import React from 'react'
-import Button from '@mui/material/Button'
-import { exportCSVFieldStyle } from './ExportCSVFieldStyle'
+import React from 'react';
+import Button from '@mui/material/Button';
+import { exportCSVFieldStyle } from './ExportCSVFieldStyle';
 
-import CircularProgress from '@mui/material/CircularProgress'
-import Snackbar from '@mui/material/Snackbar'
-import Alert from '@mui/material/Alert'
-import { bemculturalApi } from '/imports/modules/bemcultural/api/bemculturalApi'
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { bemculturalApi } from '/imports/modules/bemcultural/api/bemculturalApi';
 
 export default ExportCSV = ({
     name,
@@ -17,16 +17,16 @@ export default ExportCSV = ({
     bemculturals,
     ...otherProps
 }: IBaseSimpleFormComponent) => {
-    const { filtroBasico, filtroAvancado, sort, skip, limit } = otherProps || {}
+    const { filtroBasico, filtroAvancado, sort, skip, limit } = otherProps || {};
 
-    const [showLoading, setShowLoading] = React.useState(false)
+    const [showLoading, setShowLoading] = React.useState(false);
 
     const handleOnChangeSituacao = (evt) => {
         onChange(
             { name, target: { name, value: { situacao: evt.target.value } } },
             { name, value: { situacao: evt.target.value } }
-        )
-    }
+        );
+    };
 
     const showSnackBar = () => (
         <Snackbar
@@ -62,7 +62,7 @@ export default ExportCSV = ({
                 </div>
             </Alert>
         </Snackbar>
-    )
+    );
 
     const downloadCSV = () => {
         bemculturalApi.downloadCSV(
@@ -71,17 +71,17 @@ export default ExportCSV = ({
             { sort, skip, limit },
             (err: boolean, csvLink) => {
                 if (err) {
-                    console.log(err)
+                    console.log(err);
                 } else {
-                    setShowLoading(false)
-                    const link = document.createElement('a')
-                    link.download = 'ListaBemCultural.csv'
-                    link.href = csvLink
-                    link.click()
+                    setShowLoading(false);
+                    const link = document.createElement('a');
+                    link.download = 'ListaBemCultural.csv';
+                    link.href = csvLink;
+                    link.click();
                 }
             }
-        )
-    }
+        );
+    };
 
     return (
         <div style={exportCSVFieldStyle.containerDoubleSelect}>
@@ -103,13 +103,13 @@ export default ExportCSV = ({
                 }}
                 color={'secondary'}
                 onClick={() => {
-                    setShowLoading(true)
-                    downloadCSV()
+                    setShowLoading(true);
+                    downloadCSV();
                 }}
             >
                 {'Exportar para CSV'}
             </Button>
             {showLoading && showSnackBar()}
         </div>
-    )
-}
+    );
+};

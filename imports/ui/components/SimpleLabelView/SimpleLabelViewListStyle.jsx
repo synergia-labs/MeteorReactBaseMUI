@@ -26,6 +26,6 @@ const simpleLabelListStyle = {
         overflow: 'hidden',
         textOverflow: 'ellipsis',
     },
-}
+};
 
-export { simpleLabelListStyle }
+export { simpleLabelListStyle };

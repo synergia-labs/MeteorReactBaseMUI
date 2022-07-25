@@ -1,16 +1,16 @@
-import { segurancaApi } from '/imports/seguranca/api/SegurancaApi'
-import { getUser } from '/imports/libs/getUser'
+import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
+import { getUser } from '/imports/libs/getUser';
 
 type RenderComPermissaoProps = {
-    recursos: string[]
+    recursos: string[];
     /**
      * Ignora validação de recurso e renderiza se true
      */
-    ignorar?: boolean
+    ignorar?: boolean;
     //condição extra opcional se possuir recurso.
-    exibir?: () => boolean
-    children: JSX.Element
-}
+    exibir?: () => boolean;
+    children: JSX.Element;
+};
 
 /**
  * Exibe o componente children se o usuário possuir algum dos recursos fornecidos associados ao seu perfil(meteor.roles).
@@ -25,14 +25,14 @@ export const RenderComPermissao = ({
     children,
     ignorar = false,
 }: RenderComPermissaoProps): JSX.Element | null => {
-    const user = getUser()
+    const user = getUser();
     if (ignorar || segurancaApi.podeAcessarRecurso(user, ...recursos)) {
         if (exibir) {
-            if (exibir()) return children
-            return null
+            if (exibir()) return children;
+            return null;
         }
-        return children
+        return children;
     }
 
-    return null
-}
+    return null;
+};

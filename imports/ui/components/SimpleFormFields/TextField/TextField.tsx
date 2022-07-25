@@ -1,43 +1,43 @@
-import React from 'react'
-import InputBase from '@mui/material/InputBase'
-import TextField from '@mui/material/TextField'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import * as appStyle from '/imports/materialui/styles'
-import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent'
+import React from 'react';
+import InputBase from '@mui/material/InputBase';
+import TextField from '@mui/material/TextField';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import * as appStyle from '/imports/materialui/styles';
+import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 interface ITextFieldSimpleFormComponent extends IBaseSimpleFormComponent {
-    maxCaracteres?: 'short' | 'medium' | 'long'
-    help?: string
+    maxCaracteres?: 'short' | 'medium' | 'long';
+    help?: string;
     /**
      *
      * @param value valor que é exibido.
      * @param label nome do campo.
      * @return mensagem justificando valor invalido, ou true para mensagem padrão. Null se válido.
      */
-    invalidate?: (value: string | null, label: string) => string | null | true | false
+    invalidate?: (value: string | null, label: string) => string | null | true | false;
     /**
      * transforma o dado do documento em string.
      */
-    valueFormatter?: (value?: any) => string
+    valueFormatter?: (value?: any) => string;
 
     /**
      *  tranforma o string em dado do documento
      */
-    valueTransformer?: (value?: string) => any
+    valueTransformer?: (value?: string) => any;
 
     /**
      * Aplica uma máscara ao valor a ser exibido.
      * @param value
      */
-    applyMask?: (value: string) => string
+    applyMask?: (value: string) => string;
 
     /**
      * Se verdadeiro exibe mensagem de erro no componente.
      */
-    inlineError?: boolean
-    rows?: number
-    maxRows?: number
-    [otherPropsKey: string]: any
+    inlineError?: boolean;
+    rows?: number;
+    maxRows?: number;
+    [otherPropsKey: string]: any;
 }
 
 export default ({
@@ -58,39 +58,39 @@ export default ({
     inlineError,
     ...otherProps
 }: ITextFieldSimpleFormComponent) => {
-    const { schema } = otherProps
+    const { schema } = otherProps;
 
     let fieldValue =
         value === '-'
             ? '-'
             : schema && schema.type === Date && !!value && value instanceof Date
             ? value.toLocaleDateString('pt-BR')
-            : value
+            : value;
 
-    fieldValue = valueFormatter(fieldValue)
-    fieldValue = applyMask(fieldValue)
+    fieldValue = valueFormatter(fieldValue);
+    fieldValue = applyMask(fieldValue);
 
     const maxLength =
-        maxCaracteres && maxCaracteres == 'short' ? 100 : maxCaracteres == 'medium' ? 200 : 400
+        maxCaracteres && maxCaracteres == 'short' ? 100 : maxCaracteres == 'medium' ? 200 : 400;
 
     otherProps &&
         maxCaracteres &&
         (otherProps.inputProps = otherProps.inputProps
             ? { ...otherProps.inputProps, maxLength: maxLength }
-            : { maxLength: maxLength })
+            : { maxLength: maxLength });
 
-    let validateMsg = invalidate(fieldValue, label)
-    error = error || !!validateMsg
+    let validateMsg = invalidate(fieldValue, label);
+    error = error || !!validateMsg;
 
     if (typeof validateMsg !== 'string') {
-        validateMsg = null
+        validateMsg = null;
     }
     const onFieldChange = (e: React.BaseSyntheticEvent) => {
-        const maskedValue = applyMask(e.target.value)
-        const newValue = valueTransformer(maskedValue)
+        const maskedValue = applyMask(e.target.value);
+        const newValue = valueTransformer(maskedValue);
         //@ts-ignore
-        onChange({ name, target: { name, value: newValue } }, { name, value: newValue })
-    }
+        onChange({ name, target: { name, value: newValue } }, { name, value: newValue });
+    };
 
     if (readOnly) {
         return (
@@ -124,7 +124,7 @@ export default ({
                     type={'text'}
                 />
             </div>
-        )
+        );
     }
 
     if (otherProps.isNaked) {
@@ -140,7 +140,7 @@ export default ({
                 label={otherProps.labelDisable ? undefined : label}
                 {...otherProps}
             />
-        )
+        );
     }
 
     return (
@@ -190,5 +190,5 @@ export default ({
                 </div>
             )}
         </div>
-    )
-}
+    );
+};

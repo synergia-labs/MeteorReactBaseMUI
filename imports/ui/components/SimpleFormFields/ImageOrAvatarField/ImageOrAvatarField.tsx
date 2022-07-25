@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField'
-import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import AvatarGeneratorField from '/imports/ui/components/SimpleFormFields/AvatarGeneratorField/AvatarGeneratorField';
+import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
-import { imageOrAvatarStyle } from './ImageOrAvatarFieldStyle'
-import { hasValue } from '/imports/libs/hasValue'
+import { imageOrAvatarStyle } from './ImageOrAvatarFieldStyle';
+import { hasValue } from '/imports/libs/hasValue';
 
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 export default ({
     name,
@@ -20,20 +20,20 @@ export default ({
     error,
     ...otherProps
 }: IBaseSimpleFormComponent) => {
-    const [imageOrAvatar, setImageOrAvatar] = React.useState(null)
-    const [img, setImg] = React.useState(value)
+    const [imageOrAvatar, setImageOrAvatar] = React.useState(null);
+    const [img, setImg] = React.useState(value);
 
     const handleOnChangeAvatar = (evt) => {
-        setImageOrAvatar(evt.target.value === '-' || evt.target.value === null ? null : 'avatar')
-        onChange({ ...evt, name }, { name, value: evt.target.value })
-    }
+        setImageOrAvatar(evt.target.value === '-' || evt.target.value === null ? null : 'avatar');
+        onChange({ ...evt, name }, { name, value: evt.target.value });
+    };
     const handleOnChangeImage = (evt) => {
-        setImageOrAvatar(evt.target.value === '-' || evt.target.value === null ? null : 'image')
-        onChange({ ...evt, name }, { name, value: evt.target.value })
-    }
+        setImageOrAvatar(evt.target.value === '-' || evt.target.value === null ? null : 'image');
+        onChange({ ...evt, name }, { name, value: evt.target.value });
+    };
 
     function TabPanel(props) {
-        const { children, value, index, ...other } = props
+        const { children, value, index, ...other } = props;
 
         return (
             <div
@@ -49,14 +49,14 @@ export default ({
                     </Box>
                 )}
             </div>
-        )
+        );
     }
 
     TabPanel.propTypes = {
         children: PropTypes.node,
         index: PropTypes.any.isRequired,
         value: PropTypes.any.isRequired,
-    }
+    };
 
     return (
         <div
@@ -76,8 +76,8 @@ export default ({
                             <img
                                 src={value}
                                 onError={(e) => {
-                                    e.target.onerror = null
-                                    e.target.src = '/images/wireframe/imagem_default.png'
+                                    e.target.onerror = null;
+                                    e.target.src = '/images/wireframe/imagem_default.png';
                                 }}
                                 id={name}
                                 style={{
@@ -121,5 +121,5 @@ export default ({
                 </div>
             ) : null}
         </div>
-    )
-}
+    );
+};

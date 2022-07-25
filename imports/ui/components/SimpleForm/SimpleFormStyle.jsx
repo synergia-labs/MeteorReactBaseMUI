@@ -58,6 +58,6 @@ const simpleFormStyle = {
     buttonAddSubForm: {
         backgroundColor: '#5a9902',
     },
-}
+};
 
-export { simpleFormStyle }
+export { simpleFormStyle };

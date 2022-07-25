@@ -61,6 +61,6 @@ const uploadFilesStyle = {
         margin: '10px',
         backgroundColor: 'white',
     },
-}
+};
 
-export { uploadFilesStyle }
+export { uploadFilesStyle };

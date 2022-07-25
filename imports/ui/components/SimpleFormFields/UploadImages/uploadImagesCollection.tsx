@@ -1,40 +1,40 @@
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
-import Dropzone from 'react-dropzone'
-import _ from 'lodash'
-import { attachmentsCollection } from '/imports/api/attachmentsCollection'
+import { withTracker } from 'meteor/react-meteor-data';
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import _ from 'lodash';
+import { attachmentsCollection } from '/imports/api/attachmentsCollection';
 
-import LibraryBooks from '@mui/icons-material/LibraryBooks'
-import LibraryMusic from '@mui/icons-material/LibraryMusic'
-import Image from '@mui/icons-material/Image'
-import VideoLibrary from '@mui/icons-material/VideoLibrary'
-import Book from '@mui/icons-material/Book'
-import AttachFile from '@mui/icons-material/AttachFile'
-import { Meteor } from 'meteor/meteor'
+import LibraryBooks from '@mui/icons-material/LibraryBooks';
+import LibraryMusic from '@mui/icons-material/LibraryMusic';
+import Image from '@mui/icons-material/Image';
+import VideoLibrary from '@mui/icons-material/VideoLibrary';
+import Book from '@mui/icons-material/Book';
+import AttachFile from '@mui/icons-material/AttachFile';
+import { Meteor } from 'meteor/meteor';
 
-import Snackbar from '@mui/material/Snackbar'
+import Snackbar from '@mui/material/Snackbar';
 
-import Alert from '@mui/material/Alert'
-import IconButton from '@mui/material/IconButton'
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
 
-import LinearProgress from '@mui/material/LinearProgress'
-import Delete from '@mui/icons-material/Delete'
-import Download from '@mui/icons-material/GetApp'
+import LinearProgress from '@mui/material/LinearProgress';
+import Delete from '@mui/icons-material/Delete';
+import Download from '@mui/icons-material/GetApp';
 
-import { uploadImagesStyle } from './uploadImagesCollectionStyle'
+import { uploadImagesStyle } from './uploadImagesCollectionStyle';
 
-import Card from '@mui/material/Card'
-import CardMedia from '@mui/material/CardMedia'
-import Typography from '@mui/material/Typography'
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 
-import DialogTitle from '@mui/material/DialogTitle'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import Button from '@mui/material/Button'
-import Container from '@mui/material/Container'
-import { retornarErrosUpload } from '/imports/libs/RetornarMensagemErro'
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import { retornarErrosUpload } from '/imports/libs/RetornarMensagemErro';
 
-const { grey100, grey500, grey700 } = ['#eeeeee', '#c9c9c9', '#a1a1a1']
+const { grey100, grey500, grey700 } = ['#eeeeee', '#c9c9c9', '#a1a1a1'];
 
 const styles = {
     textoUploadArquivo: {
@@ -83,56 +83,56 @@ const styles = {
         button: '-50%',
         transform: 'translate(-50%, -50%)',
     },
-}
+};
 
 interface IArquivo {
-    name: string
-    type?: string
-    size: number
-    link: string
-    _id?: string
-    id: string
-    ext?: string
-    queue?: boolean
-    file?: object
-    index?: number
-    'mime-type'?: string
-    status?: string
+    name: string;
+    type?: string;
+    size: number;
+    link: string;
+    _id?: string;
+    id: string;
+    ext?: string;
+    queue?: boolean;
+    file?: object;
+    index?: number;
+    'mime-type'?: string;
+    status?: string;
 }
 
 interface IUploadFileProps {
-    loading: boolean
-    attachments: IArquivo[] | []
-    attachmentsExists: boolean
+    loading: boolean;
+    attachments: IArquivo[] | [];
+    attachmentsExists: boolean;
 }
 
 interface IUploadFileState {
-    files: []
-    arquivosBase64: []
-    links: Partial<IArquivo>[] | []
-    linksServidor: []
-    tabelaArquivos: null | []
-    isEmUpload: boolean
-    arquivos: IArquivo[] | []
-    inProgress?: boolean
-    progress?: number
-    msgError?: string | null
-    uploading?: []
-    uploadFileSize?: string
-    uploadFileMimeType?: string
+    files: [];
+    arquivosBase64: [];
+    links: Partial<IArquivo>[] | [];
+    linksServidor: [];
+    tabelaArquivos: null | [];
+    isEmUpload: boolean;
+    arquivos: IArquivo[] | [];
+    inProgress?: boolean;
+    progress?: number;
+    msgError?: string | null;
+    uploading?: [];
+    uploadFileSize?: string;
+    uploadFileMimeType?: string;
 }
 
 class UploadImage extends React.Component<
     IUploadFileProps & IUploadImagesCollection,
     IUploadFileState
 > {
-    fileQueue: IArquivo[] | []
-    arquivosServ: []
+    fileQueue: IArquivo[] | [];
+    arquivosServ: [];
 
     constructor(props: IUploadFileProps & IUploadImagesCollection) {
-        super(props)
-        this.fileQueue = []
-        this.arquivosServ = this.props.value || []
+        super(props);
+        this.fileQueue = [];
+        this.arquivosServ = this.props.value || [];
         this.state = {
             files: [],
             arquivosBase64: [],
@@ -144,37 +144,37 @@ class UploadImage extends React.Component<
             openSnackBar: null,
             open: false,
             itemDialog: null,
-        }
+        };
     }
 
     static getDerivedStateFromProps(nextProps: IUploadFileProps) {
-        const arquivos = nextProps.attachments || []
+        const arquivos = nextProps.attachments || [];
 
         return {
             arquivos,
             attachmentsExists: nextProps.attachmentsExists,
-        }
+        };
     }
 
     componentDidMount() {
-        const arquivos = this.props.attachments || []
-        this.onChange(arquivos)
+        const arquivos = this.props.attachments || [];
+        this.onChange(arquivos);
     }
 
     componentDidUpdate(prevProps: IUploadFileProps, prevState: IUploadFileState, snapshot) {
-        const arquivos = this.props.attachments || []
+        const arquivos = this.props.attachments || [];
 
         if (
             !_.isEqual(this.props.attachments, prevProps.attachments) ||
             (this.props.attachments.length > 0 && this.state.links.length === 0)
         ) {
             this.fileQueue.forEach((arquivo) => {
-                arquivos.push(arquivo)
-            })
-            this.mostrarLinksArquivos(arquivos)
+                arquivos.push(arquivo);
+            });
+            this.mostrarLinksArquivos(arquivos);
         }
 
-        return null
+        return null;
     }
 
     getFileSize = (size: number) => {
@@ -184,14 +184,14 @@ class UploadImage extends React.Component<
                     this.props.maxSize /
                     (1024 * 1024)
                 ).toFixed()}MB permitido.`,
-            })
-            this.setState({ openSnackBar: true })
+            });
+            this.setState({ openSnackBar: true });
         }
 
         return size / 1024 < 1000
             ? `${(size / 1024).toFixed(2)}KB`
-            : `${(size / (1024 * 1024)).toFixed(2)}MB`
-    }
+            : `${(size / (1024 * 1024)).toFixed(2)}MB`;
+    };
 
     onChange = (value: any) => {
         const event = {
@@ -200,61 +200,61 @@ class UploadImage extends React.Component<
                 name: this.props.name,
                 value,
             },
-        }
+        };
         if (this.props.saveOnChange) {
-            this.props.saveOnChange({ ...this.props.doc, [this.props.name]: value })
+            this.props.saveOnChange({ ...this.props.doc, [this.props.name]: value });
         }
-        this.props.onChange(event)
-    }
+        this.props.onChange(event);
+    };
 
     onClose = () => {
-        this.setState({ open: false })
-    }
+        this.setState({ open: false });
+    };
 
     getIcon = (mimeType) => {
         if (!mimeType) {
-            return '-'
+            return '-';
         }
 
         const type = {
             base: mimeType.split('/')[0],
             fileType: mimeType.split('/')[1],
-        }
+        };
 
         switch (type.base) {
             case 'text':
-                return <LibraryBooks />
+                return <LibraryBooks />;
             case 'audio':
-                return <LibraryMusic />
+                return <LibraryMusic />;
             case 'image':
-                return <Image />
+                return <Image />;
             case 'video':
-                return <VideoLibrary />
+                return <VideoLibrary />;
 
             case 'application':
                 if (type.fileType === 'pdf') {
-                    return <Book />
+                    return <Book />;
                 }
                 if (type.fileType.indexOf('msword') !== -1) {
-                    return <Book />
+                    return <Book />;
                 }
-                return <AttachFile />
+                return <AttachFile />;
 
             default:
-                return <AttachFile />
+                return <AttachFile />;
         }
-    }
+    };
 
     mostrarLinksArquivos = (arquivos: IArquivo[]) => {
         // const { arquivos, progress } = this.state || [];
 
-        let listaArquivos: [] | Partial<IArquivo>[] = []
+        let listaArquivos: [] | Partial<IArquivo>[] = [];
         if (arquivos.length > 0) {
             listaArquivos = arquivos.map((item) => {
                 const link =
                     item.status && item.status === 'InProgress'
                         ? item.link
-                        : attachmentsCollection.attachments.findOne({ _id: item._id }).link()
+                        : attachmentsCollection.attachments.findOne({ _id: item._id }).link();
                 return {
                     name: item.name,
                     id: item._id,
@@ -264,21 +264,21 @@ class UploadImage extends React.Component<
                     identificador: item.name,
                     index: item.index,
                     link,
-                }
-            })
+                };
+            });
         }
 
-        const preparedList = []
+        const preparedList = [];
         listaArquivos.forEach((arq) => {
             if (!preparedList.find((f) => f.id + f.name === arq.id + arq.name)) {
-                preparedList.push(arq)
+                preparedList.push(arq);
             }
-        })
+        });
 
         this.setState({
             links: [...preparedList],
-        })
-    }
+        });
+    };
 
     /**
      * É executado após um arquivo ser solto/adicionado via clique.
@@ -292,9 +292,9 @@ class UploadImage extends React.Component<
         rejectedFiles: []
     ) => {
         if (rejectedFiles.length === 0) {
-            const arquivos = this.state.arquivos
-            const self = this
-            let firstFile: Partial<IArquivo> | null = null
+            const arquivos = this.state.arquivos;
+            const self = this;
+            let firstFile: Partial<IArquivo> | null = null;
 
             acceptedFiles.forEach((file, index: number) => {
                 const arquivo: Partial<IArquivo> = {
@@ -306,19 +306,19 @@ class UploadImage extends React.Component<
                     size: file.size,
                     index,
                     file,
-                }
+                };
 
                 if (!firstFile) {
-                    firstFile = arquivo
+                    firstFile = arquivo;
                 }
 
-                this.fileQueue.push(arquivo)
+                this.fileQueue.push(arquivo);
 
-                arquivos.push(arquivo)
+                arquivos.push(arquivo);
 
                 // ToDo Criar um array de Files e salvar no Servidor!
                 // ToDo Somente salvar o Arquivo após a solicitação estar salva.
-            })
+            });
 
             self.setState(
                 {
@@ -328,38 +328,38 @@ class UploadImage extends React.Component<
                     inProgress: false,
                 },
                 () => {
-                    self.mostrarLinksArquivos(arquivos)
-                    self.uploadIt(null, firstFile)
+                    self.mostrarLinksArquivos(arquivos);
+                    self.uploadIt(null, firstFile);
                 }
-            )
+            );
         } else {
             const mensagemTamanho = {
                 tamanhoRejeitados: `O tamanho do arquivo excede o limite de ${(
                     this.props.maxSize /
                     (1024 * 1024)
                 ).toFixed()}MB permitido.`,
-            }
+            };
             const mensagem = retornarErrosUpload(rejectedFiles, {
                 ...this.props.mensagens,
                 ...mensagemTamanho,
-            })
+            });
             this.setState({
                 msgError: `${mensagem}`,
-            })
-            this.setState({ openSnackBar: true })
+            });
+            this.setState({ openSnackBar: true });
         }
-    }
+    };
 
     downloadURI = (uri: string, name: string) => {
-        const link = document.createElement('a')
-        link.download = name
-        link.href = uri
-        link.click()
-    }
+        const link = document.createElement('a');
+        link.download = name;
+        link.href = uri;
+        link.click();
+    };
 
     showDialog = (item: object) => {
-        this.setState({ open: true, itemDialog: item })
-    }
+        this.setState({ open: true, itemDialog: item });
+    };
 
     getList = (item, numCardPage, readOnly) => {
         return (
@@ -374,8 +374,8 @@ class UploadImage extends React.Component<
                     <img
                         src={item.status && item.status === 'InProgress' ? undefined : item.link}
                         onError={(e) => {
-                            e.target.onerror = null
-                            e.target.src = '/images/wireframe/imagem_default.png'
+                            e.target.onerror = null;
+                            e.target.src = '/images/wireframe/imagem_default.png';
                         }}
                         style={{ maxWidth: 255, maxHeight: 200 }}
                     />
@@ -427,9 +427,9 @@ class UploadImage extends React.Component<
                                 <IconButton
                                     style={uploadImagesStyle.delete}
                                     onClick={(e) => {
-                                        e.stopPropagation()
-                                        e.preventDefault()
-                                        this.excluirArquivo(item.id)
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        this.excluirArquivo(item.id);
                                     }}
                                 >
                                     <Delete fontSize="small" style={uploadImagesStyle.deleteIcon} />
@@ -439,12 +439,12 @@ class UploadImage extends React.Component<
                     )}
                 </CardMedia>
             </Card>
-        )
-    }
+        );
+    };
 
     getConteudoDropzoneEmUpload = () => (
         <div style={uploadImagesStyle.containerStatusUpload}>{'Enviando'}</div>
-    )
+    );
 
     getConteudoDropzone = (getRootProps: any, getInputProps: any, isDragActive: boolean) => (
         <div
@@ -501,44 +501,44 @@ class UploadImage extends React.Component<
                 </div>
             </div>
         </div>
-    )
+    );
 
     excluirArquivo = (id: string) => {
-        const self = this
+        const self = this;
 
         self.setState({
             open: false,
             itemDialog: null,
-        })
+        });
 
         Meteor.call('RemoveFile', id, (err: boolean) => {
             if (err) {
-                console.log(err)
+                console.log(err);
             } else {
-                const arquivos = self.state.arquivos.filter((item) => item._id !== id)
-                self.onChange(arquivos)
-                self.setState({ arquivos }, () => self.mostrarLinksArquivos(arquivos))
+                const arquivos = self.state.arquivos.filter((item) => item._id !== id);
+                self.onChange(arquivos);
+                self.setState({ arquivos }, () => self.mostrarLinksArquivos(arquivos));
             }
-        })
-    }
+        });
+    };
 
     uploadIt = (e: any, fileUpload: Partial<IArquivo> | null) => {
-        let file
-        const self = this
+        let file;
+        const self = this;
 
         if (e) {
-            e.preventDefault()
+            e.preventDefault();
 
             if (e.currentTarget.files && e.currentTarget.files[0]) {
                 // We upload only one file, in case
                 // there was multiple files selected
-                file = e.currentTarget.files[0]
+                file = e.currentTarget.files[0];
             }
         } else {
-            file = fileUpload.file
+            file = fileUpload.file;
         }
 
-        const doc = typeof this.props.doc === 'function' ? this.props.doc() : this.props.doc
+        const doc = typeof this.props.doc === 'function' ? this.props.doc() : this.props.doc;
 
         if (file) {
             const uploadInstance = attachmentsCollection.attachments.insert(
@@ -553,39 +553,39 @@ class UploadImage extends React.Component<
                     allowWebWorkers: true, // If you see issues with uploads, change this to false
                 },
                 false
-            )
+            );
 
-            this.currentFileUpload = fileUpload.index
+            this.currentFileUpload = fileUpload.index;
 
             self.setState({
                 msgError: null,
                 uploading: uploadInstance, // Keep track of this instance to use below
                 inProgress: true, // Show the progress bar now
-            })
+            });
 
             // These are the event functions, don't need most of them, it shows where we are in the process
             uploadInstance.on('start', () => {
                 // console.log('Starting');
-            })
+            });
 
             uploadInstance.on('end', () => {
                 // console.log('End');
                 self.setState({
                     progress: 0,
-                })
-            })
+                });
+            });
 
             uploadInstance.on('uploaded', (error: string | null, fileObj: any): void => {
                 if (error) {
-                    console.log(error)
+                    console.log(error);
                     this.setState({
                         msgError: `${this.props.mensagens.arquivosRejeitados}`,
-                    })
-                    this.setState({ openSnackBar: true })
+                    });
+                    this.setState({ openSnackBar: true });
                 }
 
-                const attachs = []
-                let hasInsertedOjb = false
+                const attachs = [];
+                let hasInsertedOjb = false;
                 attachmentsCollection.attachments
                     .find({
                         'meta.docId': self.props.doc._id,
@@ -603,11 +603,11 @@ class UploadImage extends React.Component<
                             isJSON: file.isJSON,
                             isPDF: file.isPDF,
                             isVideo: file.isVideo,
-                        })
+                        });
                         if (!!file && !!fileObj && file._id === fileObj._id) {
-                            hasInsertedOjb = true
+                            hasInsertedOjb = true;
                         }
-                    })
+                    });
 
                 if (!hasInsertedOjb && !!fileObj) {
                     // const fileInsert = attachmentsCollection.attachments.findOne({ _id: fileObj._id });
@@ -620,28 +620,28 @@ class UploadImage extends React.Component<
                         isJSON: fileObj.isJSON,
                         isPDF: fileObj.isPDF,
                         isVideo: fileObj.isVideo,
-                    })
+                    });
                 }
 
-                const newFileQueue = self.fileQueue
+                const newFileQueue = self.fileQueue;
 
-                newFileQueue.shift() // Remove Actual File Upload
+                newFileQueue.shift(); // Remove Actual File Upload
 
                 // console.log('newFileQueue.length',newFileQueue.length)
 
                 if (newFileQueue.length > 0) {
-                    const nextFile = newFileQueue[0]
-                    self.uploadIt(null, nextFile)
+                    const nextFile = newFileQueue[0];
+                    self.uploadIt(null, nextFile);
                 } else {
                     // console.log('attachs',attachs)
-                    self.onChange(attachs)
+                    self.onChange(attachs);
                     // Remove the filename from the upload box
-                    const refsName = `fileinput ${this.props.name} ${this.props.key}`
+                    const refsName = `fileinput ${this.props.name} ${this.props.key}`;
 
                     if (this[refsName]) {
-                        this[refsName].value = ''
+                        this[refsName].value = '';
                     } else {
-                        console.log('refsName not found: ', refsName)
+                        console.log('refsName not found: ', refsName);
                     }
 
                     // Reset our state for the next file
@@ -649,20 +649,20 @@ class UploadImage extends React.Component<
                         uploading: [],
                         progress: 0,
                         inProgress: false,
-                    })
+                    });
                 }
-            })
+            });
 
             uploadInstance.on('error', (error: string) => {
-                console.log(`Error during upload: ${error}`)
+                console.log(`Error during upload: ${error}`);
                 this.setState({
                     msgError: `${this.props.mensagens.arquivosRejeitados}`,
-                })
-                this.setState({ openSnackBar: true })
-            })
+                });
+                this.setState({ openSnackBar: true });
+            });
 
             uploadInstance.on('progress', (progress: number, fileObj: IArquivo) => {
-                const uploadSize = (Number(progress) / 100) * fileObj.size
+                const uploadSize = (Number(progress) / 100) * fileObj.size;
                 // Update our progress bar
                 self.setState({
                     uploadFileSize: `${this.getFileSize(uploadSize)}/${this.getFileSize(
@@ -670,22 +670,22 @@ class UploadImage extends React.Component<
                     )}`,
                     progress,
                     uploadFileMimeType: fileObj['mime-type'],
-                })
-            })
+                });
+            });
 
-            uploadInstance.start() // Must manually start the upload
+            uploadInstance.start(); // Must manually start the upload
         }
-    }
+    };
 
     render() {
-        const doc = typeof this.props.doc === 'function' ? this.props.doc() : this.props.doc
-        const { links } = this.state
-        const linksSplice = links || [] //[];
+        const doc = typeof this.props.doc === 'function' ? this.props.doc() : this.props.doc;
+        const { links } = this.state;
+        const linksSplice = links || []; //[];
 
-        console.log('>>>>>>>....', links)
+        console.log('>>>>>>>....', links);
 
         //usar 1, 2, 3, 4, 6 ou 12
-        const numCardPage = this.props.readOnly ? 4 : 3
+        const numCardPage = this.props.readOnly ? 4 : 3;
 
         // if (links.length > numCardPage - 1) {
         //     for (let i = 0; i <= links.length - 1; i += numCardPage) {
@@ -696,7 +696,7 @@ class UploadImage extends React.Component<
         // }
 
         if (!doc || !doc._id) {
-            return null
+            return null;
         }
 
         return (
@@ -738,8 +738,8 @@ class UploadImage extends React.Component<
                                 <img
                                     src={this.state.itemDialog.link}
                                     onError={(e) => {
-                                        e.target.onerror = null
-                                        e.target.src = '/images/wireframe/imagem_default.png'
+                                        e.target.onerror = null;
+                                        e.target.src = '/images/wireframe/imagem_default.png';
                                     }}
                                     style={{ maxWidth: '100%', maxHeight: '100%' }}
                                 />
@@ -760,12 +760,12 @@ class UploadImage extends React.Component<
                                     <IconButton
                                         style={uploadImagesStyle.download}
                                         onClick={(e) => {
-                                            e.stopPropagation()
-                                            e.preventDefault()
+                                            e.stopPropagation();
+                                            e.preventDefault();
                                             this.downloadURI(
                                                 this.state.itemDialog.link,
                                                 this.state.itemDialog.name
-                                            )
+                                            );
                                         }}
                                     >
                                         <Download
@@ -933,7 +933,7 @@ class UploadImage extends React.Component<
                     </div>
                 )}
             </div>
-        )
+        );
     }
 }
 
@@ -955,56 +955,56 @@ UploadImage.defaultProps = {
     onChange: () => {},
     typeConteudo: '',
     value: [],
-}
+};
 
 interface IUploadImagesCollection {
-    preventDropOnDocument: boolean
-    name: string
-    error: boolean
-    disableClick: boolean
-    multiple: boolean
-    minSize: number
-    maxSize: number
-    accept: string
+    preventDropOnDocument: boolean;
+    name: string;
+    error: boolean;
+    disableClick: boolean;
+    multiple: boolean;
+    minSize: number;
+    maxSize: number;
+    accept: string;
     mensagens: {
-        label: string
-        tamanhoRejeitados: string
-        arquivosRejeitados: string
-        tabelaVazia: string
-    }
-    onChange: (x: any) => any
-    saveOnChange: (doc: object) => void
-    typeConteudo: string
-    value: []
-    doc?: { _id: number }
-    label?: string
-    readOnly?: boolean
-    isPublic: boolean
-    activeStyle: object
-    activeClassName: string
+        label: string;
+        tamanhoRejeitados: string;
+        arquivosRejeitados: string;
+        tabelaVazia: string;
+    };
+    onChange: (x: any) => any;
+    saveOnChange: (doc: object) => void;
+    typeConteudo: string;
+    value: [];
+    doc?: { _id: number };
+    label?: string;
+    readOnly?: boolean;
+    isPublic: boolean;
+    activeStyle: object;
+    activeClassName: string;
 }
 
 const UploadImagesCollection = withTracker((props: IUploadImagesCollection) => {
-    const doc = typeof props.doc === 'function' ? props.doc() : props.doc
+    const doc = typeof props.doc === 'function' ? props.doc() : props.doc;
 
     const handleAttachments = Meteor.subscribe('files-attachments', {
         'meta.docId': doc ? doc._id : 'No-ID',
-    })
-    const loading = !handleAttachments.ready()
+    });
+    const loading = !handleAttachments.ready();
     const attachments = attachmentsCollection
         .find({
             'meta.docId': doc ? doc._id || 'No-ID' : 'No-ID',
             'meta.fieldName': props.name ? props.name || 'No-FieldName' : 'No-FieldName',
         })
-        .fetch()
-    const attachmentsExists = !loading && !!attachments
+        .fetch();
+    const attachmentsExists = !loading && !!attachments;
 
     return {
         loading,
         attachments,
         attachmentsExists,
         ...props,
-    }
-})(UploadImage)
+    };
+})(UploadImage);
 
-export default UploadImagesCollection
+export default UploadImagesCollection;

@@ -1,18 +1,18 @@
-import Box from '@mui/material/Box'
-import React from 'react'
-import { loadingStyleSx } from './LoadingStyle'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import React from 'react';
+import { loadingStyleSx } from './LoadingStyle';
+import { Carregando } from '/imports/ui/components/Loading/Carregando';
 
 export const Loading = (): JSX.Element => {
     return (
         <Box component={'div'} sx={loadingStyleSx.container}>
-            <Typography>Carregando ...</Typography>
+            <Carregando />
         </Box>
-    )
-}
+    );
+};
 
 interface ILoading {
-    loading: boolean | null
+    loading: boolean | null;
 }
 
 /**
@@ -28,6 +28,6 @@ export function showLoading<P extends object>(
                 <Component {...(props as P)} />
                 {loading && <Loading />}
             </>
-        )
-    }
+        );
+    };
 }

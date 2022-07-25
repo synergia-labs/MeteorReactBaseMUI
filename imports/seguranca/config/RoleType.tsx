@@ -1,4 +1,4 @@
-import { LabelValue } from '/imports/typings/ISchema'
+import { LabelValue } from '/imports/typings/ISchema';
 
 export enum RoleType {
     ADMINISTRADOR = 'Administrador',
@@ -7,14 +7,14 @@ export enum RoleType {
 }
 
 type IRolesDicionario = {
-    [key: string]: string
-}
+    [key: string]: string;
+};
 
 export const rolesDicionario: IRolesDicionario = {
     [RoleType.ADMINISTRADOR]: 'Administrador',
     [RoleType.USUARIO]: 'Usuário',
     [RoleType.PUBLICO]: 'Público',
-}
+};
 
 export function obterListaRoles(): LabelValue[] {
     // @ts-ignore
@@ -23,5 +23,5 @@ export function obterListaRoles(): LabelValue[] {
         .map((chave) => ({
             value: chave,
             label: rolesDicionario[chave],
-        }))
+        }));
 }

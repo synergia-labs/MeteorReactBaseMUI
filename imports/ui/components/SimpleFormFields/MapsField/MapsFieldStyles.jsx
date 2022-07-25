@@ -46,6 +46,6 @@ const mapsFieldStyles = {
     labelTitle: {
         marginBottom: '1rem',
     },
-}
+};
 
-export { mapsFieldStyles }
+export { mapsFieldStyles };

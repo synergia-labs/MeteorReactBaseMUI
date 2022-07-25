@@ -23,6 +23,6 @@ const subFormFieldStyle = {
     subFormContainerRight: {
         paddingLeft: '10px',
     },
-}
+};
 
-export { subFormFieldStyle }
+export { subFormFieldStyle };

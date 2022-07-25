@@ -1,15 +1,15 @@
-import React from 'react'
-import { Accounts } from 'meteor/accounts-base'
+import React from 'react';
+import { Accounts } from 'meteor/accounts-base';
 
-import { enrollAccountStyle } from './EnrollAccountStyle'
-import { useParams } from 'react-router-dom'
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings'
+import { enrollAccountStyle } from './EnrollAccountStyle';
+import { useParams } from 'react-router-dom';
+import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 
-let emailVerified = false
+let emailVerified = false;
 export const EnrollAccount = (props: IDefaultContainerProps) => {
-    const [status, setStatus] = React.useState<string | null>(null)
+    const [status, setStatus] = React.useState<string | null>(null);
 
-    const { token } = useParams()
+    const { token } = useParams();
 
     if (!status) {
         Accounts.verifyEmail(token!, (err: any) => {
@@ -17,17 +17,17 @@ export const EnrollAccount = (props: IDefaultContainerProps) => {
                 if (err.reason === 'Verify email link expired') {
                     setStatus(
                         'Problema na verificação do Email: Token expirado, solicite uma nova senha!'
-                    )
+                    );
                 } else {
-                    setStatus('Problema na verificação do Email: Token Inválido, tente novamente')
+                    setStatus('Problema na verificação do Email: Token Inválido, tente novamente');
                 }
             } else {
                 setTimeout(() => {
-                    props.navigate('/')
-                }, 2000)
-                setStatus('Email verificado com sucesso! Redirecionando, aguarde....')
+                    props.navigate('/');
+                }, 2000);
+                setStatus('Email verificado com sucesso! Redirecionando, aguarde....');
             }
-        })
+        });
     }
 
     return (
@@ -40,5 +40,5 @@ export const EnrollAccount = (props: IDefaultContainerProps) => {
                 <p>{!status ? 'Verificando token, aguarde....' : status}</p>
             </div>
         </h2>
-    )
-}
+    );
+};

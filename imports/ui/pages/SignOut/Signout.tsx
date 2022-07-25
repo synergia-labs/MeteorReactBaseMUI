@@ -1,14 +1,14 @@
-import React from 'react'
-import { Meteor } from 'meteor/meteor'
-import Container from '@mui/material/Container'
+import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import Container from '@mui/material/Container';
 
-import { cleanUserCache } from '../../../libs/userAccount'
+import { cleanUserCache } from '/imports/hooks/userAccount';
 
-import { signoutStyle } from './SignoutStyle'
+import { signoutStyle } from './SignoutStyle';
 
 const Signout = () => {
-    Meteor.logout()
-    cleanUserCache()
+    Meteor.logout();
+    cleanUserCache();
     return (
         <Container style={signoutStyle.containerSignOut}>
             <h2 style={signoutStyle.labelExitSystem}>
@@ -19,7 +19,7 @@ const Signout = () => {
                 <p>{'Volte sempre!!!'}</p>
             </h2>
         </Container>
-    )
-}
+    );
+};
 
-export default Signout
+export default Signout;

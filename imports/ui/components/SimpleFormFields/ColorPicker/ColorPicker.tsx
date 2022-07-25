@@ -1,15 +1,15 @@
-import React from 'react'
-import FormControl from '@mui/material/FormControl'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { CirclePicker } from 'react-color'
+import React from 'react';
+import FormControl from '@mui/material/FormControl';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { CirclePicker } from 'react-color';
 
 export default ({ name, renderValue, label, value, onChange, readOnly, error, ...otherProps }) => {
     const handleChange = (color) => {
         if (color) {
-            console.log('Color', color)
-            onChange({ name, target: { name, value: color.hex } })
+            console.log('Color', color);
+            onChange({ name, target: { name, value: color.hex } });
         }
-    }
+    };
 
     if (readOnly) {
         return (
@@ -33,7 +33,7 @@ export default ({ name, renderValue, label, value, onChange, readOnly, error, ..
                     {value || '#FFF'}
                 </div>
             </FormControl>
-        )
+        );
     }
 
     return (
@@ -46,5 +46,5 @@ export default ({ name, renderValue, label, value, onChange, readOnly, error, ..
                 {...otherProps}
             />
         </FormControl>
-    )
-}
+    );
+};

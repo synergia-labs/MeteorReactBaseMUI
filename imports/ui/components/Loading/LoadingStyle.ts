@@ -1,4 +1,4 @@
-import { ISxStyleObject } from '/imports/typings/ISxStyleObject'
+import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
 
 export const loadingStyleSx: ISxStyleObject = {
     container: {
@@ -9,7 +9,7 @@ export const loadingStyleSx: ISxStyleObject = {
         alignItems: 'center',
         minWidth: '100%',
         minHeight: '100%',
-        backgroundColor: 'rgba( 0, 0, 0, 0.4)',
+        backgroundColor: 'rgba( 255, 255, 255, 0.4)',
         position: 'absolute',
     },
-}
+};

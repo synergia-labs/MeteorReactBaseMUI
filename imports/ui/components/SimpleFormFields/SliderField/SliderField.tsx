@@ -1,8 +1,8 @@
-import React from 'react'
-import Slider from '@mui/material/Slider'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { hasValue } from '/imports/libs/hasValue'
-import { sliderFieldStyle } from './SliderFieldStyle'
+import React from 'react';
+import Slider from '@mui/material/Slider';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { hasValue } from '/imports/libs/hasValue';
+import { sliderFieldStyle } from './SliderFieldStyle';
 
 export default ({
     name,
@@ -17,9 +17,9 @@ export default ({
 
     const handleChange = (event: React.BaseSyntheticEvent, valueS: number) => {
         if (!readOnly) {
-            onChange({ name, target: { name, value: valueS } }, { name, value: valueS })
+            onChange({ name, target: { name, value: valueS } }, { name, value: valueS });
         }
-    }
+    };
 
     return (
         <div
@@ -44,5 +44,5 @@ export default ({
                 ) : null}
             </div>
         </div>
-    )
-}
+    );
+};

@@ -1,10 +1,10 @@
-import React from 'react'
-import withStyles from '@mui/styles/withStyles'
-import { GoogleApiWrapper, Map, Marker } from 'google-maps-react'
-import FormGroup from '@mui/material/FormGroup'
-import settings from '/settings.json'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { mapsFieldStyles } from './MapsFieldStyles'
+import React from 'react';
+import withStyles from '@mui/styles/withStyles';
+import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
+import FormGroup from '@mui/material/FormGroup';
+import settings from '/settings.json';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { mapsFieldStyles } from './MapsFieldStyles';
 
 const stylesWrap = (theme: any) => ({
     root: {
@@ -18,16 +18,16 @@ const stylesWrap = (theme: any) => ({
     chip: {
         margin: theme.spacing(1) / 4,
     },
-})
+});
 
 class LocationComponent extends React.Component<IBaseSimpleFormComponent> {
     handleMapClick = (mapProps, map, clickEvent) => {
-        const { name } = this.props
+        const { name } = this.props;
         if (!this.props.readOnly) {
             const newPosition = {
                 lat: clickEvent.latLng.lat(),
                 lng: clickEvent.latLng.lng(),
-            }
+            };
 
             this.props.onChange(
                 { name, target: { name, value: { position: newPosition } } },
@@ -37,9 +37,9 @@ class LocationComponent extends React.Component<IBaseSimpleFormComponent> {
                         position: newPosition,
                     },
                 }
-            )
+            );
         }
-    }
+    };
 
     render() {
         return (
@@ -76,11 +76,11 @@ class LocationComponent extends React.Component<IBaseSimpleFormComponent> {
                     </div>
                 </FormGroup>
             </div>
-        )
+        );
     }
 }
 
 export default GoogleApiWrapper({
     apiKey: settings && settings.maps ? settings.maps.api : '',
     libraries: ['visualization'],
-})(withStyles(stylesWrap)(LocationComponent))
+})(withStyles(stylesWrap)(LocationComponent));

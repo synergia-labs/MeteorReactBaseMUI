@@ -113,6 +113,8 @@ const ExampleList = (props: IExampleList) => {
         !!e.target.value ? setFilter({ createdby: e.target.value }) : clearFilter();
     };
 
+    // @ts-ignore
+    // @ts-ignore
     return (
         <PageLayout title={'Lista de Exemplos'} actions={[]}>
             <SearchDocField
@@ -219,7 +221,7 @@ const ExampleList = (props: IExampleList) => {
                 />
             </div>
 
-            <RenderComPermissao recursos={[Recurso.EXEMPLO_CREATE]}>
+            <RenderComPermissao recursos={[Recurso.EXAMPLE_CREATE]}>
                 <div
                     style={{
                         position: 'fixed',

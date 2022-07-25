@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import Container from '@mui/material/Container'
-import * as appStyle from '/imports/materialui/styles'
+import Container from '@mui/material/Container';
+import * as appStyle from '/imports/materialui/styles';
 
 const Home = () => (
     <>
@@ -22,6 +22,6 @@ const Home = () => (
             <img src="/images/wireframe/paragraph.png" style={appStyle.containerHome} />
         </Container>
     </>
-)
+);
 
-export default Home
+export default Home;

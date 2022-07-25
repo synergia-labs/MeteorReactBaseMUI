@@ -6,7 +6,7 @@ export const compararDatas = (dataInicial, dataFinal, inverterComparacao) => {
             dataInicial.getUTCDate() +
             '-' +
             dataInicial.getUTCFullYear()
-    )
+    );
     const dFinalSemHora = new Date(
         dataFinal.getUTCMonth() +
             1 +
@@ -14,8 +14,8 @@ export const compararDatas = (dataInicial, dataFinal, inverterComparacao) => {
             dataFinal.getUTCDate() +
             '-' +
             dataFinal.getUTCFullYear()
-    )
+    );
     return inverterComparacao
         ? dInicialSemHora.getTime() < dFinalSemHora.getTime()
-        : dInicialSemHora.getTime() > dFinalSemHora.getTime()
-}
+        : dInicialSemHora.getTime() > dFinalSemHora.getTime();
+};

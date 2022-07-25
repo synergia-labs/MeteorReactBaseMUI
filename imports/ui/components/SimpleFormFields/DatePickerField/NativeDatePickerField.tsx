@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { hasValue } from '/imports/libs/hasValue'
-import * as appStyle from '/imports/materialui/styles'
-import TextField from '@mui/material/TextField'
-import InputBase from '@mui/material/InputBase'
+import React, { useEffect, useState } from 'react';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { hasValue } from '/imports/libs/hasValue';
+import * as appStyle from '/imports/materialui/styles';
+import TextField from '@mui/material/TextField';
+import InputBase from '@mui/material/InputBase';
 
 export default ({
     name,
@@ -30,15 +30,15 @@ export default ({
                     label={null}
                 />
             </div>
-        )
+        );
     }
-    const [dateValue, setDateValue] = useState(hasValue(value) ? value : new Date())
+    const [dateValue, setDateValue] = useState(hasValue(value) ? value : new Date());
 
     useEffect(() => {
         if (hasValue(value) && value !== dateValue) {
-            setDateValue(hasValue(value) ? value : new Date())
+            setDateValue(hasValue(value) ? value : new Date());
         }
-    }, [value])
+    }, [value]);
 
     if (otherProps.isNaked) {
         return (
@@ -53,13 +53,13 @@ export default ({
                 label={otherProps.labelDisable ? undefined : label}
                 {...otherProps}
             />
-        )
+        );
     }
 
     const handleChange = (evt) => {
-        const date = new Date(evt.target.value)
-        onChange({ name, target: { name, value: date } })
-    }
+        const date = new Date(evt.target.value);
+        onChange({ name, target: { name, value: date } });
+    };
 
     return (
         <div
@@ -92,5 +92,5 @@ export default ({
                 {...otherProps}
             />
         </div>
-    )
-}
+    );
+};

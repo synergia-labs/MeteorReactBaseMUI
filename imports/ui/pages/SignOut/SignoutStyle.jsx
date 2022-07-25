@@ -29,6 +29,6 @@ const signoutStyle = {
     imageLogo: {
         maxWidth: 100,
     },
-}
+};
 
-export { signoutStyle }
+export { signoutStyle };

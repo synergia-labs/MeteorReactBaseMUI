@@ -38,6 +38,6 @@ const simpleImageStyle = {
         letterSpacing: '0.00938em',
         color: 'rgba(108, 104, 104)',
     },
-}
+};
 
-export { simpleImageStyle }
+export { simpleImageStyle };

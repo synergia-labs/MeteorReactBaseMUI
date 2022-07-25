@@ -1,5 +1,5 @@
 export const nomeArquivoComData = (titulo: string): string => {
-    const data = new Date()
+    const data = new Date();
     return (
         'Relatorio de ' +
         titulo +
@@ -13,5 +13,5 @@ export const nomeArquivoComData = (titulo: string): string => {
         data.getHours() +
         '-' +
         data.getMinutes()
-    )
-}
+    );
+};

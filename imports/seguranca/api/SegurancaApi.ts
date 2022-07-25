@@ -1,9 +1,9 @@
-import { IUserProfile } from '/imports/userprofile/api/UserProfileSch'
-import { mapRolesRecursos } from '/imports/seguranca/config/MapRolesRecursos'
-import { Meteor } from 'meteor/meteor'
-import { getSystemUserProfile } from '/imports/libs/getUser'
+import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
+import { mapRolesRecursos } from '/imports/seguranca/config/MapRolesRecursos';
+import { Meteor } from 'meteor/meteor';
+import { getSystemUserProfile } from '/imports/libs/getUser';
 
-type Recurso = string
+type Recurso = string;
 
 /**
  * Fornece acesso a informações de permissão de acesso do usuário a determinado recursos.
@@ -12,17 +12,17 @@ class SegurancaApi {
     _getRecursosUsuario(
         user: IUserProfile | (Meteor.User & { roles?: string[] | undefined }) | undefined
     ): Set<Recurso> {
-        let roles = user && user.roles
-        if (!roles) roles = ['Public']
-        const resources = new Set<string>()
+        let roles = user && user.roles;
+        if (!roles) roles = ['Public'];
+        const resources = new Set<string>();
 
         roles.forEach((role) => {
-            let recursosRole = mapRolesRecursos[role]
+            let recursosRole = mapRolesRecursos[role];
             if (recursosRole) {
-                recursosRole.forEach((x) => resources.add(x))
+                recursosRole.forEach((x) => resources.add(x));
             }
-        })
-        return resources
+        });
+        return resources;
     }
 
     /**
@@ -34,12 +34,12 @@ class SegurancaApi {
         user: IUserProfile | (Meteor.User & { roles?: string[] | undefined }) | undefined,
         ...recursosTestados: string[]
     ): boolean {
-        if (!!user && getSystemUserProfile() === user) return true
-        const recursos = this._getRecursosUsuario(user)
+        if (!!user && getSystemUserProfile() === user) return true;
+        const recursos = this._getRecursosUsuario(user);
         for (const role of recursosTestados) {
-            if (recursos.has(role)) return true
+            if (recursos.has(role)) return true;
         }
-        return false
+        return false;
     }
 
     /**
@@ -54,8 +54,8 @@ class SegurancaApi {
         msgErro: string = 'Você não tem permissao para realizar essa operação'
     ): void {
         if (!this.podeAcessarRecurso(user, ...recursos))
-            throw new Meteor.Error('Acesso negado', msgErro, recursos.join(','))
+            throw new Meteor.Error('Acesso negado', msgErro, recursos.join(','));
     }
 }
 
-export const segurancaApi = new SegurancaApi()
+export const segurancaApi = new SegurancaApi();

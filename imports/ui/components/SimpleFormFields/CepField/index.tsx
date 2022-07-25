@@ -1,46 +1,46 @@
-import React from 'react'
+import React from 'react';
 
-import { hasValue } from '/imports/libs/hasValue'
+import { hasValue } from '/imports/libs/hasValue';
 
-import { getEnderecoByCep } from './getEnderecoByCep'
+import { getEnderecoByCep } from './getEnderecoByCep';
 
-import SelectLocalizacao from '/imports/ui/components/SimpleFormFields/SelectLocalizacaoField/SelectLocalizacao'
-import TextField from '../TextField/TextField'
-import TextMaskField from '../TextMaskField/TextMaskField'
+import SelectLocalizacao from '/imports/ui/components/SimpleFormFields/SelectLocalizacaoField/SelectLocalizacao';
+import TextField from '../TextField/TextField';
+import TextMaskField from '../TextMaskField/TextMaskField';
 
 interface IresponseCep {
-    endereco: object
-    cep: string
-    logradouro: string
-    complemento: string
-    bairro: string
-    localidade: string
-    uf: string
-    ibge: string
-    gia: string
-    ddd: string
-    siafi: string
-    erro?: boolean
+    endereco: object;
+    cep: string;
+    logradouro: string;
+    complemento: string;
+    bairro: string;
+    localidade: string;
+    uf: string;
+    ibge: string;
+    gia: string;
+    ddd: string;
+    siafi: string;
+    erro?: boolean;
 }
 
 interface IValue {
-    cep?: string
-    logradouro?: string
-    bairro?: string
-    estado: string
-    municipio: string
-    distrito?: string
+    cep?: string;
+    logradouro?: string;
+    bairro?: string;
+    estado: string;
+    municipio: string;
+    distrito?: string;
 }
 
 interface ICepField {
-    name: string
-    screenState: string | undefined
-    onChange?: (fieldTarget: object, field: object) => void
-    error?: boolean
-    readOnly?: boolean
-    value?: IValue
-    isRequired?: boolean
-    noShowMsgError?: boolean
+    name: string;
+    screenState: string | undefined;
+    onChange?: (fieldTarget: object, field: object) => void;
+    error?: boolean;
+    readOnly?: boolean;
+    value?: IValue;
+    isRequired?: boolean;
+    noShowMsgError?: boolean;
 }
 
 export const CepField = ({
@@ -53,52 +53,52 @@ export const CepField = ({
     isRequired = true,
     noShowMsgError,
 }: ICepField): JSX.Element => {
-    const [endereco, setEndereco] = React.useState(value || {})
-    const [readOnlyFlag, setreadOnlyFlag] = React.useState<object>()
-    const [cepError, setCepError] = React.useState<boolean>(false)
+    const [endereco, setEndereco] = React.useState(value || {});
+    const [readOnlyFlag, setreadOnlyFlag] = React.useState<object>();
+    const [cepError, setCepError] = React.useState<boolean>(false);
 
-    const { cep, logradouro, bairro, estado, municipio, distrito } = endereco
-    const isValidCep = cep && cep.length === 9
+    const { cep, logradouro, bairro, estado, municipio, distrito } = endereco;
+    const isValidCep = cep && cep.length === 9;
     React.useEffect(() => {
         if (isValidCep && (!value || value.cep !== cep)) {
             getEnderecoByCep(cep, (error: string, response: IresponseCep) => {
                 if (!error) {
                     if (response && response.erro === true) {
-                        setCepError(true)
-                        setEndereco({ ...endereco, cep: '' })
-                        handleChangeEndereco(undefined)
-                        return
+                        setCepError(true);
+                        setEndereco({ ...endereco, cep: '' });
+                        handleChangeEndereco(undefined);
+                        return;
                     }
 
-                    cepError && setCepError(false)
+                    cepError && setCepError(false);
                     setEndereco({
                         cep,
                         logradouro: response.logradouro,
                         bairro: response.bairro,
                         estado: response.uf,
                         municipio: response.localidade,
-                    })
+                    });
                     handleChangeEndereco({
                         cep,
                         logradouro: response.logradouro,
                         bairro: response.bairro,
                         estado: response.uf,
                         municipio: response.localidade,
-                    })
+                    });
 
-                    let obj = {}
+                    let obj = {};
                     Object.keys(response).forEach((key) => {
                         if (hasValue(response[key])) {
-                            obj = { ...obj, [key]: true }
+                            obj = { ...obj, [key]: true };
                         }
-                    })
-                    setreadOnlyFlag(obj)
+                    });
+                    setreadOnlyFlag(obj);
                 } else {
-                    console.log('ERROR: ', error)
+                    console.log('ERROR: ', error);
                 }
-            })
+            });
         }
-    }, [cep])
+    }, [cep]);
 
     React.useEffect(() => {
         if (endereco.cep === undefined) {
@@ -110,7 +110,7 @@ export const CepField = ({
                 estado: '',
                 municipio: '',
                 distrito: '',
-            }))
+            }));
             setreadOnlyFlag((obj) => ({
                 ...obj,
                 logradouro: false,
@@ -118,9 +118,9 @@ export const CepField = ({
                 uf: false,
                 localidade: false,
                 distrito: false,
-            }))
+            }));
         }
-    }, [endereco.cep])
+    }, [endereco.cep]);
 
     React.useEffect(() => {
         if (screenState === 'edit' || screenState === 'view') {
@@ -140,13 +140,13 @@ export const CepField = ({
                     estado: value.estado || '',
                     municipio: value.municipio || '',
                     distrito: value.distrito || '',
-                })
+                });
             }
         }
-    }, [value])
+    }, [value]);
 
     React.useEffect(() => {
-        const endereco = { cep, logradouro, bairro, estado, municipio, distrito }
+        const endereco = { cep, logradouro, bairro, estado, municipio, distrito };
 
         if (isRequired) {
             if (isValidCep && !cepError) {
@@ -164,10 +164,10 @@ export const CepField = ({
                         value.municipio !== municipio ||
                         value.distrito !== distrito)
                 ) {
-                    handleChangeEndereco(endereco)
+                    handleChangeEndereco(endereco);
                 }
             } else if (hasValue(value)) {
-                handleChangeEndereco(undefined)
+                handleChangeEndereco(undefined);
             }
         } else if (!isRequired) {
             if (
@@ -184,7 +184,7 @@ export const CepField = ({
                         value.municipio !== municipio ||
                         value.distrito !== distrito))
             ) {
-                handleChangeEndereco(endereco)
+                handleChangeEndereco(endereco);
             }
         }
     }, [
@@ -194,35 +194,35 @@ export const CepField = ({
         endereco.estado,
         endereco.municipio,
         endereco.distrito,
-    ])
+    ]);
 
     const handleChangeEndereco = (
         endereco:
             | {
-                  cep?: string
-                  logradouro?: string
-                  bairro?: string
-                  estado?: string
-                  municipio?: string
-                  distrito?: string
+                  cep?: string;
+                  logradouro?: string;
+                  bairro?: string;
+                  estado?: string;
+                  municipio?: string;
+                  distrito?: string;
               }
             | undefined
     ) => {
-        onChange({ name, target: { name, value: endereco } }, { name, value: endereco })
-    }
+        onChange({ name, target: { name, value: endereco } }, { name, value: endereco });
+    };
 
     const handleChangeCep = (value: string) => {
-        cepError && setCepError(false)
-        setEndereco({ ...endereco, cep: value })
-    }
+        cepError && setCepError(false);
+        setEndereco({ ...endereco, cep: value });
+    };
 
     const handleChangeBairo = (value: string) => {
-        setEndereco({ ...endereco, bairro: value })
-    }
+        setEndereco({ ...endereco, bairro: value });
+    };
 
     const handleChangeLogradouro = (value: string) => {
-        setEndereco({ ...endereco, logradouro: value })
-    }
+        setEndereco({ ...endereco, logradouro: value });
+    };
 
     const handleChageLocalizacao = (event) => {
         if (event.target.value) {
@@ -231,9 +231,9 @@ export const CepField = ({
                 estado: event.target.value.estado,
                 municipio: event.target.value.municipio,
                 distrito: event.target.value.distrito,
-            })
+            });
         }
-    }
+    };
 
     return (
         <>
@@ -303,5 +303,5 @@ export const CepField = ({
                 inputProps={{ maxLength: 100 }}
             />
         </>
-    )
-}
+    );
+};

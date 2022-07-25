@@ -1,31 +1,31 @@
-import { Mongo } from 'meteor/mongo'
-import { Meteor } from 'meteor/meteor'
-import { IDoc } from '../typings/IDoc'
-import { ISchema } from '../typings/ISchema'
-import { IBaseOptions } from '/imports/typings/IBaseOptions'
-import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings'
-import { countsCollection } from '/imports/api/countCollection'
-import Selector = Mongo.Selector
+import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
+import { IDoc } from '../typings/IDoc';
+import { ISchema } from '../typings/ISchema';
+import { IBaseOptions } from '/imports/typings/IBaseOptions';
+import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
+import { countsCollection } from '/imports/api/countCollection';
+import Selector = Mongo.Selector;
 
 const defaultOptions = {
     disableDefaultPublications: true,
-}
+};
 
 type IPublication = {
-    [key: string]: any
-}
+    [key: string]: any;
+};
 
 // region Base Model
 export class ApiBase<Doc extends IDoc> {
-    noImagePath?: string
-    publications: IPublication
-    restApi = {}
-    schema: ISchema<Doc>
-    collectionName: string | null
+    noImagePath?: string;
+    publications: IPublication;
+    restApi = {};
+    schema: ISchema<Doc>;
+    collectionName: string | null;
     // @ts-ignore
-    collectionInstance: Mongo.Collection<any>
-    counts: Mongo.Collection<any>
-    options: IBaseOptions
+    collectionInstance: Mongo.Collection<any>;
+    counts: Mongo.Collection<any>;
+    options: IBaseOptions;
 
     /**
      * Constructor
@@ -37,38 +37,38 @@ export class ApiBase<Doc extends IDoc> {
         this.options = {
             ...defaultOptions,
             ...(options || {}),
-        }
-        this.noImagePath = this.options.noImagePath
-        this.collectionName = apiName
-        this.schema = apiSch
-        this.counts = countsCollection
-        this.publications = {}
+        };
+        this.noImagePath = this.options.noImagePath;
+        this.collectionName = apiName;
+        this.schema = apiSch;
+        this.counts = countsCollection;
+        this.publications = {};
 
-        this.initCollection = this.initCollection.bind(this)
+        this.initCollection = this.initCollection.bind(this);
 
         //**GETS **
-        this.getSchema = this.getSchema.bind(this)
-        this.getCollectionInstance = this.getCollectionInstance.bind(this)
-        this.countDocuments = this.countDocuments.bind(this)
+        this.getSchema = this.getSchema.bind(this);
+        this.getCollectionInstance = this.getCollectionInstance.bind(this);
+        this.countDocuments = this.countDocuments.bind(this);
 
         //**AUXS METHODS**
-        this._addImgPathToFields = this._addImgPathToFields.bind(this)
+        this._addImgPathToFields = this._addImgPathToFields.bind(this);
 
         //**API/DB METHODS**
-        this.callMethod = this.callMethod.bind(this)
-        this.callMethodWithPromise = this.callMethodWithPromise.bind(this)
-        this.insert = this.insert.bind(this)
-        this.update = this.update.bind(this)
-        this.upsert = this.upsert.bind(this)
-        this.remove = this.remove.bind(this)
-        this.sync = this.sync.bind(this)
-        this.getDocs = this.getDocs.bind(this)
+        this.callMethod = this.callMethod.bind(this);
+        this.callMethodWithPromise = this.callMethodWithPromise.bind(this);
+        this.insert = this.insert.bind(this);
+        this.update = this.update.bind(this);
+        this.upsert = this.upsert.bind(this);
+        this.remove = this.remove.bind(this);
+        this.sync = this.sync.bind(this);
+        this.getDocs = this.getDocs.bind(this);
 
-        this.find = this.find.bind(this)
-        this.findOne = this.findOne.bind(this)
-        this.subscribe = this.subscribe.bind(this)
+        this.find = this.find.bind(this);
+        this.findOne = this.findOne.bind(this);
+        this.subscribe = this.subscribe.bind(this);
 
-        this.initCollection(apiName)
+        this.initCollection(apiName);
 
         if (Meteor.isDevelopment) {
             // Put model on Window variable
@@ -76,63 +76,63 @@ export class ApiBase<Doc extends IDoc> {
                 // @ts-ignore
                 if (!window.$app) {
                     // @ts-ignore
-                    window.$app = {}
+                    window.$app = {};
                 }
                 // @ts-ignore
                 if (!window.$app.api) {
                     // @ts-ignore
-                    window.$app.api = {}
+                    window.$app.api = {};
                 }
 
                 // @ts-ignore
-                window.$app.api[this.collectionName] = this
+                window.$app.api[this.collectionName] = this;
             }
             // ####################################
         }
     }
 
     initCollection(apiName: string) {
-        const self = this
-        this.collectionName = apiName
+        const self = this;
+        this.collectionName = apiName;
         if (this.collectionName !== 'users') {
             this.collectionInstance = new Mongo.Collection(this.collectionName, {
                 transform: (doc) => {
                     // for get path of image fields.
-                    return self._addImgPathToFields(doc)
+                    return self._addImgPathToFields(doc);
                 },
-            })
+            });
             // Deny all client-side updates on the Lists collection
             this.getCollectionInstance().deny({
                 insert() {
-                    return true
+                    return true;
                 },
                 update() {
-                    return true
+                    return true;
                 },
                 remove() {
-                    return true
+                    return true;
                 },
-            })
+            });
         } else {
-            this.collectionInstance = Meteor.users
+            this.collectionInstance = Meteor.users;
             // Deny all client-side updates on the Lists collection
             this.getCollectionInstance().deny({
                 insert() {
-                    return true
+                    return true;
                 },
                 update() {
-                    return true
+                    return true;
                 },
                 remove() {
-                    return true
+                    return true;
                 },
-            })
+            });
         }
     }
 
     getSchema = () => {
-        return { ...this.schema }
-    }
+        return { ...this.schema };
+    };
 
     _addImgPathToFields = (doc: any) => {
         Object.keys(this.schema).forEach((field) => {
@@ -144,16 +144,16 @@ export class ApiBase<Doc extends IDoc> {
                         doc.lastupdate && doc.lastupdate.toISOString
                             ? doc.lastupdate.toISOString()
                             : '1'
-                    }`
+                    }`;
                 } else {
                     doc[field] = this.noImagePath
                         ? this.noImagePath
-                        : `${Meteor.absoluteUrl()}images/noimage.jpg`
+                        : `${Meteor.absoluteUrl()}images/noimage.jpg`;
                 }
             }
-        })
-        return doc
-    }
+        });
+        return doc;
+    };
 
     //**GETS **
     /**
@@ -161,14 +161,14 @@ export class ApiBase<Doc extends IDoc> {
      * @returns {Object} - Collection.
      */
     getCollectionInstance() {
-        return this.collectionInstance
+        return this.collectionInstance;
     }
 
     /**
      * @returns {String} - Return the number of documents from a collection.
      */
     countDocuments() {
-        return this.getCollectionInstance().find().count()
+        return this.getCollectionInstance().find().count();
     }
 
     //**API/DB METHODS**
@@ -182,9 +182,9 @@ export class ApiBase<Doc extends IDoc> {
      */
     callMethod(name: string, ...params: any[]) {
         if (Meteor.status().connected) {
-            Meteor.call(`${this.collectionName}.${name}`, ...params)
+            Meteor.call(`${this.collectionName}.${name}`, ...params);
         } else {
-            console.log('Sem Conexão com o Servidor')
+            console.log('Sem Conexão com o Servidor');
         }
     }
 
@@ -192,12 +192,12 @@ export class ApiBase<Doc extends IDoc> {
         return new Promise((resolve, reject) =>
             this.callMethod(name, ...params, (e: Error, r: any) => {
                 if (e) {
-                    reject(e)
+                    reject(e);
                 } else {
-                    resolve(r)
+                    resolve(r);
                 }
             })
-        )
+        );
     }
 
     /**
@@ -206,8 +206,8 @@ export class ApiBase<Doc extends IDoc> {
      * @param  {Function} callback - Callback Function
      */
     insert(docObj: any, callback: any) {
-        const newObj: { [key: string]: any } = { _id: docObj._id }
-        const schema = this.getSchema()
+        const newObj: { [key: string]: any } = { _id: docObj._id };
+        const schema = this.getSchema();
         Object.keys(docObj).forEach((key) => {
             if (
                 !!schema[key] &&
@@ -215,10 +215,10 @@ export class ApiBase<Doc extends IDoc> {
                     (docObj[key].indexOf('/img/') === -1 &&
                         docObj[key].indexOf('/thumbnail/') === -1))
             ) {
-                newObj[key] = docObj[key]
+                newObj[key] = docObj[key];
             }
-        })
-        this.callMethod('insert', newObj, callback)
+        });
+        this.callMethod('insert', newObj, callback);
     }
 
     /**
@@ -229,11 +229,11 @@ export class ApiBase<Doc extends IDoc> {
     update(
         docObj: any,
         callback = (e: IMeteorError, r: any) => {
-            console.log(e, r)
+            console.log(e, r);
         }
     ) {
-        const newObj: { [key: string]: any } = { _id: docObj._id }
-        const schema = this.schema
+        const newObj: { [key: string]: any } = { _id: docObj._id };
+        const schema = this.schema;
         Object.keys(docObj).forEach((key) => {
             if (
                 !!schema[key] &&
@@ -242,11 +242,11 @@ export class ApiBase<Doc extends IDoc> {
                         docObj[key].indexOf('/img/') === -1 &&
                         docObj[key].indexOf('/thumbnail/') === -1))
             ) {
-                newObj[key] = docObj[key]
+                newObj[key] = docObj[key];
             }
-        })
+        });
 
-        return this.callMethod('update', newObj, callback)
+        return this.callMethod('update', newObj, callback);
     }
 
     /**
@@ -256,9 +256,9 @@ export class ApiBase<Doc extends IDoc> {
      */
     upsert(docObj: Doc | Partial<Doc>, callback: any) {
         if (!docObj._id) {
-            return this.insert(docObj, callback)
+            return this.insert(docObj, callback);
         }
-        return this.update(docObj, callback)
+        return this.update(docObj, callback);
     }
 
     /**
@@ -269,10 +269,10 @@ export class ApiBase<Doc extends IDoc> {
     remove(
         docObj: object,
         callback = (e: IMeteorError, r: any) => {
-            console.log(e, r)
+            console.log(e, r);
         }
     ) {
-        this.callMethod('remove', docObj, callback)
+        this.callMethod('remove', docObj, callback);
     }
 
     /**
@@ -287,10 +287,10 @@ export class ApiBase<Doc extends IDoc> {
         filter = {},
         optionsPub = {},
         callback = (e: IMeteorError, r: any) => {
-            console.log(e, r)
+            console.log(e, r);
         }
     ) {
-        this.callMethod('getDocs', apiName, filter, optionsPub, callback)
+        this.callMethod('getDocs', apiName, filter, optionsPub, callback);
     }
 
     /**
@@ -301,10 +301,10 @@ export class ApiBase<Doc extends IDoc> {
     sync(
         docObj: Doc | Partial<Doc>,
         callback = (e: IMeteorError, r: any) => {
-            console.log(e, r)
+            console.log(e, r);
         }
     ) {
-        this.callMethod('sync', docObj, callback)
+        this.callMethod('sync', docObj, callback);
     }
 
     /**
@@ -315,7 +315,7 @@ export class ApiBase<Doc extends IDoc> {
      * @param  {Object} projection - Params to define which fields will return.
      */
     find(query: Selector<Doc>, projection = {}) {
-        return this.getCollectionInstance().find(query, projection)
+        return this.getCollectionInstance().find(query, projection);
     }
 
     /**
@@ -326,7 +326,7 @@ export class ApiBase<Doc extends IDoc> {
      * @param  {Object} projection - Params to define which fields will return.
      */
     findOne(query: Selector<Doc> | string = {}, projection = {}): Partial<Doc> {
-        return this.getCollectionInstance().findOne(query, projection)
+        return this.getCollectionInstance().findOne(query, projection);
     }
 
     /**
@@ -338,33 +338,33 @@ export class ApiBase<Doc extends IDoc> {
         api = 'default',
         ...param: any[]
     ): {
-        total: number
-        stop(): void
-        ready: () => boolean
+        total: number;
+        stop(): void;
+        ready: () => boolean;
     } | null {
-        const self = this
+        const self = this;
         if (Meteor.isClient) {
-            const subsHandle = Meteor.subscribe(`${this.collectionName}.${api}`, ...param)
+            const subsHandle = Meteor.subscribe(`${this.collectionName}.${api}`, ...param);
 
             const subHandleCounter = Meteor.subscribe(
                 `${this.collectionName}.count${api}`,
                 param[0] || {}
-            )
+            );
             const countResult = subHandleCounter.ready()
                 ? self.counts.findOne({ _id: api + 'Total' })
-                : null
-            const count = countResult ? countResult.count : 0
+                : null;
+            const count = countResult ? countResult.count : 0;
 
             if (subHandleCounter && subHandleCounter.ready) {
                 return {
                     ...subsHandle,
                     total: subHandleCounter.ready() ? count : 0,
                     ready: () => subsHandle.ready() && subHandleCounter.ready(),
-                }
+                };
             }
 
-            return { ...subsHandle, total: 0 }
+            return { ...subsHandle, total: 0 };
         }
-        return null
+        return null;
     }
 }

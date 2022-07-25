@@ -27,6 +27,6 @@ const avatarGeneratorStyle = {
     containerEmptyAvatar: {
         color: '#BBB',
     },
-}
+};
 
-export { avatarGeneratorStyle }
+export { avatarGeneratorStyle };

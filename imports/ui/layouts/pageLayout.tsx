@@ -1,23 +1,23 @@
-import React from 'react'
-import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import Button from '@mui/material/Button'
-import { useTheme } from '@mui/material/styles'
+import React from 'react';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Button from '@mui/material/Button';
+import { useTheme } from '@mui/material/styles';
 
 export interface IPageLayout {
-    title: string
-    children?: React.ReactNode
-    actions?: object[]
-    hiddenTitleBar?: boolean
-    navigate?: { goBack: () => void }
-    onBack?: () => void
+    title: string;
+    children?: React.ReactNode;
+    actions?: object[];
+    hiddenTitleBar?: boolean;
+    navigate?: { goBack: () => void };
+    onBack?: () => void;
 }
 
 export const PageLayout = (props: IPageLayout) => {
-    const { title, children, actions, hiddenTitleBar, navigate, onBack } = props
+    const { title, children, actions, hiddenTitleBar, navigate, onBack } = props;
 
-    const theme = useTheme()
+    const theme = useTheme();
 
     return (
         <div
@@ -63,9 +63,9 @@ export const PageLayout = (props: IPageLayout) => {
                                 <Button
                                     onClick={() => {
                                         if (onBack) {
-                                            onBack()
+                                            onBack();
                                         } else {
-                                            navigate.goBack()
+                                            navigate.goBack();
                                         }
                                     }}
                                 >
@@ -134,5 +134,5 @@ export const PageLayout = (props: IPageLayout) => {
                 </Container>
             </div>
         </div>
-    )
-}
+    );
+};

@@ -1,15 +1,15 @@
-import React from 'react'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
-import FormControl from '@mui/material/FormControl'
-import Check from '@mui/icons-material/Check'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { hasValue } from '/imports/libs/hasValue'
-import * as appStyle from '/imports/materialui/styles'
-import { radioButtonStyle } from './RadioButtonFieldStyle'
+import React from 'react';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import Check from '@mui/icons-material/Check';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { hasValue } from '/imports/libs/hasValue';
+import * as appStyle from '/imports/materialui/styles';
+import { radioButtonStyle } from './RadioButtonFieldStyle';
 
-import { Typography } from '@mui/material'
+import { Typography } from '@mui/material';
 
 export default ({
     name,
@@ -27,13 +27,13 @@ export default ({
             ? otherProps.options
             : schema && hasValue(schema.options)
             ? schema.options
-            : null
+            : null;
 
     const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
-        onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck })
-    }
+        onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck });
+    };
 
-    const valueRadio = Array.isArray(value) ? value[0] && value[0] : value
+    const valueRadio = Array.isArray(value) ? value[0] && value[0] : value;
 
     return (
         <FormControl
@@ -108,5 +108,5 @@ export default ({
                 </div>
             ) : null}
         </FormControl>
-    )
-}
+    );
+};

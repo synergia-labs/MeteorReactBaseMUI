@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react'
-import DialogTitle from '@mui/material/DialogTitle'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
-import DeleteIcon from '@mui/icons-material/Delete'
+import React, { useEffect } from 'react';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import Konva from 'konva'
+import Konva from 'konva';
 
-import { characteres } from './Characteres'
+import { characteres } from './Characteres';
 
-import { avatarGeneratorStyle } from './AvatarGeneratorFieldStyle'
+import { avatarGeneratorStyle } from './AvatarGeneratorFieldStyle';
 
-import FaceIcon from '@mui/icons-material/Face'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
+import FaceIcon from '@mui/icons-material/Face';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
-import { hasValue } from '/imports/libs/hasValue'
+import { hasValue } from '/imports/libs/hasValue';
 
 const drawCharacter = (character, charObj, layer = null, listOfObjects = null) => {
     if (!layer || !listOfObjects) {
-        return
+        return;
     }
     if (typeof characteres[character].formats[charObj.format] === 'string') {
         const path = new Konva.Path({
@@ -28,9 +28,9 @@ const drawCharacter = (character, charObj, layer = null, listOfObjects = null) =
             draggable: characteres[character].draggable || false,
             fill: charObj.color || characteres[character].colors[0] || '#9a4f2b',
             opacity: characteres[character].fillOpacity,
-        })
-        layer.add(path)
-        listOfObjects.push(path)
+        });
+        layer.add(path);
+        listOfObjects.push(path);
     } else if (Array.isArray(characteres[character].formats[charObj.format])) {
         characteres[character].formats[charObj.format].forEach((subFormat) => {
             if (typeof subFormat === 'string') {
@@ -41,9 +41,9 @@ const drawCharacter = (character, charObj, layer = null, listOfObjects = null) =
                     draggable: characteres[character].draggable || false,
                     fill: charObj.color || characteres[character].colors[0] || '#9a4f2b',
                     opacity: characteres[character].fillOpacity,
-                })
-                layer.add(path)
-                listOfObjects.push(path)
+                });
+                layer.add(path);
+                listOfObjects.push(path);
             } else if (subFormat.type === 'path') {
                 var path = new Konva.Path({
                     x: 0,
@@ -56,9 +56,9 @@ const drawCharacter = (character, charObj, layer = null, listOfObjects = null) =
                         characteres[character].colors[0] ||
                         '#000000',
                     opacity: subFormat.fillOpacity || characteres[character].fillOpacity,
-                })
-                layer.add(path)
-                listOfObjects.push(path)
+                });
+                layer.add(path);
+                listOfObjects.push(path);
             } else if (subFormat.type === 'circle') {
                 var path = new Konva.Circle({
                     x: subFormat.cx,
@@ -73,17 +73,17 @@ const drawCharacter = (character, charObj, layer = null, listOfObjects = null) =
                         charObj.color ||
                         characteres[character].colors[0] ||
                         '#000000',
-                })
-                layer.add(path)
-                listOfObjects.push(path)
+                });
+                layer.add(path);
+                listOfObjects.push(path);
             } else if (subFormat.type === 'polygon') {
                 const points = subFormat.points
                     .trim()
                     .replace(/ /g, ',')
                     .split(',')
-                    .map((n) => parseInt(n))
-                points.push(points[0]) // Fechar o POligono
-                points.push(points[1]) // Fechar o POligono
+                    .map((n) => parseInt(n));
+                points.push(points[0]); // Fechar o POligono
+                points.push(points[1]); // Fechar o POligono
                 var path = new Konva.Line({
                     points,
                     draggable: characteres[character].draggable || false,
@@ -96,13 +96,13 @@ const drawCharacter = (character, charObj, layer = null, listOfObjects = null) =
                         charObj.color ||
                         characteres[character].colors[0] ||
                         '#000000',
-                })
-                layer.add(path)
-                listOfObjects.push(path)
+                });
+                layer.add(path);
+                listOfObjects.push(path);
             }
-        })
+        });
     }
-}
+};
 
 const CharView = React.memo(({ name, character, charData }) => {
     useEffect(() => {
@@ -114,31 +114,31 @@ const CharView = React.memo(({ name, character, charData }) => {
             scaleY: 0.3,
             draggable: false,
             drawBorder: false,
-        })
-        const defaultLayer = new Konva.Layer()
+        });
+        const defaultLayer = new Konva.Layer();
         // add the shape to the layer
-        defaultStage.add(defaultLayer)
-        const list = []
+        defaultStage.add(defaultLayer);
+        const list = [];
         if (character === 'hair') {
-            drawCharacter(character, charData, defaultLayer, list)
+            drawCharacter(character, charData, defaultLayer, list);
         }
-        drawCharacter('body', { format: 'default' }, defaultLayer, list)
-        drawCharacter('neck', { format: 'default' }, defaultLayer, list)
-        drawCharacter('nose', { format: 'default' }, defaultLayer, list)
+        drawCharacter('body', { format: 'default' }, defaultLayer, list);
+        drawCharacter('neck', { format: 'default' }, defaultLayer, list);
+        drawCharacter('nose', { format: 'default' }, defaultLayer, list);
         if (character !== 'hair') {
-            drawCharacter(character, charData, defaultLayer, list)
+            drawCharacter(character, charData, defaultLayer, list);
         }
 
-        defaultLayer.batchDraw()
+        defaultLayer.batchDraw();
 
         return function cleanup() {
             list.forEach((obj) => {
-                obj.destroy()
-            })
-            defaultLayer.destroy()
-            defaultStage.destroy()
-        }
-    })
+                obj.destroy();
+            });
+            defaultLayer.destroy();
+            defaultStage.destroy();
+        };
+    });
 
     return (
         <div
@@ -149,12 +149,12 @@ const CharView = React.memo(({ name, character, charData }) => {
                 flex: 1,
             }}
         />
-    )
-})
+    );
+});
 
 class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
     constructor(props: IBaseSimpleFormComponent) {
-        super(props)
+        super(props);
         this.state = {
             imageData: this.props.value,
             body: { format: 'default', color: characteres.body.colors[0] },
@@ -164,16 +164,16 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
             width: 150,
             height: 150,
             readOnly: this.props.readOnly,
-        }
+        };
 
-        this.listOfDefaultLayersObjects = []
+        this.listOfDefaultLayersObjects = [];
     }
 
     drawAvatar = () => {
-        const list = Object.keys(characteres)
+        const list = Object.keys(characteres);
         this.listOfDefaultLayersObjects.forEach((obj) => {
-            obj.destroy()
-        })
+            obj.destroy();
+        });
 
         list.forEach((character) => {
             if (this.state[character]) {
@@ -182,16 +182,16 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
                     this.state[character],
                     this.defaultLayer,
                     this.listOfDefaultLayersObjects
-                )
+                );
             }
-        })
+        });
 
-        this.defaultLayer.batchDraw()
-    }
+        this.defaultLayer.batchDraw();
+    };
 
     initBoard = () => {
-        const self = this
-        this.initAvatarBoard = true
+        const self = this;
+        this.initAvatarBoard = true;
 
         this.defaultStage = new Konva.Stage({
             container: `avatarContainer${this.props.name}`,
@@ -201,44 +201,44 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
             scaleY: 0.55,
             draggable: false,
             drawBorder: false,
-        })
+        });
 
-        this.defaultLayer = new Konva.Layer()
+        this.defaultLayer = new Konva.Layer();
 
         // add the shape to the layer
 
-        this.defaultStage.add(this.defaultLayer)
+        this.defaultStage.add(this.defaultLayer);
 
-        this.drawAvatar()
-    }
+        this.drawAvatar();
+    };
 
     deleteAvatar = () => {
-        this.setState([])
-        this.setState({ imageData: '' })
-        const name = this.props.name
-        this.props.onChange({ target: { value: '-' } }, { name, value: '-' })
-    }
+        this.setState([]);
+        this.setState({ imageData: '' });
+        const name = this.props.name;
+        this.props.onChange({ target: { value: '-' } }, { name, value: '-' });
+    };
 
     componentDidMount() {
-        this.setState({ imageData: this.props.value })
+        this.setState({ imageData: this.props.value });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.initAvatarBoard) {
-            this.drawAvatar()
+            this.drawAvatar();
         }
     }
 
     onClose = () => {
-        this.initAvatarBoard = false
+        this.initAvatarBoard = false;
         if (this.props.onClose) {
-            this.props.onClose()
+            this.props.onClose();
         }
-        this.setState({ open: false })
-    }
+        this.setState({ open: false });
+    };
 
     onSave = () => {
-        this.onClose()
+        this.onClose();
         const imageData = this.defaultStage.toDataURL({
             mimeType: 'image/png',
             quality: 1,
@@ -247,12 +247,12 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
             y: 0,
             width: 198,
             height: 198,
-        })
+        });
 
-        this.setState({ imageData })
-        const name = this.props.name
-        this.props.onChange({ target: { value: imageData } }, { name, value: imageData })
-    }
+        this.setState({ imageData });
+        const name = this.props.name;
+        this.props.onChange({ target: { value: imageData } }, { name, value: imageData });
+    };
 
     render() {
         const list = [
@@ -267,7 +267,7 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
             'clothes',
             'accesories',
             'tattoos',
-        ]
+        ];
 
         return (
             <div>
@@ -277,8 +277,8 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
                         <img
                             src={this.props.value}
                             onError={(e) => {
-                                e.target.onerror = null
-                                e.target.src = '/images/wireframe/imagem_default.png'
+                                e.target.onerror = null;
+                                e.target.src = '/images/wireframe/imagem_default.png';
                             }}
                             style={{
                                 maxHeight: this.state.height,
@@ -331,7 +331,7 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
                             open={this.state.open}
                             style={{ minHeight: 400, minWidth: 400, overflow: 'hidden' }}
                             onEntered={() => {
-                                this.initBoard()
+                                this.initBoard();
                             }}
                         >
                             <DialogTitle id="Gerar Avatar">{'Gerar avatar'}</DialogTitle>
@@ -365,26 +365,26 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
                                             backgroundColor: '#FFF',
                                         }}
                                         onClick={() => {
-                                            const newAvatar = {}
+                                            const newAvatar = {};
                                             list.filter(
                                                 (item) => ['neck', 'nose'].indexOf(item) === -1
                                             ).forEach((chr) => {
-                                                newAvatar[chr] = {}
+                                                newAvatar[chr] = {};
                                                 const formats = Object.keys(
                                                     characteres[chr].formats
-                                                )
-                                                const colors = characteres[chr].colors
+                                                );
+                                                const colors = characteres[chr].colors;
 
                                                 newAvatar[chr].format =
                                                     formats[
                                                         Math.floor(Math.random() * formats.length)
-                                                    ]
+                                                    ];
                                                 newAvatar[chr].color =
                                                     colors[
                                                         Math.floor(Math.random() * colors.length)
-                                                    ]
-                                            })
-                                            this.setState(newAvatar)
+                                                    ];
+                                            });
+                                            this.setState(newAvatar);
                                         }}
                                     >
                                         {'Aleatório'}
@@ -619,7 +619,7 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
                     </div>
                 ) : null}
             </div>
-        )
+        );
     }
 }
 
@@ -631,4 +631,4 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
 //     }
 // }
 
-export default AvatarGeneratorField
+export default AvatarGeneratorField;

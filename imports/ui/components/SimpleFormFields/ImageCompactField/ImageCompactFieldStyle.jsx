@@ -54,6 +54,6 @@ const compactImageStyle = {
     containerEmptyImageC: {
         color: '#BBB',
     },
-}
+};
 
-export { compactImageStyle }
+export { compactImageStyle };

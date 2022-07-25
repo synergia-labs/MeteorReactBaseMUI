@@ -14,7 +14,7 @@
 
  */
 
-import { isMobile } from '/imports/libs/deviceVerify'
+import { isMobile } from '/imports/libs/deviceVerify';
 
 const homeStyles = {
     title: {
@@ -36,6 +36,6 @@ const homeStyles = {
         maxWidth: '100%',
         maxHeight: '100%',
     },
-}
+};
 
-export { homeStyles }
+export { homeStyles };

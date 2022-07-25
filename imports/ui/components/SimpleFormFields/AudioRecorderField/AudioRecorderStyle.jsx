@@ -14,7 +14,7 @@
 
  */
 
-import { isMobile } from '/imports/libs/deviceVerify'
+import { isMobile } from '/imports/libs/deviceVerify';
 
 const audioRecorderStyle = {
     containerRecord: {
@@ -68,6 +68,6 @@ const audioRecorderStyle = {
         paddingLeft: 10,
         paddingRight: 10,
     },
-}
+};
 
-export { audioRecorderStyle }
+export { audioRecorderStyle };

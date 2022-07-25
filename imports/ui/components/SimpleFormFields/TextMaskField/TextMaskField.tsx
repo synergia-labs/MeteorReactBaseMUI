@@ -1,12 +1,12 @@
-import React from 'react'
-import _ from 'lodash'
-import TextField from '@mui/material/TextField'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import InputBase from '@mui/material/InputBase'
-import * as appStyle from '/imports/materialui/styles'
-import omit from 'lodash/omit'
-import { createStyles, Theme } from '@mui/material/styles'
-import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent'
+import React from 'react';
+import _ from 'lodash';
+import TextField from '@mui/material/TextField';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import InputBase from '@mui/material/InputBase';
+import * as appStyle from '/imports/materialui/styles';
+import omit from 'lodash/omit';
+import { createStyles, Theme } from '@mui/material/styles';
+import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 export default ({
     name,
@@ -26,84 +26,84 @@ export default ({
             ? '-'
             : schema && schema.type === Date && !!value && value instanceof Date
             ? value.toLocaleDateString('pt-BR')
-            : value
+            : value;
 
     const applyMask = (inputValue: string, mask: string) => {
-        let text = ''
-        const data = inputValue
-        let c
+        let text = '';
+        const data = inputValue;
+        let c;
 
-        let m
+        let m;
 
-        let i
+        let i;
 
-        let x
+        let x;
 
-        let valueCharCount = 0
+        let valueCharCount = 0;
         for (i = 0, x = 1; x && i < mask.length; ++i) {
-            c = data.charAt(valueCharCount)
-            m = mask.charAt(i)
+            c = data.charAt(valueCharCount);
+            m = mask.charAt(i);
 
             if (valueCharCount >= data.length) {
-                break
+                break;
             }
 
             switch (mask.charAt(i)) {
                 case '9': // Number
                 case '#': // Number
                     if (/\d/.test(c)) {
-                        text += c
-                        valueCharCount++
+                        text += c;
+                        valueCharCount++;
                     } else {
-                        x = 0
+                        x = 0;
                     }
-                    break
+                    break;
 
                 case '8': // Alphanumeric
                 case 'A': // Alphanumeric
                     if (/[a-z]/i.test(c)) {
-                        text += c
-                        valueCharCount++
+                        text += c;
+                        valueCharCount++;
                     } else {
-                        x = 0
+                        x = 0;
                     }
-                    break
+                    break;
 
                 case '7': // Number or Alphanumerica
                 case 'N': // Number or Alphanumerica
                     if (/[a-z0-9]/i.test(c)) {
-                        text += c
-                        valueCharCount++
+                        text += c;
+                        valueCharCount++;
                     } else {
-                        x = 0
+                        x = 0;
                     }
-                    break
+                    break;
 
                 case '6': // Any
                 case 'X': // Any
-                    text += c
-                    valueCharCount++
+                    text += c;
+                    valueCharCount++;
 
-                    break
+                    break;
 
                 default:
                     if (m === c) {
-                        text += m
-                        valueCharCount++
+                        text += m;
+                        valueCharCount++;
                     } else {
-                        text += m
+                        text += m;
                     }
 
-                    break
+                    break;
             }
         }
-        return text
-    }
+        return text;
+    };
 
     const onFieldChange = (e) => {
-        const newValue = e.target.value
-        onChange({ name, target: { name, value: newValue } }, { name, value: newValue })
-    }
+        const newValue = e.target.value;
+        onChange({ name, target: { name, value: newValue } }, { name, value: newValue });
+    };
 
     const handleApplyMask = (event: React.BaseSyntheticEvent) => {
         const mask =
@@ -111,21 +111,21 @@ export default ({
                 ? otherProps.mask
                 : schema && schema.mask
                 ? schema.mask
-                : undefined
+                : undefined;
 
         if (mask) {
-            const inputValue = applyMask(event.target.value, mask)
+            const inputValue = applyMask(event.target.value, mask);
             onFieldChange(
                 { name, target: { name, value: inputValue } },
                 { name, value: inputValue }
-            )
+            );
         } else {
             onFieldChange(
                 { name, target: { name, value: event.target.value } },
                 { name, value: event.target.value }
-            )
+            );
         }
-    }
+    };
 
     if (readOnly) {
         return (
@@ -158,7 +158,7 @@ export default ({
                     type={'text'}
                 />
             </div>
-        )
+        );
     }
 
     if (otherProps.isNaked) {
@@ -174,7 +174,7 @@ export default ({
                 label={otherProps.labelDisable ? undefined : label}
                 {...otherProps}
             />
-        )
+        );
     }
 
     return (
@@ -203,5 +203,5 @@ export default ({
                 style={style ? { displayLabel: style.displayLabel } : undefined}
             />
         </div>
-    )
-}
+    );
+};

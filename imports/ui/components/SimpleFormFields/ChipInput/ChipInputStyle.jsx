@@ -38,6 +38,6 @@ const styles = {
         display: 'flex',
         flexWrap: 'wrap',
     },
-}
+};
 
-export { styles }
+export { styles };

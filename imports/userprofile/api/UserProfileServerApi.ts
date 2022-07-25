@@ -1,102 +1,102 @@
 // region Imports
-import { Meteor } from 'meteor/meteor'
-import { Accounts } from 'meteor/accounts-base'
-import { OfflineBaseApi } from '../../api/offlinebase'
-import { IUserProfile, userProfileSch } from './UserProfileSch'
-import { getUser, userprofileData } from '../../libs/getUser'
-import settings from '../../../settings.json'
-import { check } from 'meteor/check'
-import { IContext } from '/imports/typings/IContext'
-import { IDoc } from '/imports/typings/IDoc'
-import { ProductServerBase } from '/imports/api/productServerBase'
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+import { OfflineBaseApi } from '../../api/offlinebase';
+import { IUserProfile, userProfileSch } from './UserProfileSch';
+import { getUser, userprofileData } from '../../libs/getUser';
+import settings from '../../../settings.json';
+import { check } from 'meteor/check';
+import { IContext } from '/imports/typings/IContext';
+import { IDoc } from '/imports/typings/IDoc';
+import { ProductServerBase } from '/imports/api/productServerBase';
 
 interface IUserProfileEstendido extends IUserProfile {
-    password?: string
+    password?: string;
 }
 
 // endregion
 
 class UserProfileServerApi extends ProductServerBase<IUserProfile> {
     constructor() {
-        super('userprofile', userProfileSch)
-        this.addPublicationMeteorUsers()
-        this.addUserProfileProfilePublication()
-        this.serverInsert = this.serverInsert.bind(this)
-        this.afterInsert = this.afterInsert.bind(this)
-        this.beforeInsert = this.beforeInsert.bind(this)
-        this.afterUpdate = this.afterUpdate.bind(this)
-        this.beforeUpdate = this.beforeUpdate.bind(this)
-        this.beforeRemove = this.beforeRemove.bind(this)
-        this._includeAuditData = this._includeAuditData.bind(this)
+        super('userprofile', userProfileSch);
+        this.addPublicationMeteorUsers();
+        this.addUserProfileProfilePublication();
+        this.serverInsert = this.serverInsert.bind(this);
+        this.afterInsert = this.afterInsert.bind(this);
+        this.beforeInsert = this.beforeInsert.bind(this);
+        this.afterUpdate = this.afterUpdate.bind(this);
+        this.beforeUpdate = this.beforeUpdate.bind(this);
+        this.beforeRemove = this.beforeRemove.bind(this);
+        this._includeAuditData = this._includeAuditData.bind(this);
 
-        this.noImagePath = `${Meteor.absoluteUrl()}images/wireframe/user_no_photo.png`
+        this.noImagePath = `${Meteor.absoluteUrl()}images/wireframe/user_no_photo.png`;
 
-        this.afterInsert = this.afterInsert.bind(this)
+        this.afterInsert = this.afterInsert.bind(this);
 
         this.registerMethod('sendVerificationEmail', (userData: IUserProfile) => {
-            check(userData, Object)
+            check(userData, Object);
             if (Meteor.isServer && userData) {
                 if (userData._id) {
-                    Accounts.sendVerificationEmail(userData._id)
+                    Accounts.sendVerificationEmail(userData._id);
                 } else if (userData.email) {
                     const user = Meteor.users.findOne({
                         'emails.address': userData.email,
-                    })
-                    Accounts.sendVerificationEmail(user?._id ?? '')
+                    });
+                    Accounts.sendVerificationEmail(user?._id ?? '');
                 }
             }
-        })
+        });
 
         this.registerMethod('sendResetPasswordEmail', (userData: IUserProfile) => {
-            check(userData, Object)
+            check(userData, Object);
             if (Meteor.isServer && userData) {
                 if (userData._id) {
-                    Accounts.sendResetPasswordEmail(userData._id)
+                    Accounts.sendResetPasswordEmail(userData._id);
                 } else if (userData.email) {
                     const user = Meteor.users.findOne({
                         'emails.address': userData.email,
-                    })
+                    });
                     if (user) {
-                        Accounts.sendResetPasswordEmail(user._id)
+                        Accounts.sendResetPasswordEmail(user._id);
                     } else {
-                        return false
+                        return false;
                     }
                 }
             }
-            return true
-        })
+            return true;
+        });
 
         this.addPublication('userProfileList', (filter = {}) => {
             return this.defaultListCollectionPublication(filter, {
                 projection: { photo: 1, email: 1, username: 1 },
-            })
-        })
+            });
+        });
 
         this.addPublication('userProfileDetail', (filter = {}) => {
-            return this.defaultDetailCollectionPublication(filter, {})
-        })
+            return this.defaultDetailCollectionPublication(filter, {});
+        });
 
         this.addPublication('getListOfusers', (filter = {}) => {
             const queryOptions = {
                 fields: { photo: 1, email: 1, username: 1 },
-            }
+            };
 
-            return this.collectionInstance.find(Object.assign({}, { ...filter }), queryOptions)
-        })
+            return this.collectionInstance.find(Object.assign({}, { ...filter }), queryOptions);
+        });
 
         this.addPublication('getLoggedUserProfile', () => {
-            const user = Meteor.user()
+            const user = Meteor.user();
 
             if (!user) {
-                return
+                return;
             }
             return this.collectionInstance.find({
                 email: user && user.profile && user.profile.email ? user.profile.email : null,
-            })
-        })
+            });
+        });
 
         // @ts-ignore
-        userprofileData.collectionInstance = this.collectionInstance
+        userprofileData.collectionInstance = this.collectionInstance;
     }
 
     registrarUserProfileNoMeteor = (userprofile: IUserProfileEstendido) => {
@@ -106,49 +106,49 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
                     username: userprofile.email,
                     password: userprofile.password,
                     email: userprofile.email,
-                })
+                });
             } else {
                 userprofile._id = Accounts.createUser({
                     username: userprofile.email,
                     email: userprofile.email,
-                })
+                });
             }
         }
-    }
+    };
 
     serverInsert(dataObj: IUserProfileEstendido & { otheraccounts: any }, context: IContext) {
-        let insertId = null
+        let insertId = null;
         try {
-            const { password } = dataObj
-            dataObj = this._checkDataBySchema(dataObj)
+            const { password } = dataObj;
+            dataObj = this._checkDataBySchema(dataObj);
             if (password) {
-                dataObj = Object.assign({}, dataObj, { password })
+                dataObj = Object.assign({}, dataObj, { password });
             }
 
-            this._includeAuditData(dataObj, 'insert')
+            this._includeAuditData(dataObj, 'insert');
             if (this.beforeInsert(dataObj, context)) {
-                this.registrarUserProfileNoMeteor(dataObj)
-                delete dataObj.password
+                this.registrarUserProfileNoMeteor(dataObj);
+                delete dataObj.password;
                 if (!dataObj.roles) {
-                    dataObj.roles = ['Usuario']
+                    dataObj.roles = ['Usuario'];
                 } else if (dataObj.roles.indexOf('Usuario') === -1) {
-                    dataObj.roles.push('Usuario')
+                    dataObj.roles.push('Usuario');
                 }
 
                 const userProfile = this.collectionInstance.findOne({
                     email: dataObj.email,
-                })
+                });
                 if (!userProfile) {
                     dataObj.otheraccounts = [
                         {
                             _id: dataObj._id,
                             service: settings.service,
                         },
-                    ]
+                    ];
 
-                    insertId = this.collectionInstance.insert(dataObj)
+                    insertId = this.collectionInstance.insert(dataObj);
 
-                    delete dataObj.otheraccounts
+                    delete dataObj.otheraccounts;
                     Meteor.users.update(
                         { _id: dataObj._id || insertId },
                         {
@@ -159,9 +159,9 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
                                 },
                             },
                         }
-                    )
+                    );
                 } else {
-                    insertId = userProfile._id
+                    insertId = userProfile._id;
 
                     Meteor.users.update(
                         { _id: dataObj._id },
@@ -174,7 +174,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
                                 roles: dataObj.roles,
                             },
                         }
-                    )
+                    );
                     this.collectionInstance.update(
                         { _id: userProfile._id },
                         {
@@ -185,20 +185,20 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
                                 },
                             },
                         }
-                    )
+                    );
                 }
 
-                dataObj.password = password
+                dataObj.password = password;
 
-                this.afterInsert(dataObj, context)
+                this.afterInsert(dataObj, context);
                 if (context.rest) {
-                    context.rest.response.statusCode = 201
+                    context.rest.response.statusCode = 201;
                 }
-                return insertId
+                return insertId;
             }
-            return null
+            return null;
         } catch (insertError) {
-            throw insertError
+            throw insertError;
         }
     }
 
@@ -210,21 +210,21 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
      * @param  {String} defaultUser - Value of default user
      */
     _includeAuditData(doc: IDoc, action: string, defaultUser: string = 'Anonymous') {
-        const user = getUser()
+        const user = getUser();
         if (action === 'insert') {
-            doc.createdby = user ? user._id : defaultUser
-            doc.createdat = new Date()
-            doc.lastupdate = new Date()
+            doc.createdby = user ? user._id : defaultUser;
+            doc.createdat = new Date();
+            doc.lastupdate = new Date();
         } else {
-            doc.lastupdate = new Date()
+            doc.lastupdate = new Date();
         }
     }
 
     addPublicationMeteorUsers = () => {
         if (Meteor.isServer) {
             Meteor.publish('statusCadastroUserProfile', (userId) => {
-                check(userId, String)
-                const user = getUser()
+                check(userId, String);
+                const user = getUser();
 
                 if (user && user.roles && user.roles.indexOf('Administrador') !== -1) {
                     return Meteor.users.find(
@@ -239,10 +239,10 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
                                 productProfile: 1,
                             },
                         }
-                    )
+                    );
                 }
-                return Meteor.users.find({ _id: userId })
-            })
+                return Meteor.users.find({ _id: userId });
+            });
             Meteor.publish('user', function () {
                 if (this.userId) {
                     return Meteor.users.find(
@@ -253,12 +253,12 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
                                 username: 1,
                             },
                         }
-                    )
+                    );
                 }
-                return this.ready()
-            })
+                return this.ready();
+            });
         }
-    }
+    };
 
     addUserProfileProfilePublication = () => {
         if (Meteor.isServer) {
@@ -273,29 +273,29 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
                                 productProfile: 1,
                             },
                         }
-                    )
+                    );
                 }
-                this.ready()
-            })
+                this.ready();
+            });
         }
-    }
+    };
 
     beforeInsert(docObj: IUserProfile, context: IContext) {
-        return super.beforeInsert(docObj, context)
+        return super.beforeInsert(docObj, context);
     }
 
     afterInsert(doc: IUserProfileEstendido, _context: IContext) {
         if (Meteor.isServer) {
             if (doc.password) {
-                Accounts.sendVerificationEmail(doc._id!)
+                Accounts.sendVerificationEmail(doc._id!);
             } else {
-                Accounts.sendEnrollmentEmail(doc._id!)
+                Accounts.sendEnrollmentEmail(doc._id!);
             }
         }
     }
 
     beforeUpdate(docObj: IUserProfile, context: IContext) {
-        const user = getUser()
+        const user = getUser();
         if (
             !docObj._id ||
             (user &&
@@ -307,22 +307,22 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
             throw new Meteor.Error(
                 'Acesso negado',
                 `Vocẽ não tem permissão para alterar esses dados`
-            )
+            );
         }
 
         if (user && user.roles && user.roles.indexOf('Administrador') === -1) {
             // prevent user change your self roles
-            if (docObj && docObj.roles) delete docObj.roles
+            if (docObj && docObj.roles) delete docObj.roles;
         }
 
-        return super.beforeUpdate(docObj, context)
+        return super.beforeUpdate(docObj, context);
     }
 
     beforeRemove(docObj: IUserProfile, context: IContext) {
-        super.beforeRemove(docObj, context)
-        Meteor.users.remove({ _id: docObj._id })
-        return true
+        super.beforeRemove(docObj, context);
+        Meteor.users.remove({ _id: docObj._id });
+        return true;
     }
 }
 
-export const userprofileServerApi = new UserProfileServerApi()
+export const userprofileServerApi = new UserProfileServerApi();

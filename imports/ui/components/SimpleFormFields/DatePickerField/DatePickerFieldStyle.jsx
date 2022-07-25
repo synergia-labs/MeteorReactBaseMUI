@@ -18,6 +18,6 @@ const datePickerStyle = {
     labelTitle: {
         marginBottom: '1rem',
     },
-}
+};
 
-export { datePickerStyle }
+export { datePickerStyle };

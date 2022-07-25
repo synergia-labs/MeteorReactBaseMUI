@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import Chip from '@mui/material/Chip'
-import { hasValue } from '/imports/libs/hasValue'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import AddIcon from '@mui/icons-material/Add'
-import { styles } from './ChipInputStyle'
-import _ from 'lodash'
+import React, { useState } from 'react';
+import Chip from '@mui/material/Chip';
+import { hasValue } from '/imports/libs/hasValue';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import { styles } from './ChipInputStyle';
+import _ from 'lodash';
 
 export default ({
     name,
@@ -17,35 +17,35 @@ export default ({
     error,
     ...otherProps
 }: IBaseSimpleFormComponent) => {
-    const [chipText, setChipText] = useState('')
+    const [chipText, setChipText] = useState('');
 
     const handleDelete = (chipItem: string) => {
-        const newChip = value.filter((chip: string) => chip !== chipItem)
-        setChipText('')
-        onChange({ name, target: { name, value: newChip } }, { name, value: newChip })
-    }
+        const newChip = value.filter((chip: string) => chip !== chipItem);
+        setChipText('');
+        onChange({ name, target: { name, value: newChip } }, { name, value: newChip });
+    };
 
     const handleOnChange = (event: React.BaseSyntheticEvent) => {
-        setChipText(event.target.value)
-    }
+        setChipText(event.target.value);
+    };
 
     const handleInsert = (chipText: string) => {
-        const verifyItemInList = (value && value.find((chip) => chip === chipText)) || []
+        const verifyItemInList = (value && value.find((chip) => chip === chipText)) || [];
         if (isFieldValid(chipText) && verifyItemInList.length === 0) {
             onChange(
                 { target: { value: [...(value || []), chipText] } },
                 { name, value: [...(value || []), chipText] }
-            )
+            );
         }
-        setChipText('')
-    }
+        setChipText('');
+    };
 
     const isFieldValid = (field: string) => {
         if (hasValue(field)) {
-            return true
+            return true;
         }
-        return false
-    }
+        return false;
+    };
 
     return (
         <div style={styles.container}>
@@ -58,7 +58,7 @@ export default ({
                         onChange={handleOnChange}
                         onKeyDown={(e) => {
                             if (e.keyCode === 13 && e.target.value) {
-                                handleInsert(chipText)
+                                handleInsert(chipText);
                             }
                         }}
                         InputProps={{
@@ -110,5 +110,5 @@ export default ({
                 ) : null}
             </div>
         </div>
-    )
-}
+    );
+};

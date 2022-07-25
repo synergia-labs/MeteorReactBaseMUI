@@ -19,6 +19,6 @@ const simpleLabelStyle = {
         textOverflow: 'ellipsis',
         textAlign: 'left',
     },
-}
+};
 
-export { simpleLabelStyle }
+export { simpleLabelStyle };

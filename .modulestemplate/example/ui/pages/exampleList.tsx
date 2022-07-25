@@ -1,36 +1,37 @@
-import React from 'react'
-import { withTracker } from 'meteor/react-meteor-data'
-import { exampleApi } from '../../api/exampleApi'
-import { userprofileApi } from '../../../../userprofile/api/UserProfileApi'
-import SimpleTable from '/imports/ui/components/SimpleTable/SimpleTable'
-import _ from 'lodash'
-import Add from '@mui/icons-material/Add'
-import Delete from '@mui/icons-material/Delete'
-import Fab from '@mui/material/Fab'
-import TablePagination from '@mui/material/TablePagination'
-import { ReactiveVar } from 'meteor/reactive-var'
-import { initSearch } from '/imports/libs/searchUtils'
-import shortid from 'shortid'
-import { PageLayout } from '/imports/ui/layouts/pageLayout'
-import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField'
-import SearchDocField from '/imports/ui/components/SimpleFormFields/SearchDocField/SearchDocField'
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
+import { exampleApi } from '../../api/exampleApi';
+import { userprofileApi } from '../../../../userprofile/api/UserProfileApi';
+import SimpleTable from '/imports/ui/components/SimpleTable/SimpleTable';
+import _ from 'lodash';
+import Add from '@mui/icons-material/Add';
+import Delete from '@mui/icons-material/Delete';
+import Fab from '@mui/material/Fab';
+import TablePagination from '@mui/material/TablePagination';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { initSearch } from '/imports/libs/searchUtils';
+import * as appStyle from '/imports/materialui/styles';
+import shortid from 'shortid';
+import { PageLayout } from '/imports/ui/layouts/pageLayout';
+import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
+import SearchDocField from '/imports/ui/components/SimpleFormFields/SearchDocField/SearchDocField';
 import {
     IDefaultContainerProps,
     IDefaultListProps,
     IMeteorError,
-} from '/imports/typings/BoilerplateDefaultTypings'
-import { IExample } from '../../api/exampleSch'
-import { IConfigList } from '/imports/typings/IFilterProperties'
-import { Recurso } from '../../config/Recursos'
-import { RenderComPermissao } from '/imports/seguranca/ui/components/RenderComPermisao'
-import { isMobile } from '/imports/libs/deviceVerify'
-import { showLoading } from '/imports/ui/components/Loading/Loading'
+} from '/imports/typings/BoilerplateDefaultTypings';
+import { IExample } from '../../api/exampleSch';
+import { IConfigList } from '/imports/typings/IFilterProperties';
+import { Recurso } from '../../config/Recursos';
+import { RenderComPermissao } from '/imports/seguranca/ui/components/RenderComPermisao';
+import { isMobile } from '/imports/libs/deviceVerify';
+import { showLoading } from '/imports/ui/components/Loading/Loading';
 
 interface IExampleList extends IDefaultListProps {
-    remove: (doc: IExample) => void
-    examples: IExample[]
-    setFilter: (newFilter: Object) => void
-    clearFilter: () => void
+    remove: (doc: IExample) => void;
+    examples: IExample[];
+    setFilter: (newFilter: Object) => void;
+    clearFilter: () => void;
 }
 
 const ExampleList = (props: IExampleList) => {
@@ -47,62 +48,62 @@ const ExampleList = (props: IExampleList) => {
         setPageSize,
         searchBy,
         pageProperties,
-    } = props
+    } = props;
 
-    const idExample = shortid.generate()
+    const idExample = shortid.generate();
 
     const onClick = (_event: React.SyntheticEvent, id: string) => {
-        navigate('/example/view/' + id)
-    }
+        navigate('/example/view/' + id);
+    };
 
     const handleChangePage = (
         _event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
         newPage: number
     ) => {
-        setPage(newPage + 1)
-    }
+        setPage(newPage + 1);
+    };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPageSize(parseInt(event.target.value, 10))
-        setPage(1)
-    }
+        setPageSize(parseInt(event.target.value, 10));
+        setPage(1);
+    };
 
-    const [text, setText] = React.useState(searchBy || '')
+    const [text, setText] = React.useState(searchBy || '');
 
     const change = (e: React.ChangeEvent<HTMLInputElement>) => {
-        clearFilter()
+        clearFilter();
         if (text.length !== 0 && e.target.value.length === 0) {
-            onSearch()
+            onSearch();
         }
-        setText(e.target.value)
-    }
+        setText(e.target.value);
+    };
     const keyPress = (_e: React.SyntheticEvent) => {
         // if (e.key === 'Enter') {
         if (text && text.trim().length > 0) {
-            onSearch(text.trim())
+            onSearch(text.trim());
         } else {
-            onSearch()
+            onSearch();
         }
         // }
-    }
+    };
 
     const click = (_e: any) => {
         if (text && text.trim().length > 0) {
-            onSearch(text.trim())
+            onSearch(text.trim());
         } else {
-            onSearch()
+            onSearch();
         }
-    }
+    };
 
     const callRemove = (doc: IExample) => {
-        const title = 'Remover exemplo'
-        const message = `Deseja remover o exemplo "${doc.title}"?`
-        showDeleteDialog && showDeleteDialog(title, message, doc, remove)
-    }
+        const title = 'Remover exemplo';
+        const message = `Deseja remover o exemplo "${doc.title}"?`;
+        showDeleteDialog && showDeleteDialog(title, message, doc, remove);
+    };
 
     const handleSearchDocChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        !!e.target.value ? setFilter({ createdby: e.target.value }) : clearFilter()
-    }
+        !!e.target.value ? setFilter({ createdby: e.target.value }) : clearFilter();
+    };
 
     // @ts-ignore
     // @ts-ignore
@@ -114,8 +115,8 @@ const ExampleList = (props: IExampleList) => {
                 getOptionLabel={(doc) => doc.username || 'error'}
                 sort={{ username: 1 }}
                 textToQueryFilter={(textoPesquisa) => {
-                    textoPesquisa = textoPesquisa.replace(/[+[\\?()*]/g, '\\$&')
-                    return { username: new RegExp(textoPesquisa, 'i') }
+                    textoPesquisa = textoPesquisa.replace(/[+[\\?()*]/g, '\\$&');
+                    return { username: new RegExp(textoPesquisa, 'i') };
                 }}
                 autocompleteOptions={{ noOptionsText: 'Não encontrado' }}
                 name={'userId'}
@@ -172,7 +173,7 @@ const ExampleList = (props: IExampleList) => {
                 />
             </div>
 
-            <RenderComPermissao recursos={[Recurso.EXEMPLO_CREATE]}>
+            <RenderComPermissao recursos={[Recurso.EXAMPLE_CREATE]}>
                 <div
                     style={{
                         position: 'fixed',
@@ -190,8 +191,8 @@ const ExampleList = (props: IExampleList) => {
                 </div>
             </RenderComPermissao>
         </PageLayout>
-    )
-}
+    );
+};
 
 export const subscribeConfig = new ReactiveVar<IConfigList>({
     pageProperties: {
@@ -201,39 +202,39 @@ export const subscribeConfig = new ReactiveVar<IConfigList>({
     sortProperties: { field: 'createdat', sortAscending: true },
     filter: {},
     searchBy: null,
-})
+});
 
 const exampleSearch = initSearch(
     exampleApi, // API
     subscribeConfig, // ReactiveVar subscribe configurations
     ['title', 'description'] // list of fields
-)
+);
 
-let onSearchExampleTyping: any
+let onSearchExampleTyping: any;
 
 export const ExampleListContainer = withTracker((props: IDefaultContainerProps) => {
-    const { showNotification } = props
+    const { showNotification } = props;
 
     //Reactive Search/Filter
-    const config = subscribeConfig.get()
+    const config = subscribeConfig.get();
     const sort = {
         [config.sortProperties.field]: config.sortProperties.sortAscending ? 1 : -1,
-    }
-    exampleSearch.setActualConfig(config)
+    };
+    exampleSearch.setActualConfig(config);
 
     //Subscribe parameters
-    const filter = { ...config.filter }
+    const filter = { ...config.filter };
     // const filter = filtroPag;
-    const limit = config.pageProperties.pageSize
-    const skip = (config.pageProperties.currentPage - 1) * config.pageProperties.pageSize
+    const limit = config.pageProperties.pageSize;
+    const skip = (config.pageProperties.currentPage - 1) * config.pageProperties.pageSize;
 
     //Collection Subscribe
     const subHandle = exampleApi.subscribe('exampleList', filter, {
         sort,
         limit,
         skip,
-    })
-    const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : []
+    });
+    const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : [];
 
     return {
         examples,
@@ -246,55 +247,55 @@ export const ExampleListContainer = withTracker((props: IDefaultContainerProps) 
                             type: 'success',
                             title: 'Operação realizada!',
                             message: `O exemplo foi removido com sucesso!`,
-                        })
+                        });
                 } else {
-                    console.log('Error:', e)
+                    console.log('Error:', e);
                     showNotification &&
                         showNotification({
                             type: 'warning',
                             title: 'Operação não realizada!',
                             message: `Erro ao realizar a operação: ${e.reason}`,
-                        })
+                        });
                 }
-            })
+            });
         },
         searchBy: config.searchBy,
         onSearch: (...params: any) => {
-            onSearchExampleTyping && clearTimeout(onSearchExampleTyping)
+            onSearchExampleTyping && clearTimeout(onSearchExampleTyping);
             onSearchExampleTyping = setTimeout(() => {
-                config.pageProperties.currentPage = 1
-                subscribeConfig.set(config)
-                exampleSearch.onSearch(...params)
-            }, 1000)
+                config.pageProperties.currentPage = 1;
+                subscribeConfig.set(config);
+                exampleSearch.onSearch(...params);
+            }, 1000);
         },
         total: subHandle ? subHandle.total : examples.length,
         pageProperties: config.pageProperties,
         filter,
         sort,
         setPage: (page = 1) => {
-            config.pageProperties.currentPage = page
-            subscribeConfig.set(config)
+            config.pageProperties.currentPage = page;
+            subscribeConfig.set(config);
         },
         setFilter: (newFilter = {}) => {
-            config.filter = { ...filter, ...newFilter }
+            config.filter = { ...filter, ...newFilter };
             Object.keys(config.filter).forEach((key) => {
                 if (config.filter[key] === null || config.filter[key] === undefined) {
-                    delete config.filter[key]
+                    delete config.filter[key];
                 }
-            })
-            subscribeConfig.set(config)
+            });
+            subscribeConfig.set(config);
         },
         clearFilter: () => {
-            config.filter = {}
-            subscribeConfig.set(config)
+            config.filter = {};
+            subscribeConfig.set(config);
         },
         setSort: (sort = { field: 'createdat', sortAscending: true }) => {
-            config.sortProperties = sort
-            subscribeConfig.set(config)
+            config.sortProperties = sort;
+            subscribeConfig.set(config);
         },
         setPageSize: (size = 25) => {
-            config.pageProperties.pageSize = size
-            subscribeConfig.set(config)
+            config.pageProperties.pageSize = size;
+            subscribeConfig.set(config);
         },
-    }
-})(showLoading(ExampleList))
+    };
+})(showLoading(ExampleList));

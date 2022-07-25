@@ -1,12 +1,12 @@
 // server/imports/oauth-facebook.js
 
-import { ServiceConfiguration } from 'meteor/service-configuration'
-import { Meteor } from 'meteor/meteor'
-import { OAuth } from 'meteor/oauth'
-import { HTTP } from 'meteor/http'
-import _ from 'lodash'
-import { userprofileServerApi } from '../userprofile/api/UserProfileServerApi'
-import settings from '../../settings.json'
+import { ServiceConfiguration } from 'meteor/service-configuration';
+import { Meteor } from 'meteor/meteor';
+import { OAuth } from 'meteor/oauth';
+import { HTTP } from 'meteor/http';
+import _ from 'lodash';
+import { userprofileServerApi } from '../userprofile/api/UserProfileServerApi';
+import settings from '../../settings.json';
 
 const whitelistedFields = [
     'id',
@@ -19,59 +19,59 @@ const whitelistedFields = [
     'locale',
     'age_range',
     'verified_email',
-]
+];
 
 // https://developers.google.com/identity/sign-in/ios/backend-auth
 const validIdToken = (idToken, config) => {
     try {
         const res = HTTP.get('https://www.googleapis.com/oauth2/v3/tokeninfo', {
             params: { id_token: idToken },
-        })
+        });
 
-        console.log('#############################################')
-        console.log('validIdToken', idToken, config)
-        console.log('#############################################')
-        console.log('res', res)
-        console.log('#############################################')
+        console.log('#############################################');
+        console.log('validIdToken', idToken, config);
+        console.log('#############################################');
+        console.log('res', res);
+        console.log('#############################################');
         if (res && res.statusCode === 200) {
             if (config.validClientIds.indexOf(res.data.aud) !== -1) {
-                return res.data
+                return res.data;
             }
-            return null
+            return null;
         }
-        return null
+        return null;
     } catch (err) {
-        console.log('err', JSON.stringify(err))
-        return null
+        console.log('err', JSON.stringify(err));
+        return null;
     }
-}
+};
 
 const getIdentity = (accessToken) => {
     try {
         return HTTP.get('https://www.googleapis.com/oauth2/v1/userinfo', {
             params: { access_token: accessToken },
-        }).data
+        }).data;
     } catch (err) {
         throw _.extend(new Error(`Failed to fetch identity from Google. ${err.message}`), {
             response: err.response,
-        })
+        });
     }
-}
+};
 
 const getScopes = (accessToken) => {
     try {
         return HTTP.get('https://www.googleapis.com/oauth2/v1/tokeninfo', {
             params: { access_token: accessToken },
-        }).data.scope.split(' ')
+        }).data.scope.split(' ');
     } catch (err) {
         throw _.extend(new Error(`Failed to fetch tokeninfo from Google. ${err.message}`), {
             response: err.response,
-        })
+        });
     }
-}
+};
 
 const exchangeAuthCode = (authCode, config) => {
-    let response
+    let response;
     try {
         response = HTTP.post('https://www.googleapis.com/oauth2/v4/token', {
             params: {
@@ -80,120 +80,120 @@ const exchangeAuthCode = (authCode, config) => {
                 client_secret: OAuth.openSecret(config.secret),
                 grant_type: 'authorization_code',
             },
-        })
+        });
     } catch (err) {
         // throw _.extend(new Error("Failed to exchange Google auth code for refresh token. " + err.message),
         //                {response: err.response});
-        return null
+        return null;
     }
 
-    return response.data
-}
+    return response.data;
+};
 
 // Taken from Meteor 1.5.1 facebook-oauth
 const handleAuthFromAccessToken = (accessToken, expiresAt) => {
-    const identity = getIdentity(accessToken, whitelistedFields)
+    const identity = getIdentity(accessToken, whitelistedFields);
 
     const serviceData = {
         accessToken,
         expiresAt,
-    }
+    };
 
-    const fields = _.pick(identity, whitelistedFields)
-    _.extend(serviceData, fields)
+    const fields = _.pick(identity, whitelistedFields);
+    _.extend(serviceData, fields);
 
     return {
         serviceData,
         options: { profile: { name: identity.name, email: serviceData.email } },
-    }
-}
+    };
+};
 
 const registerGoogleMobileLoginHandler = () => {
     Accounts.registerLoginHandler('google', (serviceData) => {
-        const loginRequest = serviceData.google
+        const loginRequest = serviceData.google;
 
-        console.log('>>>serviceData:', serviceData)
+        console.log('>>>serviceData:', serviceData);
 
         if (!loginRequest) {
-            return undefined
+            return undefined;
         }
 
         const serviceConfig = ServiceConfiguration.configurations.findOne({
             service: 'google',
-        })
+        });
         if (!serviceConfig) {
-            throw new ServiceConfiguration.ConfigError()
+            throw new ServiceConfiguration.ConfigError();
         }
 
-        console.log('#### serviceConfig', serviceConfig)
+        console.log('#### serviceConfig', serviceConfig);
 
         const expiresAt =
-            +new Date() + 1000 * parseInt(loginRequest.accessTokenExpirationDate || 6000000, 10)
-        const accessToken = loginRequest.accessToken
-        const idToken = loginRequest.idToken
+            +new Date() + 1000 * parseInt(loginRequest.accessTokenExpirationDate || 6000000, 10);
+        const accessToken = loginRequest.accessToken;
+        const idToken = loginRequest.idToken;
 
         if (!idToken) {
-            throw new Meteor.Error(401, 'Google login without idToken')
+            throw new Meteor.Error(401, 'Google login without idToken');
         }
 
-        const validToken = validIdToken(idToken, serviceConfig)
+        const validToken = validIdToken(idToken, serviceConfig);
 
-        console.log('>>>validToken:', validToken)
+        console.log('>>>validToken:', validToken);
 
         if (!validToken) {
-            throw new Meteor.Error(500, 'Failed to link Google', accessToken)
+            throw new Meteor.Error(500, 'Failed to link Google', accessToken);
         }
 
-        const scopes = getScopes(accessToken)
-        const identity = getIdentity(accessToken)
+        const scopes = getScopes(accessToken);
+        const identity = getIdentity(accessToken);
 
-        console.log('@@@@@@@ >>>identity:', identity)
+        console.log('@@@@@@@ >>>identity:', identity);
 
         serviceData = {
             accessToken,
             expiresAt,
             idToken,
             scope: scopes,
-        }
+        };
 
-        console.log('@@@@@@@ >>>NEW serviceData 1:', serviceData)
+        console.log('@@@@@@@ >>>NEW serviceData 1:', serviceData);
 
-        const fields = _.pick(identity, whitelistedFields)
-        _.extend(serviceData, fields)
+        const fields = _.pick(identity, whitelistedFields);
+        _.extend(serviceData, fields);
 
         if (loginRequest.serverAuthCode) {
-            const authCodes = exchangeAuthCode(loginRequest.serverAuthCode, serviceConfig)
+            const authCodes = exchangeAuthCode(loginRequest.serverAuthCode, serviceConfig);
 
             if (authCodes) {
-                serviceData.accessToken = authCodes.access_token
-                serviceData.expiresAt = +new Date() + 1000 * parseInt(authCodes.expires_in, 10)
-                serviceData.idToken = authCodes.id_token
+                serviceData.accessToken = authCodes.access_token;
+                serviceData.expiresAt = +new Date() + 1000 * parseInt(authCodes.expires_in, 10);
+                serviceData.idToken = authCodes.id_token;
 
                 if (authCodes.refresh_token) {
-                    serviceData.refreshToken = authCodes.refresh_token
+                    serviceData.refreshToken = authCodes.refresh_token;
                 }
             }
         }
 
-        console.log('@@@@@@@ >>>NEW serviceData 2:', serviceData)
+        console.log('@@@@@@@ >>>NEW serviceData 2:', serviceData);
 
-        const user = {}
-        user.username = `${serviceData.name}`
-        user.name = `${serviceData.name}`
-        user.email = serviceData.email
+        const user = {};
+        user.username = `${serviceData.name}`;
+        user.name = `${serviceData.name}`;
+        user.email = serviceData.email;
 
         const userProfile = userprofileServerApi.collectionInstance.findOne({
             email: user.email,
-        })
+        });
 
         if (!userProfile) {
-            console.log('New Google User', user)
-            user.roles = ['Usuario']
-            user.otheraccounts = [{ _id: user._id, service: 'Google' }]
+            console.log('New Google User', user);
+            user.roles = ['Usuario'];
+            user.otheraccounts = [{ _id: user._id, service: 'Google' }];
 
-            const userProfileID = userprofileServerApi.collectionInstance.insert(user)
+            const userProfileID = userprofileServerApi.collectionInstance.insert(user);
 
-            delete user.otheraccounts
+            delete user.otheraccounts;
 
             // /const existingUser = Meteor.users.findOne({ 'services.google.id': validToken.sub });
             user._id = Meteor.users.insert({
@@ -205,13 +205,13 @@ const registerGoogleMobileLoginHandler = () => {
                     email: serviceData.email,
                 },
                 ...user,
-            })
+            });
         } else {
-            console.log('Já cadastrado')
+            console.log('Já cadastrado');
 
             const existingUser = Meteor.users.findOne({
                 'services.google.id': validToken.sub,
-            })
+            });
 
             if (!existingUser) {
                 user._id = Meteor.users.insert({
@@ -223,9 +223,9 @@ const registerGoogleMobileLoginHandler = () => {
                         email: serviceData.email,
                     },
                     ...user,
-                })
+                });
             } else {
-                user._id = existingUser._id
+                user._id = existingUser._id;
                 Meteor.users.update(
                     { _id: existingUser._id },
                     {
@@ -237,7 +237,7 @@ const registerGoogleMobileLoginHandler = () => {
                             roles: existingUser.roles ? existingUser.roles : ['Usuario'],
                         },
                     }
-                )
+                );
 
                 userprofileServerApi.collectionInstance.update(
                     { _id: userProfile._id },
@@ -249,16 +249,16 @@ const registerGoogleMobileLoginHandler = () => {
                             },
                         },
                     }
-                )
+                );
             }
         }
 
-        return { userId: user._id }
-    })
-}
+        return { userId: user._id };
+    });
+};
 
 const init = () => {
-    if (!settings || !settings.settingsGoogle) return
+    if (!settings || !settings.settingsGoogle) return;
 
     ServiceConfiguration.configurations.upsert(
         { service: 'google' },
@@ -270,9 +270,9 @@ const init = () => {
                 validClientIds: settings.settingsGoogle.validClientIds,
             },
         }
-    )
+    );
 
-    registerGoogleMobileLoginHandler()
-}
+    registerGoogleMobileLoginHandler();
+};
 
-export default init
+export default init;

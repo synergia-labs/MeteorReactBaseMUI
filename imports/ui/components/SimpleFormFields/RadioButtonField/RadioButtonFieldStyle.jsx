@@ -23,6 +23,6 @@ const radioButtonStyle = {
         flexDirection: 'row',
         justifyContent: 'left',
     },
-}
+};
 
-export { radioButtonStyle }
+export { radioButtonStyle };

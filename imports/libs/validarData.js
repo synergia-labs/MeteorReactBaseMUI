@@ -3,8 +3,8 @@ export function validarData(dataInicio, dataFim) {
         throw new Meteor.Error(
             'Problema nos campos de data!',
             `Você digitou uma data de início igual ou posterior a data de término!`
-        )
+        );
     }
 
-    return true
+    return true;
 }

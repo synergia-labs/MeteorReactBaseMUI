@@ -48,6 +48,6 @@ const simpleTableStyle = {
         top: 20,
         width: 1,
     },
-}
+};
 
-export { simpleTableStyle }
+export { simpleTableStyle };

@@ -36,4 +36,4 @@ export const resetPasswordStyle = {
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-}
+};

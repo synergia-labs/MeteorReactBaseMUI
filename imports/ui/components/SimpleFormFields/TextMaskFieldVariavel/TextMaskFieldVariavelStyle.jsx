@@ -24,6 +24,6 @@ const textMaskStyle = {
         lineHeight: 1,
         letterSpacing: '0.00938em',
       }, */
-}
+};
 
-export { textMaskStyle }
+export { textMaskStyle };

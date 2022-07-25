@@ -1,10 +1,10 @@
-import React from 'react'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { hasValue } from '/imports/libs/hasValue'
-import FormControl from '@mui/material/FormControl'
-import ToggleButton from '@mui/material/ToggleButton'
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
-import { toggleButtonStyle } from './ToggleButtonFieldStyle'
+import React from 'react';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { hasValue } from '/imports/libs/hasValue';
+import FormControl from '@mui/material/FormControl';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { toggleButtonStyle } from './ToggleButtonFieldStyle';
 
 export default ({
     name,
@@ -21,11 +21,11 @@ export default ({
             ? otherProps.options
             : schema && hasValue(schema.options)
             ? schema.options
-            : null
+            : null;
 
     const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
-        onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck })
-    }
+        onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck });
+    };
 
     return (
         <FormControl component="fieldset" style={error ? toggleButtonStyle.fieldError : undefined}>
@@ -49,7 +49,7 @@ export default ({
                             >
                                 {itemCheck.label || itemCheck}
                             </ToggleButton>
-                        )
+                        );
                     })}
                 </ToggleButtonGroup>
             ) : list ? (
@@ -80,10 +80,10 @@ export default ({
                                 )}
                                 {itemCheck.label || itemCheck}
                             </div>
-                        )
+                        );
                     })}
                 </div>
             ) : null}
         </FormControl>
-    )
-}
+    );
+};

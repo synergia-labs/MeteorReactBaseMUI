@@ -23,6 +23,6 @@ const toggleButtonStyle = {
         flexDirection: 'row',
         justifyContent: 'left',
     },
-}
+};
 
-export { toggleButtonStyle }
+export { toggleButtonStyle };

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Switch from '@mui/material/Switch'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { hasValue } from '/imports/libs/hasValue'
-import Checkbox from '@mui/material/Checkbox'
-import _ from 'lodash'
-import { toggleSwitchStyle } from './ToggleFieldStyle'
+import React, { useState } from 'react';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { hasValue } from '/imports/libs/hasValue';
+import Checkbox from '@mui/material/Checkbox';
+import _ from 'lodash';
+import { toggleSwitchStyle } from './ToggleFieldStyle';
 
 export default ({
     name,
@@ -16,24 +16,24 @@ export default ({
     error,
     ...otherProps
 }: IBaseSimpleFormComponent) => {
-    const [loadRender, setLoadRender] = useState(0)
+    const [loadRender, setLoadRender] = useState(0);
 
     const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
         if (!readOnly) {
-            const newValue = typeof value === 'object' ? value : {}
-            newValue[itemCheck] = event.target.checked
-            onChange({ target: { value: newValue } }, { name, value: newValue })
-            setLoadRender(loadRender + 1)
+            const newValue = typeof value === 'object' ? value : {};
+            newValue[itemCheck] = event.target.checked;
+            onChange({ target: { value: newValue } }, { name, value: newValue });
+            setLoadRender(loadRender + 1);
         }
-    }
+    };
 
     const handleChangeSwitch = (event: React.BaseSyntheticEvent) => {
         if (!readOnly) {
-            const value = {}
-            value[name] = event.target.checked
-            onChange({ target: { value } }, { name, value })
+            const value = {};
+            value[name] = event.target.checked;
+            onChange({ target: { value } }, { name, value });
         }
-    }
+    };
 
     return (
         <div style={error ? toggleSwitchStyle.fieldError : undefined}>
@@ -74,5 +74,5 @@ export default ({
                 />
             )}
         </div>
-    )
-}
+    );
+};

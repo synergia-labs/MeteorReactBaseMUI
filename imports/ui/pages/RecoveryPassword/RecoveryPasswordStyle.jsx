@@ -36,6 +36,6 @@ const recoveryPasswordStyle = {
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-}
+};
 
-export { recoveryPasswordStyle }
+export { recoveryPasswordStyle };

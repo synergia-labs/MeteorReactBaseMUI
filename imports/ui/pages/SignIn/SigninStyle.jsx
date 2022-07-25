@@ -84,6 +84,6 @@ const signinStyle = {
         width: '100%',
         cursor: 'pointer',
     },
-}
+};
 
-export { signinStyle }
+export { signinStyle };

@@ -1,27 +1,27 @@
-import React from 'react'
+import React from 'react';
 
-import _ from 'lodash'
+import _ from 'lodash';
 
-import Checkbox from '@mui/material/Checkbox'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Typography from '@mui/material/Typography'
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Typography from '@mui/material/Typography';
 
-import Check from '@mui/icons-material/Check'
+import Check from '@mui/icons-material/Check';
 
-import { hasValue } from '/imports/libs/hasValue'
+import { hasValue } from '/imports/libs/hasValue';
 
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { checkBoxStyle } from './CheckBoxFieldStyle'
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { checkBoxStyle } from './CheckBoxFieldStyle';
 
 interface ICheckBoxSimpleFormComponent extends IBaseSimpleFormComponent {
     /**
      * transforma o dado do documento em boolean.
      */
-    valueFormatter?: (value?: any) => boolean
+    valueFormatter?: (value?: any) => boolean;
     /**
      * transforma o boolean em dado do documento.
      */
-    valueTransformer: (value?: boolean) => any
+    valueTransformer: (value?: boolean) => any;
 }
 
 export default ({
@@ -37,21 +37,21 @@ export default ({
     ...otherProps
 }: ICheckBoxSimpleFormComponent) => {
     const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
-        const newValue = typeof value === 'object' ? value : {}
-        newValue[itemCheck] = valueTransformer(event.target.checked)
-        onChange({ name, target: { name, value: newValue } }, { name, value: newValue })
-    }
+        const newValue = typeof value === 'object' ? value : {};
+        newValue[itemCheck] = valueTransformer(event.target.checked);
+        onChange({ name, target: { name, value: newValue } }, { name, value: newValue });
+    };
 
     const handleChange = (event: React.BaseSyntheticEvent) => {
-        const newValue = valueTransformer(event?.target?.checked)
-        onChange({ name, target: { name, value: newValue } }, { name, value: newValue })
-    }
+        const newValue = valueTransformer(event?.target?.checked);
+        onChange({ name, target: { name, value: newValue } }, { name, value: newValue });
+    };
     const list =
         otherProps.checksList && hasValue(otherProps.checksList)
             ? otherProps.checksList
             : schema && hasValue(schema.checksList)
             ? schema.checksList
-            : null
+            : null;
 
     return (
         <div style={error ? checkBoxStyle.fieldError : undefined}>
@@ -114,5 +114,5 @@ export default ({
                 </div>
             )}
         </div>
-    )
-}
+    );
+};

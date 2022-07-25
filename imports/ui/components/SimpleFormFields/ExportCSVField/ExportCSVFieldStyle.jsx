@@ -21,6 +21,6 @@ const exportCSVFieldStyle = {
         justifyContent: 'flex-end',
         float: 'right',
     },
-}
+};
 
-export { exportCSVFieldStyle }
+export { exportCSVFieldStyle };

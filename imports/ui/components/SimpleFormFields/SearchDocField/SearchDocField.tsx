@@ -1,35 +1,35 @@
-import * as React from 'react'
-import { useEffect, useState } from 'react'
-import TextField from '@mui/material/TextField'
-import Autocomplete from '@mui/material/Autocomplete'
-import { useTracker } from 'meteor/react-meteor-data'
-import { ApiBase } from '/imports/api/base'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { Mongo } from 'meteor/mongo'
-import Selector = Mongo.Selector
-import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent'
-import { SxProps } from '@mui/system'
-import { IDoc } from '/imports/api/IDoc'
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import { useTracker } from 'meteor/react-meteor-data';
+import { ApiBase } from '/imports/api/base';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { Mongo } from 'meteor/mongo';
+import Selector = Mongo.Selector;
+import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
+import { SxProps } from '@mui/system';
+import { IDoc } from '/imports/api/IDoc';
 
 interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {
-    api: ApiBase<T>
-    subscribe?: string
-    help?: string
-    textToQueryFilter: (texto: string) => Selector<T>
+    api: ApiBase<T>;
+    subscribe?: string;
+    help?: string;
+    textToQueryFilter: (texto: string) => Selector<T>;
     // Document ID
-    value?: string | null
+    value?: string | null;
     // convert the doc object in text string to be showed.
-    getOptionLabel?: (doc: T) => string
-    autocompleteOptions?: object
+    getOptionLabel?: (doc: T) => string;
+    autocompleteOptions?: object;
     //chama quando o objeto com id value é carregado e quando é removido infomando doc null.
-    onDocLoad?: (doc?: Partial<T> | null, lastDoc?: Partial<T> | null) => void
-    textFieldSx?: SxProps
-    sort?: object
-    style?: object
-    autoFocus?: boolean
-    showAll?: boolean
-    placeholder?: string
-    showCompletDoc?: boolean
+    onDocLoad?: (doc?: Partial<T> | null, lastDoc?: Partial<T> | null) => void;
+    textFieldSx?: SxProps;
+    sort?: object;
+    style?: object;
+    autoFocus?: boolean;
+    showAll?: boolean;
+    placeholder?: string;
+    showCompletDoc?: boolean;
 }
 
 /**
@@ -67,38 +67,38 @@ export default function SearchDocField<T extends IDoc>({
     onDocLoad = () => {},
     style,
 }: SearchDocApiProps<T>) {
-    const [docId, setDocId] = useState(value || null)
-    const [lastDoc, setLastDoc]: [T | null, Function] = useState(null)
+    const [docId, setDocId] = useState(value || null);
+    const [lastDoc, setLastDoc]: [T | null, Function] = useState(null);
     useEffect(() => {
-        setDocId(value)
-    }, [value])
-    const [text, setText] = useState('')
+        setDocId(value);
+    }, [value]);
+    const [text, setText] = useState('');
 
     const {
         loading,
         options,
         valueDoc,
     }: { loading: boolean; options: Selector<T>; valueDoc: Partial<T> | null } = useTracker(() => {
-        const isTextLengthGreaterThanMin = showAll ? true : (text && text.length > 1) || false
+        const isTextLengthGreaterThanMin = showAll ? true : (text && text.length > 1) || false;
         const ready = isTextLengthGreaterThanMin
             ? api.subscribe(subscribe, { $or: [textToQueryFilter(text), { _id: docId }] }).ready()
-            : true
-        const sortCondition = sort || {}
+            : true;
+        const sortCondition = sort || {};
 
         const options =
             ready && isTextLengthGreaterThanMin
                 ? api.find(textToQueryFilter(text), { sort: sortCondition }).fetch()
-                : []
-        const valueDoc = ready && docId ? api.findOne(docId) : null
-        return { loading: !ready, options, valueDoc }
-    }, [text, docId, textToQueryFilter])
+                : [];
+        const valueDoc = ready && docId ? api.findOne(docId) : null;
+        return { loading: !ready, options, valueDoc };
+    }, [text, docId, textToQueryFilter]);
 
     useEffect(() => {
-        onDocLoad(valueDoc, lastDoc)
-    }, [valueDoc])
+        onDocLoad(valueDoc, lastDoc);
+    }, [valueDoc]);
     const handleChange = (_event: React.BaseSyntheticEvent, doc: T) => {
-        setLastDoc(valueDoc)
-        setDocId(doc?._id || null)
+        setLastDoc(valueDoc);
+        setDocId(doc?._id || null);
         if (onChange) {
             onChange(
                 {
@@ -109,10 +109,10 @@ export default function SearchDocField<T extends IDoc>({
                     },
                 },
                 {}
-            )
+            );
         }
-    }
-    const autocompleteValue = valueDoc || null
+    };
+    const autocompleteValue = valueDoc || null;
     return (
         <div
             style={
@@ -148,11 +148,11 @@ export default function SearchDocField<T extends IDoc>({
                         sx={textFieldSx}
                         placeholder={placeholder ? placeholder : undefined}
                         onChange={(event) => {
-                            setText(event.target.value)
+                            setText(event.target.value);
                         }}
                     />
                 )}
             />
         </div>
-    )
+    );
 }

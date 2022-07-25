@@ -1,66 +1,66 @@
-import ReactQuill, { Quill } from 'react-quill' // ES6
-import './quill.snow.css'
-import React from 'react'
-import { hasValue } from '../../../../libs/hasValue'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
+import ReactQuill, { Quill } from 'react-quill'; // ES6
+import './quill.snow.css';
+import React from 'react';
+import { hasValue } from '../../../../libs/hasValue';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
-import { richtextStyle } from './richtexteditorStyle'
+import { richtextStyle } from './richtexteditorStyle';
 
 // configure Quill to use inline styles so the email's format properly
-const DirectionAttribute = Quill.import('attributors/attribute/direction')
-Quill.register(DirectionAttribute, true)
+const DirectionAttribute = Quill.import('attributors/attribute/direction');
+Quill.register(DirectionAttribute, true);
 
-const AlignClass = Quill.import('attributors/class/align')
-Quill.register(AlignClass, true)
+const AlignClass = Quill.import('attributors/class/align');
+Quill.register(AlignClass, true);
 
-const BackgroundClass = Quill.import('attributors/class/background')
-Quill.register(BackgroundClass, true)
+const BackgroundClass = Quill.import('attributors/class/background');
+Quill.register(BackgroundClass, true);
 
-const ColorClass = Quill.import('attributors/class/color')
-Quill.register(ColorClass, true)
+const ColorClass = Quill.import('attributors/class/color');
+Quill.register(ColorClass, true);
 
-const DirectionClass = Quill.import('attributors/class/direction')
-Quill.register(DirectionClass, true)
+const DirectionClass = Quill.import('attributors/class/direction');
+Quill.register(DirectionClass, true);
 
-const FontClass = Quill.import('attributors/class/font')
-Quill.register(FontClass, true)
+const FontClass = Quill.import('attributors/class/font');
+Quill.register(FontClass, true);
 
-const SizeClass = Quill.import('attributors/class/size')
-Quill.register(SizeClass, true)
+const SizeClass = Quill.import('attributors/class/size');
+Quill.register(SizeClass, true);
 
-const AlignStyle = Quill.import('attributors/style/align')
-AlignStyle.whitelist = null // All formats
-Quill.register(AlignStyle, true)
+const AlignStyle = Quill.import('attributors/style/align');
+AlignStyle.whitelist = null; // All formats
+Quill.register(AlignStyle, true);
 
-const BackgroundStyle = Quill.import('attributors/style/background')
-BackgroundStyle.whitelist = null // All formats
-Quill.register(BackgroundStyle, true)
+const BackgroundStyle = Quill.import('attributors/style/background');
+BackgroundStyle.whitelist = null; // All formats
+Quill.register(BackgroundStyle, true);
 
-const ColorStyle = Quill.import('attributors/style/color')
-ColorStyle.whitelist = null // All formats
-Quill.register(ColorStyle, true)
+const ColorStyle = Quill.import('attributors/style/color');
+ColorStyle.whitelist = null; // All formats
+Quill.register(ColorStyle, true);
 
-const DirectionStyle = Quill.import('attributors/style/direction')
-DirectionStyle.whitelist = null // All formats
-Quill.register(DirectionStyle, true)
+const DirectionStyle = Quill.import('attributors/style/direction');
+DirectionStyle.whitelist = null; // All formats
+Quill.register(DirectionStyle, true);
 
-const FontStyle = Quill.import('attributors/style/font')
-FontStyle.whitelist = null // All formats
-Quill.register(FontStyle, true)
+const FontStyle = Quill.import('attributors/style/font');
+FontStyle.whitelist = null; // All formats
+Quill.register(FontStyle, true);
 
-const SizeStyle = Quill.import('attributors/style/size')
-SizeStyle.whitelist = null // All formats...['10pt','14pt', '16pt', '18pt'];
-Quill.register(SizeStyle, true)
+const SizeStyle = Quill.import('attributors/style/size');
+SizeStyle.whitelist = null; // All formats...['10pt','14pt', '16pt', '18pt'];
+Quill.register(SizeStyle, true);
 
 // Add fonts to whitelist
-const Font = Quill.import('formats/font')
+const Font = Quill.import('formats/font');
 // We do not add Sans Serif since it is the default
-Font.whitelist = null // ['Arial, sans-serif','Currier New'];
-Quill.register(Font, true)
+Font.whitelist = null; // ['Arial, sans-serif','Currier New'];
+Quill.register(Font, true);
 
 const modules = {
     toolbar: '#toolbar-container',
-}
+};
 
 export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFormComponent) => {
     if (readOnly) {
@@ -69,12 +69,12 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
                 <SimpleLabelView label={label} />
                 <div dangerouslySetInnerHTML={{ __html: value }} />
             </>
-        )
+        );
     }
 
     const callOnChange = (htmlText, QuillData, QA, QB) => {
-        onChange({ name, target: { name, value: htmlText } }, { name, value: htmlText })
-    }
+        onChange({ name, target: { name, value: htmlText } }, { name, value: htmlText });
+    };
 
     return (
         <>
@@ -128,5 +128,5 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
                 modules={modules}
             />
         </>
-    )
-}
+    );
+};

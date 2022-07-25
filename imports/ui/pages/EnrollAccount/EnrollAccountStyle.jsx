@@ -25,6 +25,6 @@ const enrollAccountStyle = {
     imageLogo: {
         maxWidth: 100,
     },
-}
+};
 
-export { enrollAccountStyle }
+export { enrollAccountStyle };

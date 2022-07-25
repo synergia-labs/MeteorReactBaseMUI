@@ -190,7 +190,12 @@ const ExampleDetail = (props: IExampleDetail) => {
                         </Button>
                     ) : null}
                     {!isPrintView && screenState !== 'view' ? (
-                        <Button id="submit" key={'b3'} color={'primary'} variant="contained">
+                        <Button
+                            key={'b3'}
+                            color={'primary'}
+                            variant="contained"
+                            {...{ submit: true }}
+                        >
                             {'Salvar'}
                         </Button>
                     ) : null}

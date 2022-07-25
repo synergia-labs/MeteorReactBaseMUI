@@ -1,20 +1,20 @@
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
 
 export type ValidadorError = {
-    tipoErro: string | number
-    campo?: string
-    titulo: string | undefined
-    mensagem: string | undefined
-    dados?: any
-}
+    tipoErro: string | number;
+    campo?: string;
+    titulo: string | undefined;
+    mensagem: string | undefined;
+    dados?: any;
+};
 
 export class Validador {
-    private _errors: ValidadorError[] = []
+    private _errors: ValidadorError[] = [];
 
-    private readonly _schema: object | undefined
+    private readonly _schema: object | undefined;
 
     constructor(schema?: object) {
-        this._schema = schema
+        this._schema = schema;
     }
 
     validar(
@@ -30,9 +30,9 @@ export class Validador {
                 titulo,
                 mensagem: msgErro,
                 dados,
-            })
+            });
         }
-        return expressao
+        return expressao;
     }
 
     validarCampo(
@@ -49,9 +49,9 @@ export class Validador {
                 titulo,
                 mensagem: msgErro,
                 dados,
-            })
+            });
         }
-        return expressao
+        return expressao;
     }
 
     validarCampoObrigatorio(
@@ -61,15 +61,15 @@ export class Validador {
         titulo = 'Campo obrigatório'
     ): boolean {
         // @ts-ignore
-        const expressao = !!doc[campo]
+        const expressao = !!doc[campo];
         if (!expressao) {
             if (!msgErro) {
                 if (!!this._schema) {
                     // @ts-ignore
-                    const label = (this._schema[campo] && this._schema[campo].label) || campo
-                    msgErro = `Campo ${label} obrigatório`
+                    const label = (this._schema[campo] && this._schema[campo].label) || campo;
+                    msgErro = `Campo ${label} obrigatório`;
                 } else {
-                    msgErro = `Campo obrigatório`
+                    msgErro = `Campo obrigatório`;
                 }
             }
             this._errors.push({
@@ -77,23 +77,23 @@ export class Validador {
                 tipoErro: 'campoObrigatorio',
                 titulo,
                 mensagem: msgErro,
-            })
+            });
         }
-        return expressao
+        return expressao;
     }
 
     lancarErroSeHouver = (): void => {
         if (this._errors.length > 0) {
-            throw new Meteor.Error('errosValidacao', JSON.stringify(this._errors))
+            throw new Meteor.Error('errosValidacao', JSON.stringify(this._errors));
         }
-    }
+    };
 
     static recuperarErrosExcecao(
         excecao: Meteor.Error,
         tituloDemaisErros?: string
     ): ValidadorError[] {
         if (excecao.error === 'errosValidacao' && excecao.reason) {
-            return JSON.parse(excecao.reason)
+            return JSON.parse(excecao.reason);
         }
         return [
             {
@@ -101,6 +101,6 @@ export class Validador {
                 titulo: tituloDemaisErros || excecao.error + '',
                 mensagem: (excecao.reason || excecao.details || excecao.error) + '',
             },
-        ]
+        ];
     }
 }

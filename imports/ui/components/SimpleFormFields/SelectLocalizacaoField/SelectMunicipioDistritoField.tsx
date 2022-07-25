@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import TextField from '@mui/material/TextField'
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 
-import localidades from './localidades.json'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import * as appStyle from '/imports/materialui/styles'
+import localidades from './localidades.json';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import * as appStyle from '/imports/materialui/styles';
 
 const filterOptions = createFilterOptions({
     matchFrom: 'any',
@@ -13,17 +13,17 @@ const filterOptions = createFilterOptions({
     ignoreAccents: true,
     ignoreCase: true,
     limit: 100,
-})
+});
 
 interface IOtherProps {
     options: {
-        value: any
-        label: string
-    }[]
-    mode: any
-    estadoOn: boolean
-    distritoOn: boolean
-    municipioOn: boolean
+        value: any;
+        label: string;
+    }[];
+    mode: any;
+    estadoOn: boolean;
+    distritoOn: boolean;
+    municipioOn: boolean;
 }
 
 export default ({
@@ -44,12 +44,12 @@ export default ({
 }: IBaseSimpleFormComponent & IOtherProps) => {
     const handleOnChange = (evt, selected) => {
         if (!selected) {
-            onChange({ name, target: { name, value: undefined } }, { name, value: undefined })
+            onChange({ name, target: { name, value: undefined } }, { name, value: undefined });
         } else {
-            const value = JSON.parse(selected.value)
-            onChange({ name, target: { name, value } }, { name, value })
+            const value = JSON.parse(selected.value);
+            onChange({ name, target: { name, value } }, { name, value });
         }
-    }
+    };
 
     if (readOnly) {
         return (
@@ -66,24 +66,24 @@ export default ({
                 <SimpleLabelView help={help} label={label} />
                 <TextField value={value && value.municipio ? value : '-'} disabled label={null} />
             </div>
-        )
+        );
     }
 
     const initialValue =
         !!value && Object.keys(value).length > 0
             ? `${value.municipio} ${value.distrito ? ' - ' + value.distrito : ''}`
-            : undefined
+            : undefined;
 
     const fieldProps = {
         inputValue: initialValue,
         value: !!value && Object.keys(value).length > 0 ? JSON.stringify(value) : undefined,
         defaultValue: !!value && Object.keys(value).length > 0 ? JSON.stringify(value) : undefined,
-    }
+    };
 
     if (!initialValue) {
-        delete fieldProps.inputValue
-        delete fieldProps.value
-        delete fieldProps.defaultValue
+        delete fieldProps.inputValue;
+        delete fieldProps.value;
+        delete fieldProps.defaultValue;
     }
 
     if (readOnly) {
@@ -111,7 +111,7 @@ export default ({
                     filterOptions={filterOptions}
                     options={localidades
                         .filter(function (entry) {
-                            return entry.u == estado
+                            return entry.u == estado;
                         })
                         .map((l) => ({
                             value: JSON.stringify({
@@ -149,7 +149,7 @@ export default ({
                     filterOptions={filterOptions}
                     options={localidades
                         .filter(function (entry) {
-                            return entry.u == estado
+                            return entry.u == estado;
                         })
                         .map((l) => ({
                             value: JSON.stringify({
@@ -181,5 +181,5 @@ export default ({
                 />
             )}
         </div>
-    )
-}
+    );
+};

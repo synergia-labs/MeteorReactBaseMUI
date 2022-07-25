@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import { hasValue } from '/imports/libs/hasValue'
-import * as appStyle from '/imports/materialui/styles'
-import TextField from '@mui/material/TextField'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import { isMobile } from '/imports/libs/deviceVerify'
-import Typography from '@mui/material/Typography'
+import React, { useEffect, useState } from 'react';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import { hasValue } from '/imports/libs/hasValue';
+import * as appStyle from '/imports/materialui/styles';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { isMobile } from '/imports/libs/deviceVerify';
+import Typography from '@mui/material/Typography';
 
-let timeoutOnChange
+let timeoutOnChange;
 
 export default ({
     name,
@@ -19,156 +19,156 @@ export default ({
     error,
     ...otherProps
 }: IBaseSimpleFormComponent) => {
-    const formatSchemaName = otherProps.formatSchemaName
-    const outroSchemaName = otherProps.outroSchemaName
-    const formatOptions = otherProps.schemaAux[formatSchemaName].options
+    const formatSchemaName = otherProps.formatSchemaName;
+    const outroSchemaName = otherProps.outroSchemaName;
+    const formatOptions = otherProps.schemaAux[formatSchemaName].options;
 
     const [dateValue, setDateValue] = useState(
         value && value instanceof Date && hasValue(value) ? new Date(value) : undefined
-    )
-    const [format, setFormat] = useState(otherProps.doc[formatSchemaName] || 'data')
-    const [outro, setOutro] = useState(otherProps.doc[outroSchemaName] || '')
-    const [ano, setAno] = useState(hasValue(value) ? new Date(value).getFullYear() : undefined)
+    );
+    const [format, setFormat] = useState(otherProps.doc[formatSchemaName] || 'data');
+    const [outro, setOutro] = useState(otherProps.doc[outroSchemaName] || '');
+    const [ano, setAno] = useState(hasValue(value) ? new Date(value).getFullYear() : undefined);
 
     useEffect(() => {
         if (value instanceof Date && hasValue(value) && value !== dateValue) {
-            setDateValue(hasValue(value) ? new Date(value) : new Date())
+            setDateValue(hasValue(value) ? new Date(value) : new Date());
         }
-    }, [value])
+    }, [value]);
 
     const handleChange = (evt) => {
-        timeoutOnChange && clearTimeout(timeoutOnChange)
+        timeoutOnChange && clearTimeout(timeoutOnChange);
         if (!evt.target.value) {
-            onChange({ name, target: { name, value: null } })
-            setDateValue(evt.target.value)
-            return
+            onChange({ name, target: { name, value: null } });
+            setDateValue(evt.target.value);
+            return;
         }
 
         timeoutOnChange = setTimeout(() => {
             try {
                 if (evt.target.value === '') {
-                    onChange({ name, target: { name, value: evt.target.value } })
+                    onChange({ name, target: { name, value: evt.target.value } });
                 }
-                const date = new Date(evt.target.value)
+                const date = new Date(evt.target.value);
                 if (!isNaN(date.getTime())) {
-                    date.setHours(date.getHours() + 10)
-                    onChange({ name, target: { name, value: date } })
+                    date.setHours(date.getHours() + 10);
+                    onChange({ name, target: { name, value: date } });
                 }
             } catch (e) {
-                console.log('Data Inválida', e)
+                console.log('Data Inválida', e);
             }
-        }, 1000)
+        }, 1000);
 
-        setDateValue(evt.target.value)
-    }
+        setDateValue(evt.target.value);
+    };
 
     const onBlur = () => {
         if (new Date(dateValue) !== new Date(value)) {
             try {
-                const date = new Date(dateValue)
+                const date = new Date(dateValue);
                 if (!isNaN(date.getTime())) {
-                    date.setHours(date.getHours() + 10)
-                    onChange({ name, target: { name, value: date } })
+                    date.setHours(date.getHours() + 10);
+                    onChange({ name, target: { name, value: date } });
                 }
             } catch (e) {
-                console.log('Data Inválida', e)
+                console.log('Data Inválida', e);
             }
         }
-    }
+    };
 
     const handleChangeFormat = (evt) => {
         onChange({
             name: formatSchemaName,
             target: { formatSchemaName, value: evt.target.value },
-        })
-        setFormat(evt.target.value)
-    }
+        });
+        setFormat(evt.target.value);
+    };
 
     const handleChangeOutro = (evt) => {
         onChange({
             name: outroSchemaName,
             target: { outroSchemaName, value: evt.target.value },
-        })
-        setOutro(evt.target.value)
-    }
+        });
+        setOutro(evt.target.value);
+    };
 
     const applyMask = (inputValue: string, mask: string) => {
-        let text = ''
-        const data = inputValue
-        let c, m, i, x
+        let text = '';
+        const data = inputValue;
+        let c, m, i, x;
 
-        let valueCharCount = 0
+        let valueCharCount = 0;
         for (i = 0, x = 1; x && i < mask.length; ++i) {
-            c = data.charAt(valueCharCount)
-            m = mask.charAt(i)
+            c = data.charAt(valueCharCount);
+            m = mask.charAt(i);
 
             if (valueCharCount >= data.length) {
-                break
+                break;
             }
 
             switch (mask.charAt(i)) {
                 case '9': // Number
                 case '#': // Number
                     if (/\d/.test(c)) {
-                        text += c
-                        valueCharCount++
+                        text += c;
+                        valueCharCount++;
                     } else {
-                        x = 0
+                        x = 0;
                     }
-                    break
+                    break;
 
                 case '8': // Alphanumeric
                 case 'A': // Alphanumeric
                     if (/[a-z]/i.test(c)) {
-                        text += c
-                        valueCharCount++
+                        text += c;
+                        valueCharCount++;
                     } else {
-                        x = 0
+                        x = 0;
                     }
-                    break
+                    break;
 
                 case '7': // Number or Alphanumerica
                 case 'N': // Number or Alphanumerica
                     if (/[a-z0-9]/i.test(c)) {
-                        text += c
-                        valueCharCount++
+                        text += c;
+                        valueCharCount++;
                     } else {
-                        x = 0
+                        x = 0;
                     }
-                    break
+                    break;
 
                 case '6': // Any
                 case 'X': // Any
-                    text += c
-                    valueCharCount++
-                    break
+                    text += c;
+                    valueCharCount++;
+                    break;
 
                 default:
                     if (m === c) {
-                        text += m
-                        valueCharCount++
+                        text += m;
+                        valueCharCount++;
                     } else {
-                        text += m
+                        text += m;
                     }
 
-                    break
+                    break;
             }
         }
-        return text
-    }
+        return text;
+    };
 
     const handleApplyMask = (event: React.BaseSyntheticEvent) => {
-        const mask = '####'
-        const inputValue = parseInt(applyMask(event.target.value, mask))
+        const mask = '####';
+        const inputValue = parseInt(applyMask(event.target.value, mask));
         if (inputValue > 0) {
-            setAno(inputValue || undefined)
-            const date = new Date(inputValue, 11, 31)
-            onChange({ name, target: { name, value: date } }, { name, value: date })
+            setAno(inputValue || undefined);
+            const date = new Date(inputValue, 11, 31);
+            onChange({ name, target: { name, value: date } }, { name, value: date });
         } else {
-            setAno(undefined)
-            onChange({ name, target: { name, value: null } }, { name, value: null })
+            setAno(undefined);
+            onChange({ name, target: { name, value: null } }, { name, value: null });
         }
-    }
+    };
 
     return (
         <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}>
@@ -204,7 +204,7 @@ export default ({
                             <MenuItem value={option.value}>
                                 <Typography component={'p'}>{option.label}</Typography>
                             </MenuItem>
-                        )
+                        );
                     })}
                 </Select>
             </div>
@@ -366,5 +366,5 @@ export default ({
                 </div>
             )}
         </div>
-    )
-}
+    );
+};

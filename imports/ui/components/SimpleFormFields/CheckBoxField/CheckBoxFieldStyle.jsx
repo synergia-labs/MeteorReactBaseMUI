@@ -18,6 +18,6 @@ const checkBoxStyle = {
     fieldError: {
         border: '1px solid red',
     },
-}
+};
 
-export { checkBoxStyle }
+export { checkBoxStyle };

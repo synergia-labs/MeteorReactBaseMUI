@@ -12,7 +12,7 @@ import AWN from 'awesome-notifications';
 import { appGeneralStyle } from './AppGeneralComponentsStyle';
 import { isMobile } from '/imports/libs/deviceVerify';
 import { MemoryRouter } from 'react-router';
-import { useAccount } from '/imports/libs/userAccount';
+import { useAccount } from '/imports/hooks/userAccount';
 import './notificationStyle.css';
 import AppRouterSwitch from './layouts/appRouterSwitch';
 import { Theme, useTheme } from '@mui/material';
@@ -291,14 +291,14 @@ export const showNotification = (options: IShowNotificationOptions = {}) => {
         },
     };
 
-    notifier[options.type](options.description, notificationOptions);
+    notifier[options.type](options.description || options.message, notificationOptions);
 };
 
 interface IGeneralComponentsProps {
     theme?: Theme;
     themeOptions: {
         isMobile: boolean;
-        setFontScale: (p: boolean) => void;
+        setFontScale: (p: number) => void;
         fontScale: number;
         setDarkThemeMode: (p: boolean) => void;
         isDarkThemeMode: boolean;

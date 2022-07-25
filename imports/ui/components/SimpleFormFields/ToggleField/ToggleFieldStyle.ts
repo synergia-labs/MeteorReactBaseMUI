@@ -18,6 +18,6 @@ const toggleSwitchStyle = {
     fieldError: {
         border: '1px solid red',
     },
-}
+};
 
-export { toggleSwitchStyle }
+export { toggleSwitchStyle };

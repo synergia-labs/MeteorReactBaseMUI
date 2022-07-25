@@ -13,10 +13,10 @@ const allowScriptOrigin = [
     'fonts.gstatic.com',
     'localhost:3000',
     `${Meteor.absoluteUrl()}`,
-]
+];
 allowScriptOrigin.forEach((o) => {
-    return BrowserPolicy.content.allowScriptOrigin(o)
-})
+    return BrowserPolicy.content.allowScriptOrigin(o);
+});
 
 /**
  * allowed styles
@@ -26,20 +26,20 @@ const allowStyleOrigin = [
     'fonts.gstatic.com',
     'localhost:3000',
     `${Meteor.absoluteUrl()}`,
-]
+];
 allowStyleOrigin.forEach((o) => {
-    return BrowserPolicy.content.allowStyleOrigin(o)
-})
+    return BrowserPolicy.content.allowStyleOrigin(o);
+});
 
 const allowFontOrigin = [
     'fonts.googleapis.com',
     'fonts.gstatic.com',
     'localhost:3000',
     `${Meteor.absoluteUrl()}`,
-]
+];
 allowFontOrigin.forEach((o) => {
-    return BrowserPolicy.content.allowDataUrlForAll(o)
-})
+    return BrowserPolicy.content.allowDataUrlForAll(o);
+});
 
 const allowAll = [
     'fonts.googleapis.com',
@@ -50,14 +50,14 @@ const allowAll = [
     'www.youtube.com',
     'i.ytimg.com',
     `${Meteor.absoluteUrl()}`,
-]
+];
 allowAll.forEach((o) => {
-    return BrowserPolicy.content.allowOriginForAll(o)
-})
+    return BrowserPolicy.content.allowOriginForAll(o);
+});
 
 BrowserPolicy.content.allowInlineScripts(
     'fonts.gstatic.com',
     'localhost:3000',
     `${Meteor.absoluteUrl()}`
-)
-BrowserPolicy.content.allowOriginForAll('blob:')
+);
+BrowserPolicy.content.allowOriginForAll('blob:');

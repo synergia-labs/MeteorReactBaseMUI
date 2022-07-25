@@ -29,6 +29,6 @@ const textFieldStyle = {
         textAlign: 'left',
         textColor: '#ffffff',
     },
-}
+};
 
-export { textFieldStyle }
+export { textFieldStyle };

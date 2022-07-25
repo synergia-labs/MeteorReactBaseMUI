@@ -3,53 +3,53 @@
 
 // login page overrides the form’s submit event and call Meteor’s loginWithPassword()
 // Authentication errors modify the component’s state to be displayed
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Container from '@mui/material/Container'
-import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField'
-import Button from '@mui/material/Button'
-import { userprofileApi } from '../../../userprofile/api/UserProfileApi'
-import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
+import Button from '@mui/material/Button';
+import { userprofileApi } from '../../../userprofile/api/UserProfileApi';
+import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
-import { signupStyle } from './SignupStyle'
+import { signupStyle } from './SignupStyle';
 
 export default class Signup extends React.Component {
     constructor(props) {
-        super(props)
-        this.state = { email: '', password: '', error: '' }
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        super(props);
+        this.state = { email: '', password: '', error: '' };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     // Using a ref is accessing the DOM directly and not preferred
     // The React way to get the value from an input is using onChange
     handleChange(e, { name, value }) {
-        this.setState({ [name]: value })
+        this.setState({ [name]: value });
     }
 
     handleSubmit(doc) {
-        const { email, password } = doc
+        const { email, password } = doc;
 
         userprofileApi.insertNewUser({ email, username: email, password }, (err, r) => {
             if (err) {
-                console.log('Login err', err)
+                console.log('Login err', err);
                 this.props.showNotification({
                     type: 'warning',
                     title: 'Problema na criação do usuário!',
                     description: 'Erro ao fazer registro em nossa base de dados!',
-                })
+                });
             } else {
                 this.props.showNotification({
                     type: 'sucess',
                     title: 'Cadastrado com sucesso!',
                     description: 'Registro de usuário realizado em nossa base de dados!',
-                })
+                });
             }
-        })
+        });
     }
 
     render() {
-        const { error } = this.state
+        const { error } = this.state;
 
         return (
             <Container style={signupStyle.containerSignUp}>
@@ -106,6 +106,6 @@ export default class Signup extends React.Component {
                     </Link>
                 </div>
             </Container>
-        )
+        );
     }
 }

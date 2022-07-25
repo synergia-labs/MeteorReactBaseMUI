@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
-import useMediaQuery from '@mui/material/useMediaQuery'
-import SelectMunicipioDistritoField from './SelectMunicipioDistritoField'
-import SelectField from '/imports/ui/components/SimpleFormFields/SelectField/SelectField'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import * as appStyle from '/imports/materialui/styles'
+import useMediaQuery from '@mui/material/useMediaQuery';
+import SelectMunicipioDistritoField from './SelectMunicipioDistritoField';
+import SelectField from '/imports/ui/components/SimpleFormFields/SelectField/SelectField';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import * as appStyle from '/imports/materialui/styles';
 
-import { hasValue } from '/imports/libs/hasValue'
-import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField'
+import { hasValue } from '/imports/libs/hasValue';
+import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 
 export default React.memo(
     ({
@@ -23,54 +23,54 @@ export default React.memo(
         isSearch,
         ...otherProps
     }: IBaseSimpleFormComponent) => {
-        const isSmall = useMediaQuery((theme) => theme.breakpoints.down('sm'))
+        const isSmall = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-        const [estado, setEstado] = useState(value ? value.estado : undefined)
-        const [municipio, setMunicipio] = useState(value ? value.municipio : undefined)
-        const [distrito, setDistrito] = useState(value ? value.distrito : undefined)
+        const [estado, setEstado] = useState(value ? value.estado : undefined);
+        const [municipio, setMunicipio] = useState(value ? value.municipio : undefined);
+        const [distrito, setDistrito] = useState(value ? value.distrito : undefined);
 
         const definirEstado = (e) => {
-            setEstado(e.target.value)
+            setEstado(e.target.value);
             if (e.target.value == 'Não identificado') {
-                setMunicipio('Não identificado')
-                setDistrito(null)
+                setMunicipio('Não identificado');
+                setDistrito(null);
             } else if (e.target.value == 'Atribuição de Origem') {
-                setMunicipio('Não identificado')
-                setDistrito(null)
+                setMunicipio('Não identificado');
+                setDistrito(null);
             } else if (e.target.value == '') {
-                setEstado(undefined)
-                setMunicipio(undefined)
-                setDistrito(undefined)
+                setEstado(undefined);
+                setMunicipio(undefined);
+                setDistrito(undefined);
             } else {
-                setMunicipio(null)
-                setDistrito(null)
+                setMunicipio(null);
+                setDistrito(null);
             }
-        }
+        };
 
         const handleChange = (localizacao) => {
             if (localizacao && Object.keys(localizacao).find((loc) => !!localizacao[loc])) {
                 onChange(
                     { name, target: { name, value: localizacao } },
                     { name, value: localizacao }
-                )
+                );
             } else {
                 if (value) {
                     onChange(
                         { name, target: { name, value: undefined } },
                         { name, value: undefined }
-                    )
+                    );
                 }
             }
-        }
+        };
 
         const definirMunicipio = (e) => {
-            const mundist = e.target.value
-            setMunicipio(mundist ? mundist.municipio : null)
-            setDistrito(mundist ? mundist.distrito : null)
-        }
+            const mundist = e.target.value;
+            setMunicipio(mundist ? mundist.municipio : null);
+            setDistrito(mundist ? mundist.distrito : null);
+        };
 
         useEffect(() => {
-            const localizacao = { estado, municipio, distrito }
+            const localizacao = { estado, municipio, distrito };
             if (
                 (!hasValue(value) &&
                     (hasValue(estado) || hasValue(municipio) || hasValue(distrito))) ||
@@ -80,32 +80,32 @@ export default React.memo(
                         value.distrito !== distrito))
             ) {
                 if (isSearch) {
-                    handleChange(localizacao)
+                    handleChange(localizacao);
                 } else if (estado && municipio) {
-                    handleChange(localizacao)
+                    handleChange(localizacao);
                 } else {
-                    handleChange(undefined)
+                    handleChange(undefined);
                 }
             }
-        }, [estado, municipio, distrito])
+        }, [estado, municipio, distrito]);
 
         useEffect(() => {
             if (value && value.estado !== estado) {
-                setEstado(value.estado)
+                setEstado(value.estado);
             }
             if (value && value.municipio !== municipio) {
-                setMunicipio(value.municipio)
+                setMunicipio(value.municipio);
             }
             if (value && value.distrito !== distrito) {
-                setDistrito(value.distrito)
+                setDistrito(value.distrito);
             }
 
             if (!value) {
-                setEstado(undefined)
-                setMunicipio(undefined)
-                setDistrito(undefined)
+                setEstado(undefined);
+                setMunicipio(undefined);
+                setDistrito(undefined);
             }
-        }, [value])
+        }, [value]);
 
         if (readOnly) {
             return (
@@ -137,7 +137,7 @@ export default React.memo(
                         readOnly={true}
                     />
                 </div>
-            )
+            );
         }
 
         return (
@@ -206,6 +206,6 @@ export default React.memo(
                     />
                 </div>
             </div>
-        )
+        );
     }
-)
+);

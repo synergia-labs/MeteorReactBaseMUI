@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
-import Fab from '@mui/material/Fab'
-import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice'
-import StopIcon from '@mui/icons-material/Stop'
-import DeleteIcon from '@mui/icons-material/Delete'
+import Fab from '@mui/material/Fab';
+import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
+import StopIcon from '@mui/icons-material/Stop';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import { audioRecorderStyle } from './AudioRecorderStyle'
+import { audioRecorderStyle } from './AudioRecorderStyle';
 
-import { hasValue } from '/imports/libs/hasValue'
+import { hasValue } from '/imports/libs/hasValue';
 
 export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFormComponent) => {
     const [values, setValues] = React.useState({
@@ -17,15 +17,15 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
         stopButton: false,
         audioButton: false,
         deleteButton: false,
-    })
-    const [seconds, setSeconds] = React.useState(0)
-    const [minutes, setMinutes] = React.useState(0)
-    const [hours, setHours] = React.useState(0)
+    });
+    const [seconds, setSeconds] = React.useState(0);
+    const [minutes, setMinutes] = React.useState(0);
+    const [hours, setHours] = React.useState(0);
 
-    let recorder: any = null
+    let recorder: any = null;
 
     const deleteAudio = () => {
-        onChange({ target: { value: '-' } }, { name, value: '-' })
+        onChange({ target: { value: '-' } }, { name, value: '-' });
 
         setValues({
             ...values,
@@ -33,30 +33,30 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
             stopButton: false,
             audioButton: false,
             deleteButton: false,
-        })
-    }
+        });
+    };
 
     const onSuccess = (stream: any) => {
         recorder = new MediaRecorder(stream, {
             type: 'audio/ogg; codecs=opus',
-        })
+        });
 
-        recorder.start() // Starting the record
+        recorder.start(); // Starting the record
 
         recorder.ondataavailable = (e: any) => {
             // Converting audio blob to base64
-            const reader = new FileReader()
+            const reader = new FileReader();
             reader.onloadend = () => {
                 // console.log(reader.result);
                 onChange(
                     { name, target: { name, value: reader.result } },
                     { name, value: reader.result }
-                ) // You can upload the base64 to server here.
-            }
+                ); // You can upload the base64 to server here.
+            };
 
-            reader.readAsDataURL(e.data)
-        }
-    }
+            reader.readAsDataURL(e.data);
+        };
+    };
 
     const handleRecordAudio = () => {
         setValues({
@@ -65,13 +65,13 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
             stopButton: true,
             audioButton: false,
             deleteButton: false,
-        })
+        });
 
         navigator.getUserMedia =
             navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia ||
-            navigator.msGetUserMedia
+            navigator.msGetUserMedia;
 
         navigator.getUserMedia(
             {
@@ -79,41 +79,41 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
             },
             onSuccess,
             (e) => {
-                console.log(e)
+                console.log(e);
             }
-        )
+        );
 
-        const stop = document.querySelector('.stop')
+        const stop = document.querySelector('.stop');
         stop.onclick = function () {
             if (recorder) {
-                recorder.stop()
+                recorder.stop();
             }
-        }
-    }
+        };
+    };
 
     React.useEffect(() => {
         if (!values.recordButton) {
             if (seconds < 60) {
-                setTimeout(() => setSeconds(seconds + 1), 1000)
+                setTimeout(() => setSeconds(seconds + 1), 1000);
             } else if (seconds == 60) {
-                setTimeout(() => setSeconds(0), 1000)
+                setTimeout(() => setSeconds(0), 1000);
                 if (minutes < 60) {
-                    setTimeout(() => setMinutes(minutes + 1), 1000)
+                    setTimeout(() => setMinutes(minutes + 1), 1000);
                 } else if (minutes == 60) {
-                    setTimeout(() => setMinutes(0), 1000)
+                    setTimeout(() => setMinutes(0), 1000);
                     if (hours < 24) {
-                        setTimeout(() => setHours(hours + 1), 1000)
+                        setTimeout(() => setHours(hours + 1), 1000);
                     } else if (hours == 24) {
-                        setTimeout(() => setHours(0), 1000)
+                        setTimeout(() => setHours(0), 1000);
                     }
                 }
             }
         } else {
-            setHours(0)
-            setMinutes(0)
-            setSeconds(0)
+            setHours(0);
+            setMinutes(0);
+            setSeconds(0);
         }
-    })
+    });
 
     const handleStopRecordAudio = () => {
         setValues({
@@ -122,8 +122,8 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
             stopButton: false,
             audioButton: true,
             deleteButton: true,
-        })
-    }
+        });
+    };
 
     if (readOnly) {
         return (
@@ -144,7 +144,7 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
                     <div style={audioRecorderStyle.containerEmptyAudio}>{'Não há aúdio'}</div>
                 )}
             </div>
-        )
+        );
     }
 
     return (
@@ -219,5 +219,5 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
                 )}
             </div>
         </div>
-    )
-}
+    );
+};

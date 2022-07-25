@@ -1,4 +1,4 @@
-import { IDoc } from '/imports/typings/IDoc'
+import { IDoc } from '/imports/typings/IDoc';
 
 export const userProfileSch = {
     photo: {
@@ -24,14 +24,14 @@ export const userProfileSch = {
         type: String,
         label: 'Telefone',
         defaultValue: '',
-        optional: false,
+        optional: true,
         mask: '(##) ####-####',
     },
     roles: {
         type: [String],
         label: 'Access profile',
         defaultValue: [],
-        optional: false,
+        optional: true,
         componentName: 'ChipSelect',
         options: [
             {
@@ -44,11 +44,12 @@ export const userProfileSch = {
             },
         ],
     },
-}
+};
 
 export interface IUserProfile extends IDoc {
-    photo?: string
-    username: string
-    email: string
-    roles?: string[]
+    photo?: string;
+    phone?: string;
+    username: string;
+    email: string;
+    roles?: string[];
 }

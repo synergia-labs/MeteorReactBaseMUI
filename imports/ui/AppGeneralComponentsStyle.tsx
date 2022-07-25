@@ -15,13 +15,13 @@
  */
 
 const appGeneralStyle: {
-    [key: string]: { [subkey: string]: React.CSSProperties } | React.CSSProperties
+    [key: string]: { [subkey: string]: React.CSSProperties } | React.CSSProperties;
 } = {
     containerOptions: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
     },
-}
+};
 
-export { appGeneralStyle }
+export { appGeneralStyle };

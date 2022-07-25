@@ -18,6 +18,6 @@ const formatedDatePickerStyle = {
     labelTitle: {
         marginBottom: '1rem',
     },
-}
+};
 
-export { formatedDatePickerStyle }
+export { formatedDatePickerStyle };

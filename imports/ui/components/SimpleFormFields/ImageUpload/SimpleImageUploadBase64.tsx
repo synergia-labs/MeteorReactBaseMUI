@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 // @ts-ignore
-import FileInputComponent from 'react-file-input-previews-base64'
-import { hasValue } from '../../../../libs/hasValue'
-import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView'
-import Button from '@mui/material/Button'
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
-import Avatar from '@mui/material/Avatar'
-import { simpleImageStyle } from './SimpleImageUploadBase64Style'
+import FileInputComponent from 'react-file-input-previews-base64';
+import { hasValue } from '../../../../libs/hasValue';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import Button from '@mui/material/Button';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import Avatar from '@mui/material/Avatar';
+import { simpleImageStyle } from './SimpleImageUploadBase64Style';
 
 export default ({
     name,
@@ -18,16 +18,16 @@ export default ({
     ...otherProps
 }: IBaseSimpleFormComponent) => {
     const onFileSelect = (fileData: any) => {
-        let imgValue
+        let imgValue;
         if (fileData) {
             if (Array.isArray(fileData)) {
-                imgValue = fileData[0].base64
+                imgValue = fileData[0].base64;
             } else {
-                imgValue = fileData.base64
+                imgValue = fileData.base64;
             }
-            onChange({ name, target: { name, value: imgValue } }, { name, value: imgValue })
+            onChange({ name, target: { name, value: imgValue } }, { name, value: imgValue });
         }
-    }
+    };
 
     if (!readOnly) {
         return (
@@ -35,7 +35,7 @@ export default ({
                 <SimpleLabelView label={label} />
                 <Avatar src={value} size="big" style={simpleImageStyle.containerShowImage} />
             </div>
-        )
+        );
     }
 
     return (
@@ -65,5 +65,5 @@ export default ({
                 }
             />
         </div>
-    )
-}
+    );
+};

@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles';
 
 export const StyledText = styled('div')(({ theme }) => ({
     '--defaultColor': theme.palette.background.default,
@@ -18,7 +18,7 @@ export const StyledText = styled('div')(({ theme }) => ({
     '& h3': {
         ...theme.typography.h3,
     },
-}))
+}));
 
 export const StyledTextQuilljs = styled('div')(({ theme }) => ({
     '--defaultColor': theme.palette.background.default,
@@ -47,4 +47,4 @@ export const StyledTextQuilljs = styled('div')(({ theme }) => ({
     '& .ql-header .ql-picker-item[data-value="3"]::before': {
         ...theme.typography.h3,
     },
-}))
+}));
