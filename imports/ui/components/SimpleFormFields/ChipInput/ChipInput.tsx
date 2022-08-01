@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import { styles } from './ChipInputStyle';
 import _ from 'lodash';
+import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 export default ({
     name,
@@ -22,7 +23,12 @@ export default ({
     const handleDelete = (chipItem: string) => {
         const newChip = value.filter((chip: string) => chip !== chipItem);
         setChipText('');
-        onChange({ name, target: { name, value: newChip } }, { name, value: newChip });
+        onChange &&
+            onChange(
+                // @ts-ignore
+                { name, target: { name, value: newChip } },
+                { name, value: newChip }
+            );
     };
 
     const handleOnChange = (event: React.BaseSyntheticEvent) => {
@@ -32,10 +38,12 @@ export default ({
     const handleInsert = (chipText: string) => {
         const verifyItemInList = (value && value.find((chip) => chip === chipText)) || [];
         if (isFieldValid(chipText) && verifyItemInList.length === 0) {
-            onChange(
-                { target: { value: [...(value || []), chipText] } },
-                { name, value: [...(value || []), chipText] }
-            );
+            onChange &&
+                onChange(
+                    // @ts-ignore
+                    { target: { value: [...(value || []), chipText] } },
+                    { name, value: [...(value || []), chipText] }
+                );
         }
         setChipText('');
     };
@@ -70,8 +78,9 @@ export default ({
                             startAdornment: (
                                 <div>
                                     {hasValue(value) &&
-                                        value.map((chip: string) => (
+                                        value.map((chip: string, index) => (
                                             <Chip
+                                                key={chip + index}
                                                 variant="outlined"
                                                 label={chip}
                                                 color={'primary'}
@@ -94,9 +103,9 @@ export default ({
             <div>
                 {readOnly &&
                     hasValue(value) &&
-                    value.map((chip: string) => (
+                    value.map((chip: string, index) => (
                         <Chip
-                            key={chip}
+                            key={chip + index}
                             variant="outlined"
                             label={chip}
                             color={'primary'}

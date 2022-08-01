@@ -9,7 +9,7 @@ import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSi
 let timeoutOnChange;
 
 export interface IDatePicker extends IBaseSimpleFormComponent {
-    min: string;
+    min?: string;
 }
 export default ({ name, label, value, onChange, readOnly, error, ...otherProps }: IDatePicker) => {
     if (readOnly) {

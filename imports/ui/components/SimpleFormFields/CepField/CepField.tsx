@@ -3,7 +3,7 @@ import { hasValue } from '/imports/libs/hasValue';
 import { getEnderecoByCep } from './getEnderecoByCep';
 import TextField from '../TextField/TextField';
 import TextMaskField from '../TextMaskField/TextMaskField';
-import { SelectLocalizacao } from '../SelectLocalizacaoField/SelectLocalizacao';
+import SelectLocalizacao from '../SelectLocalizacaoField/SelectLocalizacao';
 
 export interface IResponseCep {
     [key: string]: any;

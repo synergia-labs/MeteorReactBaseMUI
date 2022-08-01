@@ -883,7 +883,7 @@ interface IUploadFilesCollection {
     saveOnChange: (doc: object) => void;
     typeConteudo: string;
     value: [];
-    doc?: { _id: number };
+    doc?: { _id: string | undefined };
     label?: string;
     readOnly?: boolean;
     isPublic: boolean;

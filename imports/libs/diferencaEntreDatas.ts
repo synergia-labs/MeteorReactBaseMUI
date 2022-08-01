@@ -15,6 +15,13 @@ export const diferencaEntreDatas = (data: Date) => {
     } else if (diferencaEmDias >= 7 && diferencaEmDias <= 30) {
         return `${diferencaEmSemanas}sem`;
     } else {
-        return `${data?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
+        const dataCompleta = `${data?.toLocaleDateString('pt-BR', {
+            month: 'long',
+            year: 'numeric',
+        })}`;
+        const dataReduzida = dataCompleta.split(/\s*de\s*/);
+        const mes = dataReduzida[0];
+        const ano = dataReduzida[1];
+        return `${mes[0].toUpperCase() + mes.substring(1, 3) + ' ' + ano}`;
     }
 };

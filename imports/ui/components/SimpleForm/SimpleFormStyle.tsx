@@ -18,7 +18,9 @@
 // // // Variables - Styles that are used on more than one component
 // #############################
 
-const simpleFormStyle = {
+const simpleFormStyle: {
+    [key: string]: { [subkey: string]: React.CSSProperties } | React.CSSProperties;
+} = {
     buttonForm: {
         display: 'flex',
         flexDirection: 'column',

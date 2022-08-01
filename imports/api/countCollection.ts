@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 
-export const countsCollection = new Mongo.Collection('countsCollection');
+export const countsCollection = new Mongo.Collection('counts');
 countsCollection.deny({
     insert() {
         return true;

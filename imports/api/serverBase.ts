@@ -293,6 +293,7 @@ export class ServerApiBase<Doc extends IDoc> {
         const schema = this.getSchema();
         const schemaKeys = Object.keys(schema);
         const newDataObj = this._prepareData(_docObj);
+        const objForCheck = { ...newDataObj };
 
         // Don't need to inform every field, but if they was listed
         // or informed, they can't be null.it
@@ -306,6 +307,7 @@ export class ServerApiBase<Doc extends IDoc> {
                 !schema[field].visibilityFunction!(newDataObj)
             ) {
                 delete newDataObj[field];
+                delete objForCheck[field];
                 return;
             } else if (
                 !schema[field].optional &&
@@ -327,10 +329,22 @@ export class ServerApiBase<Doc extends IDoc> {
                     // @ts-ignore
                     newSchema[field] = schema[field].type;
                 }
+
+                // remove string referring to image to improve check function performance
+                if (
+                    (schema[field].isImage || schema[field].isAvatar) &&
+                    newDataObj[field] &&
+                    typeof newDataObj[field] === 'string'
+                ) {
+                    // @ts-ignore
+                    delete newSchema[field];
+                    delete objForCheck[field];
+                }
             }
         });
         // Call the check from Meteor.
-        check(newDataObj, newSchema);
+
+        check(objForCheck, newSchema);
         return newDataObj;
     };
 
@@ -791,7 +805,7 @@ export class ServerApiBase<Doc extends IDoc> {
             // observeChanges only returns after the initial added callbacks have run.
             // Until then, we don't want to send a lot of changed messages—hence
             // tracking the initializing state.
-            const handlePub = collection.publications[publishName](...params);
+            const handlePub = collection.publications[publishName](...params, { limit: 0 });
             if (!!handlePub) {
                 this.added('counts', `${publishName}Total`, {
                     count: handlePub.count(),
@@ -827,7 +841,7 @@ export class ServerApiBase<Doc extends IDoc> {
         }
 
         const defaultListOptions = { ...(optionsPub || {}) };
-        if (!optionsPub || !optionsPub.limit) {
+        if (!optionsPub || (!optionsPub.limit && optionsPub.limit !== 0)) {
             defaultListOptions.limit = 100;
         }
 

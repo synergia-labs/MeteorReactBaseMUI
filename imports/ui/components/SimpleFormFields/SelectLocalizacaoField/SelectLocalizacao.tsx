@@ -127,7 +127,10 @@ export default React.memo(
                         label={label ? label : 'Cidade/Estado'}
                         key={name}
                         value={
-                            value === '-' || !value
+                            value === '-' ||
+                            !value ||
+                            value.municipio === undefined ||
+                            value.estado === undefined
                                 ? '-'
                                 : value.municipio +
                                   (value.distrito ? '-' + value.distrito : '') +

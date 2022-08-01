@@ -30,7 +30,7 @@ export interface IElementProps {
 interface ISubFormComponent {
     id?: string;
     reactElement: React.ReactElement<any>;
-    childrensElements: React.ReactNode | React.ReactNode[];
+    childrensElements: React.ReactNode | React.ReactNode[] | undefined | null;
     name: string;
     mode: string;
     fieldSchema: { type?: BooleanConstructor; label: string; subSchema: {} | [] };
@@ -50,7 +50,11 @@ const SubFormComponent = ({
     const [mode, setMode] = React.useState(props.mode || 'edit');
     const [changeByUser, setChangeByUser] = React.useState(false);
 
-    let formRef = {};
+    // @ts-ignore
+    let formRef: {
+        updateField: (p: { name: string; value: any }) => void;
+        validate(): Boolean;
+    } | null = {};
 
     React.useEffect(() => {
         if (
@@ -74,7 +78,7 @@ const SubFormComponent = ({
     });
 
     props.setFieldMethods({
-        updateField: (name, value) => {
+        updateField: (name: string, value: any) => {
             formRef.updateField(name, value);
         },
         validateRequired: () => {
@@ -108,16 +112,18 @@ const SubFormComponent = ({
             }
             return false;
         },
-        setError: (value) => {
+        setError: (value: boolean | ((prevState: boolean) => boolean)) => {
             setError(value);
         },
     });
 
-    const onChange = (
-        e: React.ChangeEvent<HTMLInputElement>,
-        fieldData: { name?: string } = {}
-    ) => {
-        const field = {
+    const onChange = (e: { target: { value: any } }, fieldData: { name?: string } = {}) => {
+        const field: {
+            value: any;
+            checked?: boolean;
+        } = {
+            value: undefined,
+            checked: undefined,
             ...(props.fieldSchema ? props.fieldSchema : {}),
             ...(e ? e.target : {}),
             ...(fieldData && fieldData.name ? fieldData : {}),
@@ -148,7 +154,7 @@ const SubFormComponent = ({
         }
     };
 
-    const onFormChangeHandle = (doc) => {
+    const onFormChangeHandle = (doc: any) => {
         onChange({
             target: {
                 value: doc,
@@ -188,12 +194,12 @@ interface ISimpleFormProps {
      */
     dontReloadOnView?: boolean;
     errorStyles?: object;
-    children?: object[] | object;
+    children?: object[] | object | undefined | null;
     doc?: object;
     isSubForm?: boolean;
     loading?: boolean | null;
     mode?: string;
-    schema: [] | {};
+    schema?: [] | {};
     styles?: object;
     onFormChange?: (onChange: () => void) => void;
     onSubmit?: (submit: any) => void;
@@ -221,7 +227,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
         this.initFormElements(true);
     };
 
-    updateField = (name: string, value: string) => {
+    updateField = (name: string, value: any) => {
         let idxDot = name.indexOf('.');
         if (idxDot >= 0) {
             const formName = name.substring(0, idxDot);
@@ -319,7 +325,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
     getDoc = () => this.docValue;
 
     initialValueDefault = (schema) => {
-        if (schema && schema.defaultValue) {
+        if (schema && hasValue(schema.defaultValue)) {
             return schema.defaultValue;
         }
         if (schema && schema.type === Date) {
@@ -384,7 +390,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
                         self.props.schema ? self.props.schema[element.props.name] : undefined
                     }
                     initialValue={
-                        self.docValue && self.docValue[element.props.name]
+                        self.docValue && hasValue(self.docValue[element.props.name])
                             ? self.docValue[element.props.name]
                             : this.initialValueDefault(self.props.schema[element.props.name])
                     }
@@ -408,7 +414,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
                         self.props.schema ? self.props.schema[element.props.name] : undefined
                     }
                     initialValue={
-                        self.docValue && self.docValue[element.props.name]
+                        self.docValue && hasValue(self.docValue[element.props.name])
                             ? self.docValue[element.props.name]
                             : this.initialValueDefault(self.props.schema[element.props.name])
                     }
@@ -452,7 +458,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
                 key={element.props.name ? element.props.name : `el${index}`}
                 fieldSchema={self.props.schema ? self.props.schema[element.props.name] : undefined}
                 initialValue={
-                    self.docValue && self.docValue[element.props.name]
+                    self.docValue && hasValue(self.docValue[element.props.name])
                         ? self.docValue[element.props.name]
                         : self.props.schema
                         ? self.initialValueDefault(self.props.schema[element.props.name])
@@ -585,7 +591,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
     componentDidUpdate(prevProps, prevState, snapshot) {
         const isDocDifferent = !_.isEqual(this.props.doc, prevProps.doc);
         const isModeDifferent = this.props.mode !== prevProps.mode;
-        this._computeRequiredFields();
+
         if (
             isDocDifferent ||
             isModeDifferent ||

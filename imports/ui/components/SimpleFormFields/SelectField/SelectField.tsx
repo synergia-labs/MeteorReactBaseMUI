@@ -81,7 +81,7 @@ export default ({
                     >
                         {value === '-'
                             ? '-'
-                            : value.map((val) => {
+                            : value.map((val, index) => {
                                   const objValue = options
                                       ? options.find(
                                             (object) => object.value === val || object === val
@@ -89,6 +89,7 @@ export default ({
                                       : hasValue(val) && val;
                                   return (
                                       <Chip
+                                          key={'chip' + val + index}
                                           variant="outlined"
                                           label={
                                               objValue && objValue.label ? objValue.label : objValue
@@ -104,7 +105,6 @@ export default ({
         let objValue = options
             ? options.find((object) => object.value === value || object === value)
             : hasValue(value) && value;
-
         if (multiple) {
             objValue = hasValue(value) && renderValue ? renderValue(value) : undefined;
 

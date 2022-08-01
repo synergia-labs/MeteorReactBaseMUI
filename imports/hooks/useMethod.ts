@@ -45,7 +45,7 @@ export function useMethod<T extends IDoc>(
         setLoading(true);
 
         const fetchData = async () => {
-            api.callMethod(method, params, (e: IMeteorError, result: T[]) => {
+            api.callMethod(method, params, (e: IMeteorError, result: any) => {
                 if (!e) {
                     if (!wait) {
                         setResult(result);
