@@ -18,8 +18,16 @@ import { IConnection } from '/imports/typings/IConnection';
 import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import Selector = Mongo.Selector;
 import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
-import { Recurso } from '/imports/modules/evento/config/Recursos';
-import { string } from 'prop-types';
+import { WebApp } from 'meteor/webapp';
+// @ts-ignore
+import bodyParser from 'body-parser';
+// @ts-ignore
+import cors from 'cors';
+// @ts-ignore
+import connectRoute from 'connect-route';
+
+WebApp.connectHandlers.use(cors());
+WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
 
 const getNoImage = (isAvatar = false) => {
     if (!isAvatar) {
@@ -97,6 +105,7 @@ export class ServerApiBase<Doc extends IDoc> {
         this._executarTransacao = this._executarTransacao.bind(this);
 
         //**API REST**
+        this.addRestEndpoint = this.addRestEndpoint.bind(this);
         this.initApiRest = this.initApiRest.bind(this);
         this.createAPIRESTForIMGFields = this.createAPIRESTForIMGFields.bind(this);
         this.createAPIRESTThumbnailForIMGFields =
@@ -450,13 +459,98 @@ export class ServerApiBase<Doc extends IDoc> {
     }
 
     //**API REST**
-    initApiRest = () => {
+    addRestEndpoint(
+        route: string,
+        func: (params: any, options: any) => any,
+        types: string[] = ['get', 'post'],
+        apiOptions: {
+            apiVersion: number;
+            authFunction: (headers: any, params: any) => Boolean;
+        } = {
+            apiVersion: 1,
+            authFunction: () => true,
+        }
+    ) {
         if (Meteor.isServer) {
-            // @ts-ignore
-            import { WebApp } from 'meteor/webapp';
-            // @ts-ignore
-            import connectRoute from 'connect-route';
+            if (!route || !func || !types || !apiOptions) {
+                console.log('CREATE API ERRRO:', this.collectionName, route);
+                return;
+            }
+            const endpoinUrl = `/api/v${apiOptions.apiVersion || 1}/${
+                this.collectionName
+            }/${route}`;
 
+            const handleFunc = (type: string) => (req: any, res: any) => {
+                const endpointContext = {
+                    urlParams: req.params,
+                    queryParams: req.query,
+                    bodyParams: req.body,
+                    request: req,
+                    response: res,
+                };
+
+                const params = Object.assign(
+                    {},
+                    endpointContext.queryParams || {},
+                    endpointContext.urlParams || {},
+                    endpointContext.bodyParams || {}
+                );
+
+                const context = {
+                    type,
+                    headers: req.headers,
+                    response: endpointContext.response,
+                };
+
+                if (apiOptions.authFunction && !apiOptions.authFunction(req.headers, params)) {
+                    res.writeHead(403, {
+                        'Content-Type': 'application/json',
+                    });
+                    res.write('Access denied');
+                    res.end();
+                    return;
+                }
+
+                try {
+                    res.writeHead(200, {
+                        'Content-Type': 'application/json',
+                    });
+
+                    const result = func(params, context);
+
+                    res.write(
+                        typeof result === 'object'
+                            ? JSON.stringify(result)
+                            : `${result ? result.toString() : '-'}`
+                    );
+                    res.end(); // Must call this immediately before return!
+                    return;
+                } catch (e) {
+                    console.log(`API ERROR:${this.collectionName}|${route} - `, e);
+                    res.writeHead(403, {
+                        'Content-Type': 'application/json',
+                    });
+                    res.write('Error');
+                    res.end();
+                    return;
+                }
+            };
+
+            if (types) {
+                types.forEach((type) => {
+                    console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
+                    WebApp.connectHandlers.use(
+                        connectRoute((router: any) => {
+                            router[type](endpoinUrl, handleFunc(type));
+                        })
+                    );
+                });
+            }
+        }
+    }
+
+    initApiRest() {
+        if (Meteor.isServer) {
             this.apiRestImage = {
                 addRoute: (path: string, handle: any) => {
                     console.log('Path', path);
@@ -476,7 +570,7 @@ export class ServerApiBase<Doc extends IDoc> {
                 },
             };
         }
-    };
+    }
 
     createAPIRESTForIMGFields() {
         if (Meteor.isServer) {
