@@ -3,9 +3,9 @@ import * as appStyles from '../../../materialui/styles';
 
 export const complexTableStyle: ISxStyleObject = {
     container: {
-        height: '90%',
         width: '100%',
         backgroundColor: appStyles.lightBackground,
+        flex: 1,
     },
     actionsContainer: {
         display: 'flex',
@@ -23,6 +23,21 @@ export const complexTableStyle: ISxStyleObject = {
     rowText: {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
+        whiteSpace: 'nowrap',
         padding: '0.5em 0',
+    },
+    columnsPanel: {
+        '& .MuiInputBase-root': {
+            border: 'none',
+        },
+        '& .MuiDataGrid-panelHeader': {
+            margin: '0.5rem 0.5rem 0.25rem 0.5rem',
+        },
+        '& .MuiDataGrid-columnsPanel ': {
+            margin: '0 0.25rem 0 0.25rem',
+        },
+        '& .MuiDataGrid-panelFooter': {
+            margin: '0.75rem',
+        },
     },
 };
