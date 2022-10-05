@@ -3,12 +3,12 @@ import AppLayoutFixedMenu from './layouts/appLayoutFixedMenu.tsx';
 import GeneralComponents, { AppContext } from './AppGeneralComponents';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import { getTheme, theme } from '/imports/materialui/theme';
-import { useAccount } from '/imports/hooks/userAccount';
+import { userAccount } from '/imports/hooks/userAccount';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 
 const AppContainer = () => {
-    const { isLoggedIn, user, userLoading } = useAccount();
+    const { isLoggedIn, user, userLoading } = userAccount();
 
     const context = React.useContext(AppContext);
     const theme = useTheme();

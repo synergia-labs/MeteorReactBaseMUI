@@ -12,7 +12,7 @@ import AWN from 'awesome-notifications';
 import { appGeneralStyle } from './AppGeneralComponentsStyle';
 import { isMobile } from '/imports/libs/deviceVerify';
 import { MemoryRouter } from 'react-router';
-import { useAccount } from '/imports/hooks/userAccount';
+import { userAccount } from '/imports/hooks/userAccount';
 import './notificationStyle.css';
 import AppRouterSwitch from './layouts/appRouterSwitch';
 import { Theme, useTheme } from '@mui/material';
@@ -88,7 +88,7 @@ interface IModalContainer extends ICommonOptions {
 
 const ModalContainer = (options: IModalContainer = commonOptions) => {
     const theme = useTheme();
-    const { isLoggedIn, user, userLoading } = useAccount();
+    const { isLoggedIn, user, userLoading } = userAccount();
     const Component = options.component;
     const url = options.url;
 
@@ -145,7 +145,7 @@ interface IDrawerContainerOptions extends ICommonOptions {
 
 const DrawerContainer = (options: IDrawerContainerOptions = commonOptions) => {
     const theme = useTheme();
-    const { isLoggedIn, user, userLoading } = useAccount();
+    const { isLoggedIn, user, userLoading } = userAccount();
 
     const Component = options.component;
     const url = options.url;
@@ -214,7 +214,7 @@ interface IWindowContainerOptions extends ICommonOptions {
 const WindowContainer = (options: IWindowContainerOptions = commonOptions) => {
     const theme = useTheme();
 
-    const { isLoggedIn, user, userLoading } = useAccount();
+    const { isLoggedIn, user, userLoading } = userAccount();
     const Component = options.component;
     const url = options.url;
 

@@ -390,7 +390,9 @@ export class ServerApiBase<Doc extends IDoc> {
                 ['lastupdate', 'createdat', 'createdby', 'updatedby'].indexOf(key) === -1 &&
                 !isDate &&
                 isObject(docData) &&
-                !isArray(docData)
+                !isArray(docData) &&
+                isObject(docData) &&
+                Object.keys(docData).filter((k) => isArray(docData[k])).length === 0
             ) {
                 newDoc[key] = merge(oldDoc[key] || {}, docData);
             } else {
@@ -652,13 +654,17 @@ export class ServerApiBase<Doc extends IDoc> {
                         this.apiRestImage.addThumbnailRoute(
                             `${this.collectionName}/${field}/:image`,
                             async (req: any, res: any) => {
-                                const { params } = req;
+                                const { params, query } = req;
+
+                                const widthAndHeight = query.d
+                                    ? query.d.split('x').map((n: string) => parseInt(n))
+                                    : [200, 200];
 
                                 if (params && !!params.image) {
                                     const docID =
-                                        params.image.indexOf('.png') !== -1
-                                            ? params.image.split('.png')[0]
-                                            : params.image.split('.jpg')[0];
+                                        params.image.indexOf('.') !== -1
+                                            ? params.image.split('.')[0]
+                                            : params.image.split('.')[0];
                                     const doc = self
                                         .getCollectionInstance()
                                         .findOne({ _id: docID });
@@ -679,8 +685,8 @@ export class ServerApiBase<Doc extends IDoc> {
                                                         b: 255,
                                                         alpha: 0.01,
                                                     },
-                                                    width: 300,
-                                                    height: 200,
+                                                    width: widthAndHeight[0],
+                                                    height: widthAndHeight[1],
                                                 })
                                                 .toFormat('png')
                                                 .toBuffer();
@@ -764,7 +770,7 @@ export class ServerApiBase<Doc extends IDoc> {
 
         if (Meteor.isServer) {
             Meteor.publish(`${self.collectionName}.${publication}`, function (query, options) {
-                const subHandle = newPublicationsFunction(query, options).observe({
+                const subHandle = newPublicationsFunction(query, options)?.observe({
                     added: (document: { _id: string }) => {
                         this.added(
                             `${self.collectionName}`,
@@ -850,6 +856,10 @@ export class ServerApiBase<Doc extends IDoc> {
         if (optionsPub.limit! < 0) {
             optionsPub.limit = 0;
         }
+
+        if (!optionsPub.projection && !!optionsPub.fields) {
+            optionsPub.projection = optionsPub.fields;
+        }
         // Use the default subschema if no one was defined.
         if (!optionsPub.projection || Object.keys(optionsPub.projection).length === 0) {
             const tempProjection: { [key: string]: number } = {};
@@ -869,6 +879,34 @@ export class ServerApiBase<Doc extends IDoc> {
             if (this.schema[field].isImage) {
                 imgFields['has' + field] = { $or: '$' + field };
                 delete optionsPub.projection[field];
+                imgFields[field] = {
+                    $cond: [
+                        { $ifNull: ['$' + field, false] },
+                        {
+                            $concat: [
+                                `${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/`,
+                                '$_id',
+                                '?date=',
+                                { $toString: '$lastupdate' },
+                            ],
+                        },
+                        this.noImagePath,
+                    ],
+                };
+                imgFields[field + 'Thumbnail'] = {
+                    $cond: [
+                        { $ifNull: ['$' + field, false] },
+                        {
+                            $concat: [
+                                `${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/`,
+                                '$_id',
+                                '?date=',
+                                { $toString: '$lastupdate' },
+                            ],
+                        },
+                        this.noImagePath,
+                    ],
+                };
             }
         });
 
@@ -876,16 +914,8 @@ export class ServerApiBase<Doc extends IDoc> {
             fields: { ...optionsPub.projection, ...imgFields },
             limit: optionsPub.limit || 0,
             skip: optionsPub.skip || 0,
-            transform: (doc: any) => {
-                // for get path of image fields.
-                return this._addImgPathToFields(doc);
-            },
             sort: {},
         };
-
-        if (optionsPub.transform) {
-            queryOptions.transform = optionsPub.transform;
-        }
 
         if (optionsPub.sort) {
             queryOptions.sort = optionsPub.sort;
@@ -894,25 +924,57 @@ export class ServerApiBase<Doc extends IDoc> {
         return this.getCollectionInstance().find({ ...filter }, queryOptions);
     }
 
-    defaultCounterCollectionPublication = (collection: ServerApiBase<Doc>, publishName: string) => {
-        return function (this: Subscription, ...params: any[]) {
-            // observeChanges only returns after the initial added callbacks have run.
-            // Until then, we don't want to send a lot of changed messages—hence
-            // tracking the initializing state.
-            const handlePub = collection.publications[publishName](...params, { limit: 0 });
-            if (!!handlePub) {
-                this.added('counts', `${publishName}Total`, {
-                    count: handlePub.count(),
-                });
-                this.ready();
-                return;
-            } else {
-                this.added('counts', `${publishName}Total`, { count: 0 });
-                this.ready();
-                return;
+    defaultCounterCollectionPublication = (collection: any, publishName: string) =>
+        function (...params: any) {
+            // `observeChanges` only returns after the initial `added` callbacks have run.
+            // Until then, we don't want to send a lot of `changed` messages—hence
+            // tracking the `initializing` state.
+            let handlePub = collection.publications[publishName](...params, { limit: 0 });
+            if (handlePub) {
+                if (Array.isArray(handlePub)) {
+                    handlePub = handlePub[0];
+                }
+                let count = 0;
+                let loaded = false;
+
+                if (!!handlePub) {
+                    handlePub.observeChanges(
+                        {
+                            added: () => {
+                                if (loaded) {
+                                    count++;
+                                    // @ts-ignore
+                                    this.changed('counts', `${publishName}Total`, { count });
+                                }
+                            },
+                            removed: () => {
+                                if (loaded) {
+                                    count--;
+                                    // @ts-ignore
+                                    this.changed('counts', `${publishName}Total`, { count });
+                                }
+                            },
+                        },
+                        {
+                            nonMutatingCallbacks: true,
+                        }
+                    );
+                    count = handlePub.count(false);
+                    // @ts-ignore
+                    this.added('counts', `${publishName}Total`, { count });
+                    loaded = true;
+                    // @ts-ignore
+                    this.ready();
+                    return;
+                } else {
+                    // @ts-ignore
+                    this.added('counts', `${publishName}Total`, { count: 0 });
+                    // @ts-ignore
+                    this.ready();
+                    return;
+                }
             }
         };
-    };
 
     defaultListCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
         const user = getUser();
@@ -927,10 +989,11 @@ export class ServerApiBase<Doc extends IDoc> {
                     this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]
                 )
             ) {
-                throw new Meteor.Error(
-                    `erro.${this.collectionName}Api.permissaoInsuficiente`,
-                    'Você não possui permissão o suficiente para visualizar estes dados!'
-                );
+                // throw new Meteor.Error(
+                //     `erro.${this.collectionName}Api.permissaoInsuficiente`,
+                //     'Você não possui permissão o suficiente para visualizar estes dados!'
+                // );
+                return null;
             }
         }
 
@@ -957,10 +1020,11 @@ export class ServerApiBase<Doc extends IDoc> {
                     this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]
                 )
             ) {
-                throw new Meteor.Error(
-                    `erro.${this.collectionName}Api.permissaoInsuficiente`,
-                    'Você não possui permissão o suficiente para visualizar estes dados!'
-                );
+                // throw new Meteor.Error(
+                //     `erro.${this.collectionName}Api.permissaoInsuficiente`,
+                //     'Você não possui permissão o suficiente para visualizar estes dados!'
+                // );
+                return null;
             }
         }
 
@@ -986,7 +1050,7 @@ export class ServerApiBase<Doc extends IDoc> {
 
         const method = {
             [methodFullName](...param: any[]) {
-                console.log('CALL Method:', name, param ? Object.keys(param) : '-');
+                console.log('CALL Method:', name, param ? param.length : '-');
                 // Prevent unauthorized access
 
                 try {

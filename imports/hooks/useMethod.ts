@@ -12,19 +12,21 @@ const isObjectEqual = (objA: object, objB: object) => {
  * @param api api to be used to call the method
  * @param method method name
  * @param params parameters to be passed to the method
- * @returns result: undefined type as each method has its own return type, loading: boolean, error: IMeteorError|null
+ * @returns  Array[T | null, boolean, IMeteorError | null]
  */
 
-export function useMethod<T extends IDoc>(
-    api: ProductBase<T>,
+export function useMethod<T>(
+    api: ProductBase<IDoc>,
     method: string,
     params?: object
-): [result: any, loading: boolean, error: IMeteorError | null] {
-    const [result, setResult] = useState<any>(null);
+): [result: T | null, loading: boolean, error: IMeteorError | null] {
+    const [result, setResult] = useState<T | null>(null);
     const [loading, setLoading] = useState(false);
     const [shouldLoad, setShouldLoad] = useState(false);
     const [error, setError] = useState<IMeteorError | null>(null);
     const optionsRef = useRef(params);
+
+    const isConnected = Meteor.status().connected;
 
     useEffect(() => {
         if (params && optionsRef.current) {
@@ -45,7 +47,7 @@ export function useMethod<T extends IDoc>(
         setLoading(true);
 
         const fetchData = async () => {
-            api.callMethod(method, params, (e: IMeteorError, result: any) => {
+            api.callMethod(method, params, (e: IMeteorError, result: T) => {
                 if (!e) {
                     if (!wait) {
                         setResult(result);
@@ -65,7 +67,7 @@ export function useMethod<T extends IDoc>(
         return () => {
             wait = true;
         };
-    }, [shouldLoad, Meteor.status().connected]);
+    }, [shouldLoad, isConnected]);
 
     return [result, loading, error];
 }

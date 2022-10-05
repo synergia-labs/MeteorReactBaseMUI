@@ -95,12 +95,7 @@ export class ApiBase<Doc extends IDoc> {
         const self = this;
         this.collectionName = apiName;
         if (this.collectionName !== 'users') {
-            this.collectionInstance = new Mongo.Collection(this.collectionName, {
-                transform: (doc) => {
-                    // for get path of image fields.
-                    return self._addImgPathToFields(doc);
-                },
-            });
+            this.collectionInstance = new Mongo.Collection(this.collectionName);
             // Deny all client-side updates on the Lists collection
             this.getCollectionInstance().deny({
                 insert() {

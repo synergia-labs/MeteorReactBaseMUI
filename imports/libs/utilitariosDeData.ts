@@ -1,4 +1,4 @@
-export const converterDataParaFiltroDoMongo = (data: string, inicio: boolean = true) => {
+export const converterDataParaFiltroDoMongo = (data: Date | string, inicio: boolean = true) => {
     const dataConvertida = new Date(data);
     dataConvertida.setDate(dataConvertida.getDate() + 1);
     inicio ? dataConvertida.setHours(0, 0, 0) : dataConvertida.setHours(23, 59, 59);
@@ -40,4 +40,9 @@ export const dateParaStringDatePicker = (data: Date): string => {
     });
     const dadosData = dataLocal.split('/');
     return dadosData[2] + '-' + dadosData[1] + '-' + dadosData[0];
+};
+
+export const getMesAbreviado = (data: Date | undefined) => {
+    const mes = data?.toLocaleDateString('pt-Br', { month: 'short' }) ?? '';
+    return mes ? mes[0].toUpperCase() + mes.slice(1, 3) : '';
 };
