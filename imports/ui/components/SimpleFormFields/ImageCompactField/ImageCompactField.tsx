@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Button from '@mui/material/Button';
-import Slider from '@mui/material/Slider';
 import AvatarEditor from 'react-avatar-editor';
 
 import { isMobile } from '/imports/libs/deviceVerify';
@@ -14,6 +13,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 import { showNotification } from '/imports/ui/AppGeneralComponents';
 
+interface ImageCompactField extends IBaseSimpleFormComponent {
+    adjustImageDimension?: boolean;
+}
+
 export default ({
     name,
     label,
@@ -21,8 +24,9 @@ export default ({
     onChange,
     readOnly,
     error,
+    adjustImageDimension = true,
     ...otherProps
-}: IBaseSimpleFormComponent) => {
+}: ImageCompactField) => {
     const [values, setValues] = React.useState({
         allowZoomOut: false,
         position: { x: 0.5, y: 0.5 },
@@ -37,11 +41,6 @@ export default ({
     const [scale, setScale] = React.useState(0.9);
     const [width, setWidth] = React.useState(otherProps.width || 250);
     const [height, setHeight] = React.useState(otherProps.height || 250);
-
-    const handleScale = (e, valueScale) => {
-        setScale(valueScale);
-        handleSave();
-    };
 
     const handleSave = () => {
         if (editor) {
@@ -74,17 +73,19 @@ export default ({
                 const maxValue = 250; ///window.innerWidth>550?550:window.innerWidth;
                 const width = img.width;
                 const height = img.height;
-                if (width > height) {
-                    // const acceptMaxValue = (maxValue / width) * height < 300;
-                    const newW = maxValue;
-                    const newH = (maxValue / width) * height;
-                    newW !== width && setWidth(newW);
-                    newH !== height && setHeight(newH);
-                } else {
-                    const newW = (maxValue / height) * width;
-                    const newH = maxValue;
-                    newW !== width && setWidth(newW);
-                    newH !== height && setHeight(newH);
+                if (adjustImageDimension) {
+                    if (width > height) {
+                        // const acceptMaxValue = (maxValue / width) * height < 300;
+                        const newW = maxValue;
+                        const newH = (maxValue / width) * height;
+                        newW !== width && setWidth(newW);
+                        newH !== height && setHeight(newH);
+                    } else {
+                        const newW = (maxValue / height) * width;
+                        const newH = maxValue;
+                        newW !== width && setWidth(newW);
+                        newH !== height && setHeight(newH);
+                    }
                 }
                 _URL.revokeObjectURL(objectUrl);
             };
@@ -140,7 +141,6 @@ export default ({
     const deleteImageCompact = () => {
         setImage(null);
         setActualImage(null);
-
         onChange({ target: { value: '' } }, { name, value: '' });
     };
 
@@ -154,6 +154,7 @@ export default ({
                     paddingBottom: 0,
                     paddingTop: 0,
                 },
+                ...(otherProps.width ? { width: otherProps.width } : {}),
             }}
         >
             {readOnly ? (
@@ -178,7 +179,7 @@ export default ({
                                 e.target.width = 250;
                                 e.target.height = 250;
                                 e.target.style = '';
-                                e.target.src = '/images/wireframe/imagem_default.png';
+                                e.target.src = '/images/noImage.svg';
                             }}
                             style={{
                                 width: '100%',
@@ -190,7 +191,7 @@ export default ({
                     </div>
                 ) : (
                     <img
-                        src="/images/wireframe/imagem_default.png"
+                        src="/images/noImage.svg"
                         style={{
                             maxWidth: 250,
                             maxHeight: 250,
@@ -247,8 +248,9 @@ export default ({
                                                 scale={parseFloat(scale)}
                                                 width={width}
                                                 height={height}
-                                                color={[189, 189, 189, 1]}
-                                                border={2}
+                                                color={[255, 255, 255, 1]}
+                                                border={0}
+                                                borderRadius={10}
                                                 position={values.position}
                                                 onPositionChange={handlePositionChange}
                                                 rotate={parseFloat(values.rotate)}
@@ -256,20 +258,12 @@ export default ({
                                                 onImageReady={handleSave}
                                                 // onImageReady={handleSave}
                                                 image={image}
-                                                style={{ position: 'static' }}
-                                            />
-                                            <Slider
-                                                id={`slider${name}`}
-                                                min={1}
-                                                max={4}
-                                                step={0.1}
-                                                value={scale}
-                                                onChange={handleScale}
                                                 style={{
-                                                    padding: '10px 10px',
-                                                    width: 200,
-                                                    margin: '10px 10px',
-                                                    color: '#000000',
+                                                    position: 'static',
+                                                    maxWidth: '713px',
+                                                    width: '100%',
+                                                    height: 'auto',
+                                                    maxHeight: '401px',
                                                 }}
                                             />
                                         </div>
@@ -293,6 +287,7 @@ export default ({
                                 width: '100%',
                                 maxWidth: width,
                                 position: 'static',
+                                borderRadius: 10,
                             }}
                         />
                     </div>
@@ -310,11 +305,13 @@ export default ({
             !image &&
             !readOnly ? (
                 <label htmlFor={`imageInput${name}`} style={{ width: '100%' }}>
-                    <div>
+                    <div style={{}}>
                         <div
                             style={{
                                 ...compactImageStyle.containerGetConteudoDropzone,
-                                border: '1px dashed #BDBDBD',
+                                ...(otherProps.height ? { height: otherProps.height } : {}),
+                                maxWidth: '713px',
+                                width: '100%',
                             }}
                         >
                             <div
@@ -335,7 +332,13 @@ export default ({
                                     }}
                                 >
                                     <div style={{ textAlign: 'center' }}>
-                                        <Typography variant="body1">
+                                        <Typography
+                                            variant="corpo2"
+                                            sx={{
+                                                color: appStyle.primariaEscura,
+                                                textDecoration: 'underline',
+                                            }}
+                                        >
                                             {'+ Adicionar imagem'}
                                         </Typography>
                                     </div>
@@ -357,9 +360,9 @@ export default ({
                 {!readOnly &&
                 ((!!actualImage && actualImage !== '-' && hasValue(actualImage)) || !!image) ? (
                     <Button
-                        variant="secondary"
+                        variant="botaoTexto1"
                         size="small"
-                        startIcon={<DeleteIcon />}
+                        startIcon={<DeleteIcon sx={{ color: appStyle.primariaEscura }} />}
                         onClick={deleteImageCompact}
                     >
                         Deletar

@@ -1,6 +1,6 @@
 export const converterDataParaFiltroDoMongo = (data: Date | string, inicio: boolean = true) => {
     const dataConvertida = new Date(data);
-    dataConvertida.setDate(dataConvertida.getDate() + 1);
+    dataConvertida.setDate(dataConvertida.getDate());
     inicio ? dataConvertida.setHours(0, 0, 0) : dataConvertida.setHours(23, 59, 59);
     return dataConvertida;
 };

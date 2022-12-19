@@ -8,6 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Info from '@mui/icons-material/InfoOutlined';
 
 import { useTheme } from '@mui/material/styles';
+import { cinzaEscuro } from '/imports/materialui/styles';
 
 interface ISimpleLabelView {
     label: string;
@@ -25,24 +26,20 @@ export default ({ label, value, help, style }: ISimpleLabelView) => {
                 style={{
                     display: 'flex',
                     flexDirection: 'row',
-                    maxHeight: 30,
+                    maxHeight: 23,
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                 }}
             >
                 {hasValue(label) ? (
-                    <label>
+                    <label style={{ marginBottom: '.4375rem' }}>
                         <Typography
+                            sx={{ marginLeft: 0 }}
                             component={'p'}
-                            variant={'body2'}
-                            color={'textSecondary'}
-                            style={{
-                                fontSize: 16,
-                                lineHeight: 'normal',
-                                fontFamily: '"Helvetica Neue", "Helvetica", "Arial", sans-serif',
-                                padding: 8,
-                            }}
+                            variant={'caption1'}
+                            color={cinzaEscuro}
                         >
-                            {label}
+                            {label.split('*', 1)}
                         </Typography>
                     </label>
                 ) : null}
@@ -55,8 +52,8 @@ export default ({ label, value, help, style }: ISimpleLabelView) => {
             {hasValue(value) ? (
                 <Typography
                     component={'p'}
-                    variant={'body2'}
-                    color={'textSecondary'}
+                    variant={'caption1'}
+                    color={cinzaEscuro}
                     style={
                         style && style.displayValue
                             ? style.displayValue

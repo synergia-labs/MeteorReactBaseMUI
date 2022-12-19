@@ -1,7 +1,9 @@
 const adminsRoutes = [
     'userprofile',
     'painel',
-    'example',
+    'logsacesso',
+    'logscsv',
+    'template',
     'conteudo',
     'tema',
     'eventTypes',

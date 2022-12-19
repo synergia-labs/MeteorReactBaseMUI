@@ -12,6 +12,8 @@ import { hasValue } from '/imports/libs/hasValue';
 
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { checkBoxStyle } from './CheckBoxFieldStyle';
+import * as appStyle from '/imports/materialui/styles';
+import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 interface ICheckBoxSimpleFormComponent extends IBaseSimpleFormComponent {
     /**
@@ -52,7 +54,6 @@ export default ({
             : schema && hasValue(schema.checksList)
             ? schema.checksList
             : null;
-
     return (
         <div style={error ? checkBoxStyle.fieldError : undefined}>
             {list && <SimpleLabelView label={label} />}
@@ -72,6 +73,7 @@ export default ({
                             value={valueFormatter(value)}
                             id={itemCheck}
                             label={itemCheck || ''}
+                            sx={{ color: appStyle.corTexto }}
                             {..._.omit(otherProps, ['disabled', 'checked'])}
                         />
                     ))}

@@ -6,7 +6,7 @@ import { Mongo, MongoInternals } from 'meteor/mongo';
 import { ClientSession, MongoClient } from 'mongodb';
 
 import { Meteor, Subscription } from 'meteor/meteor';
-import { check } from 'meteor/check';
+import { check, Match } from 'meteor/check';
 import { IDoc } from '../typings/IDoc';
 import { ISchema } from '../typings/ISchema';
 import { IContext } from '../typings/IContext';
@@ -48,6 +48,7 @@ interface IMongoOptions<T> extends Mongo.Options<T> {
 interface IApiRestImage {
     addRoute: (path: string, handle: any) => void;
     addThumbnailRoute: (path: string, handle: any) => void;
+    addContentImageRoute: (path: string, handle: any) => void;
 }
 
 type IPublication = {
@@ -66,7 +67,10 @@ export class ServerApiBase<Doc extends IDoc> {
     schema: ISchema<Doc>;
     collectionName: string | null;
     counts: Mongo.Collection<any>;
-    apiRestImage?: IApiRestImage | undefined;
+    apiRestImage?: {
+        addRoute: (path: string, handle: any) => void;
+        addThumbnailRoute: (path: string, handle: any) => void;
+    };
     auditFields = ['createdby', 'createdat', 'lastupdate', 'updatedby'];
     defaultResources?: any;
     // @ts-ignore
@@ -260,10 +264,11 @@ export class ServerApiBase<Doc extends IDoc> {
                 if (
                     schemaData.isImage &&
                     (!hasValue(data) || (hasValue(data) && data?.indexOf('data:image') === -1)) &&
-                    data !== '-'
+                    data !== '-' &&
+                    data !== ''
                 ) {
                     // dont update if not have value field of image
-                } else if (schema[key].isImage && data === '-') {
+                } else if (schema[key].isImage && (data === '-' || !hasValue(data))) {
                     newDataObj[key] = null;
                 } else if (hasValue(data) && schema[key] && schema[key].type === Number) {
                     newDataObj[key] = Number(data);
@@ -599,7 +604,7 @@ export class ServerApiBase<Doc extends IDoc> {
                                         .getCollectionInstance()
                                         .findOne({ _id: docID });
 
-                                    if (doc && !!doc[field] && doc[field] !== '-') {
+                                    if (doc && hasValue(doc[field]) && doc[field] !== '-') {
                                         const matches = doc[field].match(
                                             /^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/
                                         );
@@ -610,7 +615,20 @@ export class ServerApiBase<Doc extends IDoc> {
                                             const tempImg = noimg.match(
                                                 /^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/
                                             );
-                                            return Buffer.from(tempImg![2], 'base64');
+
+                                            res.data = Buffer.from(tempImg![2], 'base64');
+                                            res.writeHead(200, {
+                                                'Content-Type': 'image/png',
+                                                'Cache-Control':
+                                                    'max-age=120, must-revalidate, public',
+                                                'Last-Modified': (doc
+                                                    ? new Date(doc.lastupdate) || new Date()
+                                                    : new Date()
+                                                ).toUTCString(),
+                                            });
+                                            res.write(res.data);
+                                            res.end(); // Must call this immediately before return!
+                                            return;
                                         }
 
                                         response.type = matches[1];
@@ -669,7 +687,7 @@ export class ServerApiBase<Doc extends IDoc> {
                                         .getCollectionInstance()
                                         .findOne({ _id: docID });
 
-                                    if (doc && !!doc[field] && doc[field] !== '-') {
+                                    if (doc && hasValue(doc[field]) && doc[field] !== '-') {
                                         const destructImage = doc[field].split(';');
                                         const mimType = destructImage[0].split(':')[1];
                                         const imageData = destructImage[1].split(',')[1];
@@ -706,13 +724,29 @@ export class ServerApiBase<Doc extends IDoc> {
                                             //To Save Base64 IMG
                                             // return `data:${mimType};base64,${resizedImage.toString("base64")}`
                                         } catch (error) {
+                                            console.log('IMG ERror', error);
                                             res.writeHead(200);
                                             res.end();
                                             return;
                                         }
                                     }
-                                    res.writeHead(404);
-                                    res.end();
+
+                                    const noimg = getNoImage(schema[field].isAvatar);
+                                    const tempImg = noimg.match(
+                                        /^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/
+                                    );
+
+                                    res.data = Buffer.from(tempImg![2], 'base64');
+                                    res.writeHead(200, {
+                                        'Content-Type': 'image/png',
+                                        'Cache-Control': 'max-age=120, must-revalidate, public',
+                                        'Last-Modified': (doc
+                                            ? new Date(doc.lastupdate) || new Date()
+                                            : new Date()
+                                        ).toUTCString(),
+                                    });
+                                    res.write(res.data);
+                                    res.end(); // Must call this immediately before return!
                                     return;
                                 }
                             }
@@ -770,19 +804,20 @@ export class ServerApiBase<Doc extends IDoc> {
 
         if (Meteor.isServer) {
             Meteor.publish(`${self.collectionName}.${publication}`, function (query, options) {
+                const selfPublication = this;
                 const subHandle = newPublicationsFunction(query, options)?.observe({
                     added: (document: { _id: string }) => {
                         this.added(
                             `${self.collectionName}`,
                             document._id,
-                            transformDocFunc(document)
+                            transformDocFunc(document, selfPublication)
                         );
                     },
                     changed: (newDocument: { _id: string }) => {
                         this.changed(
                             `${self.collectionName}`,
                             newDocument._id,
-                            transformDocFunc(newDocument)
+                            transformDocFunc(newDocument, selfPublication)
                         );
                     },
                     removed: (oldDocument: { _id: string }) => {
@@ -791,7 +826,7 @@ export class ServerApiBase<Doc extends IDoc> {
                 });
                 this.ready();
                 this.onStop(() => {
-                    subHandle.stop();
+                    subHandle && subHandle.stop();
                 });
             });
 
@@ -844,24 +879,24 @@ export class ServerApiBase<Doc extends IDoc> {
     };
 
     //**DEFAULT PUBLICATIONS**
-    defaultCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
-        if (!optionsPub) {
-            optionsPub = { limit: 0, skip: 0 };
+    defaultCollectionPublication(filter = {}, _optionsPub: Partial<IMongoOptions<Doc>>) {
+        if (!_optionsPub) {
+            _optionsPub = { limit: 0, skip: 0 };
         }
 
-        if (optionsPub.skip! < 0) {
-            optionsPub.skip = 0;
+        if (_optionsPub.skip! < 0) {
+            _optionsPub.skip = 0;
         }
 
-        if (optionsPub.limit! < 0) {
-            optionsPub.limit = 0;
+        if (_optionsPub.limit! < 0) {
+            _optionsPub.limit = 0;
         }
 
-        if (!optionsPub.projection && !!optionsPub.fields) {
-            optionsPub.projection = optionsPub.fields;
+        if (!_optionsPub.projection && !!_optionsPub.fields) {
+            _optionsPub.projection = _optionsPub.fields;
         }
         // Use the default subschema if no one was defined.
-        if (!optionsPub.projection || Object.keys(optionsPub.projection).length === 0) {
+        if (!_optionsPub.projection || Object.keys(_optionsPub.projection).length === 0) {
             const tempProjection: { [key: string]: number } = {};
             Object.keys(this.schema)
                 .concat(['_id'])
@@ -870,7 +905,7 @@ export class ServerApiBase<Doc extends IDoc> {
                     tempProjection[key] = 1;
                 });
 
-            optionsPub.projection = tempProjection;
+            _optionsPub.projection = tempProjection;
         }
 
         const imgFields: { [key: string]: any } = {};
@@ -878,7 +913,7 @@ export class ServerApiBase<Doc extends IDoc> {
         Object.keys(this.schema).forEach((field) => {
             if (this.schema[field].isImage) {
                 imgFields['has' + field] = { $or: '$' + field };
-                delete optionsPub.projection[field];
+                delete _optionsPub.projection[field];
                 imgFields[field] = {
                     $cond: [
                         { $ifNull: ['$' + field, false] },
@@ -911,14 +946,14 @@ export class ServerApiBase<Doc extends IDoc> {
         });
 
         const queryOptions = {
-            fields: { ...optionsPub.projection, ...imgFields },
-            limit: optionsPub.limit || 0,
-            skip: optionsPub.skip || 0,
+            fields: { ..._optionsPub.projection, ...imgFields },
+            limit: _optionsPub.limit || 0,
+            skip: _optionsPub.skip || 0,
             sort: {},
         };
 
-        if (optionsPub.sort) {
-            queryOptions.sort = optionsPub.sort;
+        if (_optionsPub.sort) {
+            queryOptions.sort = _optionsPub.sort;
         }
 
         return this.getCollectionInstance().find({ ...filter }, queryOptions);

@@ -6,8 +6,6 @@
  */
 .ql-container {
     box-sizing: border-box;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 13px;
     height: 100%;
     margin: 0px;
     position: relative;
@@ -31,10 +29,10 @@
 }
 .ql-editor {
     box-sizing: border-box;
-    line-height: 1.42;
+    line-height: 1.5;
     height: 100%;
     outline: none;
-    overflow-y: auto;
+    overflow: hidden;
     padding: 12px 15px;
     tab-size: 4;
     -moz-tab-size: 4;
@@ -45,21 +43,7 @@
 .ql-editor > * {
     cursor: text;
 }
-.ql-editor p,
-.ql-editor ol,
-.ql-editor ul,
-.ql-editor pre,
-.ql-editor blockquote,
-.ql-editor h1,
-.ql-editor h2,
-.ql-editor h3,
-.ql-editor h4,
-.ql-editor h5,
-.ql-editor h6 {
-    margin: 0;
-    padding: 0;
-    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
-}
+
 .ql-editor ol,
 .ql-editor ul {
     padding-left: 1.5em;
@@ -439,7 +423,7 @@
 .ql-snow .ql-toolbar .ql-picker-item:hover,
 .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
-    color: #06c;
+    color: #000;
 }
 .ql-snow.ql-toolbar button:hover .ql-fill,
 .ql-snow .ql-toolbar button:hover .ql-fill,
@@ -469,7 +453,7 @@
 .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
 .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
-    fill: #06c;
+    fill: #f90;
 }
 .ql-snow.ql-toolbar button:hover .ql-stroke,
 .ql-snow .ql-toolbar button:hover .ql-stroke,
@@ -499,7 +483,7 @@
 .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
 .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
-    stroke: #06c;
+    stroke: #f90;
 }
 @media (pointer: coarse) {
     .ql-snow.ql-toolbar button:hover:not(.ql-active),
@@ -591,27 +575,7 @@
 .ql-snow .ql-direction.ql-active svg:first-child {
     display: none;
 }
-.ql-snow .ql-editor h1 {
-    font-size: 2em;
-}
-.ql-snow .ql-editor h2 {
-    font-size: 1.5em;
-}
-.ql-snow .ql-editor h3 {
-    font-size: 1.17em;
-}
-.ql-snow .ql-editor h4 {
-    font-size: 1em;
-}
-.ql-snow .ql-editor h5 {
-    font-size: 0.83em;
-}
-.ql-snow .ql-editor h6 {
-    font-size: 0.67em;
-}
-.ql-snow .ql-editor a {
-    text-decoration: underline;
-}
+
 .ql-snow .ql-editor blockquote {
     border-left: 4px solid #ccc;
     margin-bottom: 5px;
@@ -653,7 +617,8 @@
 }
 .ql-snow .ql-picker-label {
     cursor: pointer;
-    display: inline-block;
+    display: flex;
+    align-items: center;
     height: 100%;
     padding-left: 8px;
     padding-right: 2px;
@@ -668,7 +633,7 @@
     background-color: #fff;
     display: none;
     min-width: 100%;
-    padding: 4px 8px;
+    padding: 4px 0px;
     position: absolute;
     white-space: nowrap;
 }
@@ -677,6 +642,7 @@
     display: block;
     padding-bottom: 5px;
     padding-top: 5px;
+    padding-left: 16px;
 }
 .ql-snow .ql-picker.ql-expanded .ql-picker-label {
     color: #ccc;
@@ -716,15 +682,18 @@
 }
 .ql-snow .ql-color-picker .ql-picker-options {
     padding: 3px 5px;
-    width: 152px;
+    width: 124px;
 }
 .ql-snow .ql-color-picker .ql-picker-item {
     border: 1px solid transparent;
     float: left;
-    height: 16px;
-    margin: 2px;
     padding: 0px;
-    width: 16px;
+    width: 46px;
+
+    margin: 5px;
+    border-radius: 50%;
+    height: 46px;
+    border: 1px solid #ddd;
 }
 .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
     position: absolute;
@@ -772,24 +741,24 @@
 .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='6']::before {
     content: 'Heading 6';
 }
-.ql-snow .ql-picker.ql-header .ql-picker-item[data-value='1']::before {
-    font-size: 2em;
-}
-.ql-snow .ql-picker.ql-header .ql-picker-item[data-value='2']::before {
-    font-size: 1.5em;
-}
-.ql-snow .ql-picker.ql-header .ql-picker-item[data-value='3']::before {
-    font-size: 1.17em;
-}
-.ql-snow .ql-picker.ql-header .ql-picker-item[data-value='4']::before {
-    font-size: 1em;
-}
-.ql-snow .ql-picker.ql-header .ql-picker-item[data-value='5']::before {
-    font-size: 0.83em;
-}
-.ql-snow .ql-picker.ql-header .ql-picker-item[data-value='6']::before {
-    font-size: 0.67em;
-}
+/*.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {*/
+/*  font-size: 2em;*/
+/*}*/
+/*.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {*/
+/*  font-size: 1.5em;*/
+/*}*/
+/*.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {*/
+/*  font-size: 1.17em;*/
+/*}*/
+/*.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {*/
+/*  font-size: 1em;*/
+/*}*/
+/*.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {*/
+/*  font-size: 0.83em;*/
+/*}*/
+/*.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {*/
+/*  font-size: 0.67em;*/
+/*}*/
 .ql-snow .ql-picker.ql-font {
     width: 108px;
 }
@@ -846,9 +815,8 @@
     background-color: #000;
 }
 .ql-toolbar.ql-snow {
-    border: 1px solid #ccc;
     box-sizing: border-box;
-    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-family: 'Lexend Deca', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     padding: 8px;
 }
 .ql-toolbar.ql-snow .ql-formats {
@@ -881,9 +849,12 @@
     color: #444;
     padding: 5px 12px;
     white-space: nowrap;
+    z-index: 2;
+    left: 0px !important;
+    top: 0px !important;
 }
 .ql-snow .ql-tooltip::before {
-    content: 'Visit URL:';
+    content: 'URL:';
     line-height: 26px;
     margin-right: 8px;
 }
@@ -905,17 +876,18 @@
 }
 .ql-snow .ql-tooltip a.ql-action::after {
     border-right: 1px solid #ccc;
-    content: 'Edit';
+    content: 'Editar';
     margin-left: 16px;
     padding-right: 8px;
 }
 .ql-snow .ql-tooltip a.ql-remove::before {
-    content: 'Remove';
+    content: 'Remover';
     margin-left: 8px;
 }
 .ql-snow .ql-tooltip a {
     line-height: 26px;
 }
+
 .ql-snow .ql-tooltip.ql-editing a.ql-preview,
 .ql-snow .ql-tooltip.ql-editing a.ql-remove {
     display: none;
@@ -925,11 +897,11 @@
 }
 .ql-snow .ql-tooltip.ql-editing a.ql-action::after {
     border-right: 0px;
-    content: 'Save';
+    content: 'Salvar';
     padding-right: 0px;
 }
 .ql-snow .ql-tooltip[data-mode='link']::before {
-    content: 'Enter link:';
+    content: 'URL:';
 }
 .ql-snow .ql-tooltip[data-mode='formula']::before {
     content: 'Enter formula:';
@@ -939,7 +911,4 @@
 }
 .ql-snow a {
     color: #06c;
-}
-.ql-container.ql-snow {
-    border: 1px solid #ccc;
 }

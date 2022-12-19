@@ -13,10 +13,10 @@ export const isBoolean = (value: any) => {
     return false;
 };
 
-export const hasValue = (value: any) => {
-    const getTypeOf = (obj: any) =>
-        ({}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase());
+export const getTypeOf = (obj: any) =>
+    ({}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase());
 
+export const hasValue = (value: any) => {
     if (isBoolean(value)) {
         return true;
     }

@@ -1,7 +1,7 @@
 import { IDoc } from './IDoc';
 
 export type LabelValue = {
-    value: string | number;
+    value: string | number | boolean;
     label: string;
 };
 
@@ -14,6 +14,7 @@ export interface IDefField<C> {
     subSchema?: ISchema<any>;
     visibilityFunction?: (doc: C) => boolean;
     isImage?: boolean;
+    defaultSize?: number;
     isAvatar?: boolean;
     isUpload?: boolean;
     multiple?: boolean;

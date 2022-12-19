@@ -27,15 +27,44 @@ class AttachmentsCollection {
             storagePath: uploadPaths,
             onBeforeUpload(file) {
                 // Allow upload files under 10MB, and only in png/jpg/jpeg formats
+                console.log('file', file);
+
+                if (file.size > 1048576 * 15) {
+                    if (Meteor.isServer) {
+                        throw new Meteor.Error(
+                            'Problema com o tamanho do arquivo',
+                            `O arquivo enviado é maior do que o tamanho parmitido: 15MB!`
+                        );
+                    } else {
+                        return `O arquivo enviado é maior do que o tamanho parmitido: 15MB!`;
+                    }
+                }
+
                 if (
-                    file.size <= 1048576 * 15 && // (15MB)
-                    /xlsx|xls|jpeg|png|jpg|svg|bmp|gif|doc|docx|odt|ods|txt|pdf|csv|zip|rar|gz/i.test(
-                        file.extension
+                    !(
+                        file.isVideo ||
+                        /video/i.test(file.mime) ||
+                        file.isAudio ||
+                        /audio/i.test(file.mime) ||
+                        file.isImage ||
+                        /image/i.test(file.mime) ||
+                        file.isPDF ||
+                        /xlsx|xls|doc|docx|ppt|pptx|odt|ods|txt|pdf|csv|zip|rar|gz/i.test(
+                            file.extension
+                        )
                     )
                 ) {
-                    return true;
+                    if (Meteor.isServer) {
+                        throw new Meteor.Error(
+                            'Problema com o tipo de arquivo',
+                            `Não é permitido enviar esse tipo de arquivo: ${file.extension}`
+                        );
+                    } else {
+                        return `Não é permitido enviar esse tipo de arquivo: ${file.extension}`;
+                    }
                 }
-                return 'Please upload image, with size equal or less than 10MB';
+
+                return true;
             },
         });
         if (Meteor.isServer) {
@@ -52,7 +81,7 @@ class AttachmentsCollection {
         if (Meteor.isServer) {
             Meteor.methods({
                 RemoveFile: (id) => {
-                    check(id, String);
+                    if (typeof id !== 'string') return;
                     try {
                         const file = self.attachments.findOne({ _id: id });
                         if (file) {
@@ -66,7 +95,7 @@ class AttachmentsCollection {
             });
 
             Meteor.publish('files-attachments', (filter) => {
-                check(filter, Object);
+                if (!filter || typeof filter !== 'object') return;
                 return self.attachments.collection.find({ ...filter });
             });
         }
@@ -107,7 +136,22 @@ class AttachmentsCollection {
     });
 
     serverInsert = (doc) => {
-        this.attachments.collection.insert(doc);
+        return this.attachments.collection.insert(doc);
+    };
+
+    serverRemove = (doc) => {
+        console.log('serverRemove', doc);
+        try {
+            const file = this.attachments.findOne({ _id: doc._id });
+            if (file) {
+                file.remove();
+            }
+            return true;
+        } catch (e) {
+            console.log('Error on Remove File', e);
+            return 'Error';
+        }
+        //return this.attachments.collection.remove({ _id: doc._id });
     };
 
     serverSaveCSVFile = async (file, fileName) => {
@@ -123,8 +167,11 @@ class AttachmentsCollection {
                 size: fileStat.size,
                 path: `${uploadPaths}/${nameFile}`,
             };
-            this.serverInsert(this.getAttachmentDoc(fileData));
-            return `${Meteor.absoluteUrl()}cdn/storage/Attachments/${fileId}/original/${nameFile}`;
+            const attachmentId = this.serverInsert(this.getAttachmentDoc(fileData));
+            return {
+                csvId: attachmentId,
+                url: `${Meteor.absoluteUrl()}cdn/storage/Attachments/${fileId}/original/${nameFile}`,
+            };
         }
     };
 

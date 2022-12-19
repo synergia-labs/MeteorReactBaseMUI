@@ -6,7 +6,7 @@ import * as appStyle from '/imports/materialui/styles';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 interface ITextFieldSimpleFormComponent extends IBaseSimpleFormComponent {
-    maxCaracteres?: 'short' | 'medium' | 'long';
+    maxCaracteres?: 'small' | 'short' | 'medium' | 'long';
     help?: string;
     /**
      *
@@ -71,7 +71,13 @@ export default ({
     fieldValue = applyMask(fieldValue);
 
     const maxLength =
-        maxCaracteres && maxCaracteres == 'short' ? 100 : maxCaracteres == 'medium' ? 200 : 400;
+        maxCaracteres && maxCaracteres == 'small'
+            ? 30
+            : maxCaracteres == 'short'
+            ? 100
+            : maxCaracteres == 'medium'
+            ? 200
+            : 400;
 
     otherProps &&
         maxCaracteres &&
@@ -111,7 +117,7 @@ export default ({
                 ) : null}
 
                 <TextField
-                    variant="outlined"
+                    variant="filled"
                     {...otherProps}
                     key={name}
                     onChange={onFieldChange}
@@ -161,8 +167,8 @@ export default ({
             ) : null}
 
             <TextField
-                variant="outlined"
-                style={style}
+                variant="filled"
+                sx={style}
                 {...otherProps}
                 key={name}
                 onChange={onFieldChange}

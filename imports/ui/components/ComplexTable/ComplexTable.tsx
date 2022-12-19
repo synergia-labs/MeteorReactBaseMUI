@@ -6,26 +6,23 @@ import {
     GridColumns,
     GridFilterModel,
     GridRenderCellParams,
+    GridRowClassNameParams,
     GridRowId,
     GridRowIdGetter,
     GridRowParams,
     MuiEvent,
     ptBR,
-    GRID_CHECKBOX_SELECTION_COL_DEF,
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
-import Delete from '@mui/icons-material/Delete';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Edit from '@mui/icons-material/Edit';
 import { Variant } from '@mui/material/styles/createTypography';
 import { complexTableStyle } from './ComplexTableStyle';
-import { Toolbar } from './Toolbar';
-import {
-    GridColumnGroupHeaderParams,
-    GridColumnGroupingModel,
-} from '@mui/x-data-grid/models/gridColumnGrouping';
-import { Tooltip } from '@mui/material';
+import { format } from 'date-fns';
+import { useMediaQuery } from '@mui/material';
+import { getTypeOf, hasValue } from '/imports/libs/hasValue';
 
 interface ISchema {
     [key: string]: any;
@@ -36,20 +33,6 @@ interface IAction {
     icon: JSX.Element;
     label: string;
     onClick: onClickFunction;
-}
-
-interface IConditionalAction {
-    condition: (row: any) => boolean;
-    if: {
-        icon: JSX.Element;
-        label: string;
-        onClick: onClickFunction;
-    };
-    else?: {
-        icon: JSX.Element;
-        label: string;
-        onClick: onClickFunction;
-    };
 }
 
 export interface IToolbarOptions {
@@ -104,12 +87,6 @@ interface IComplexTableProps {
      */
     actions?: IAction[];
     /**
-     * Array com actions que devem ter na tabela e cuja renderização depende de uma condição. Deve especificar
-     * um ícone, uma label e uma callback para cada action e para cada condição. Se não é espeficicada uma action
-     * para o caso de "else", então não é renderizada.
-     */
-    conditionalActions?: IConditionalAction[];
-    /**
      * Variante dos botões presentes na tabela.
      */
     buttonVariant?: 'text' | 'outlined' | 'contained';
@@ -146,51 +123,26 @@ interface IComplexTableProps {
      * @returns {GridRowId} O atributo na linha que é usado como identificador.
      */
     getId?: GridRowIdGetter<any>;
-    /**
-     * Identificador que tem como objetivo se comunicar com o SimpleForm, só é necessário quando utilizando como child do SimpleForm.
-     */
-    id?: 'complexTable';
-    /**
-     * Prop que muda a height padrão do componente;
-     */
-    heightCustomizada?: string;
-    /**
-     * Prop que define o valor inicial da seleção de linhas na tabela. É um array com IDs de elementos na tabela.
-     */
-    selectionModel?: GridRowId[];
-    /**
-     * Função usada para atualizar o valor da prop selectionModel.
-     */
-    setSelectionModel?: (selection: GridRowId[]) => void;
-    /**
-     * Prop que controla os grupos de colunas. É necessario passar um objeto com o seguinte esquema para essa prop
-     * obj:{
-     *  	groupId: <id_do_grupo>
-     * 		headerName: <nome_da_coluna_do_grupo>
-     * 		children:[{field: <campo_no_esquema_para_agrupar>}]
-     * 	}
-     */
-    groupColumns?: GridColumnGroupingModel;
 
     /**
-     *  Determina se mantem a altura padrão
-     * @default true
+     * flag usada para desabilidar a ordenação das colunas
      */
-    autoHeight?: boolean;
+    disableSorting?: boolean;
 
     /**
-     *  Função que renderiza as células específicas determinadas no parâmetro fieldsRenderCellModified
-     * @param {GridRenderCellParams} params
+     * flag usada para mostrar data e hora das colunas de data
      */
-    renderCellModified?: (params: GridRenderCellParams) => JSX.Element;
+    fulldate?: boolean;
 
     /**
-     *  Objeto contendo os campos a serem renderizados pela função renderCellModified
+     *
+     * @param params  GridRowClassNameParams<any>
+     * @returns função usada para aplicar uma classe em uma row que atenda uma condição específica
      */
-    fieldsRenderCellModified?: { [key: string]: any };
+    getRowClassName?: (params: GridRowClassNameParams<any>) => string;
 }
 
-export const locale = {
+const locale = {
     ...ptBR.components.MuiDataGrid.defaultProps.localeText,
     toolbarExportPrint: 'Imprimir',
     noRowsLabel: 'Nenhum resultado encontrado.',
@@ -205,7 +157,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
         rowVariant,
         searchPlaceholder,
         actions,
-        conditionalActions,
         buttonVariant,
         toolbar,
         loading,
@@ -216,136 +167,180 @@ export const ComplexTable = (props: IComplexTableProps) => {
         onEdit,
         openFilterModal,
         getId,
-        heightCustomizada,
-        selectionModel,
-        setSelectionModel,
-        groupColumns,
-        autoHeight,
-        renderCellModified,
-        fieldsRenderCellModified,
+        disableSorting,
+        fulldate,
+        showActionsInMenu,
+        getRowClassName,
     } = props;
 
     locale.toolbarQuickFilterPlaceholder = searchPlaceholder ?? 'Pesquisar';
 
-    const transformData = (value: any, type: Function) => {
+    const transformData = (value: any, type: Function, completeDate = false) => {
+        if (React.isValidElement(value)) {
+            return value;
+        }
+        if (!value) return '-';
         if (Array.isArray(value)) return value.join();
-        else if (type === Object) {
+        else if (type === Object && typeof value === 'object') {
             return Object.keys(value).reduce((prev: string, curr: string) => {
-                return !!value[curr] ? prev + `${curr}: ${value[curr]}\n` : prev + '\n';
+                return !!value[curr] ? (prev || '') + `${curr}: ${value[curr]}\n` : prev + '\n';
             }, '');
-        } else if (type === Date) return value.toLocaleDateString();
+        } else if (!fulldate && !completeDate && type === Date) return format(value, 'dd/MM/yy');
+        else if ((fulldate || !!completeDate) && type === Date)
+            return format(value, 'dd/MM/yy') + ' ' + value.toLocaleTimeString();
         else return value;
     };
+
     const renderHeader = (params: GridColumnHeaderParams) => (
-        <Typography variant={headerVariant ?? 'h5'}>{params.colDef.headerName}</Typography>
+        <Box
+            sx={{
+                marginLeft: params.colDef.field === 'dataPublicacao' ? '0px' : '10px',
+            }}
+        >
+            <Typography variant={headerVariant ?? 'caption2'} sx={{ color: '#808080' }}>
+                {params.colDef.headerName}
+            </Typography>
+        </Box>
     );
 
-    const renderHeaderGroup = (params: GridColumnGroupHeaderParams) => (
-        <Typography variant={headerVariant ?? 'h5'}>{params.headerName}</Typography>
-    );
-
-    const transformGroup = (params: GridColumnGroupingModel) => {
-        return params.map((value) => {
-            return !value.renderHeaderGroup ? { ...value, renderHeaderGroup } : value;
-        });
-    };
-
-    const groupIds = (value: GridColumnGroupingModel) => {
-        return value.map((group) => group);
-    };
-
-    const groupColumsTransform = groupColumns ? transformGroup(groupColumns) : undefined;
+    const MD1550 = useMediaQuery('(max-width:1550px)');
 
     const columns: GridColumns = Object.keys(schema).map((key: string) => {
         return {
             field: key,
             headerName: schema[key].label,
             flex: 1,
-            minWidth: 150,
+            sortable: disableSorting ? false : schema[key].label === 'Título' ? false : true,
+            width: 'auto',
+            height: '200px',
+            maxWidth:
+                schema[key].label === 'Título'
+                    ? MD1550
+                        ? 500
+                        : 550
+                    : schema[key].label === 'Criação'
+                    ? 144
+                    : schema[key].label === 'Tipo'
+                    ? 250
+                    : schema[key].label === 'Publicação'
+                    ? 120
+                    : schema[key].label === 'Situação'
+                    ? 160
+                    : schema[key].label === 'Tipo de evento'
+                    ? 220
+                    : schema[key].label === 'Publicador'
+                    ? 200
+                    : schema[key].label === 'Criado em'
+                    ? 120
+                    : schema[key].label === 'Comentários'
+                    ? 120
+                    : schema[key].label === 'Imagem desktop/mobile'
+                    ? 260
+                    : schema[key].label === 'Área de exibição'
+                    ? 150
+                    : schema[key].label === 'Expira em:'
+                    ? 120
+                    : schema[key].label === 'Data/Hora'
+                    ? 130
+                    : schema[key].label === 'Perfil/Gênero/Escola'
+                    ? 280
+                    : schema[key].label === 'Cidade/UF'
+                    ? 270
+                    : schema[key].label === 'Tipo/Conteúdo'
+                    ? 390
+                    : schema[key].label === 'Identificação do objeto'
+                    ? 220
+                    : schema[key].label === 'Data de inicio'
+                    ? 130
+                    : schema[key].label === 'Data de fim'
+                    ? 130
+                    : schema[key].label === 'Tipo de log'
+                    ? 280
+                    : schema[key].label === 'Dados do CSV'
+                    ? 390
+                    : 200,
+
+            minWidth:
+                schema[key].label === 'Imagem desktop/mobile'
+                    ? 260
+                    : schema[key].label === 'Área de exibição'
+                    ? 150
+                    : schema[key].label === 'Dados do CSV'
+                    ? 350
+                    : null,
             renderHeader,
-            renderHeaderGroup,
-            groupPath: groupColumsTransform ? groupIds(groupColumsTransform) : [],
-            renderCell: !fieldsRenderCellModified?.hasOwnProperty(key)
-                ? (params: GridRenderCellParams) => {
-                      if (schema[key].isImage || schema[key].isAvatar) {
-                          return (
-                              <Box
-                                  component="img"
-                                  sx={complexTableStyle.renderImg}
-                                  src={params.value}
-                                  onError={(e: React.BaseSyntheticEvent) => {
-                                      e.target.onerror = null;
-                                      e.target.src = '/images/wireframe/imagem_default.png';
-                                  }}
-                              />
-                          );
-                      } else {
-                          const value = transformData(params.value, schema[key].type);
-                          return (
-                              <Tooltip title={value} arrow={true}>
-                                  <Typography
-                                      variant={rowVariant ?? 'body1'}
-                                      sx={complexTableStyle.rowText}
-                                  >
-                                      {value}
-                                  </Typography>
-                              </Tooltip>
-                          );
-                      }
-                  }
-                : renderCellModified,
+            renderCell: (params: GridRenderCellParams) => {
+                if (schema[key].isImage || schema[key].isAvatar) {
+                    return (
+                        <Box
+                            component="img"
+                            sx={complexTableStyle.renderImg}
+                            src={params.value}
+                            onError={(e: React.BaseSyntheticEvent) => {
+                                e.target.onerror = null;
+                                e.target.src = '/images/wireframe/imagem_default.png';
+                            }}
+                        />
+                    );
+                } else {
+                    return (
+                        <Box sx={{ margin: '20px 0px 20px 10px' }}>
+                            <Typography
+                                variant={rowVariant ?? 'body1'}
+                                sx={complexTableStyle.rowText}
+                            >
+                                {schema[key].label === 'Situação'
+                                    ? params.value === 'Rascunho'
+                                        ? transformData('○ ' + params.value, schema[key].type)
+                                        : transformData('● ' + params.value, schema[key].type)
+                                    : transformData(
+                                          params.value,
+                                          schema[key].type,
+                                          schema[key].fullDate
+                                      )}
+                            </Typography>
+                        </Box>
+                    );
+                }
+            },
         };
     });
 
-    columns.unshift({
-        ...GRID_CHECKBOX_SELECTION_COL_DEF,
-        hideable: false,
-    });
-
-    if (
-        !!onDelete ||
-        !!onEdit ||
-        (!!actions && actions.length > 0) ||
-        (!!conditionalActions && conditionalActions.length > 0)
-    ) {
+    if (!!onDelete || !!onEdit || (!!actions && actions.length > 0)) {
         columns.push({
             field: 'actions',
             type: 'actions',
-            headerName: 'Ações',
-            flex: 0.5,
-            minWidth: 70,
-            headerAlign: 'center',
-            hideable: false,
+            headerName: '',
+            flex: 1,
+            minWidth:
+                !showActionsInMenu && actions?.length && actions.length + 2 > 2
+                    ? (actions.length + 2) * 65
+                    : !!onDelete && !!onEdit
+                    ? 150
+                    : 70,
+            maxWidth:
+                !showActionsInMenu && actions?.length && actions.length + 2 > 2
+                    ? (actions.length + 2) * 65
+                    : !!onDelete && !!onEdit
+                    ? 150
+                    : 70,
+            headerAlign: 'left',
             renderHeader,
             getActions: (params: GridRowParams) => {
                 const renderActions = !!actions ? [...actions] : [];
                 if (!!onDelete)
-                    renderActions.unshift({
-                        icon: <Delete />,
-                        label: 'Deletar',
+                    renderActions.push({
+                        icon: <Box component={'img'} src={'/images/delete_black.png'} />,
+                        label: 'Excluir',
                         onClick: onDelete,
                     });
 
                 if (!!onEdit)
-                    renderActions.unshift({ icon: <Edit />, label: 'Editar', onClick: onEdit });
-
-                if (!!conditionalActions) {
-                    conditionalActions.forEach((action: IConditionalAction) => {
-                        if (action.condition(params.row)) {
-                            renderActions.push({
-                                icon: action.if.icon,
-                                label: action.if.label,
-                                onClick: action.if.onClick,
-                            });
-                        } else if (!!action.else) {
-                            renderActions.push({
-                                icon: action.else.icon,
-                                label: action.else.label,
-                                onClick: action.else.onClick,
-                            });
-                        }
+                    renderActions.unshift({
+                        icon: <Edit />,
+                        label: 'Editar',
+                        onClick: onEdit,
                     });
-                }
 
                 return renderActions.map((action: IAction) => {
                     return (
@@ -357,7 +352,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
                                 evt.stopPropagation();
                                 action.onClick(params.row);
                             }}
-                            showInMenu={renderActions.length > 2}
+                            showInMenu={showActionsInMenu || renderActions.length > 3}
                         />
                     );
                 });
@@ -365,28 +360,24 @@ export const ComplexTable = (props: IComplexTableProps) => {
         });
     }
 
-    const [selection, setSelection] = React.useState<GridRowId[]>([]);
-
-    React.useEffect(() => {
-        if (setSelectionModel !== undefined && selectionModel !== undefined)
-            setSelectionModel(selection);
-    }, [selection]);
-
-    React.useEffect(() => {
-        if (selection?.length === 0 && selectionModel && selectionModel.length > 0)
-            setSelection(selectionModel);
-    }, [selectionModel]);
+    const [selection, setSelection] = React.useState<GridRowId[]>();
 
     return (
-        <Box sx={{ ...complexTableStyle.container, height: heightCustomizada ?? '90%' }}>
+        <Box sx={complexTableStyle.container}>
             <DataGrid
-                sx={complexTableStyle.hideScrollBar}
-                autoHeight={autoHeight ?? true}
-                experimentalFeatures={{ columnGrouping: true }}
-                columnGroupingModel={groupColumsTransform ?? undefined}
                 rows={data}
                 columns={columns}
-                rowCount={data?.length}
+                // initialState={{
+                //     sorting: {
+                //         sortModel: [{ field: 'createdat', sort: 'desc' }],
+                //     },
+                // }}
+                sx={{
+                    borderRadius: '0px 15px 0 0',
+                    width: '100%',
+                }}
+                rowCount={data.length}
+                autoHeight
                 localeText={locale}
                 getRowId={!!getId ? getId : (row) => row._id}
                 onSelectionModelChange={(newSelection) => setSelection(newSelection)}
@@ -401,7 +392,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
                 }
                 getRowHeight={() => 'auto'}
                 components={{
-                    Toolbar: Toolbar,
+                    // Toolbar: Toolbar,
                     BaseSwitch: Checkbox,
                 }}
                 componentsProps={{
@@ -412,7 +403,11 @@ export const ComplexTable = (props: IComplexTableProps) => {
                         filterIconWidth,
                     },
                     columnsPanel: {
-                        sx: { ...complexTableStyle.columnsPanel },
+                        sx: {
+                            '& .MuiInputBase-root': {
+                                border: 'none',
+                            },
+                        },
                     },
                     baseButton: {
                         sx: {
@@ -434,9 +429,10 @@ export const ComplexTable = (props: IComplexTableProps) => {
                 }
                 loading={loading ?? undefined}
                 hideFooter
-                checkboxSelection
+                // checkboxSelection
                 disableColumnFilter
                 disableColumnMenu
+                getRowClassName={getRowClassName}
             />
         </Box>
     );

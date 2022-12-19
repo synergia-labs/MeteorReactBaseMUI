@@ -7,6 +7,7 @@ import { NavigateFunction } from 'react-router-dom';
 export interface IBoilerplateShowMethods {
     showNotification?: (options?: Object) => void;
     showModal?: (options?: Object) => void;
+    showCompartilhar?: (anchorEl: any, link: string) => void;
     showDialog?: (options?: Object) => void;
     showDeleteDialog?: (
         title: string,
@@ -18,10 +19,11 @@ export interface IBoilerplateShowMethods {
     showWindow?: (options?: Object) => void;
 }
 export interface IDefaultContainerProps extends IBoilerplateShowMethods {
+    themeOptions: any;
     navigate: NavigateFunction;
     location: Location;
     params: any;
-    user: IUserProfile;
+    user: IUserProfile | null;
     theme: Theme;
     isMobile: boolean;
     loading: boolean | null;
@@ -31,6 +33,7 @@ export interface IDefaultContainerProps extends IBoilerplateShowMethods {
     isLoggedIn: boolean;
     id?: string | undefined;
     screenState?: string;
+    closeComponent?: () => void;
 }
 
 export interface IDefaultDetailProps extends IDefaultContainerProps {}
@@ -61,11 +64,12 @@ export interface ILayoutProps {
     showNotification?: (options?: Object) => void;
     showModal?: (options?: Object) => void;
     showDialog?: (options?: Object) => void;
+    showCompartilhar?: (anchorEl: any, link: string) => void;
     showDrawer?: (options?: Object) => void;
     showWindow?: (options?: Object) => void;
     themeOptions: {
         isMobile: boolean;
-        setFontScale: (p: boolean) => void;
+        setFontScale: (p: number) => void;
         fontScale: number;
         setDarkThemeMode: (p: boolean) => void;
         isDarkThemeMode: boolean;

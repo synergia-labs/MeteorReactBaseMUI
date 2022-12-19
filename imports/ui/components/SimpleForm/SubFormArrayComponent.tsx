@@ -14,6 +14,8 @@ import SimpleForm, { IElementProps } from '/imports/ui/components/SimpleForm/Sim
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Tooltip from '@mui/material/Tooltip';
 import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
+import { Typography } from '@mui/material';
+import * as appStyles from '/imports/materialui/styles';
 
 interface ISubFormArrayComponent {
     reactElement: (React.ComponentType | React.ReactElement<any>) & {
@@ -34,22 +36,23 @@ interface ISubFormArrayComponent {
     iconButtonContainerStyle?: ISxStyleObject;
 }
 
-function createAddElementSubArrayButtom(addElement: any, addSubForm: () => void, error: boolean) {
+function createAddElementSubArrayButtom(
+    addElement: any,
+    label: string,
+    addSubForm: () => void,
+    error: boolean
+) {
     if (!!addElement) {
         return React.cloneElement(addElement, { onClick: addSubForm });
     } else {
         return (
-            <Fab
-                id={'addSubForm'}
-                color="secondary"
-                style={{
-                    color: error ? '#9F3A38' : '#ffffff',
-                    ...simpleFormStyle.buttonAddSubForm,
-                }}
+            <Typography
+                variant="corpo3"
+                sx={{ color: appStyles.cinzaClaro, cursor: 'pointer', textDecoration: 'underline' }}
                 onClick={addSubForm}
             >
-                <Add />
-            </Fab>
+                {label ? label : 'Adicionar'}
+            </Typography>
         );
     }
 }
@@ -233,7 +236,7 @@ export const SubFormArrayComponent = ({
     const label =
         reactElement.props.label || (props.fieldSchema ? props.fieldSchema.label : undefined);
 
-    let AddElement = createAddElementSubArrayButtom(addElement, addSubForm, error);
+    let AddElement = createAddElementSubArrayButtom(addElement, label, addSubForm, error);
     return (
         <div
             key={name}
@@ -242,7 +245,7 @@ export const SubFormArrayComponent = ({
                 ...simpleFormStyle.containerLabel,
             }}
         >
-            <SimpleLabelView label={label} />
+            {/* <SimpleLabelView label={label} /> */}
             <div style={simpleFormStyle.containerForm}>
                 <ReactSortable
                     disabled={mode === 'view'}

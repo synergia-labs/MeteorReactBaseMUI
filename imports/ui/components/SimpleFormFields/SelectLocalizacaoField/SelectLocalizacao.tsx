@@ -8,6 +8,7 @@ import * as appStyle from '/imports/materialui/styles';
 
 import { hasValue } from '/imports/libs/hasValue';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
+import { Box } from '@mui/material';
 
 export default React.memo(
     ({
@@ -109,7 +110,7 @@ export default React.memo(
 
         if (readOnly) {
             return (
-                <div
+                <Box
                     key={name}
                     style={{
                         width: '100%',
@@ -139,19 +140,34 @@ export default React.memo(
                         }
                         readOnly={true}
                     />
-                </div>
+                </Box>
             );
         }
 
         return (
-            <div style={{ display: 'flex', flexDirection: isSmall ? 'column' : 'row' }}>
-                <div style={{ width: isSmall ? '100%' : '25%', marginRight: '1rem' }}>
+            <Box
+                style={{
+                    display: 'flex',
+                    flexDirection: isSmall ? 'column' : 'row',
+                    width: '100%',
+                    background: '#FFFFFF',
+                }}
+            >
+                <Box style={{ width: isSmall ? '100%' : '25%', marginRight: '1rem' }}>
+                    <SimpleLabelView label={naoObrigatorio ? 'Estado' : 'Estado*'} />
                     <SelectField
                         error={!!error && !estado}
                         readOnly={!!readOnly}
-                        label={naoObrigatorio ? 'Estado' : 'Estado'}
                         name={'estado'}
                         value={estado}
+                        sx={{
+                            background: '#FFFFFF',
+                            border: '2px solid #E6E6E6',
+                            '&.Mui-focused': {
+                                border: '2px solid #E6E6E6',
+                            },
+                        }}
+                        placeholder={'UF'}
                         options={[
                             'AC',
                             'AL',
@@ -187,10 +203,10 @@ export default React.memo(
                         onChange={definirEstado}
                         rounded={otherProps.rounded}
                     />
-                </div>
-                <div style={{ width: isSmall ? '100%' : '75%' }}>
+                </Box>
+                <Box style={{ width: isSmall ? '100%' : '75%', background: '#FFFFFF' }}>
+                    <SimpleLabelView label={naoObrigatorio ? 'Cidade' : 'Cidade*'} />
                     <SelectMunicipioDistritoField
-                        label={naoObrigatorio ? 'Cidade' : 'Cidade'}
                         name={'municipio'}
                         error={!!error && !municipio}
                         readOnly={
@@ -207,8 +223,8 @@ export default React.memo(
                         onChange={definirMunicipio}
                         rounded={otherProps.rounded}
                     />
-                </div>
-            </div>
+                </Box>
+            </Box>
         );
     }
 );

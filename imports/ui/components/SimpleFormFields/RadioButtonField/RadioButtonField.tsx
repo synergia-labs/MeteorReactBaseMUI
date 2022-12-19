@@ -10,6 +10,7 @@ import * as appStyle from '/imports/materialui/styles';
 import { radioButtonStyle } from './RadioButtonFieldStyle';
 
 import { Typography } from '@mui/material';
+import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 export default ({
     name,
@@ -57,12 +58,16 @@ export default ({
                             value={itemCheck.value}
                             id={itemCheck.value}
                             label={itemCheck.label}
+                            sx={{ color: appStyle.corTexto }}
                             control={
                                 <Radio
                                     key={`${index}`}
-                                    color="secondary"
+                                    color="primary"
                                     size="small"
                                     inputProps={{ 'aria-label': itemCheck.label }}
+                                    sx={{
+                                        ...appStyle.corpo1,
+                                    }}
                                 />
                             }
                         />

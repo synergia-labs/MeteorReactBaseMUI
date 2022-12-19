@@ -36,7 +36,6 @@ export const Toolbar = (props: IToolbarProps) => {
                         <GridToolbarColumnsButton
                             disableRipple
                             variant={buttonVariant ?? 'outlined'}
-                            style={{ marginRight: '1rem' }}
                         />
                     ) : null}
                     {!!density ? (
@@ -51,7 +50,6 @@ export const Toolbar = (props: IToolbarProps) => {
                         <GridToolbarExportContainer
                             disableRipple
                             variant={buttonVariant ?? 'outlined'}
-                            style={{ marginLeft: '0' }}
                         >
                             {!!exportTable.csv ? (
                                 <GridCsvExportMenuItem options={{ utf8WithBom: true }} />
@@ -61,14 +59,7 @@ export const Toolbar = (props: IToolbarProps) => {
                     )}
                 </Box>
                 {searchFilter ? (
-                    <Box
-                        sx={{
-                            mr: '0',
-                            mb: { xs: '24px', sm: '0' },
-                            width: { xs: '100%', sm: 'auto' },
-                            display: { xs: 'inline-flex', sm: 'inherit' },
-                        }}
-                    >
+                    <Box sx={{ mr: { xs: 'auto', sm: '0' }, mb: { xs: '24px', sm: '0' } }}>
                         <GridToolbarQuickFilter variant="filled" sx={toolbarStyle.searchFilter} />
                         {!hideFilterIcon && !!openFilterModal ? (
                             <IconButton sx={{ ml: '0.3em' }} onClick={openFilterModal}>

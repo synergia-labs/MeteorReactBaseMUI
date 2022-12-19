@@ -1,13 +1,13 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Loading } from '/imports/ui/components/Loading/Loading';
 
-const asyncComponent = (
-    importingComponent,
-    LoadingComponent = () => <CircularProgress color="secondary" />
-) =>
+const asyncComponent = (importingComponent, LoadingComponent = () => <Loading />) =>
     Loadable({
-        loader: importingComponent,
+        loader:
+            typeof importingComponent === 'function'
+                ? importingComponent
+                : () => importingComponent,
         loading: LoadingComponent, // Loading screen when asynchronously importing component
     });
 

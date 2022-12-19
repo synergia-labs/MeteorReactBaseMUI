@@ -227,21 +227,7 @@ export class ApiBase<Doc extends IDoc> {
             console.log(e, r);
         }
     ) {
-        const newObj: { [key: string]: any } = { _id: docObj._id };
-        const schema = this.schema;
-        Object.keys(docObj).forEach((key) => {
-            if (
-                !!schema[key] &&
-                ((!schema[key].isImage && !schema[key].isAvatar) ||
-                    (typeof docObj[key] === 'string' &&
-                        docObj[key].indexOf('/img/') === -1 &&
-                        docObj[key].indexOf('/thumbnail/') === -1))
-            ) {
-                newObj[key] = docObj[key];
-            }
-        });
-
-        return this.callMethod('update', newObj, callback);
+        return this.callMethod('update', this.prepareForUpdate(docObj), callback);
     }
 
     /**
@@ -361,5 +347,22 @@ export class ApiBase<Doc extends IDoc> {
             return { ...subsHandle, total: 0 };
         }
         return null;
+    }
+
+    prepareForUpdate(docObj: any) {
+        const newObj: { [key: string]: any } = { _id: docObj._id };
+        const schema = this.schema;
+        Object.keys(docObj).forEach((key) => {
+            if (
+                !!schema[key] &&
+                ((!schema[key].isImage && !schema[key].isAvatar) ||
+                    (typeof docObj[key] === 'string' &&
+                        docObj[key].indexOf('/img/') === -1 &&
+                        docObj[key].indexOf('/thumbnail/') === -1))
+            ) {
+                newObj[key] = docObj[key];
+            }
+        });
+        return newObj;
     }
 }

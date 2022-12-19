@@ -22,6 +22,6 @@ export const diferencaEntreDatas = (data: Date) => {
         const dataReduzida = dataCompleta.split(/\s*de\s*/);
         const mes = dataReduzida[0];
         const ano = dataReduzida[1];
-        return `${mes[0].toUpperCase() + mes.substring(1, 3) + ' ' + ano}`;
+        return `${mes[0]?.toUpperCase() + mes.substring(1, 3) + ' ' + ano}`;
     }
 };

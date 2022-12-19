@@ -4,16 +4,19 @@ import * as appStyles from '../../../materialui/styles';
 export const complexTableStyle: ISxStyleObject = {
     container: {
         width: '100%',
-        backgroundColor: appStyles.lightBackground,
-        flex: 1,
+        backgroundColor: appStyles.branco,
     },
     actionsContainer: {
         display: 'flex',
         justifyContent: 'space-evenly',
         width: '100%',
+        maxWidth: '115px',
     },
     actionsMenu: {
-        '.MuiSvgIcon-root': { color: appStyles.textDarkBlue },
+        '.MuiSvgIcon-root': {
+            color: appStyles.cinzaEscuro,
+        },
+        color: appStyles.cinzaEscuro,
     },
     renderImg: {
         maxHeight: '50%',
@@ -23,21 +26,9 @@ export const complexTableStyle: ISxStyleObject = {
     rowText: {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        padding: '0.5em 0',
-    },
-    columnsPanel: {
-        '& .MuiInputBase-root': {
-            border: 'none',
-        },
-        '& .MuiDataGrid-panelHeader': {
-            margin: '0.5rem 0.5rem 0.25rem 0.5rem',
-        },
-        '& .MuiDataGrid-columnsPanel ': {
-            margin: '0 0.25rem 0 0.25rem',
-        },
-        '& .MuiDataGrid-panelFooter': {
-            margin: '0.75rem',
-        },
+        fontSize: '18px',
+        fontWeight: 400,
+        lineHeight: '24px',
+        wordBreak: 'break-word',
     },
 };
