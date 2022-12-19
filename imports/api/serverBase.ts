@@ -888,7 +888,7 @@ export class ServerApiBase<Doc extends IDoc> {
             _optionsPub.skip = 0;
         }
 
-        if (_optionsPub.limit! < 0) {
+        if (_optionsPub.limit < 0) {
             _optionsPub.limit = 0;
         }
 
@@ -954,6 +954,10 @@ export class ServerApiBase<Doc extends IDoc> {
 
         if (_optionsPub.sort) {
             queryOptions.sort = _optionsPub.sort;
+        }
+
+        if (queryOptions.limit === 0) {
+            delete queryOptions.limit;
         }
 
         return this.getCollectionInstance().find({ ...filter }, queryOptions);
