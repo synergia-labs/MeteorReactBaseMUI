@@ -9,6 +9,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
     constructor() {
         super('example', exampleSch, {
             resources: Recurso,
+            // saveImageToDisk: true,
         });
 
         const self = this;

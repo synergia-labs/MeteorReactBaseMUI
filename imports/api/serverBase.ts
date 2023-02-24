@@ -25,6 +25,10 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 // @ts-ignore
 import connectRoute from 'connect-route';
+import fs from 'fs';
+import { uploadPaths } from '/imports/api/attachmentsCollection';
+// @ts-ignore
+import shortid from 'shortid';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -61,6 +65,10 @@ type IResponse = {
 
 // region Base Model
 export class ServerApiBase<Doc extends IDoc> {
+    _saveImageToDisk?: boolean;
+    imgPathFolderName?: string;
+    _imgPath?: string;
+
     noImagePath?: string;
     publications: IPublication;
     restApi = {};
@@ -84,6 +92,17 @@ export class ServerApiBase<Doc extends IDoc> {
      */
     constructor(apiName: string, apiSch: ISchema<Doc>, options?: IBaseOptions) {
         options = { ...defaultOptions, ...options };
+
+        this._saveImageToDisk = !!options.saveImageToDisk;
+
+        if (this._saveImageToDisk) {
+            this.imgPathFolderName = 'img' + apiName;
+            this._imgPath = uploadPaths + '/' + this.imgPathFolderName;
+
+            if (!fs.existsSync(this._imgPath)) {
+                fs.mkdirSync(this._imgPath, { recursive: true });
+            }
+        }
 
         this.defaultResources = options?.resources;
         this.noImagePath = options?.noImagePath;
@@ -109,8 +128,11 @@ export class ServerApiBase<Doc extends IDoc> {
         this._executarTransacao = this._executarTransacao.bind(this);
 
         //**API REST**
+        this._prepareOrUpdateDoc = this._prepareOrUpdateDoc.bind(this);
+        this._convertAndSaveImg = this._convertAndSaveImg.bind(this);
         this.addRestEndpoint = this.addRestEndpoint.bind(this);
         this.initApiRest = this.initApiRest.bind(this);
+        this.createAPIRESTForLoadIMGFromDisk = this.createAPIRESTForLoadIMGFromDisk.bind(this);
         this.createAPIRESTForIMGFields = this.createAPIRESTForIMGFields.bind(this);
         this.createAPIRESTThumbnailForIMGFields =
             this.createAPIRESTThumbnailForIMGFields.bind(this);
@@ -165,6 +187,10 @@ export class ServerApiBase<Doc extends IDoc> {
         this.initApiRest();
         this.registerPublications(options);
         this.registerAllMethods();
+        if (this._saveImageToDisk) {
+            this.createAPIRESTForLoadIMGFromDisk();
+        }
+
         this.createAPIRESTForIMGFields();
         this.createAPIRESTThumbnailForIMGFields(sharp);
     }
@@ -262,6 +288,7 @@ export class ServerApiBase<Doc extends IDoc> {
                 let schemaData: any;
                 schemaData = schema[key];
                 if (
+                    !this._saveImageToDisk &&
                     schemaData.isImage &&
                     (!hasValue(data) || (hasValue(data) && data?.indexOf('data:image') === -1)) &&
                     data !== '-' &&
@@ -346,6 +373,7 @@ export class ServerApiBase<Doc extends IDoc> {
 
                 // remove string referring to image to improve check function performance
                 if (
+                    !this._saveImageToDisk &&
                     (schema[field].isImage || schema[field].isAvatar) &&
                     newDataObj[field] &&
                     typeof newDataObj[field] === 'string'
@@ -396,7 +424,6 @@ export class ServerApiBase<Doc extends IDoc> {
                 !isDate &&
                 isObject(docData) &&
                 !isArray(docData) &&
-                isObject(docData) &&
                 Object.keys(docData).filter((k) => isArray(docData[k])).length === 0
             ) {
                 newDoc[key] = merge(oldDoc[key] || {}, docData);
@@ -464,6 +491,79 @@ export class ServerApiBase<Doc extends IDoc> {
 
         return sincronizarExecucao(client);
     }
+
+    //Utils
+    private _prepareOrUpdateDoc = async (doc: Doc | Partial<Doc>) => {
+        const self = this;
+        const schema = self.schema;
+
+        if (!!self._saveImageToDisk && !doc._id) {
+            doc._id = shortid.generate();
+        }
+
+        const result = await Promise.all(
+            Object.keys(schema).map(async (field) => {
+                if (self._saveImageToDisk && schema[field].isImage && hasValue(doc[field])) {
+                    // @ts-ignore
+                    const newImgPath = await self._convertAndSaveImg(
+                        doc[field],
+                        self._imgPath,
+                        `${doc._id}_${field}`,
+                        schema[field]?.defaultSize?.width,
+                        schema[field]?.defaultSize?.height
+                    );
+                    // @ts-ignore
+                    doc[field] = newImgPath;
+                    return newImgPath;
+                }
+                return;
+            })
+        );
+        return doc;
+    };
+
+    private _convertAndSaveImg = async (
+        imgB64: any,
+        path: string | undefined,
+        realName: string | undefined,
+        dimX: number | undefined,
+        dimY: number | undefined
+    ) => {
+        if (imgB64.indexOf('/img/') !== -1 || imgB64.indexOf(this.imgPathFolderName) !== -1) {
+            return imgB64;
+        }
+        const name = realName.replace(/[^a-zA-Z0-9]+/g, '');
+        const destructImage = imgB64.split(';');
+        const mimType = destructImage[0].split(':')[1];
+        const imageData = destructImage[1].split(',')[1];
+
+        const buffer = new Buffer.from(imageData, 'base64');
+        const image = sharp(buffer);
+        let resizedImage;
+        if (hasValue(dimX) && hasValue(dimY) && !isNaN(Number(dimX)) && !isNaN(Number(dimY))) {
+            resizedImage = await image.resize(dimX, dimY).toFormat('webp');
+        } else {
+            resizedImage = await image.toFormat('webp');
+        }
+
+        const finalPath = `${path}/${name}.webp`;
+        const imgRoute = `${Meteor.absoluteUrl()}img/${this.imgPathFolderName}/${name}.webp`;
+
+        await new Promise((resolve, reject) => {
+            // @ts-ignore
+            resizedImage
+                .toFile(finalPath)
+                .then(() => {
+                    // @ts-ignore
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+
+        return imgRoute;
+    };
 
     //**API REST**
     addRestEndpoint(
@@ -576,6 +676,152 @@ export class ServerApiBase<Doc extends IDoc> {
                     );
                 },
             };
+        }
+    }
+
+    createAPIRESTForLoadIMGFromDisk() {
+        const self = this;
+        if (Meteor.isServer) {
+            console.log('CREATE ENDPOINT GET ' + `${this.imgPathFolderName}/:image`);
+            this.apiRestImage &&
+                this.apiRestImage.addRoute(
+                    `${self.imgPathFolderName}/:image`,
+                    async (req: any, res: any) => {
+                        const { params } = req;
+
+                        if (params && !!params.image) {
+                            const fileName =
+                                params.image.indexOf('.webp') !== -1
+                                    ? params.image.split('.webp')[0]
+                                    : params.image.split('.')[0];
+
+                            if (fs.existsSync(self._imgPath + '/' + fileName + '.webp')) {
+                                const localImg = await fs.readFileSync(
+                                    self._imgPath + '/' + fileName + '.webp'
+                                );
+                                try {
+                                    const stats = fs.statSync(
+                                        self._imgPath + '/' + fileName + '.webp'
+                                    );
+                                    console.log('stats', stats);
+                                    // @ts-ignore
+                                    res.data = Buffer.from(localImg, 'binary');
+                                    res.writeHead(200, {
+                                        'Content-Type': 'image/webp',
+                                        'Cache-Control': 'max-age=120, must-revalidate, public',
+                                        'Last-Modified': stats.atime,
+                                    });
+                                    res.write(res.data);
+                                    res.end(); // Must call this immediately before return!
+                                    return;
+                                } catch (e) {
+                                    console.log('Error', e);
+                                    res.writeHead(404);
+                                    res.end();
+                                    return;
+                                }
+                            }
+
+                            //No Image
+                            const noimg = getNoImage();
+                            const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
+
+                            res.data = Buffer.from(tempImg![2], 'base64');
+                            res.writeHead(200, {
+                                'Content-Type': 'image/png',
+                                'Cache-Control': 'max-age=120, must-revalidate, public',
+                                // 'Last-Modified': (doc
+                                //     ? new Date(doc.lastupdate) || new Date()
+                                //     : new Date()
+                                // ).toUTCString(),
+                            });
+                            res.write(res.data);
+                            res.end(); // Must call this immediately before return!
+                            return;
+                        }
+                        res.writeHead(404);
+                        res.end();
+                        return;
+                    }
+                );
+
+            console.log('CREATE ENDPOINT GET ' + `/thumbnail/${this.imgPathFolderName}/:image`);
+            this.apiRestImage &&
+                this.apiRestImage.addThumbnailRoute(
+                    `${self.imgPathFolderName}/:image`,
+                    async (req: any, res: any) => {
+                        const { params, query } = req;
+
+                        const widthAndHeight = query.d
+                            ? query.d.split('x').map((n: string) => parseInt(n))
+                            : [200, 200];
+
+                        if (params && !!params.image) {
+                            const fileName =
+                                params.image.indexOf('.webp') !== -1
+                                    ? params.image.split('.webp')[0]
+                                    : params.image.split('.')[0];
+
+                            if (fs.existsSync(self._imgPath + '/' + fileName + '.webp')) {
+                                const localImg = await fs.readFileSync(
+                                    self._imgPath + '/' + fileName + '.webp'
+                                );
+                                try {
+                                    const stats = fs.statSync(
+                                        self._imgPath + '/' + fileName + '.webp'
+                                    );
+                                    let resizedImage = await sharp(localImg)
+                                        .resize({
+                                            fit: 'contain',
+                                            background: {
+                                                r: 255,
+                                                g: 255,
+                                                b: 255,
+                                                alpha: 0.01,
+                                            },
+                                            width: widthAndHeight[0],
+                                            height: widthAndHeight[1],
+                                        })
+                                        .toBuffer();
+
+                                    res.data = resizedImage;
+                                    res.writeHead(200, {
+                                        'Content-Type': 'image/webp',
+                                        'Cache-Control': 'max-age=120, must-revalidate, public',
+                                        'Last-Modified': stats.atime,
+                                    });
+                                    res.write(res.data);
+                                    res.end(); // Must call this immediately before return!
+                                    return;
+                                    //To Save Base64 IMG
+                                    // return `data:${mimType};base64,${resizedImage.toString("base64")}`
+                                } catch (error) {
+                                    console.log('IMG ERror', error);
+                                    res.writeHead(200);
+                                    res.end();
+                                    return;
+                                }
+                            }
+
+                            console.log('Imagem Não Encontrada');
+                            const noimg = getNoImage();
+                            const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
+
+                            res.data = Buffer.from(tempImg![2], 'base64');
+                            res.writeHead(200, {
+                                'Content-Type': 'image/png',
+                                'Cache-Control': 'max-age=120, must-revalidate, public',
+                                // 'Last-Modified': (doc
+                                //     ? new Date(doc.lastupdate) || new Date()
+                                //     : new Date()
+                                // ).toUTCString(),
+                            });
+                            res.write(res.data);
+                            res.end(); // Must call this immediately before return!
+                            return;
+                        }
+                    }
+                );
         }
     }
 
@@ -884,12 +1130,12 @@ export class ServerApiBase<Doc extends IDoc> {
             _optionsPub = { limit: 0, skip: 0 };
         }
 
-        if (_optionsPub.skip! < 0) {
-            _optionsPub.skip = 0;
+        if (_optionsPub.skip! <= 0) {
+            delete _optionsPub.skip;
         }
 
-        if (_optionsPub.limit < 0) {
-            _optionsPub.limit = 0;
+        if (_optionsPub.limit! <= 0) {
+            delete _optionsPub.limit;
         }
 
         if (!_optionsPub.projection && !!_optionsPub.fields) {
@@ -910,40 +1156,44 @@ export class ServerApiBase<Doc extends IDoc> {
 
         const imgFields: { [key: string]: any } = {};
 
-        Object.keys(this.schema).forEach((field) => {
-            if (this.schema[field].isImage) {
-                imgFields['has' + field] = { $or: '$' + field };
-                delete _optionsPub.projection[field];
-                imgFields[field] = {
-                    $cond: [
-                        { $ifNull: ['$' + field, false] },
-                        {
-                            $concat: [
-                                `${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/`,
-                                '$_id',
-                                '?date=',
-                                { $toString: '$lastupdate' },
-                            ],
-                        },
-                        this.noImagePath,
-                    ],
-                };
-                imgFields[field + 'Thumbnail'] = {
-                    $cond: [
-                        { $ifNull: ['$' + field, false] },
-                        {
-                            $concat: [
-                                `${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/`,
-                                '$_id',
-                                '?date=',
-                                { $toString: '$lastupdate' },
-                            ],
-                        },
-                        this.noImagePath,
-                    ],
-                };
-            }
-        });
+        if (!this._saveImageToDisk) {
+            Object.keys(this.schema).forEach((field) => {
+                if (this.schema[field].isImage) {
+                    imgFields['has' + field] = { $or: '$' + field };
+                    delete _optionsPub.projection[field];
+                    imgFields[field] = {
+                        $cond: [
+                            { $ifNull: ['$' + field, false] },
+                            {
+                                $concat: [
+                                    `${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/`,
+                                    '$_id',
+                                    '?date=',
+                                    { $toString: '$lastupdate' },
+                                ],
+                            },
+                            this.noImagePath,
+                        ],
+                    };
+                    imgFields[field + 'Thumbnail'] = {
+                        $cond: [
+                            { $ifNull: ['$' + field, false] },
+                            {
+                                $concat: [
+                                    `${Meteor.absoluteUrl()}thumbnail/${
+                                        this.collectionName
+                                    }/${field}/`,
+                                    '$_id',
+                                    '?date=',
+                                    { $toString: '$lastupdate' },
+                                ],
+                            },
+                            this.noImagePath,
+                        ],
+                    };
+                }
+            });
+        }
 
         const queryOptions = {
             fields: { ..._optionsPub.projection, ...imgFields },
@@ -956,7 +1206,8 @@ export class ServerApiBase<Doc extends IDoc> {
             queryOptions.sort = _optionsPub.sort;
         }
 
-        if (queryOptions.limit === 0) {
+        if (queryOptions.limit! <= 0) {
+            // @ts-ignore
             delete queryOptions.limit;
         }
 
@@ -968,7 +1219,7 @@ export class ServerApiBase<Doc extends IDoc> {
             // `observeChanges` only returns after the initial `added` callbacks have run.
             // Until then, we don't want to send a lot of `changed` messages—hence
             // tracking the `initializing` state.
-            let handlePub = collection.publications[publishName](...params, { limit: 0 });
+            let handlePub = collection.publications[publishName](...params, { limit: 999999999 });
             if (handlePub) {
                 if (Array.isArray(handlePub)) {
                     handlePub = handlePub[0];
@@ -1192,7 +1443,7 @@ export class ServerApiBase<Doc extends IDoc> {
      * @param _docObj
      * @param _context
      */
-    serverSync(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    async serverSync(_docObj: Doc | Partial<Doc>, _context: IContext) {
         if (!_docObj || !_docObj._id) {
             return false;
         }
@@ -1204,8 +1455,8 @@ export class ServerApiBase<Doc extends IDoc> {
 
         if (
             !(
-                ((!oldDoc || !oldDoc._id) && this.beforeInsert(_docObj, _context)) ||
-                this.beforeUpdate(_docObj, _context)
+                ((!oldDoc || !oldDoc._id) && (await this.beforeInsert(_docObj, _context))) ||
+                (await this.beforeUpdate(_docObj, _context))
             )
         ) {
             return false;
@@ -1242,10 +1493,10 @@ export class ServerApiBase<Doc extends IDoc> {
      * @param  {Object} _docObj - Collection document the will be inserted.
      * @param  {Object} _context - Meteor this _context.
      */
-    serverInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    async serverInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
         try {
             const id = _docObj._id;
-            if (this.beforeInsert(_docObj, _context)) {
+            if (await this.beforeInsert(_docObj, _context)) {
                 _docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
                 this._includeAuditData(_docObj, 'insert');
                 if (id) {
@@ -1276,7 +1527,7 @@ export class ServerApiBase<Doc extends IDoc> {
      * (If we don't have _context, undefied will be set to this.)
      * @returns {Boolean} - Returns true for any action.
      */
-    beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    async beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
         if (
             this.defaultResources &&
             this.defaultResources[`${this.collectionName?.toUpperCase()}_CREATE`]
@@ -1285,7 +1536,7 @@ export class ServerApiBase<Doc extends IDoc> {
                 `${this.collectionName?.toUpperCase()}_CREATE`,
             ]);
         }
-
+        await this._prepareOrUpdateDoc(_docObj);
         return true;
     }
 
@@ -1339,12 +1590,13 @@ export class ServerApiBase<Doc extends IDoc> {
      * @param  {Object} _docObj - Collection document the will be updated.
      * @param  {Object} _context - Meteor this _context.
      */
-    serverUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    async serverUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
         try {
             check(_docObj._id, String);
             const id = _docObj._id;
-            if (this.beforeUpdate(_docObj, _context)) {
+            if ((await this.beforeUpdate(_docObj, _context)) === true) {
                 _docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
+
                 this._includeAuditData(_docObj, 'update');
                 const oldData = this.getCollectionInstance().findOne({ _id: id }) || {};
                 const nullValues = {};
@@ -1380,7 +1632,7 @@ export class ServerApiBase<Doc extends IDoc> {
      * (If we don't have _context, undefied will be set to this.)
      * @returns {Boolean} - Returns true for any action.
      */
-    beforeUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
+    async beforeUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
         if (
             this.defaultResources &&
             this.defaultResources[`${this.collectionName?.toUpperCase()}_UPDATE`]
@@ -1389,6 +1641,8 @@ export class ServerApiBase<Doc extends IDoc> {
                 `${this.collectionName?.toUpperCase()}_UPDATE`,
             ]);
         }
+
+        const newDoc = await this._prepareOrUpdateDoc(_docObj);
         return true;
     }
 

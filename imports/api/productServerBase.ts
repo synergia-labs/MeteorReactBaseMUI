@@ -86,11 +86,16 @@ export class ProductServerBase<Doc extends IDoc> extends ServerApiBase<any> {
     }
 
     afterUpdate(_docObj: any, _context: IContext): Doc & { collection: string | null } {
-        this.resizeImage(_docObj);
+        if (!this._saveImageToDisk) {
+            this.resizeImage(_docObj);
+        }
+
         return super.afterUpdate(_docObj, _context);
     }
     afterInsert(_docObj: any, _context: IContext): Doc & { collection: string | null } {
-        this.resizeImage(_docObj);
+        if (!this._saveImageToDisk) {
+            this.resizeImage(_docObj);
+        }
         return super.afterInsert(_docObj, _context);
     }
 }

@@ -5,6 +5,11 @@ export type LabelValue = {
     label: string;
 };
 
+export type IDefaultSize = {
+    width?: number;
+    height?: number;
+};
+
 export interface IDefField<C> {
     type: any;
     label?: string;
@@ -14,7 +19,7 @@ export interface IDefField<C> {
     subSchema?: ISchema<any>;
     visibilityFunction?: (doc: C) => boolean;
     isImage?: boolean;
-    defaultSize?: number;
+    defaultSize?: IDefaultSize;
     isAvatar?: boolean;
     isUpload?: boolean;
     multiple?: boolean;

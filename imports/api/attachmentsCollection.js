@@ -2,7 +2,7 @@ import { FilesCollection } from 'meteor/ostrio:files';
 import { Meteor } from 'meteor/meteor';
 import shortid from 'shortid';
 
-let uploadPaths = null;
+export let uploadPaths = null;
 if (Meteor.isServer) {
     const fs = require('fs');
 
