@@ -175,7 +175,7 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
 	const { screenState, id, navigate, showNotification } = props;
 
 	const subHandle = !!id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
-	let exampleDoc = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {};
+	const exampleDoc = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {};
 
 	return {
 		screenState,
