@@ -86,7 +86,7 @@ const ExampleList = (props: IExampleList) => {
 		// }
 	};
 
-	const click = (_e: any) => {
+	const click = (_e: React.SyntheticEvent) => {
 		if (text && text.trim().length > 0) {
 			onSearch(text.trim());
 		} else {
@@ -232,7 +232,7 @@ const exampleSearch = initSearch(
 	['title', 'description'] // list of fields
 );
 
-let onSearchExampleTyping: any;
+let onSearchExampleTyping: NodeJS.Timeout;
 
 const viewComplexTable = new ReactiveVar(false);
 

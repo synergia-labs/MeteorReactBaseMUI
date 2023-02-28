@@ -246,7 +246,7 @@ const exampleSearch = initSearch(
 	['title', 'description'] // list of fields
 );
 
-let onSearchExampleTyping: any;
+let onSearchExampleTyping: NodeJS.Timeout;
 
 const viewComplexTable = new ReactiveVar(false);
 
