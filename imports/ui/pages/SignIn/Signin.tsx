@@ -154,7 +154,7 @@ export const SignIn = (props: ISignIn) => {
 						</SimpleForm>
 						<Box style={signinStyle.containerRouterSignUp}>
 							<Button id="newUser" color={'secondary'} onClick={() => navigate('/signup')}>
-								{'É novo por aqui? Clique aqui para se cadastrar!'}
+								É novo por aqui? Clique aqui para se cadastrar!
 							</Button>
 						</Box>
 						<Box

@@ -1,7 +1,7 @@
 // @ts-ignore
 import React from 'react';
 import Home from '../pages/Home/Home';
-import Signup from '../pages/SignUp/Signup';
+import { SignUp } from '../pages/SignUp/SignUp';
 import Signout from '../pages/SignOut/Signout';
 import { EnrollAccount } from '../pages/EnrollAccount/EnrollAccount';
 import { EmailVerify } from '../pages/EmailVerify/EmailVerify';
@@ -23,7 +23,7 @@ export const pagesRouterList = [
 	},
 	{
 		path: '/signup',
-		component: Signup,
+		component: SignUp,
 		isProtected: false
 	},
 	{

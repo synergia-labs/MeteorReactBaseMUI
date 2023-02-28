@@ -3,15 +3,15 @@
 
 // login page overrides the form’s submit event and call Meteor’s loginWithPassword()
 // Authentication errors modify the component’s state to be displayed
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, NavigateFunction } from 'react-router-dom';
 import Container from '@mui/material/Container';
-import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextField from '../../components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
 import { userprofileApi } from '../../../userprofile/api/UserProfileApi';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
-import { signupStyle } from './SignupStyle';
+import { signUpStyle } from './SignUpStyle';
 import { Box } from '@mui/system';
 import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 
@@ -22,15 +22,9 @@ interface ISignUp {
 }
 
 export const SignUp = (props: ISignUp) => {
-	const [state, setState] = useState({ email: '', password: '', error: '' });
-
 	const { showNotification } = props;
 
-	const handleChange = (e, { name, value }) => {
-		setState({ [name]: value });
-	};
-
-	const handleSubmit = (doc) => {
+	const handleSubmit = (doc: { email: string; password: string }) => {
 		const { email, password } = doc;
 
 		userprofileApi.insertNewUser({ email, username: email, password }, (err, r) => {
@@ -54,9 +48,9 @@ export const SignUp = (props: ISignUp) => {
 	};
 
 	return (
-		<Container style={signupStyle.containerSignUp}>
-			<h2 style={signupStyle.labelRegisterSystem}>
-				<img src="/images/wireframe/logo.png" style={signupStyle.imageLogo} />
+		<Container style={signUpStyle.containerSignUp}>
+			<h2 style={signUpStyle.labelRegisterSystem}>
+				<img src="/images/wireframe/logo.png" style={signUpStyle.imageLogo} />
 				{'Cadastrar no sistema'}
 			</h2>
 			<SimpleForm
@@ -73,31 +67,15 @@ export const SignUp = (props: ISignUp) => {
 					}
 				}}
 				onSubmit={handleSubmit}>
-				<TextField
-					id="Email"
-					label="Email"
-					fullWidth
-					name="email"
-					type="email"
-					placeholder="Digite um email"
-					onChange={handleChange}
-				/>
-				<TextField
-					id="Senha"
-					label="Senha"
-					fullWidth
-					name="password"
-					placeholder="Digite uma senha"
-					type="password"
-					onChange={handleChange}
-				/>
-				<Box sx={signupStyle.containerButtonOptions}>
+				<TextField id="Email" label="Email" fullWidth name="email" type="email" placeholder="Digite um email" />
+				<TextField id="Senha" label="Senha" fullWidth name="password" placeholder="Digite uma senha" type="password" />
+				<Box sx={signUpStyle.containerButtonOptions}>
 					<Button color={'primary'} variant={'outlined'} id="submit">
 						Cadastrar
 					</Button>
 				</Box>
 			</SimpleForm>
-			<Box sx={signupStyle.containerRouterSignIn}>
+			<Box sx={signUpStyle.containerRouterSignIn}>
 				Já tem uma conta? Faça login clicando{' '}
 				<Link to="/signin" color={'secondary'}>
 					aqui

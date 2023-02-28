@@ -3,7 +3,6 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { exampleApi } from '../../api/exampleApi';
 import { userprofileApi } from '../../../../userprofile/api/UserProfileApi';
 import { SimpleTable } from '/imports/ui/components/SimpleTable/SimpleTable';
-import _ from 'lodash';
 import Add from '@mui/icons-material/Add';
 import Delete from '@mui/icons-material/Delete';
 import Fab from '@mui/material/Fab';
@@ -20,7 +19,6 @@ import { IExample } from '../../api/exampleSch';
 import { IConfigList } from '/imports/typings/IFilterProperties';
 import { Recurso } from '../../config/Recursos';
 import { RenderComPermissao } from '/imports/seguranca/ui/components/RenderComPermisao';
-import { isMobile } from '/imports/libs/deviceVerify';
 import { showLoading } from '/imports/ui/components/Loading/Loading';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
 import ToggleField from '/imports/ui/components/SimpleFormFields/ToggleField/ToggleField';
@@ -106,8 +104,9 @@ const ExampleList = (props: IExampleList) => {
 		!!e.target.value ? setFilter({ createdby: e.target.value }) : clearFilter();
 	};
 
-	// @ts-ignore
-	// @ts-ignore
+	const { image, title, description, nomeUsuario } = exampleApi.getSchema();
+	const schemaReduzido = { image, title, description, nomeUsuario: { type: String, label: 'Criado por' } };
+
 	return (
 		<PageLayout title={'Lista de Exemplos'} actions={[]}>
 			<SearchDocField
@@ -133,7 +132,6 @@ const ExampleList = (props: IExampleList) => {
 					label={'Habilitar ComplexTable'}
 					value={viewComplexTable}
 					onChange={(evt: { target: { value: boolean } }) => {
-						console.log('evt', evt, evt.target);
 						setViewComplexTable(evt.target.value);
 					}}
 				/>
@@ -151,13 +149,7 @@ const ExampleList = (props: IExampleList) => {
 					/>
 
 					<SimpleTable
-						schema={_.pick(
-							{
-								...exampleApi.schema,
-								nomeUsuario: { type: String, label: 'Criado por' }
-							},
-							['image', 'title', 'description', 'nomeUsuario']
-						)}
+						schema={schemaReduzido}
 						data={examples}
 						onClick={onClick}
 						actions={[{ icon: <Delete />, id: 'delete', onClick: callRemove }]}
@@ -168,13 +160,7 @@ const ExampleList = (props: IExampleList) => {
 			{!isMobile && viewComplexTable && (
 				<ComplexTable
 					data={examples}
-					schema={_.pick(
-						{
-							...exampleApi.schema,
-							nomeUsuario: { type: String, label: 'Criado por' }
-						},
-						['image', 'title', 'description', 'nomeUsuario']
-					)}
+					schema={schemaReduzido}
 					onRowClick={(row) => navigate('/example/view/' + row.id)}
 					searchPlaceholder={'Pesquisar exemplo'}
 					onDelete={callRemove}
@@ -284,7 +270,7 @@ export const ExampleListContainer = withTracker((props: IDefaultContainerProps) 
 						showNotification({
 							type: 'success',
 							title: 'Operação realizada!',
-							message: `O exemplo foi removido com sucesso!`
+							description: `O exemplo foi removido com sucesso!`
 						});
 				} else {
 					console.log('Error:', e);
@@ -292,7 +278,7 @@ export const ExampleListContainer = withTracker((props: IDefaultContainerProps) 
 						showNotification({
 							type: 'warning',
 							title: 'Operação não realizada!',
-							message: `Erro ao realizar a operação: ${e.reason}`
+							description: `Erro ao realizar a operação: ${e.reason}`
 						});
 				}
 			});

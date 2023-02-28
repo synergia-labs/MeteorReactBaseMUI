@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { isMobile } from '/imports/libs/deviceVerify';
 import './notificationStyle.css';
-import { Theme } from '@mui/material';
+import { Button, Theme } from '@mui/material';
 import { IBoilerplateShowMethods } from '../typings/BoilerplateDefaultTypings';
 import { DialogContainer } from './GeneralComponents/DialogContainer';
 import { WindowContainer } from './GeneralComponents/WindowContainer';
 import { DrawerContainer } from './GeneralComponents/DrawerContainer';
 import { ModalContainer } from './GeneralComponents/ModalContainer';
 import { showNotification } from './GeneralComponents/ShowNotification';
+import { Delete } from '@mui/icons-material';
 
 if (isMobile) {
 	// @ts-ignore
@@ -37,7 +38,12 @@ interface IAppGeneralComponentsState {
 }
 
 interface IGeneralComponentsProps {
-	themeOptions: { isDarkThemeMode: boolean; setDarkThemeMode: (mode: boolean) => void };
+	themeOptions: {
+		isDarkThemeMode: boolean;
+		setDarkThemeMode: (mode: boolean) => void;
+		setFontScale: (p: number) => void;
+		fontScale: number;
+	};
 	children: React.ReactFragment | React.ElementType | JSX.Element;
 }
 
@@ -65,6 +71,41 @@ export const AppGeneralComponents = (props: IGeneralComponentsProps) => {
 	}, []);
 
 	const showDialog = (options = {}) => {
+		setState({
+			...state,
+			dialogOptions: {
+				open: true,
+				onClose: () => setState({ ...state, dialogOptions: null }),
+				onOpen: () => {},
+				closeDialog: () => setState({ ...state, dialogOptions: null }),
+				...options
+			}
+		});
+	};
+
+	const showDeleteDialog = (title: string, message: string, doc: Object, remove: (doc: Object) => void) => {
+		const options = {
+			icon: <Delete />,
+			title,
+			content: () => {
+				return <p>{message}</p>;
+			},
+			actions: ({ closeDialog }: { closeDialog: () => void }) => [
+				<Button key={'botaoNao'} variant={'outlined'} color={'secondary'} onClick={closeDialog}>
+					Não
+				</Button>,
+				<Button
+					key={'botaoSim'}
+					variant={'contained'}
+					onClick={() => {
+						remove(doc);
+						closeDialog();
+					}}
+					color={'primary'}>
+					Sim
+				</Button>
+			]
+		};
 		setState({
 			...state,
 			dialogOptions: {
@@ -136,6 +177,7 @@ export const AppGeneralComponents = (props: IGeneralComponentsProps) => {
 			value={{
 				showNotification: showNotification,
 				showDialog: showDialog,
+				showDeleteDialog: showDeleteDialog,
 				showDrawer: showDrawer,
 				showWindow: showWindow,
 				showModal: showModal,

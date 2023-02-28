@@ -1,22 +1,20 @@
 {
-  "name": "MeteorReactBase-MUI",
-  "short_name": "MRB",
-  "mail_no_reply": "no-reply@meteorreactbase.com",
-  "mail_system": "contact@@meteorreactbase.com",
-  "mail_url_smtp": "smtp://localhost:25?tls.rejectUnauthorized=false",
-  "service": "MeteorReactBase-MUI",
-  "settingsGoogle": {
-    "client_secret": "<client_secret>",
-    "client_id": "<client_id>",
-    "validClientIds": [
-      "<client_id>"
-    ]
-  },
-  "settingsFacebook": {
-  "appId": "<appId>",
-  "secret": "<secret>"
-  },
-  "maps": {
-    "api": ""
-  }
+	"name": "MeteorReactBase-MUI",
+	"short_name": "MRB",
+	"mail_no_reply": "no-reply@meteorreactbase.com",
+	"mail_system": "contact@@meteorreactbase.com",
+	"mail_url_smtp": "smtp://mail.smtpbucket.com:8025",
+	"service": "MeteorReactBase-MUI",
+	"settingsGoogle": {
+		"client_secret": "<client_secret>",
+		"client_id": "<client_id>",
+		"validClientIds": ["<client_id>"]
+	},
+	"settingsFacebook": {
+		"appId": "<appId>",
+		"secret": "<secret>"
+	},
+	"maps": {
+		"api": ""
+	}
 }

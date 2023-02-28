@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FixedMenuLayout } from './layouts/FixedMenuLayout';
 import { AppGeneralComponents, AppContext } from './AppGeneralComponents';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
@@ -27,8 +27,8 @@ const AppContainer = () => {
 export const App = () => {
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-	const [darkThemeMode, setDarkThemeMode] = React.useState(!!prefersDarkMode);
-	const [fontScale, setFontScale] = React.useState(1);
+	const [darkThemeMode, setDarkThemeMode] = useState(!!prefersDarkMode);
+	const [fontScale, setFontScale] = useState(1);
 	const isMobile = useMediaQuery('(max-width:600px)');
 
 	const themeOptions = {
@@ -42,7 +42,6 @@ export const App = () => {
 			<CssBaseline enableColorScheme />
 			<AppGeneralComponents
 				themeOptions={{
-					isMobile,
 					setFontScale,
 					fontScale,
 					setDarkThemeMode,
