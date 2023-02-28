@@ -7,21 +7,21 @@ Ele foi projetado para permitir o inicio rápido de um novo produto que utiliza 
 
 Dentre os benefícios de adotá-lo no desenvolvimento de um novo produto nós podemos destacar:
 
--   suporte à prevenção de erros de desenvolvimento através da implementação de classes que encapsulam operações básicas referente à interação cliente-servidor e à comunicação com o banco de dados.
+- suporte à prevenção de erros de desenvolvimento através da implementação de classes que encapsulam operações básicas referente à interação cliente-servidor e à comunicação com o banco de dados.
 
--   estruturação do código para ampliar o controle das operações de banco de dados;
+- estruturação do código para ampliar o controle das operações de banco de dados;
 
--   gestão e controle do schema das coleções bem como a validação dos dados a partir de schemas, e;
+- gestão e controle do schema das coleções bem como a validação dos dados a partir de schemas, e;
 
--   SimpleForm - gestão automática de formulaŕios, incluindo a inserçaõ de validações,comportamentos e informações do schema do banco de dados.
+- SimpleForm - gestão automática de formulaŕios, incluindo a inserçaõ de validações,comportamentos e informações do schema do banco de dados.
 
--   SimpleTable - geração automática de tabelas a partir do schema do banco de dados, apresentando de forma intuitiva e simples as informações contidas no banco.
+- SimpleTable - geração automática de tabelas a partir do schema do banco de dados, apresentando de forma intuitiva e simples as informações contidas no banco.
 
--   UploadFiles - importação de arquivos de vários formatos.
+- UploadFiles - importação de arquivos de vários formatos.
 
--   APIs estruturadas em módulos - padronização e modularização da implementação das funcionalidades do sistema.
+- APIs estruturadas em módulos - padronização e modularização da implementação das funcionalidades do sistema.
 
--   definição de uma estrutura de schemas, layout e rotas, dando maior flexibilidade nas questões de navegação e estilo do produto.
+- definição de uma estrutura de schemas, layout e rotas, dando maior flexibilidade nas questões de navegação e estilo do produto.
 
 ## ESTRUTURA DE PASTA
 
@@ -367,16 +367,16 @@ Há ainda outras propriedades que podem ser inseridas nesse momento e que são i
 
 Esses outros campos são:
 
--   "**isAvatar**" - quando o campo é do tipo imagem e diz respeito a um avatar.
--   "**isUpload**" - quando o campo é do tipo "upload de arquivos" e, neste caso, utiliza o componente "UploadFilesCollection" do SimpleForm.
--   "**readOnly**" - se o campo readOnly for definido com o valor "true" o campo será exibido como somente leitura nas telas de edição. Neste caso a biblioteca irá pegar essa informação e replicar ela no esquema do formulário.
+- "**isAvatar**" - quando o campo é do tipo imagem e diz respeito a um avatar.
+- "**isUpload**" - quando o campo é do tipo "upload de arquivos" e, neste caso, utiliza o componente "UploadFilesCollection" do SimpleForm.
+- "**readOnly**" - se o campo readOnly for definido com o valor "true" o campo será exibido como somente leitura nas telas de edição. Neste caso a biblioteca irá pegar essa informação e replicar ela no esquema do formulário.
 
 A propriedade "type" também sugere componentes que podem ser utilizados. Por exemplo:
 
--   "**[String]**" - uma lista de texto sugere que o componente é um "Chip Input". Se houver o campo "options" ele é do tipo "Select Chip Input", como mencionado anteriormente.
--   "**Object**" - o tipo objeto indica que o campo é um documento aninhado e, neste caso, vai exigir o campo "subSchema". Um subSchema é o esquema do documento aninhado.
--   "**[Object]**" - uma lista de objetos indica que o campo é uma lista de documentos aninhados e neste caso também é necessário indicar o campo "subSchema".
--   **Number** ou **Date** - tipos número ou data sugere a utilização de componentes que permitem a entrada de somente números ou a seleção de datas.
+- "**[String]**" - uma lista de texto sugere que o componente é um "Chip Input". Se houver o campo "options" ele é do tipo "Select Chip Input", como mencionado anteriormente.
+- "**Object**" - o tipo objeto indica que o campo é um documento aninhado e, neste caso, vai exigir o campo "subSchema". Um subSchema é o esquema do documento aninhado.
+- "**[Object]**" - uma lista de objetos indica que o campo é uma lista de documentos aninhados e neste caso também é necessário indicar o campo "subSchema".
+- **Number** ou **Date** - tipos número ou data sugere a utilização de componentes que permitem a entrada de somente números ou a seleção de datas.
 
 Para criar um campo novo basta adicionar mais uma propriedade no objeto "**exampleSch**" e em seguida inserir esse novo campo no formulário. Por exemplo, iremos especificar abaixo o campo "subtitle" que informa um subtítulo que a tarefa deverá possui. Neste caso será uma string simples.
 
@@ -434,15 +434,15 @@ icon: <Home />,
 
 A variável _pagesMenuItemList_ é uma lista de objetos que contém as configurações de exibição do menu. Esses objetos possui os seguintes campos:
 
--   **path** - Define a rota que será chamada quando o item é acionado. Ex:'/',
--   **name** - Define o título/text que será exibido no item: Ex: "Home"
--   **icon** - Define o ícone que será utilizado. Ex: Home
+- **path** - Define a rota que será chamada quando o item é acionado. Ex:'/',
+- **name** - Define o título/text que será exibido no item: Ex: "Home"
+- **icon** - Define o ícone que será utilizado. Ex: Home
 
 A variável _pagesRouterList_ contém uma lista de definições de rota referente ao módulo. As definições de rota possuem os seguintes campos:
 
--   **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/example/:screenState/:exampleId',
--   **component** - Definie o componente que será renderizado. Ex: exampleContainer,
--   **isProtected** - Define se na rota apenas usuários logados acessam as informações.
+- **path** - Define o caminho/rota que acionará a renderização do componente definido abaixo. Ex: '/example/:screenState/:exampleId',
+- **component** - Definie o componente que será renderizado. Ex: exampleContainer,
+- **isProtected** - Define se na rota apenas usuários logados acessam as informações.
 
 ## UTILIZANDO O SimpleForm
 
@@ -455,11 +455,11 @@ A principal motivação para utilizá-lo ao invés de adotar componentes amplame
 
 O SimpleForm foi criado para ser simples, flexível e extensível:
 
--   simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
-    ao esquema do banco de dados.
--   flexível porque pode ser utilizada uma ou várias instâncias dele para compor o formulário exibido para o usuário, utilizando
-    uma ou mais opções de salvamento.
--   extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote _Material-UI_.
+- simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema de formulário semelhante
+  ao esquema do banco de dados.
+- flexível porque pode ser utilizada uma ou várias instâncias dele para compor o formulário exibido para o usuário, utilizando
+  uma ou mais opções de salvamento.
+- extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote _Material-UI_.
 
 O SimpleForm possui dois modos de visualização: _edit_ e _view_. Ele possui as seguintes propriedades:
 
@@ -471,11 +471,11 @@ O SimpleForm possui dois modos de visualização: _edit_ e _view_. Ele possui as
                 loading={loading}
             >
 
--   **mode** - define qual é o modo de visualização: view, edit ou buttons. Quando a opção é _buttons_ somente os botões são renderizados e nesse caso pode ser informada uma propriedade à mais que é a _forms_, que contém uma lista de formulários, como será visto no exemplo a seguir.
--   **onSubmit** - é uma propriedade opcional que pode ser utilizada quando se pretende salvar o estado do documento a cada vez que ele é alterado no formulário.
--   **doc** - recebe o documento que será utilizado para popular os campos do formulário.
--   **schema** - recebe o esquema de campos do formulário.
--   **loading** - recebe a ação do carregamento.
+- **mode** - define qual é o modo de visualização: view, edit ou buttons. Quando a opção é _buttons_ somente os botões são renderizados e nesse caso pode ser informada uma propriedade à mais que é a _forms_, que contém uma lista de formulários, como será visto no exemplo a seguir.
+- **onSubmit** - é uma propriedade opcional que pode ser utilizada quando se pretende salvar o estado do documento a cada vez que ele é alterado no formulário.
+- **doc** - recebe o documento que será utilizado para popular os campos do formulário.
+- **schema** - recebe o esquema de campos do formulário.
+- **loading** - recebe a ação do carregamento.
 
 **IMPORTANTE** : o botão de envio do formulário deve **obrigatoriamente** ter a prop 'id' com valor 'submit'.
 
@@ -497,18 +497,18 @@ O SimpleForm cria formulários a partir de esquemas expressos em JSON. Como menc
 O SimpleForm foi construído considerando o funcionamento dos componentes do pacote _Material-UI_. Esses componentes possuem algumas
 propriedades que são consideradas pelo SimpleForm para tratar as questões de interação e exibiões de informação que são as seguintes:
 
--   **name** - recebe o texto que identifica o campo.
--   **label** - recebe o texto a ser exibido como título do campo.
--   **value** - recebe o valor a ser exibido como conteúdo ou estado do campo.
--   **onChange** - nesta propriedade é esperado que seja passado o nome do campo e valor correspondente para inserção no BD. Exemplo:
+- **name** - recebe o texto que identifica o campo.
+- **label** - recebe o texto a ser exibido como título do campo.
+- **value** - recebe o valor a ser exibido como conteúdo ou estado do campo.
+- **onChange** - nesta propriedade é esperado que seja passado o nome do campo e valor correspondente para inserção no BD. Exemplo:
 
-        const imgValue = (...);
-        onChange({target:{value: imgValue}},{ name, value: imgValue});
+      const imgValue = (...);
+      onChange({target:{value: imgValue}},{ name, value: imgValue});
 
--   **error** - está propriedade é um boleano que informa se ocorreu ou não algum erro no componente e, se afirmativo, a mensagem é exibida
-    para o usúario assim como algumas característica do componentes serão exibidos na cor vermelha.
--   **readOnly** - está propriedade é um boleano que informa se o estado atual do componente é somente visualização e, se afirmativo, não é permitida a edição dos conteúdos dos campos.
--   **otherProps** - outras propriedades específicas de um componente como, por exemplo, a propriedade de "checked" para identificar o estado de um componente do tipo CheckBox.
+- **error** - está propriedade é um boleano que informa se ocorreu ou não algum erro no componente e, se afirmativo, a mensagem é exibida
+  para o usúario assim como algumas característica do componentes serão exibidos na cor vermelha.
+- **readOnly** - está propriedade é um boleano que informa se o estado atual do componente é somente visualização e, se afirmativo, não é permitida a edição dos conteúdos dos campos.
+- **otherProps** - outras propriedades específicas de um componente como, por exemplo, a propriedade de "checked" para identificar o estado de um componente do tipo CheckBox.
 
 Independente do que o componente faz, se ele recebe essas propriedades ele poderá ser utilizado automaticamente pelo SimpleForm.
 
@@ -520,8 +520,8 @@ O _SimpleTable_ é um componente que simplifica a demonstração dos dados prese
 
 O SimpleTable foi criado para ser simples e extensível:
 
--   simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema semelhante ao esquema do banco de dados.
--   extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote _Material-UI_.
+- simples porque a utilização dele não requer muita preparação: basta ter uma lista de ações e um esquema semelhante ao esquema do banco de dados.
+- extensível porque permite a implementação de componentes que poderão ser utilizados com a mesma simplicidade com que são utilizados os componentes do pacote _Material-UI_.
 
 O SimpleTable possui as seguintes propriedades:
 
@@ -534,9 +534,9 @@ O SimpleTable possui as seguintes propriedades:
 
 Vamos às explicações:
 
--   **schema** é o schema que será utilizado para buscar as informações do banco de dados.
--   **data** realizará a busca dos dados na API do componente.
--   **actions** as ações disponíveis para serem realizadas com a tabela.
+- **schema** é o schema que será utilizado para buscar as informações do banco de dados.
+- **data** realizará a busca dos dados na API do componente.
+- **actions** as ações disponíveis para serem realizadas com a tabela.
 
 ### Estilizando elementos
 
@@ -580,9 +580,9 @@ O UploadFiles possui as seguintes propriedades:
 
 Vamos às explicações:
 
--   **name** é o nome da propriedade do schema que será utilizado para buscar as informações do banco de dados.
--   **label** nome que representa o componente no layout do sistema.
--   **doc** recebe o documento que será utilizado para popular os campos do formulário.
+- **name** é o nome da propriedade do schema que será utilizado para buscar as informações do banco de dados.
+- **label** nome que representa o componente no layout do sistema.
+- **doc** recebe o documento que será utilizado para popular os campos do formulário.
 
 **Observação**: Para este componente em específico, a área para upload é renderizada apenas quando o doc passado como referência possui um id. Entretanto, uma vez que foi definido como estratégia original que o id de um documento criado pelo MeteorReactBaseMUI seja instanciado apenas após a submissão do formulário, fizeram-se necessárias adaptações nesta estratégia para que o id gerado fosse fixo e anterior a submissão do formulário. Para tanto, utilizou-se um pacote "shortid" para geração de um id assim que a opção de criar um novo documento em BD for acionado. Em caso de não utilização do componente de UploadFilesCollection, a estratégia original deverá ser mantida.
 
@@ -608,7 +608,7 @@ O controle de acesso através de perfis está implementado no múdulo "seguranca
 
 Como funciona a validação dos recursos? Para validações no backend, utilize a função podeAcessarRecurso. Para validações no frontend, utilize o componente funcional "RenderComPermissao", que somente renderizará qualquer JSX passado como children caso a validação de recursos retorne verdadeiro. Para validação de acesso a rotas do sistema, a propriedade "resources" deve ser informada na configuração da rota, no arquivo "nomeDoModuloRouters.tsx". Exemplos de uso para todos os três casos estão implementados no módulo "example".
 
-Caso não queira utilizar essa implementação de controle de acesso, não utilize as funções mencionadas acima e remova a validação por perfil de acesso no arquivo "appRouterSwitch.tsx", linhas 66-67.
+Caso não queira utilizar essa implementação de controle de acesso, não utilize as funções mencionadas acima e remova a validação por perfil de acesso no arquivo "AppRouterSwitch.tsx", linhas 66-67.
 
 ### Contexto geral da aplicação
 
