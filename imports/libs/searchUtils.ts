@@ -1,4 +1,4 @@
-import mongoSintaxe from './getMongoSintaxe';
+import { getMongoDBFilterSintaxe } from './getMongoSintaxe';
 import _ from 'lodash';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -50,17 +50,17 @@ export const initSearch = (api: any, subscribeConfigReactiveVar: ReactiveVar<any
 			if (datalistOfFieldsSchemaForSearch[field].type === String) {
 				filterBy.push(
 					{
-						[field]: mongoSintaxe.getMongoDBFilterSintaxe('contains', textToSearch, 'string')
+						[field]: getMongoDBFilterSintaxe('contains', textToSearch, 'string')
 					}
-					// {[field]: mongoSintaxe.getMongoDBFilterSintaxe(textToSearch.length<4?'==':'initwith', textToSearch, 'string')}
+					// {[field]: getMongoDBFilterSintaxe(textToSearch.length<4?'==':'initwith', textToSearch, 'string')}
 				);
 			} else if (datalistOfFieldsSchemaForSearch[field].type === Number) {
 				filterBy.push({
-					[field]: mongoSintaxe.getMongoDBFilterSintaxe('==', textToSearch, 'number')
+					[field]: getMongoDBFilterSintaxe('==', textToSearch, 'number')
 				});
 			} else if (Array.isArray(datalistOfFieldsSchemaForSearch[field].type)) {
 				filterBy.push({
-					[field]: mongoSintaxe.getMongoDBFilterSintaxe('contains', textToSearch, 'string')
+					[field]: getMongoDBFilterSintaxe('contains', textToSearch, 'string')
 				});
 			}
 		});

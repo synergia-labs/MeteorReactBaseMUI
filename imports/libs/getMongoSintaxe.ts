@@ -1,4 +1,4 @@
-const getMongoDBFilterSintaxe = (operator, value, type) => {
+export const getMongoDBFilterSintaxe = (operator: string, value: string | Date | number, type: string) => {
 	if (type == 'number') {
 		value = Number(value);
 	}
@@ -31,8 +31,4 @@ const getMongoDBFilterSintaxe = (operator, value, type) => {
 		default:
 			return value;
 	}
-};
-
-export default {
-	getMongoDBFilterSintaxe
 };

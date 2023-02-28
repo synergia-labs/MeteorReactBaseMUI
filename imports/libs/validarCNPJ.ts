@@ -1,4 +1,4 @@
-export const validarCNPJ = (cnpj) => {
+export const validarCNPJ = (cnpj: string) => {
 	cnpj = cnpj.replace(/[^\d]+/g, '');
 
 	if (cnpj == '') return false;
