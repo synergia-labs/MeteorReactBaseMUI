@@ -128,7 +128,7 @@ function validateLoginFacebook(user: Meteor.User & { name?: string; email?: stri
 
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
-    Accounts.emailTemplates.from = settings.mail_no_reply;
+    Accounts.emailTemplates.from = settings.mail_system;
     Accounts.emailTemplates.siteName = settings.name;
 
     // region VERIFICAR_EMAIL
