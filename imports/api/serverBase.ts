@@ -779,8 +779,12 @@ export class ServerApiBase<Doc extends IDoc> {
                                                 b: 255,
                                                 alpha: 0.01,
                                             },
-                                            width: widthAndHeight[0],
-                                            height: widthAndHeight[1],
+                                            width: !!widthAndHeight[0]
+                                                ? widthAndHeight[0]
+                                                : undefined,
+                                            height: !!widthAndHeight[1]
+                                                ? widthAndHeight[1]
+                                                : undefined,
                                         })
                                         .toBuffer();
 
