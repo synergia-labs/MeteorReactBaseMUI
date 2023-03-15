@@ -733,8 +733,8 @@ export class ServerApiBase<Doc extends IDoc> {
 											b: 255,
 											alpha: 0.01
 										},
-										width: widthAndHeight[0],
-										height: widthAndHeight[1]
+										width: !!widthAndHeight[0] ? widthAndHeight[0] : undefined,
+										height: !!widthAndHeight[1] ? widthAndHeight[1] : undefined
 									})
 									.toBuffer();
 
@@ -858,10 +858,12 @@ export class ServerApiBase<Doc extends IDoc> {
 
 								if (params && !!params.image) {
 									const docID =
-										params.image.indexOf('.') !== -1 ? params.image.split('.')[0] : params.image.split('.')[0];
+										params.image.indexOf('.') !== -1
+											? params.image.split('?')[0].split('.')[0]
+											: params.image.split('?')[0];
 									const doc = self.getCollectionInstance().findOne({ _id: docID });
 
-									if (doc && hasValue(doc[field]) && doc[field] !== '-') {
+									if (doc && hasValue(doc[field]) && doc[field] !== '-' && doc[field].indexOf('base64') !== -1) {
 										const destructImage = doc[field].split(';');
 										const mimType = destructImage[0].split(':')[1];
 										const imageData = destructImage[1].split(',')[1];
@@ -877,8 +879,8 @@ export class ServerApiBase<Doc extends IDoc> {
 														b: 255,
 														alpha: 0.01
 													},
-													width: widthAndHeight[0],
-													height: widthAndHeight[1]
+													width: !!widthAndHeight[0] ? widthAndHeight[0] : undefined,
+													height: !!widthAndHeight[1] ? widthAndHeight[1] : undefined
 												})
 												.toFormat('png')
 												.toBuffer();

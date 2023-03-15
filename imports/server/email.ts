@@ -29,6 +29,7 @@ function sendEmail(to, from, subject, msg, attachments = [], callback) {
 			to,
 			from,
 			subject,
+			replyTo: settings.mail_no_reply,
 			html: getHTMLEmailTemplate(subject, msg),
 			attachments
 		});
