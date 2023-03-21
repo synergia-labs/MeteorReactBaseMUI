@@ -14,32 +14,12 @@
 
  */
 
-const signupStyle = {
-    containerSignUp: {
-        width: '100%',
-        maxWidth: 400,
-    },
-    labelRegisterSystem: {
-        textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    imageLogo: {
-        maxWidth: 100,
-    },
-    containerButtonOptions: {
-        marginTop: 30,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    containerRouterSignIn: {
-        marginTop: 35,
-        color: '#444',
-    },
+export const appTopMenuStyle = {
+	containerAccountCircle: {
+		display: 'flex',
+		flexDirection: 'row'
+	},
+	accountCircle: {
+		color: '#3e6b01'
+	}
 };
-
-export { signupStyle };

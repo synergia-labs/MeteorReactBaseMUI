@@ -1,55 +1,54 @@
-import React from 'react';
-import AppLayoutFixedMenu from './layouts/appLayoutFixedMenu.tsx';
-import GeneralComponents, { AppContext } from './AppGeneralComponents';
+import React, { useState } from 'react';
+import { FixedMenuLayout } from './layouts/FixedMenuLayout';
+import { AppGeneralComponents, AppContext } from './AppGeneralComponents';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
-import { getTheme, theme } from '/imports/materialui/theme';
-import { userAccount } from '/imports/hooks/userAccount';
+import { getTheme } from '/imports/materialui/theme';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
+import { IUserProfile } from '../userprofile/api/UserProfileSch';
+import { useUserAccount } from '../hooks/useUserAccount';
 
 const AppContainer = () => {
-    const { isLoggedIn, user, userLoading } = userAccount();
+	const { isLoggedIn, user, userLoading } = useUserAccount();
 
-    const context = React.useContext(AppContext);
-    const theme = useTheme();
-    return (
-        <AppLayoutFixedMenu
-            {...context}
-            user={user}
-            isLoggedIn={isLoggedIn}
-            userLoading={userLoading}
-            theme={theme}
-        />
-    );
+	const context = React.useContext(AppContext);
+	const theme = useTheme();
+	return (
+		<FixedMenuLayout
+			{...context}
+			user={user as IUserProfile}
+			isLoggedIn={isLoggedIn}
+			userLoading={userLoading}
+			theme={theme}
+		/>
+	);
 };
 
 export const App = () => {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-    const [darkThemeMode, setDarkThemeMode] = React.useState(!!prefersDarkMode);
-    const [fontScale, setFontScale] = React.useState(1);
-    const isMobile = useMediaQuery('(max-width:600px)');
+	const [darkThemeMode, setDarkThemeMode] = useState(!!prefersDarkMode);
+	const [fontScale, setFontScale] = useState(1);
+	const isMobile = useMediaQuery('(max-width:600px)');
 
-    const themeOptions = {
-        darkMode: darkThemeMode,
-        fontScale,
-        isMobile,
-    };
+	const themeOptions = {
+		darkMode: darkThemeMode,
+		fontScale,
+		isMobile
+	};
 
-    return (
-        <ThemeProvider theme={getTheme(themeOptions)}>
-            <CssBaseline enableColorScheme />
-            <GeneralComponents
-                themeOptions={{
-                    isMobile,
-                    setFontScale,
-                    fontScale,
-                    setDarkThemeMode,
-                    isDarkThemeMode: !!darkThemeMode,
-                }}
-            >
-                <AppContainer isMobile={isMobile} />
-            </GeneralComponents>
-        </ThemeProvider>
-    );
+	return (
+		<ThemeProvider theme={getTheme(themeOptions)}>
+			<CssBaseline enableColorScheme />
+			<AppGeneralComponents
+				themeOptions={{
+					setFontScale,
+					fontScale,
+					setDarkThemeMode,
+					isDarkThemeMode: !!darkThemeMode
+				}}>
+				<AppContainer />
+			</AppGeneralComponents>
+		</ThemeProvider>
+	);
 };

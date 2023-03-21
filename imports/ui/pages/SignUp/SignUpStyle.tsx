@@ -14,34 +14,27 @@
 
  */
 
-export const appNavBarStyle = {
-	containerNavBar: {
-		display: 'flex',
-		flexDirection: 'row',
-		width: '100%'
-	},
-	subContainerNavBar: {
+export const signUpStyle = {
+	containerSignUp: {
 		width: '100%',
+		maxWidth: 400
+	},
+	labelRegisterSystem: {
+		textAlign: 'center',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	imageLogo: {
+		maxWidth: 100
+	},
+	containerButtonOptions: {
 		display: 'flex',
 		flexDirection: 'row',
-		paddingTop: 15,
-		paddingRight: 30
+		justifyContent: 'space-around'
 	},
-	buttonMenuItem: {
-		fontWeight: 'normal',
-		fontStretch: 'normal',
-		fontStyle: 'normal',
-		lineHeight: 1.2,
-		letterSpacing: '0.55px',
-		textAlign: 'left',
-		color: '#ffffff',
-		textTransform: 'none'
-	},
-	accountCircle: {
-		color: '#3e6b01'
-	},
-	dropDown: {
-		color: '#ffffff',
-		width: 17
+	containerRouterSignIn: {
+		color: '#444'
 	}
 };
