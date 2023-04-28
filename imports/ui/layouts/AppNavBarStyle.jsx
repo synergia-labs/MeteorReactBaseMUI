@@ -14,40 +14,34 @@
 
  */
 
-const appNavBarStyle = {
-    containerNavBar: {
-        display: 'flex',
-        flexDirection: 'row',
-        width: '100%',
-    },
-    subContainerNavBar: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        paddingTop: 15,
-        paddingRight: 30,
-    },
-    containerAccountCircle: {
-        display: 'flex',
-        flexDirection: 'row',
-    },
-    buttonMenuItem: {
-        fontWeight: 'normal',
-        fontStretch: 'normal',
-        fontStyle: 'normal',
-        lineHeight: 1.2,
-        letterSpacing: '0.55px',
-        textAlign: 'left',
-        color: '#ffffff',
-        textTransform: 'none',
-    },
-    accountCircle: {
-        color: '#3e6b01',
-    },
-    dropDown: {
-        color: '#ffffff',
-        width: 17,
-    },
+export const appNavBarStyle = {
+	containerNavBar: {
+		display: 'flex',
+		flexDirection: 'row',
+		width: '100%'
+	},
+	subContainerNavBar: {
+		width: '100%',
+		display: 'flex',
+		flexDirection: 'row',
+		paddingTop: 15,
+		paddingRight: 30
+	},
+	buttonMenuItem: {
+		fontWeight: 'normal',
+		fontStretch: 'normal',
+		fontStyle: 'normal',
+		lineHeight: 1.2,
+		letterSpacing: '0.55px',
+		textAlign: 'left',
+		color: '#ffffff',
+		textTransform: 'none'
+	},
+	accountCircle: {
+		color: '#3e6b01'
+	},
+	dropDown: {
+		color: '#ffffff',
+		width: 17
+	}
 };
-
-export { appNavBarStyle };

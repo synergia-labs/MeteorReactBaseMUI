@@ -19,8 +19,8 @@ const uploadFilesStyle = {
         padding: '0px 8px',
     },
     containerListReadOnly: {
-        borderRadius: 4,
-        boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
+        borderRadius: 10,
+        // boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
         margin: '10px',
         backgroundColor: 'white',
     },
@@ -56,8 +56,8 @@ const uploadFilesStyle = {
     },
     containerGetListFiles: {
         marginTop: '1rem',
-        borderRadius: 4,
-        boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
+        borderRadius: 10,
+        // boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
         margin: '10px',
         backgroundColor: 'white',
     },

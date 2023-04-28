@@ -11,6 +11,8 @@ class ExampleServerApi extends ProductServerBase<IExample> {
             resources: Recurso,
         });
 
+        const self = this;
+
         this.addTransformedPublication(
             'exampleList',
             (filter = {}) => {
@@ -29,6 +31,36 @@ class ExampleServerApi extends ProductServerBase<IExample> {
         this.addPublication('exampleDetail', (filter = {}) => {
             return this.defaultDetailCollectionPublication(filter, {});
         });
+
+        this.addRestEndpoint(
+            'view',
+            (params, options) => {
+                console.log('Params', params);
+                console.log('options.headers', options.headers);
+                return { status: 'ok' };
+            },
+            ['post']
+        );
+
+        this.addRestEndpoint(
+            'view/:exampleId',
+            (params, options) => {
+                console.log('Rest', params);
+                if (params.exampleId) {
+                    return self
+                        .defaultCollectionPublication({
+                            _id: params.exampleId,
+                        })
+                        .fetch();
+                } else {
+                    return { ...params };
+                }
+            },
+            ['get'],
+            {
+                //authFunction: (_h, _p) => _p.exampleId === 'flkdsajflkasdjflsa',
+            }
+        );
     }
 }
 

@@ -3,6 +3,7 @@ import { getUser } from '/imports/libs/getUser';
 import { IDoc } from '/imports/typings/IDoc';
 import { ISchema } from '/imports/typings/ISchema';
 import { IProductBaseOptions } from '/imports/typings/IBaseOptions';
+import { Meteor } from 'meteor/meteor';
 
 export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
     private enableCallMethodObserver: boolean | undefined;
@@ -17,6 +18,8 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
         if (options && options.enableSubscribeObserver) {
             this.enableSubscribeObserver = true;
         }
+
+        this.getImageThumbnail = this.getImageThumbnail.bind(this);
 
         this.callMethod = this.callMethod.bind(this);
     }
@@ -93,5 +96,13 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
         }
 
         return super.subscribe(api, ...params);
+    }
+
+    getImageThumbnail(field: string, _id: string) {
+        const date = new Date();
+        const path = `${Meteor.absoluteUrl()}thumbnail/${
+            this.collectionName
+        }/${field}/${_id}?date=${date.toISOString()}`;
+        return path;
     }
 }

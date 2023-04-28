@@ -3,15 +3,17 @@ import Chip from '@mui/material/Chip';
 import { hasValue } from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import AddIcon from '@mui/icons-material/Add';
 import { styles } from './ChipInputStyle';
 import _ from 'lodash';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import CloseIcon from '@mui/icons-material/Close';
+import { Typography } from '@mui/material';
+import * as appStyles from '/imports/materialui/styles';
 
 export default ({
     name,
     label,
+    placeholder = 'Selecione',
     value,
     onChange,
     readOnly,
@@ -58,10 +60,13 @@ export default ({
     return (
         <div style={styles.container}>
             <SimpleLabelView style={styles.title} label={label} />
+            <Typography variant="caption1" sx={{ color: appStyles.cinzaEscuro, mb: '0.5rem' }}>
+                Separe as palavras utilizando a tecla Enter
+            </Typography>
             {!readOnly ? (
                 <div style={styles.input}>
                     <TextField
-                        placeholder={otherProps.placeHolder}
+                        placeholder={placeholder}
                         value={chipText}
                         onChange={handleOnChange}
                         onKeyDown={(e) => {
@@ -69,20 +74,28 @@ export default ({
                                 handleInsert(chipText);
                             }
                         }}
+                        sx={{
+                            '& .MuiInputBase-input': {
+                                padding: '0.5rem 0px 0.5rem 15px',
+                                width: '95%',
+                                textOverflow: 'ellipsis',
+                            },
+                        }}
                         InputProps={{
                             ...{ maxLength: 100 },
                             fullWidth: true,
                             classes: { input: 'fullWidth' },
                             onBlur: () => handleInsert(chipText),
                             style: { display: 'block', width: '100%' },
-                            startAdornment: (
+                            endAdornment: (
                                 <div>
                                     {hasValue(value) &&
                                         value.map((chip: string, index) => (
                                             <Chip
                                                 key={chip + index}
-                                                variant="outlined"
+                                                variant="formulario"
                                                 label={chip}
+                                                deleteIcon={<CloseIcon />}
                                                 color={'primary'}
                                                 style={styles.chip}
                                                 onDelete={
@@ -95,9 +108,6 @@ export default ({
                             ),
                         }}
                     />
-                    <IconButton onClick={() => handleInsert(chipText)}>
-                        <AddIcon style={{ fontSize: '2rem' }} color={'primary'} />
-                    </IconButton>
                 </div>
             ) : null}
             <div>
@@ -106,8 +116,9 @@ export default ({
                     value.map((chip: string, index) => (
                         <Chip
                             key={chip + index}
-                            variant="outlined"
+                            variant="formulario"
                             label={chip}
+                            deleteIcon={<CloseIcon />}
                             color={'primary'}
                             style={styles.chip}
                             onDelete={readOnly ? undefined : () => handleDelete(chip)}

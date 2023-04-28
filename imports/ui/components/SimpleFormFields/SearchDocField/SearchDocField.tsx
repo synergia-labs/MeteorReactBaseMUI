@@ -9,7 +9,10 @@ import { Mongo } from 'meteor/mongo';
 import Selector = Mongo.Selector;
 import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 import { SxProps } from '@mui/system';
-import { IDoc } from '/imports/api/IDoc';
+import { IDoc } from '/imports/typings/IDoc';
+import { Popper } from '@mui/material';
+import * as appStyle from '/imports/materialui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {
     api: ApiBase<T>;
@@ -30,6 +33,7 @@ interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {
     showAll?: boolean;
     placeholder?: string;
     showCompletDoc?: boolean;
+    tabValue?: number;
 }
 
 /**
@@ -60,6 +64,7 @@ export default function SearchDocField<T extends IDoc>({
     autoFocus,
     textFieldSx,
     sort,
+    tabValue,
     autocompleteOptions,
     placeholder,
     showAll = false,
@@ -69,6 +74,7 @@ export default function SearchDocField<T extends IDoc>({
 }: SearchDocApiProps<T>) {
     const [docId, setDocId] = useState(value || null);
     const [lastDoc, setLastDoc]: [T | null, Function] = useState(null);
+    const [autocompleteValue, setAutocomplete]: [Partial<T> | null, Function] = useState(null);
     useEffect(() => {
         setDocId(value);
     }, [value]);
@@ -93,9 +99,19 @@ export default function SearchDocField<T extends IDoc>({
         return { loading: !ready, options, valueDoc };
     }, [text, docId, textToQueryFilter]);
 
+    const isMWD1367 = useMediaQuery('(max-width:1367px)');
+
     useEffect(() => {
         onDocLoad(valueDoc, lastDoc);
+        setAutocomplete(valueDoc);
     }, [valueDoc]);
+
+    React.useEffect(() => {
+        setAutocomplete(null);
+        setDocId(null);
+        setLastDoc(null);
+    }, [tabValue]);
+
     const handleChange = (_event: React.BaseSyntheticEvent, doc: T) => {
         setLastDoc(valueDoc);
         setDocId(doc?._id || null);
@@ -112,7 +128,6 @@ export default function SearchDocField<T extends IDoc>({
             );
         }
     };
-    const autocompleteValue = valueDoc || null;
     return (
         <div
             style={
@@ -130,7 +145,7 @@ export default function SearchDocField<T extends IDoc>({
             {label ? <SimpleLabelView label={label} help={help} /> : null}
             <Autocomplete
                 loading={loading}
-                id="free-solo-demo"
+                id="autocomplete"
                 onChange={handleChange}
                 value={autocompleteValue}
                 {...autocompleteOptions}
@@ -140,6 +155,30 @@ export default function SearchDocField<T extends IDoc>({
                 openText={'Abrir'}
                 closeText={'Fechar'}
                 options={options}
+                disablePortal
+                PopperComponent={({ style, ...props }) => (
+                    <Popper {...props} style={{ ...style }} />
+                )}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                sx={{
+                    '& .MuiAutocomplete-inputRoot': {
+                        ...appStyle.corpo1,
+                        background: '#FFFFFF',
+                        height: isMWD1367 ? '44px' : '48.75px',
+                        borderRadius: '10px',
+                        border: '2px solid #E6E6E6',
+                        color: appStyle.corTexto,
+                        '&.Mui-focused': {
+                            border: '2px solid #E6E6E6',
+                        },
+                        '&:hover': {
+                            background: appStyle.backgroundClaro,
+                        },
+                        '& .MuiButtonBase-root': {
+                            marginRight: '8px',
+                        },
+                    },
+                }}
                 renderInput={(params) => (
                     <TextField
                         {...params}

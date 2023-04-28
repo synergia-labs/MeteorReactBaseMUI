@@ -26,8 +26,8 @@ const uploadFilesStyle: {
     },
     containerListReadOnly: {
         width: '100%',
-        borderRadius: 4,
-        boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
+        borderRadius: 10,
+        // boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
         backgroundColor: backgroundColor,
         color: secondaryColor,
     },
@@ -65,9 +65,9 @@ const uploadFilesStyle: {
         color: secondaryColor,
     },
     containerGetListFiles: {
-        borderRadius: 4,
+        borderRadius: 10,
         margin: '0.2rem 0rem',
-        boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
+        // boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
         backgroundColor: backgroundColor,
         color: secondaryColor,
     },

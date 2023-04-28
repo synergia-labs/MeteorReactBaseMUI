@@ -1,20 +1,20 @@
 import React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import Chip from '@mui/material/Chip';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { hasValue } from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import InputBase from '@mui/material/InputBase';
 import * as appStyle from '/imports/materialui/styles';
-import TextField from '@mui/material/TextField';
 import omit from 'lodash/omit';
 import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import { isMobile } from '/imports/libs/deviceVerify';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { Theme } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { TextField } from '@mui/material';
 
 interface IOption {
     value: any;
@@ -74,9 +74,9 @@ export default ({
                             flexDirection: 'row',
                             color: '#222',
                             padding: 5,
-                            height: 35,
-                            marginTop: 4,
+                            flexWrap: 'wrap',
                             marginBottom: 8,
+                            gap: '.3rem',
                         }}
                     >
                         {value === '-'
@@ -90,7 +90,7 @@ export default ({
                                   return (
                                       <Chip
                                           key={'chip' + val + index}
-                                          variant="outlined"
+                                          variant="formulario"
                                           label={
                                               objValue && objValue.label ? objValue.label : objValue
                                           }
@@ -127,7 +127,6 @@ export default ({
                             color: '#222',
                             padding: 5,
                             height: 35,
-                            marginTop: 4,
                             marginBottom: 8,
                         }}
                     >
@@ -150,9 +149,10 @@ export default ({
                 {label && !otherProps.rounded ? (
                     <SimpleLabelView label={label} help={help} />
                 ) : null}
-                <SimpleLabelView
+                <TextField
                     id={name}
                     key={name}
+                    disabled
                     value={
                         value === '-' ? '-' : objValue && objValue.label ? objValue.label : objValue
                     }
@@ -184,14 +184,29 @@ export default ({
     const defaultRenderValue = (values) => {
         if (multiple) {
             return (
-                <div>
+                <Box
+                    style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        width: '100%',
+                        gap: { xs: '.2rem', sm: '.5rem' },
+                    }}
+                >
                     {values.map((value) => (
-                        <Chip key={value} label={getLabelFromValue(value)} />
+                        <Chip key={value} variant="formulario" label={getLabelFromValue(value)} />
                     ))}
-                </div>
+                </Box>
             );
         }
         return <span>{getLabelFromValue(value)}</span>;
+    };
+
+    const singleRenderValue = (value) => {
+        return (
+            <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }}>
+                <Typography>{getLabelFromValue(value)}</Typography>
+            </div>
+        );
     };
 
     return (
@@ -212,6 +227,7 @@ export default ({
 
             <Select
                 displayEmpty
+                variant="filled"
                 labelId={`${label}${name}`}
                 key={{ name }}
                 id={name}
@@ -220,21 +236,32 @@ export default ({
                     ...(style
                         ? style
                         : {
-                              borderColor: '#f2f2f2',
-                              marginTop: 4,
+                              //borderColor: '#black',
                           }),
                     ...{
-                        border: error ? '1px solid #ff0000' : 'undefined',
+                        //border: error ? '1px solid #ff0000' : 'undefined',
                         borderRadius: error ? '4px' : undefined,
                     },
-                    paddingLeft: 15,
+                    //paddingLeft: 15,
                 }}
                 value={hasValue(value) ? value : multiple ? [] : ''}
                 onChange={onChangeSelect}
                 disabled={!!readOnly}
-                input={<InputBase />}
+                //input={<InputBase />}
                 multiple={multiple}
-                renderValue={multiple ? renderValue || defaultRenderValue : undefined}
+                renderValue={(selected: string | string[]) => {
+                    if (selected.length === 0) {
+                        return (
+                            <Typography color={'appStyle.corTexto'} sx={{ opacity: 0.4 }}>
+                                {placeholder ? placeholder : 'Selecione'}
+                            </Typography>
+                        );
+                    }
+
+                    return multiple
+                        ? renderValue || defaultRenderValue(selected)
+                        : singleRenderValue(selected);
+                }}
                 {...omit(otherProps, ['options'])}
             >
                 {menuNone && !multiple && (
@@ -265,6 +292,16 @@ export default ({
                                     checked={hasValue(value) && value.includes(opt.value || opt)}
                                 />
                             )}
+                            {value == opt.value && !multiple && (
+                                <CheckIcon
+                                    sx={{
+                                        color: appStyle.primariaEscura,
+                                        fontSize: '14px',
+                                        marginRight: '0.5rem',
+                                    }}
+                                />
+                            )}
+
                             <ListItemText
                                 primary={opt.label ? opt.label : opt}
                                 secondary={opt.description ? opt.description : ''}

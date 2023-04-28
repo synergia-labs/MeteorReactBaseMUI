@@ -1,4 +1,5 @@
 export interface IBaseOptions {
+    saveImageToDisk?: boolean;
     noImagePath?: string;
     disableDefaultPublications?: boolean;
     resources?: any;
