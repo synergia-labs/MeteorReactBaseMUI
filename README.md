@@ -584,7 +584,7 @@ Vamos às explicações:
 -   **label** nome que representa o componente no layout do sistema.
 -   **doc** recebe o documento que será utilizado para popular os campos do formulário.
 
-**Observação**: Para este componente em específico, a área para upload é renderizada apenas quando o doc passado como referência possui um id. Entretanto, uma vez que foi definido como estratégia original que o id de um documento criado pelo MeteorReactBaseMUI seja instanciado apenas após a submissão do formulário, fizeram-se necessárias adaptações nesta estratégia para que o id gerado fosse fixo e anterior a submissão do formulário. Para tanto, utilizou-se um pacote "shortid" para geração de um id assim que a opção de criar um novo documento em BD for acionado. Em caso de não utilização do componente de UploadFilesCollection, a estratégia original deverá ser mantida.
+**Observação**: Para este componente em específico, a área para upload é renderizada apenas quando o doc passado como referência possui um id. Entretanto, uma vez que foi definido como estratégia original que o id de um documento criado pelo MeteorReactBaseMUI seja instanciado apenas após a submissão do formulário, fizeram-se necessárias adaptações nesta estratégia para que o id gerado fosse fixo e anterior a submissão do formulário. Para tanto, utilizou-se um pacote "nanoid" para geração de um id assim que a opção de criar um novo documento em BD for acionado. Em caso de não utilização do componente de UploadFilesCollection, a estratégia original deverá ser mantida.
 
 ## LAYOUTS E EXIBIÇÃO DO CONTEÚDO
 

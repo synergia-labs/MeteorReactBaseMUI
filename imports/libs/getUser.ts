@@ -1,4 +1,4 @@
-import shortid from 'shortid';
+import { nanoid } from 'nanoid';
 import { Meteor } from 'meteor/meteor';
 import { get, set, Store } from 'idb-keyval';
 import { parse, stringify } from 'zipson';
@@ -55,7 +55,7 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 
         const d = new Date();
         const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
-        const id = connection && connection.id ? simpleDate + connection.id : shortid.generate();
+        const id = connection && connection.id ? simpleDate + connection.id : nanoid();
 
         return {
             email: '',
@@ -66,7 +66,7 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
     } catch (e) {
         const d = new Date();
         const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
-        const id = connection && connection.id ? simpleDate + connection.id : shortid.generate();
+        const id = connection && connection.id ? simpleDate + connection.id : nanoid();
         return {
             id,
             _id: id,

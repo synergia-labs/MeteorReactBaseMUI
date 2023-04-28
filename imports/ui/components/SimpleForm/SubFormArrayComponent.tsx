@@ -5,7 +5,7 @@ import { simpleFormStyle } from '/imports/ui/components/SimpleForm/SimpleFormSty
 import Add from '@mui/icons-material/Add';
 import _ from 'lodash';
 import { hasValue, isBoolean } from '/imports/libs/hasValue';
-import shortid from 'shortid';
+import { nanoid } from 'nanoid';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { ReactSortable } from 'react-sortablejs';
 import IconButton from '@mui/material/IconButton';
@@ -189,7 +189,7 @@ export const SubFormArrayComponent = ({
         const newValue = (value || []).filter((subDoc: { id: any }) => subDoc.id);
 
         newValue.push({
-            id: shortid.generate(),
+            id: nanoid(),
         });
 
         setValue(newValue);
