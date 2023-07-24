@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-$(npm bin)/pretty-quick --staged
+meteor npm run precommit
+
