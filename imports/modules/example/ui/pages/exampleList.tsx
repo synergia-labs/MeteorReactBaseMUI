@@ -11,7 +11,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { initSearch } from '/imports/libs/searchUtils';
 import * as appStyle from '/imports/materialui/styles';
 import { nanoid } from 'nanoid';
-import { PageLayout } from '/imports/ui/layouts/pageLayout';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import SearchDocField from '/imports/ui/components/SimpleFormFields/SearchDocField/SearchDocField';
 import { IDefaultContainerProps, IDefaultListProps, IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
@@ -22,6 +21,7 @@ import { RenderComPermissao } from '/imports/seguranca/ui/components/RenderComPe
 import { showLoading } from '/imports/ui/components/Loading/Loading';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
 import ToggleField from '/imports/ui/components/SimpleFormFields/ToggleField/ToggleField';
+import { PageLayout } from '/imports/ui/layouts/PageLayout';
 
 interface IExampleList extends IDefaultListProps {
 	remove: (doc: IExample) => void;
