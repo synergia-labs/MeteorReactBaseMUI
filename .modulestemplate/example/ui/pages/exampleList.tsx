@@ -11,7 +11,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { initSearch } from '/imports/libs/searchUtils';
 import * as appStyle from '/imports/materialui/styles';
-import shortid from 'shortid';
+import { nanoid } from 'nanoid';
 import { PageLayout } from '/imports/ui/layouts/pageLayout';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import SearchDocField from '/imports/ui/components/SimpleFormFields/SearchDocField/SearchDocField';
@@ -54,7 +54,7 @@ const ExampleList = (props: IExampleList) => {
 		isMobile
 	} = props;
 
-	const idExample = shortid.generate();
+    const idExample = nanoid();
 
 	const onClick = (_event: React.SyntheticEvent, id: string) => {
 		navigate('/example/view/' + id);

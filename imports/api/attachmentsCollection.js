@@ -1,6 +1,6 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 import { Meteor } from 'meteor/meteor';
-import shortid from 'shortid';
+import { nanoid } from 'nanoid';
 
 export let uploadPaths = null;
 if (Meteor.isServer) {
@@ -156,7 +156,7 @@ class AttachmentsCollection {
 
     serverSaveCSVFile = async (file, fileName) => {
         if (Meteor.isServer) {
-            const fileId = shortid.generate();
+            const fileId = nanoid();
             const nameFile = `${fileName ? fileName : fileId}.csv`;
             const fs = require('fs').promises;
             const fileSave = await fs.writeFile(`${uploadPaths}/${nameFile}`, file);

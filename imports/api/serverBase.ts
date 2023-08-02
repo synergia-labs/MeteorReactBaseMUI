@@ -28,7 +28,7 @@ import connectRoute from 'connect-route';
 import fs from 'fs';
 import { uploadPaths } from '/imports/api/attachmentsCollection';
 // @ts-ignore
-import shortid from 'shortid';
+import { nanoid } from 'nanoid';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -477,7 +477,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		const schema = self.schema;
 
 		if (!!self._saveImageToDisk && !doc._id) {
-			doc._id = shortid.generate();
+			doc._id = nanoid();
 		}
 
 		const result = await Promise.all(

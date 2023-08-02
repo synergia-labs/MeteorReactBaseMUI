@@ -1,4 +1,4 @@
-import shortid from 'shortid';
+import { nanoid } from 'nanoid';
 import { Meteor } from 'meteor/meteor';
 import { get, set, Store } from 'idb-keyval';
 import { parse, stringify } from 'zipson';
@@ -51,27 +51,26 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 		if (userProfile) {
 			return userProfile;
 		}
+        const d = new Date();
+        const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
+        const id = connection && connection.id ? simpleDate + connection.id : nanoid();
 
-		const d = new Date();
-		const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
-		const id = connection && connection.id ? simpleDate + connection.id : shortid.generate();
-
-		return {
-			email: '',
-			username: '',
-			_id: id,
-			roles: [EnumUserRoles.PUBLICO]
-		};
-	} catch (e) {
-		const d = new Date();
-		const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
-		const id = connection && connection.id ? simpleDate + connection.id : shortid.generate();
-		return {
-			id,
-			_id: id,
-			roles: [EnumUserRoles.PUBLICO]
-		};
-	}
+        return {
+            email: '',
+            username: '',
+            _id: id,
+            roles: [EnumUserRoles.PUBLICO],
+        };
+    } catch (e) {
+        const d = new Date();
+        const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
+        const id = connection && connection.id ? simpleDate + connection.id : nanoid();
+        return {
+            id,
+            _id: id,
+            roles: [EnumUserRoles.PUBLICO],
+        };
+    }
 };
 
 const SYSTEM_USER: Readonly<{
