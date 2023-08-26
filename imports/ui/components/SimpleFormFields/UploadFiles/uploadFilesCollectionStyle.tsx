@@ -14,63 +14,63 @@
 
  */
 
-import { secondaryColor } from '/imports/materialui/styles';
+import { secondary } from '/imports/materialui/styles';
 
 const backgroundColor = 'rgba(255,255,255,0.3)';
 const uploadFilesStyle: {
-    [key: string]: { [key: string]: React.CSSProperties } | React.CSSProperties;
+	[key: string]: { [key: string]: React.CSSProperties } | React.CSSProperties;
 } = {
-    iconBackgroundColor: backgroundColor,
-    containerList: {
-        padding: '0px 8px',
-    },
-    containerListReadOnly: {
-        width: '100%',
-        borderRadius: 10,
-        // boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
-        backgroundColor: backgroundColor,
-        color: secondaryColor,
-    },
-    containerNoFiles: {
-        maxWidth: '75%',
-        padding: '0.15rem',
-        color: secondaryColor,
-    },
-    containerDropzone: {
-        width: '100%',
-        padding: '1rem 2rem',
-        textAlign: 'center',
-        cursor: 'pointer',
-    },
-    containerStatusUpload: {
-        width: '100%',
-    },
-    containerUploadFiles: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    containerShowFiles: {
-        width: '100%',
-    },
-    subContainerShowFiles: {
-        // padding: 10,
-        // backgroundColor: '#EEE',
-    },
-    containerGetConteudoDropzone: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        backgroundColor: backgroundColor,
-        color: secondaryColor,
-    },
-    containerGetListFiles: {
-        borderRadius: 10,
-        margin: '0.2rem 0rem',
-        // boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
-        backgroundColor: backgroundColor,
-        color: secondaryColor,
-    },
+	iconBackgroundColor: backgroundColor,
+	containerList: {
+		padding: '0px 8px'
+	},
+	containerListReadOnly: {
+		width: '100%',
+		borderRadius: 4,
+		boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
+		backgroundColor: backgroundColor,
+		color: secondary
+	},
+	containerNoFiles: {
+		maxWidth: '75%',
+		padding: '0.15rem',
+		color: secondary
+	},
+	containerDropzone: {
+		width: '100%',
+		padding: '1rem 2rem',
+		textAlign: 'center',
+		cursor: 'pointer'
+	},
+	containerStatusUpload: {
+		width: '100%'
+	},
+	containerUploadFiles: {
+		flex: 1,
+		flexDirection: 'column'
+	},
+	containerShowFiles: {
+		width: '100%'
+	},
+	subContainerShowFiles: {
+		// padding: 10,
+		// backgroundColor: '#EEE',
+	},
+	containerGetConteudoDropzone: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexWrap: 'wrap',
+		backgroundColor: backgroundColor,
+		color: secondary
+	},
+	containerGetListFiles: {
+		borderRadius: 4,
+		margin: '0.2rem 0rem',
+		boxShadow: '0px 1px 4px 1px rgba(0, 0, 0, 0.25)',
+		backgroundColor: backgroundColor,
+		color: secondary
+	}
 };
 
 export { uploadFilesStyle };

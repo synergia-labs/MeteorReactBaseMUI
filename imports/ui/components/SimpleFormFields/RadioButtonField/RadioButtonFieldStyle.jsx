@@ -21,7 +21,7 @@ const radioButtonStyle = {
     radio: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'left',
     },
 };
 

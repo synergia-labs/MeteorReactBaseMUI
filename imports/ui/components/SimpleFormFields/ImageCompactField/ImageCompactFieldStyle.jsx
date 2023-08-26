@@ -26,9 +26,6 @@ const compactImageStyle = {
         justifyContent: 'center',
         alignItems: 'center',
         flexWrap: 'wrap',
-        border: '1px dashed #BDBDBD',
-        borderRadius: '10px',
-        marginTop: '4px',
     },
     containerDropzone: {
         width: '100%',

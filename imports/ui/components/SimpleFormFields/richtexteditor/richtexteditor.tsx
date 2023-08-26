@@ -1,181 +1,132 @@
-import './quill.bubble.css';
+import ReactQuill, { Quill } from 'react-quill'; // ES6
+import './quill.snow.css';
 import React from 'react';
-import Quill from 'quill';
-import IconButton from '@mui/material/IconButton';
-import Edit from '@mui/icons-material/Edit'; // ES6
-import Save from '@mui/icons-material/Save'; // ES6
-import Cancel from '@mui/icons-material/Cancel';
-import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent'; // ES6
+import { hasValue } from '../../../../libs/hasValue';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
-var Delta = Quill.import('delta');
+import { richtextStyle } from './richtexteditorStyle';
 
-const toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-    ['blockquote', 'code-block'],
+// configure Quill to use inline styles so the email's format properly
+const DirectionAttribute = Quill.import('attributors/attribute/direction');
+Quill.register(DirectionAttribute, true);
 
-    [{ header: 1 }, { header: 2 }], // custom button values
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-    [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-    [{ direction: 'rtl' }], // text direction
+const AlignClass = Quill.import('attributors/class/align');
+Quill.register(AlignClass, true);
 
-    [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+const BackgroundClass = Quill.import('attributors/class/background');
+Quill.register(BackgroundClass, true);
 
-    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-    [{ font: [] }],
-    [{ align: [] }],
+const ColorClass = Quill.import('attributors/class/color');
+Quill.register(ColorClass, true);
 
-    ['clean'], // remove formatting button
-];
+const DirectionClass = Quill.import('attributors/class/direction');
+Quill.register(DirectionClass, true);
 
-export const RichTextEditorField = ({
-    name,
-    label,
-    value,
-    onChange,
-    readOnly,
-    error,
-    placeholder,
-    onEdit,
-    onCloseEdit,
-}: IBaseSimpleFormComponent) => {
-    const [state, setState] = React.useState('view');
-    const [data, setData] = React.useState(
-        value
-            ? value
-            : {
-                  text: placeholder || 'Digite seu texto aqui',
-                  html: `<p>${placeholder || 'Digite seu texto aqui'}</p>`,
-              }
-    );
-    const [quill, setQuill] = React.useState();
-    const [trackChanges, setTrackChanges] = React.useState({
-        changes: new Delta(),
-    });
+const FontClass = Quill.import('attributors/class/font');
+Quill.register(FontClass, true);
 
-    React.useEffect(() => {
-        if (state === 'view') return;
-        const editorContainer = document.getElementById('editor_' + name);
-        editorContainer.innerHTML = data.html;
-        const newQuill = new Quill('#editor_' + name, {
-            modules: {
-                toolbar: toolbarOptions,
-            },
-            theme: 'bubble',
-            bounds: '#editor_' + name,
-        });
+const SizeClass = Quill.import('attributors/class/size');
+Quill.register(SizeClass, true);
 
-        // Store accumulated changes
-        newQuill.on('text-change', function (delta) {
-            trackChanges.changes = trackChanges.changes.compose(delta);
-        });
+const AlignStyle = Quill.import('attributors/style/align');
+AlignStyle.whitelist = null; // All formats
+Quill.register(AlignStyle, true);
 
-        setQuill(newQuill);
+const BackgroundStyle = Quill.import('attributors/style/background');
+BackgroundStyle.whitelist = null; // All formats
+Quill.register(BackgroundStyle, true);
 
-        return () => {
-            //Ao desmontar o componente
-            if (trackChanges.changes.length() > 0) {
-                alert('As alterações não salvas serão perdidas...');
-            }
-        };
-    }, [state]);
+const ColorStyle = Quill.import('attributors/style/color');
+ColorStyle.whitelist = null; // All formats
+Quill.register(ColorStyle, true);
 
-    const handleCancel = () => {
-        trackChanges.changes = new Delta();
-        setState('view');
-        onCloseEdit && onCloseEdit();
-    };
+const DirectionStyle = Quill.import('attributors/style/direction');
+DirectionStyle.whitelist = null; // All formats
+Quill.register(DirectionStyle, true);
 
-    const handleSave = () => {
-        trackChanges.changes = new Delta();
-        const value = {
-            text: quill.getText(),
-            html: quill.root.innerHTML + '',
-            //contents:quill.getContents()
-        };
-        setData(value);
-        setState('view');
-        onCloseEdit && onCloseEdit();
-        onChange({ target: { name, value } }, { name, value });
-    };
+const FontStyle = Quill.import('attributors/style/font');
+FontStyle.whitelist = null; // All formats
+Quill.register(FontStyle, true);
 
-    if (state === 'view' || readOnly) {
-        return (
-            <div
-                style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '100%',
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                }}
-            >
-                <div
-                    className={'ql-container ql-bubble ql-editor'}
-                    dangerouslySetInnerHTML={{ __html: data.html }}
-                />
-                {!readOnly && (
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <IconButton
-                            style={{ width: 20, height: 20 }}
-                            onClick={() => {
-                                setState('edit');
-                                onEdit && onEdit();
-                            }}
-                        >
-                            <Edit style={{ fontSize: 20 }} />
-                        </IconButton>
-                    </div>
-                )}
-            </div>
-        );
-    } else {
-        return (
-            <div
-                style={{
-                    position: 'relative',
-                    height: '100%',
-                    width: '100%',
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                }}
-            >
-                <div
-                    id={'editor_' + name}
-                    key={name}
-                    style={{
-                        height: '100%',
-                        width: '100%',
-                    }}
-                >
-                    <p>Hello World!</p>
-                </div>
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        display: 'flex',
-                        flexDirection: 'column',
-                    }}
-                >
-                    <IconButton onClick={handleSave} style={{ width: 20, height: 20 }}>
-                        <Save style={{ fontSize: 20 }} />
-                    </IconButton>
-                    <IconButton onClick={handleCancel} style={{ width: 20, height: 20 }}>
-                        <Cancel style={{ fontSize: 20 }} />
-                    </IconButton>
-                </div>
-            </div>
-        );
-    }
+const SizeStyle = Quill.import('attributors/style/size');
+SizeStyle.whitelist = null; // All formats...['10pt','14pt', '16pt', '18pt'];
+Quill.register(SizeStyle, true);
+
+// Add fonts to whitelist
+const Font = Quill.import('formats/font');
+// We do not add Sans Serif since it is the default
+Font.whitelist = null; // ['Arial, sans-serif','Currier New'];
+Quill.register(Font, true);
+
+const modules = {
+	toolbar: '#toolbar-container'
+};
+
+export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFormComponent) => {
+	if (readOnly) {
+		return (
+			<>
+				<SimpleLabelView label={label} disabled={readOnly} />
+				<div dangerouslySetInnerHTML={{ __html: value }} />
+			</>
+		);
+	}
+
+	const callOnChange = (htmlText, QuillData, QA, QB) => {
+		onChange({ name, target: { name, value: htmlText } }, { name, value: htmlText });
+	};
+
+	return (
+		<>
+			{hasValue(label) ? <label>{label}</label> : null}
+			<div id="toolbar-container">
+				<span className="ql-formats">
+					<select className="ql-font" style={richtextStyle.containerQLFont}>
+						<option selected>Times New Roman,serif</option>
+						<option value="Arial, sans-serif">Arial, sans-serif</option>
+						<option value="Courier New">Courier New</option>
+					</select>
+					<select className="ql-size">
+						<option value="10pt">Pequeno</option>
+						<option value="14pt" selected>
+							Normal
+						</option>
+						<option value="16pt">Grande</option>
+						<option value="20pt">Muito Grande</option>
+					</select>
+				</span>
+				<span className="ql-formats">
+					<button className="ql-bold" />
+					<button className="ql-italic" />
+					<button className="ql-underline" />
+					<button className="ql-strike" />
+				</span>
+				<span className="ql-formats">
+					<select className="ql-color" />
+					<select className="ql-background" />
+				</span>
+				<span className="ql-formats">
+					<button className="ql-script" value="sub" />
+					<button className="ql-script" value="super" />
+				</span>
+				<span className="ql-formats">
+					<button className="ql-list" value="ordered" />
+					<button className="ql-list" value="bullet" />
+					<button className="ql-indent" value="-1" />
+					<button className="ql-indent" value="+1" />
+				</span>
+				<span className="ql-formats">
+					<button className="ql-direction" value="rtl" />
+					<select className="ql-align" />
+				</span>
+			</div>
+			<ReactQuill
+				name={name}
+				theme="snow"
+				value={Array.isArray(value) ? value.join('<br/>') : value}
+				onChange={callOnChange}
+				modules={modules}
+			/>
+		</>
+	);
 };

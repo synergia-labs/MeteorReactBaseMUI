@@ -948,7 +948,7 @@ UploadImage.defaultProps = {
         label: 'Selecione ou solte seu arquivo aqui.',
         arquivosRejeitados:
             'Tipos de arquivos permitidos: .xlsx, .xls,' +
-            ' .jpeg, .png, .jpg, .svg, .bmp, .gif, .doc, .docx, .odt, .ods, .txt, .logsCsv' +
+            ' .jpeg, .png, .jpg, .svg, .bmp, .gif, .doc, .docx, .odt, .ods, .txt, .csv' +
             ' .pdf, .zip, .rar, .gz.',
         tabelaVazia: 'Tabela vazia',
     },

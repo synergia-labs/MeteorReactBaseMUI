@@ -208,25 +208,25 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
 		switch (type.base) {
 			case 'text':
-				return <LibraryBooks style={{ color: appStyle.darkElements }} />;
+				return <LibraryBooks style={{ color: appStyle.secondaryOnHover }} />;
 			case 'audio':
-				return <LibraryMusic style={{ color: appStyle.darkElements }} />;
+				return <LibraryMusic style={{ color: appStyle.secondaryOnHover }} />;
 			case 'image':
-				return <Image style={{ color: appStyle.darkElements }} />;
+				return <Image style={{ color: appStyle.secondaryOnHover }} />;
 			case 'video':
-				return <VideoLibrary style={{ color: appStyle.darkElements }} />;
+				return <VideoLibrary style={{ color: appStyle.secondaryOnHover }} />;
 
 			case 'application':
 				if (type.fileType === 'pdf') {
-					return <Book style={{ color: appStyle.darkElements }} />;
+					return <Book style={{ color: appStyle.secondaryOnHover }} />;
 				}
 				if (type.fileType.indexOf('msword') !== -1) {
-					return <Book style={{ color: appStyle.darkElements }} />;
+					return <Book style={{ color: appStyle.secondaryOnHover }} />;
 				}
-				return <AttachFile style={{ color: appStyle.darkElements }} />;
+				return <AttachFile style={{ color: appStyle.secondaryOnHover }} />;
 
 			default:
-				return <AttachFile style={{ color: appStyle.darkElements }} />;
+				return <AttachFile style={{ color: appStyle.secondaryOnHover }} />;
 		}
 	};
 
@@ -388,7 +388,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 											color={item.status && item.status === 'InProgress' ? 'secondary' : 'primary'}
 											classes={
 												item.status && item.status === 'InProgress'
-													? { barColorSecondary: appStyle.textSecondary }
+													? { barColorSecondary: appStyle.onBackground }
 													: undefined
 											}
 											variant="determinate"
@@ -411,14 +411,14 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 						/>
 						<Tooltip title={'Fazer download'}>
 							<IconButton>
-								<FileDownloadIcon sx={{ color: appStyle.darkElements }} />
+								<FileDownloadIcon sx={{ color: appStyle.secondaryOnHover }} />
 							</IconButton>
 						</Tooltip>
 					</ListItem>
 				);
 			})
 		) : (
-			<Box style={uploadFilesStyle.containerNoFiles}>{'Não há arquivos'}</Box>
+			<Box sx={uploadFilesStyle.containerNoFiles}>{'Não há arquivos'}</Box>
 		);
 
 	getList = () =>
@@ -463,7 +463,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 												classes={
 													item.status && item.status === 'InProgress'
 														? {
-																barColorSecondary: appStyle.textSecondary
+																barColorSecondary: appStyle.onBackground
 														  }
 														: undefined
 												}
@@ -487,7 +487,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 							/>
 							<Tooltip title={'Cancelar'}>
 								<IconButton onClick={() => this.excluirArquivo(item.id)}>
-									<ClearIcon sx={{ color: appStyle.darkElements }} />
+									<ClearIcon sx={{ color: appStyle.secondaryOnHover }} />
 								</IconButton>
 							</Tooltip>
 						</ListItem>
@@ -495,7 +495,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 			  })
 			: null;
 
-	getConteudoDropzoneEmUpload = () => <Box style={uploadFilesStyle.containerStatusUpload}>{'Enviando'}</Box>;
+	getConteudoDropzoneEmUpload = () => <Box sx={uploadFilesStyle.containerStatusUpload}>{'Enviando'}</Box>;
 
 	getConteudoDropzone = (getRootProps: any, getInputProps: any, isDragActive: boolean) => (
 		<Box
@@ -514,7 +514,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 					alignItems: 'center',
 					color: '#858585'
 				}}>
-				<Box style={{ textAlign: 'center' }}>
+				<Box sx={{ textAlign: 'center' }}>
 					<Box
 						sx={{
 							display: 'flex',
@@ -713,12 +713,12 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 					...uploadFilesStyle.containerUploadFiles,
 					backgroundColor: this.props.error ? '#FFF6F6' : undefined
 				}}>
-				<SimpleLabelView label={this.props.label} help={this.props.help} />
+				<SimpleLabelView label={this.props.label} help={this.props.help} disabled={this.props.readOnly} />
 				{this.props.readOnly ? (
-					<Box style={uploadFilesStyle.containerListReadOnly}>{this.getListReadOnly()}</Box>
+					<Box sx={uploadFilesStyle.containerListReadOnly}>{this.getListReadOnly()}</Box>
 				) : (
-					<Box style={uploadFilesStyle.containerShowFiles}>
-						<Box style={uploadFilesStyle.subContainerShowFiles}>
+					<Box sx={uploadFilesStyle.containerShowFiles}>
+						<Box sx={uploadFilesStyle.subContainerShowFiles}>
 							{!!this.state.msgError && (
 								<Snackbar
 									anchorOrigin={{
@@ -767,7 +767,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 											border: this.props.error
 												? '1px dashed red'
 												: isDragActive
-												? `1px dashed ${appStyle.textSecondary}`
+												? `1px dashed ${appStyle.onBackground}`
 												: '1px dashed rgb(189, 189, 189)'
 										}}>
 										<Box />
@@ -779,7 +779,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 							</Dropzone>
 						</Box>
 						{this.state.links.length > 0 ? (
-							<Box style={uploadFilesStyle.containerGetListFiles}>{this.getList()}</Box>
+							<Box sx={uploadFilesStyle.containerGetListFiles}>{this.getList()}</Box>
 						) : null}
 					</Box>
 				)}

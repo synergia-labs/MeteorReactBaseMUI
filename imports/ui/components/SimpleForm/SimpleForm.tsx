@@ -13,9 +13,10 @@ import { FieldComponent } from '/imports/ui/components/SimpleForm/FieldComponent
 import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
 
 export interface IElementProps {
-	id: string;
+	id?: string;
 	name: string;
 	type: any;
+	ref?: any;
 	mode?: string;
 	formType: string;
 	children: React.ElementType | React.ReactNode | React.ReactNode[];
@@ -29,6 +30,7 @@ export interface IElementProps {
 
 interface ISubFormComponent {
 	id?: string;
+	ref?: any;
 	reactElement: React.ReactElement<any>;
 	childrensElements: React.ReactNode | React.ReactNode[] | undefined | null;
 	name: string;
@@ -58,7 +60,6 @@ const SubFormComponent = ({ reactElement, childrensElements, name, ...props }: I
 
 		if (mode !== props.mode) {
 			setMode(props.mode);
-
 			if (props.mode === 'view') {
 				setChangeByUser(false);
 			}
@@ -177,6 +178,7 @@ interface ISimpleFormProps {
 	/**
 	 * If true, dont reload(reset) form with props.doc values in view mode (except if props.doc change)
 	 */
+	ref?: any;
 	dontReloadOnView?: boolean;
 	errorStyles?: object;
 	children?: object[] | object | undefined | null;
@@ -184,9 +186,10 @@ interface ISimpleFormProps {
 	isSubForm?: boolean;
 	loading?: boolean | null;
 	mode?: string;
+	validaImportacao?: boolean;
 	schema?: [] | {};
 	styles?: object;
-	onFormChange?: (onChange: () => void) => void;
+	onFormChange?: any;
 	onSubmit?: (submit: any) => void;
 	showNotification?: (data: { type: string; title: string; description: string }) => void;
 }
@@ -198,8 +201,10 @@ class SimpleForm extends Component<ISimpleFormProps> {
 	state = {
 		error: null,
 		mode: this.props.mode || 'edit',
-		open: true
+		open: true,
+		validaImportacao: false
 	};
+	fieldsRequired = false;
 
 	clearForm = () => {
 		const self = this;
@@ -290,14 +295,40 @@ class SimpleForm extends Component<ISimpleFormProps> {
 		}
 	};
 
+	formataData = (dataEntrada: Date) => {
+		const data = new Date(dataEntrada);
+		const ano = data.getFullYear();
+		const mes = ('0' + (data.getMonth() + 1)).slice(-2);
+		const dia = ('0' + data.getDate()).slice(-2);
+		return `${ano}-${mes}-${dia}`;
+	};
+
 	private _computeRequiredFields() {
-		let fieldsRequired = true;
-		Object.keys(this.fields).forEach((field) => {
-			if (this.props.schema[field] && !this.props.schema[field].optional && !hasValue(this.docValue[field])) {
-				fieldsRequired = false;
+		if (this.state.mode === 'edit') {
+			let fieldsRequired = true;
+			for (let field of Object.keys(this.fields)) {
+				if (this.props.schema[field] && !this.props.schema[field].optional) {
+					if (
+						!hasValue(this.docValue[field]) &&
+						this.docValue[field] !== 0 &&
+						typeof this.docValue[field] !== 'boolean'
+					) {
+						fieldsRequired = false;
+					}
+					//TO-DO: tratar quando for data.
+				}
 			}
-		});
-		this.fieldsRequired = fieldsRequired;
+			this.fieldsRequired = fieldsRequired;
+		} else {
+			let fieldsRequired = true;
+			for (let field of Object.keys(this.fields)) {
+				if (this.props.schema[field] && !this.props.schema[field].optional && !hasValue(this.docValue[field])) {
+					fieldsRequired = false;
+					break;
+				}
+			}
+			this.fieldsRequired = fieldsRequired;
+		}
 	}
 
 	getDoc = () => this.docValue;
@@ -552,6 +583,20 @@ class SimpleForm extends Component<ISimpleFormProps> {
 		const isDocDifferent = !_.isEqual(this.props.doc, prevProps.doc);
 		const isModeDifferent = this.props.mode !== prevProps.mode;
 
+		if (this.state.mode === 'edit') {
+			if (prevProps.validaImportacao !== this.props.validaImportacao) {
+				this.setState({ validaImportacao: this.props.validaImportacao });
+				let fieldsRequired = true;
+				Object.keys(this.fields).forEach((field) => {
+					if (this.props.schema[field] && !this.props.schema[field].optional && !hasValue(this.docValue[field])) {
+						fieldsRequired = false;
+						return;
+					}
+				});
+				this.fieldsRequired = fieldsRequired;
+			}
+		}
+
 		if (isDocDifferent || isModeDifferent || !_.isEqual(this.props.children, prevProps.children)) {
 			const update = true;
 			const reloadDocOnView =
@@ -596,7 +641,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 									marginTop: '0.8rem'
 								}
 							}>
-							<Typography color="#FF1010" variant="corpo1">
+							<Typography color="#FF1010" variant="subtitle2">
 								{'Há campos obrigatórios não preenchidos'}
 							</Typography>
 						</div>

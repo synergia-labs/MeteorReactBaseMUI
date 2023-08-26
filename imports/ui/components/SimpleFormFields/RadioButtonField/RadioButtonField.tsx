@@ -10,108 +10,78 @@ import * as appStyle from '/imports/materialui/styles';
 import { radioButtonStyle } from './RadioButtonFieldStyle';
 
 import { Typography } from '@mui/material';
-import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 export default ({
-    name,
-    label,
-    value,
-    onChange,
-    readOnly,
-    schema,
-    error,
-    help,
-    ...otherProps
+	name,
+	label,
+	value,
+	onChange,
+	readOnly,
+	schema,
+	error,
+	help,
+	...otherProps
 }: IBaseSimpleFormComponent) => {
-    const list =
-        otherProps.options && hasValue(otherProps.options)
-            ? otherProps.options
-            : schema && hasValue(schema.options)
-            ? schema.options
-            : null;
+	const list =
+		otherProps.options && hasValue(otherProps.options)
+			? otherProps.options
+			: schema && hasValue(schema.options)
+			? schema.options
+			: null;
 
-    const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
-        onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck });
-    };
+	const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
+		onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck });
+	};
 
-    const valueRadio = Array.isArray(value) ? value[0] && value[0] : value;
+	const valueRadio = Array.isArray(value) ? value[0] && value[0] : value;
 
-    return (
-        <FormControl
-            component="fieldset"
-            style={{
-                ...(error ? radioButtonStyle.fieldError : {}),
-                ...appStyle.fieldContainer,
-            }}
-        >
-            {label ? <SimpleLabelView label={label} help={help} /> : null}
-            {!readOnly && list ? (
-                <RadioGroup
-                    id="radioGroup"
-                    value={valueRadio}
-                    onChange={handleChangeCheck}
-                    style={radioButtonStyle.radio}
-                >
-                    {list.map((itemCheck, index) => (
-                        <FormControlLabel
-                            key={itemCheck.value}
-                            value={itemCheck.value}
-                            id={itemCheck.value}
-                            label={itemCheck.label}
-                            sx={{ color: appStyle.corTexto }}
-                            control={
-                                <Radio
-                                    key={`${index}`}
-                                    color="primary"
-                                    size="small"
-                                    inputProps={{ 'aria-label': itemCheck.label }}
-                                    sx={{
-                                        ...appStyle.corpo1,
-                                    }}
-                                />
-                            }
-                        />
-                    ))}
-                </RadioGroup>
-            ) : list ? (
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        flexWrap: 'wrap',
-                        width: '100%',
-                    }}
-                >
-                    {list
-                        .filter(
-                            (itemCheck) =>
-                                !!value && (value === itemCheck || value === itemCheck.value)
-                        )
-                        .map((itemCheck, index) => (
-                            <div
-                                key={`${index}`}
-                                style={{
-                                    color:
-                                        value !== itemCheck && value !== itemCheck.value
-                                            ? '#999'
-                                            : undefined,
-                                    display: 'flex',
-                                }}
-                            >
-                                {value === itemCheck || value === itemCheck.value ? (
-                                    <Check style={{ paddingRight: 10 }} />
-                                ) : (
-                                    ''
-                                )}
-                                <Typography component={'p'}>
-                                    {itemCheck.label || itemCheck}
-                                </Typography>
-                            </div>
-                        ))}
-                </div>
-            ) : null}
-        </FormControl>
-    );
+	return (
+		<FormControl
+			component="fieldset"
+			style={{
+				...(error ? radioButtonStyle.fieldError : {}),
+				...appStyle.fieldContainer
+			}}>
+			{label ? <SimpleLabelView label={label} help={help} disabled={readOnly} /> : null}
+			{!readOnly && list ? (
+				<RadioGroup id="radioGroup" value={valueRadio} onChange={handleChangeCheck} style={radioButtonStyle.radio}>
+					{list.map((itemCheck, index) => (
+						<FormControlLabel
+							key={itemCheck.value}
+							value={itemCheck.value}
+							id={itemCheck.value}
+							label={itemCheck.label}
+							control={
+								<Radio key={`${index}`} color="secondary" size="small" inputProps={{ 'aria-label': itemCheck.label }} />
+							}
+						/>
+					))}
+				</RadioGroup>
+			) : list ? (
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'flex-start',
+						flexWrap: 'wrap',
+						width: '100%'
+					}}>
+					{list
+						.filter((itemCheck) => !!value && (value === itemCheck || value === itemCheck.value))
+						.map((itemCheck, index) => (
+							<div
+								key={`${index}`}
+								style={{
+									color: value !== itemCheck && value !== itemCheck.value ? '#999' : undefined,
+									display: 'flex'
+								}}>
+								{value === itemCheck || value === itemCheck.value ? <Check style={{ paddingRight: 10 }} /> : ''}
+								<Typography component={'p'}>{itemCheck.label || itemCheck}</Typography>
+							</div>
+						))}
+				</div>
+			) : null}
+		</FormControl>
+	);
 };

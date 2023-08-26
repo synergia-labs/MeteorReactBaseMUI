@@ -4,18 +4,15 @@ import { hasValue } from '../libs/hasValue';
 import { getUser } from '/imports/libs/getUser';
 import { Mongo, MongoInternals } from 'meteor/mongo';
 import { ClientSession, MongoClient } from 'mongodb';
-
 import { Meteor, Subscription } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
-import { IDoc } from '../typings/IDoc';
-import { ISchema } from '../typings/ISchema';
-import { IContext } from '../typings/IContext';
+import { IDoc } from '../../shared/typings/IDoc';
+import { ISchema } from '../../shared/typings/ISchema';
+import { IContext } from '../../shared/typings/IContext';
 import sharp from 'sharp';
-import { IBaseOptions } from '/imports/typings/IBaseOptions';
 import { countsCollection } from '/imports/api/countCollection';
 import { Validador } from '/imports/libs/Validador';
-import { IConnection } from '/imports/typings/IConnection';
-import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
+import { IConnection } from '../../shared/typings/IConnection';
 import Selector = Mongo.Selector;
 import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
 import { WebApp } from 'meteor/webapp';
@@ -25,10 +22,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 // @ts-ignore
 import connectRoute from 'connect-route';
-import fs from 'fs';
-import { uploadPaths } from '/imports/api/attachmentsCollection';
-// @ts-ignore
-import { nanoid } from 'nanoid';
+import { IBaseOptions } from '/shared/typings/IBaseOptions';
+import { IUserProfile } from '/shared/modules/userProfile/userProfileSch';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -52,7 +47,9 @@ interface IMongoOptions<T> extends Mongo.Options<T> {
 interface IApiRestImage {
 	addRoute: (path: string, handle: any) => void;
 	addThumbnailRoute: (path: string, handle: any) => void;
-	addContentImageRoute: (path: string, handle: any) => void;
+}
+interface IApiRestAudio {
+	addRoute: (path: string, handle: any) => void;
 }
 
 type IPublication = {
@@ -65,21 +62,15 @@ type IResponse = {
 
 // region Base Model
 export class ServerApiBase<Doc extends IDoc> {
-	_saveImageToDisk?: boolean;
-	imgPathFolderName?: string;
-	_imgPath?: string;
-
 	noImagePath?: string;
 	publications: IPublication;
 	restApi = {};
 	schema: ISchema<Doc>;
 	collectionName: string | null;
 	counts: Mongo.Collection<any>;
-	apiRestImage?: {
-		addRoute: (path: string, handle: any) => void;
-		addThumbnailRoute: (path: string, handle: any) => void;
-	};
-	auditFields = ['createdby', 'createdat', 'lastupdate', 'updatedby'];
+	apiRestImage?: IApiRestImage | undefined;
+	apiRestAudio?: IApiRestAudio | undefined;
+	auditFields = ['createdby', 'createdat', 'lastupdate', 'updatedby', 'sincronizadoEm', 'idAparelho'];
 	defaultResources?: any;
 	// @ts-ignore
 	collectionInstance: Mongo.Collection<any>;
@@ -92,17 +83,6 @@ export class ServerApiBase<Doc extends IDoc> {
 	 */
 	constructor(apiName: string, apiSch: ISchema<Doc>, options?: IBaseOptions) {
 		options = { ...defaultOptions, ...options };
-
-		this._saveImageToDisk = !!options.saveImageToDisk;
-
-		if (this._saveImageToDisk) {
-			this.imgPathFolderName = 'img' + apiName;
-			this._imgPath = uploadPaths + '/' + this.imgPathFolderName;
-
-			if (!fs.existsSync(this._imgPath)) {
-				fs.mkdirSync(this._imgPath, { recursive: true });
-			}
-		}
 
 		this.defaultResources = options?.resources;
 		this.noImagePath = options?.noImagePath;
@@ -128,11 +108,9 @@ export class ServerApiBase<Doc extends IDoc> {
 		this._executarTransacao = this._executarTransacao.bind(this);
 
 		//**API REST**
-		this._prepareOrUpdateDoc = this._prepareOrUpdateDoc.bind(this);
-		this._convertAndSaveImg = this._convertAndSaveImg.bind(this);
 		this.addRestEndpoint = this.addRestEndpoint.bind(this);
 		this.initApiRest = this.initApiRest.bind(this);
-		this.createAPIRESTForLoadIMGFromDisk = this.createAPIRESTForLoadIMGFromDisk.bind(this);
+		this.createAPIRESTForAudioFields = this.createAPIRESTForAudioFields.bind(this);
 		this.createAPIRESTForIMGFields = this.createAPIRESTForIMGFields.bind(this);
 		this.createAPIRESTThumbnailForIMGFields = this.createAPIRESTThumbnailForIMGFields.bind(this);
 
@@ -176,6 +154,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		this.beforeUpsert = this.beforeUpsert.bind(this);
 
 		this.serverGetDocs = this.serverGetDocs.bind(this);
+		this.exportCollection = this.exportCollection.bind(this);
 
 		this.findOne = this.findOne.bind(this);
 		this.find = this.find.bind(this);
@@ -184,10 +163,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		this.initApiRest();
 		this.registerPublications(options);
 		this.registerAllMethods();
-		if (this._saveImageToDisk) {
-			this.createAPIRESTForLoadIMGFromDisk();
-		}
-
+		this.createAPIRESTForAudioFields();
 		this.createAPIRESTForIMGFields();
 		this.createAPIRESTThumbnailForIMGFields(sharp);
 	}
@@ -279,14 +255,12 @@ export class ServerApiBase<Doc extends IDoc> {
 				let schemaData: any;
 				schemaData = schema[key];
 				if (
-					!this._saveImageToDisk &&
 					schemaData.isImage &&
 					(!hasValue(data) || (hasValue(data) && data?.indexOf('data:image') === -1)) &&
-					data !== '-' &&
-					data !== ''
+					data !== '-'
 				) {
 					// dont update if not have value field of image
-				} else if (schema[key].isImage && (data === '-' || !hasValue(data))) {
+				} else if (schema[key].isImage && data === '-') {
 					newDataObj[key] = null;
 				} else if (hasValue(data) && schema[key] && schema[key].type === Number) {
 					newDataObj[key] = Number(data);
@@ -309,6 +283,8 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		});
 
+		if (_docObj.sincronizadoEm) newDataObj.sincronizadoEm = _docObj.sincronizadoEm;
+
 		return newDataObj;
 	};
 
@@ -323,18 +299,26 @@ export class ServerApiBase<Doc extends IDoc> {
 		const schemaKeys = Object.keys(schema);
 		const newDataObj = this._prepareData(_docObj);
 		const objForCheck = { ...newDataObj };
-
 		// Don't need to inform every field, but if they was listed
 		// or informed, they can't be null.it
 		const keysOfDataObj = Object.keys(newDataObj);
-		const newSchema = {};
+		const newSchema: { [key: string]: any } = {};
 
 		// Remove from the Schema the optional fields not present in the DataObj.
 		schemaKeys.forEach((field) => {
-			if (schema[field].visibilityFunction && !schema[field].visibilityFunction!(newDataObj)) {
+			if (
+				fieldsNamesIgnoreCheck.indexOf(field) !== -1 ||
+				(schema[field].visibilityFunction && !schema[field].visibilityFunction!(newDataObj))
+			) {
+				delete objForCheck[field];
+				return;
+			} else if (schema[field].visibilityFunction && !schema[field].visibilityFunction!(newDataObj)) {
 				delete newDataObj[field];
 				delete objForCheck[field];
 				return;
+			}
+			if (schema[field].optional && Array.isArray(objForCheck[field]) && Array.isArray(objForCheck[field][0])) {
+				delete objForCheck[field];
 			} else if (
 				!schema[field].optional &&
 				!schema[field].isImage &&
@@ -344,31 +328,28 @@ export class ServerApiBase<Doc extends IDoc> {
 			) {
 				throw new Meteor.Error('Obrigatoriedade', `O campo "${schema[field].label || field}" é obrigatório`);
 			} else if (keysOfDataObj.indexOf(field) !== -1) {
-				// @ts-ignore
 				if (!!schema[field]?.optional) {
-					// @ts-ignore
 					newSchema[field] = Match.OneOf(undefined, null, schema[field].type);
 				} else {
-					// @ts-ignore
 					newSchema[field] = schema[field].type;
 				}
 
 				// remove string referring to image to improve check function performance
 				if (
-					!this._saveImageToDisk &&
 					(schema[field].isImage || schema[field].isAvatar) &&
 					newDataObj[field] &&
 					typeof newDataObj[field] === 'string'
 				) {
-					// @ts-ignore
 					delete newSchema[field];
 					delete objForCheck[field];
 				}
 			}
 		});
 		// Call the check from Meteor.
+		if (objForCheck.sincronizadoEm) {
+			check(objForCheck, { ...newSchema, sincronizadoEm: Date });
+		} else check(objForCheck, newSchema);
 
-		check(objForCheck, newSchema);
 		return newDataObj;
 	};
 
@@ -413,6 +394,7 @@ export class ServerApiBase<Doc extends IDoc> {
 				newDoc[key] = docData;
 			}
 		});
+
 		return newDoc;
 	};
 
@@ -470,79 +452,6 @@ export class ServerApiBase<Doc extends IDoc> {
 
 		return sincronizarExecucao(client);
 	}
-
-	//Utils
-	private _prepareOrUpdateDoc = async (doc: Doc | Partial<Doc>) => {
-		const self = this;
-		const schema = self.schema;
-
-		if (!!self._saveImageToDisk && !doc._id) {
-			doc._id = nanoid();
-		}
-
-		const result = await Promise.all(
-			Object.keys(schema).map(async (field) => {
-				if (self._saveImageToDisk && schema[field].isImage && hasValue(doc[field])) {
-					// @ts-ignore
-					const newImgPath = await self._convertAndSaveImg(
-						doc[field],
-						self._imgPath,
-						`${doc._id}_${field}`,
-						schema[field]?.defaultSize?.width,
-						schema[field]?.defaultSize?.height
-					);
-					// @ts-ignore
-					doc[field] = newImgPath;
-					return newImgPath;
-				}
-				return;
-			})
-		);
-		return doc;
-	};
-
-	private _convertAndSaveImg = async (
-		imgB64: any,
-		path: string | undefined,
-		realName: string | undefined,
-		dimX: number | undefined,
-		dimY: number | undefined
-	) => {
-		if (imgB64.indexOf('/img/') !== -1 || imgB64.indexOf(this.imgPathFolderName) !== -1) {
-			return imgB64;
-		}
-		const name = realName.replace(/[^a-zA-Z0-9]+/g, '');
-		const destructImage = imgB64.split(';');
-		const mimType = destructImage[0].split(':')[1];
-		const imageData = destructImage[1].split(',')[1];
-
-		const buffer = new Buffer.from(imageData, 'base64');
-		const image = sharp(buffer);
-		let resizedImage;
-		if (hasValue(dimX) && hasValue(dimY) && !isNaN(Number(dimX)) && !isNaN(Number(dimY))) {
-			resizedImage = await image.resize(dimX, dimY).toFormat('webp');
-		} else {
-			resizedImage = await image.toFormat('webp');
-		}
-
-		const finalPath = `${path}/${name}.webp`;
-		const imgRoute = `${Meteor.absoluteUrl()}img/${this.imgPathFolderName}/${name}.webp`;
-
-		await new Promise((resolve, reject) => {
-			// @ts-ignore
-			resizedImage
-				.toFile(finalPath)
-				.then(() => {
-					// @ts-ignore
-					resolve();
-				})
-				.catch((error) => {
-					reject(error);
-				});
-		});
-
-		return imgRoute;
-	};
 
 	//**API REST**
 	addRestEndpoint(
@@ -628,9 +537,18 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		}
 	}
-
 	initApiRest() {
 		if (Meteor.isServer) {
+			this.apiRestAudio = {
+				addRoute: (path: string, handle: any) => {
+					console.log('Path', path);
+					WebApp.connectHandlers.use(
+						connectRoute((router: any) => {
+							router.get('/audio/' + path, handle);
+						})
+					);
+				}
+			};
 			this.apiRestImage = {
 				addRoute: (path: string, handle: any) => {
 					console.log('Path', path);
@@ -652,129 +570,64 @@ export class ServerApiBase<Doc extends IDoc> {
 		}
 	}
 
-	createAPIRESTForLoadIMGFromDisk() {
-		const self = this;
+	createAPIRESTForAudioFields() {
 		if (Meteor.isServer) {
-			console.log('CREATE ENDPOINT GET ' + `${this.imgPathFolderName}/:image`);
-			this.apiRestImage &&
-				this.apiRestImage.addRoute(`${self.imgPathFolderName}/:image`, async (req: any, res: any) => {
-					const { params } = req;
+			const self = this;
+			const schema = self.schema;
+			Object.keys(schema).forEach((field) => {
+				if (schema[field].isAudio) {
+					console.log(
+						'CREATE ENDPOINT GET ' + `audio/${this.collectionName}/${field}/:audio ########## IMAGE #############`
+					);
+					this.apiRestAudio &&
+						this.apiRestAudio.addRoute(`${this.collectionName}/${field}/:audio`, (req: any, res: any) => {
+							const { params } = req;
 
-					if (params && !!params.image) {
-						const fileName =
-							params.image.indexOf('.webp') !== -1 ? params.image.split('.webp')[0] : params.image.split('.')[0];
+							if (params && !!params.audio) {
+								const docID =
+									params.audio.indexOf('?') !== -1
+										? params.audio.split('?')[0].split('.')[0]
+										: params.audio.split('.')[0];
+								const doc = self.getCollectionInstance().findOne({ _id: docID });
 
-						if (fs.existsSync(self._imgPath + '/' + fileName + '.webp')) {
-							const localImg = await fs.readFileSync(self._imgPath + '/' + fileName + '.webp');
-							try {
-								const stats = fs.statSync(self._imgPath + '/' + fileName + '.webp');
-								console.log('stats', stats);
-								// @ts-ignore
-								res.data = Buffer.from(localImg, 'binary');
-								res.writeHead(200, {
-									'Content-Type': 'image/webp',
-									'Cache-Control': 'max-age=120, must-revalidate, public',
-									'Last-Modified': stats.atime
-								});
-								res.write(res.data);
-								res.end(); // Must call this immediately before return!
-								return;
-							} catch (e) {
-								console.log('Error', e);
+								if (doc && !!doc[field] && doc[field] !== '-') {
+									if (doc[field].indexOf(';base64,') !== -1) {
+										const matches = doc[field].match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
+										const response: IResponse = {};
+										response.type = matches[1];
+										response.data = Buffer.from(matches[2], 'base64');
+										res.writeHead(200, {
+											'Content-Type': response.type,
+											'Cache-Control': 'max-age=120, must-revalidate, public',
+											'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
+										});
+										res.write(response.data);
+										res.end(); // Must call this immediately before return!
+										return;
+									} else {
+										const response: IResponse = {};
+										response.type = 'ogg';
+										response.data = Buffer.from(doc[field], 'base64');
+										res.writeHead(200, {
+											'Content-Type': response.type,
+											'Cache-Control': 'max-age=120, must-revalidate, public',
+											'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
+										});
+										res.write(response.data);
+										res.end(); // Must call this immediately before return!
+										return;
+									}
+								}
 								res.writeHead(404);
 								res.end();
 								return;
 							}
-						}
-
-						//No Image
-						const noimg = getNoImage();
-						const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-
-						res.data = Buffer.from(tempImg![2], 'base64');
-						res.writeHead(200, {
-							'Content-Type': 'image/png',
-							'Cache-Control': 'max-age=120, must-revalidate, public'
-							// 'Last-Modified': (doc
-							//     ? new Date(doc.lastupdate) || new Date()
-							//     : new Date()
-							// ).toUTCString(),
+							res.writeHead(404);
+							res.end();
+							return;
 						});
-						res.write(res.data);
-						res.end(); // Must call this immediately before return!
-						return;
-					}
-					res.writeHead(404);
-					res.end();
-					return;
-				});
-
-			console.log('CREATE ENDPOINT GET ' + `/thumbnail/${this.imgPathFolderName}/:image`);
-			this.apiRestImage &&
-				this.apiRestImage.addThumbnailRoute(`${self.imgPathFolderName}/:image`, async (req: any, res: any) => {
-					const { params, query } = req;
-
-					const widthAndHeight = query.d ? query.d.split('x').map((n: string) => parseInt(n)) : [200, 200];
-
-					if (params && !!params.image) {
-						const fileName =
-							params.image.indexOf('.webp') !== -1 ? params.image.split('.webp')[0] : params.image.split('.')[0];
-
-						if (fs.existsSync(self._imgPath + '/' + fileName + '.webp')) {
-							const localImg = await fs.readFileSync(self._imgPath + '/' + fileName + '.webp');
-							try {
-								const stats = fs.statSync(self._imgPath + '/' + fileName + '.webp');
-								let resizedImage = await sharp(localImg)
-									.resize({
-										fit: 'contain',
-										background: {
-											r: 255,
-											g: 255,
-											b: 255,
-											alpha: 0.01
-										},
-										width: !!widthAndHeight[0] ? widthAndHeight[0] : undefined,
-										height: !!widthAndHeight[1] ? widthAndHeight[1] : undefined
-									})
-									.toBuffer();
-
-								res.data = resizedImage;
-								res.writeHead(200, {
-									'Content-Type': 'image/webp',
-									'Cache-Control': 'max-age=120, must-revalidate, public',
-									'Last-Modified': stats.atime
-								});
-								res.write(res.data);
-								res.end(); // Must call this immediately before return!
-								return;
-								//To Save Base64 IMG
-								// return `data:${mimType};base64,${resizedImage.toString("base64")}`
-							} catch (error) {
-								console.log('IMG ERror', error);
-								res.writeHead(200);
-								res.end();
-								return;
-							}
-						}
-
-						console.log('Imagem Não Encontrada');
-						const noimg = getNoImage();
-						const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-
-						res.data = Buffer.from(tempImg![2], 'base64');
-						res.writeHead(200, {
-							'Content-Type': 'image/png',
-							'Cache-Control': 'max-age=120, must-revalidate, public'
-							// 'Last-Modified': (doc
-							//     ? new Date(doc.lastupdate) || new Date()
-							//     : new Date()
-							// ).toUTCString(),
-						});
-						res.write(res.data);
-						res.end(); // Must call this immediately before return!
-						return;
-					}
-				});
+				}
+			});
 		}
 	}
 
@@ -796,23 +649,14 @@ export class ServerApiBase<Doc extends IDoc> {
 									params.image.indexOf('.png') !== -1 ? params.image.split('.png')[0] : params.image.split('.jpg')[0];
 								const doc = self.getCollectionInstance().findOne({ _id: docID });
 
-								if (doc && hasValue(doc[field]) && doc[field] !== '-') {
+								if (doc && !!doc[field] && doc[field] !== '-') {
 									const matches = doc[field].match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
 									const response: IResponse = {};
 
 									if (!matches || matches.length !== 3) {
 										const noimg = getNoImage(schema[field].isAvatar);
 										const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-
-										res.data = Buffer.from(tempImg![2], 'base64');
-										res.writeHead(200, {
-											'Content-Type': 'image/png',
-											'Cache-Control': 'max-age=120, must-revalidate, public',
-											'Last-Modified': (doc ? new Date(doc.lastupdate) || new Date() : new Date()).toUTCString()
-										});
-										res.write(res.data);
-										res.end(); // Must call this immediately before return!
-										return;
+										return Buffer.from(tempImg![2], 'base64');
 									}
 
 									response.type = matches[1];
@@ -858,12 +702,10 @@ export class ServerApiBase<Doc extends IDoc> {
 
 								if (params && !!params.image) {
 									const docID =
-										params.image.indexOf('.') !== -1
-											? params.image.split('?')[0].split('.')[0]
-											: params.image.split('?')[0];
+										params.image.indexOf('.') !== -1 ? params.image.split('.')[0] : params.image.split('.')[0];
 									const doc = self.getCollectionInstance().findOne({ _id: docID });
 
-									if (doc && hasValue(doc[field]) && doc[field] !== '-' && doc[field].indexOf('base64') !== -1) {
+									if (doc && !!doc[field] && doc[field] !== '-') {
 										const destructImage = doc[field].split(';');
 										const mimType = destructImage[0].split(':')[1];
 										const imageData = destructImage[1].split(',')[1];
@@ -871,6 +713,7 @@ export class ServerApiBase<Doc extends IDoc> {
 										try {
 											let resizedImage = Buffer.from(imageData, 'base64');
 											resizedImage = await sharp(resizedImage)
+												.rotate()
 												.resize({
 													fit: 'contain',
 													background: {
@@ -882,11 +725,11 @@ export class ServerApiBase<Doc extends IDoc> {
 													width: !!widthAndHeight[0] ? widthAndHeight[0] : undefined,
 													height: !!widthAndHeight[1] ? widthAndHeight[1] : undefined
 												})
-												.toFormat('png')
+												.toFormat('webp')
 												.toBuffer();
 
 											res.writeHead(200, {
-												'Content-Type': mimType,
+												'Content-Type': 'image/webp',
 												'Cache-Control': 'max-age=120, must-revalidate, public',
 												'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
 											});
@@ -897,24 +740,13 @@ export class ServerApiBase<Doc extends IDoc> {
 											//To Save Base64 IMG
 											// return `data:${mimType};base64,${resizedImage.toString("base64")}`
 										} catch (error) {
-											console.log('IMG ERror', error);
 											res.writeHead(200);
 											res.end();
 											return;
 										}
 									}
-
-									const noimg = getNoImage(schema[field].isAvatar);
-									const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-
-									res.data = Buffer.from(tempImg![2], 'base64');
-									res.writeHead(200, {
-										'Content-Type': 'image/png',
-										'Cache-Control': 'max-age=120, must-revalidate, public',
-										'Last-Modified': (doc ? new Date(doc.lastupdate) || new Date() : new Date()).toUTCString()
-									});
-									res.write(res.data);
-									res.end(); // Must call this immediately before return!
+									res.writeHead(404);
+									res.end();
 									return;
 								}
 							}
@@ -965,13 +797,12 @@ export class ServerApiBase<Doc extends IDoc> {
 
 		if (Meteor.isServer) {
 			Meteor.publish(`${self.collectionName}.${publication}`, function (query, options) {
-				const selfPublication = this;
 				const subHandle = newPublicationsFunction(query, options)?.observe({
 					added: (document: { _id: string }) => {
-						this.added(`${self.collectionName}`, document._id, transformDocFunc(document, selfPublication));
+						this.added(`${self.collectionName}`, document._id, transformDocFunc(document));
 					},
 					changed: (newDocument: { _id: string }) => {
-						this.changed(`${self.collectionName}`, newDocument._id, transformDocFunc(newDocument, selfPublication));
+						this.changed(`${self.collectionName}`, newDocument._id, transformDocFunc(newDocument));
 					},
 					removed: (oldDocument: { _id: string }) => {
 						this.removed(`${self.collectionName}`, oldDocument._id);
@@ -1026,88 +857,108 @@ export class ServerApiBase<Doc extends IDoc> {
 	};
 
 	//**DEFAULT PUBLICATIONS**
-	defaultCollectionPublication(filter = {}, _optionsPub: Partial<IMongoOptions<Doc>>) {
-		if (!_optionsPub) {
-			_optionsPub = { limit: 0, skip: 0 };
+	defaultCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
+		if (!optionsPub) {
+			optionsPub = { limit: 999999, skip: 0 };
 		}
 
-		if (_optionsPub.skip! <= 0) {
-			delete _optionsPub.skip;
+		if (optionsPub.skip! < 0) {
+			optionsPub.skip = 0;
 		}
 
-		if (_optionsPub.limit! <= 0) {
-			delete _optionsPub.limit;
+		if (optionsPub.limit! < 0) {
+			optionsPub.limit = 999999;
 		}
 
-		if (!_optionsPub.projection && !!_optionsPub.fields) {
-			_optionsPub.projection = _optionsPub.fields;
+		if (!optionsPub.projection && !!optionsPub.fields) {
+			optionsPub.projection = optionsPub.fields;
 		}
+
+		if (!optionsPub.projection) optionsPub.projection = {};
+		const hasExceptionProjection = optionsPub && Object.values(optionsPub.projection).find((v) => v === 0 || v === -1);
+		const hasRestrictionProjection = optionsPub && Object.values(optionsPub.projection).find((v) => v === 1);
+
 		// Use the default subschema if no one was defined.
-		if (!_optionsPub.projection || Object.keys(_optionsPub.projection).length === 0) {
-			const tempProjection: { [key: string]: number } = {};
-			Object.keys(this.schema)
-				.concat(['_id'])
-				.concat(this.auditFields)
-				.forEach((key) => {
+		const tempProjection: { [key: string]: number } = { ...(optionsPub.projection || {}) };
+		Object.keys(this.schema)
+			.concat(['_id'])
+			.concat(this.auditFields)
+			.forEach((key) => {
+				if (
+					(hasExceptionProjection && (optionsPub.projection[key] === 0 || optionsPub.projection[key] === -1)) ||
+					(hasRestrictionProjection && optionsPub.projection[key] !== 1)
+				) {
+					delete tempProjection[key];
+				} else {
 					tempProjection[key] = 1;
-				});
+				}
+			});
 
-			_optionsPub.projection = tempProjection;
-		}
+		optionsPub.projection = tempProjection;
 
 		const imgFields: { [key: string]: any } = {};
 
-		if (!this._saveImageToDisk) {
-			Object.keys(this.schema).forEach((field) => {
-				if (this.schema[field].isImage) {
-					imgFields['has' + field] = { $or: '$' + field };
-					delete _optionsPub.projection[field];
-					imgFields[field] = {
-						$cond: [
-							{ $ifNull: ['$' + field, false] },
-							{
-								$concat: [
-									`${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/`,
-									'$_id',
-									'?date=',
-									{ $toString: '$lastupdate' }
-								]
-							},
-							this.noImagePath
-						]
-					};
-					imgFields[field + 'Thumbnail'] = {
-						$cond: [
-							{ $ifNull: ['$' + field, false] },
-							{
-								$concat: [
-									`${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/`,
-									'$_id',
-									'?date=',
-									{ $toString: '$lastupdate' }
-								]
-							},
-							this.noImagePath
-						]
-					};
-				}
-			});
-		}
+		Object.keys(this.schema).forEach((field) => {
+			if (this.schema[field].isImage) {
+				imgFields['has' + field] = { $or: '$' + field };
+				delete optionsPub.projection[field];
+				imgFields[field] = {
+					$cond: [
+						{ $ifNull: ['$' + field, false] },
+						{
+							$concat: [
+								`${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/`,
+								'$_id',
+								'?date=',
+								{ $toString: '$lastupdate' }
+							]
+						},
+						this.noImagePath
+					]
+				};
+				imgFields[field + 'Thumbnail'] = {
+					$cond: [
+						{ $ifNull: ['$' + field, false] },
+						{
+							$concat: [
+								`${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/`,
+								'$_id',
+								'?date=',
+								{ $toString: '$lastupdate' }
+							]
+						},
+						this.noImagePath
+					]
+				};
+			} else if (this.schema[field].isAudio) {
+				imgFields['has' + field] = { $or: '$' + field };
+				delete optionsPub.projection[field];
+				imgFields[field] = {
+					$cond: [
+						{ $ifNull: ['$' + field, false] },
+						{
+							$concat: [
+								`${Meteor.absoluteUrl()}audio/${this.collectionName}/${field}/`,
+								'$_id',
+								'?date=',
+								{ $toString: '$lastupdate' }
+							]
+						},
+						this.noImagePath
+					]
+				};
+			}
+		});
 
 		const queryOptions = {
-			fields: { ..._optionsPub.projection, ...imgFields },
-			limit: _optionsPub.limit || 0,
-			skip: _optionsPub.skip || 0,
+			fields: { ...optionsPub.projection, ...imgFields },
+			limit: optionsPub.limit || 999999999,
+			skip: optionsPub.skip || 0,
 			sort: {}
 		};
 
-		if (_optionsPub.sort) {
-			queryOptions.sort = _optionsPub.sort;
-		}
-
-		if (queryOptions.limit! <= 0) {
-			// @ts-ignore
-			delete queryOptions.limit;
+		if (optionsPub.sort) {
+			queryOptions.sort = optionsPub.sort;
 		}
 
 		return this.getCollectionInstance().find({ ...filter }, queryOptions);
@@ -1174,7 +1025,7 @@ export class ServerApiBase<Doc extends IDoc> {
 				//     `erro.${this.collectionName}Api.permissaoInsuficiente`,
 				//     'Você não possui permissão o suficiente para visualizar estes dados!'
 				// );
-				return null;
+				return this.getCollectionInstance().find({ _id: 'ERROR' });
 			}
 		}
 
@@ -1194,13 +1045,13 @@ export class ServerApiBase<Doc extends IDoc> {
 				//     `erro.${this.collectionName}Api.permissaoInsuficiente`,
 				//     'Você não possui permissão o suficiente para visualizar estes dados!'
 				// );
-				return null;
+				return this.getCollectionInstance().find({ _id: 'ERROR' });
 			}
 		}
 
 		const defaultDetailFilter = { ...(filter || {}) };
 		if (!filter || !filter._id) {
-			return null;
+			return this.getCollectionInstance().find({ _id: 'ERROR' });
 		}
 		return this.defaultCollectionPublication(defaultDetailFilter, optionsPub);
 	}
@@ -1310,7 +1161,12 @@ export class ServerApiBase<Doc extends IDoc> {
 		this.registerMethod('sync', this.serverSync);
 		this.registerMethod('countDocuments', this.countDocuments);
 		this.registerMethod('getDocs', this.serverGetDocs);
+		this.registerMethod('exportCollection', this.exportCollection);
 	}
+
+	exportCollection = () => {
+		return this.getCollectionInstance().find({}).fetch();
+	};
 
 	/**
 	 * Perform a insert or update on collection.
@@ -1318,22 +1174,14 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param _docObj
 	 * @param _context
 	 */
-	async serverSync(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	serverSync(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		if (!_docObj || !_docObj._id) {
 			return false;
 		}
 
-		if (_docObj.needSync) {
-			delete _docObj.needSync;
-		}
 		const oldDoc = this.getCollectionInstance().findOne({ _id: _docObj._id });
 
-		if (
-			!(
-				((!oldDoc || !oldDoc._id) && (await this.beforeInsert(_docObj, _context))) ||
-				(await this.beforeUpdate(_docObj, _context))
-			)
-		) {
+		if (!(((!oldDoc || !oldDoc._id) && this.beforeInsert(_docObj, _context)) || this.beforeUpdate(_docObj, _context))) {
 			return false;
 		}
 
@@ -1364,10 +1212,10 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} _docObj - Collection document the will be inserted.
 	 * @param  {Object} _context - Meteor this _context.
 	 */
-	async serverInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	serverInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		try {
 			const id = _docObj._id;
-			if (await this.beforeInsert(_docObj, _context)) {
+			if (this.beforeInsert(_docObj, _context)) {
 				_docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
 				this._includeAuditData(_docObj, 'insert');
 				if (id) {
@@ -1398,11 +1246,11 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * (If we don't have _context, undefied will be set to this.)
 	 * @returns {Boolean} - Returns true for any action.
 	 */
-	async beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_CREATE`]) {
 			segurancaApi.validarAcessoRecursos(_context.user, [`${this.collectionName?.toUpperCase()}_CREATE`]);
 		}
-		await this._prepareOrUpdateDoc(_docObj);
+
 		return true;
 	}
 
@@ -1428,11 +1276,9 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} _context - Meteor this _context.
 	 */
 	serverUpsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
-		if (!_docObj._id) {
+		const objCollection = this.getCollectionInstance().findOne({ _id: _docObj._id });
+		if (!objCollection) {
 			const insert = this.serverInsert(_docObj, _context);
-
-			// @ts-ignore
-			_docObj._id = insert;
 			return insert;
 		}
 		return this.serverUpdate(_docObj, _context);
@@ -1456,13 +1302,12 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} _docObj - Collection document the will be updated.
 	 * @param  {Object} _context - Meteor this _context.
 	 */
-	async serverUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	serverUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		try {
 			check(_docObj._id, String);
 			const id = _docObj._id;
-			if ((await this.beforeUpdate(_docObj, _context)) === true) {
+			if (this.beforeUpdate(_docObj, _context)) {
 				_docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
-
 				this._includeAuditData(_docObj, 'update');
 				const oldData = this.getCollectionInstance().findOne({ _id: id }) || {};
 				const nullValues = {};
@@ -1474,7 +1319,6 @@ export class ServerApiBase<Doc extends IDoc> {
 				if (Object.keys(nullValues).length > 0) {
 					action['$unset'] = nullValues;
 				}
-
 				const result = this.getCollectionInstance().update({ _id: id }, action);
 				preparedData._id = id;
 				this.afterUpdate(preparedData, _context);
@@ -1498,12 +1342,10 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * (If we don't have _context, undefied will be set to this.)
 	 * @returns {Boolean} - Returns true for any action.
 	 */
-	async beforeUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	beforeUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_UPDATE`]) {
 			segurancaApi.validarAcessoRecursos(_context.user, [`${this.collectionName?.toUpperCase()}_UPDATE`]);
 		}
-
-		const newDoc = await this._prepareOrUpdateDoc(_docObj);
 		return true;
 	}
 

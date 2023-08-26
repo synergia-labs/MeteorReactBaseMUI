@@ -51,7 +51,7 @@ const simpleFormStyle: {
     containerAddSubForm: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'start',
+        justifyContent: 'center',
         paddingLeft: '10px',
     },
     containerChildrenElements: {

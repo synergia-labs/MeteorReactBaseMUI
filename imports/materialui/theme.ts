@@ -1,1080 +1,864 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
 import * as appStyles from './styles';
 
-interface IBackgroundThemeOptions extends ThemeOptions.palette.background {
-    color1: string;
-    color2: string;
-    color3: string;
-}
-
 export interface IThemeOptionsBoilerplate extends ThemeOptions {
-    palette: ThemeOptions['palette'] & {
-        background: IBackgroundThemeOptions;
-        textDisabled: string;
-        textAuxiliar: string;
-        textWhite: string;
-    };
+	palette: ThemeOptions['palette'] & {
+		onPrimary: { main: string };
+		primaryContainer: string;
+		onPrimaryContainer: string;
+		primaryOnHover: string;
+		onSecondary: string;
+		secondaryContainer: string;
+		onSecondaryContainer: string;
+		secondaryOnHover: string;
+		onError: string;
+		errorContainer: string;
+		onErrorContainer: string;
+		onBackground: string;
+		buttonOnHover: string;
+		primaryGradient: string;
+		secondaryGradient: string;
+		greenBackground: string;
+		activeBackground: string;
+		lightHover: string;
+		surface: string;
+		onSurface: string;
+		surfaceVariant: string;
+		onSurfaceVariant: string;
+		outline: string;
+		preto: string;
+		cinza10: string;
+		cinza20: string;
+		cinza30: string;
+		cinza40: string;
+		cinza50: string;
+		cinza60: string;
+		cinza70: string;
+		cinza80: string;
+		cinza90: string;
+		cinza95: string;
+		cinza98: string;
+		aquaVale: string;
+		amareloVale: string;
+		cerejaVale: string;
+		laranjaVale: string;
+		azulVale: string;
+		cinzaEscuro: string;
+		branco: string;
+		verdeVale: string;
+		verdeEscuro: string;
+		aquaClaro: string;
+		azulEscuro: string;
+		amareloClaro: string;
+		cerejaEscuro: string;
+		cerejaClaro: string;
+		cinzaClaro: string;
+		cinzaMedio: string;
+	};
+	typography: ThemeOptions['typography'] & {
+		displayLarge: object;
+		displayMedium: object;
+		displaySmall: object;
+		headlineLarge: object;
+		headlineMedium: object;
+		headlineSmall: object;
+		titleLarge: object;
+		titleMedium: object;
+		titleSmall: object;
+		labelLarge: object;
+		labelMedium: object;
+		labelSmall: object;
+		bodyLarge: object;
+		bodyMedium: object;
+		bodySmall: object;
+
+		h1: object;
+		h2: object;
+		h3: object;
+		h4: object;
+		h5: object;
+		h6: object;
+		h7: object;
+		h8: object;
+		h9: object;
+		h10: object;
+	};
 }
 
-const getLightTheme = (props: {
-    fontScale: number;
-    isMobile: boolean;
-}): IThemeOptionsBoilerplate => {
-    const { fontScale, isMobile } = props;
+declare module '@mui/material/Typography' {
+	interface TypographyPropsVariantOverrides {
+		displayLarge: true;
+		displayMedium: true;
+		displaySmall: true;
+		headlineLarge: true;
+		headlineMedium: true;
+		headlineSmall: true;
+		titleLarge: true;
+		titleMedium: true;
+		titleSmall: true;
+		labelLarge: true;
+		labelMedium: true;
+		labelSmall: true;
+		bodyLarge: true;
+		bodyMedium: true;
+		bodySmall: true;
+	}
+}
 
-    return {
-        palette: {
-            primary: {
-                main: appStyles.primariaClara,
-                contrastText: '#FFF',
-            },
-            secondary: {
-                main: appStyles.secundariaClara,
-                contrastText: '#FFF',
-            },
-            text: {
-                primary: appStyles.preto,
-                secondary: appStyles.cinzaEscuro,
-                disabled: appStyles.cinzaClaro,
-            },
-            background: {
-                paper: appStyles.branco,
-                default: appStyles.branco,
-                color1: appStyles.color1,
-                color2: appStyles.color2,
-                color3: appStyles.color3,
-            },
-            textDisabled: appStyles.cinzaClaro,
-            textAuxiliar: appStyles.cinzaClaro,
-            textWhite: appStyles.branco,
-            divider: appStyles.cinzaBackground,
-        },
-        typography: {
-            fontFamily: appStyles.fontFamily,
-            fontSize: 18 * fontScale,
-            fontWeightLight: 300,
-            fontWeightRegular: 400,
-            fontWeightMedium: 600,
-            fontWeightBold: 700,
-            h1: { ...appStyles.h1(fontScale), color: appStyles.preto },
-            h2: { ...appStyles.h2(fontScale), color: appStyles.preto },
-            h3: { ...appStyles.h3(fontScale), color: '#D3D3D3' },
-            h4: appStyles.h4(fontScale),
-            h5: appStyles.h5(fontScale),
-            h6: appStyles.h6(fontScale),
-            h7: appStyles.h7(fontScale),
-            h8: appStyles.h8(fontScale),
-            h9: appStyles.h9(fontScale),
-            h10: appStyles.h10(fontScale),
-            subtitulo1: appStyles.subtitulo1(fontScale),
-            subtitulo2: appStyles.subtitulo2(fontScale),
-            subtitulo3: appStyles.subtitulo3(fontScale),
-            corpo1: appStyles.corpo1(fontScale),
-            corpo2: appStyles.corpo2(fontScale),
-            descricao: appStyles.descricao(fontScale),
-            menu1: appStyles.menu1(fontScale),
-            menu2: appStyles.menu2(fontScale),
-            botao1: appStyles.botao1(fontScale),
-            botao2: appStyles.botao2(fontScale),
-            caption1: appStyles.caption1(fontScale),
-            caption2: appStyles.caption2(fontScale),
-            caption3: appStyles.caption3(fontScale),
+const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeOptionsBoilerplate => {
+	const { fontScale, isMobile } = props;
 
-            // Remover após estilização (estilos antigos que ainda estão no sistema)
-            // button: appStyles.botao1(fontScale),
-            subtitle1: appStyles.subtitulo1(fontScale),
-            body1: appStyles.corpo1(fontScale),
-            subtitle2: appStyles.subtitulo2(fontScale),
-            body2: appStyles.corpo2(fontScale),
-            caption: appStyles.caption1(fontScale),
-        },
-        breakpoints: {
-            values: {
-                xs: 0,
-                sm: 600,
-                md: 900,
-                lg: 1200,
-                b1367: 1367,
-                xl: 1536,
-            },
-        },
-        components: {
-            MuiChip: {
-                defaultProps: {},
-                variants: [
-                    {
-                        props: { variant: 'tema' },
-                        style: {
-                            height: '40px',
-                            borderRadius: '25px',
-                            border: `2px solid rgba(217, 217, 217, 0.4)`,
-                            color: appStyles.branco,
-                            background: appStyles.chipBackgroundTema,
-                            padding: '10px 8px 10px 8px',
-                            ...appStyles.menu1(fontScale),
-                            '&:hover': {
-                                border: `2px solid ${appStyles.branco}`,
-                                background: appStyles.branco,
-                                color: appStyles.preto,
-                            },
-                        },
-                    },
-                    {
-                        props: { variant: 'categoria' },
-                        style: {
-                            height: '20px',
-                            borderRadius: `25px`,
-                            backgroundColor: appStyles.chipBackgroundCategoria,
-                            padding: '2px 4px 2px 4px',
-                            color: appStyles.branco,
-                            ...appStyles.caption3(fontScale),
-                        },
-                    },
-                    {
-                        props: { variant: 'formulario' },
-                        style: {
-                            height: '40px',
-                            borderRadius: '25px',
-                            border: `2px solid rgba(217, 217, 217, 0.4)`,
-                            color: appStyles.preto,
-                            background: appStyles.branco,
-                            padding: '10px 8px 10px 8px',
-                            ...appStyles.menu1(fontScale),
-                            '.MuiChip-deleteIcon': {
-                                color: appStyles.primariaEscura,
-                                '&:hover': {
-                                    color: appStyles.primariaEscura,
-                                },
-                            },
-                        },
-                    },
-                ],
-                styleOverrides: {
-                    root: {
-                        ...appStyles.subtitulo1(fontScale),
-                        fontFamily: appStyles.fontFamily,
-                        margin: isMobile ? 0 : 1,
-                    },
-                },
-            },
+	return {
+		palette: {
+			primary: {
+				main: appStyles.primary,
+				contrastText: appStyles.onPrimary
+			},
+			secondary: {
+				main: appStyles.secondary,
+				contrastText: appStyles.onSecondary
+			},
+			text: {
+				primary: appStyles.cinza20,
+				secondary: appStyles.onBackground,
+				disabled: appStyles.cinza60
+			},
+			background: {
+				paper: appStyles.background,
+				default: appStyles.background
+			},
+			error: {
+				main: appStyles.error,
+				contrastText: appStyles.onError,
+				light: appStyles.errorContainer
+			},
+			divider: appStyles.cinza90,
+			action: {
+				active: appStyles.activeBackground,
+				hover: appStyles.primaryOnHover
+			},
 
-            MuiTablePagination: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        '.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows, .MuiSelect-select':
-                            {
-                                ...appStyles.caption1(1),
-                                color: appStyles.cinzaEscuro,
-                            },
-                        '.MuiSelect-select': {
-                            color: 'black',
-                            background: 'white',
-                            border: '2px solid #E6E6E6',
-                            borderRadius: '5px',
-                        },
-                    },
-                },
-            },
+			//gerais
+			onPrimary: { main: appStyles.onPrimary },
+			primaryContainer: appStyles.primaryContainer,
+			onPrimaryContainer: appStyles.onPrimaryContainer,
+			primaryOnHover: appStyles.primaryOnHover,
+			onSecondary: appStyles.onSecondary,
+			secondaryContainer: appStyles.secondaryContainer,
+			onSecondaryContainer: appStyles.onSecondary,
+			secondaryOnHover: appStyles.secondaryOnHover,
+			onError: appStyles.onError,
+			errorContainer: appStyles.errorContainer,
+			onErrorContainer: appStyles.onErrorContainer,
+			onBackground: appStyles.onBackground,
+			buttonOnHover: appStyles.buttonOnHover,
+			primaryGradient: appStyles.primaryGradient,
+			secondaryGradient: appStyles.secondaryGradient,
+			greenBackground: appStyles.greenBackground,
+			activeBackground: appStyles.activeBackground,
+			lightHover: appStyles.lightHover,
+			surface: appStyles.surface,
+			onSurface: appStyles.onSurface,
+			surfaceVariant: appStyles.surfaceVariant,
+			onSurfaceVariant: appStyles.onSurfaceVariant,
+			outline: appStyles.outline,
 
-            MuiDataGrid: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        border: '0px',
-                        borderRadius: '15px 15px 0 0',
-                        // color: appStyles.color1dark,
-                        color: '#000',
-                        '& .MuiCircularProgress-root': {
-                            color: appStyles.primaryColor,
-                        },
-                        '& .MuiDataGrid-columnHeaders': {
-                            '& .MuiDataGrid-columnSeparator': {
-                                visibility: 'hidden',
-                            },
-                            borderRadius: '0px',
-                            borderBottom: `1px solid ${appStyles.cinzaBackground}`,
-                        },
-                        '& .MuiDataGrid-cell': {
-                            borderBottom: `2px solid ${appStyles.cinzaBackground}`,
-                        },
-                        '& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within':
-                            {
-                                outline: 'none',
-                            },
-                        '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
-                            outline: 'none',
-                        },
-                        '& .MuiDataGrid-actionsCell': {
-                            gap: '0px',
-                            '& button': {
-                                color: 'black',
-                            },
-                        },
-                    },
-                    row: {
-                        cursor: 'pointer',
-                    },
-                },
-            },
-            MuiBox: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        maxHeight: '100vh',
-                    },
-                },
-            },
-            MuiSlider: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        color: appStyles.primariaEscura,
-                        thumb: {
-                            color: 'black',
-                        },
-                    },
-                },
-            },
-            MuiModal: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        '&.MuiBox-root': {
-                            maxHeight: '100vh',
-                        },
-                    },
-                },
-            },
+			//cinzas
+			preto: appStyles.preto,
+			cinza10: appStyles.cinza10,
+			cinza20: appStyles.cinza20,
+			cinza30: appStyles.cinza30,
+			cinza40: appStyles.cinza40,
+			cinza50: appStyles.cinza50,
+			cinza60: appStyles.cinza60,
+			cinza70: appStyles.cinza70,
+			cinza80: appStyles.cinza80,
+			cinza90: appStyles.cinza90,
+			cinza95: appStyles.cinza95,
+			cinza98: appStyles.cinza98,
 
-            MuiButton: {
-                defaultProps: {
-                    size: 'medium',
-                    variant: 'botaoPrimario',
-                },
-                variants: [
-                    {
-                        props: { variant: 'botaoPrimario' },
-                        style: {
-                            background: appStyles.primariaEscura,
-                            color: appStyles.branco,
-                            borderRadius: `50px`,
-                            border: `2px solid transparent`,
-                            zIndex: 1,
-                            position: 'relative',
-                            transition: 'border 100ms',
+			//primarias
+			aquaVale: appStyles.aquaVale,
+			amareloVale: appStyles.amareloVale,
+			cerejaVale: appStyles.cerejaVale,
+			laranjaVale: appStyles.laranjaVale,
+			azulVale: appStyles.azulVale,
+			cinzaEscuro: appStyles.cinzaEscuro,
+			branco: appStyles.branco,
+			verdeVale: appStyles.verdeVale,
 
-                            '&::before': {
-                                position: 'absolute',
-                                content: '""',
-                                width: 'calc(100% + 4px)',
-                                height: 'calc(100% + 4px)',
-                                top: -2,
-                                left: -2,
-                                background: appStyles.gradientePrincipal,
-                                opacity: 1,
-                                zIndex: -1,
-                                borderRadius: '50px',
-                                transition: 'all 100ms',
-                            },
-                            '&:hover': {
-                                border: `2px solid rgba(0, 0, 0, 0.2)`,
-                                background: appStyles.primariaEscura,
-                                transition: 'border 100ms',
-                            },
-                            '&:hover::before': {
-                                opacity: 0,
-                                transition: 'all 100ms',
-                            },
-                            '&:focus': {
-                                outline: 'none',
-                            },
-                            '&.Mui-disabled': {
-                                color: appStyles.preto,
-                                background: appStyles.cinzaClaro,
-                                borderRadius: '50px',
-                                opacity: 0.5,
-                            },
-                        },
-                    },
-                    {
-                        props: { variant: 'botaoSecundario' },
-                        style: {
-                            border: `2px solid ${appStyles.primariaEscura}`,
-                            color: appStyles.primariaEscura,
-                            backgroundColor: 'transparent',
-                            borderRadius: '50px',
+			//secundarias
+			verdeEscuro: appStyles.verdeEscuro,
+			aquaClaro: appStyles.aquaClaro,
+			azulEscuro: appStyles.azulEscuro,
+			amareloClaro: appStyles.amareloClaro,
+			cerejaEscuro: appStyles.cerejaEscuro,
+			cerejaClaro: appStyles.cerejaClaro,
+			cinzaClaro: appStyles.cinzaClaro,
+			cinzaMedio: appStyles.cinzaMedio
+		},
+		typography: {
+			fontFamily: appStyles.fontFamily,
+			fontSize: 16 * fontScale,
+			fontWeightLight: 400,
+			fontWeightRegular: 400,
+			fontWeightMedium: 600,
+			fontWeightBold: 600,
+			button: appStyles.labelLarge(fontScale),
 
-                            '&:hover': {
-                                backgroundColor: appStyles.backgroundClaro,
-                            },
-                            '&:focus': {
-                                outline: 'none',
-                            },
-                            '&.Mui-disabled': {
-                                color: appStyles.cinzaClaro,
-                                borderColor: appStyles.cinzaClaro,
-                                opacity: 0.5,
-                            },
-                        },
-                    },
-                    {
-                        props: { variant: 'botaoTexto1' },
-                        style: {
-                            color: appStyles.primariaEscura,
-                            padding: 0,
-                            background: 'transparent',
-                            margin: '0 1rem',
-                            '&:hover': {
-                                textDecoration: 'underline',
-                                background: 'transparent',
-                            },
-                            '&:focus': {
-                                outline: 'none',
-                            },
-                        },
-                    },
-                    {
-                        props: { variant: 'botaoTexto2' },
-                        style: {
-                            color: appStyles.preto,
-                            padding: 0,
-                            background: 'transparent',
-                            margin: '0 1rem',
-                            textDecoration: 'underline',
-                            '&:hover': {
-                                background: 'transparent',
-                                textDecoration: 'underline',
-                            },
-                            '&:focus': {
-                                outline: 'none',
-                            },
-                        },
-                    },
-                    {
-                        props: { variant: 'outlined' },
-                        style: {
-                            color: appStyles.primariaEscura,
-                            padding: '0',
-                            border: `2px solid ${appStyles.primariaEscura}`,
-                            background: 'transparent',
-                            margin: '0 1rem',
-                            '&:hover': {
-                                background: appStyles.backgroundClaro,
-                                border: `2px solid ${appStyles.primariaEscura}`,
-                            },
-                            '&:focus': {
-                                outline: 'none',
-                            },
-                            ...appStyles.botao1(fontScale),
-                        },
-                    },
-                    {
-                        props: { variant: 'estilo1' },
-                        style: {
-                            background: appStyles.gradientePrincipal,
-                            color: appStyles.branco,
-                            borderRadius: `50px`,
-                            border: `2px solid transparent`,
-                            zIndex: 1,
-                            position: 'relative',
-                            margin: '1rem 0',
-                            '&::before': {
-                                position: 'absolute',
-                                content: '""',
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                left: 0,
-                                background: appStyles.primariaEscura,
-                                opacity: 0,
-                                zIndex: -1,
-                                borderRadius: '50px',
-                            },
-                            '&:hover': {
-                                border: `2px solid rgba(0, 0, 0, 0.2)`,
-                            },
-                            '&:hover::before': {
-                                opacity: 1,
-                            },
-                            '&:focus': {
-                                outline: 'none',
-                            },
-                            '&.Mui-disabled': {
-                                color: appStyles.preto,
-                                background: appStyles.cinzaClaro,
-                                borderRadius: '50px',
-                                opacity: 0.5,
-                            },
-                        },
-                    },
-                    {
-                        props: { variant: 'estilo2' },
-                        style: {
-                            border: `2px solid ${appStyles.primariaEscura}`,
-                            color: appStyles.primariaEscura,
-                            backgroundColor: 'transparent',
-                            borderRadius: '50px',
-                            margin: '1rem 0',
-                            '&:hover': {
-                                backgroundColor: appStyles.backgroundClaro,
-                            },
-                            '&:focus': {
-                                outline: 'none',
-                            },
-                            '&.Mui-disabled': {
-                                color: appStyles.cinzaClaro,
-                                borderColor: appStyles.cinzaClaro,
-                                opacity: 0.5,
-                            },
-                        },
-                    },
-                    {
-                        props: { variant: 'estilo3' },
-                        style: {
-                            color: appStyles.primariaEscura,
-                            padding: 0,
-                            background: 'transparent',
-                            margin: '1rem 1rem',
-                            '&:hover': {
-                                textDecoration: 'underline',
-                                background: 'transparent',
-                            },
-                            '&:focus': {
-                                outline: 'none',
-                            },
-                        },
-                    },
-                ],
-                styleOverrides: {
-                    root: {
-                        borderRadius: '50px',
-                        textTransform: 'none',
-                        ...appStyles.botao1(fontScale),
-                        '&.MuiButton-sizeSmall': {
-                            padding: '6px 1.5rem',
-                            '@media screen and (max-width: 1367px)': {
-                                padding: '4px 1.15rem',
-                            },
-                            '@media screen and (max-width: 600px)': {
-                                padding: '4px 1rem',
-                            },
-                        },
-                        '&.MuiButton-sizeMedium': {
-                            padding: '8px 2rem',
-                            '@media (max-width: 1367px)': {
-                                padding: '6px 1.5rem',
-                            },
-                            '@media (max-width: 600px)': {
-                                padding: '6px 1.5rem',
-                            },
-                        },
-                        '&.MuiButton-sizeLarge': {
-                            ...appStyles.botao2(fontScale),
-                            padding: '10px 2.5rem',
-                            height: '48px',
-                            '@media screen and (max-width: 1367px)': {
-                                padding: '7px 1.25rem',
-                                height: '40px',
-                                ...appStyles.botao2(fontScale),
-                            },
-                            '@media screen and (max-width: 600px)': {
-                                padding: '6px 1.5rem',
-                                height: '36px',
-                                ...appStyles.botao2(fontScale),
-                            },
-                        },
-                    },
-                },
-            },
+			displayLarge: appStyles.displayLarge(fontScale),
+			displayMedium: appStyles.displayMedium(fontScale),
+			displaySmall: appStyles.displaySmall(fontScale),
+			headlineLarge: appStyles.headlineLarge(fontScale),
+			headlineMedium: appStyles.headlineMedium(fontScale),
+			headlineSmall: appStyles.headlineSmall(fontScale),
+			titleLarge: appStyles.titleLarge(fontScale),
+			titleMedium: appStyles.titleMedium(fontScale),
+			titleSmall: appStyles.titleSmall(fontScale),
+			labelLarge: appStyles.labelLarge(fontScale),
+			labelMedium: appStyles.labelMedium(fontScale),
+			labelSmall: appStyles.labelSmall(fontScale),
+			bodyLarge: appStyles.bodyLarge(fontScale),
+			bodyMedium: appStyles.bodyMedium(fontScale),
+			bodySmall: appStyles.bodySmall(fontScale),
 
-            MuiButtonBase: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        padding: 0,
-                    },
-                },
-            },
+			h1: appStyles.h1(fontScale),
+			h2: appStyles.h2(fontScale),
+			h3: appStyles.h3(fontScale),
+			h4: appStyles.h4(fontScale),
+			h5: appStyles.h5(fontScale),
+			h6: appStyles.h6(fontScale),
+			h7: appStyles.h7(fontScale),
+			h8: appStyles.h8(fontScale),
+			h9: appStyles.h9(fontScale),
+			h10: appStyles.h10(fontScale)
+		},
 
-            MuiFormHelperText: {
-                defaultProps: {
-                    margin: 'dense',
-                },
-                styleOverrides: {},
-            },
+		components: {
+			MuiDataGrid: {
+				styleOverrides: {
+					root: {
+						border: '0px',
+						color: appStyles.cinza20,
+						'& .MuiCircularProgress-root': {
+							color: appStyles.primary
+						},
+						'& .MuiDataGrid-columnHeaders': {
+							'& .MuiDataGrid-columnSeparator': {
+								visibility: 'hidden'
+							},
+							borderBottom: `2px solid ${appStyles.verdeVale}`
+						},
+						'& .MuiDataGrid-cell': {
+							padding: '4px',
+							borderBottom: `1px solid ${appStyles.cinza90}`
+						},
+						'& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within': {
+							outline: 'none'
+						},
+						'& .MuiDataGrid-row:hover': {
+							backgroundColor: appStyles.primaryOnHover
+						},
+						'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
+							outline: 'none'
+						},
+						'& .MuiDataGrid-actionsCell': {
+							gap: '0px',
+							'& button': {
+								color: 'black'
+							}
+						}
+					},
+					row: {
+						cursor: 'pointer',
+						'&.Mui-selected': {
+							backgroundColor: appStyles.primaryOnHover,
+							'&:hover': {
+								backgroundColor: appStyles.primaryOnHover
+							}
+						}
+					}
+				}
+			},
 
-            MuiIconButton: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        // Ajusta o espaçamento para atingir o mínimo de toque
-                        marginLeft: 4,
-                        marginRight: 4,
-                        padding: 12,
-                        fontSize: 16 * fontScale,
-                    },
-                },
-            },
+			MuiBox: {
+				styleOverrides: {
+					root: {
+						maxHeight: '100vh'
+					}
+				}
+			},
 
-            MuiPickersCalendarHeader: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        color: 'black',
-                    },
-                    labelContainer: {
-                        maxHeight: '100px',
-                        width: 'fit-content',
-                        flexWrap: 'no-wrap',
-                        ...appStyles.caption1(fontScale),
-                    },
-                },
-            },
+			MuiModal: {
+				styleOverrides: {
+					root: {
+						'&.MuiBox-root': {
+							maxHeight: '100vh'
+						}
+					}
+				}
+			},
 
-            MuiListItemText: {
-                defaultProps: {},
-                styleOverrides: {
-                    primary: {
-                        ...appStyles.descricao(fontScale),
-                    },
-                    secondary: {
-                        ...appStyles.caption3(fontScale),
-                    },
-                },
-            },
+			MuiButton: {
+				defaultProps: {
+					size: 'medium',
+					variant: 'primary'
+				},
+				variants: [
+					{
+						props: { variant: 'primary' },
+						style: {
+							backgroundColor: appStyles.primary,
+							color: appStyles.onPrimary,
+							border: `1px solid ${appStyles.primary}`,
+							'&:hover': {
+								backgroundColor: appStyles.buttonOnHover,
+								border: `1px solid ${appStyles.buttonOnHover}`
+							},
+							'&:focus': {
+								outline: 'none'
+							},
+							'&.Mui-disabled': {
+								color: appStyles.cinza50,
+								backgroundColor: appStyles.cinza90,
+								border: `1px solid ${appStyles.cinza90}`,
+								opacity: 1
+							}
+						}
+					},
+					{
+						props: { variant: 'secondary' },
+						style: {
+							backgroundColor: 'transparent',
+							color: appStyles.primary,
+							border: `1px solid ${appStyles.primary}`,
+							'&:hover': {
+								backgroundColor: appStyles.primaryOnHover
+							},
+							'&:focus': {
+								outline: 'none'
+							},
+							'&.Mui-disabled': {
+								color: appStyles.cinza50,
+								borderColor: appStyles.cinza80,
+								opacity: 1
+							}
+						}
+					}
+				],
+				styleOverrides: {
+					root: {
+						minWidth: 'fit-content',
+						borderRadius: '8px',
+						padding: '0.625rem 1.25rem',
+						textTransform: 'none',
+						'&.MuiButton-sizeSmall': {
+							padding: '0.375rem 0.75rem',
+							minHeight: '38px'
+						},
+						'&.MuiButton-sizeMedium': {
+							padding: '0.625rem 1.25rem',
+							minHeight: '46px'
+						},
+						'&.MuiButton-sizeLarge': {
+							padding: '0.875rem 1.75rem',
+							minHeight: '54px'
+						}
+					},
+					iconSizeSmall: {
+						'& .MuiSvgIcon-root': {
+							fontSize: '24px'
+						}
+					},
+					iconSizeMedium: {
+						'& .MuiSvgIcon-root': {
+							fontSize: '24px'
+						}
+					}
+				}
+			},
 
-            MuiDatePickerToolbar: {
-                defaultProps: {},
-                styleOverrides: {
-                    title: {
-                        ...appStyles.h9(fontScale),
-                    },
-                },
-            },
+			MuiFormHelperText: {
+				defaultProps: {
+					margin: 'dense'
+				}
+			},
 
-            MuiCalendarOrClockPicker: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        paddingBottom: '-5rem',
-                    },
-                },
-            },
+			MuiIconButton: {
+				defaultProps: {
+					color: 'primary',
+					size: 'medium'
+				},
+				styleOverrides: {
+					root: {
+						borderRadius: '50%',
+						padding: '6px'
+					},
+					colorPrimary: {
+						'&:hover': {
+							backgroundColor: appStyles.primaryOnHover
+						}
+					},
+					colorOnPrimary: {
+						'&:hover': {
+							backgroundColor: appStyles.lightHover
+						}
+					}
+				}
+			},
 
-            MuiLocalizationProvider: {
-                defaultProps: {
-                    root: {},
-                    localeText: {
-                        cancelButtonLabel: 'Cancelar',
-                    },
-                },
-                styleOverrides: {
-                    root: {
-                        background: 'black',
-                    },
-                },
-            },
+			MuiToggleButton: {
+				styleOverrides: {
+					root: {
+						padding: '0.625rem',
+						border: `1px solid ${appStyles.cinza80}`,
+						color: appStyles.onBackground,
+						'&:hover': {
+							backgroundColor: appStyles.primaryOnHover,
+							color: appStyles.primary
+						},
+						'&.Mui-selected': {
+							color: appStyles.primary,
+							backgroundColor: appStyles.activeBackground
+						}
+					}
+				}
+			},
 
-            MuiCheckbox: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        '&.Mui-checked': {
-                            color: appStyles.primariaEscura,
-                        },
-                    },
-                },
-            },
+			MuiIcon: {
+				styleOverrides: {
+					root: {
+						fontSize: 16 * fontScale
+					}
+				}
+			},
 
-            MuiIcon: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        fontSize: 16 * fontScale,
-                    },
-                },
-            },
+			MuiSvgIcon: {
+				styleOverrides: {
+					root: {
+						fontSize: 24 * fontScale
+					}
+				}
+			},
 
-            MuiSvgIcon: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        fontSize: 24 * fontScale,
-                        //color: appStyles.preto,
-                    },
-                },
-            },
+			MuiSnackbarContent: {
+				styleOverrides: {
+					root: { padding: 0 },
+					message: { padding: 0 }
+				}
+			},
 
-            MuiSnackbarContent: {
-                defaultProps: {
-                    margin: 'dense',
-                },
-                styleOverrides: {
-                    root: { padding: 0 },
-                    message: { padding: 0 },
-                },
-            },
+			MuiInputBase: {
+				defaultProps: {
+					margin: 'dense'
+				}
+			},
 
-            MuiInputBase: {
-                defaultProps: {
-                    margin: 'dense',
-                },
-                styleOverrides: {
-                    root: {
-                        fontFamily: appStyles.fontFamily,
-                        fontSize: 14 * fontScale,
-                        padding: '10px 16px',
-                        '&.Mui-selected:focus': {
-                            background: appStyles.backgroundEscuro,
-                        },
-                        '&.Mui-disabled': {
-                            color: appStyles.corTexto,
-                            background: appStyles.cinzaClaro,
-                            border: `1px solid ${appStyles.cinzaEscuro}`,
-                            outline: 'none',
-                        },
-                    },
-                    input: {
-                        '&::placeholder': {
-                            color: '#5A5A5A',
-                        },
-                        '&:-webkit-autofill': {
-                            WebkitBoxShadow: '0 0 0 100px #fff inset',
-                        },
-                        '&.Mui-disabled': {
-                            color: appStyles.corTexto,
-                            outline: 'none',
-                        },
-                        padding: '4px 5px',
-                        fontFamily: appStyles.fontFamily + ' !important',
-                        fontSize: 14 * fontScale + ' !important',
-                        '&:focus': {
-                            backgroundColor: 'transparent',
-                        },
-                    },
-                },
-            },
+			MuiInputLabel: {
+				defaultProps: {
+					margin: 'dense'
+				}
+			},
 
-            MuiFilledInput: {
-                defaultProps: {
-                    margin: 'dense',
-                    disableUnderline: true,
-                },
-                styleOverrides: {
-                    root: {
-                        padding: 0,
-                        borderRadius: '10px',
-                        transition: 'background-color 300ms',
-                        ...appStyles.corpo1(fontScale),
-                        color: appStyles.corTexto,
-                        backgroundColor: appStyles.backgroundClaro,
-                        border: `1px solid transparent`,
-                        '&:hover': {
-                            borderColor: appStyles.cinzaBackground,
-                            background: appStyles.backgroundClaro,
-                            transition: 'background-color 300ms',
-                        },
-                        '&.Mui-focused': {
-                            background: appStyles.backgroundClaro,
-                            color: appStyles.corTexto,
-                            border: `1px solid ${appStyles.preto}`,
-                        },
-                        '&.Mui-disabled': {
-                            backgroundColor: appStyles.cinzaClaro,
-                            border: `1px solid ${appStyles.cinzaEscuro}`,
-                            color: appStyles.corTexto,
-                        },
-                    },
-                    input: {
-                        padding: '0.5rem 1.25rem',
-                        borderRadius: 'inherit',
-                        '&.Mui-disabled': {
-                            color: appStyles.corTexto,
-                            WebkitTextFillColor: appStyles.corTexto,
-                            outline: 'none',
-                        },
-                        '&:focus': {
-                            color: appStyles.preto,
-                        },
-                        '&.Mui-error': {
-                            color: appStyles.preto,
-                        },
-                    },
-                },
-            },
+			MuiFilledInput: {
+				defaultProps: {
+					margin: 'dense',
+					disableUnderline: true
+				},
+				styleOverrides: {
+					root: {
+						padding: '0.75rem 1rem',
+						backgroundColor: appStyles.branco,
+						color: appStyles.onBackground,
+						borderRadius: '8px',
+						border: `1px solid ${appStyles.cinza80}`,
+						'&:hover': {
+							backgroundColor: appStyles.cinza98
+						},
+						'&.Mui-focused': {
+							backgroundColor: appStyles.branco,
+							color: appStyles.onBackground,
+							border: `1px solid ${appStyles.primary}`,
+							'&:hover': {
+								backgroundColor: appStyles.cinza98
+							}
+						},
+						'&.Mui-disabled': {
+							backgroundColor: appStyles.cinza90,
+							border: `1px solid ${appStyles.cinza90}`,
+							color: appStyles.cinza60
+						},
+						'&.Mui-error': {
+							backgroundColor: appStyles.branco,
+							color: appStyles.onBackground,
+							border: `1px solid ${appStyles.error}`,
+							'&:hover': {
+								backgroundColor: appStyles.cinza98
+							}
+						},
+						...appStyles.bodyLarge(fontScale)
+					},
+					input: {
+						color: appStyles.onBackground,
+						padding: 0,
+						height: '1.25rem',
+						...appStyles.bodyLarge(fontScale),
+						'&.Mui-disabled': {
+							color: appStyles.cinza60,
+							WebkitTextFillColor: appStyles.cinza60
+						},
+						'&::placeholder': {
+							color: appStyles.cinza60,
+							opacity: 1
+						}
+					}
+				}
+			},
 
-            MuiInputLabel: {
-                defaultProps: {
-                    margin: 'dense',
-                },
-                styleOverrides: {},
-            },
+			MuiInputAdornment: {
+				styleOverrides: {
+					root: {
+						color: appStyles.cinza20
+					},
+					filled: {
+						marginTop: '0 !important'
+					}
+				}
+			},
 
-            MuiOutlinedInput: {
-                defaultProps: {
-                    margin: 'dense',
-                },
-                styleOverrides: {
-                    root: {
-                        ...appStyles.corpo1(fontScale),
-                        padding: '10px 16px',
-                        borderRadius: '10px',
-                        background: `${appStyles.gradienteLinear} padding-box, ${appStyles.gradienteVidroClaro} border-box`,
-                        '&:hover': {
-                            background: appStyles.backgroundClaro,
-                        },
-                        '&:hover .MuiOutlinedInput-notchedOutline': {
-                            borderColor: appStyles.cinzaBackground,
-                        },
-                        '& .MuiOutlinedInput-notchedOutline': {
-                            border: `1px solid ${appStyles.cinzaBackground}`,
-                        },
-                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: appStyles.cinzaBackground,
-                        },
+			MuiMenuItem: {
+				styleOverrides: {
+					root: {
+						padding: '0.5rem 1.5rem',
+						color: appStyles.primary,
+						gap: '.5rem',
+						...appStyles.labelLarge(fontScale),
+						'&:hover': {
+							background: appStyles.primaryOnHover
+						}
+					}
+				}
+			},
 
-                        '&.Mui-disabled': {
-                            background: appStyles.cinzaClaro,
-                            border: `1px solid ${appStyles.cinzaEscuro}`,
-                            outline: 'none',
-                            WebkitTextFillColor: appStyles.corTexto,
-                        },
-                        '&.Mui-focused': {
-                            borderColor: appStyles.preto,
-                            backgroundColor: appStyles.branco,
-                        },
-                        '&.Mui-error ': {
-                            borderColor: appStyles.erro,
-                        },
-                    },
-                    input: {
-                        padding: 0,
-                        '&.Mui-disabled': {
-                            color: appStyles.corTexto,
-                            WebkitTextFillColor: appStyles.corTexto,
-                            outline: 'none',
-                        },
-                        '&:focus': {
-                            color: appStyles.preto,
-                        },
-                        '&.Mui-error': {
-                            color: appStyles.preto,
-                        },
-                    },
-                },
-            },
+			MuiListItem: {
+				defaultProps: {
+					dense: true
+				}
+			},
 
-            MuiListItem: {
-                defaultProps: {
-                    dense: true,
-                },
-                styleOverrides: {},
-            },
+			MuiTextField: {
+				defaultProps: {
+					margin: 'normal',
+					variant: 'filled'
+				},
+				styleOverrides: {
+					root: {
+						width: '100%',
+						marginTop: 0
+					}
+				}
+			},
 
-            MuiFab: {
-                defaultProps: {},
-                styleOverrides: {},
-            },
+			MuiToolbar: {
+				defaultProps: {
+					variant: 'dense'
+				}
+			},
 
-            MuiTable: {
-                defaultProps: {},
-                styleOverrides: {},
-            },
+			MuiTab: {
+				styleOverrides: {
+					root: {
+						fontFamily: appStyles.fontFamily,
+						margin: isMobile ? 0 : 4
+					}
+				}
+			},
 
-            MuiTextField: {
-                defaultProps: {
-                    margin: 'normal',
-                    variant: 'filled',
-                },
-                styleOverrides: {
-                    root: {
-                        width: '100%',
-                        marginTop: 0,
-                    },
-                },
-            },
+			MuiFormControl: {
+				styleOverrides: {
+					root: {
+						borderRadius: '8px',
+						margin: 0
+					},
+					marginNormal: {
+						marginTop: 4
+					}
+				}
+			},
 
-            MuiToolbar: {
-                defaultProps: {
-                    variant: 'dense',
-                },
-                styleOverrides: {},
-            },
+			MuiDialog: {
+				styleOverrides: {
+					paper: {
+						minWidth: isMobile ? '90%' : '400px',
+						//minHeight: isMobile ? '30%' : '190px',
+						maxHeight: isMobile ? '90%' : '90%',
+						maxWidth: isMobile ? '90%' : '1200px'
+					}
+				}
+			},
 
-            MuiTabs: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        color: appStyles.cinzaClaro,
-                    },
-                },
-            },
+			MuiDrawer: {
+				styleOverrides: {
+					root: {
+						width: 360, // drawerWidth,
+						flexShrink: 0
+					},
+					paper: {
+						top: isMobile ? 0 : 10,
+						right: isMobile ? 0 : 10,
+						width: isMobile ? '100%' : 360, //,drawerWidth,
+						height: isMobile ? '100%' : 'calc(100% - 85px)',
+						boxShadow: '-10px 20px 20px -18px #000000, 12px 0px 20px -18px #000000',
+						overflow: 'hidden',
+						borderRadius: isMobile ? 0 : 15
+					}
+				}
+			},
 
-            MuiMenuItem: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        '&:hover': {
-                            color: appStyles.preto,
-                            background: appStyles.backgroundClaro,
-                        },
-                        '&.Mui-selected': {
-                            background: appStyles.backgroundEscuro,
-                        },
-                        '&.Mui-selected:hover': {
-                            background: appStyles.backgroundEscuro,
-                        },
-                        '&.Mui-selected:focus': {
-                            background: appStyles.backgroundEscuro,
-                        },
-                    },
-                },
-            },
+			MuiAutocomplete: {
+				styleOverrides: {
+					root: {
+						'&.MuiTextField-root': {
+							padding: '0'
+						},
+						...appStyles.bodyLarge
+					},
+					popupIndicator: {
+						color: appStyles.cinza20
+					},
+					endAdornment: {
+						top: 'unset'
+					},
+					inputRoot: {
+						padding: '.3125rem 0.75rem'
+					},
+					paper: {
+						borderRadius: '8px',
+						boxShadow: appStyles.cardShadow
+					},
+					option: {
+						color: appStyles.onBackground,
+						padding: '0.5rem 1rem !important',
+						'&:hover, &.Mui-focused': {
+							color: appStyles.primary,
+							backgroundColor: `${appStyles.primaryOnHover} !important`
+						},
+						...appStyles.bodyLarge(fontScale)
+					}
+				}
+			},
 
-            MuiTab: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        textTransform: 'none',
-                        fontFamily: appStyles.fontFamily,
-                        color: appStyles.cinzaEscuro,
-                        margin: isMobile ? 0 : '0 1rem -1rem 1rem',
-                        padding: '1rem 0 1rem 0',
-                        width: '12.5rem',
-                        '&:hover': {
-                            color: appStyles.preto,
-                            background: 'white',
-                        },
-                        '&.Mui-selected': {
-                            outline: 'none',
-                            color: appStyles.primariaEscura,
-                        },
-                        '&.Mui-focusVisible': {
-                            backgroundColor: 'blue',
-                        },
-                        ...appStyles.menu1(fontScale),
-                    },
-                },
-            },
+			MuiTypography: {
+				defaultProps: {
+					color: appStyles.onBackground,
+					variantMapping: {
+						displayLarge: 'h1',
+						displayMedium: 'h2',
+						displaySmall: 'h3',
+						headlineLarge: 'h4',
+						headlineMedium: 'h5',
+						headlineSmall: 'h6',
+						titleLarge: 'h6',
+						titleMedium: 'h6',
+						titleSmall: 'h6',
+						labelLarge: 'p',
+						labelMedium: 'p',
+						labelSmall: 'p',
+						bodyLarge: 'p',
+						bodyMedium: 'p',
+						bodySmall: 'p'
+					}
+				}
+			},
 
-            MuiFormControl: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        borderRadius: 30,
-                        // backgroundColor: "#FFFFFF",
-                    },
-                    marginNormal: {
-                        marginTop: 4,
-                    },
-                },
-            },
+			MuiTooltip: {
+				defaultProps: {
+					enterDelay: 300
+				},
+				styleOverrides: {
+					tooltip: {
+						fontWeight: 'normal'
+					}
+				}
+			},
 
-            MuiSelect: {
-                defaultProps: { variant: 'filled' },
-                variants: [
-                    {
-                        props: { variant: 'outlined' },
-                        style: {
-                            ...appStyles.corpo1(fontScale),
-                            color: appStyles.preto,
-                            '&.Mui-focused': { color: appStyles.preto },
-                            '&:hover': {
-                                background: appStyles.backgroundClaro,
-                            },
-                            select: {
-                                ...appStyles.corpo1(fontScale),
-                                fontSize: 14 * fontScale,
-                                color: appStyles.preto,
-                                '&:hover': {
-                                    background: appStyles.cinzaBackground,
-                                },
-                            },
-                            icon: {
-                                color: 'black',
-                                marginRight: '1rem',
-                            },
-                            input: {
-                                ...appStyles.corpo1(fontScale),
-                            },
-                        },
-                    },
-                    {
-                        props: { variant: 'filled' },
-                        style: {
-                            ...appStyles.corpo1(fontScale),
-                            color: appStyles.corTexto,
-                            background: appStyles.backgroundClaro,
-                            '&.Mui-focused': { borderColor: appStyles.preto },
-                            '&:hover': {
-                                borderColor: appStyles.cinzaBackground,
-                            },
-                            select: {
-                                ...appStyles.corpo1(fontScale),
-                                fontSize: 14 * fontScale,
-                                color: appStyles.primariaEscura,
-                                '&:hover': {
-                                    background: appStyles.cinzaBackground,
-                                },
-                                '&:focus': {
-                                    color: appStyles.primariaEscura,
-                                    border: appStyles.preto,
-                                },
-                            },
-                            icon: {
-                                color: 'black',
-                                marginRight: '1rem',
-                            },
-                            input: {
-                                ...appStyles.corpo1(fontScale),
-                            },
-                        },
-                    },
-                ],
-            },
+			MuiAppBar: {
+				styleOverrides: {
+					root: {
+						backgroundColor: 'white',
+						boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1);'
+					}
+				}
+			},
 
-            MuiDialog: {
-                defaultProps: {},
-                styleOverrides: {
-                    paper: {
-                        minWidth: isMobile ? '90%' : '400px',
-                        minHeight: isMobile ? '30%' : '190',
-                        maxHeight: isMobile ? '90%' : '90%',
-                        // maxWidth:'90%',
-                        maxWidth: isMobile ? '90%' : '1200px',
-                    },
-                },
-            },
+			MuiSwitch: {
+				defaultProps: {
+					color: 'primary'
+				},
+				styleOverrides: {
+					root: {
+						color: appStyles.verdeVale
+					},
+					switchBase: {
+						'&:hover': {
+							background: appStyles.primaryOnHover
+						},
+						'&.Mui-checked:hover': {
+							background: appStyles.primaryOnHover
+						}
+					}
+				}
+			},
 
-            MuiDrawer: {
-                defaultProps: {},
-                styleOverrides: {
-                    root: {
-                        width: 360, // drawerWidth,
-                        flexShrink: 0,
-                    },
-                    paper: {
-                        right: isMobile ? 0 : 10,
-                        width: isMobile ? '100%' : 360, //,drawerWidth,
-                        height: isMobile ? '100%' : 'calc(100% - 85px)',
-                        // boxShadow: '-10px 20px 20px -18px #000000, 12px 0px 20px -18px #000000',
-                        overflowY: 'auto',
-                    },
-                },
-            },
+			MuiCheckbox: {
+				styleOverrides: {
+					root: {
+						'& > .MuiSvgIcon-root': {
+							color: appStyles.cinza80
+						},
+						'&:hover': {
+							background: appStyles.primaryOnHover,
+							'& > .MuiSvgIcon-root': {
+								color: appStyles.primary
+							}
+						},
+						'&.Mui-checked': {
+							'& > .MuiSvgIcon-root': {
+								color: appStyles.primary
+							}
+						}
+					}
+				}
+			},
 
-            MuiAutocomplete: {
-                defaultProps: {
-                    margin: 'normal',
-                    variant: 'filled',
-                },
-                styleOverrides: {
-                    root: {
-                        '& .MuiFilledInput-root': {
-                            paddingTop: 0,
-                        },
-                    },
-                    popupIndicator: {
-                        // color: appStyles.primaryColor,
-                    },
-                    endAdornment: {
-                        top: 'unset',
-                    },
-                },
-            },
-            MuiTypography: {
-                defaultProps: {
-                    variantMapping: {
-                        h1: 'h1',
-                        h2: 'h2',
-                        h3: 'h3',
-                        h4: 'h4',
-                        h5: 'h5',
-                        h6: 'h6',
-                        subtitle1: 'p',
-                        subtitle2: 'p',
-                        body1: 'p',
-                        body2: 'p',
-                        caption: 'p',
-                    },
-                },
-                styleOverrides: {},
-            },
-
-            MuiCard: {
-                styleOverrides: {
-                    root: {
-                        boxShadow: appStyles.sombraCard,
-                    },
-                },
-            },
-
-            MuiTooltip: {
-                defaultProps: {
-                    enterDelay: 300,
-                },
-                styleOverrides: {
-                    tooltip: {
-                        // backgroundColor: "rgba(30, 30, 30, 0.9)",
-                        // color: appStyles.textWhite,
-                        fontWeight: 'normal',
-                    },
-                },
-            },
-        },
-    };
+			MuiRadio: {
+				styleOverrides: {
+					root: {
+						'& > span > .MuiSvgIcon-root': {
+							color: appStyles.cinza80
+						},
+						'&:hover': {
+							background: appStyles.primaryOnHover,
+							'& > span > .MuiSvgIcon-root': {
+								color: appStyles.primary
+							}
+						},
+						'&.Mui-checked': {
+							'& > span > .MuiSvgIcon-root': {
+								color: appStyles.primary
+							}
+						}
+					}
+				}
+			}
+		}
+	};
 };
 
-const getDarkTheme = (props: {
-    fontScale: number;
-    isMobile: boolean;
-}): IThemeOptionsBoilerplate => {
-    const { fontScale, isMobile } = props;
-    return {
-        ...getLightTheme(props),
-        palette: {
-            mode: 'dark',
-            primary: {
-                main: appStyles.primariaClara,
-            },
-            secondary: {
-                main: appStyles.secundariaEscura,
-            },
-            background: {
-                color1: appStyles.color1dark,
-                color2: appStyles.color2dark,
-                color3: appStyles.color3dark,
-            },
-        },
-        typography: {
-            ...getLightTheme(props).typography,
-            fontFamily: appStyles.fontFamily,
-            fontSize: 18 * fontScale,
-            fontWeightLight: 300,
-            fontWeightRegular: 400,
-            fontWeightMedium: 600,
-            fontWeightBold: 700,
-            h1: { ...appStyles.h1(fontScale), color: appStyles.primariaClara },
-            h2: { ...appStyles.h2(fontScale), color: appStyles.secundariaEscura },
-            h3: { ...appStyles.h3(fontScale), color: '#D3D3D3' },
-            h4: appStyles.h4(fontScale),
-            h5: appStyles.h5(fontScale),
-            h6: appStyles.h6(fontScale),
-            h7: appStyles.h7(fontScale),
-            h8: appStyles.h8(fontScale),
-            h9: appStyles.h9(fontScale),
-            h10: appStyles.h10(fontScale),
-        },
-    };
+const getDarkTheme = (props: { fontScale: number; isMobile: boolean }): IThemeOptionsBoilerplate => {
+	const { fontScale, isMobile } = props;
+	return {
+		...getLightTheme(props),
+		palette: {
+			...getLightTheme(props).palette,
+			mode: 'dark',
+			primary: {
+				main: appStyles.darkPalette.primary,
+				contrastText: appStyles.darkPalette.onPrimary
+			},
+			secondary: {
+				main: appStyles.darkPalette.secondary,
+				contrastText: appStyles.darkPalette.onSecondary
+			},
+			text: {
+				primary: appStyles.darkPalette.cinza20,
+				secondary: appStyles.darkPalette.onBackground,
+				disabled: appStyles.darkPalette.cinza60
+			},
+			background: {
+				paper: appStyles.darkPalette.background,
+				default: appStyles.darkPalette.background
+			},
+			error: {
+				main: appStyles.darkPalette.error,
+				contrastText: appStyles.darkPalette.onError,
+				light: appStyles.darkPalette.errorContainer
+			},
+			divider: appStyles.darkPalette.cinza90,
+			action: {
+				active: appStyles.darkPalette.activeBackground,
+				hover: appStyles.darkPalette.primaryOnHover
+			},
+
+			//gerais
+			onPrimary: { main: appStyles.darkPalette.onPrimary },
+			primaryContainer: appStyles.darkPalette.primaryContainer,
+			onPrimaryContainer: appStyles.darkPalette.onPrimaryContainer,
+			primaryOnHover: appStyles.darkPalette.primaryOnHover,
+			onSecondary: appStyles.darkPalette.onSecondary,
+			secondaryContainer: appStyles.darkPalette.secondaryContainer,
+			onSecondaryContainer: appStyles.darkPalette.onSecondary,
+			secondaryOnHover: appStyles.darkPalette.secondaryOnHover,
+			onError: appStyles.darkPalette.onError,
+			errorContainer: appStyles.darkPalette.errorContainer,
+			onErrorContainer: appStyles.darkPalette.onErrorContainer,
+			onBackground: appStyles.darkPalette.onBackground,
+			buttonOnHover: appStyles.darkPalette.buttonOnHover,
+			primaryGradient: appStyles.darkPalette.primaryGradient,
+			secondaryGradient: appStyles.darkPalette.secondaryGradient,
+			greenBackground: appStyles.darkPalette.greenBackground,
+			activeBackground: appStyles.darkPalette.activeBackground,
+			lightHover: appStyles.darkPalette.lightHover,
+			surface: appStyles.darkPalette.surface,
+			onSurface: appStyles.darkPalette.onSurface,
+			surfaceVariant: appStyles.darkPalette.surfaceVariant,
+			onSurfaceVariant: appStyles.darkPalette.onSurfaceVariant,
+			outline: appStyles.darkPalette.outline,
+
+			//cinzas
+			preto: appStyles.darkPalette.preto,
+			cinza10: appStyles.darkPalette.cinza10,
+			cinza20: appStyles.darkPalette.cinza20,
+			cinza30: appStyles.darkPalette.cinza30,
+			cinza40: appStyles.darkPalette.cinza40,
+			cinza50: appStyles.darkPalette.cinza50,
+			cinza60: appStyles.darkPalette.cinza60,
+			cinza70: appStyles.darkPalette.cinza70,
+			cinza80: appStyles.darkPalette.cinza80,
+			cinza90: appStyles.darkPalette.cinza90,
+			cinza95: appStyles.darkPalette.cinza95,
+			cinza98: appStyles.darkPalette.cinza98,
+
+			//primarias
+			aquaVale: appStyles.darkPalette.aquaVale,
+			amareloVale: appStyles.darkPalette.amareloVale,
+			cerejaVale: appStyles.darkPalette.cerejaVale,
+			laranjaVale: appStyles.darkPalette.laranjaVale,
+			azulVale: appStyles.darkPalette.azulVale,
+			cinzaEscuro: appStyles.darkPalette.cinzaEscuro,
+			branco: appStyles.darkPalette.branco,
+			verdeVale: appStyles.darkPalette.verdeVale,
+
+			//secundarias
+			verdeEscuro: appStyles.darkPalette.verdeEscuro,
+			aquaClaro: appStyles.darkPalette.aquaClaro,
+			azulEscuro: appStyles.darkPalette.azulEscuro,
+			amareloClaro: appStyles.darkPalette.amareloClaro,
+			cerejaEscuro: appStyles.darkPalette.cerejaEscuro,
+			cerejaClaro: appStyles.darkPalette.cerejaClaro,
+			cinzaClaro: appStyles.darkPalette.cinzaClaro,
+			cinzaMedio: appStyles.darkPalette.cinzaMedio
+		}
+	};
 };
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean; isMobile: boolean }) => {
-    const fontScale = options.fontScale || 1;
-    const isMobile = options.isMobile || false;
-    if (options.darkMode) {
-        return createTheme(getDarkTheme({ fontScale, isMobile }));
-    } else {
-        return createTheme(getLightTheme({ fontScale, isMobile }));
-    }
+	const fontScale = options.fontScale || 1;
+	const isMobile = options.isMobile || false;
+
+	if (options.darkMode) {
+		return createTheme(getDarkTheme({ fontScale, isMobile }));
+	} else {
+		return createTheme(getLightTheme({ fontScale, isMobile }));
+	}
 };
