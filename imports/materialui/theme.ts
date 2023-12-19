@@ -1,5 +1,6 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
 import * as appStyles from './styles';
+import { ButtonProps } from '@mui/material';
 
 export interface IThemeOptionsBoilerplate extends ThemeOptions {
 	palette: ThemeOptions['palette'] & {
@@ -302,12 +303,11 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 			MuiButton: {
 				defaultProps: {
 					size: 'medium',
-					variant: 'primary'
-				},
-				variants: [
-					{
-						props: { variant: 'primary' },
-						style: {
+					styleVariant: 'primary'
+				} as ButtonProps & { styleVariant: 'primary' | 'secondary' },
+				styleOverrides: {
+					root: (props: any) => ({
+						...(props.styleVariant === 'primary' && {
 							backgroundColor: appStyles.primary,
 							color: appStyles.onPrimary,
 							border: `1px solid ${appStyles.primary}`,
@@ -324,11 +324,8 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 								border: `1px solid ${appStyles.cinza90}`,
 								opacity: 1
 							}
-						}
-					},
-					{
-						props: { variant: 'secondary' },
-						style: {
+						}),
+						...(props.styleVariant === 'secondary' && {
 							backgroundColor: 'transparent',
 							color: appStyles.primary,
 							border: `1px solid ${appStyles.primary}`,
@@ -343,11 +340,7 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 								borderColor: appStyles.cinza80,
 								opacity: 1
 							}
-						}
-					}
-				],
-				styleOverrides: {
-					root: {
+						}),
 						minWidth: 'fit-content',
 						borderRadius: '8px',
 						padding: '0.625rem 1.25rem',
@@ -364,7 +357,7 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 							padding: '0.875rem 1.75rem',
 							minHeight: '54px'
 						}
-					},
+					}),
 					iconSizeSmall: {
 						'& .MuiSvgIcon-root': {
 							fontSize: '24px'
