@@ -3,7 +3,6 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { exampleApi } from '../../api/exampleApi';
 import { userprofileApi } from '../../../../userprofile/api/UserProfileApi';
 import { SimpleTable } from '/imports/ui/components/SimpleTable/SimpleTable';
-import _ from 'lodash';
 import Add from '@mui/icons-material/Add';
 import Delete from '@mui/icons-material/Delete';
 import Fab from '@mui/material/Fab';
@@ -12,7 +11,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { initSearch } from '/imports/libs/searchUtils';
 import * as appStyle from '/imports/materialui/styles';
 import { nanoid } from 'nanoid';
-import { PageLayout } from '/imports/ui/layouts/pageLayout';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import SearchDocField from '/imports/ui/components/SimpleFormFields/SearchDocField/SearchDocField';
 import { IDefaultContainerProps, IDefaultListProps, IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
@@ -20,10 +18,10 @@ import { IExample } from '../../api/exampleSch';
 import { IConfigList } from '/imports/typings/IFilterProperties';
 import { Recurso } from '../../config/Recursos';
 import { RenderComPermissao } from '/imports/seguranca/ui/components/RenderComPermisao';
-import { isMobile } from '/imports/libs/deviceVerify';
 import { showLoading } from '/imports/ui/components/Loading/Loading';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
 import ToggleField from '/imports/ui/components/SimpleFormFields/ToggleField/ToggleField';
+import { PageLayout } from '/imports/ui/layouts/PageLayout';
 
 interface IExampleList extends IDefaultListProps {
 	remove: (doc: IExample) => void;
@@ -88,7 +86,7 @@ const ExampleList = (props: IExampleList) => {
 		// }
 	};
 
-	const click = (_e: any) => {
+	const click = (_e: React.SyntheticEvent) => {
 		if (text && text.trim().length > 0) {
 			onSearch(text.trim());
 		} else {
@@ -106,8 +104,9 @@ const ExampleList = (props: IExampleList) => {
 		!!e.target.value ? setFilter({ createdby: e.target.value }) : clearFilter();
 	};
 
-	// @ts-ignore
-	// @ts-ignore
+	const { image, title, description, nomeUsuario } = exampleApi.getSchema();
+	const schemaReduzido = { image, title, description, nomeUsuario: { type: String, label: 'Criado por' } };
+
 	return (
 		<PageLayout title={'Lista de Exemplos'} actions={[]}>
 			<SearchDocField
@@ -133,7 +132,6 @@ const ExampleList = (props: IExampleList) => {
 					label={'Habilitar ComplexTable'}
 					value={viewComplexTable}
 					onChange={(evt: { target: { value: boolean } }) => {
-						console.log('evt', evt, evt.target);
 						setViewComplexTable(evt.target.value);
 					}}
 				/>
@@ -151,13 +149,7 @@ const ExampleList = (props: IExampleList) => {
 					/>
 
 					<SimpleTable
-						schema={_.pick(
-							{
-								...exampleApi.schema,
-								nomeUsuario: { type: String, label: 'Criado por' }
-							},
-							['image', 'title', 'description', 'nomeUsuario']
-						)}
+						schema={schemaReduzido}
 						data={examples}
 						onClick={onClick}
 						actions={[{ icon: <Delete />, id: 'delete', onClick: callRemove }]}
@@ -168,13 +160,7 @@ const ExampleList = (props: IExampleList) => {
 			{!isMobile && viewComplexTable && (
 				<ComplexTable
 					data={examples}
-					schema={_.pick(
-						{
-							...exampleApi.schema,
-							nomeUsuario: { type: String, label: 'Criado por' }
-						},
-						['image', 'title', 'description', 'nomeUsuario']
-					)}
+					schema={schemaReduzido}
 					onRowClick={(row) => navigate('/example/view/' + row.id)}
 					searchPlaceholder={'Pesquisar exemplo'}
 					onDelete={callRemove}

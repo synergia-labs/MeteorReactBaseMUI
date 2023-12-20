@@ -7,6 +7,10 @@ export const exampleSch = {
         defaultValue: '',
         optional: true,
         isImage: true,
+        defaultSize: {
+            width: 300,
+            height: 300,
+        },
     },
     title: {
         type: String,

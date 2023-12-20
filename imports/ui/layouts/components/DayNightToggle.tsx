@@ -42,5 +42,5 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 export const DayNightToggle = (props: { isDarkMode: boolean; setDarkMode: (evt: any) => void }) => {
 	const { isDarkMode, setDarkMode } = props;
-	return <MaterialUISwitch color={'secondary'} value={isDarkMode} onChange={setDarkMode} />;
+	return <MaterialUISwitch color={'secondary'} value={isDarkMode} onChange={setDarkMode} defaultChecked={isDarkMode} />;
 };

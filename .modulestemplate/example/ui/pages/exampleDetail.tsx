@@ -15,7 +15,7 @@ import AudioRecorder from '/imports/ui/components/SimpleFormFields/AudioRecorder
 import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 import Print from '@mui/icons-material/Print';
 import Close from '@mui/icons-material/Close';
-import { PageLayout } from '/imports/ui/layouts/pageLayout';
+import { PageLayout } from '../../../../ui/layouts/PageLayout';
 import { IExample } from '../../api/exampleSch';
 import { IDefaultContainerProps, IDefaultDetailProps, IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
 import { useTheme } from '@mui/material/styles';
@@ -175,7 +175,7 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
 	const { screenState, id, navigate, showNotification } = props;
 
 	const subHandle = !!id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
-	let exampleDoc = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {};
+	const exampleDoc = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {};
 
 	return {
 		screenState,
