@@ -1,21 +1,55 @@
 import React from "react";
 import { Button as MuiButton, ButtonProps as MuiButtonProps } from "@mui/material";
 
-interface IButtonProps  {
-    /**Teste lalalal */
-    text? : string;
-    /**
-     * Teste
-     * @default primary 
-    */
-    styleVariant? : 'primary' | 'secondary';
+enum ButtonSize {
+    small = 'small',
+    medium = 'medium',
+    large = 'large',
 }
 
-/**Teste */
+interface IButtonProps extends MuiButtonProps {
+    /**
+     * Id do componente. É obrigatório quando o componente é utilizado dentro de um SimpleForm.
+    */
+    id?: string;
+    /**
+     * Nome do componente.
+    */
+    name?: string;
+    /**
+     * Propridade exclusiva, gera botões personlizados com base no tema do projeto.
+     * @default primary 
+    */
+    styleVariant? : 'primary' | 'secondary' | 'none';
+    /**Texto a ser exibido */
+    text? : string;
+    /** 
+     * Definição do tamanho do botão. 
+     * @default medium
+     * */
+    size?: 'small' | 'medium' | 'large';
+
+    /**ícone a ser exibido no início do botão.
+     * */
+    startIcon?: JSX.Element;
+    /**ícone a ser exibido no final do botão.
+     * */
+    endIcon?: JSX.Element;
+    /**
+     * O conteúdo do componente de botão pode ser personlizado indiviudalmente conforme o uso.
+    * */
+    children? : JSX.Element | JSX.Element[];
+}
+
+
+/**
+ * Componente de botão personalizável com alterações aplicadas no tema.
+ * Possui todos os parâmetros de um botão normal do Material UI, incluindo a propriedade `sx`.
+ */
 export const BaseButton = (props : IButtonProps) => {
     return (
         <MuiButton {...props}>
-            {props.text ?? 'Button'}
+            {props.children ?? props.text}
         </MuiButton>
     )
 }

@@ -341,26 +341,38 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 								opacity: 1
 							}
 						}),
+						...appStyles.labelLarge(fontScale),
 						minWidth: 'fit-content',
 						borderRadius: '8px',
-						padding: '0.625rem 1.25rem',
-						textTransform: 'none',
+						textTransform: 'unset',
+						display: 'inline-flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						gap: '8px',
 						'&.MuiButton-sizeSmall': {
-							padding: '0.375rem 0.75rem',
-							minHeight: '38px'
+							padding: '4px 16px',
+							minHeight: '34px',
 						},
 						'&.MuiButton-sizeMedium': {
-							padding: '0.625rem 1.25rem',
-							minHeight: '46px'
+							padding: '8px 24px',
+							minHeight: '40px',
 						},
 						'&.MuiButton-sizeLarge': {
 							padding: '0.875rem 1.75rem',
 							minHeight: '54px'
 						}
 					}),
+					startIcon: {
+						margin: 0,
+						padding: 0
+					},
+					endIcon: {
+						margin: 0,
+						padding: 0
+					},
 					iconSizeSmall: {
 						'& .MuiSvgIcon-root': {
-							fontSize: '24px'
+							fontSize: '24px',
 						}
 					},
 					iconSizeMedium: {
