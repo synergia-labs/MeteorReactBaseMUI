@@ -3,7 +3,7 @@ import '../notificationStyle.css';
 //@ts-ignore
 import AWN from 'awesome-notifications';
 
-interface IShowNotificationOptions {
+export interface IShowNotificationOptions {
 	type?: string;
 	title?: string;
 	durations?: number;

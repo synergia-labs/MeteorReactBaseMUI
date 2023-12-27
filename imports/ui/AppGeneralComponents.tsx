@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { isMobile } from '/imports/libs/deviceVerify';
 import './notificationStyle.css';
 import { Button, Theme } from '@mui/material';
-import { IBoilerplateShowMethods } from '../typings/BoilerplateDefaultTypings';
+import { IAppContext, IBoilerplateShowMethods } from '../typings/BoilerplateDefaultTypings';
 import { DialogContainer } from './GeneralComponents/DialogContainer';
 import { WindowContainer } from './GeneralComponents/WindowContainer';
 import { DrawerContainer } from './GeneralComponents/DrawerContainer';
 import { ModalContainer } from './GeneralComponents/ModalContainer';
 import { showNotification } from './GeneralComponents/ShowNotification';
 import { Delete } from '@mui/icons-material';
+import { useUserAccount } from '../hooks/useUserAccount';
+import { useTheme } from '@mui/material';
+import { IUserProfile } from '../userprofile/api/UserProfileSch';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 if (isMobile) {
 	// @ts-ignore
@@ -49,7 +53,7 @@ interface IGeneralComponentsProps {
 
 export const commonOptions = { open: false, onClose: () => {}, onOpen: () => {}, fullScreenOnMobile: false };
 
-export const AppContext = React.createContext({});
+export const AppContext = React.createContext<IAppContext>({} as IAppContext);
 
 export const AppGeneralComponents = (props: IGeneralComponentsProps) => {
 	const defaultState = {
@@ -60,6 +64,8 @@ export const AppGeneralComponents = (props: IGeneralComponentsProps) => {
 	};
 
 	const [state, setState] = useState<IAppGeneralComponentsState>(defaultState);
+	const { isLoggedIn, user, userLoading } = useUserAccount();
+	const theme = useTheme();
 
 	useEffect(() => {
 		if (window.history) {
@@ -181,7 +187,11 @@ export const AppGeneralComponents = (props: IGeneralComponentsProps) => {
 				showDrawer: showDrawer,
 				showWindow: showWindow,
 				showModal: showModal,
-				themeOptions: props.themeOptions
+				themeOptions: props.themeOptions,
+				user: user as IUserProfile,
+				isLoggedIn: isLoggedIn,
+				userLoading: userLoading,
+				theme: theme,
 			}}>
 			<>
 				{state.dialogOptions ? <DialogContainer {...state.dialogOptions} /> : null}

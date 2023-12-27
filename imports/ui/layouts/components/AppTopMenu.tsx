@@ -3,14 +3,14 @@ import { Box, Button, Container, Menu } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DayNightToggle } from './DayNightToggle';
-import { ILayoutProps } from '/imports/typings/BoilerplateDefaultTypings';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MenuItem from '@mui/material/MenuItem';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { appTopMenuStyle } from './AppTopMenuStyle';
+import { AppContext } from '../../AppGeneralComponents';
 
-export const AppTopMenu = (props: ILayoutProps) => {
-	const { user, showDrawer, showWindow, theme, themeOptions } = props;
+export const AppTopMenu = () => {
+	const { user, showDrawer, showWindow, theme, themeOptions } = React.useContext(AppContext);
 
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = useState<Object | null>(null);

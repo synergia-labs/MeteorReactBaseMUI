@@ -14,8 +14,8 @@ import Container from '@mui/material/Container';
 import { IAppMenu } from '/imports/modules/modulesTypings';
 import { FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
-import { ILayoutProps } from '/imports/typings/BoilerplateDefaultTypings';
 import Box from '@mui/material/Box';
+import { AppContext } from '../AppGeneralComponents';
 
 const HomeIconButton = ({ navigate }: any) => {
 	return (
@@ -25,13 +25,12 @@ const HomeIconButton = ({ navigate }: any) => {
 	);
 };
 
-interface IAppNavBar extends ILayoutProps {}
 
-export const AppNavBar = (props: IAppNavBar) => {
+export const AppNavBar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const { user, theme, themeOptions } = props;
+	const { user, theme, themeOptions } = React.useContext(AppContext);
 
 	const pathIndex = (Modules.getAppMenuItemList() || [])
 		.filter((item: IAppMenu | null) => !item?.isProtected || (user && user.roles?.indexOf('Publico') === -1))
@@ -76,7 +75,7 @@ export const AppNavBar = (props: IAppNavBar) => {
 							</Button>
 						))}
 				</Box>
-				<IconButton onClick={viewProfileMobile} style={{ position: 'absolute', right: 10, bottom: 13 }}>
+				<IconButton onClick={() => {}} style={{ position: 'absolute', right: 10, bottom: 13 }}>
 					<AccountCircle style={appNavBarStyle.accountCircle} />
 				</IconButton>
 			</Box>

@@ -1,5 +1,5 @@
 import React from 'react';
-import ExampleContainer from '../ui/pages/exampleContainer';
+import ExampleContainer from '../ui/exampleContainer';
 import { Recurso } from './Recursos';
 import { IRoute } from '/imports/modules/modulesTypings';
 

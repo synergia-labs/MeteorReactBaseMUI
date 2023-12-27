@@ -8,6 +8,7 @@ import { IRoute } from '/imports/modules/modulesTypings';
 import { SignIn } from '../pages/SignIn/Signin';
 import { subjectRouter } from '/imports/analytics/AnalyticsSubscriber';
 import { ILayoutProps } from '/imports/typings/BoilerplateDefaultTypings';
+import { AppContext } from '../AppGeneralComponents';
 
 interface IWrapComponent extends ILayoutProps {
 	component: React.ElementType;
@@ -25,12 +26,14 @@ const WrapComponent = ({ component, ...props }: IWrapComponent) => {
 		user: props.user
 	});
 
-	return <RenderedComponent {...props} />;
+	return <RenderedComponent {...props} />; //TODO: Retirar quando refatorar o DEatail
 };
 
-export const AppRouterSwitch = React.memo((switchProps: ILayoutProps) => {
+export const AppRouterSwitch = React.memo(() => {
 	const location = useLocation();
 	const navigate = useNavigate();
+
+	const switchProps = React.useContext(AppContext);
 
 	return (
 		<Routes location={location}>

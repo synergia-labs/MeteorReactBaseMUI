@@ -2,17 +2,33 @@ import { IUserProfile } from '../userprofile/api/UserProfileSch';
 import { Theme } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
-import { NavigateFunction } from 'react-router-dom';
+import { NavigateFunction, Location } from 'react-router-dom';
+import { IShowNotificationOptions } from '../ui/GeneralComponents/ShowNotification';
 
 export interface IBoilerplateShowMethods {
-	showNotification?: (options?: Object) => void;
+	showNotification?: (options?: IShowNotificationOptions) => void;
 	showModal?: (options?: Object) => void;
 	showCompartilhar?: (anchorEl: any, link: string) => void;
 	showDialog?: (options?: Object) => void;
 	showDeleteDialog?: (title: string, message: string, doc: Object, remove: (doc: any) => void) => void;
-	showDrawer?: (options?: Object) => void;
+	showDrawer?: (options?: Object) => void; 
 	showWindow?: (options?: Object) => void;
 }
+
+export interface IAppContext extends IBoilerplateShowMethods {
+	themeOptions: {
+		setFontScale: (p: number) => void;
+		fontScale: number;
+		setDarkThemeMode: (p: boolean) => void;
+		isDarkThemeMode: boolean;
+	}
+	user: IUserProfile | null | undefined;
+	isLoggedIn: boolean;
+	userLoading: boolean;
+	theme: Theme;
+}
+
+
 export interface IDefaultContainerProps extends IBoilerplateShowMethods {
 	themeOptions: any;
 	navigate: NavigateFunction;
