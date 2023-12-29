@@ -655,7 +655,6 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 
 			MuiTypography: {
 				defaultProps: {
-					color: appStyles.onBackground,
 					variantMapping: {
 						displayLarge: 'h1',
 						displayMedium: 'h2',
@@ -753,6 +752,15 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 								color: appStyles.primary
 							}
 						}
+					}
+				}
+			},
+
+			MuiAlert: {
+				styleOverrides: {
+					root: {
+						borderRadius: '8px',
+						minWidth: '300px'
 					}
 				}
 			}

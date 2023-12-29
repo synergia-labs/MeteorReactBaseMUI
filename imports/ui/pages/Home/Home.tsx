@@ -2,24 +2,43 @@ import React from 'react';
 
 import Container from '@mui/material/Container';
 import * as appStyle from '/imports/materialui/styles';
-import {Button} from '@mui/material';
+import {Avatar, Box, Button, Typography} from '@mui/material';
 import { BaseButton } from '../../components/SimpleFormFields/Button/baseButton';
 import { AppContext } from '../../AppGeneralComponents';
+import { FixedMenuLayoutContext } from '../../layouts/FixedMenuLayout';
+import Delete from '@mui/icons-material/Delete';
 
 const Home = () => {
-    const { themeOptions, user, showNotification } = React.useContext(AppContext);
+    const { themeOptions, user, showDialog } = React.useContext(AppContext);
+    const { showNotification } = React.useContext(FixedMenuLayoutContext);
     
     return(
         <>
             <Button
                 onClick={() => {
-                    themeOptions.setDarkThemeMode(!themeOptions.isDarkThemeMode);
-                    showNotification?.({
-                        type: 'success',
-                        title: 'Tema',
-                        description: `Tema alterado para ${themeOptions.isDarkThemeMode ? 'claro' : 'escuro'}`, 
-
-                    })
+                    showDialog(
+                         {
+                            icon: <Delete />,
+			title: 'abs',
+			content: () => {
+				return <p>aaaa</p>;
+			},
+			actions: ({ closeDialog }: { closeDialog: () => void }) => [
+				<Button key={'botaoNao'} variant={'outlined'} color={'secondary'} onClick={closeDialog}>
+					Não
+				</Button>,
+				<Button
+					key={'botaoSim'}
+					variant={'contained'}
+					onClick={() => {
+						closeDialog();
+					}}
+					color={'primary'}>
+					Sim
+				</Button>
+			]
+                        }
+                    );
                 }}
             >
                 {JSON.stringify(user) ?? 'Usuário não logado'}
