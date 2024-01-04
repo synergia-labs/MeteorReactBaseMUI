@@ -12,8 +12,6 @@ import { AppContext } from '../AppGeneralComponents';
 
 interface IWrapComponent extends ILayoutProps {
 	component: React.ElementType;
-	navigate: NavigateFunction;
-	location: Location;
 }
 
 const WrapComponent = ({ component, ...props }: IWrapComponent) => {
@@ -26,7 +24,7 @@ const WrapComponent = ({ component, ...props }: IWrapComponent) => {
 		user: props.user
 	});
 
-	return <RenderedComponent {...props} />; //TODO: Retirar quando refatorar o DEatail
+	return <RenderedComponent />; //TODO: Retirar quando refatorar o DEatail
 };
 
 export const AppRouterSwitch = React.memo(() => {

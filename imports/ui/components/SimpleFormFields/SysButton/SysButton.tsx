@@ -1,13 +1,8 @@
 import React from "react";
 import { Button as MuiButton, ButtonProps as MuiButtonProps } from "@mui/material";
 
-enum ButtonSize {
-    small = 'small',
-    medium = 'medium',
-    large = 'large',
-}
 
-interface IButtonProps extends MuiButtonProps {
+interface ISysButtonProps extends MuiButtonProps {
     /**
      * Id do componente. É obrigatório quando o componente é utilizado dentro de um SimpleForm.
     */
@@ -38,7 +33,7 @@ interface IButtonProps extends MuiButtonProps {
     /**
      * O conteúdo do componente de botão pode ser personlizado indiviudalmente conforme o uso.
     * */
-    children? : JSX.Element | JSX.Element[];
+    children? : React.ReactNode;
 }
 
 
@@ -46,7 +41,7 @@ interface IButtonProps extends MuiButtonProps {
  * Componente de botão personalizável com alterações aplicadas no tema.
  * Possui todos os parâmetros de um botão normal do Material UI, incluindo a propriedade `sx`.
  */
-export const BaseButton = (props : IButtonProps) => {
+export const SysButton = (props : ISysButtonProps) => {
     return (
         <MuiButton {...props}>
             {props.children ?? props.text}

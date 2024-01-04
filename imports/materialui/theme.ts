@@ -1,6 +1,7 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
 import * as appStyles from './styles';
 import { ButtonProps } from '@mui/material';
+import { ISysThemeOptions } from '../typings/BoilerplateDefaultTypings';
 
 export interface IThemeOptionsBoilerplate extends ThemeOptions {
 	palette: ThemeOptions['palette'] & {
@@ -594,10 +595,6 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 			MuiDialog: {
 				styleOverrides: {
 					paper: {
-						minWidth: isMobile ? '90%' : '400px',
-						//minHeight: isMobile ? '30%' : '190px',
-						maxHeight: isMobile ? '90%' : '90%',
-						maxWidth: isMobile ? '90%' : '1200px'
 					}
 				}
 			},
@@ -865,9 +862,10 @@ const getDarkTheme = (props: { fontScale: number; isMobile: boolean }): IThemeOp
 	};
 };
 
-export const getTheme = (options: { fontScale: number; darkMode: boolean; isMobile: boolean }) => {
-	const fontScale = options.fontScale || 1;
-	const isMobile = options.isMobile || false;
+export const getTheme = (options: ISysThemeOptions) => {
+
+	const fontScale = options.fontScale ?? 1;
+	const isMobile = options.deviceType === 'mobile';
 
 	if (options.darkMode) {
 		return createTheme(getDarkTheme({ fontScale, isMobile }));

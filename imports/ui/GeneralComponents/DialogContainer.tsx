@@ -25,7 +25,7 @@ export const DialogContainer = (
 	}
 ) => {
 	return (
-		<Dialog aria-labelledby="Modal" onClose={options.onClose} open={options.open} PaperProps={options.customPaperProps}>
+		<Dialog aria-labelledby="Modal" onClose={options.onClose} open={options.open} PaperProps={options.customPaperProps} >
 			{options.title ? (
 				<DialogTitle id="simple-dialog-title">
 					<div style={appGeneralStyle.containerOptions}>

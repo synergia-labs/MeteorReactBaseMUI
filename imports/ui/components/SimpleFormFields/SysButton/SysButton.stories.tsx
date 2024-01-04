@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import {BaseButton} from './baseButton';
+import {SysButton} from './SysButton';
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 
 const meta = {
-    title: 'ui/components/SimpleForm/SimpleFormFields/BaseButton',
-    component: BaseButton,
+    title: 'ui/components/SimpleForm/SimpleFormFields/SysButton',
+    component: SysButton,
     tags: ['autodocs'],
     argTypes: {
         styleVariant: {
@@ -49,7 +49,7 @@ const meta = {
         },
     }
     
-} satisfies Meta<typeof BaseButton>;
+} satisfies Meta<typeof SysButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -63,7 +63,7 @@ export const Default: Story = {
     },
 };
 
-export const BasebuttonWithStartIcon: Story = {
+export const SysbuttonComIconeInicial: Story = {
     args: {
         styleVariant: 'primary',
         startIcon: <AddIcon />,
@@ -71,7 +71,7 @@ export const BasebuttonWithStartIcon: Story = {
     },
 };
 
-export const BasebuttonWithEndIcon: Story = {
+export const SysbuttonComIconeFinal: Story = {
     args: {
         styleVariant: 'primary',
         endIcon: <AddIcon />,
@@ -79,7 +79,7 @@ export const BasebuttonWithEndIcon: Story = {
     },
 };
 
-export const BasebuttonWithIcons: Story = {
+export const SysbuttonComIcones: Story = {
     args: {
         styleVariant: 'primary',
         startIcon: <AddIcon />,

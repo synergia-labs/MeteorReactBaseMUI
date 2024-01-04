@@ -1,22 +1,21 @@
 import React, {useEffect} from "react";
 import { AlertTitle, Snackbar, SxProps, Theme } from "@mui/material";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import ShowNotificationTransition from "./transitions";
+import {ShowNotificationTransitions} from "../transitions";
+import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
 
-export interface IShowNotificationProps{
-    /** 
-     * Controla a visibilidade da notificação. 
-     * **Gerenciado automaticamente pelo provider e não deve ser usada diretamente**.
-     */
-    open?: boolean;
-    /**Função disparada ao fechar a notificação, fornecendo detalhes do evento e a razão do fechamento.*/
+export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
+    onOpen?: () => void;
+    close?: () => void;
     onClose?: (event?: React.SyntheticEvent | Event, reason?: string) => void;
     /**Exibe um botão para fechar a notificação.*/
     showCloseButton?: boolean;
     /**Especifica o tipo da notificação, como sucesso, erro, informação ou aviso.*/
     type?: 'success' | 'error' | 'info' | 'warning';
     /**Seleciona a animação de transição para a exibição da notificação.*/
-    transition?: 'slide' | 'grow' | 'fade';
+    transition?: 'slide' | 'grow' | 'fade' | 'zoom';
+    /**Define a direção da animação de transição.*/
+    transitionDirection?: 'up' | 'down' | 'left' | 'right';
     /** Define o título da notificação, destacado na parte superior.*/
     title?: string;
     /**Estabelece a mensagem principal da notificação.*/
@@ -26,9 +25,9 @@ export interface IShowNotificationProps{
     /**Define o estilo da notificação.*/
     variant?: 'standard' | 'filled' | 'outlined';
     /**Posicionamento horizontal da notificação na tela.*/
-    positionX?: 'left' | 'center' | 'right';
+    horizontal?: 'left' | 'center' | 'right';
     /**Posicionamento vertical da notificação na tela.*/
-    positionY?: 'top' | 'bottom';
+    vertical?: 'top' | 'bottom';
     /**Permite a inclusão de um ícone personalizado na notificação.*/
     icon?: React.ReactNode;
     /** Adiciona uma ação personalizada, como um botão ou link, na notificação.*/
@@ -48,7 +47,7 @@ export interface IShowNotificationProps{
 }
 
 
-export interface IShowNotifications extends Omit<IShowNotificationProps, 'open'> {}
+export interface IShowNotification extends Omit<IShowNotificationProps, 'open'> {}
 
 /**
  * Componente ShowNotification
@@ -70,25 +69,22 @@ export interface IShowNotifications extends Omit<IShowNotificationProps, 'open'>
  */
 export const ShowNotification: React.FC<IShowNotificationProps> = ({
     open = false,
-    onClose,
+    close,
     showCloseButton = false,
     type,
     transition = 'slide',
+    transitionDirection,
     title,
     message,
     autoHideDuration = 3000,
     variant = 'filled',
-    positionX = 'left',
-    positionY = 'bottom',
+    horizontal = 'left',
+    vertical = 'bottom',
     icon,
     action,
     sx,
     children,
 }) => {
-    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') return;
-        onClose?.(event, reason);
-    };
 
     const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
         props,
@@ -100,17 +96,20 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
     return (
         <Snackbar
             open={open}
-            onClose={handleClose}
+            onClose={close}
             autoHideDuration={autoHideDuration}
-            TransitionComponent={ShowNotificationTransition(transition)}
+            TransitionComponent={ShowNotificationTransitions({
+                type: transition,
+                direction: transitionDirection ?? vertical === 'top' ? 'down' : 'up',
+            })}
             anchorOrigin={{
-                vertical: positionY,
-                horizontal: positionX,
+                vertical: vertical,
+                horizontal: horizontal,
             }}
             action={action}
         >
             {!!children ? children : (<Alert
-                onClose={showCloseButton ? handleClose : undefined}
+                onClose={showCloseButton ? close : undefined}
                 severity={type}
                 action={action}
                 icon={icon}

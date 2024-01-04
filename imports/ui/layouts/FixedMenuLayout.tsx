@@ -6,13 +6,13 @@ import { fixedMenuLayoutStyle } from './FixedMenuLayoutStyle';
 import Box from '@mui/material/Box';
 import { AppTopMenu } from './components/AppTopMenu';
 import { useTheme } from '@mui/material';
-import {ShowNotification, IShowNotificationProps, IShowNotifications} from '../GeneralComponents/showNotification/showNotification';
+import {ShowNotification, IShowNotificationProps, IShowNotification} from '../GeneralComponents/showNotification/showNotification';
 
 interface FixedMenuLayoutContextType {
 	showAppBar: boolean;
 	handleOcultarAppBar: () => void;
 	handleExibirAppBar: () => void;
-	showNotification: (props: IShowNotifications) => void;
+	showNotification: (props: IShowNotification) => void;
 }
 
 export const FixedMenuLayoutContext = createContext({} as FixedMenuLayoutContextType);
@@ -22,9 +22,9 @@ export const FixedMenuLayout = () => {
 	const [showAppBar, setShowAppBar] = useState<boolean>(true);
 	const handleOcultarAppBar = () => setShowAppBar(false);
 	const handleExibirAppBar = () => setShowAppBar(true);
-	const [showNotification, setShowNotification] = useState<IShowNotificationProps>({});
 
-	const showNotificationHandler = React.useCallback((props: IShowNotifications) => {
+	const [showNotification, setShowNotification] = useState<IShowNotificationProps>({});
+	const showNotificationHandler = React.useCallback((props: IShowNotification) => {
 		setShowNotification({
 			...props,
 			open: true,
@@ -35,10 +35,17 @@ export const FixedMenuLayout = () => {
 		});
 	}, []);
 
+	const contextValue: FixedMenuLayoutContextType = React.useMemo(() => ({
+		showAppBar,
+		handleOcultarAppBar,
+		handleExibirAppBar,
+		showNotification: showNotificationHandler
+	}), []);
+
 	return (
 		<>
 			<Router>
-				<FixedMenuLayoutContext.Provider value={{ showAppBar, handleOcultarAppBar, handleExibirAppBar, showNotification: showNotificationHandler }}>
+				<FixedMenuLayoutContext.Provider value={contextValue}>
 					<Box
 						sx={{
 							...fixedMenuLayoutStyle.containerAppRouter,

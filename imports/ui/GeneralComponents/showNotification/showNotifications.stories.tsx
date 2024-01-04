@@ -15,6 +15,12 @@ const meta = {
             </div>
         ),
     ],
+    args: {
+        open: false,
+        close: () => { },
+        onOpen: () => { },
+        onClose: () => { },
+    },
     argTypes: {
         type: {
             control: {
@@ -56,6 +62,7 @@ export const Sucesso: Story = {
         title: 'Sucesso',
         message: `Sua operação foi realizada com sucesso!`,
         transition: undefined,
+        transitionDirection: undefined,
     },
     parameters: {
         docs: {
@@ -178,7 +185,7 @@ export const ComChildren: Story = {
     parameters: {
         docs: {
             description: {
-                story: `Importante: Ao utilizar a propriedade 'children' na notificação, há uma restrição técnica que desabilita o uso da função 'onClose' para fechar a notificação. Isso pode ser um fator relevante em contextos onde o fechamento programático da notificação é crucial. Para projetos onde essa funcionalidade é fundamental e o componente será extensivamente utilizado, considera-se aconselhável adaptar o código-fonte para superar esta limitação. Para modificar basta acessar o arquivo ShowNotification.`
+                story: `Importante: Ao utilizar a propriedade 'children' na notificação, as funções de fechamento não são buscadas automaticamente e devem ser pegas manualmente através do contexto.`
             }
         }
     }

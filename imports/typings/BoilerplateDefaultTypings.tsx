@@ -4,6 +4,72 @@ import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
 import { NavigateFunction, Location } from 'react-router-dom';
 import { IShowNotificationOptions } from '../ui/GeneralComponents/ShowNotification';
+import { IShowNotificationProps } from '../ui/GeneralComponents/showNotification/showNotification';
+import { IShowDialogProps } from '../ui/GeneralComponents/showDialog/showDialog';
+
+
+export interface ISysAppContext {
+    isLoggedIn: boolean;
+    user?: IUserProfile | undefined | null;
+    userLoading: boolean
+}
+export interface ISysThemeOptions {
+	darkMode: boolean;
+	fontScale: number;
+	deviceType: 'mobile' | 'tablet' | 'desktop';
+	setDarkThemeMode: (value: boolean) => void;
+	setFontScale: (fontScale: number) => void;
+}
+
+export interface ISysAppLayoutContext extends ISysThemeOptions{
+	showNotification: (options?: IShowNotificationProps) => void;
+	closeNotification:(
+		event?: React.SyntheticEvent | Event, 
+        reason?: string, 
+        callBack?: (event?: React.SyntheticEvent | Event, reason?: string,) => void
+	) => void;
+	showDialog: (options?: IShowDialogProps) => void;
+	closeDialog: (
+		event?: {}, 
+		reason?: "backdropClick" | "escapeKeyDown", 
+		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+	) => void;
+
+
+}
+
+export interface ISysGeneralComponentsCommon{
+	/** 
+     * Controla a visibilidade do componente. 
+     * **Gerenciado automaticamente pelo provider e não deve ser usada diretamente**.
+	*/
+	open?: boolean;
+	/** 
+	 * Função chamada para fechar o componente.
+	 * **Gerenciado automaticamente pelo provider e não deve ser usada diretamente**.
+	*/
+	close?: (...props: any) => void;
+	/** 
+	 * Função de callback chamada quando o estado do componente é alterado para true.
+	 */
+	onOpen?: (...props: any) => void;
+	/** Função de callback chamada quando o estado do componente é alterado para false*/
+	onClose?: (...props: any) => void;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export interface IBoilerplateShowMethods {
 	showNotification?: (options?: IShowNotificationOptions) => void;
@@ -15,18 +81,7 @@ export interface IBoilerplateShowMethods {
 	showWindow?: (options?: Object) => void;
 }
 
-export interface IAppContext extends IBoilerplateShowMethods {
-	themeOptions: {
-		setFontScale: (p: number) => void;
-		fontScale: number;
-		setDarkThemeMode: (p: boolean) => void;
-		isDarkThemeMode: boolean;
-	}
-	user: IUserProfile | null | undefined;
-	isLoggedIn: boolean;
-	userLoading: boolean;
-	theme: Theme;
-}
+
 
 
 export interface IDefaultContainerProps extends IBoilerplateShowMethods {
