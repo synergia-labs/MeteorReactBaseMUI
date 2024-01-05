@@ -96,7 +96,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
         if (open && duration)
             timer = window.setTimeout(() => close?.({}, 'backdropClick'), duration);
         return () => { if (timer) clearTimeout(timer); };
-    }, [open, duration, close]);
+    }, [open]);
     
     const theme = useTheme();
     const isFullScreen = useMediaQuery(theme.breakpoints.down(fullScreenMediaQuery ?? 'xs'));

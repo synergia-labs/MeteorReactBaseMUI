@@ -6,6 +6,7 @@ import { NavigateFunction, Location } from 'react-router-dom';
 import { IShowNotificationOptions } from '../ui/GeneralComponents/ShowNotification';
 import { IShowNotificationProps } from '../ui/GeneralComponents/showNotification/showNotification';
 import { IShowDialogProps } from '../ui/GeneralComponents/showDialog/showDialog';
+import { IShowDrawerProps } from '../ui/GeneralComponents/showDrawer/showDrawer';
 
 
 export interface ISysAppContext {
@@ -34,8 +35,12 @@ export interface ISysAppLayoutContext extends ISysThemeOptions{
 		reason?: "backdropClick" | "escapeKeyDown", 
 		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
 	) => void;
-
-
+	showDrawer: (options?: IShowDrawerProps) => void;
+	closeDrawer: (
+		event?: {}, 
+		reason?: "backdropClick" | "escapeKeyDown",
+		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+	) => void;
 }
 
 export interface ISysGeneralComponentsCommon{
@@ -55,6 +60,8 @@ export interface ISysGeneralComponentsCommon{
 	onOpen?: (...props: any) => void;
 	/** Função de callback chamada quando o estado do componente é alterado para false*/
 	onClose?: (...props: any) => void;
+	/** Tempo em milissegundos para fechamento automático do diálogo, útil para alertas temporários. */
+    duration?: number;
 }
 
 

@@ -42,11 +42,7 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
      * estilizações específicas ou qualquer outro elemento JSX que enriqueça a experiência do usuário.
      */
     children?: JSX.Element;
-
 }
-
-
-export interface IShowNotification extends Omit<IShowNotificationProps, 'open'> {}
 
 
 /**
@@ -108,7 +104,7 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
             autoHideDuration={duration}
             TransitionComponent={ShowNotificationTransitions({
                 type: transition,
-                direction: transitionDirection ?? vertical === 'top' ? 'down' : 'up',
+                direction: !!transitionDirection ? transitionDirection : vertical === 'top' ? 'down' : 'up',
             })}
             anchorOrigin={{
                 vertical: vertical,

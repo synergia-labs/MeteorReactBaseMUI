@@ -7,6 +7,7 @@ import { AppRouterSwitch } from "./AppRouterSwitch";
 import { fixedMenuLayoutStyle } from './FixedMenuLayoutStyle';
 import { IShowDialogProps, ShowDialog } from "../GeneralComponents/showDialog/showDialog";
 import { AppTopMenu } from "./components/AppTopMenu";
+import { IShowDrawerProps, ShowDrawer } from "../GeneralComponents/showDrawer/showDrawer";
 
 export const SysAppLayoutContext = React.createContext<ISysAppLayoutContext>({} as ISysAppLayoutContext);
 
@@ -20,6 +21,7 @@ const defaultState: ISysGeneralComponentsCommon = {
 export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     const [showNotification, setShowNotification] = React.useState<IShowNotificationProps>(defaultState);
     const [showDialog, setShowDialog] = React.useState<IShowDialogProps>(defaultState);
+    const [showDrawer, setShowDrawer] = React.useState<IShowDrawerProps>(defaultState);
 
     // Show Notification 
     const handleCloseNotification = useCallback((
@@ -63,8 +65,27 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
             open: true,
         });
     }, []);
-
     //Fim Show Dialog
+
+    //Show Drawer
+    const handleCloseDrawer = useCallback((
+        event?: {}, reason?: "backdropClick" | "escapeKeyDown", 
+        callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void) => {
+        setShowDrawer(defaultState);
+        callBack?.(event, reason);
+    }, []);
+
+    const showDrawerHandler = useCallback((props?: IShowDrawerProps) => {
+        props?.onOpen?.();
+        handleCloseNotification();
+        setShowDrawer({
+            ...showDrawer,
+            ...props,
+            close: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => handleCloseDrawer(event, reason, props?.onClose),
+            open: true,
+        });
+    }, []);
+    //Fim Show Drawer
 
     const providerValue = React.useMemo(() => ({
         ...themeOptions,
@@ -72,6 +93,8 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
         showDialog:         showDialogHandler,
         closeNotification:  handleCloseNotification,
         closeDialog:        handleCloseDialog,
+        showDrawer:         showDrawerHandler,
+        closeDrawer:        handleCloseDrawer,
     }), [themeOptions]);
 
 
@@ -86,6 +109,7 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
             </Router>
             <ShowNotification {...showNotification} />
             <ShowDialog {...showDialog} />
+            <ShowDrawer {...showDrawer} />
         </>
     )
 };

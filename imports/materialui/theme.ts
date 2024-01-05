@@ -236,6 +236,8 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 			h10: appStyles.h10(fontScale)
 		},
 
+		
+
 		components: {
 			MuiDataGrid: {
 				styleOverrides: {
@@ -592,30 +594,7 @@ const getLightTheme = (props: { fontScale: number; isMobile: boolean }): IThemeO
 				}
 			},
 
-			MuiDialog: {
-				styleOverrides: {
-					paper: {
-					}
-				}
-			},
 
-			MuiDrawer: {
-				styleOverrides: {
-					root: {
-						width: 360, // drawerWidth,
-						flexShrink: 0
-					},
-					paper: {
-						top: isMobile ? 0 : 10,
-						right: isMobile ? 0 : 10,
-						width: isMobile ? '100%' : 360, //,drawerWidth,
-						height: isMobile ? '100%' : 'calc(100% - 85px)',
-						boxShadow: '-10px 20px 20px -18px #000000, 12px 0px 20px -18px #000000',
-						overflow: 'hidden',
-						borderRadius: isMobile ? 0 : 15
-					}
-				}
-			},
 
 			MuiAutocomplete: {
 				styleOverrides: {

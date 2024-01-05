@@ -10,15 +10,31 @@ import Delete from '@mui/icons-material/Delete';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
 import DeleteDialog from '/imports/ui/GeneralComponents/showDialog/custom/deleteDialog';
 import NotifyDialog from '../../GeneralComponents/showDialog/custom/notifyDialog';
+import ShowNotificationChat from '/imports/ui/GeneralComponents/showNotification/custom/chatTile';
+import { SysAppContext } from '../../AppContainer';
 
 const Home = () => {
-    const {showNotification, showDialog, closeDialog, setDarkThemeMode} = React.useContext(SysAppLayoutContext);
+    const {
+        showNotification, 
+        showDialog, 
+        closeDialog, 
+        setDarkThemeMode, 
+        closeNotification,
+        showDrawer,
+        deviceType,
+        darkMode, 
+        fontScale,
+        setFontScale,
+    } = React.useContext(SysAppLayoutContext);
+
+    const {user, isLoggedIn} = React.useContext(SysAppContext);
+    
+    setDarkThemeMode(false);
     
     return(
         <>
             <Button
                 onClick={() => {
-                    setDarkThemeMode(false);
                     DeleteDialog({
                         showDialog,
                         closeDialog,
@@ -32,24 +48,26 @@ const Home = () => {
                     });
             }}
             >
-                Teste
+                Teste de Dialog
             </Button>
-            <Container>
-                <h1>Material-UI Template</h1>
-                <p>This is a basic fixed menu template using fixed size containers.</p>
-                <p>
-                    A text container is used for the main container, which is useful for single column
-                    layouts.
-                </p>
-
-                <img src="/images/wireframe/media-paragraph.png" style={appStyle.containerHome} />
-                <img src="/images/wireframe/paragraph.png" style={appStyle.containerHome} />
-                <img src="/images/wireframe/paragraph.png" style={appStyle.containerHome} />
-                <img src="/images/wireframe/paragraph.png" style={appStyle.containerHome} />
-                <img src="/images/wireframe/paragraph.png" style={appStyle.containerHome} />
-                <img src="/images/wireframe/paragraph.png" style={appStyle.containerHome} />
-                <img src="/images/wireframe/paragraph.png" style={appStyle.containerHome} />
-            </Container>
+            <Button onClick={() => {
+                ShowNotificationChat({
+                    showNotification,
+                    closeNotification,
+                    userName: 'Usuário',
+                    message: 'Mensagem',
+                });
+            }} >
+                Teste de Notificação personalizada
+            </Button>
+            <Button onClick={() => {
+                showDrawer({
+                    anchor: 'left',
+                });
+            }} >
+                Teste de Drawer
+            </Button>
+            {isLoggedIn.toString()}
         </>
     )
 };

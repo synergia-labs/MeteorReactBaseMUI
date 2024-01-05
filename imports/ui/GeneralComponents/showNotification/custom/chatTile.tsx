@@ -31,7 +31,7 @@ function ShowNotificationChat({
 
     showNotification({
         horizontal: 'right',
-        autoHideDuration: duration,
+        duration: duration,
         children: (
             <Box sx={{
                 display: 'flex', 
