@@ -9,48 +9,68 @@ export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<Dial
     close?: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
     onOpen?: () => void;
     onClose?: () => void;
-    /** Título do diálogo.*/
+    /** Título exibido no topo do diálogo, fornece contexto sobre o seu conteúdo. */
     title?: string;
-    /** Ícone exibido antes do título do diálogo. */
+    /** Ícone opcional posicionado antes do título. */
     prefixIcon?: ReactNode;
-    /** Ícone exibido após o título do diálogo. */
+    /** Ícone opcional posicionado após o título, podendo ser utilizado para ações adicionais. */
     sufixIcon?: ReactNode;
-    /** Mensagem principal do diálogo. */
+    /** Mensagem ou descrição exibida no corpo do diálogo, fornecendo informações detalhadas ao usuário. */
     message?: string;
-    /** Elemento JSX ou array de elementos JSX para o cabeçalho personalizado do diálogo. */
-    header?: JSX.Element | JSX.Element[];
-    /** Conteúdo principal do diálogo como elemento JSX ou array de elementos JSX. */
-    body?: JSX.Element | JSX.Element[];
-    /** Elementos JSX representando as ações do diálogo. */
-    actions?: JSX.Element | JSX.Element[];
-    /** Duração em milissegundos para o diálogo ser automaticamente fechado.*/
+    /** Personalização do cabeçalho do diálogo com um único elemento JSX ou um conjunto de elementos. */
+    header?: ReactNode;
+    /** Conteúdo principal do diálogo, permitindo a inserção de elementos JSX complexos ou simples. */
+    body?: ReactNode;
+    /** Elementos JSX para ações do diálogo, como botões de confirmação ou cancelamento. */
+    actions?: ReactNode;
+    /** Tempo em milissegundos para fechamento automático do diálogo, útil para alertas temporários. */
     duration?: number;
-    /** Propriedades de estilo personalizadas seguindo o padrão do Material-UI.*/
+    /** Estilização customizada do diálogo seguindo padrões Material-UI, para temas e layout. */
     sx?: SxProps<Theme>;
-    /** Estilos personalizados para o fundo do diálogo.*/
+    /** Estilos personalizados aplicados especificamente ao fundo do diálogo. */
     backgroundSx?: SxProps<Theme>;
-    /** Se verdadeiro, o diálogo é exibido em tela cheia. */
+    /** Se `true`, exibe o diálogo em tela cheia, ideal para dispositivos móveis ou conteúdos detalhados. */
     fullScreen?: boolean;
-    /** Define o breakpoint de mídia para exibição em tela cheia do diálogo. */
+    /** Ponto de quebra para alteração do diálogo para tela cheia, ajustável conforme tamanho da tela. */
     fullScreenMediaQuery?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-    /** Define a transição de animação do diálogo. */
+    /** Tipo de transição de animação para a abertura/fechamento do diálogo, adicionando dinamismo visual. */
     transition?: 'slide' | 'grow' | 'zoom' | 'fade';
     /**
-     * Esta propriedade permite a inserção de conteúdo personalizado no diálogo. Ao usar 'children', 
-     * você pode reformular completamente a estrutura e o layout do diálogo, indo além das opções de 
-     * personalização padrão. Isso é especialmente útil quando o design ou a funcionalidade requeridos 
-     * não são cobertos pelas propriedades pré-definidas do componente. Utilize 'children' para adicionar 
-     * elementos customizados a um Dialog em branco, possibilitando uma personalização integral do seu conteúdo.
+     * Permite a inserção de conteúdo personalizado no diálogo, possibilitando uma reestruturação total para 
+     * atender necessidades específicas de design e funcionalidade, indo além das propriedades padrão.
      */
-    children?: JSX.Element | JSX.Element[];
+    children?: ReactNode;
 }
 
 
 /**
- * Este componente é utilizado para exibir diálogos modais interativos com várias opções de personalização.
- * Permite a customização de título, mensagem, ícones, conteúdo, ações, duração, estilos, e comportamento de tela cheia.
- * Também suporta especificação de transições de animação e permite inclusão de conteúdo JSX adicional.
- * Ideal para exibir informações, confirmações ou formulários em uma interface modal.
+ * Visão Geral:
+ * - O `ShowDialog` é um componente React para criar diálogos modais interativos com ampla personalização.
+ * 
+ * Funcionalidades:
+ * - Customização: Permite personalizar título, mensagem, ícones, conteúdo, ações, estilos, e comportamento de tela cheia.
+ * - Transições Animadas: Suporta diferentes tipos de transições de animação para a exibição do diálogo.
+ * - Conteúdo JSX Adicional: Possibilita a inclusão de conteúdo JSX adicional, permitindo maior flexibilidade no design.
+ * 
+ * Casos de Uso:
+ * - Informações e Confirmações: Ideal para apresentar informações, alertas, ou solicitar confirmações do usuário.
+ * - Formulários: Pode ser usado para exibir formulários dentro de um contexto modal.
+ * 
+ * Uso em Cascata:
+ * - Diálogos Sequenciais: Permite que um diálogo abra outro, criando uma sequência de diálogos.
+ * - Limitações: Em uma cascata de diálogos, não é possível usar a função do provider para controlar múltiplos diálogos simultaneamente.
+ * - Solução: Para gerenciar múltiplos diálogos, é necessário instanciar novos componentes `ShowDialog` ou criar funções adicionais no provider.
+ * 
+ * Dicas de Implementação:
+ * - Duração: Pode ser configurado para fechar automaticamente após um período definido.
+ * - Responsividade: Inclui opções para exibição em tela cheia e adaptação a diferentes tamanhos de tela.
+ * - Personalização de Estilos: Integra-se com Material-UI para estilos personalizados, incluindo o fundo do diálogo.
+ * - Conteúdo Flexível: Além das propriedades padrão, aceita `children` para uma personalização completa do conteúdo.
+ *
+ * Disponibilidade Global:
+ * - O `ShowDialog` é acessível globalmente através da função `showDialog` fornecida pelo `SysAppLayoutContext`.
+ * - Esta abordagem facilita a utilização do diálogo em diferentes partes da aplicação sem a necessidade de propagação manual do componente.
+ * - O `showDialog` permite a exibição de diálogos modais de forma dinâmica e flexível em qualquer componente que tenha acesso ao contexto do projeto.
  */
 export const ShowDialog: FC<IShowDialogProps> = ({
     open,
@@ -104,9 +124,9 @@ export const ShowDialog: FC<IShowDialogProps> = ({
                             {sufixIcon}
                         </DialogTitleStyled>
                     )}
-                    {!!body || !!message && (
+                    {(!!body || !!message) && (
                         <DialogContent>
-                            {body || (
+                            {body ? body : (
                                 <DialogContentText>
                                     {message}
                                 </DialogContentText>
