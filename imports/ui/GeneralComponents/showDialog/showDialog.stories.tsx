@@ -40,6 +40,7 @@ const meta: Meta<IShowDialogProps> = {
         close: () => { },
         onOpen: () => { },
         onClose: () => { },
+        duration: undefined,
     },
 };
 

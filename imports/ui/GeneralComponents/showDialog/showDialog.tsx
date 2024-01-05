@@ -23,8 +23,6 @@ export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<Dial
     body?: ReactNode;
     /** Elementos JSX para ações do diálogo, como botões de confirmação ou cancelamento. */
     actions?: ReactNode;
-    /** Tempo em milissegundos para fechamento automático do diálogo, útil para alertas temporários. */
-    duration?: number;
     /** Estilização customizada do diálogo seguindo padrões Material-UI, para temas e layout. */
     sx?: SxProps<Theme>;
     /** Estilos personalizados aplicados especificamente ao fundo do diálogo. */

@@ -8,6 +8,7 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
     onOpen?: () => void;
     close?: () => void;
     onClose?: (event?: React.SyntheticEvent | Event, reason?: string) => void;
+    duration?: number;
     /**Exibe um botão para fechar a notificação.*/
     showCloseButton?: boolean;
     /**Especifica o tipo da notificação, como sucesso, erro, informação ou aviso.*/
@@ -20,8 +21,6 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
     title?: string;
     /**Estabelece a mensagem principal da notificação.*/
     message?: string;
-    /**Tempo em milissegundos para a notificação ser automaticamente ocultada.*/
-    autoHideDuration?: number;
     /**Define o estilo da notificação.*/
     variant?: 'standard' | 'filled' | 'outlined';
     /**Posicionamento horizontal da notificação na tela.*/
@@ -76,7 +75,7 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
     transitionDirection,
     title,
     message,
-    autoHideDuration = 3000,
+    duration = 3000,
     variant = 'filled',
     horizontal = 'left',
     vertical = 'bottom',
@@ -97,7 +96,7 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
         <Snackbar
             open={open}
             onClose={close}
-            autoHideDuration={autoHideDuration}
+            autoHideDuration={duration}
             TransitionComponent={ShowNotificationTransitions({
                 type: transition,
                 direction: transitionDirection ?? vertical === 'top' ? 'down' : 'up',

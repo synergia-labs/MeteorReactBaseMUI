@@ -20,6 +20,7 @@ const meta = {
         close: () => { },
         onOpen: () => { },
         onClose: () => { },
+        duration: undefined,
     },
     argTypes: {
         type: {
@@ -27,11 +28,6 @@ const meta = {
                 type: 'select',
                 options: ['success', 'error', 'info', 'warning'],
             },
-        },
-        autoHideDuration: {
-            control: {
-                type: 'none'
-            }
         },
         icon: {
             control: {
