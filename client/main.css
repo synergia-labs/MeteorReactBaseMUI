@@ -7,10 +7,28 @@ html {
   background-color: #eee;
 }
 body {
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
   height: 100%;
   margin: 0px;
   user-select: none;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/poppins-v20-latin-regular.woff2') format('woff2'),
+  url('../fonts/poppins-v20-latin-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/poppins-v20-latin-600.woff2') format('woff2'),
+  url('../fonts/poppins-v20-latin-600.ttf') format('truetype');
 }
 
 .MuiModal-root .MuiBox-root {
@@ -61,7 +79,7 @@ Loading
 }
 
 @keyframes loadingC {
-  0 {
+  0% {
     transform: translate(0, 0);
   }
   50% {
