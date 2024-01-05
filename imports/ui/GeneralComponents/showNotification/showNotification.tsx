@@ -48,24 +48,33 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
 
 export interface IShowNotification extends Omit<IShowNotificationProps, 'open'> {}
 
-/**
- * Componente ShowNotification
- *
- * Este componente é utilizado para exibir notificações interativas na forma de uma Snackbar. É altamente configurável, permitindo a especificação de diversos comportamentos e estilos.
- * 
- * Principais funcionalidades:
- *   - Exibe mensagens de notificação com suporte a diferentes tipos (sucesso, erro, informação, aviso e customizavel).
- *   - Permite a definição de uma transição personalizada para a aparição da notificação, proporcionando uma experiência visual aprimorada.
- *   - Oferece controle sobre a duração da exibição da notificação e sua posição na tela.
- *   - Suporta a inclusão de um título, mensagem personalizada, ícone e ações adicionais, permitindo uma customização detalhada.
- *   - O estilo do componente pode ser personalizado através de propriedades sx, seguindo os padrões do Material-UI.
- * 
- * Este componente é ideal para exibir feedbacks em tempo real para os usuários, como confirmações de ações, alertas de erro ou avisos importantes. Sua implementação facilita a integração com o contexto global de layout da aplicação, permitindo que as notificações sejam gerenciadas de forma centralizada. Basta importar a função shoNotification do provider AppLayoutContext e chamá-la sempre que necessário.
- *
 
+/**
+ * Visão Geral:
+ * - O `ShowNotification` é um componente React para exibir notificações interativas na forma de uma Snackbar, integrado ao ecossistema Material-UI.
+ * - Oferece ampla personalização, incluindo tipos de notificações, animações, posicionamento e conteúdo customizado.
  *
- * O componente faz parte do ecossistema do Material-UI e é integrado com outros componentes e utilitários para criar uma interface de usuário consistente e acessível.
+ * Principais Funcionalidades:
+ *   - Suporta diferentes tipos de notificações: sucesso, erro, informação, aviso e personalizável.
+ *   - Permite a escolha de animações de transição (slide, grow, fade, zoom) para uma experiência visual enriquecida.
+ *   - Controla a duração e posicionamento da notificação na tela, e permite um botão para fechar a notificação.
+ *   - Suporta título, mensagem, ícone, ações adicionais, e personalização de estilos através das propriedades `sx`.
+ *
+ * Casos de Uso:
+ * - Ideal para feedbacks em tempo real, como confirmações de ações, alertas de erro ou avisos importantes.
+ * - Fácil integração com o contexto global de layout da aplicação para gerenciamento centralizado de notificações.
+ *
+ * Dicas de Implementação:
+ * - Pode ser configurado para auto-fechamento após um período definido.
+ * - Adapta-se a diferentes tamanhos de tela com opções de posicionamento variáveis.
+ * - Permite personalização completa do visual através das propriedades `sx` do Material-UI.
+ * - Aceita `children` para customização total do conteúdo, permitindo maior flexibilidade no design.
+ *
+ * Disponibilidade Global:
+ * - O `ShowNotification` é acessível globalmente através da função `ShowNotification` fornecida pelo `SysAppLayoutContext`.
+ * 
  */
+
 export const ShowNotification: React.FC<IShowNotificationProps> = ({
     open = false,
     close,
