@@ -120,7 +120,7 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 			},
 			text: {
 				primary: appStyles.sysBaseColors.purple50,
-				secondary: appStyles.sysBaseColors.green80,
+				secondary: appStyles.sysBaseColors.grey40,
 				disabled: appStyles.sysBaseColors.grey90
 			},
 			sysText: {
