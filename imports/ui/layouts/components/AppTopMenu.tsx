@@ -7,7 +7,6 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MenuItem from '@mui/material/MenuItem';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { appTopMenuStyle } from './AppTopMenuStyle';
-import { AppContext } from '../../AppGeneralComponents';
 
 export const AppTopMenu = () => {
 	const { user, showDrawer, showWindow, theme, themeOptions } = React.useContext(AppContext);

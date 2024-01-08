@@ -1,6 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { FixedMenuLayout } from './layouts/FixedMenuLayout';
-import { AppGeneralComponents} from './AppGeneralComponents';
 import { ThemeProvider } from '@mui/material/styles';
 import { getTheme } from '/imports/materialui/theme';
 import useMediaQuery from '@mui/material/useMediaQuery';

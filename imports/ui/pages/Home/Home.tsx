@@ -4,7 +4,6 @@ import Container from '@mui/material/Container';
 import * as appStyle from '/imports/materialui/styles';
 import {Avatar, Box, Button, CircularProgress, Typography} from '@mui/material';
 import { SysButton } from '../../components/SimpleFormFields/SysButton/SysButton';
-import { AppContext } from '../../AppGeneralComponents';
 import { FixedMenuLayoutContext } from '../../layouts/FixedMenuLayout';
 import Delete from '@mui/icons-material/Delete';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';

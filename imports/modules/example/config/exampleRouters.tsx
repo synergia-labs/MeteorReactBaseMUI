@@ -3,7 +3,7 @@ import ExampleContainer from '../ui/exampleContainer';
 import { Recurso } from './Recursos';
 import { IRoute } from '/imports/modules/modulesTypings';
 
-export const exampleRouterList: IRoute[] = [
+export const exampleRouterList: (IRoute | null)[] = [
     {
         path: '/example/:screenState/:exampleId',
         component: ExampleContainer,

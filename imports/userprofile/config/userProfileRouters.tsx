@@ -2,7 +2,7 @@ import React from 'react';
 import UserProfileContainer from '../ui/pages/userProfileContainer';
 import { IRoute } from '/imports/modules/modulesTypings';
 
-export const userProfileRouterList: IRoute[] = [
+export const userProfileRouterList: (IRoute | null)[] = [
     {
         path: '/userprofile/:screenState/:userprofileId',
         component: UserProfileContainer,

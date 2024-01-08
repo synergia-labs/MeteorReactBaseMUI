@@ -1,87 +1,52 @@
-import React from 'react';
-import { Location, NavigateFunction, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
-import Modules from '../../modules';
+import React, { useContext } from 'react';
+import { Route, Routes, useParams, useLocation, Location } from 'react-router-dom';
 import { NotFound } from '../pages/NotFound/NotFound';
+import { SignIn } from '../pages/SignIn/Signin';
 import { getUser } from '/imports/libs/getUser';
 import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
 import { IRoute } from '/imports/modules/modulesTypings';
-import { SignIn } from '../pages/SignIn/Signin';
+import { SysAppContext } from '../AppContainer';
+import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import { subjectRouter } from '/imports/analytics/AnalyticsSubscriber';
-import { ILayoutProps } from '/imports/typings/BoilerplateDefaultTypings';
-import { AppContext } from '../AppGeneralComponents';
+import SysRoutes from './routes';
 
-interface IWrapComponent extends ILayoutProps {
-	component: React.ElementType;
+interface IWrapComponentProps {
+  component: React.ElementType;
+  location?: Location;
+  user?: IUserProfile | null;
 }
 
-const WrapComponent = ({ component, ...props }: IWrapComponent) => {
-	const RenderedComponent = component;
-	const params = useParams();
+const WrapComponent: React.FC<IWrapComponentProps> = ({ component: Component, location, user }) => {
+  const params = useParams();
 
-	subjectRouter.next({
-		pathname: location.pathname,
-		params,
-		user: props.user
-	});
+  subjectRouter.next({ pathname: location?.pathname, params, user });
 
-	return <RenderedComponent />; //TODO: Retirar quando refatorar o DEatail
+  return <Component />;
 };
 
-export const AppRouterSwitch = React.memo(() => {
-	const location = useLocation();
-	const navigate = useNavigate();
+export const AppRouterSwitch: React.FC = React.memo(() => {
+  const location = useLocation();
+  const { isLoggedIn, user } = useContext(SysAppContext);
 
-	const switchProps = React.useContext(AppContext);
-
-	return (
-		<Routes location={location}>
-			{(Modules.getListOfRouterModules() || [])
-				.filter((r) => !!r)
-				.map((routerData: IRoute | null) => {
-					if (routerData?.isProtected) {
-						const resources = routerData.resources;
-
-						const isLogged = switchProps?.isLoggedIn;
-						let possuiPermissao = true;
-						if (resources) {
-							possuiPermissao = segurancaApi.podeAcessarRecurso(getUser(), ...resources);
-						}
-						return (
-							<Route
-								key={routerData?.path}
-								path={routerData?.path as string}
-								element={
-									isLogged && possuiPermissao ? (
-										<WrapComponent
-											component={routerData.component as React.ElementType}
-											navigate={navigate}
-											location={location}
-											{...switchProps}
-										/>
-									) : (
-										<WrapComponent component={SignIn} navigate={navigate} location={location} {...switchProps} />
-									)
-								}
-							/>
-						);
-					} else {
-						return (
-							<Route
-								key={routerData?.path}
-								path={routerData?.path as string}
-								element={
-									<WrapComponent
-										component={routerData?.component as React.ElementType}
-										navigate={navigate}
-										location={location}
-										{...switchProps}
-									/>
-								}
-							/>
-						);
-					}
-				})}
-			<Route element={NotFound} />
-		</Routes>
-	);
+  return (
+    <Routes location={location}>
+      {!SysRoutes.checkIfRouteExists(location.pathname) ? (
+        <Route path="*" element={<NotFound />} />
+      ) : (
+        SysRoutes.getRoutes().map((route: IRoute | null) => (
+          <Route
+            key={route?.path}
+            path={route?.path as string}
+            element={
+              route?.isProtected
+                ? (isLoggedIn && segurancaApi.podeAcessarRecurso(getUser(), ...route.resources || []))
+                  ? <WrapComponent component={route.component as React.ElementType} location={location} user={user}/>
+                  : <WrapComponent component={SignIn} location={location} user={user}/>
+                : <WrapComponent component={route?.component as React.ElementType} location={location} user={user} />
+            }
+          />
+        ))
+      )}
+    </Routes>
+  );
 });

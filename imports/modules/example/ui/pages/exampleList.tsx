@@ -18,7 +18,6 @@ import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
 import ToggleField from '/imports/ui/components/SimpleFormFields/ToggleField/ToggleField';
 import { PageLayout } from '../../../../ui/layouts/PageLayout';
 import { useMediaQuery} from "@mui/material";
-import { AppContext } from '/imports/ui/AppGeneralComponents';
 import { useNavigate} from 'react-router-dom';
 
 interface IExampleList {

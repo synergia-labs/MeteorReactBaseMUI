@@ -4,7 +4,7 @@ export interface IAppMenu {
     path?: string;
     name?: string;
     isProtected?: boolean;
-    icon?: React.ReactFragment;
+    icon?: React.ReactNode;
 }
 export interface IRoute {
     path?: string;
@@ -20,4 +20,9 @@ export interface IRoute {
 export interface IModules {
     modulesRouterList: (IRoute | null)[];
     modulesAppMenuItemList: (IAppMenu | null)[];
+}
+
+export interface IModuleHub {
+    pagesRouterList: (IRoute | null)[];
+    pagesMenuItemList: (IAppMenu | null)[];
 }

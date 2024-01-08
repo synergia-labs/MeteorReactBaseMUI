@@ -6,7 +6,6 @@ import { Box } from "@mui/material";
 import { AppRouterSwitch } from "./AppRouterSwitch";
 import { fixedMenuLayoutStyle } from './FixedMenuLayoutStyle';
 import { IShowDialogProps, ShowDialog } from "../GeneralComponents/showDialog/showDialog";
-import { AppTopMenu } from "./components/AppTopMenu";
 import { IShowDrawerProps, ShowDrawer } from "../GeneralComponents/showDrawer/showDrawer";
 
 export const SysAppLayoutContext = React.createContext<ISysAppLayoutContext>({} as ISysAppLayoutContext);

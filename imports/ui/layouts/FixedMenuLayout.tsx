@@ -6,7 +6,7 @@ import { fixedMenuLayoutStyle } from './FixedMenuLayoutStyle';
 import Box from '@mui/material/Box';
 import { AppTopMenu } from './components/AppTopMenu';
 import { useTheme } from '@mui/material';
-import {ShowNotification, IShowNotificationProps, IShowNotification} from '../GeneralComponents/showNotification/showNotification';
+import {ShowNotification, IShowNotificationProps} from '../GeneralComponents/showNotification/showNotification';
 
 interface FixedMenuLayoutContextType {
 	showAppBar: boolean;

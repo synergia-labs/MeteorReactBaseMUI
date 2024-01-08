@@ -15,7 +15,6 @@ import { IAppMenu } from '/imports/modules/modulesTypings';
 import { FormControlLabel } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import Box from '@mui/material/Box';
-import { AppContext } from '../AppGeneralComponents';
 
 const HomeIconButton = ({ navigate }: any) => {
 	return (
