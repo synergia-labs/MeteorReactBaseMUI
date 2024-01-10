@@ -1,12 +1,11 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback } from "react";
 import { ISysAppLayoutContext, ISysGeneralComponentsCommon, ISysThemeOptions } from "/imports/typings/BoilerplateDefaultTypings";
 import { BrowserRouter as Router } from 'react-router-dom';
 import { IShowNotificationProps, ShowNotification } from "../GeneralComponents/showNotification/showNotification";
-import { Box } from "@mui/material";
 import { AppRouterSwitch } from "./AppRouterSwitch";
-import { fixedMenuLayoutStyle } from './FixedMenuLayoutStyle';
 import { IShowDialogProps, ShowDialog } from "../GeneralComponents/showDialog/showDialog";
 import { IShowDrawerProps, ShowDrawer } from "../GeneralComponents/showDrawer/showDrawer";
+import { ISysTemplate, SysTemplate, SysTemplateOptions } from "./templates/getTemplate";
 
 export const SysAppLayoutContext = React.createContext<ISysAppLayoutContext>({} as ISysAppLayoutContext);
 
@@ -17,10 +16,15 @@ const defaultState: ISysGeneralComponentsCommon = {
     onClose: () => {throw new Error('Função de fechar não implementada');},
 }
 
+const defaultTemplate: ISysTemplate = {
+    variant: SysTemplateOptions.AppBar,
+}
+
 export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     const [showNotification, setShowNotification] = React.useState<IShowNotificationProps>(defaultState);
-    const [showDialog, setShowDialog] = React.useState<IShowDialogProps>(defaultState);
-    const [showDrawer, setShowDrawer] = React.useState<IShowDrawerProps>(defaultState);
+    const [showDialog, setShowDialog]             = React.useState<IShowDialogProps>(defaultState);
+    const [showDrawer, setShowDrawer]             = React.useState<IShowDrawerProps>(defaultState);
+    const [templateOptions, setTemplateOptions]   = React.useState<ISysTemplate>(defaultTemplate);
 
     // Show Notification 
     const handleCloseNotification = useCallback((
@@ -86,6 +90,29 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     }, []);
     //Fim Show Drawer
 
+    //Template
+    const changeTemplate = useCallback((template?: SysTemplateOptions | keyof typeof SysTemplateOptions) => {
+        console.log('changeTemplate', template);
+        if(!!!template){
+            if(templateOptions.variant !== defaultTemplate.variant ){
+                setTemplateOptions({...templateOptions, variant: defaultTemplate.variant});
+            }else{
+                return;
+            }
+        }
+        if (template === templateOptions.variant) return;
+        setTemplateOptions({
+            ...templateOptions,
+            variant: template!,
+        });
+    }, []);
+    const setTemplateProps = useCallback((props?: any) => {
+        setTemplateOptions({
+            ...templateOptions,
+            props: props,
+        });
+    }, []);
+
     const providerValue = React.useMemo(() => ({
         ...themeOptions,
         showNotification:   showNotificationHandler,
@@ -98,17 +125,15 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
 
 
     return (
-        <>
+        <SysAppLayoutContext.Provider value={providerValue}>
             <Router>
-                <SysAppLayoutContext.Provider value={providerValue}>
-                    <Box sx={fixedMenuLayoutStyle.routerSwitch}>
-                        <AppRouterSwitch />
-                    </Box>
-                </SysAppLayoutContext.Provider>
+                <SysTemplate variant={templateOptions.variant} props={templateOptions.props} > 
+                    <AppRouterSwitch changeTemplate={changeTemplate} setTemplateProps={setTemplateProps}/>
+                </SysTemplate>
             </Router>
             <ShowNotification {...showNotification} />
             <ShowDialog {...showDialog} />
             <ShowDrawer {...showDrawer} />
-        </>
+        </SysAppLayoutContext.Provider>
     )
 };

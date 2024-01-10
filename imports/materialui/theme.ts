@@ -119,8 +119,8 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 				contrastText: appStyles.sysBaseColors.white
 			},
 			text: {
-				primary: appStyles.sysBaseColors.purple50,
-				secondary: appStyles.sysBaseColors.green80,
+				primary: appStyles.sysBaseColors.grey20,
+				secondary: appStyles.sysBaseColors.grey40,
 				disabled: appStyles.sysBaseColors.grey90
 			},
 			sysText: {
@@ -508,23 +508,6 @@ const getConfiguration = (theme: Theme) => {
 				}
 			},
 
-			MuiDrawer: {
-				styleOverrides: {
-					root: {
-						width: 360, // drawerWidth,
-						flexShrink: 0
-					},
-					paper: {
-						top: 10,
-						right: 10,
-						width: 360, //,drawerWidth,
-						height: 'calc(100% - 85px)',
-						boxShadow: '-10px 20px 20px -18px #000000, 12px 0px 20px -18px #000000',
-						overflow: 'hidden',
-						borderRadius: 15
-					}
-				}
-			},
 
 			MuiAutocomplete: {
 				styleOverrides: {
@@ -653,7 +636,7 @@ const getConfiguration = (theme: Theme) => {
 						minWidth: '300px'
 					}
 				}
-			}
+			},
 		}
 	}
 }

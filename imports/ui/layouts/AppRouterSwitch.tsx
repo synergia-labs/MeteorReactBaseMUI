@@ -9,22 +9,33 @@ import { SysAppContext } from '../AppContainer';
 import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import { subjectRouter } from '/imports/analytics/AnalyticsSubscriber';
 import SysRoutes from './routes';
+import { SysTemplateOptions } from './templates/getTemplate';
 
 interface IWrapComponentProps {
   component: React.ElementType;
   location?: Location;
   user?: IUserProfile | null;
+  template?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+  changeTemplate?: (template?: SysTemplateOptions | keyof typeof SysTemplateOptions) => void;
+  setTemplateProps?: (props?: any) => void;
+  props?: any;
 }
 
-const WrapComponent: React.FC<IWrapComponentProps> = ({ component: Component, location, user }) => {
+const WrapComponent: React.FC<IWrapComponentProps> = ({ component: Component, location, user, changeTemplate, template, setTemplateProps, props }) => {
   const params = useParams();
 
   subjectRouter.next({ pathname: location?.pathname, params, user });
-
+  changeTemplate?.(template);
+  setTemplateProps?.(props);
   return <Component />;
 };
 
-export const AppRouterSwitch: React.FC = React.memo(() => {
+interface IAppRouterSwitchProps {
+  changeTemplate?: (template?: SysTemplateOptions | keyof typeof SysTemplateOptions) => void;
+  setTemplateProps?: (props?: any) => void;
+}
+
+export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ changeTemplate, setTemplateProps }) => {
   const location = useLocation();
   const { isLoggedIn, user } = useContext(SysAppContext);
 
@@ -40,9 +51,34 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
             element={
               route?.isProtected
                 ? (isLoggedIn && segurancaApi.podeAcessarRecurso(getUser(), ...route.resources || []))
-                  ? <WrapComponent component={route.component as React.ElementType} location={location} user={user}/>
-                  : <WrapComponent component={SignIn} location={location} user={user}/>
-                : <WrapComponent component={route?.component as React.ElementType} location={location} user={user} />
+                  ? <WrapComponent 
+                      component={route.component as React.ElementType} 
+                      location={location} 
+                      user={user} 
+                      changeTemplate={changeTemplate}
+                      template={route.template}
+                      setTemplateProps={setTemplateProps}
+                      props={route?.templateProps}
+                    />
+                  : <WrapComponent 
+                      component={SignIn} 
+                      location={location} 
+                      user={user}
+                      changeTemplate={changeTemplate}
+                      template={route.template}
+                      setTemplateProps={setTemplateProps}
+                      props={route?.templateProps}
+                    />
+                : <WrapComponent 
+                    component={route?.component as React.ElementType} 
+                    location={location} 
+                    user={user} 
+                    changeTemplate={changeTemplate}
+                    template={route?.template}
+                    setTemplateProps={setTemplateProps}
+                    props={route?.templateProps}
+
+                  />
             }
           />
         ))

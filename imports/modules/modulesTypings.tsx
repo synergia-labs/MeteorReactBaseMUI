@@ -1,4 +1,5 @@
 import React from 'react';
+import { SysTemplateOptions } from '../ui/layouts/templates/getTemplate';
 
 export interface IAppMenu {
     path?: string;
@@ -16,6 +17,8 @@ export interface IRoute {
     isProtected?: boolean;
     exact?: string | boolean | undefined;
     resources?: string[];
+    template?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+    templateProps?: any;
 }
 export interface IModules {
     modulesRouterList: (IRoute | null)[];

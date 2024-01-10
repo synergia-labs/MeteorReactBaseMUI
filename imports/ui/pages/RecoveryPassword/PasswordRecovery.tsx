@@ -9,7 +9,6 @@ import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
 import { passwordRecoveryStyle } from './PasswordRecoveryStyle';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
-import { FixedMenuLayoutContext } from '../../layouts/FixedMenuLayout';
 import { Box, Container } from '@mui/material';
 
 export const PasswordRecovery = (props: IDefaultContainerProps) => {
