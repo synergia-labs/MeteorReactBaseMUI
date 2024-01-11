@@ -18,7 +18,6 @@ export const pagesRouterList : (IRoute | null)[] = [
 		isProtected: false,
 		template: 'AppBar',
 		templateProps: {
-			logo: 'Teste'
 		} as ISysAppBarProps
 	},
 	{

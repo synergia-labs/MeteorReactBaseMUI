@@ -18,6 +18,7 @@ const defaultState: ISysGeneralComponentsCommon = {
 
 const defaultTemplate: ISysTemplate = {
     variant: SysTemplateOptions.AppBar,
+    props: undefined,
 }
 
 export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
@@ -91,27 +92,25 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     //Fim Show Drawer
 
     //Template
-    const changeTemplate = useCallback((template?: SysTemplateOptions | keyof typeof SysTemplateOptions) => {
-        console.log('changeTemplate', template);
-        if(!!!template){
-            if(templateOptions.variant !== defaultTemplate.variant ){
-                setTemplateOptions({...templateOptions, variant: defaultTemplate.variant});
-            }else{
-                return;
-            }
+    const setTemplate = useCallback(({
+        variant,
+        props,
+    } : {
+        variant?: SysTemplateOptions | keyof typeof SysTemplateOptions,
+        props?: any,
+    }) => {
+        if(!!!variant && !!!props){
+            if(templateOptions.variant === variant && templateOptions.props === props) return;
+            setTemplateOptions(defaultTemplate);
+            return;
         }
-        if (template === templateOptions.variant) return;
         setTemplateOptions({
-            ...templateOptions,
-            variant: template!,
+            variant: variant ?? templateOptions.variant,
+            props: props ?? templateOptions.props,
         });
+
     }, []);
-    const setTemplateProps = useCallback((props?: any) => {
-        setTemplateOptions({
-            ...templateOptions,
-            props: props,
-        });
-    }, []);
+    //Fim Template
 
     const providerValue = React.useMemo(() => ({
         ...themeOptions,
@@ -128,7 +127,7 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
         <SysAppLayoutContext.Provider value={providerValue}>
             <Router>
                 <SysTemplate variant={templateOptions.variant} props={templateOptions.props} > 
-                    <AppRouterSwitch changeTemplate={changeTemplate} setTemplateProps={setTemplateProps}/>
+                    <AppRouterSwitch setTempleteOptions={setTemplate}/>
                 </SysTemplate>
             </Router>
             <ShowNotification {...showNotification} />
