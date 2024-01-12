@@ -1,0 +1,109 @@
+import { Meta } from "@storybook/blocks";
+import Image from '../assets/rotas.png';
+
+<Meta title='Documentação/Rotas' />
+
+# Rotas 
+
+<br />
+<br />
+
+
+<img src={Image} />
+
+Neste projeto, a implementação das rotas é realizada através da biblioteca React Router Dom, uma escolha robusta para o gerenciamento de rotas no ambiente React. A arquitetura das rotas segue um modelo descentralizado, no qual cada rota é desenvolvida e mantida individualmente em arquivos separados. Posteriormente, essas rotas são integradas ao arquivo principal, `Routes.js`. Este modelo promove uma gestão eficaz e independente, facilitando a manutenção e a escalabilidade do sistema.
+
+### Estrutura Modular
+
+O projeto é estruturado em módulos, uma abordagem que oferece flexibilidade e organização. Além da pasta principal `modules`, existem duas outras estruturas significativas: `pages` e `userProfile`. O `userProfile` é um módulo mais simples de controle das telas de usuário. Este módulo, em particular, é projetado com uma estrutura predefinida que exige poucas alterações.
+
+### Detalhamento da estrutura de rotas
+
+As rotas são configuradas dentro de uma pasta designada `config`. Esta pasta contém três arquivos fundamentais:
+
+1. `index.tsx`: Este arquivo tem o papel crucial de exportar as rotas e os menus de cada módulo.
+1. `NOME_DO_MODULORouters.tsx`: Aqui são definidas as rotas do módulo. O arquivo especifica o caminho da rota, o componente a ser renderizado, o nome, os parâmetros, e a configuração de acesso (pública ou privada).
+1. `NOME_DO_MODULOAppMenu.tsx`: Responsável por definir o menu do módulo, que pode ser usado para navegação, na lista do drawer, ou na definição da navbar.
+
+#### Exemplo de definição de rotas
+
+```typescript
+interface IRoute {
+    path?: string;
+    component:
+        | React.ReactNode
+        | React.Component
+        | React.FunctionComponent<any>
+        | React.ComponentType<any>;
+    isProtected?: boolean;
+    exact?: string | boolean | undefined;
+    resources?: string[];
+    template?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+    templateProps?: any;
+}
+``` 
+> Interface de definição de rotas
+
+```typescript
+import { IRoute } from '/imports/modules/modulesTypings';
+import SEUCOMPONENTE from './SEUCOMPONENTE';
+
+const exampleRouterList: (IRoute | null)[] = [
+    {
+        path: '/example/:screenState/:exampleId',
+        component: SEUCOMPONENTE,
+        isProtected: true,
+    },
+    {
+        path: '/example/:screenState',
+        component: SEUCOMPONENTE,
+        isProtected: true,
+        resources: [Recurso.EXAMPLE_CREATE],
+    },
+    {
+        path: '/example',
+        component: SEUCOMPONENTE,
+        isProtected: true,
+    },
+];
+
+```
+> Exemplo de definição de rotas de um módulo
+
+
+
+#### Exemplo de definição de menu
+
+```typescript
+interface IAppMenu {
+    path?: string;
+    name?: string;
+    isProtected?: boolean;
+    icon?: React.ReactNode;
+}
+```
+> Interface de definição de menu
+
+```typescript
+import { IAppMenu } from '/imports/modules/modulesTypings';
+import { Class } from '@material-ui/icons';
+
+const exampleMenuItemList: (IAppMenu | null)[] = [
+    {
+        path: '/example',
+        name: 'Exemplos',
+        icon: <Class />,
+    },
+];
+```
+> Exemplo de definição de menu de um módulo
+
+### Gerenciamento e Integração de Módulos
+Cada módulo opera de forma independente, com suas próprias rotas e menus. A centralização destes módulos é feita através do arquivo `index.tsx` localizado em `imports/modules`. Este arquivo é crucial para a integração das rotas e menus de todos os módulos no sistema.
+
+**Nota Importante:** A inclusão de um novo módulo <span style={{'color': 'red','font-weight': 'bold'}} > requer a atualização deste arquivo central.</span>
+
+### Conexão entre Rotas, Páginas e Módulos
+O ponto central de todas as configurações de rotas, incluindo módulos, páginas e userProfile, é o arquivo `imports/ui/layouts/routes.tsx`. Este arquivo não apenas consolida todas as rotas do sistema, mas também gerencia os itens do menu. Além disso, permite a implementação de regras de negócio específicas para o roteamento.
+
+

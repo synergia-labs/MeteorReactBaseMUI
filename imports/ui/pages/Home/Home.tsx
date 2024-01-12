@@ -4,7 +4,6 @@ import Container from '@mui/material/Container';
 import * as appStyle from '/imports/materialui/styles';
 import {Avatar, Box, Button, CircularProgress, Typography} from '@mui/material';
 import { SysButton } from '../../components/SimpleFormFields/SysButton/SysButton';
-import { FixedMenuLayoutContext } from '../../layouts/FixedMenuLayout';
 import Delete from '@mui/icons-material/Delete';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
 import DeleteDialog from '/imports/ui/GeneralComponents/showDialog/custom/deleteDialog';
@@ -31,7 +30,22 @@ const Home = () => {
     setDarkThemeMode(false);
     
     return(
-        <>
+        <Box sx = {{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '1rem',
+            width: '100%',
+        }}>
+
+            <Box 
+                sx={{
+                    width: '100%',
+                    height: '150px',
+                    backgroundColor: 'primary.dark',
+                }}
+            />
             <Button
                 onClick={() => {
                     DeleteDialog({
@@ -67,7 +81,7 @@ const Home = () => {
                 Teste de Drawer
             </Button>
             {isLoggedIn.toString()}
-        </>
+        </Box>
     )
 };
 

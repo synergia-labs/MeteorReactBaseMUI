@@ -1,0 +1,101 @@
+import { Canvas, Meta, Story, Controls } from '@storybook/blocks'; 
+import * as TemplateStories from './getTemplate.stories';
+import Diagrama from './images/diagrama.png';
+
+<Meta of={TemplateStories}/>
+
+# SysTemplate
+
+<img src={Diagrama} />
+<br />
+<br />
+
+### Visão Geral
+
+O `SysTemplate` é um componente crucial para o boilerplate, funcionando como um modelo para a estruturação das páginas da aplicação. Este componente, projetado com o intuito de oferecer flexibilidade e reusabilidade, contribui para simplificar a manutenção e garantir uniformidade visual em toda a aplicação. Ele se adapta de maneira eficiente para satisfazer as diversas necessidades do projeto, permitindo uma personalização direcionada de acordo com os requisitos específicos de cada página e os objetivos gerais do projeto.
+
+
+### Principais características
+
+O `SysTemplate` destaca-se por:
+
+* **Flexibilidade:** Capacidade de adaptação a diferentes estilos e requisitos de layout, assegurando a aplicabilidade em variados contextos da aplicação.
+* **Consistência Visual:** Mantém um padrão estético uniforme em todas as páginas, fortalecendo a identidade visual do projeto.
+* **Facilidade de Manutenção:** Estruturado de forma a simplificar atualizações e ajustes, contribuindo para a eficiência no desenvolvimento e na manutenção.
+* **Personalização:** Permite alterações específicas em páginas individuais, oferecendo espaço para criatividade sem comprometer a integridade do design geral.
+* **Reusabilidade:** Projetado para ser utilizado em múltiplas páginas e contextos, maximizando a eficiência no desenvolvimento`
+
+
+### Como usar ?
+
+Utilizar o `SysTemplate` é um processo simples e intuitivo. O sistema já contém um template padrão, e todas as páginas são renderizadas a partir dele. Para modificar o layout de uma página específica, acesse a definição da rota correspondente `(.../config/...routes.tsx)`  e utilize a propriedade `template` para definir o template desejado. Caso seja necessário passar props para o template, utilize a propriedade `templateProps`. Por exemplo:
+
+```tsx
+    // .../config/...routes.tsx
+    import { SysTemplateOptions } from '/imports/ui/layouts/templates/getTemplate'; // Importação da lista de templates disponíveis. 
+    export const exampleRouterList: (IRoute | null)[] = [
+        {
+            path: '/',
+            component: ExampleContainer,
+            isProtected: true,
+            resources: [Recurso.EXAMPLE_VIEW],
+            template: SysTemplateOptions.AppBar, // Basta adicionar esse atributo com o template desejado.
+            templateProps: { // Caso o template escolhido necessite de props, basta adicioná-las aqui.
+                logo: 'Teste',
+            } as ISysAppBarProps // Lembre-se de fazer o cast para o tipo de props do template.
+        },
+    ];
+```
+> Nesse caso o template AppBar será aplicado a página definida na rota `/`.
+
+### Como definir um template padrão ?
+
+Para estabelecer um template padrão, altere o valor da propriedade `defaultTemplate` no arquivo `imports/ui/layouts/AppLayout.tsx`. Por exemplo:
+
+```tsx
+    // /imports/ui/layouts/AppLayout.tsx
+    const defaultTemplate: ISysTemplate = {
+        variant: SysTemplateOptions.AppBar, // Basta alterar o valor dessa propriedade para o template desejado.
+    }
+```
+
+### Como criar um novo template ?
+
+Em algumas situações, pode ser necessário desenvolver ou editar um template para o projeto. Isso requer a definição de um novo template no diretório: `/imports/ui/layouts/templates`. Recomenda-se criar um novo diretório com o nome do template e seguir a estrutura exemplificada abaixo:
+
+```
+    - layouts
+    |   - templates
+    |   |   - templateNovo
+    |   |   |   - templateNovo.tsx
+    |   |   |   - templateNovoStyles.tsx
+    |   |   - templateAppBar
+    |   |   |   - templateAppBar.tsx
+    |   |   |   - templateAppBarStyles.tsx
+    ...
+```
+
+Depois de definir seu template, registre-o em `/imports/ui/layouts/templates/getTemplate.tsx`:
+
+```tsx
+    // /imports/ui/layouts/templates/getTemplate.tsx
+    export enum SysTemplateOptions {
+        AppBar = 'AppBar',
+        None = 'None',
+        MeuNovoTemplate = 'MeuNovoTemplate', // Basta adicionar o nome do seu template aqui.
+    }
+
+    const templates = {
+        [SysTemplateOptions.AppBar]: TemplateAppBar,
+        [SysTemplateOptions.None]: TemplateNone,
+        [SysTemplateOptions.MeuNovoTemplate]: MeuNovoTemplate, // Basta adicionar o seu template aqui.
+    };
+```
+
+#### Obersevações
+
+Ao definir um template, procure usar e criar componentes genéricos em `imports/ui/layouts/components`. Isso facilita a reutilização de componentes e melhora a manutenção do projeto. Por exemplo, o componente `AppBar` é versátil e pode ser utilizado em vários templates.
+
+# Utilização
+<Canvas of={TemplateStories.AppBar} />
+<Controls />

@@ -3,7 +3,6 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { userprofileApi } from '../../../api/UserProfileApi';
 import { SimpleTable } from '/imports/ui/components/SimpleTable/SimpleTable';
 import _ from 'lodash';
-import { PageLayout } from '../../../../ui/layouts/PageLayout';
 import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import { NavigateFunction } from 'react-router-dom';
 

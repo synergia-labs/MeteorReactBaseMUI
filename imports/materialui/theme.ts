@@ -119,20 +119,20 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 				contrastText: appStyles.sysBaseColors.white
 			},
 			text: {
-				primary: appStyles.sysBaseColors.purple50,
-				secondary: appStyles.sysBaseColors.grey40,
-				disabled: appStyles.sysBaseColors.grey90
+				primary: appStyles.sysBaseColors.grey10,
+				secondary: appStyles.sysBaseColors.grey30,
+				disabled: appStyles.sysBaseColors.grey70
 			},
 			sysText: {
-				body: appStyles.sysBaseColors.grey40,
-				title: appStyles.sysBaseColors.grey20,
+				body: appStyles.sysBaseColors.grey30,
+				title: appStyles.sysBaseColors.grey10,
 				base: appStyles.sysBaseColors.white,
 				baseContrast: appStyles.sysBaseColors.black,
-				auxiliary: appStyles.sysBaseColors.grey70,
+				auxiliary: appStyles.sysBaseColors.grey50,
 				primary: appStyles.sysBaseColors.purple50,
 				secondary: appStyles.sysBaseColors.green80,
 				tertiary: appStyles.sysBaseColors.neon90,
-				disabled: appStyles.sysBaseColors.grey90
+				disabled: appStyles.sysBaseColors.grey70
 			},
 			background: {
 				paper: appStyles.sysBaseColors.white,
@@ -151,8 +151,9 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 				primaryHover: appStyles.sysBaseColors.purple30,
 				primaryBgHover: appStyles.sysBaseColors.purpleTransparent,
 				primaryContrastText: appStyles.sysBaseColors.white,
+				primaryContrastBg: appStyles.sysBaseColors.greyTransparent,
 				primaryIcon: appStyles.sysBaseColors.purpleGrey,
-				disabled: appStyles.sysBaseColors.grey80,
+				disabled: appStyles.sysBaseColors.grey70,
 				bgDisabled: appStyles.sysBaseColors.grey95,
 				auxiliary: appStyles.sysBaseColors.grey30,
 			}

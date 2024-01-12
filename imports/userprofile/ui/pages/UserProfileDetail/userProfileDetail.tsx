@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import FormGroup from '@mui/material/FormGroup';
 import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
 import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
-import { PageLayout } from '../../../../ui/layouts/PageLayout';
 import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import { IDefaultDetailProps } from '/imports/typings/BoilerplateDefaultTypings';
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { SysTemplateOptions } from '../ui/layouts/templates/getTemplate';
 
 export interface IAppMenu {
     path?: string;
@@ -9,19 +10,16 @@ export interface IAppMenu {
 export interface IRoute {
     path?: string;
     component:
-        | React.ReactFragment
+        | React.ReactNode
         | React.Component
         | React.FunctionComponent<any>
         | React.ComponentType<any>;
     isProtected?: boolean;
     exact?: string | boolean | undefined;
     resources?: string[];
+    template?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+    templateProps?: any;
 }
-export interface IModules {
-    modulesRouterList: (IRoute | null)[];
-    modulesAppMenuItemList: (IAppMenu | null)[];
-}
-
 export interface IModuleHub {
     pagesRouterList: (IRoute | null)[];
     pagesMenuItemList: (IAppMenu | null)[];

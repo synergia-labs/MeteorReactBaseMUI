@@ -1,7 +1,6 @@
 import { IModuleHub } from './modulesTypings';
 import Example from './example/config';
 
-
 const pages = [ 
     ...Example.pagesRouterList,
 ];

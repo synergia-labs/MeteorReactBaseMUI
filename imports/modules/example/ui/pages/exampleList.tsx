@@ -16,7 +16,6 @@ import { Recurso } from '../../config/Recursos';
 import { RenderComPermissao } from '/imports/seguranca/ui/components/RenderComPermisao';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
 import ToggleField from '/imports/ui/components/SimpleFormFields/ToggleField/ToggleField';
-import { PageLayout } from '../../../../ui/layouts/PageLayout';
 import { useMediaQuery} from "@mui/material";
 import { useNavigate} from 'react-router-dom';
 

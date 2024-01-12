@@ -10,7 +10,6 @@ import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 import { resetPasswordStyle } from './ResetPasswordStyle';
 import { useParams } from 'react-router-dom';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
-import { FixedMenuLayoutContext } from '../../layouts/FixedMenuLayout';
 import { Box } from '@mui/material';
 
 export const ResetPassword = (props: IDefaultContainerProps) => {

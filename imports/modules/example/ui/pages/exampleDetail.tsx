@@ -15,7 +15,6 @@ import AudioRecorder from '/imports/ui/components/SimpleFormFields/AudioRecorder
 import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 import Print from '@mui/icons-material/Print';
 import Close from '@mui/icons-material/Close';
-import { PageLayout } from '../../../../ui/layouts/PageLayout';
 import { IExample } from '../../api/exampleSch';
 import { IDefaultContainerProps, IDefaultDetailProps, IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
 import { useTheme } from '@mui/material/styles';
