@@ -1,19 +1,3 @@
-/*!
- 
- =========================================================
- * Material Dashboard React - v1.0.0 based on Material Dashboard - v1.2.0
- =========================================================
-
- * Product Page: http://www.creative-tim.com/product/material-dashboard-react
- * Copyright 2018 Creative Tim (http://www.creative-tim.com)
- * Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-react/blob/master/LICENSE.md)
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- */
-
 import React from 'react';
 
 /* Colors */
@@ -48,6 +32,7 @@ const sysBaseColors = {
 	grey90: "#e3e3e8",
 	grey95: "#f1f1f3",
 	grey97: "#f7f7f8",
+	greyTransparent: "#ffffff1a",
 	neon10: "#002018",
 	neon20: "#00382b",
 	neon30: "#005140",
