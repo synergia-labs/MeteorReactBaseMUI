@@ -1,6 +1,7 @@
 import React from "react";
 import { TemplateAppBar } from "./templateAppBar/templateAppBar";
 import TemplateNone from "./templateNone/templateNone";
+import { IAppMenu } from "/imports/modules/modulesTypings";
 
 export enum SysTemplateOptions {
     AppBar = 'AppBar',
@@ -15,9 +16,14 @@ const templates = {
 export interface ISysTemplate {
     /**Propriedade que define qual template será renderizado. 
      * 
-     * **obs:** Essa propriedade é usada como atributo `template` na definição da rota.
+     * **obs:** Essa propriedade é usada como atributo `templateVariant` na definição da rota.
     */
     variant: SysTemplateOptions | keyof typeof SysTemplateOptions;
+    /**Propriedades que podem ser passadas por parâmetro para o menu de navegação. 
+     * 
+     * **obs:** Essa propriedade é usada como atributo `templateMenuOptions` na definição da rota.
+    */
+    menuOptions?: (IAppMenu | null)[];
     /**Propriedades que podem ser passadas por parâmetro para o template. 
      * 
      * **obs:** Essa propriedade é usada como atributo `templateProps` na definição da rota.
@@ -26,14 +32,17 @@ export interface ISysTemplate {
     children?: React.ReactNode;
 }
 
+export interface ISysTemplateProps extends Omit<ISysTemplate, 'variant' | 'props'> {}
+
 export const SysTemplate = ({
     variant = SysTemplateOptions.AppBar,
+    menuOptions,
     props,
     children,
 } : ISysTemplate) => {
     const Template = templates[variant];
     return (
-        <Template {...props}>
+        <Template menuOptions={menuOptions} {...props}>
             {children}
         </Template>
     );

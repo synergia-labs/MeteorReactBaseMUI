@@ -17,7 +17,8 @@ export interface IRoute {
     isProtected?: boolean;
     exact?: string | boolean | undefined;
     resources?: string[];
-    template?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+    templateVariant?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+    templateMenuOptions?: (IAppMenu | null)[];
     templateProps?: any;
 }
 export interface IModuleHub {

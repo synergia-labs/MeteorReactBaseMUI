@@ -4,47 +4,53 @@ import { NotFound } from '../pages/NotFound/NotFound';
 import { SignIn } from '../pages/SignIn/Signin';
 import { getUser } from '/imports/libs/getUser';
 import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
-import { IRoute } from '/imports/modules/modulesTypings';
+import { IAppMenu, IRoute } from '/imports/modules/modulesTypings';
 import { SysAppContext } from '../AppContainer';
 import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import { subjectRouter } from '/imports/analytics/AnalyticsSubscriber';
 import SysRoutes from './routes';
-import { SysTemplateOptions } from './templates/getTemplate';
+import { ISysTemplate, SysTemplate, SysTemplateOptions } from './templates/getTemplate';
+
 
 interface IWrapComponentProps {
   component: React.ElementType;
   location?: Location;
   user?: IUserProfile | null;
-  variant?: SysTemplateOptions | keyof typeof SysTemplateOptions;
-  props?: any;
-  setTempleteOptions?: ({
-    variant,
-    props,
-  } : {
-    variant?: SysTemplateOptions | keyof typeof SysTemplateOptions,
-    props?: any,
-  }) => void;
+  templateVariant?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+  templateMenuOptions?: (IAppMenu | null)[];
+  templateProps?: any;
+  defaultTemplate: ISysTemplate;
 }
 
-const WrapComponent: React.FC<IWrapComponentProps> = ({ component: Component, location, user, variant, props, setTempleteOptions }) => {
-  const params = useParams();
+const WrapComponent: React.FC<IWrapComponentProps> = ({ 
+  component: Component, 
+  location, 
+  user, 
+  templateVariant, 
+  templateMenuOptions, 
+  templateProps, 
+  defaultTemplate,  
+}) => {
 
+  const params = useParams();
   subjectRouter.next({ pathname: location?.pathname, params, user });
-  setTempleteOptions?.({ variant, props });
-  return <Component />;
+
+  return (
+    <SysTemplate 
+      variant={templateVariant ?? defaultTemplate.variant} 
+      props={templateProps ?? defaultTemplate.props} 
+      menuOptions={templateMenuOptions ?? defaultTemplate.menuOptions}
+    > 
+      <Component /> 
+    </SysTemplate>
+  );
 };
 
 interface IAppRouterSwitchProps {
-  setTempleteOptions?: ({
-    variant,
-    props,
-  } : {
-    variant?: SysTemplateOptions | keyof typeof SysTemplateOptions,
-    props?: any,
-  }) => void;
+  defaultTemplate: ISysTemplate;
 }
 
-export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ setTempleteOptions }) => {
+export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ defaultTemplate }) => {
   const location = useLocation();
   const { isLoggedIn, user } = useContext(SysAppContext);
 
@@ -64,25 +70,28 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ se
                       component={route.component as React.ElementType} 
                       location={location} 
                       user={user} 
-                      variant={route.template}
-                      props={route?.templateProps}
-                      setTempleteOptions={setTempleteOptions}
+                      templateVariant={route.templateVariant}
+                      templateProps={route?.templateProps}
+                      templateMenuOptions={route?.templateMenuOptions}
+                      defaultTemplate={defaultTemplate}
                     />
                   : <WrapComponent 
                       component={SignIn} 
                       location={location} 
                       user={user}
-                      variant={route.template}
-                      props={route?.templateProps}
-                      setTempleteOptions={setTempleteOptions}
+                      templateVariant={route.templateVariant}
+                      templateProps={route?.templateProps}
+                      templateMenuOptions={route?.templateMenuOptions}
+                      defaultTemplate={defaultTemplate}
                     />
                 : <WrapComponent 
                     component={route?.component as React.ElementType} 
                     location={location} 
                     user={user} 
-                    variant={route?.template}
-                    props={route?.templateProps}
-                    setTempleteOptions={setTempleteOptions}
+                    templateVariant={route?.templateVariant}
+                    templateProps={route?.templateProps}
+                    templateMenuOptions={route?.templateMenuOptions}
+                    defaultTemplate={defaultTemplate}
                   />
             }
           />

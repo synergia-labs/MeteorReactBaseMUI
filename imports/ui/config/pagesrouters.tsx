@@ -8,7 +8,7 @@ import { SignIn } from '../pages/SignIn/Signin';
 import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
 import { SysTemplateOptions } from '../layouts/templates/getTemplate';
-import { ISysAppBarProps } from '../layouts/components/sysAppBar/sysAppBar';
+import { ITemplateAppBar } from '../layouts/templates/templateAppBar/templateAppBar';
 
 export const pagesRouterList : (IRoute | null)[] = [
 	{
@@ -16,9 +16,10 @@ export const pagesRouterList : (IRoute | null)[] = [
 		exact: true,
 		component: Home,
 		isProtected: false,
-		template: 'AppBar',
+		templateVariant: 'None',
 		templateProps: {
-		} as ISysAppBarProps
+			logo: 'Boilerplate Synergia Teste'
+		} as ITemplateAppBar
 	},
 	{
 		path: '/signin',

@@ -5,7 +5,8 @@ import { IShowNotificationProps, ShowNotification } from "../GeneralComponents/s
 import { AppRouterSwitch } from "./AppRouterSwitch";
 import { IShowDialogProps, ShowDialog } from "../GeneralComponents/showDialog/showDialog";
 import { IShowDrawerProps, ShowDrawer } from "../GeneralComponents/showDrawer/showDrawer";
-import { ISysTemplate, SysTemplate, SysTemplateOptions } from "./templates/getTemplate";
+import { ISysTemplate, SysTemplateOptions } from "./templates/getTemplate";
+import SysRoutes from './routes';
 
 export const SysAppLayoutContext = React.createContext<ISysAppLayoutContext>({} as ISysAppLayoutContext);
 
@@ -16,8 +17,10 @@ const defaultState: ISysGeneralComponentsCommon = {
     onClose: () => {throw new Error('Função de fechar não implementada');},
 }
 
+/* Opções default do template */
 const defaultTemplate: ISysTemplate = {
-    variant: SysTemplateOptions.AppBar,
+    variant: SysTemplateOptions.AppBar,    
+    menuOptions: SysRoutes.getMenuItens(),
     props: undefined,
 }
 
@@ -25,7 +28,6 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     const [showNotification, setShowNotification] = React.useState<IShowNotificationProps>(defaultState);
     const [showDialog, setShowDialog]             = React.useState<IShowDialogProps>(defaultState);
     const [showDrawer, setShowDrawer]             = React.useState<IShowDrawerProps>(defaultState);
-    const [templateOptions, setTemplateOptions]   = React.useState<ISysTemplate>(defaultTemplate);
 
     // Show Notification 
     const handleCloseNotification = useCallback((
@@ -91,27 +93,6 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     }, []);
     //Fim Show Drawer
 
-    //Template
-    const setTemplate = useCallback(({
-        variant,
-        props,
-    } : {
-        variant?: SysTemplateOptions | keyof typeof SysTemplateOptions,
-        props?: any,
-    }) => {
-        if(!!!variant && !!!props){
-            if(templateOptions.variant === variant && templateOptions.props === props) return;
-            setTemplateOptions(defaultTemplate);
-            return;
-        }
-        setTemplateOptions({
-            variant: variant ?? templateOptions.variant,
-            props: props ?? templateOptions.props,
-        });
-
-    }, []);
-    //Fim Template
-
     const providerValue = React.useMemo(() => ({
         ...themeOptions,
         showNotification:   showNotificationHandler,
@@ -126,9 +107,7 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     return (
         <SysAppLayoutContext.Provider value={providerValue}>
             <Router>
-                <SysTemplate variant={templateOptions.variant} props={templateOptions.props} > 
-                    <AppRouterSwitch setTempleteOptions={setTemplate}/>
-                </SysTemplate>
+                <AppRouterSwitch defaultTemplate={defaultTemplate}/>
             </Router>
             <ShowNotification {...showNotification} />
             <ShowDialog {...showDialog} />
