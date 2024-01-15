@@ -11,5 +11,6 @@ export const SysAppBarContainer = styled(Box)(({theme}) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: `${sysSizing.spacingFixedSm} ${sysSizing.contentPx}`
+    padding: `${sysSizing.spacingFixedSm} ${sysSizing.contentPx}`,
+    gap: sysSizing.spacingFixedMd,
 }));

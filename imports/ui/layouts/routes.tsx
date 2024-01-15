@@ -16,8 +16,8 @@ class SysRoutes {
             ...UserProfile.pagesRouterList
         ];
         this.menuItens = [
-            ...Modules.pagesMenuItemList,
             ...Pages.pagesMenuItemList,
+            ...Modules.pagesMenuItemList,
             ...UserProfile.pagesMenuItemList
         ];
     }

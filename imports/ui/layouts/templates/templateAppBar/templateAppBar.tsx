@@ -23,6 +23,7 @@ export const TemplateAppBar: React.FC<ITemplateAppBar> = ({
                         {logo ?? 'Boilerplate Synergia'}
                     </Typography>
                 }
+                menuOptions={menuOptions}
             />
             <TemplateAppBarContent>
                 {children}

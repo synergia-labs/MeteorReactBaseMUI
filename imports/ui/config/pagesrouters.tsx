@@ -7,8 +7,6 @@ import { ResetPassword } from '/imports/ui/pages/ResetPassword/ResetPassword';
 import { SignIn } from '../pages/SignIn/Signin';
 import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
-import { SysTemplateOptions } from '../layouts/templates/getTemplate';
-import { ITemplateAppBar } from '../layouts/templates/templateAppBar/templateAppBar';
 
 export const pagesRouterList : (IRoute | null)[] = [
 	{
@@ -16,10 +14,6 @@ export const pagesRouterList : (IRoute | null)[] = [
 		exact: true,
 		component: Home,
 		isProtected: false,
-		templateVariant: 'None',
-		templateProps: {
-			logo: 'Boilerplate Synergia Teste'
-		} as ITemplateAppBar
 	},
 	{
 		path: '/signin',
@@ -51,5 +45,5 @@ export const pagesRouterList : (IRoute | null)[] = [
 	{
 		path: '/verify-email/:token',
 		component: EmailVerify
-	}
+	},
 ];
