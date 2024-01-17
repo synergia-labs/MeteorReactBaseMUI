@@ -1,6 +1,5 @@
 import userprofile from '../userprofile/config';
 import example from './example/config';
-import exampleProvider from './exampleProvider/config';
 import pages from '../ui/config/index';
 import { IAppMenu, IModules, IRoute } from './modulesTypings';
 
@@ -14,7 +13,6 @@ class Modules implements IModules {
             ...pages.pagesRouterList,
             ...userprofile.userProfileRouterList,
             ...example.exampleRouterList,
-            ...exampleProvider.exampleProviderRouterList,
         ];
 
         // Create modules App Menu Item list
@@ -22,7 +20,6 @@ class Modules implements IModules {
             ...pages.pagesMenuItemList,
             ...userprofile.userProfileMenuItemList,
             ...example.exampleMenuItemList,
-            ...exampleProvider.exampleProviderMenuItemList,
         ];
     }
 
