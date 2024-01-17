@@ -150,7 +150,7 @@ export default ({
 				display: 'flex',
 				flexDirection: 'column',
 				...appStyle.fieldContainer,
-				...(containerStyle ? containerStyle : {})
+				...(containerStyle ? containerStyle : {width: '100%'})
 			}}>
 			{label && !otherProps.rounded ? (
 				<SimpleLabelView label={label} help={help} style={style ? { displayLabel: style.displayLabel } : undefined} />

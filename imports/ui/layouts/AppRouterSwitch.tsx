@@ -11,6 +11,7 @@ import { subjectRouter } from '/imports/analytics/AnalyticsSubscriber';
 import SysRoutes from './routes';
 import { ISysTemplate, SysTemplate, SysTemplateOptions } from './templates/getTemplate';
 
+const routes = new SysRoutes();
 
 interface IWrapComponentProps {
   component: React.ElementType;
@@ -56,10 +57,10 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 
   return (
     <Routes location={location}>
-      {!SysRoutes.checkIfRouteExists(location.pathname) ? (
+      {!routes.checkIfRouteExists(location.pathname) ? (
         <Route path="*" element={<NotFound />} />
       ) : (
-        SysRoutes.getRoutes().map((route: IRoute | null) => (
+        routes.getRoutes().map((route: IRoute | null) => (
           <Route
             key={route?.path}
             path={route?.path as string}

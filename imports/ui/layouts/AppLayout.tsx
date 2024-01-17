@@ -8,6 +8,7 @@ import { IShowDrawerProps, ShowDrawer } from "../GeneralComponents/showDrawer/sh
 import { ISysTemplate, SysTemplateOptions } from "./templates/getTemplate";
 import SysRoutes from './routes';
 
+const routes = new SysRoutes();
 export const SysAppLayoutContext = React.createContext<ISysAppLayoutContext>({} as ISysAppLayoutContext);
 
 const defaultState: ISysGeneralComponentsCommon = {
@@ -20,7 +21,7 @@ const defaultState: ISysGeneralComponentsCommon = {
 /* Opções default do template */
 const defaultTemplate: ISysTemplate = {
     variant: SysTemplateOptions.AppBar,    
-    menuOptions: SysRoutes.getMenuItens(),
+    menuOptions: routes.getMenuItens(),
     props: undefined,
 }
 

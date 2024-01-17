@@ -141,7 +141,7 @@ export const exampleSch = {
     },
     statusRadio: {
         type: String,
-        label: 'Status RadioButton',
+        label: 'Opções da Tarefa',
         defaultValue: '',
         optional: true,
         radiosList: ['Todo', 'Doing', 'Done'],
@@ -158,7 +158,17 @@ export interface IExample extends IDoc {
     image: string;
     title: string;
     description: string;
+    check: object;
+    type: string;
+    typeMulti: string[];
+    date: Date;
+    files: object[];
+    chip: string[];
+    contacts: object;
+    tasks: object[];
     audio: string;
-    statusCheck: object;
+    address: object;
+    slider: number;
+    statusRadio: string;
     statusToggle: boolean;
 }

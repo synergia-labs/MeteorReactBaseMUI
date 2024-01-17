@@ -1,8 +1,9 @@
 import React from 'react';
-import { ExampleListContainer } from './pages/exampleList';
 import { ExampleDetailContainer } from './pages/exampleDetail';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
+import ExampleListController from './pages/exampleList/exampleListController';
+import ExampleDetailController from './pages/exampleDetail/exampleDetailContoller';
 
 export interface IExampleModuleContext {
     state?: string;
@@ -20,28 +21,8 @@ export default (props: IDefaultContainerProps) => {
 
 
     const renderPage = () => {
-        if(!!!state || !validState.includes(state)) {
-            return <ExampleListContainer />;
-        }
-        if(!!!id) {
-            return <ExampleDetailContainer
-                {...props}
-                screenState={state}
-                id={id}
-                {...{ create: true }}
-            />
-        }
-        if(state === 'view') {
-            return <ExampleDetailContainer {...props} screenState={state} id={id} />;
-        }
-        if(state === 'edit') {
-            return <ExampleDetailContainer
-                {...props}
-                screenState={state}
-                id={id}
-                {...{ edit: true }}
-            />;
-        }
+        if(!!!state || !validState.includes(state)) return <ExampleListController />;
+        return <ExampleDetailController />;
     }
 
     const providerValue = {

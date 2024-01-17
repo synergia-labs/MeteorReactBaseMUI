@@ -335,20 +335,9 @@ const getConfiguration = (theme: Theme) => {
 
 			MuiIconButton: {
 				defaultProps: {
-					color: 'primary',
+					color: theme.palette.sysAction?.primaryIcon,
 					size: 'medium'
 				},
-				styleOverrides: {
-					root: {
-						borderRadius: '50%',
-						padding: '6px'
-					},
-					colorPrimary: {
-						'&:hover': {
-							backgroundColor: theme.palette.sysAction?.primaryBgHover
-						}
-					}
-				}
 			},
 
 			MuiToggleButton: {

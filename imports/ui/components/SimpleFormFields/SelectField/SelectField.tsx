@@ -198,23 +198,20 @@ export default ({
 				key={{ name }}
 				id={name}
 				placeholder={placeholder}
-				style={{
+				sx={{
 					...(style
 						? style
 						: {
-								borderColor: '#f2f2f2',
-								marginTop: 4
+								borderColor: '#C7C7D1',
 						  }),
 					...{
 						border: error ? '1px solid #ff0000' : 'undefined',
-						borderRadius: error ? '4px' : undefined
+						borderRadius: '8px'
 					},
-					paddingLeft: 15
 				}}
 				value={hasValue(value) ? value : multiple ? [] : ''}
 				onChange={onChangeSelect}
 				disabled={!!readOnly}
-				input={<InputBase />}
 				multiple={multiple}
 				renderValue={multiple ? renderValue || defaultRenderValue : undefined}
 				{...omit(otherProps, ['options'])}>

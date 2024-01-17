@@ -1,7 +1,7 @@
 import React from "react";
 import { IAppMenu } from "/imports/modules/modulesTypings";
-import {Button, ButtonProps} from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import {ButtonProps} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { SysNavLinkStyledContainer } from "./sysNavLinkStyles";
 
 interface ISysNavLink extends ButtonProps{ 
@@ -20,6 +20,7 @@ export const SysNavLink: React.FC<ISysNavLink> = ({
     icon,
     path,
     children,
+    ...props
 }) => {
     const navigate = useNavigate();
     const handleClick = () => { 
@@ -29,7 +30,7 @@ export const SysNavLink: React.FC<ISysNavLink> = ({
     }
 
     return (
-        <SysNavLinkStyledContainer active={active} onClick={handleClick}>
+        <SysNavLinkStyledContainer {...props} active={active} onClick={handleClick}>
             {children ??
                 <> 
                     {sysOptions?.icon ?? icon ?? null}
