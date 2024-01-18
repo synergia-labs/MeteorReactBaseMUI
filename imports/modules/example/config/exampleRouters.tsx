@@ -2,13 +2,13 @@ import React from 'react';
 import ExampleContainer from '../ui/exampleContainer';
 import { Recurso } from './Recursos';
 import { IRoute } from '/imports/modules/modulesTypings';
+import { ITemplateAppBar } from '/imports/ui/layouts/templates/templateAppBar/templateAppBar';
 
 export const exampleRouterList: (IRoute | null)[] = [
     {
         path: '/example/:screenState/:exampleId',
         component: ExampleContainer,
         resources: [Recurso.EXAMPLE_VIEW],
-        templateVariant: 'None'
     },
     {
         path: '/example/:screenState',

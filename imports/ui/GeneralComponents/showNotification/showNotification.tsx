@@ -80,7 +80,7 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
     transitionDirection,
     title,
     message,
-    duration = 3000,
+    duration = 4000,
     variant = 'filled',
     horizontal = 'left',
     vertical = 'bottom',

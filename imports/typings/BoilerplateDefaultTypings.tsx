@@ -3,7 +3,6 @@ import { Theme } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
 import { NavigateFunction, Location } from 'react-router-dom';
-import { IShowNotificationOptions } from '../ui/GeneralComponents/ShowNotification';
 import { IShowNotificationProps } from '../ui/GeneralComponents/showNotification/showNotification';
 import { IShowDialogProps } from '../ui/GeneralComponents/showDialog/showDialog';
 import { IShowDrawerProps } from '../ui/GeneralComponents/showDrawer/showDrawer';
@@ -65,21 +64,7 @@ export interface ISysGeneralComponentsCommon{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 export interface IBoilerplateShowMethods {
-	showNotification?: (options?: IShowNotificationOptions) => void;
 	showModal?: (options?: Object) => void;
 	showCompartilhar?: (anchorEl: any, link: string) => void;
 	showDialog?: (options?: Object) => void;

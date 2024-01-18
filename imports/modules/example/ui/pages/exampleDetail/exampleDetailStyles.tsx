@@ -29,7 +29,7 @@ export const ExampleDetailStyledBody = styled(Box)(({}) => ({
     gap: sysSizing.contentPb,
 }));
 
-export const ExampleDetailStyledFormContainer = styled(Box)(({}) => ({
+export const ExampleDetailStyledFormContainer = styled(Box)(() => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",

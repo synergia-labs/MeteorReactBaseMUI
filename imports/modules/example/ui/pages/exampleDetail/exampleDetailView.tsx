@@ -11,10 +11,11 @@ import RadioButtonField from "/imports/ui/components/SimpleFormFields/RadioButto
 import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
 import { SysButton } from "/imports/ui/components/SimpleFormFields/SysButton/SysButton";
 import CheckIcon from '@mui/icons-material/Check';
+import { ExampleModuleContext } from "../../exampleContainer";
 
 const ExampleDetailView = () => {
     const controller = useContext(ExampleDetailControllerContext);
-    console.log(controller);
+    const {state} = useContext(ExampleModuleContext);
     return(
         <ExampleDetailStyledContainer>
             <ExampleDetailStyledHeader>
@@ -26,7 +27,7 @@ const ExampleDetailView = () => {
             <SimpleForm
 				key={'ExempleDetail-SimpleFormKEY'}
 				doc={controller.document}
-                mode={controller.screenState}
+                mode={state}
 				schema={controller.schema}
 				onSubmit={controller.onSubmit}
 				loading={controller.loading}

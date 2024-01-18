@@ -7,11 +7,12 @@ import { exampleApi } from "../../../api/exampleApi";
 import { IExample } from "../../../api/exampleSch";
 import { ISchema } from "/imports/typings/ISchema";
 import { IDoc } from "/imports/typings/IDoc";
+import { IMeteorError } from "/imports/typings/BoilerplateDefaultTypings";
+import { SysAppLayoutContext } from "/imports/ui/layouts/AppLayout";
 
 interface IExampleDetailContollerContext {
     closePage: () => void;
     document: IExample;
-    screenState?: string;
     loading: boolean;
     schema: ISchema<IExample>;
     onSubmit: (doc: IExample) => void;
@@ -22,6 +23,7 @@ export const ExampleDetailControllerContext = React.createContext<IExampleDetail
 const ExampleDetailController = () => {
     const navigate = useNavigate();
     const exampleContext = useContext(ExampleModuleContext);
+    const {showNotification} = useContext(SysAppLayoutContext);
 
     const {document, loading}  = useTracker(() => {
         const {id} = exampleContext;
@@ -39,14 +41,31 @@ const ExampleDetailController = () => {
     }, []);
 
     const onSubmit = useCallback((doc: IExample) => {
-        console.log(doc);
+        const {state} = exampleContext;
+        const selectedAction = state === 'create' ? 'insert' : 'update';
+			exampleApi[selectedAction](doc, (e: IMeteorError, r: string) => {
+				if (!e) {
+					navigate(`/example/view/${state === 'create' ? r : doc._id}`);
+						showNotification({
+							type: 'success',
+							title: 'Operação realizada!',
+							message: `O exemplo foi ${doc._id ? 'atualizado' : 'cadastrado'} com sucesso!`
+						});
+				} else {
+					console.log('Error:', e);
+						showNotification({
+							type: 'error',
+							title: 'Operação não realizada!',
+							message: `Erro ao realizar a operação: ${e.reason}`
+						});
+				}
+			});
     }, []);
     
     return (
         <ExampleDetailControllerContext.Provider value={{
             closePage,
             document,
-            screenState: exampleContext.state,
             loading,
             schema: exampleApi.getSchema(),
             onSubmit

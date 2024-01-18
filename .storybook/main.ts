@@ -13,7 +13,6 @@ const config: StorybookConfig = {
         '@storybook/addon-onboarding',
         '@storybook/addon-interactions',
         '@storybook/addon-themes',
-        '@storybook/themes',
     ],
 	'framework': {
 		'name': '@storybook/react-webpack5',
