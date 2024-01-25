@@ -2,6 +2,7 @@ import React from "react";
 import { TemplateAppBar } from "./templateAppBar/templateAppBar";
 import TemplateNone from "./templateNone/templateNone";
 import { IAppMenu } from "/imports/modules/modulesTypings";
+import { NavigateFunction } from "react-router-dom";
 
 export enum SysTemplateOptions {
     AppBar = 'AppBar',
@@ -29,6 +30,7 @@ export interface ISysTemplate {
      * **obs:** Essa propriedade é usada como atributo `templateProps` na definição da rota.
     */
     props?: any;
+    navigate?: NavigateFunction;
     children?: React.ReactNode;
 }
 

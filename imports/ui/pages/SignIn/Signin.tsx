@@ -1,7 +1,7 @@
 // login page overrides the form’s submit event and call Meteor’s loginWithPassword()
 // Authentication errors modify the component’s state to be displayed
 import React, { useContext, useEffect, useState } from 'react';
-import { NavigateFunction, useLocation } from 'react-router-dom';
+import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import Container from '@mui/material/Container';
 import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
@@ -11,35 +11,44 @@ import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 import { signinStyle } from './SigninStyle';
 import { Box } from '@mui/material';
 import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
+import { SysAppLayoutContext } from '../../layouts/AppLayout';
+import { SysAppContext } from '../../AppContainer';
+import { cleanUserCache } from '/imports/hooks/useUserAccount';
 
 interface ISignIn {
-	showNotification: (options?: Object) => void;
 	navigate: NavigateFunction;
-	user: IUserProfile;
 }
 
 export const SignIn = (props: ISignIn) => {
-	const [redirectToReferer, setRedirectToReferer] = useState(false);
-
+	const navigate = useNavigate();
 	const location = useLocation();
+	const loginFormRef = React.useRef();
 
-	const { handleExibirAppBar, handleOcultarAppBar } = useContext(FixedMenuLayoutContext);
+	const {
+        showNotification, 
+        showDialog, 
+        closeDialog, 
+        setDarkThemeMode, 
+        closeNotification,
+        showDrawer,
+        deviceType,
+        darkMode, 
+        fontScale,
+        setFontScale,
+    } = React.useContext(SysAppLayoutContext);
 
-	const { showNotification, navigate, user } = props;
-
-	useEffect(() => {
-		handleOcultarAppBar();
-		return () => handleExibirAppBar();
-	}, []);
+    const {user, isLoggedIn} = React.useContext(SysAppContext);
 
 	const handleSubmit = (doc: { email: string; password: string }) => {
 		const { email, password } = doc;
+		console.log('oi')
 		Meteor.loginWithPassword(email, password, (err: any) => {
 			if (err) {
+				
 				showNotification({
 					type: 'warning',
 					title: 'Acesso negado!',
-					description:
+					message:
 						err.reason === 'Incorrect password'
 							? 'Email ou senha inválidos'
 							: err.reason === 'User not found'
@@ -48,63 +57,39 @@ export const SignIn = (props: ISignIn) => {
 				});
 			} else {
 				showNotification({
-					type: 'sucess',
+					type: 'success',
 					title: 'Acesso autorizado!',
-					description: 'Login de usuário realizado em nossa base de dados!'
+					message: 'Login de usuário realizado em nossa base de dados!'
 				});
-				setRedirectToReferer(true);
 			}
 		});
 	};
 
-	const SocialLoginButton = ({ onLogin, buttonText, iconClass, customCss, iconOnly }) => (
-		<Box
-			onClick={onLogin}
-			className="material-button-contained"
-			sx={{
-				width: '100%',
-				display: 'flex',
-				flexDirection: 'row',
-				justifyContent: 'center',
-				alignItems: 'center',
-				height: 50,
-				color: '#FFF',
-				...customCss
-			}}>
-			<i className={iconClass} />
-			{!iconOnly && <span style={{ marginLeft: 15 }}>{buttonText}</span>}
-		</Box>
-	);
 
-	const callbackLogin = (err) => {
+	const callbackLogin = (err: any) => {
 		if (err) {
 			console.log('Login Error: ', err);
 			if (err.errorType === 'Accounts.LoginCancelledError') {
-				showNotification('Autenticação cancelada', 'error');
+				showNotification({
+					title:'Autenticação cancelada', message: 'error'});
 				//self.setState({ error: 'AUtenticação cancelada' })
 			} else {
-				showNotification(err.error, 'error');
+				showNotification({
+					type: 'error',
+					title: err.error,
+					message: 'error'
+				});
 			}
 		} else {
-			setRedirectToReferer(true);
 			navigate('/');
 		}
 	};
 
-	const loginFacebook = () => {
-		Meteor.loginWithFacebook({ requestPermissions: ['public_profile', 'email'] }, (err) => {
-			callbackLogin(err);
-		});
-	};
-
-	const loginGoogle = () => {
-		Meteor.loginWithGoogle({ requestPermissions: ['profile', 'email'] }, (err) => {
-			callbackLogin(err);
-		});
-	};
-
 	React.useEffect(() => {
+		// Meteor.logout();
+		// cleanUserCache();
 		if (!!user && !!user._id) navigate('/');
+
 	}, [user]);
 
 	React.useEffect(() => {
@@ -127,6 +112,7 @@ export const SignIn = (props: ISignIn) => {
 							<span>Acessar o sistema</span>
 						</h2>
 						<SimpleForm
+								ref={loginFormRef}
 							schema={{
 								email: { type: 'String', label: 'Email', optional: false },
 								password: { type: 'String', label: 'Senha', optional: false }
@@ -145,7 +131,11 @@ export const SignIn = (props: ISignIn) => {
 									<Button id="forgotPassword" color={'secondary'} onClick={() => navigate('/password-recovery')}>
 										Esqueci a minha senha
 									</Button>
-									<Button id="submit" variant={'outlined'} color={'primary'}>
+									<Button id="submit" variant={'outlined'} color={'primary'}
+												onClick={() => {
+													loginFormRef.current.onSubmitForm();
+												}}
+									>
 										Entrar
 									</Button>
 								</Box>
@@ -166,34 +156,7 @@ export const SignIn = (props: ISignIn) => {
 								display: 'flex',
 								flexDirection: 'column'
 							}}>
-							<Box key="divBtnGoogle" sx={{ width: '100%' }}>
-								<SocialLoginButton
-									key="btnGoogle"
-									iconClass={'google icon'}
-									onLogin={loginGoogle}
-									buttonText={'Login pelo Google'}
-									iconOnly={false}
-									customCss={{
-										background: '#dd4b39',
-										width: '100%',
-										cursor: 'pointer'
-									}}
-								/>
-							</Box>
-							<Box key="divBtnFaceboook" style={{ width: '100%' }}>
-								<SocialLoginButton
-									key="btnFaceboook"
-									iconClass={'facebook icon'}
-									onLogin={loginFacebook}
-									buttonText={'Login pelo Facebook'}
-									iconOnly={false}
-									customCss={{
-										background: '#3B5998',
-										width: '100%',
-										cursor: 'pointer'
-									}}
-								/>
-							</Box>
+
 						</Box>
 					</Box>
 				</Box>

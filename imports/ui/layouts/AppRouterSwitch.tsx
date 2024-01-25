@@ -36,6 +36,7 @@ const WrapComponent: React.FC<IWrapComponentProps> = ({
   const params = useParams();
   subjectRouter.next({ pathname: location?.pathname, params, user });
 
+
   return (
     <SysTemplate 
       variant={templateVariant ?? defaultTemplate.variant} 
@@ -66,12 +67,12 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
             path={route?.path as string}
             element={
               route?.isProtected
-                ? (isLoggedIn && segurancaApi.podeAcessarRecurso(getUser(), ...route.resources || []))
+                ? (isLoggedIn && segurancaApi.podeAcessarRecurso(getUser(), ...route?.resources || []))
                   ? <WrapComponent 
-                      component={route.component as React.ElementType} 
+                      component={route?.component as React.ElementType} 
                       location={location} 
                       user={user} 
-                      templateVariant={route.templateVariant}
+                      templateVariant={route?.templateVariant}
                       templateProps={route?.templateProps}
                       templateMenuOptions={route?.templateMenuOptions}
                       defaultTemplate={defaultTemplate}
@@ -80,7 +81,7 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
                       component={SignIn} 
                       location={location} 
                       user={user}
-                      templateVariant={route.templateVariant}
+                      templateVariant={'None'}
                       templateProps={route?.templateProps}
                       templateMenuOptions={route?.templateMenuOptions}
                       defaultTemplate={defaultTemplate}

@@ -7,43 +7,52 @@ import { ResetPassword } from '/imports/ui/pages/ResetPassword/ResetPassword';
 import { SignIn } from '../pages/SignIn/Signin';
 import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
+import {Recurso} from '../pages/Home/Recurso';
 
 export const pagesRouterList : (IRoute | null)[] = [
 	{
 		path: '/',
 		exact: true,
 		component: Home,
-		isProtected: false,
+		isProtected: true,
+		resources: [Recurso.HOME_VIEW]
 	},
 	{
 		path: '/signin',
 		component: SignIn,
-		isProtected: false
+		isProtected: false,
+		templateVariant: 'None',
 	},
 	{
 		path: '/signup',
 		component: SignUp,
-		isProtected: false
+		isProtected: false,
+		templateVariant: 'None'
 	},
 	{
 		path: '/signout',
 		component: Signout,
-		isProtected: true
+		isProtected: true,
+		templateVariant: 'None'
 	},
 	{
 		path: '/password-recovery',
-		component: PasswordRecovery
+		component: PasswordRecovery,
+		templateVariant: 'None'
 	},
 	{
 		path: '/reset-password/:token',
-		component: ResetPassword
+		component: ResetPassword,
+		templateVariant: 'None'
 	},
 	{
 		path: '/enroll-account/:token',
-		component: ResetPassword
+		component: ResetPassword,
+		templateVariant: 'None'
 	},
 	{
 		path: '/verify-email/:token',
-		component: EmailVerify
+		component: EmailVerify,
+		templateVariant: 'None'
 	},
 ];
