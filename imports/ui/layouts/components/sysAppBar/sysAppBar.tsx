@@ -2,9 +2,11 @@ import React from "react";
 import { SysAppBarContainer } from "./sysAppBarStyles";
 import { SysAvatar } from "/imports/ui/components/sysAvatar/sysAvatar";
 import { IAppMenu } from "/imports/modules/modulesTypings";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { SysNavLink } from "/imports/ui/components/sysNavLink/sysNavLink";
 import SysRoutes from "../../routes";
+import { useNavigate } from "react-router-dom";
+import { SysAppContext } from "/imports/ui/AppContainer";
 export interface ISysAppBarProps{
     logo? : React.ReactNode;
     menuOptions?: (IAppMenu | null)[];
@@ -14,7 +16,7 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({
     logo,
     menuOptions
 } : ISysAppBarProps) => {
-
+    const {user, isLoggedIn} = React.useContext(SysAppContext);
     return (
         <SysAppBarContainer>
             {logo}
@@ -37,7 +39,10 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({
                     })     
                 }
             </Box>
-            <SysAvatar name="J" />
+            <Box>
+
+            </Box>
+            <SysAvatar name={user?.username[0]} />
         </SysAppBarContainer>
     );
 }

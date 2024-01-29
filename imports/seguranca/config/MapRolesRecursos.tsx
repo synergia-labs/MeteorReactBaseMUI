@@ -1,5 +1,6 @@
 import { Recurso as Exemplo } from '/imports/modules/example/config/Recursos';
-
+import {Recurso as Home} from '/imports/ui/pages/Home/Recurso';
+import {Recurso as Usuarios} from '/imports/userprofile/config/Recurso';
 import { RoleType } from '/imports/seguranca/config/RoleType';
 
 type MapRolesRecursos = {
@@ -25,12 +26,24 @@ function obterStringsEnum(enumValue: { [s: number]: string | number }): [string]
  */
 export const mapRolesRecursos: MapRolesRecursos = {
     [RoleType.ADMINISTRADOR]: [
+        Usuarios.USUARIO_CREATE,
+        Usuarios.USUARIO_REMOVE,
+        Usuarios.USUARIO_UPDATE,
+        Usuarios.USUARIO_VIEW,
+        Home.HOME_CREATE,
+        Home.HOME_REMOVE,
+        Home.HOME_UPDATE,
+        Home.HOME_VIEW,
         Exemplo.EXAMPLE_VIEW,
         Exemplo.EXAMPLE_CREATE,
         Exemplo.EXAMPLE_UPDATE,
         Exemplo.EXAMPLE_REMOVE,
     ],
     [RoleType.USUARIO]: [
+        Home.HOME_CREATE,
+        Home.HOME_REMOVE,
+        Home.HOME_UPDATE,
+        Home.HOME_VIEW,
         Exemplo.EXAMPLE_VIEW,
         Exemplo.EXAMPLE_CREATE,
         Exemplo.EXAMPLE_UPDATE,
