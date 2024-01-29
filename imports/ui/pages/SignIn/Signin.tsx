@@ -41,7 +41,6 @@ export const SignIn = (props: ISignIn) => {
 
 	const handleSubmit = (doc: { email: string; password: string }) => {
 		const { email, password } = doc;
-		console.log('oi')
 		Meteor.loginWithPassword(email, password, (err: any) => {
 			if (err) {
 				
