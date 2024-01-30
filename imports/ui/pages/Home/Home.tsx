@@ -80,6 +80,15 @@ const Home = () => {
             }} >
                 Teste de Drawer
             </Button>
+            <Button>Cont-medium</Button>
+            <Button disabled={true}>Cont-disabled</Button>
+            <Button size={'small'}>Cont-small</Button>
+            <Button variant={'outlined'}>Out-medium</Button>
+            <Button variant={'outlined'} disabled={true}>Out-disabled</Button>
+            <Button variant={'outlined'} size={'small'}>Out-small</Button>
+            <Button variant={'text'}>Text-medium</Button>
+            <Button variant={'text'} disabled={true}>Text-disabled</Button>
+            <Button variant={'text'} size={'small'}>Text-small</Button>
             {isLoggedIn.toString()}
         </Box>
     )

@@ -178,7 +178,7 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 	}
 }
 
-const getConfiguration = (theme: Theme) => {
+const getConfiguration = (theme: Theme, fontScale: number) => {
 	return {
 		components: {
 			MuiDataGrid: {
@@ -247,65 +247,76 @@ const getConfiguration = (theme: Theme) => {
 
 			MuiButton: {
 				defaultProps: {
+					variant: 'contained',
 					size: 'medium',
-					styleVariant: 'primary'
-				} as ButtonProps & { styleVariant: 'primary' | 'secondary' },
+					disableElevation: true,
+				},
 				styleOverrides: {
-					root: (props: any) => ({
-						...(props.styleVariant === 'primary' && {
-							backgroundColor: theme.palette.sysAction?.primary,
-							color: theme.palette.sysAction?.primaryContrastText,
-							border: `1px solid ${theme.palette.sysAction?.primary}`,
-							'&:hover': {
-								backgroundColor: theme.palette.sysAction?.primaryHover,
-								border: `1px solid ${theme.palette.sysAction?.primaryHover}`
-							},
-							'&:focus': {
-								outline: 'none'
-							},
-							'&.Mui-disabled': {
-								color: theme.palette.sysAction?.primaryContrastText,
-								backgroundColor: theme.palette.sysAction?.disabled,
-								border: `1px solid ${theme.palette.sysAction?.disabled}`,
-								opacity: 1
-							}
-						}),
-						...(props.styleVariant === 'secondary' && {
-							backgroundColor: 'transparent',
-							color: theme.palette.sysAction?.primary,
-							border: `1px solid ${theme.palette.sysAction?.primary}`,
-							'&:hover': {
-								backgroundColor: theme.palette.sysAction?.primaryBgHover
-							},
-							'&:focus': {
-								outline: 'none'
-							},
-							'&.Mui-disabled': {
-								color: theme.palette.sysAction?.disabled,
-								borderColor: theme.palette.sysAction?.disabled,
-								opacity: 1
-							}
-						}),
-						minWidth: 'fit-content',
-						borderRadius: '8px',
-						textTransform: 'unset',
-						display: 'inline-flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						gap: '8px',
-						'&.MuiButton-sizeSmall': {
-							padding: '4px 16px',
-							minHeight: '34px',
+					root: {
+						borderRadius: appStyles.sysSizing.radiusSm,
+						margin: 0,
+						textTransform: 'none',
+						'&:focus': {
+							outline: 'none'
 						},
-						'&.MuiButton-sizeMedium': {
-							padding: '8px 24px',
-							minHeight: '40px',
-						},
-						'&.MuiButton-sizeLarge': {
-							padding: '0.875rem 1.75rem',
-							minHeight: '54px'
+					},
+					contained: {
+						'&.Mui-disabled': {
+							color: theme.palette.sysAction?.disabled,
+							backgroundColor: theme.palette.sysAction?.bgDisabled,
+							border: `1px solid ${theme.palette.sysAction?.bgDisabled}`,
+							opacity: 1
 						}
-					}),
+					},
+					containedPrimary: {
+						backgroundColor: theme.palette.sysAction?.primary,
+						color: theme.palette.sysAction?.primaryContrastText,
+						border: `1px solid ${theme.palette.sysAction?.primary}`,
+						'&:hover': {
+							backgroundColor: theme.palette.sysAction?.primaryHover,
+							border: `1px solid ${theme.palette.sysAction?.primaryHover}`
+						}
+					},
+					outlined: {
+						'&.Mui-disabled': {
+							color: theme.palette.sysAction?.disabled,
+							backgroundColor: 'transparent',
+							border: `1px solid ${theme.palette.sysAction?.disabled}`,
+							opacity: 1
+						}
+					},
+					outlinedPrimary: {
+						backgroundColor: 'transparent',
+						color: theme.palette.sysAction?.primary,
+						border: `1px solid ${theme.palette.sysAction?.primary}`,
+						'&:hover': {
+							backgroundColor: theme.palette.sysAction?.primaryBgHover,
+							color: theme.palette.sysAction?.primaryHover,
+							border: `1px solid ${theme.palette.sysAction?.primaryHover}`
+						}
+					},
+					text: {
+						'&.Mui-disabled': {
+							color: theme.palette.sysAction?.disabled,
+							backgroundColor: 'transparent',
+							opacity: 1
+						}
+					},
+					textPrimary: {
+						backgroundColor: 'transparent',
+						color: theme.palette.sysAction?.primary,
+						'&:hover': {
+							color: theme.palette.sysAction?.primaryHover,
+							backgroundColor: 'transparent',
+						}
+					},
+					sizeMedium: {
+						padding: `${appStyles.sysSizing.componentsButtonMediumPy} ${appStyles.sysSizing.componentsButtonMediumPx}`
+					},
+					sizeSmall: {
+						padding: `${appStyles.sysSizing.componentsButtonSmallPy} ${appStyles.sysSizing.componentsButtonSmallPx}`,
+						...appStyles.button2(fontScale),
+					},
 					startIcon: {
 						margin: 0,
 						padding: 0
@@ -316,12 +327,12 @@ const getConfiguration = (theme: Theme) => {
 					},
 					iconSizeSmall: {
 						'& .MuiSvgIcon-root': {
-							fontSize: '24px',
+							fontSize: appStyles.sysSizing.componentsIconSizeSmall
 						}
 					},
 					iconSizeMedium: {
 						'& .MuiSvgIcon-root': {
-							fontSize: '24px'
+							fontSize: appStyles.sysSizing.componentsIconSize
 						}
 					}
 				}
@@ -657,5 +668,5 @@ export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 		theme = createTheme(getLightThemeBase({ fontScale }));
 	}
 
-	return createTheme(theme, getConfiguration(theme));
+	return createTheme(theme, getConfiguration(theme, fontScale));
 };
