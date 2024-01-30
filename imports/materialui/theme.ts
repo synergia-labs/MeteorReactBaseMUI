@@ -307,7 +307,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						color: theme.palette.sysAction?.primary,
 						'&:hover': {
 							color: theme.palette.sysAction?.primaryHover,
-							backgroundColor: 'transparent',
+							backgroundColor: theme.palette.sysAction?.primaryBgHover,
 						}
 					},
 					sizeMedium: {
@@ -319,10 +319,12 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					},
 					startIcon: {
 						margin: 0,
+						marginRight: appStyles.sysSizing.componentsButtonGap,
 						padding: 0
 					},
 					endIcon: {
 						margin: 0,
+						marginLeft: appStyles.sysSizing.componentsButtonGap,
 						padding: 0
 					},
 					iconSizeSmall: {

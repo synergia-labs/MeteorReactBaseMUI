@@ -10,6 +10,7 @@ import DeleteDialog from '/imports/ui/GeneralComponents/showDialog/custom/delete
 import NotifyDialog from '../../GeneralComponents/showDialog/custom/notifyDialog';
 import ShowNotificationChat from '/imports/ui/GeneralComponents/showNotification/custom/chatTile';
 import { SysAppContext } from '../../AppContainer';
+import Add from '@mui/icons-material/Add';
 
 const Home = () => {
     const {
@@ -80,9 +81,9 @@ const Home = () => {
             }} >
                 Teste de Drawer
             </Button>
-            <Button>Cont-medium</Button>
+            <Button startIcon={<Add/>}>Cont-medium</Button>
             <Button disabled={true}>Cont-disabled</Button>
-            <Button size={'small'}>Cont-small</Button>
+            <Button size={'small'} startIcon={<Add/>}>Cont-small</Button>
             <Button variant={'outlined'}>Out-medium</Button>
             <Button variant={'outlined'} disabled={true}>Out-disabled</Button>
             <Button variant={'outlined'} size={'small'}>Out-small</Button>
