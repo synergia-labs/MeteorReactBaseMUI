@@ -15,8 +15,9 @@ export const cleanUserCache = () => del('userId', accountStore);
 export const useUserAccount = () =>
 	useTracker(() => {
 		const isConnected = Meteor.status().connected;
-
+		
 		if (!isConnected) {
+			
 			return {
 				user: undefined,
 				userId: undefined,
@@ -54,6 +55,7 @@ export const useUserAccount = () =>
 				  })
 				: null;
 
+				
 		return {
 			user,
 			userId,

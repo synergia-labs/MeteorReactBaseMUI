@@ -11,7 +11,7 @@ export interface SysAvatarProps extends AvatarProps {
     /**A cor da borda do avatar.*/
     borderColor?: string;
     /**Um manipulador de eventos onClick para o componente.*/
-    onClick?: () => void;
+    onClick?: (event?: any) => void;
 }
 
 
@@ -32,7 +32,7 @@ export const SysAvatar: React.FC<SysAvatarProps> = ({
 }) => {
     return (
         <SysAvatarContainer sx={backgroundSx} onClick={onClick} onClickS={!!onClick} borderColor={borderColor}>
-            <StyledSysAvatar {...props}>
+            <StyledSysAvatar {...props} tabIndex={0}>
                 <Typography variant="h3">{name?.[0].toUpperCase()}</Typography>
             </StyledSysAvatar>
         </SysAvatarContainer>

@@ -19,5 +19,15 @@ export const SysAvatarContainer = styled(Box)(({theme, onClickS, borderColor} : 
 export const StyledSysAvatar = styled(Avatar)(({theme}) => ({
     width: sysSizing.contentPt,
     height: sysSizing.contentPt,
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme?.palette.primary.dark,
+    "&:hover": {
+        backgroundColor: theme?.palette.sysAction?.primaryContrastText,
+        color: theme.palette.sysAction?.primaryHover
+    },
+    "&:focus": {
+        backgroundColor: theme?.palette.sysAction?.primaryContrastText,
+        color: theme?.palette.sysAction?.primaryHover,
+        outline: 'none'
+    },  
 }));
+

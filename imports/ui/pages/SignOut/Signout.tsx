@@ -1,14 +1,23 @@
-import React from 'react';
-import { Meteor } from 'meteor/meteor';
+import React, { useEffect } from 'react';
 import Container from '@mui/material/Container';
 
+import { Meteor } from 'meteor/meteor';
 import { cleanUserCache } from '../../../hooks/useUserAccount';
 
 import { signoutStyle } from './SignoutStyle';
+import { useNavigate } from 'react-router-dom';
 
 const Signout = () => {
-	Meteor.logout();
-	cleanUserCache();
+
+
+	useEffect(() => {
+		const finalizaSessao = async () => {
+			Meteor.logout();
+			await cleanUserCache();
+		}
+		finalizaSessao();
+	}, []);
+	
 	return (
 		<Container style={signoutStyle.containerSignOut}>
 			<h2 style={signoutStyle.labelExitSystem}>

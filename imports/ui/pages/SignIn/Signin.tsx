@@ -85,8 +85,6 @@ export const SignIn = (props: ISignIn) => {
 	};
 
 	React.useEffect(() => {
-		// Meteor.logout();
-		// cleanUserCache();
 		if (!!user && !!user._id) navigate('/');
 
 	}, [user]);

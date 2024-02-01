@@ -453,7 +453,6 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					}
 				}
 			},
-
 			MuiMenuItem: {
 				styleOverrides: {
 					root: {
@@ -462,7 +461,10 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						gap: '.5rem',
 						'&:hover': {
 							background: theme.palette.sysAction?.primaryBgHover
-						}
+						},
+						'&.Mui-disabled': {
+							color: theme.palette.sysAction?.disabled,
+						},
 					}
 				}
 			},

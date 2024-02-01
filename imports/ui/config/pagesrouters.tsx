@@ -8,6 +8,7 @@ import { SignIn } from '../pages/SignIn/Signin';
 import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
 import {Recurso} from '../pages/Home/Recurso';
+import { NoPermission } from '../pages/NoPermission/NoPermission';
 
 export const pagesRouterList : (IRoute | null)[] = [
 	{
@@ -34,6 +35,11 @@ export const pagesRouterList : (IRoute | null)[] = [
 		component: Signout,
 		isProtected: true,
 		templateVariant: 'None'
+	},
+	{
+		path: '/no-permission',
+		component: NoPermission,
+		isProtected: true,
 	},
 	{
 		path: '/password-recovery',
