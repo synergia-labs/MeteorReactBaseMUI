@@ -2,7 +2,7 @@ import React from 'react';
 
 import Container from '@mui/material/Container';
 import * as appStyle from '/imports/materialui/styles';
-import {Avatar, Box, Button, CircularProgress, Typography} from '@mui/material';
+import {Avatar, Box, Button, CircularProgress, Typography, Radio} from '@mui/material';
 import { SysButton } from '../../components/SimpleFormFields/SysButton/SysButton';
 import Delete from '@mui/icons-material/Delete';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
@@ -91,6 +91,12 @@ const Home = () => {
             <Button variant={'text'} disabled={true}>Text-disabled</Button>
             <Button variant={'text'} size={'small'}>Text-small</Button>
             {isLoggedIn.toString()}
+
+            <Radio checked={true}/>
+            <Radio checked={false}/>
+            <Radio disabled={true}/>
+            <Radio checked={true} disabled={true}/>
+
         </Box>
     )
 };
