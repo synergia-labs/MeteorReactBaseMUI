@@ -2,7 +2,7 @@ import React from 'react';
 
 import Container from '@mui/material/Container';
 import * as appStyle from '/imports/materialui/styles';
-import {Avatar, Box, Button, CircularProgress, Typography, Radio} from '@mui/material';
+import {Avatar, Box, Button, CircularProgress, Typography, Radio, Checkbox} from '@mui/material';
 import { SysButton } from '../../components/SimpleFormFields/SysButton/SysButton';
 import Delete from '@mui/icons-material/Delete';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
@@ -96,6 +96,9 @@ const Home = () => {
             <Radio checked={false}/>
             <Radio disabled={true}/>
             <Radio checked={true} disabled={true}/>
+
+
+            <Checkbox checked={true} disabled={true}/>
 
         </Box>
     )

@@ -623,6 +623,11 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							'& > .MuiSvgIcon-root': {
 								color: theme.palette.sysText?.primary
 							}
+						},
+						'&.Mui-disabled': {
+							'& > .MuiSvgIcon-root':{
+								color: theme.palette.sysAction?.disabled
+							}
 						}
 					}
 				}
