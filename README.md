@@ -9,7 +9,7 @@ Dentre os benefícios de adotá-lo no desenvolvimento de um novo produto nós po
 
 - suporte à prevenção de erros de desenvolvimento através da implementação de classes que encapsulam operações básicas referente à interação cliente-servidor e à comunicação com o banco de dados.
 
-- estruturação do código para ampliar o controle das operações de banco de dados;
+- estruturação do código para ampliar o controle das operações de banco de dados; 
 
 - gestão e controle do schema das coleções bem como a validação dos dados a partir de schemas, e;
 
