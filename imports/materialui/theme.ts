@@ -33,6 +33,7 @@ declare module '@mui/material/styles' {
 		disabled: string;
 		bgDisabled: string;
 		auxiliary: string;
+		boxShadowFab:string;
 	}
 
 	interface Palette {
@@ -590,11 +591,11 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 
 			MuiSwitch: {
 				defaultProps: {
-					color: 'primary'
+					color: 'primary',
 				},
 				styleOverrides: {
 					root: {
-						color: theme.palette.sysText?.body
+						color: theme.palette.sysText?.body,
 					},
 					switchBase: {
 						'&:hover': {
@@ -602,7 +603,26 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						},
 						'&.Mui-checked:hover': {
 							background: theme.palette.sysAction?.primaryBgHover
-						}
+						},
+						'&.Mui-checked': {
+							color: theme.palette.sysAction?.primary
+						},
+						'&.Mui-checked+.MuiSwitch-track': {
+							background: theme.palette.sysAction?.primaryHover,
+							opacity: 1
+						},
+						'&.Mui-disabled+.MuiSwitch-track': {
+							background: theme.palette.sysAction?.bgDisabled,
+							opacity: 1
+						},
+						'&.Mui-disabled': {
+							color: theme.palette.sysAction?.bgDisabled,
+							opacity: 1
+						},
+					},
+					track: {
+						background: theme.palette.sysBackground?.bg3,
+						opacity: 1,
 					}
 				}
 			},
@@ -614,7 +634,6 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							color: theme.palette.sysText?.body
 						},
 						'&:hover': {
-							background: theme.palette.sysAction?.primaryBgHover,
 							'& > .MuiSvgIcon-root': {
 								color: theme.palette.sysText?.primary
 							}
@@ -664,6 +683,82 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					root: {
 						borderRadius: '8px',
 						minWidth: '300px'
+					}
+				}
+			},
+
+			MuiFab: {
+				defaultProps: {
+					variant: 'extended',
+					size: 'medium'
+				},
+				styleOverrides: {
+					root: {
+						background: theme.palette.sysAction?.primary,
+						color: theme.palette.sysAction?.primaryContrastText,
+					},
+					'MuiFab-primary': {
+						border: `1px solid ${theme.palette.sysAction?.primary}`,
+						boxShadow: appStyles.boxShadowFab,
+					},
+					'&:hover': {
+						background: theme.palette.sysAction?.primaryHover,
+						color: theme.palette.sysAction?.primaryContrastText
+					},
+					'&:disabled': {
+						background: theme.palette.sysAction?.bgDisabled,
+						color: theme.palette.sysAction?.disabled,
+						border: `1px solid ${theme.palette.sysAction?.bgDisabled}`,
+						boxShadow: appStyles.boxShadowFab,
+
+					},
+					iconSizeMedium: {
+						'& .MuiSvgIcon-root': {
+							fontSize: appStyles.sysSizing.componentsIconSize
+						}
+					}
+				}
+			},
+
+			MuiTab: {
+				styleOverrides:{
+					root:{
+						textColor: theme.palette.sysText?.body,
+						textTransform: 'none',
+						padding: `${appStyles.sysSizing.radiusSm} ${appStyles.sysSizing.radiusLg}`,
+						'&:hover': {
+							background: theme.palette.sysAction?.primaryBgHover,
+							color: theme.palette.sysAction?.primaryHover
+						},
+					},
+					'&.Mui-selected':{
+						indicatorColor: theme.palette.sysAction?.primary,
+						textColor: theme.palette.sysAction?.primaryHover
+					},
+					'&:disabled':{
+						textColor: theme.palette.sysAction?.disabled
+					}
+				}
+			},
+			MuiSlider: {
+				defaultProps: {
+					color: 'primary',
+					valueLabelDisplay: 'auto',
+					ariaLabel:'Default'
+				},
+				styleOverrides:{
+					root:{
+						color: theme.palette.sysAction?.primary,
+						opacity: 1,
+						width: 250,
+					},
+					'&.Mui-Slider-thumb': {
+						background: theme.palette.sysAction?.primary,
+						opacity: 0.38
+					},
+					'&.MuiSlider-rail': {
+						background: theme.palette.sysAction?.primary,
+						opacity: 1
 					}
 				}
 			}
