@@ -751,6 +751,9 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						color: theme.palette.sysAction?.primary,
 						opacity: 1,
 						width: 250,
+						'& .MuiSlider-valueLabel': {
+							backgroundColor: theme.palette.sysAction?.primaryHover,
+						}
 					},
 					'&.Mui-Slider-thumb': {
 						background: theme.palette.sysAction?.primary,
