@@ -2,11 +2,12 @@ import React from "react";
 import { SysAppBarContainer } from "./sysAppBarStyles";
 import { SysAvatar } from "/imports/ui/components/sysAvatar/sysAvatar";
 import { IAppMenu } from "/imports/modules/modulesTypings";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { SysNavLink } from "/imports/ui/components/sysNavLink/sysNavLink";
 import SysRoutes from "../../routes";
 import { useNavigate } from "react-router-dom";
 import { SysAppContext } from "/imports/ui/AppContainer";
+import { SysMenu } from "/imports/ui/components/sysMenu/sysMenu";
 export interface ISysAppBarProps{
     logo? : React.ReactNode;
     menuOptions?: (IAppMenu | null)[];
@@ -17,6 +18,18 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({
     menuOptions
 } : ISysAppBarProps) => {
     const {user, isLoggedIn} = React.useContext(SysAppContext);
+    const [anchorEl, setAnchorEl] = React.useState<Object | null>(null);
+    const navigate = useNavigate();
+
+    const handleMenu = (event: React.SyntheticEvent) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+    const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+
     return (
         <SysAppBarContainer>
             {logo}
@@ -42,7 +55,8 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({
             <Box>
 
             </Box>
-            <SysAvatar name={user?.username[0]} />
+            <SysAvatar name={user?.username[0]} onClick={handleMenu} />
+            <SysMenu  anchorEl={anchorEl} handleClose={handleClose}/>
         </SysAppBarContainer>
     );
 }
