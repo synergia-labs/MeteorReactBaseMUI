@@ -2,7 +2,7 @@ import React from 'react';
 
 import Container from '@mui/material/Container';
 import * as appStyle from '/imports/materialui/styles';
-import {Avatar, Box, Button, CircularProgress, Typography} from '@mui/material';
+import {Avatar, Box, Button, CircularProgress, Typography, Radio, Checkbox, ButtonBase, Fab, Tab, Tabs, Switch, Slider} from '@mui/material';
 import { SysButton } from '../../components/SimpleFormFields/SysButton/SysButton';
 import Delete from '@mui/icons-material/Delete';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
@@ -111,6 +111,63 @@ const Home = () => {
             <Button variant={'text'} disabled={true}>Text-disabled</Button>
             <Button variant={'text'} size={'small'}>Text-small</Button>
             {isLoggedIn.toString()}
+
+            <Fab color={'primary'}>
+                <Add sx={{mr: `${sysSizing.componentsButtonGap}`}}/>
+                Botão
+                <Add sx={{ml: `${sysSizing.componentsButtonGap}`}}/>
+            </Fab>
+            <Fab disabled={true}>
+                <Add sx={{mr: `${sysSizing.componentsButtonGap}`}}/>
+                Botão
+                <Add sx={{ml: `${sysSizing.componentsButtonGap}`}}/>
+            </Fab>
+
+            <Tabs value={0}>
+                <Tab label="Active" />
+                <Tab label="Default" />
+                <Tab label="Disabled" disabled/>
+            </Tabs>
+
+            <Switch />
+            <Switch disabled/>
+
+            <Slider color='primary' />
+            <Slider disabled />
+
+            <Slider
+              color='primary'
+              step={10}
+              marks
+              min={10}
+              max={100}
+
+            />
+            <Slider
+              disabled
+              step={10}
+              marks
+              min={10}
+              max={100}
+            />
+            <Slider
+              color='primary'
+              value={[20,50]}
+              step={10}
+              marks
+              min={10}
+              max={100}
+            />
+            <Slider
+              disabled
+              color='primary'
+              value={[20,50]}
+              step={10}
+              marks
+              min={10}
+              max={100}
+            />
+
         </Box>
     )
 };
