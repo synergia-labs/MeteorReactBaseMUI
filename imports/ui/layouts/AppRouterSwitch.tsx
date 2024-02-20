@@ -72,7 +72,6 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 											<WrapComponent
 												component={route?.component as React.ElementType}
 												location={location}
-												user={user}
 												templateVariant={route?.templateVariant}
 												templateProps={route?.templateProps}
 												templateMenuOptions={route?.templateMenuOptions}
@@ -88,7 +87,6 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 										<WrapComponent
 											component={NoPermission}
 											location={location}
-											user={user}
 											templateVariant={route?.templateVariant}
 											templateProps={route?.templateProps}
 											templateMenuOptions={route?.templateMenuOptions}
@@ -105,7 +103,6 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 									<WrapComponent
 										component={SignIn}
 										location={location}
-										user={user}
 										templateVariant={route?.templateVariant}
 										templateProps={route?.templateProps}
 										templateMenuOptions={route?.templateMenuOptions}
@@ -124,7 +121,6 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 									<WrapComponent
 										component={route?.component as React.ElementType}
 										location={location}
-										user={user}
 										templateVariant={route?.templateVariant}
 										templateProps={route?.templateProps}
 										templateMenuOptions={route?.templateMenuOptions}
