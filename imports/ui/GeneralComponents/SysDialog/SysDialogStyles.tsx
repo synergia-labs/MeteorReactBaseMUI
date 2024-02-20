@@ -1,5 +1,5 @@
 import React from "react";
-import { DialogTitle, styled } from "@mui/material";
+import { DialogContent, DialogTitle, styled } from "@mui/material";
 
 export const DialogTitleStyled = styled(DialogTitle)(({}) => ({
     display: 'flex',
@@ -9,4 +9,9 @@ export const DialogTitleStyled = styled(DialogTitle)(({}) => ({
     '& .MuiSvgIcon-root': {
         fontSize: '2.2rem',
     }
+}));
+
+export const DialogContentStyled = styled(DialogContent)(({}) => ({
+    padding: 0,
+    color: 'sysBackground.sysText.auxiliary'
 }));

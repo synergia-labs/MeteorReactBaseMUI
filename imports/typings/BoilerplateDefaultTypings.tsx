@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
 import { NavigateFunction, Location } from 'react-router-dom';
 import { IShowNotificationProps } from '../ui/GeneralComponents/showNotification/showNotification';
-import { IShowDialogProps } from '../ui/GeneralComponents/showDialog/showDialog';
+import { IShowDialogProps } from '../ui/GeneralComponents/SysDialog/SysDialog';
 import { IShowDrawerProps } from '../ui/GeneralComponents/showDrawer/showDrawer';
 
 

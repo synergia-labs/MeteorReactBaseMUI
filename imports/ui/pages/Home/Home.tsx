@@ -6,11 +6,12 @@ import {Avatar, Box, Button, CircularProgress, Typography} from '@mui/material';
 import { SysButton } from '../../components/SimpleFormFields/SysButton/SysButton';
 import Delete from '@mui/icons-material/Delete';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
-import DeleteDialog from '/imports/ui/GeneralComponents/showDialog/custom/deleteDialog';
-import NotifyDialog from '../../GeneralComponents/showDialog/custom/notifyDialog';
+import DeleteDialog from '../../GeneralComponents/SysDialog/custom/deleteDialog/deleteDialog';
+import NotifyDialog from '../../GeneralComponents/SysDialog/custom/notifyDialog';
 import ShowNotificationChat from '/imports/ui/GeneralComponents/showNotification/custom/chatTile';
 import { SysAppContext } from '../../AppContainer';
 import Add from '@mui/icons-material/Add';
+import ConfirmDialog from '../../GeneralComponents/SysDialog/custom/confirmDialog/confirmDialog';
 
 const Home = () => {
     const {
@@ -52,8 +53,8 @@ const Home = () => {
                     DeleteDialog({
                         showDialog,
                         closeDialog,
-                        title: 'Tem certeza que deseja excluir?',
-                        message: 'Esta ação não poderá ser desfeita.',
+                        title: 'Excluir arquivo',
+                        message: 'Tem certeza que deseja excluir o arquivo xx.csv?',
                         onDeleteConfirm: () => {
                             showNotification({
                                 message: 'Excluído com sucesso!',
@@ -62,8 +63,27 @@ const Home = () => {
                     });
             }}
             >
-                Teste de Dialog
+                Teste de Dialog de exclusão
             </Button>
+
+            <Button
+                onClick={() => {
+                    ConfirmDialog({
+                        showDialog,
+                        closeDialog,
+                        title: 'Confirmar cadastro',
+                        message: 'Tem certeza que deseja confirmar o cadastro dos dados preenchidos?',
+                        onConfirm: () => {
+                            showNotification({
+                                message: 'Dados salvos!',
+                            });
+                        }
+                    });
+            }}
+            >
+                Teste de Dialog de confirmação
+            </Button>
+            
             <Button onClick={() => {
                 ShowNotificationChat({
                     showNotification,

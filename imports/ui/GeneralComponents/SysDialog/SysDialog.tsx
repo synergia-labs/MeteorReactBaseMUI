@@ -1,7 +1,7 @@
 import React, { ReactNode, FC, useEffect } from "react";
 import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
-import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, SxProps, Theme, useMediaQuery, useTheme } from "@mui/material";
-import { DialogTitleStyled } from "./showDialoStyles";
+import { Box, Dialog, DialogActions, DialogContentText, DialogProps, SxProps, Theme, useMediaQuery, useTheme } from "@mui/material";
+import { DialogContentStyled, DialogTitleStyled } from "./SysDialogStyles";
 import { DialogTransitions } from "../transitions";
 
 export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, 'open'> {
@@ -123,13 +123,13 @@ export const ShowDialog: FC<IShowDialogProps> = ({
                         </DialogTitleStyled>
                     )}
                     {(!!body || !!message) && (
-                        <DialogContent>
+                        <DialogContentStyled>
                             {body ? body : (
                                 <DialogContentText>
                                     {message}
                                 </DialogContentText>
                             )}
-                        </DialogContent>
+                        </DialogContentStyled>
                     )}
                     {!!actions && (
                         <DialogActions>

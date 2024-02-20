@@ -1,7 +1,7 @@
 import React from "react";
-import { IShowDialogProps } from "../showDialog";
-import { SysButton } from "/imports/ui/components/SimpleFormFields/SysButton/SysButton";
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { IShowDialogProps } from "../../SysDialog";
+import { Button, DialogActions, DialogTitle } from "@mui/material";
+import { deleteDialogStyles } from "./deleteDialogStyles";
 
 interface IDeleteDialogProps extends IShowDialogProps {
     showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
@@ -18,24 +18,30 @@ function DeleteDialog({
     showDialog,
     closeDialog,
     onDeleteConfirm,
+    title,
     ...props
 }: IDeleteDialogProps){
     
     showDialog({
         ...props,
-        prefixIcon: <HighlightOffIcon />,
+        sx: deleteDialogStyles.box,
+        header:(
+            <DialogTitle variant="subtitle1" sx={{padding: 0}}>
+                {title}
+            </DialogTitle>
+        ),
         actions: (
-            <>
-                <SysButton styleVariant="none" onClick={closeDialog}>
+            <DialogActions sx={deleteDialogStyles.actions}>
+                <Button variant="outlined" onClick={closeDialog}>
                     Cancelar
-                </SysButton>
-                <SysButton styleVariant="primary" onClick={() => {
+                </Button>
+                <Button variant="contained" onClick={() => {
                     onDeleteConfirm?.();
                     closeDialog();
                 }}>
-                    Confirmar
-                </SysButton>
-            </>
+                    Excluir
+                </Button>
+            </DialogActions>
         )
     });
 };
@@ -74,3 +80,5 @@ const seuComponente = () => {
 
 
 */
+
+

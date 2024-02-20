@@ -3,7 +3,7 @@ import { ISysAppLayoutContext, ISysGeneralComponentsCommon, ISysThemeOptions } f
 import { BrowserRouter as Router } from 'react-router-dom';
 import { IShowNotificationProps, ShowNotification } from "../GeneralComponents/showNotification/showNotification";
 import { AppRouterSwitch } from "./AppRouterSwitch";
-import { IShowDialogProps, ShowDialog } from "../GeneralComponents/showDialog/showDialog";
+import { IShowDialogProps, ShowDialog } from "../GeneralComponents/SysDialog/SysDialog";
 import { IShowDrawerProps, ShowDrawer } from "../GeneralComponents/showDrawer/showDrawer";
 import { ISysTemplate, SysTemplateOptions } from "./templates/getTemplate";
 import SysRoutes from './routes';

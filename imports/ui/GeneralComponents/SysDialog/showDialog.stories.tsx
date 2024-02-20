@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { ShowDialog, IShowDialogProps } from './showDialog';
+import { ShowDialog, IShowDialogProps } from './SysDialog';
 import { Box, DialogTitle, TextField } from '@mui/material';
 import { SysButton } from '../../components/SimpleFormFields/SysButton/SysButton';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
