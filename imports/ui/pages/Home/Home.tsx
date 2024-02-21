@@ -1,20 +1,187 @@
-import React from 'react';
-
-import Container from '@mui/material/Container';
-import * as appStyle from '/imports/materialui/styles';
-import {Avatar, Box, Button, CircularProgress, Typography, Radio, Checkbox, ButtonBase, Fab, Tab, Tabs, Switch, Slider} from '@mui/material';
-import { SysButton } from '../../components/SimpleFormFields/SysButton/SysButton';
-import Delete from '@mui/icons-material/Delete';
-import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
-import DeleteDialog from '../../GeneralComponents/SysDialog/custom/deleteDialog/deleteDialog';
-import NotifyDialog from '../../GeneralComponents/SysDialog/custom/notifyDialog';
-import ShowNotificationChat from '/imports/ui/GeneralComponents/showNotification/custom/chatTile';
-import { SysAppContext } from '../../AppContainer';
-import Add from '@mui/icons-material/Add';
+import React, { useContext } from 'react';
+import { HomePageContainer, HomePageHeader, HomePageRowButtons } from './HomeStyle';
+import { SysAppLayoutContext } from '../../layouts/AppLayout';
+import { Box, Button, Typography } from '@mui/material';
+import HomeSection from './components/section';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ConfirmDialog from '../../GeneralComponents/SysDialog/custom/confirmDialog/confirmDialog';
-import { sysSizing } from '/imports/materialui/styles';
+import DeleteDialog from '../../GeneralComponents/SysDialog/custom/deleteDialog/deleteDialog';
 
-const Home = () => {
+const Home : React.FC = () => {
+    const sysLayoutContext = useContext(SysAppLayoutContext);
+
+    return (
+        <HomePageContainer>
+            <HomePageHeader>
+                <Typography variant='h3'>
+                    Página de testes
+                </Typography>
+                <Typography variant='body1'>
+                    Bem vindo ao Boilerplate do Synergia. Essa é uma página dedicada aos testes e exibições de componentes e funcionalidades do nosso sistema.
+                    Esperamos que você aproveite e aprenda bastante com ela. Para mais dúvidas consulte nossa documentação oficial pelo storybook.
+                </Typography>
+            </HomePageHeader>
+
+            <HomeSection
+                title='Notificações'
+                description='As notificações são mensagens exibidas ao usuário para informar sobre ações realizadas ou necessárias. Elas podem ser personalizadas e possuem diferentes tipos de exibição. Estão acessíveis através do contexto SysAppLayoutContext, que é compartilhado por toda a aplicação. Para usar basta apenas chamar a função showNotification e passar a mensagem desejada.'
+                needReview='É preciso adequar o estilo aos padrões definidos no Wireframe.'
+            >
+                <HomePageRowButtons>
+                    
+                    <Button
+                        color='secondary'
+                        startIcon={<HighlightOffRoundedIcon />}
+                        onClick={sysLayoutContext.closeNotification}
+                        sx={{mr: '1.5rem'}}
+                    >
+                        Fechar Notificação
+                    </Button>
+
+                    <Button
+                        color='primary'
+                        startIcon={<NotificationsNoneRoundedIcon />}
+                        onClick={() => {
+                            sysLayoutContext.showNotification({message: 'Notificação padrão', type: 'info'});
+                        }}
+                    >
+                        Notificação padrão
+                    </Button>
+
+                    <Button
+                        color='error'
+                        startIcon={<ErrorOutlineRoundedIcon />}
+                        onClick={() => {
+                            sysLayoutContext.showNotification({message: 'Notificação de erro', type: 'error'});
+                        }}
+                    >
+                        Notificação de erro
+                    </Button>
+
+                    <Button
+                        color='warning'
+                        startIcon={<WarningAmberRoundedIcon />}
+                        onClick={() => {
+                            sysLayoutContext.showNotification({message: 'Notificação de aviso', type: 'warning'});
+                        }}
+                    >
+                        Notificação de aviso
+                    </Button>
+
+                    <Button
+                        color='success'
+                        startIcon={<CheckCircleOutlineRoundedIcon />}
+                        onClick={() => {
+                            sysLayoutContext.showNotification({message: 'Notificação de sucesso', type: 'success'});
+                        }}
+                    >
+                        Notificação de sucesso
+                    </Button>
+
+
+
+                </HomePageRowButtons>
+            </HomeSection>
+            
+            <HomeSection
+                title='Dialogs, Modais e Windows'
+                description= {<>Os Dialogs, Modais e Windows são janelas modais que aparecem sobre a aplicação para informar, confirmar ou solicitar ações do usuário. Eles podem ser personalizados e possuem diferentes tipos de exibição. Estão acessíveis através do contexto SysAppLayoutContext, que é compartilhado por toda a aplicação. Para usar basta apenas chamar a função showDialog e passar as propriedades desejadas. <br/><br/> Todos os 3 componentes: 
+                <ul>
+                    <li>Dialog</li>
+                    <li>Modal</li>
+                    <li>Window</li>
+                </ul>
+
+                São na verdade um único componente de dialog com parâmetros diferentes. Caso queira renderizar rotas dentro deles, opte pelos componente Modal ou Window</>}
+                needReview='O dialog de confimação e exclusão são exatamente os mesmos, porém com diferentes mensagens. Não é necessário usar dois componentes diferentes para isso.'
+            >
+                <HomePageRowButtons>
+                    <Button
+                        color='secondary'
+                        startIcon={<HighlightOffRoundedIcon />}
+                        onClick={sysLayoutContext.closeDialog}
+                    >
+                        Fechar Dialog
+                    </Button>
+                    
+                    <Button
+                        color='secondary'
+                        startIcon={<HighlightOffRoundedIcon />}
+                        onClick={sysLayoutContext.closeDialog}
+                    >
+                        Fechar Modal
+                    </Button>
+                    
+                    <Button
+                        color='secondary'
+                        startIcon={<HighlightOffRoundedIcon />}
+                        onClick={sysLayoutContext.closeDialog}
+                        sx={{mr: '1.5rem'}}
+                    >
+                        Fechar window
+                    </Button>
+                    
+                    <Button 
+                        color='primary'
+                        startIcon={<ThumbUpAltOutlinedIcon />}
+                        onClick={() => {
+                            ConfirmDialog({
+                                showDialog: sysLayoutContext.showDialog,
+                                closeDialog: sysLayoutContext.closeDialog,
+                                title: 'Confirmar cadastro',
+                                message: 'Tem certeza que deseja confirmar o cadastro dos dados preenchidos?',
+                                onConfirm: () => {
+                                    sysLayoutContext.showNotification({
+                                        message: 'Dados salvos!',
+                                    });
+                                }
+                            });
+                        }}
+                    >
+                        Dialog de confirmação
+                    </Button>
+
+                    <Button
+                        color='primary'
+                        startIcon={<WarningAmberRoundedIcon />}
+                        onClick = {() => {
+                            DeleteDialog({
+                                showDialog: sysLayoutContext.showDialog,
+                                closeDialog: sysLayoutContext.closeDialog,
+                                title: 'Excluir arquivo',
+                                message: 'Tem certeza que deseja excluir o arquivo xx.csv?',
+                                onDeleteConfirm: () => {
+                                    sysLayoutContext.showNotification({
+                                        message: 'Excluído com sucesso!',
+                                    });
+                                }
+                            });
+                        }}
+                    >
+                        Confirmação de deleção
+                    </Button>
+
+
+
+                </HomePageRowButtons>
+
+            </HomeSection>
+            
+
+        </HomePageContainer>
+    )
+} 
+
+export default Home;
+
+
+
+/*const Home = () => {
     const {
         showNotification, 
         showDialog, 
@@ -174,3 +341,4 @@ const Home = () => {
 };
 
 export default Home;
+*/
