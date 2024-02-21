@@ -13,5 +13,6 @@ export const DialogTitleStyled = styled(DialogTitle)(({}) => ({
 
 export const DialogContentStyled = styled(DialogContent)(({}) => ({
     padding: 0,
-    color: 'sysBackground.sysText.auxiliary'
+    color: 'sysBackground.sysText.auxiliary',
+    overflowY: 'hidden'
 }));

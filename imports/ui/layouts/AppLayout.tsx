@@ -19,7 +19,7 @@ const defaultState: ISysGeneralComponentsCommon = {
 }
 
 /* Opções default do template */
-const defaultTemplate: ISysTemplate = {
+export const defaultTemplate: ISysTemplate = {
     variant: SysTemplateOptions.AppBar,    
     menuOptions: routes.getMenuItens(),
     props: undefined,
@@ -112,7 +112,7 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
         setShowModal({
             ...showDialog,
             ...props,
-            close: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => handleCloseDialog(event, reason, props?.onClose),
+            close: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => handleCloseModal(event, reason, props?.onClose),
             open: true,
         });
     }, []);
@@ -133,8 +133,9 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
         handleCloseNotification();
         setShowWindow({
             ...showDialog,
+            fullScreen: true,
             ...props,
-            close: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => handleCloseDialog(event, reason, props?.onClose),
+            close: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => handleCloseWindow(event, reason, props?.onClose),
             open: true,
         });
     }, []);
@@ -160,11 +161,11 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
             <Router>
                 <AppRouterSwitch defaultTemplate={defaultTemplate}/>
             </Router>
-            <ShowNotification close={handleCloseNotification} {...showNotification} />
-            <ShowDrawer       close={handleCloseDrawer}       {...showDrawer}       />
-            <ShowDialog       close={handleCloseDialog}       {...showDialog}       />
-            <ShowDialog       close={handleCloseModal}        {...showModal}        />
-            <ShowDialog       close={handleCloseWindow}       {...showWindow}       />
+            <ShowNotification {...showNotification} />
+            <ShowDrawer       {...showDrawer}       />
+            <ShowDialog       {...showDialog}       />
+            <ShowDialog       {...showModal}        />
+            <ShowDialog       {...showWindow}       />
         </SysAppLayoutContext.Provider>
     )
 };

@@ -8,7 +8,7 @@ import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import DeleteDialog from "/imports/ui/GeneralComponents/SysDialog/custom/deleteDialog/deleteDialog";
 import ConfirmDialog from "/imports/ui/GeneralComponents/SysDialog/custom/confirmDialog/confirmDialog";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-
+import DesktopWindowsOutlinedIcon from '@mui/icons-material/DesktopWindowsOutlined';
 
 const HomeSectionDialogs : React.FC = () => {
     const sysLayoutContext = useContext(SysAppLayoutContext);
@@ -38,7 +38,7 @@ const HomeSectionDialogs : React.FC = () => {
                 <Button
                     color='secondary'
                     startIcon={<HighlightOffRoundedIcon />}
-                    onClick={sysLayoutContext.closeDialog}
+                    onClick={sysLayoutContext.closeModal}
                 >
                     Fechar Modal
                 </Button>
@@ -46,7 +46,7 @@ const HomeSectionDialogs : React.FC = () => {
                 <Button
                     color='secondary'
                     startIcon={<HighlightOffRoundedIcon />}
-                    onClick={sysLayoutContext.closeDialog}
+                    onClick={sysLayoutContext.closeWindow}
                     sx={{mr: '1.5rem'}}
                 >
                     Fechar window
@@ -90,6 +90,18 @@ const HomeSectionDialogs : React.FC = () => {
                     }}
                 >
                     Dialog de deleção
+                </Button>
+
+                <Button
+                    color='primary'
+                    startIcon={<DesktopWindowsOutlinedIcon />}
+                    onClick={() => {
+                        sysLayoutContext.showWindow({
+                            urlPath: '/',
+                        });
+                    }}
+                >
+                    Mostrar janela com rota
                 </Button>
 
 

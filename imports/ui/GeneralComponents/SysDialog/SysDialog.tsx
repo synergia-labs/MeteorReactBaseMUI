@@ -3,6 +3,9 @@ import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefault
 import { Box, Dialog, DialogActions, DialogContentText, DialogProps, SxProps, Theme, useMediaQuery, useTheme } from "@mui/material";
 import { DialogContentStyled, DialogTitleStyled } from "./SysDialogStyles";
 import { DialogTransitions } from "../transitions";
+import { MemoryRouter } from "react-router-dom";
+import { AppRouterSwitch } from "../../layouts/AppRouterSwitch";
+import { defaultTemplate } from "../../layouts/AppLayout";
 
 export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, 'open'> {
     open?: boolean;
@@ -33,6 +36,8 @@ export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<Dial
     fullScreenMediaQuery?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     /** Tipo de transição de animação para a abertura/fechamento do diálogo, adicionando dinamismo visual. */
     transition?: 'slide' | 'grow' | 'zoom' | 'fade';
+    /** É possível definir um caminho de URL para o diálogo, permitindo a navegação para uma página específica*/
+    urlPath?: string;
     /**
      * Permite a inserção de conteúdo personalizado no diálogo, possibilitando uma reestruturação total para 
      * atender necessidades específicas de design e funcionalidade, indo além das propriedades padrão.
@@ -87,6 +92,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
     fullScreenMediaQuery,
     transition,
     children,
+    urlPath,
     ...dialogProps
 }: IShowDialogProps) => {
 
@@ -108,12 +114,18 @@ export const ShowDialog: FC<IShowDialogProps> = ({
             onClose={close}
             TransitionComponent={DialogTransitions(transition ?? 'zoom')}
             PaperProps={dialogProps.PaperProps ?? {
-                sx: sx,
+                sx: sx
             }}
             sx={backgroundSx}
             fullScreen={fullScreen || (!!fullScreenMediaQuery && isFullScreen)}
         >
-            {children || (
+            {urlPath ? (
+            <DialogContentStyled>
+                <MemoryRouter initialEntries={[urlPath]} initialIndex={0}>
+                    <AppRouterSwitch defaultTemplate={defaultTemplate} />
+                </MemoryRouter>
+            </DialogContentStyled>
+            ) : ( children || (
                 <>
                     {header || (
                         <DialogTitleStyled>
@@ -137,7 +149,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
                         </DialogActions>
                     )}
                 </>
-            )}
+            ))  }
         </Dialog>
     );
 };
