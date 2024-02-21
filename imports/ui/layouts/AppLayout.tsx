@@ -29,6 +29,8 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     const [showNotification, setShowNotification] = React.useState<IShowNotificationProps>(defaultState);
     const [showDialog, setShowDialog]             = React.useState<IShowDialogProps>(defaultState);
     const [showDrawer, setShowDrawer]             = React.useState<IShowDrawerProps>(defaultState);
+    const [showModal, setShowModal]               = React.useState<IShowDialogProps>(defaultState);
+    const [showWindow, setShowWindow]             = React.useState<IShowDialogProps>(defaultState);
 
     // Show Notification 
     const handleCloseNotification = useCallback((
@@ -94,6 +96,50 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
     }, []);
     //Fim Show Drawer
 
+    //Show Modal
+    const handleCloseModal = useCallback((
+        event?: {}, 
+        reason?: "backdropClick" | "escapeKeyDown", 
+        callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+    ) => {
+        setShowModal(defaultState);
+        callBack?.(event, reason);
+    }, []);
+
+    const showModalHandler = useCallback((props?: IShowDialogProps) => {
+        props?.onOpen?.();
+        handleCloseNotification();
+        setShowModal({
+            ...showDialog,
+            ...props,
+            close: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => handleCloseDialog(event, reason, props?.onClose),
+            open: true,
+        });
+    }, []);
+    //Fim Show Modal
+
+    //Show Window
+    const handleCloseWindow = useCallback((
+        event?: {}, 
+        reason?: "backdropClick" | "escapeKeyDown", 
+        callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+    ) => {
+        setShowWindow(defaultState);
+        callBack?.(event, reason);
+    }, []);
+
+    const showWindowHandler = useCallback((props?: IShowDialogProps) => {
+        props?.onOpen?.();
+        handleCloseNotification();
+        setShowWindow({
+            ...showDialog,
+            ...props,
+            close: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => handleCloseDialog(event, reason, props?.onClose),
+            open: true,
+        });
+    }, []);
+    //Fim Show Window
+
     const providerValue = React.useMemo(() => ({
         ...themeOptions,
         showNotification:   showNotificationHandler,
@@ -102,6 +148,10 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
         closeDialog:        handleCloseDialog,
         showDrawer:         showDrawerHandler,
         closeDrawer:        handleCloseDrawer,
+        showModal:          showModalHandler,
+        closeModal:         handleCloseModal,
+        showWindow:         showWindowHandler,
+        closeWindow:        handleCloseWindow,
     }), [themeOptions]);
 
 
@@ -110,9 +160,11 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
             <Router>
                 <AppRouterSwitch defaultTemplate={defaultTemplate}/>
             </Router>
-            <ShowNotification {...showNotification} />
-            <ShowDialog {...showDialog} />
-            <ShowDrawer {...showDrawer} />
+            <ShowNotification close={handleCloseNotification} {...showNotification} />
+            <ShowDrawer       close={handleCloseDrawer}       {...showDrawer}       />
+            <ShowDialog       close={handleCloseDialog}       {...showDialog}       />
+            <ShowDialog       close={handleCloseModal}        {...showModal}        />
+            <ShowDialog       close={handleCloseWindow}       {...showWindow}       />
         </SysAppLayoutContext.Provider>
     )
 };

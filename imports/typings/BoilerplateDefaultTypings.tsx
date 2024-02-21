@@ -40,6 +40,18 @@ export interface ISysAppLayoutContext extends ISysThemeOptions{
 		reason?: "backdropClick" | "escapeKeyDown",
 		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
 	) => void;
+	showModal: (options?: IShowDialogProps) => void;
+	closeModal: (
+		event?: {}, 
+		reason?: "backdropClick" | "escapeKeyDown", 
+		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+	) => void;
+	showWindow: (options?: IShowDialogProps) => void;
+	closeWindow: (
+		event?: {}, 
+		reason?: "backdropClick" | "escapeKeyDown", 
+		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+	) => void;
 }
 
 export interface ISysGeneralComponentsCommon{

@@ -9,7 +9,8 @@ const Container = styled(Box)(({}) => ({
     justifyContent: 'flex-start',
     gap: '2.5rem',
     width: '100%',
-    padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`
+    padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
+    paddingBottom: '100px',
 }));
 
 const Header = styled(Box)(({}) => ({
