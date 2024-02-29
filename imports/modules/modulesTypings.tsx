@@ -1,13 +1,13 @@
 import React from 'react';
 import { SysTemplateOptions } from '../ui/layouts/templates/getTemplate';
 
-export interface IAppMenu {
+interface IAppMenu {
     path?: string;
     name?: string;
     isProtected?: boolean;
     icon?: React.ReactNode;
 }
-export interface IRoute {
+interface IRoute {
     path?: string;
     component:
         | React.ReactNode
@@ -21,7 +21,13 @@ export interface IRoute {
     templateMenuOptions?: (IAppMenu | null)[];
     templateProps?: any;
 }
-export interface IModuleHub {
+interface IModuleHub {
     pagesRouterList: (IRoute | null)[];
     pagesMenuItemList: (IAppMenu | null)[];
+}
+
+export {
+    IAppMenu,
+    IRoute,
+    IModuleHub
 }

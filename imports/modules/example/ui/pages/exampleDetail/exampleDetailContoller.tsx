@@ -36,28 +36,27 @@ const ExampleDetailController = () => {
     }, []);
     
 
-    const closePage = useCallback(() => {
-        navigate(-1);
-    }, []);
+    const closePage = useCallback(() => {navigate(-1);}, []);
+
 
     const onSubmit = useCallback((doc: IExample) => {
         const {state} = exampleContext;
         const selectedAction = state === 'create' ? 'insert' : 'update';
-			exampleApi[selectedAction](doc, (e: IMeteorError, r: string) => {
+			exampleApi[selectedAction](doc, (e: IMeteorError) => {
 				if (!e) {
-					navigate(`/example/view/${state === 'create' ? r : doc._id}`);
-						showNotification({
-							type: 'success',
-							title: 'Operação realizada!',
-							message: `O exemplo foi ${doc._id ? 'atualizado' : 'cadastrado'} com sucesso!`
-						});
+					closePage();
+                    showNotification({
+                        type: 'success',
+                        title: 'Operação realizada!',
+                        message: `O exemplo foi ${doc._id ? 'atualizado' : 'cadastrado'} com sucesso!`
+                    });
 				} else {
 					console.log('Error:', e);
-						showNotification({
-							type: 'error',
-							title: 'Operação não realizada!',
-							message: `Erro ao realizar a operação: ${e.reason}`
-						});
+                    showNotification({
+                        type: 'error',
+                        title: 'Operação não realizada!',
+                        message: `Erro ao realizar a operação: ${e.reason}`
+                    });
 				}
 			});
     }, []);

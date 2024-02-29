@@ -6,8 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { ExampleListControllerContext } from "./exampleListController";
 
 const ExampleListView = () => {
-    const exampleListViewContext = React.useContext(ExampleListControllerContext)
-    ;
+    const exampleListViewContext = React.useContext(ExampleListControllerContext);
     return (
         <ExampleListViewStyledContainer>
             <SysFab 
@@ -18,6 +17,8 @@ const ExampleListView = () => {
                 onClick={exampleListViewContext.onAddButtonClick}
             />
             <Typography variant="h5">Lista de Itens</Typography>
+
+            {JSON.stringify(exampleListViewContext.todoList)}
         </ExampleListViewStyledContainer>
     );
 }
