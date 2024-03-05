@@ -30,7 +30,7 @@ const initialConfig = {
         pageSize: 25
     },
     sortProperties: { field: 'createdat', sortAscending: true },
-    filter: {title: 'Teste 02'},
+    filter: {},
     searchBy: null,
     viewComplexTable: false
 };
