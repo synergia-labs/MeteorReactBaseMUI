@@ -1,8 +1,14 @@
-import React, {useEffect} from "react";
-import { AlertTitle, Snackbar, SxProps, Theme } from "@mui/material";
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import React from "react";
+import { Box, Button, IconButton, Snackbar, SxProps, Theme, Typography } from "@mui/material";
 import {ShowNotificationTransitions} from "../transitions";
 import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
+import { hasValue } from "/imports/libs/hasValue";
+import ShowNotificationStyles from "./showNotificationStyles";
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
     onOpen?: () => void;
@@ -11,8 +17,10 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
     duration?: number;
     /**Exibe um botão para fechar a notificação.*/
     showCloseButton?: boolean;
+    /**Exibe um ícone no início do corpo notificação.*/
+    showStartIcon?: boolean;
     /**Especifica o tipo da notificação, como sucesso, erro, informação ou aviso.*/
-    type?: 'success' | 'error' | 'info' | 'warning';
+    type?: 'success' | 'error' | 'warning' | 'default';
     /**Seleciona a animação de transição para a exibição da notificação.*/
     transition?: 'slide' | 'grow' | 'fade' | 'zoom';
     /**Define a direção da animação de transição.*/
@@ -21,18 +29,24 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
     title?: string;
     /**Estabelece a mensagem principal da notificação.*/
     message?: string;
-    /**Define o estilo da notificação.*/
-    variant?: 'standard' | 'filled' | 'outlined';
     /**Posicionamento horizontal da notificação na tela.*/
     horizontal?: 'left' | 'center' | 'right';
     /**Posicionamento vertical da notificação na tela.*/
     vertical?: 'top' | 'bottom';
     /**Permite a inclusão de um ícone personalizado na notificação.*/
     icon?: React.ReactNode;
+    /**Exibe um botão de ação na notificação, com um texto personalizado.*/
+    actionButtonTex?: string;
+    /**Define a ação a ser executada ao clicar no botão de ação.*/
+    onClickActionButton?: () => void;
     /** Adiciona uma ação personalizada, como um botão ou link, na notificação.*/
     action?: React.ReactNode;
     /** Aplica estilos personalizados ao componente seguindo o padrão do Material-UI.*/
-    sx?: SxProps<Theme>;
+    sxMap?: {
+        container?: SxProps<Theme>;
+        header?: SxProps<Theme>;
+        body?: SxProps<Theme>;
+    }
     /**
      * A propriedade 'children' permite a inserção de um elemento JSX personalizado na snackBar.
      * Utilize esta propriedade para customizar o conteúdo da snackBar, adicionando elementos específicos
@@ -74,28 +88,30 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
 export const ShowNotification: React.FC<IShowNotificationProps> = ({
     open = false,
     close,
-    showCloseButton = false,
-    type,
-    transition = 'slide',
-    transitionDirection,
-    title,
-    message,
     duration = 4000,
-    variant = 'filled',
     horizontal = 'left',
     vertical = 'bottom',
+    transition = 'slide',
+    type = 'default',
+    transitionDirection,
+    showCloseButton = false,
+    showStartIcon = true,
+    title,
+    message,
     icon,
+    sxMap,
+    actionButtonTex,
+    onClickActionButton,
     action,
-    sx,
     children,
 }) => {
 
-    const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-        props,
-        ref,
-      ) {
-        return <MuiAlert elevation={6} ref={ref} variant={variant} {...props} />;
-    });
+    const icons = {
+        success: <CheckRoundedIcon />,
+        error: <ErrorOutlineRoundedIcon />,
+        warning: <WarningAmberRoundedIcon />,
+        default: <NotificationsNoneRoundedIcon />,
+    }
 
     return (
         <Snackbar
@@ -110,18 +126,53 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
                 vertical: vertical,
                 horizontal: horizontal,
             }}
-            action={action}
         >
-            {!!children ? children : (<Alert
-                onClose={showCloseButton ? close : undefined}
-                severity={type}
-                action={action}
-                icon={icon}
-                sx={sx}
-            >
-                <AlertTitle>{title}</AlertTitle>
-                {message}
-            </Alert>)}
+            {hasValue(children) ? (
+                children
+            ) : (
+                <ShowNotificationStyles.container type={type} sx={sxMap?.container}>
+                    <ShowNotificationStyles.header sx={sxMap?.header}>
+                        <Typography variant="subtitle1">
+                            {title}
+                        </Typography>
+                    </ShowNotificationStyles.header>
+                    <ShowNotificationStyles.body sx={sxMap?.body}>
+                        {showStartIcon && (
+                            hasValue(icon) ? icon : icons[type]
+                        )}
+                        <Typography variant="body1" color= "textPrimary" sx={{flexGrow: 1}}>
+                            {message}
+                        </Typography>
+                        {hasValue(action) ? (
+                            action
+                        ):(
+                            (hasValue(onClickActionButton) || hasValue(actionButtonTex)) &&
+                                <Button 
+                                    variant="text" 
+                                    size='small'
+                                    color={type === 'default' ? 'primary' : type}
+                                    onClick={onClickActionButton}
+                                    sx={{
+                                        color: theme => 
+                                            type === 'default' 
+                                            ? theme.palette.sysAction?.primary 
+                                            : type === 'warning' 
+                                            ? theme.palette.warning.dark
+                                            : theme.palette[type].main,
+                                    }}
+                                >
+                                    {actionButtonTex || 'Ação'}
+                                </Button>
+                            
+                        )}
+                        {showCloseButton && (
+                            <IconButton onClick={close}>
+                                <CloseRoundedIcon />
+                            </IconButton>
+                        )}
+                    </ShowNotificationStyles.body>
+                </ShowNotificationStyles.container> 
+            )}
         </Snackbar>
     );
 };

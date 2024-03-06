@@ -86,23 +86,6 @@ export const Erro: Story = {
     }
 };
 
-export const Info: Story = {
-    parameters: {
-        docs: {
-            description: {
-                story: `Esta história mostra uma notificação informativa. Serve para comunicar informações úteis ou orientações aos usuários, como a disponibilidade de novos recursos ou lembretes.`
-            }
-        }
-    },
-    args: {
-        open: true,
-        type: 'info',
-        title: 'Info',
-        message: `O calendário de eventos está disponível no menu lateral.`,
-        transition: undefined,
-    }
-};
-
 export const Aviso: Story = {
     args: {
         open: true,
@@ -125,9 +108,11 @@ export const Customizado: Story = {
         open: true,
         title: 'Seu download está pronto!',
         transition: undefined,
-        sx: {
-            background  : '#000000',
-            color: '#fff',
+        sxMap: {
+            container: {
+                background  : '#000000',
+                color: '#fff',
+            }
         },
         icon: <DownloadIcon />,
     },
@@ -150,10 +135,7 @@ export const ComChildren: Story = {
         type: { table: {disable: true}},
         action: { table: {disable: true}},
         icon: { table: {disable: true}},
-        sx: { table: {disable: true}},
-        variant: { table: {disable: true}},
-
-
+        sxMap: { table: {disable: true}},
     },
     args: {
         open: true,

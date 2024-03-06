@@ -24,7 +24,6 @@ const HomeSectionDialogs : React.FC = () => {
             </ul>
 
             São na verdade um único componente de dialog com parâmetros diferentes. Caso queira renderizar rotas dentro deles, opte pelos componente Modal ou Window</>}
-            needReview='O dialog de confimação e exclusão são exatamente os mesmos, porém com diferentes mensagens. Não é necessário usar dois componentes diferentes para isso.'
         >
             <HomePageRowButtons>
                 <Button
