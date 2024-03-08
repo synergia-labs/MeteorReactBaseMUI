@@ -16,7 +16,7 @@ export const pagesRouterList : (IRoute | null)[] = [
 		exact: true,
 		component: Home,
 		isProtected: true,
-		resources: [Recurso.HOME_VIEW]
+		resources: [Recurso.HOME_VIEW],
 	},
 	{
 		path: '/signin',
