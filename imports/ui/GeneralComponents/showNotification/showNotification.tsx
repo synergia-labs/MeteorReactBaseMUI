@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, IconButton, Paper, Snackbar, SxProps, Theme, Typography, useTheme } from "@mui/material";
+import { Button, IconButton, Snackbar, SxProps, Theme, Typography } from "@mui/material";
 import {ShowNotificationTransitions} from "../transitions";
 import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
 import { hasValue } from "/imports/libs/hasValue";
@@ -9,7 +9,6 @@ import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import showNotificationStyles from "./showNotificationStyles";
 
 export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
     onOpen?: () => void;
@@ -131,13 +130,13 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
             {hasValue(children) ? (
                 children
             ) : (
-                <Paper sx={showNotificationStyles.container?.({type})}>
-                    <Box sx={showNotificationStyles.header} >
+                <ShowNotificationStyles.container type={type} sx={sxMap?.container}>
+                    <ShowNotificationStyles.header sx={sxMap?.header}>
                         <Typography variant="subtitle1">
                             {title}
                         </Typography>
-                    </Box> {/* header */}
-                    <Box sx={showNotificationStyles.body}>
+                    </ShowNotificationStyles.header> 
+                    <ShowNotificationStyles.body sx={sxMap?.body}>
                         {showStartIcon && (
                             hasValue(icon) ? icon : icons[type]
                         )}
@@ -171,8 +170,8 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
                                 <CloseRoundedIcon />
                             </IconButton>
                         )}
-                    </Box> {/* body */}
-                </Paper> // container
+                    </ShowNotificationStyles.body> 
+                </ShowNotificationStyles.container> 
             )}
         </Snackbar>
     );

@@ -1,16 +1,16 @@
 import React from "react";
-import {SxProps, Theme } from "@mui/material";
+import {styled , Box, Paper, BoxProps} from "@mui/material";
 import { sysSizing } from "/imports/materialui/styles";
 
 interface IShowNotificationStyles {
-    container: ({type} : IContainer) => SxProps<Theme>;
-    header: SxProps<Theme>;
-    body: SxProps<Theme>;
+    container: React.ElementType;
+    header: React.ElementType;
+    body: React.ElementType;
 }
 
 
-const showNotificationStyles : IShowNotificationStyles = {
-    container: ({type}) => theme => ({
+const ShowNotificationStyles : IShowNotificationStyles = {
+    container: styled(Paper)<IContainer>(({theme, type}) =>  ({
         minWidth: '440px',
         minHeight: '80px',
         borderRadius: sysSizing.radiusSm,
@@ -55,11 +55,11 @@ const showNotificationStyles : IShowNotificationStyles = {
                 color: theme.palette.sysAction?.primary,
             }
         }),
-    }),
-    header: {
+    })),
+    header: styled(Box)(() => ({
         padding: `${sysSizing.spacingFixedXs} ${sysSizing.spacingFixedSm}`,
-    },
-    body: theme => ({
+    })),
+    body: styled(Box)(({theme}) => ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -69,7 +69,7 @@ const showNotificationStyles : IShowNotificationStyles = {
         flexGrow: 1,
         flexShrink: 0,
         gap: theme.spacing(1),
-    }),
+    })),
 
 
 }
@@ -79,4 +79,4 @@ interface IContainer {
 }
 
 
-export default showNotificationStyles;
+export default ShowNotificationStyles;
