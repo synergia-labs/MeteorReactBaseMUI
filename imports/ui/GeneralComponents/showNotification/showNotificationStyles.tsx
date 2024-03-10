@@ -1,6 +1,6 @@
 import React from "react";
 import {styled , Box, Paper, BoxProps} from "@mui/material";
-import { sysSizing } from "/imports/materialui/styles";
+import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface IShowNotificationStyles {
     container: React.ElementType;

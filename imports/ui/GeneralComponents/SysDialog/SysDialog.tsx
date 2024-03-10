@@ -4,8 +4,8 @@ import { Box, Dialog, DialogActions, DialogContentText, DialogProps, SxProps, Th
 import { DialogContentStyled, DialogTitleStyled } from "./SysDialogStyles";
 import { DialogTransitions } from "../transitions";
 import { MemoryRouter } from "react-router-dom";
-import { AppRouterSwitch } from "../../layouts/AppRouterSwitch";
-import { defaultTemplate } from "../../layouts/AppLayout";
+import { AppRouterSwitch } from "../../../app/AppRouterSwitch";
+import { defaultTemplate } from "../../../app/AppLayout";
 
 export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, 'open'> {
     open?: boolean;

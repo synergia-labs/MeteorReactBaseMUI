@@ -28,7 +28,7 @@ import IconButton from '@mui/material/IconButton';
 import LinearProgress from '@mui/material/LinearProgress';
 import CloudUpload from '@mui/icons-material/CloudUpload';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import { uploadFilesStyle } from './uploadFilesCollectionStyle';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';

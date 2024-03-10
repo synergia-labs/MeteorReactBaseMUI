@@ -1,5 +1,5 @@
 import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
-import * as appStyles from '../../../materialui/styles';
+import * as appStyles from '/imports/ui/materialui/styles';
 
 export const complexTableStyle: ISxStyleObject = {
 	container: {

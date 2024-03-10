@@ -1,6 +1,6 @@
 import React from 'react';
 import {Avatar, Box, Theme, styled} from '@mui/material';
-import { sysSizing } from '/imports/materialui/styles';
+import { sysSizing } from '/imports/ui/materialui/styles';
 
 export const SysAvatarContainer = styled(Box)(({theme, onClickS, borderColor} : {theme?: Theme, onClickS: boolean, borderColor?: string}) => ({
     width: sysSizing.componentsButtonMediumMinHeight,

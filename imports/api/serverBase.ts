@@ -14,7 +14,7 @@ import { countsCollection } from '/imports/api/countCollection';
 import { Validador } from '/imports/libs/Validador';
 import { IConnection } from '../../shared/typings/IConnection';
 import Selector = Mongo.Selector;
-import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
+import { segurancaApi } from '/imports/security/api/SegurancaApi';
 import { WebApp } from 'meteor/webapp';
 // @ts-ignore
 import bodyParser from 'body-parser';

@@ -1,6 +1,6 @@
 import React from "react";
 import { styled, Fab, FabProps, Theme } from "@mui/material";
-import { sysSizing } from "/imports/materialui/styles";
+import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface ISysFabProps extends FabProps{
     fixed?: boolean;

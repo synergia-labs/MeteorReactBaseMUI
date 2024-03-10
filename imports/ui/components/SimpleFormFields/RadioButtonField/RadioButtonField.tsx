@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Check from '@mui/icons-material/Check';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { hasValue } from '/imports/libs/hasValue';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import { radioButtonStyle } from './RadioButtonFieldStyle';
 
 import { Typography } from '@mui/material';

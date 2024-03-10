@@ -1,11 +1,11 @@
 import React from 'react';
 import { BoxProps, AvatarProps, Typography, Menu, MenuItem, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { SysAppContext } from '../../AppContainer';
+import { SysAppContext } from '../../../app/AppContainer';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Signout from '../../pages/SignOut/Signout';
 import { StyledSysMenu } from './sysMenuStyles';
-import * as appStyles from '/imports/materialui/styles';
+import * as appStyles from '/imports/ui/materialui/styles';
 
 export interface SysMenuProps {
 	/**O nome que será usado para mostrar a primeira letra no avatar.*/

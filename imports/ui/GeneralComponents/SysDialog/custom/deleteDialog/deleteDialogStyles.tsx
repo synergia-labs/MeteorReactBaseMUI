@@ -1,4 +1,4 @@
-import * as appStyles from '/imports/materialui/styles';
+import * as appStyles from '/imports/ui/materialui/styles';
 
 export const deleteDialogStyles = {
     box:{

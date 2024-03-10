@@ -5,7 +5,7 @@ import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelV
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Popper from '@mui/material/Popper';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 
 type Option = {
 	value: any;

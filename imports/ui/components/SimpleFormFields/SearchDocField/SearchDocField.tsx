@@ -10,7 +10,7 @@ import Selector = Mongo.Selector;
 import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 import { SxProps } from '@mui/system';
 import { IDoc } from '/imports/api/IDoc';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import ClearIcon from '@mui/icons-material/Clear';
 
 interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {

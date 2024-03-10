@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
-import {getTheme} from '../imports/materialui/theme';
+import {getTheme} from '/imports/ui/materialui/theme';
 
 export const decorators = [
 	withThemeFromJSXProvider({
