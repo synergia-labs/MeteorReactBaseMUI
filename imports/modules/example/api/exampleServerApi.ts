@@ -1,7 +1,7 @@
 // region Imports
 import { Recurso } from '../config/Recursos';
 import { exampleSch, IExample } from './exampleSch';
-import { userprofileServerApi } from '/imports/userprofile/api/UserProfileServerApi';
+import { userprofileServerApi } from '/imports/modules/userprofile/api/UserProfileServerApi';
 import { ProductServerBase } from '/imports/api/productServerBase';
 // endregion
 

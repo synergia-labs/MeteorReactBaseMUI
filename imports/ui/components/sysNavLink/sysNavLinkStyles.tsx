@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, ButtonProps, Theme, styled} from "@mui/material";
-import { sysSizing } from "/imports/materialui/styles";
+import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface SysNavLinkStyledContainerProps extends ButtonProps {
     active?: boolean;

@@ -1,8 +1,8 @@
 import React from 'react';
-import ExampleContainer from '../ui/exampleContainer';
+import ExampleContainer from '../exampleContainer';
 import { Recurso } from './Recursos';
 import { IRoute } from '/imports/modules/modulesTypings';
-import { ITemplateAppBar } from '/imports/ui/layouts/templates/templateAppBar/templateAppBar';
+import { ITemplateAppBar } from '/imports/ui/templates/templateAppBar/templateAppBar';
 
 export const exampleRouterList: (IRoute | null)[] = [
     {

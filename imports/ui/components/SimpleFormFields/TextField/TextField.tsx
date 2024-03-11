@@ -2,7 +2,7 @@ import React from 'react';
 import InputBase from '@mui/material/InputBase';
 import TextField from '@mui/material/TextField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 interface ITextFieldSimpleFormComponent extends IBaseSimpleFormComponent {

@@ -35,7 +35,7 @@ import {
 	primaryContainer,
 	secondaryContainer,
 	verdeEscuro
-} from '/imports/materialui/styles';
+} from '/imports/ui/materialui/styles';
 
 interface ISchema {
 	[key: string]: any;

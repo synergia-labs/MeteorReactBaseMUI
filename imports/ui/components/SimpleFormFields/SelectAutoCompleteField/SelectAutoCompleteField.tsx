@@ -10,7 +10,7 @@ import { createStyles, Theme, withStyles } from '@mui/styles';
 
 import { selectAutoCompleteStyle } from './SelectAutoCompleteFieldStyle';
 import { hasValue } from '/imports/libs/hasValue';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import InputBase from '@mui/material/InputBase';
 
 function downloadObjectAsJson(exportObj, exportName) {

@@ -2,9 +2,9 @@ import { nanoid } from 'nanoid';
 import { Meteor } from 'meteor/meteor';
 import { get, set, Store } from 'idb-keyval';
 import { parse, stringify } from 'zipson';
-import { EnumUserRoles } from '/imports/userprofile/api/EnumUser';
+import { EnumUserRoles } from '/imports/modules/userprofile/api/EnumUser';
 import settings from '/settings.json';
-import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
+import { IUserProfile } from '/imports/modules/userprofile/api/UserProfileSch';
 
 class LoggedUserStore {
 	userStore = new Store(`${settings.name}_` + 'loggedUser', 'LoggedUser-store');
