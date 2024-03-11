@@ -4,11 +4,11 @@ import { SignUp } from '../pages/SignUp/SignUp';
 import Signout from '../pages/SignOut/Signout';
 import { EmailVerify } from '../pages/EmailVerify/EmailVerify';
 import { ResetPassword } from '../pages/ResetPassword/ResetPassword';
-import { SignIn } from '../pages/SignIn/Signin';
 import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
 import {Recurso} from '../pages/Home/Recurso';
 import { NoPermission } from '../pages/NoPermission/NoPermission';
+import SignInPage from '../pages/signIn/signIn';
 
 export const pagesRouterList : (IRoute | null)[] = [
 	{
@@ -20,7 +20,7 @@ export const pagesRouterList : (IRoute | null)[] = [
 	},
 	{
 		path: '/signin',
-		component: SignIn,
+		component: SignInPage,
 		isProtected: false,
 		templateVariant: 'None',
 	},

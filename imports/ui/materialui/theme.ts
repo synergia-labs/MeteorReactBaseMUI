@@ -297,6 +297,9 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						}
 					},
 					text: {
+						'&.MuiButton-root': {
+							padding: 0,
+						},
 						'&.Mui-disabled': {
 							color: theme.palette.sysAction?.disabled,
 							backgroundColor: 'transparent',

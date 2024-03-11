@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Route, Routes, useParams, useLocation, Location } from 'react-router-dom';
 import { NotFound } from '../sysPages/pages/NotFound/NotFound';
-import { SignIn } from '../sysPages/pages/SignIn/Signin';
 import { getUser } from '/imports/libs/getUser';
 import { segurancaApi } from '/imports/security/api/SegurancaApi';
 import { IAppMenu, IRoute } from '/imports/modules/modulesTypings';
@@ -11,6 +10,7 @@ import { subjectRouter } from '/imports/analytics/AnalyticsSubscriber';
 import SysRoutes from './routes';
 import { ISysTemplate, SysTemplate, SysTemplateOptions } from '/imports/ui/templates/getTemplate';
 import { NoPermission } from '../sysPages/pages/NoPermission/NoPermission';
+import SignInPage from '../sysPages/pages/signIn/signIn';
 
 const routes = new SysRoutes();
 
@@ -101,7 +101,7 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 								path={route?.path as string}
 								element={
 									<WrapComponent
-										component={SignIn}
+										component={SignInPage}
 										location={location}
 										templateVariant={'None'}
 										templateProps={undefined}
