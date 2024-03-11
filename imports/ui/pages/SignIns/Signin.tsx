@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import Container from '@mui/material/Container';
-import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextField from '../../components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
@@ -129,9 +129,7 @@ export const SignIn = (props: ISignIn) => {
 										Esqueci a minha senha
 									</Button>
 									<Button id="submit" variant={'outlined'} color={'primary'}
-												onClick={() => {
-													loginFormRef.current.onSubmitForm();
-												}}
+
 									>
 										Entrar
 									</Button>
