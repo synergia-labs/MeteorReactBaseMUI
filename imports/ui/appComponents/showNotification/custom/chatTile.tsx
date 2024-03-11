@@ -61,7 +61,7 @@ export default ShowNotificationChat;
 
 /* Como usar ?
 import React from 'react'; 
-import ShowNotificationChat from '/imports/ui/GeneralComponents/showNotification/custom/chatTile';
+import ShowNotificationChat from '/imports/ui/appComponents/showNotification/custom/chatTile';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
 
 const MeuComponente = () => {

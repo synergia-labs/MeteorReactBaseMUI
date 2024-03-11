@@ -4,7 +4,7 @@ import { SysAvatar } from "/imports/ui/components/sysAvatar/sysAvatar";
 import { IAppMenu } from "/imports/modules/modulesTypings";
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { SysNavLink } from "/imports/ui/components/sysNavLink/sysNavLink";
-import SysRoutes from "../../../app/routes";
+import SysRoutes from "../../../../app/routes";
 import { useNavigate } from "react-router-dom";
 import { SysAppContext } from "/imports/app/AppContainer";
 import { SysMenu } from "/imports/ui/components/sysMenu/sysMenu";

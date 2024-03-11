@@ -5,8 +5,8 @@ import { Button } from "@mui/material";
 import { SysAppLayoutContext } from "/imports/app/AppLayout";
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-import DeleteDialog from "/imports/ui/GeneralComponents/SysDialog/custom/deleteDialog/deleteDialog";
-import ConfirmDialog from "/imports/ui/GeneralComponents/SysDialog/custom/confirmDialog/confirmDialog";
+import DeleteDialog from "/imports/ui/appComponents/SysDialog/custom/deleteDialog/deleteDialog";
+import ConfirmDialog from "/imports/ui/appComponents/SysDialog/custom/confirmDialog/confirmDialog";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import DesktopWindowsOutlinedIcon from '@mui/icons-material/DesktopWindowsOutlined';
 

@@ -6,7 +6,6 @@ import Container from '@mui/material/Container';
 import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
-
 import { resetPasswordStyle } from './ResetPasswordStyle';
 import { useParams } from 'react-router-dom';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';

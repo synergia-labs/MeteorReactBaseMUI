@@ -1,7 +1,7 @@
 import React from 'react';
 import UserProfileContainer from '../userProfileContainer';
 import { IRoute } from '/imports/modules/modulesTypings';
-import {Recurso} from '/imports/userprofile/config/Recurso';
+import {Recurso} from './Recurso';
 
 export const userProfileRouterList: (IRoute | null)[] = [
     {

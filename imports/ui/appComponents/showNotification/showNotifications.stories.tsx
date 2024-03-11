@@ -5,7 +5,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Avatar, Box, Typography } from "@mui/material";
 
 const meta = {
-    title: 'ui/GeneralComponents/ShowNotification',
+    title: 'ui/appComponents/ShowNotification',
     component: ShowNotification,
     tags: ['autodocs'],
     decorators: [

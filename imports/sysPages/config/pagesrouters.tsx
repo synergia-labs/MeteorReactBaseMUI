@@ -1,14 +1,14 @@
 import React from 'react';
-import Home from '../../ui/pages/Home/Home';
-import { SignUp } from '../../ui/pages/SignUp/SignUp';
-import Signout from '../../ui/pages/SignOut/Signout';
-import { EmailVerify } from '../../ui/pages/EmailVerify/EmailVerify';
-import { ResetPassword } from '/imports/ui/pages/ResetPassword/ResetPassword';
-import { SignIn } from '../../ui/pages/SignIn/Signin';
-import { PasswordRecovery } from '../../ui/pages/RecoveryPassword/PasswordRecovery';
+import Home from '../pages/Home/Home';
+import { SignUp } from '../pages/SignUp/SignUp';
+import Signout from '../pages/SignOut/Signout';
+import { EmailVerify } from '../pages/EmailVerify/EmailVerify';
+import { ResetPassword } from '../pages/ResetPassword/ResetPassword';
+import { SignIn } from '../pages/SignIn/Signin';
+import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
-import {Recurso} from '../../ui/pages/Home/Recurso';
-import { NoPermission } from '../../ui/pages/NoPermission/NoPermission';
+import {Recurso} from '../pages/Home/Recurso';
+import { NoPermission } from '../pages/NoPermission/NoPermission';
 
 export const pagesRouterList : (IRoute | null)[] = [
 	{

@@ -3,9 +3,9 @@ import { Theme } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
 import { NavigateFunction, Location } from 'react-router-dom';
-import { IShowNotificationProps } from '../ui/GeneralComponents/showNotification/showNotification';
-import { IShowDialogProps } from '../ui/GeneralComponents/SysDialog/SysDialog';
-import { IShowDrawerProps } from '../ui/GeneralComponents/showDrawer/showDrawer';
+import { IShowNotificationProps } from '/imports/ui/appComponents/showNotification/showNotification';
+import { IShowDialogProps } from '/imports/ui/appComponents/SysDialog/SysDialog';
+import { IShowDrawerProps } from '/imports/ui/appComponents/showDrawer/showDrawer';
 
 
 export interface ISysAppContext {

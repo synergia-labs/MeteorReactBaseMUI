@@ -3,7 +3,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import TextField from '../../appComponents/SimpleFormFields/TextField/TextField';
+import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 

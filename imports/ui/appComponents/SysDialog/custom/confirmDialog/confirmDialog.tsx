@@ -1,9 +1,9 @@
 import React from "react";
 import { IShowDialogProps } from "../../SysDialog";
 import { Button, DialogActions, DialogTitle } from "@mui/material";
-import { deleteDialogStyles } from "./deleteDialogStyles";
+import { confirmDialogStyles } from "./confirmDialogStyles";
 
-interface IDeleteDialogProps extends IShowDialogProps {
+interface IConfirmDialogProps extends IShowDialogProps {
     showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
 	closeDialog: (
 		event?: {}, 
@@ -11,46 +11,46 @@ interface IDeleteDialogProps extends IShowDialogProps {
 		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
 	) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
     // Adicione aqui os demais métodos e propriedades que o componente de diálogo precisa.
-    onDeleteConfirm?: () => void;
+    onConfirm?: () => void;
 }
 
-function DeleteDialog({
+function ConfirmDialog({
     showDialog,
     closeDialog,
-    onDeleteConfirm,
+    onConfirm,
     title,
     ...props
-}: IDeleteDialogProps){
+}: IConfirmDialogProps){
     
     showDialog({
         ...props,
-        sx: deleteDialogStyles.box,
+        sx: confirmDialogStyles.box,
         header:(
             <DialogTitle variant="subtitle1" sx={{padding: 0}}>
                 {title}
             </DialogTitle>
         ),
         actions: (
-            <DialogActions sx={deleteDialogStyles.actions}>
+            <DialogActions sx={confirmDialogStyles.actions}>
                 <Button variant="outlined" onClick={closeDialog}>
                     Cancelar
                 </Button>
                 <Button variant="contained" onClick={() => {
-                    onDeleteConfirm?.();
+                    onConfirm?.();
                     closeDialog();
                 }}>
-                    Excluir
+                    Confirmar
                 </Button>
             </DialogActions>
         )
     });
 };
 
-export default DeleteDialog;
+export default ConfirmDialog;
 
 /* EXEMPLO DE USO
 import React from 'react';
-import DeleteDialog from '/imports/ui/GeneralComponents/showDialog/custom/deleteDialog';
+import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
 import { Button } from '@mui/material';
 
@@ -60,20 +60,20 @@ const seuComponente = () => {
     return (
         <Button
             onClick={() => {
-                DeleteDialog({
+                ConfirmDialog({
                     showDialog,
                     closeDialog,
-                    title: 'Tem certeza que deseja excluir?',
-                    message: 'Esta ação não poderá ser desfeita.',
-                    onDeleteConfirm: () => {
+                    title: 'Confirmar cadastro',
+                    message: 'Tem certeza que deseja confirmar o cadastro dos dados preenchidos?',
+                    onConfirm: () => {
                         showNotification({
-                            message: 'Excluído com sucesso!',
+                            message: 'Dados salvos!',
                         });
                     }
-                })
+                });
             }}
         >
-            Exbir diálogo de exclusão
+            Exbir diálogo de confirmação
         </Button>
     );
 }

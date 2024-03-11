@@ -1,10 +1,10 @@
 import React, {useCallback } from "react";
 import { ISysAppLayoutContext, ISysGeneralComponentsCommon, ISysThemeOptions } from "/imports/typings/BoilerplateDefaultTypings";
 import { BrowserRouter as Router } from 'react-router-dom';
-import { IShowNotificationProps, ShowNotification } from "../ui/GeneralComponents/showNotification/showNotification";
+import { IShowNotificationProps, ShowNotification } from "/imports/ui/appComponents/showNotification/showNotification";
 import { AppRouterSwitch } from "./AppRouterSwitch";
-import { IShowDialogProps, ShowDialog } from "../ui/GeneralComponents/SysDialog/SysDialog";
-import { IShowDrawerProps, ShowDrawer } from "../ui/GeneralComponents/showDrawer/showDrawer";
+import { IShowDialogProps, ShowDialog } from "/imports/ui/appComponents/SysDialog/SysDialog";
+import { IShowDrawerProps, ShowDrawer } from "/imports/ui/appComponents/showDrawer/showDrawer";
 import { ISysTemplate, SysTemplateOptions } from "/imports/ui/templates/getTemplate";
 import SysRoutes from './routes';
 

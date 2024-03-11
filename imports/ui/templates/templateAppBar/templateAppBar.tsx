@@ -1,7 +1,7 @@
 import { Box, BoxProps, Typography } from "@mui/material";
 import React from "react";
 import { TemplateAppBarContainer, TemplateAppBarContent } from "./templateAppBarStyles";
-import { SysAppBar } from "/imports/ui/appComponents/sysAppBar/sysAppBar";
+import { SysAppBar } from "/imports/ui/templates/components/sysAppBar/sysAppBar";
 import { ISysTemplateProps } from "../getTemplate";
 
 export interface ITemplateAppBar extends ISysTemplateProps{

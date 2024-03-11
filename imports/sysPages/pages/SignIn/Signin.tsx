@@ -4,14 +4,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import Container from '@mui/material/Container';
-import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
 import { signinStyle } from './SigninStyle';
 import { Box } from '@mui/material';
-import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
-import { SysAppLayoutContext } from '../../layouts/AppLayout';
+import { IUserProfile } from '/imports/modules/userprofile/api/UserProfileSch';
+import { SysAppLayoutContext } from '../../../app/AppLayout';
 import { SysAppContext } from '../../../app/AppContainer';
 import { cleanUserCache } from '/imports/hooks/useUserAccount';
 

@@ -6,14 +6,14 @@
 import React from 'react';
 import { Link, NavigateFunction } from 'react-router-dom';
 import Container from '@mui/material/Container';
-import TextField from '../../appComponents/SimpleFormFields/TextField/TextField';
+import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
-import { userprofileApi } from '../../../userprofile/api/UserProfileApi';
+import { userprofileApi } from '../../../modules/userprofile/api/UserProfileApi';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
 import { signUpStyle } from './SignUpStyle';
 import { Box } from '@mui/system';
-import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
+import { IUserProfile } from '/imports/modules/userprofile/api/UserProfileSch';
 
 interface ISignUp {
 	showNotification: (options?: Object) => void;
