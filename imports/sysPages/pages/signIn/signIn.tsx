@@ -114,6 +114,7 @@ const SignInPage : React.FC = () => {
                 <Box 
                     component='img'
                     src="/images/wireframe/synergia-logo.svg"
+                    sx={{width: '100%', maxWidth: '400px'}}
                 />
             </SignInStyles.content> 
         </SignInStyles.container> 
