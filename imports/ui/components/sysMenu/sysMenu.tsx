@@ -3,9 +3,10 @@ import { BoxProps, AvatarProps, Typography, Menu, MenuItem, Box } from '@mui/mat
 import { useNavigate } from 'react-router-dom';
 import { SysAppContext } from '../../../app/AppContainer';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import Signout from '../../pages/SignOut/Signout';
 import { StyledSysMenu } from './sysMenuStyles';
 import * as appStyles from '/imports/ui/materialui/styles';
+import { cleanUserCache } from '/imports/hooks/useUserAccount';
+import { Meteor } from 'meteor/meteor';
 
 export interface SysMenuProps {
 	/**O nome que será usado para mostrar a primeira letra no avatar.*/
@@ -33,9 +34,12 @@ export const SysMenu: React.FC<SysMenuProps> = ({ name, onClick, anchorEl,handle
     const {user, isLoggedIn} = React.useContext(SysAppContext);
     const navigate = useNavigate();
 
-    const openPage = (url: string) => () => {
+    const openPage = (url: string, exit:boolean = false) => async () => {
 		handleClose();
 		navigate(url);
+        if(!exit) return;
+        Meteor.logout();
+        await cleanUserCache();
 	};
 
 
@@ -67,7 +71,7 @@ export const SysMenu: React.FC<SysMenuProps> = ({ name, onClick, anchorEl,handle
                         
                         >{user.username}</Typography>
                         ,
-                        <MenuItem key={'signout'} onClick={openPage('/signout')}>
+                        <MenuItem key={'signout'} onClick={openPage('/', true)}>
                             <ExitToAppIcon />
                             <Typography variant="body1" sx={StyledSysMenu.textColor}
                             >Sair</Typography>
