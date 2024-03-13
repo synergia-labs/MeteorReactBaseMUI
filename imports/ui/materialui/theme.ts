@@ -185,35 +185,44 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			MuiDataGrid: {
 				styleOverrides: {
 					root: {
-						border: '0px',
-						color: theme.palette.sysText?.body,
+						borderRadius: appStyles.sysSizing.radiusSm,
+						border: `1px solid ${theme.palette.divider}`,
 						'& .MuiCircularProgress-root': {
 							color: theme.palette.primary.main,
 						},
 						'& .MuiDataGrid-columnHeaders': {
+							padding: `${appStyles.sysSizing.spacingFixedMd} ${appStyles.sysSizing.spacingFixedLg}`,
 							'& .MuiDataGrid-columnSeparator': {
 								visibility: 'hidden'
 							},
 							borderBottom: `2px solid ${theme.palette.primary.dark}`
 						},
 						'& .MuiDataGrid-cell': {
-							padding: '4px',
-							borderBottom: `1px solid ${theme.palette.divider}`
+							padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
+							gap: `${appStyles.sysSizing.spacingFixedXl}`,
+							
+						},
+						'& .MuiDataGrid-row': {
+							borderBottom: `1px solid ${theme.palette.divider}`,
+							'&:hover': {
+								backgroundColor: theme.palette.sysAction?.primaryBgHover,
+							}
 						},
 						'& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within': {
 							outline: 'none'
-						},
-						'& .MuiDataGrid-row:hover': {
-							backgroundColor: theme.palette.sysAction?.primaryBgHover
 						},
 						'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
 							outline: 'none'
 						},
 						'& .MuiDataGrid-actionsCell': {
-							gap: '0px',
 							'& button': {
-								color: 'black'
-							}
+								color:  theme.palette.sysAction?.primaryIcon, //altera a cor dos icones de ação
+							},
+						}
+						},
+						'& .MuiDataGrid-footerContainer':{
+							padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
+							gap: `${appStyles.sysSizing.spacingFixedXl}`,
 						}
 					},
 					row: {
@@ -355,6 +364,14 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					color: theme.palette.sysAction?.primaryIcon,
 					size: 'medium'
 				},
+				styleOverrides:{
+					root: {
+						'&:hover': {
+							color: theme.palette.sysAction?.primaryBgHover,
+						}
+					}
+				}
+
 			},
 
 			MuiToggleButton: {

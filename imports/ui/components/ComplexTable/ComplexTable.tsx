@@ -3,7 +3,6 @@ import {
 	DataGrid,
 	GridActionsCellItem,
 	GridColumnHeaderParams,
-	GridColumns,
 	GridFilterModel,
 	GridRenderCellParams,
 	GridRowId,
@@ -11,7 +10,8 @@ import {
 	GridRowParams,
 	MuiEvent,
 	ptBR,
-	GRID_CHECKBOX_SELECTION_COL_DEF
+	GRID_CHECKBOX_SELECTION_COL_DEF,
+	GridColumnGroupHeaderParams
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
@@ -21,21 +21,9 @@ import Edit from '@mui/icons-material/Edit';
 import { Variant } from '@mui/material/styles/createTypography';
 import { complexTableStyle } from './ComplexTableStyle';
 import { Toolbar } from './Toolbar';
-import { GridColumnGroupHeaderParams, GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
-import { Chip, Tooltip } from '@mui/material';
-import {
-	amareloClaro,
-	aquaClaro,
-	cinza30,
-	cinza90,
-	cinzaClaro,
-	onBackground,
-	onPrimaryContainer,
-	onSecondaryContainer,
-	primaryContainer,
-	secondaryContainer,
-	verdeEscuro
-} from '/imports/ui/materialui/styles';
+import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
+import { Chip, IconButton, Tooltip } from '@mui/material';
+
 
 interface ISchema {
 	[key: string]: any;
@@ -280,16 +268,15 @@ export const ComplexTable = (props: IComplexTableProps) => {
 					textOverflow: 'ellipsis',
 					overflow: 'hidden',
 					whiteSpace: 'nowrap',
-					color: onBackground
 				}}
-				variant={'labelMedium' ?? 'h5'}>
+				variant={'subtitle2'}>
 				{params.colDef.headerName}
 			</Typography>
 		</Tooltip>
 	);
 
 	const renderHeaderGroup = (params: GridColumnGroupHeaderParams) => (
-		<Typography variant={headerVariant ?? 'h5'}>{params.headerName}</Typography>
+		<Typography variant={'subtitle2'}>{params.headerName}</Typography>
 	);
 
 	const transformGroup = (params: GridColumnGroupingModel) => {
@@ -351,38 +338,13 @@ export const ComplexTable = (props: IComplexTableProps) => {
 									}}
 								/>
 							);
-						} else if (params.field === 'statusCaminhamento') {
-							if (params.value === 'FINALIZADO') params.value = 'EXECUTADO';
-							return params.value ? (
-								<Chip
-									variant="outlined"
-									label={`${params.value.charAt(0).toUpperCase() + params.value.slice(1).toLowerCase()}`}
-									sx={{
-										...complexTableStyle.chips
-									}}
-								/>
-							) : null;
-						} else if (params.field === 'quantidadeEventos') {
-							return params.value ? (
-								<Chip
-									variant="outlined"
-									label={params.value}
-									sx={{
-										...complexTableStyle.chips,
-										background: amareloClaro,
-										color: cinza30
-									}}
-								/>
-							) : (
-								<Typography variant="bodySmall">-</Typography>
-							);
-						} else {
+						}  else {
 							const paramsValue = !params.value || params.value === 'undefined - undefined' ? '-' : params.value;
 							const value = transformData(paramsValue, schema[key].type, schema[key].renderKey);
 							const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
 							return (
 								<Tooltip title={value} arrow={true}>
-									<Typography variant={variant} color={onBackground} sx={complexTableStyle.rowText}>
+									<Typography variant='body2' sx={complexTableStyle.rowText}>
 										{value}
 									</Typography>
 								</Tooltip>
@@ -437,13 +399,13 @@ export const ComplexTable = (props: IComplexTableProps) => {
 					conditionalActions.forEach((action: IConditionalAction) => {
 						if (action.condition(params.row)) {
 							renderActions.push({
-								icon: action.if.icon,
+								icon: <IconButton> {action.if.icon} </IconButton>,
 								label: action.if.label,
 								onClick: action.if.onClick
 							});
 						} else if (!!action.else) {
 							renderActions.push({
-								icon: action.else.icon,
+								icon: <IconButton>{action.else.icon}</IconButton>,
 								label: action.else.label,
 								onClick: action.else.onClick
 							});
@@ -481,19 +443,17 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	}, [selectionModel]);
 
 	return (
-		<Box sx={{ ...complexTableStyle.container, height: heightCustomizada ?? '90%' }}>
+		<Box sx={{ ...complexTableStyle.container}}>
 			<DataGrid
-				sx={complexTableStyle.hideScrollBar}
-				autoHeight={autoHeight ?? true}
-				// experimentalFeatures={{ columnGrouping: true }}
-				// columnGroupingModel={groupColumsTransform ?? undefined}
+				experimentalFeatures={{ ariaV7: true }}
 				rows={data}
 				columns={columns}
 				rowCount={data?.length}
+				autoHeight={autoHeight ?? true}
 				localeText={locale}
 				getRowId={!!getId ? getId : (row) => row._id}
-				onSelectionModelChange={(newSelection) => setSelection(newSelection)}
-				selectionModel={selection}
+				onRowSelectionModelChange={(newSelection) => setSelection(newSelection)}
+				rowSelectionModel={selection}
 				onRowClick={
 					!!onRowClick
 						? (params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
@@ -503,11 +463,11 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						: undefined
 				}
 				getRowHeight={() => 'auto'}
-				components={{
-					Toolbar: Toolbar,
-					BaseSwitch: Checkbox
+				slots={{
+					toolbar: Toolbar,
+					baseSwitch: Checkbox
 				}}
-				componentsProps={{
+				slotProps={{
 					toolbar: {
 						buttonVariant,
 						toolbarOptions: toolbar,
@@ -534,10 +494,14 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						: undefined
 				}
 				loading={loading ?? undefined}
-				hideFooter
 				checkboxSelection={disableCheckboxSelection ? false : true}
 				disableColumnFilter
 				disableColumnMenu
+				initialState={{
+					pagination: { paginationModel: { pageSize: 15 } },
+				  }}
+				pageSizeOptions={[15,20,25]}
+
 			/>
 		</Box>
 	);

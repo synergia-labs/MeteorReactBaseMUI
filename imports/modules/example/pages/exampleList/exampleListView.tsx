@@ -1,12 +1,19 @@
 import React from "react";
-import {Box, Typography} from "@mui/material";
+import {Box, TablePagination, Typography} from "@mui/material";
 import { ExampleListViewStyledContainer } from "./exampleListStyles";
 import { SysFab } from "/imports/ui/components/sysFab/sysFab";
 import AddIcon from '@mui/icons-material/Add';
 import { ExampleListControllerContext } from "./exampleListController";
+import { useNavigate } from "react-router-dom";
+import { ComplexTable } from "/imports/ui/components/ComplexTable/ComplexTable";
+
+import { useDemoData } from '@mui/x-data-grid-generator';
 
 const ExampleListView = () => {
     const exampleListViewContext = React.useContext(ExampleListControllerContext);
+    
+    const navigate = useNavigate();
+
     return (
         <ExampleListViewStyledContainer>
             <SysFab 
@@ -18,7 +25,16 @@ const ExampleListView = () => {
             />
             <Typography variant="h5">Lista de Itens</Typography>
 
-            {JSON.stringify(exampleListViewContext.todoList)}
+            <ComplexTable
+					data={exampleListViewContext.todoList}
+					schema={exampleListViewContext.schema}
+					onRowClick={(row) => navigate('/example/view/' + row.id)}
+					searchPlaceholder={'Pesquisar exemplo'}
+                    onEdit={(row) => navigate('/example/edit/' + row._id)}
+                    onDelete={() => {}}
+					
+				/>
+
         </ExampleListViewStyledContainer>
     );
 }
