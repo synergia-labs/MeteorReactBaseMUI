@@ -23,12 +23,12 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 	const [msg, setMsg] = React.useState<boolean>(false);
 
 	const { showNotification } = useContext(SysAppLayoutContext);
-
+	console.log('AQUI >>>> ', useContext(SysAppLayoutContext));
 	const navigate = useNavigate();
 
 	const handleSubmit = (doc: { email: string }) => {
 		const { email } = doc;
-
+		setLoading(true);
 		Accounts.forgotPassword({ email }, (err?: Meteor.Error | Error | undefined) => {
 			if (err) {
 				if (err.message === 'User not found [403]') {
@@ -38,6 +38,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 							title: 'Problema na recuperação da senha!',
 							message: 'Este email não está cadastrado em nossa base de dados!'
 						});
+					setLoading(false);
 				} else {
 					showNotification &&
 						showNotification({
@@ -45,6 +46,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 							title: 'Problema na recuperação da senha!',
 							message: 'Erro ao recriar a senha, faça contato com o administrador!!'
 						});
+					setLoading(false);
 				}
 			} else {
 				showNotification &&
@@ -53,6 +55,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 						title: 'Senha enviada!',
 						message: 'Acesse seu email e clique no link para criar uma nova senha.'
 					});
+				setLoading(false);
 				setMsg((prev) => !prev);
 			}
 		});
@@ -106,6 +109,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 									variant="outlined"
 									color="primary"
 									id="cancelar"
+									disabled={loading}
 									startIcon={<ClearIcon />}
 									sx={{ transition: 'all 0.3s ease' }}>
 									{loading ? <CircularProgress size={24} /> : 'Cancelar'}
@@ -114,9 +118,8 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 									variant="contained"
 									color="primary"
 									id="submit"
-									disabled={loading}
 									startIcon={<DoneIcon />}
-									sx={{ transition: 'all 0.3s ease' }}>
+									sx={{ transition: 'all 0.3s ease', display: loading ? 'none' : 'flex' }}>
 									{loading ? <CircularProgress size={24} /> : 'Confirmar'}
 								</Button>
 							</Box>
