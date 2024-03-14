@@ -7,11 +7,9 @@ import { ExampleListControllerContext } from "./exampleListController";
 import { useNavigate } from "react-router-dom";
 import { ComplexTable } from "/imports/ui/components/ComplexTable/ComplexTable";
 
-import { useDemoData } from '@mui/x-data-grid-generator';
 
 const ExampleListView = () => {
     const exampleListViewContext = React.useContext(ExampleListControllerContext);
-    
     const navigate = useNavigate();
 
     return (
@@ -32,7 +30,6 @@ const ExampleListView = () => {
 					searchPlaceholder={'Pesquisar exemplo'}
                     onEdit={(row) => navigate('/example/edit/' + row._id)}
                     onDelete={() => {}}
-					
 				/>
 
         </ExampleListViewStyledContainer>

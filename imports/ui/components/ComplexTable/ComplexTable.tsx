@@ -22,7 +22,7 @@ import { Variant } from '@mui/material/styles/createTypography';
 import { complexTableStyle } from './ComplexTableStyle';
 import { Toolbar } from './Toolbar';
 import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
-import { Chip, IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 
 
 interface ISchema {
@@ -150,10 +150,6 @@ interface IComplexTableProps {
 	 */
 	id?: 'complexTable';
 	/**
-	 * Prop que muda a height padrão do componente;
-	 */
-	heightCustomizada?: string;
-	/**
 	 * Prop que define o valor inicial da seleção de linhas na tabela. É um array com IDs de elementos na tabela.
 	 */
 	selectionModel?: GridRowId[];
@@ -235,7 +231,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		onEdit,
 		openFilterModal,
 		getId,
-		heightCustomizada,
 		selectionModel,
 		setSelectionModel,
 		groupColumns,
@@ -269,14 +264,14 @@ export const ComplexTable = (props: IComplexTableProps) => {
 					overflow: 'hidden',
 					whiteSpace: 'nowrap',
 				}}
-				variant={'subtitle2'}>
+				variant='subtitle2'>
 				{params.colDef.headerName}
 			</Typography>
 		</Tooltip>
 	);
 
 	const renderHeaderGroup = (params: GridColumnGroupHeaderParams) => (
-		<Typography variant={'subtitle2'}>{params.headerName}</Typography>
+		<Typography variant='subtitle2'>{params.headerName}</Typography>
 	);
 
 	const transformGroup = (params: GridColumnGroupingModel) => {
@@ -291,33 +286,13 @@ export const ComplexTable = (props: IComplexTableProps) => {
 
 	const groupColumsTransform = groupColumns ? transformGroup(groupColumns) : undefined;
 
-	const columns: GridColumns = Object.keys(schema).map((key: string) => {
+	const columns: any = Object.keys(schema).map((key: string) => {
 		return {
 			field: key,
 			headerName: schema[key].label,
 			flex: 1,
-			align:
-				schema[key].label === 'Duração' ||
-				schema[key].label === 'Nível de risco' ||
-				schema[key].label === 'Contém registros' ||
-				schema[key].label === 'Eventos' ||
-				schema[key].label === 'Registrado em' ||
-				schema[key].label === 'Cód.' ||
-				schema[key].label === 'Empresa' ||
-				schema[key].label === 'Situação'
-					? 'center'
-					: 'flex-start',
-			headerAlign:
-				schema[key].label === 'Duração' ||
-				schema[key].label === 'Eventos' ||
-				schema[key].label === 'Contém registros' ||
-				schema[key].label === 'Nível de risco' ||
-				schema[key].label === 'Registrado em' ||
-				schema[key].label === 'Cód.' ||
-				schema[key].label === 'Empresa' ||
-				schema[key].label === 'Situação'
-					? 'center'
-					: 'flex-start',
+			align: 'left',
+			headerAlign: 'left',
 			sortable: disableSorting ? false : true,
 			minWidth: fieldsMinWidthColumnModified?.hasOwnProperty(key) ? fieldsMinWidthColumnModified[key] : 150,
 			maxWidth: fieldsMaxWidthColumnModified?.hasOwnProperty(key) ? fieldsMaxWidthColumnModified[key] : 'auto',
@@ -366,22 +341,11 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		(!!actions && actions.length > 0) ||
 		(!!conditionalActions && conditionalActions.length > 0)
 	) {
-		let maxWidthActions = 70;
-
-		if (conditionalActions && conditionalActions.length > 1) {
-			maxWidthActions = conditionalActions.length * 70;
-		} else if (actions && actions.length > 1) {
-			maxWidthActions = actions.length * 70;
-		}
-
 		columns.push({
 			field: 'actions',
 			type: 'actions',
 			headerName: 'Ações',
-			flex: 0.5,
-			minWidth: 168,
-			maxWidth: maxWidthActions,
-			headerAlign: 'center',
+			headerAlign: 'left',
 			hideable: false,
 			renderHeader,
 			getActions: (params: GridRowParams) => {
@@ -445,7 +409,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	return (
 		<Box sx={{ ...complexTableStyle.container}}>
 			<DataGrid
-				experimentalFeatures={{ ariaV7: true }}
 				rows={data}
 				columns={columns}
 				rowCount={data?.length}
@@ -482,6 +445,9 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							pb: '0.3em',
 							pt: '0.3em'
 						}
+					},
+					pagination:{
+						labelRowsPerPage: 'Itens por página',
 					}
 				}}
 				filterMode={!!onFilterChange ? 'server' : 'client'}

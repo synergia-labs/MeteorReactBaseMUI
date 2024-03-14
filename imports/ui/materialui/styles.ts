@@ -184,7 +184,7 @@ const h6 = (_fontScale: number = 1) => ({
 	lineHeight: 'normal',
 });
 
-const sutitle1 = (_fontScale: number = 1) => ({
+const subtitle1 = (_fontScale: number = 1) => ({
 	fontFamily: fontFamily,
 	fontSize: `${_fontScale}rem`,
 	fontWeight: 600,
@@ -286,7 +286,7 @@ export {
 	h4,
 	h5,
 	h6,
-	sutitle1,
+	subtitle1,
 	subtitle2,
 	button,
 	button2,

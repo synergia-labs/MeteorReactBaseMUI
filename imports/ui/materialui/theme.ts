@@ -167,7 +167,7 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 			h4: appStyles.h4(fontScale),
 			h5: appStyles.h5(fontScale),
 			h6: appStyles.h6(fontScale),
-			subtitle1: appStyles.sutitle1(fontScale),
+			subtitle1: appStyles.subtitle1(fontScale),
 			subtitle2: appStyles.subtitle2(fontScale),
 			button: appStyles.button(fontScale),
 			button2: appStyles.button2(fontScale),
@@ -190,16 +190,18 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						'& .MuiCircularProgress-root': {
 							color: theme.palette.primary.main,
 						},
-						'& .MuiDataGrid-columnHeaders': {
+						'& .MuiDataGrid-columnHeader': {
 							padding: `${appStyles.sysSizing.spacingFixedMd} ${appStyles.sysSizing.spacingFixedLg}`,
+							gap: `${appStyles.sysSizing.spacingFixedXl}`,
 							'& .MuiDataGrid-columnSeparator': {
 								visibility: 'hidden'
 							},
-							borderBottom: `2px solid ${theme.palette.primary.dark}`
+							borderBottom: `2px solid ${theme.palette.sysAction?.primary}`
 						},
 						'& .MuiDataGrid-cell': {
 							padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
 							gap: `${appStyles.sysSizing.spacingFixedXl}`,
+							textAlign: 'center',
 							
 						},
 						'& .MuiDataGrid-row': {
@@ -789,7 +791,6 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			}
 		}
 	}
-}
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 	const fontScale = options.fontScale || 1;

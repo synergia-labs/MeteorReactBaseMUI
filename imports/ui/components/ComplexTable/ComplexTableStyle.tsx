@@ -4,6 +4,7 @@ import * as appStyles from '/imports/ui/materialui/styles';
 export const complexTableStyle: ISxStyleObject = {
 	container: {
 		width: '100%',
+		// maxWidth: '1500px',
 		height: '100%',
 		display: 'flex',
 	},

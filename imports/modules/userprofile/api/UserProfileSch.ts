@@ -10,7 +10,7 @@ export const userProfileSch = {
     },
     username: {
         type: String,
-        label: 'UserName',
+        label: 'Username',
         defaultValue: '',
         optional: true,
     },
@@ -29,7 +29,7 @@ export const userProfileSch = {
     },
     roles: {
         type: [String],
-        label: 'Access profile',
+        label: 'Perfil de acesso',
         defaultValue: [],
         optional: true,
         componentName: 'ChipSelect',
