@@ -1,15 +1,31 @@
-import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
+import { Box, styled } from '@mui/material';
+import { keyframes } from '@mui/system';
+import { sysSizing } from '../../materialui/styles';
 
-export const loadingStyleSx: ISxStyleObject = {
-    container: {
-        top: 0,
-        right: 0,
+const spin = keyframes`
+    from {
+        transform: rotate(-360deg);
+    }
+`;
+
+export const LoadingStyle = {
+    loading: styled(Box)(({theme}) => ({
+        width: '50px',
+        height: '50px',
+        border: `5px solid ${theme.palette.primary.contrastText}`,
+        borderRadius: '50%',
+        borderTopColor: theme.palette.primary.main,
+        animation: `${spin} linear infinite 1s`
+    })),
+
+    boxContainer: {
+        width: '100%',
+        height: '50vh',
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
         alignItems: 'center',
-        minWidth: '100%',
-        minHeight: '100%',
-        backgroundColor: 'rgba( 255, 255, 255, 0.4)',
-        position: 'absolute',
+        justifyContent: 'center',
+        gap: sysSizing.spacingRemMd
     },
-};
+}
+
