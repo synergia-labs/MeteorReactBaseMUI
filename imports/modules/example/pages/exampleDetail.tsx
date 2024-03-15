@@ -18,7 +18,7 @@ import Close from '@mui/icons-material/Close';
 import { IExample } from '../api/exampleSch';
 import { IDefaultContainerProps, IDefaultDetailProps, IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
 import { useTheme } from '@mui/material/styles';
-import { showLoading } from '/imports/ui/components/Loading/Loading';
+import { Loading } from '../../../ui/appComponents/Loading/Loading';
 
 interface IExampleDetail extends IDefaultDetailProps {
 	exampleDoc: IExample;
@@ -202,4 +202,4 @@ export const ExampleDetailContainer = withTracker((props: IExampleDetailContaine
 			});
 		}
 	};
-})(showLoading(ExampleDetail));
+})(Loading(ExampleDetail));

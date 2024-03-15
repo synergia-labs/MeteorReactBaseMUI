@@ -1,6 +1,6 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import { Loading } from '/imports/ui/components/Loading/Loading';
+import { Loading } from '../ui/appComponents/Loading/Loading';
 
 const asyncComponent = (importingComponent, LoadingComponent = () => <Loading/>) =>
 	Loadable({
