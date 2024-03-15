@@ -15,7 +15,6 @@ const Home: React.FC = () => {
 					consulte nossa documentação oficial pelo storybook.
 				</Typography>
 			</HomePageHeader>
-
 			<HomeSectionNotificacoes />
 			<HomeSectionDialogs />
 		</HomePageContainer>
