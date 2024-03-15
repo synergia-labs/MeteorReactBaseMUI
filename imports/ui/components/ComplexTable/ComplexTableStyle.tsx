@@ -4,8 +4,9 @@ import * as appStyles from '/imports/ui/materialui/styles';
 export const complexTableStyle: ISxStyleObject = {
 	container: {
 		width: '100%',
-		backgroundColor: appStyles.onPrimary,
-		flex: 1
+		// maxWidth: '1500px',
+		height: '100%',
+		display: 'flex',
 	},
 	actionsContainer: {
 		display: 'flex',
@@ -21,11 +22,10 @@ export const complexTableStyle: ISxStyleObject = {
 		borderRadius: '50%'
 	},
 	rowText: {
-		color: appStyles.onBackground,
+		color: 'sysText.body',
 		textOverflow: 'ellipsis',
 		overflow: 'hidden',
 		whiteSpace: 'nowrap',
-		padding: '0.5em 7px'
 	},
 	chips: {
 		border: 0,

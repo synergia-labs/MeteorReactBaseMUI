@@ -167,7 +167,7 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 			h4: appStyles.h4(fontScale),
 			h5: appStyles.h5(fontScale),
 			h6: appStyles.h6(fontScale),
-			subtitle1: appStyles.sutitle1(fontScale),
+			subtitle1: appStyles.subtitle1(fontScale),
 			subtitle2: appStyles.subtitle2(fontScale),
 			button: appStyles.button(fontScale),
 			button2: appStyles.button2(fontScale),
@@ -185,35 +185,46 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			MuiDataGrid: {
 				styleOverrides: {
 					root: {
-						border: '0px',
-						color: theme.palette.sysText?.body,
+						borderRadius: appStyles.sysSizing.radiusSm,
+						border: `1px solid ${theme.palette.divider}`,
 						'& .MuiCircularProgress-root': {
 							color: theme.palette.primary.main,
 						},
-						'& .MuiDataGrid-columnHeaders': {
+						'& .MuiDataGrid-columnHeader': {
+							padding: `${appStyles.sysSizing.spacingFixedMd} ${appStyles.sysSizing.spacingFixedLg}`,
+							gap: `${appStyles.sysSizing.spacingFixedXl}`,
 							'& .MuiDataGrid-columnSeparator': {
 								visibility: 'hidden'
 							},
-							borderBottom: `2px solid ${theme.palette.primary.dark}`
+							borderBottom: `2px solid ${theme.palette.sysAction?.primary}`
 						},
 						'& .MuiDataGrid-cell': {
-							padding: '4px',
-							borderBottom: `1px solid ${theme.palette.divider}`
+							padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
+							gap: `${appStyles.sysSizing.spacingFixedXl}`,
+							textAlign: 'center',
+							
+						},
+						'& .MuiDataGrid-row': {
+							borderBottom: `1px solid ${theme.palette.divider}`,
+							'&:hover': {
+								backgroundColor: theme.palette.sysAction?.primaryBgHover,
+							}
 						},
 						'& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within': {
 							outline: 'none'
-						},
-						'& .MuiDataGrid-row:hover': {
-							backgroundColor: theme.palette.sysAction?.primaryBgHover
 						},
 						'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
 							outline: 'none'
 						},
 						'& .MuiDataGrid-actionsCell': {
-							gap: '0px',
 							'& button': {
-								color: 'black'
-							}
+								color:  theme.palette.sysAction?.primaryIcon, //altera a cor dos icones de ação
+							},
+						}
+						},
+						'& .MuiDataGrid-footerContainer':{
+							padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
+							gap: `${appStyles.sysSizing.spacingFixedXl}`,
 						}
 					},
 					row: {
@@ -355,6 +366,14 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					color: theme.palette.sysAction?.primaryIcon,
 					size: 'medium'
 				},
+				styleOverrides:{
+					root: {
+						'&:hover': {
+							color: theme.palette.sysAction?.primaryBgHover,
+						}
+					}
+				}
+
 			},
 
 			MuiToggleButton: {
@@ -772,7 +791,6 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			}
 		}
 	}
-}
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 	const fontScale = options.fontScale || 1;

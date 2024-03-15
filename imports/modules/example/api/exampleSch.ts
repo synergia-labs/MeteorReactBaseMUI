@@ -45,7 +45,7 @@ export const exampleSch = {
     },
     typeMulti: {
         type: [String],
-        label: 'Tipo com vários valores',
+        label: 'Tipos Multi',
         defaultValue: '',
         optional: false,
         multiple: true,
