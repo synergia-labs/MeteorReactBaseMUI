@@ -126,7 +126,7 @@ export const FieldComponent = ({ reactElement, name, ...otherProps }: IFieldComp
 		onChange,
 		error: error && (!value || value.length === 0) ? true : undefined,
 		label: label ? (!optional || hiddenOptionText ? label : label + ' (opcional)') : undefined,
-		disabled: mode === 'view',
+		//disabled: mode === 'view',
 		readOnly:
 			mode === 'view' ||
 			(!!reactElement.props && !!reactElement.props.readOnly) ||

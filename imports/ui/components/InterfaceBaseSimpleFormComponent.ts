@@ -7,10 +7,9 @@ export interface IBaseSimpleFormComponent {
     onKeyPress?: (e: React.SyntheticEvent<Element, Event>, a: any) => void;
     action?: IAction;
     readOnly?: boolean;
-    error?: boolean;
-    schema?: any;
+    error?: string;
+    schema?: object;
     otherProps?: any;
-    style?: object;
     help?: string;
 }
 

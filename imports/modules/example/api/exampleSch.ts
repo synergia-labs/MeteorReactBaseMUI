@@ -81,12 +81,19 @@ export const exampleSch = {
         defaultValue: '',
         optional: true,
         subSchema: {
-            phone: {
+            codeID: {
                 type: String,
-                label: 'Telefone',
+                label: 'Código',
                 defaultValue: '',
                 optional: true,
-                mask: '(##) ####-####',
+                mask: '#.####.#####-##',
+            },
+            phone: {
+                type: String,
+                label: 'Celular',
+                defaultValue: '',
+                optional: true,
+                mask: '(##) # ####-####',
             },
             cpf: {
                 type: String,
