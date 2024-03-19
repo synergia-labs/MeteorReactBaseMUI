@@ -3,15 +3,14 @@ import TextField from '@mui/material/TextField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import * as appStyle from '/imports/ui/materialui/styles';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { Box, Typography } from '@mui/material';
+import { Box, SxProps, Theme, Typography } from '@mui/material';
 import { generalMask } from '/imports/libs/MaskFunctions';
 import { removerFormatacoes } from '/imports/libs/normalizarTexto';
 import SysFormContext from '../../sysForm/sysFormContext';
 
 interface ISysTextFieldProps extends IBaseSimpleFormComponent {
-	maxCaracteres?: number;
-	help?: string;
-	mask?: string;
+	sxMap?: SxProps<Theme>;
+
 	/**
 	 *
 	 * @param value valor que é exibido.
@@ -40,7 +39,6 @@ interface ISysTextFieldProps extends IBaseSimpleFormComponent {
 	inlineError?: boolean;
 	rows?: number;
 	maxRows?: number;
-	maxLength?: number;
 	showNumberCharactersTyped?: boolean;
 	[otherPropsKey: string]: any;
 }
@@ -54,43 +52,38 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 	tooltipMessage,
 	sxMap,
 	error,
-	maxCaracteres,
-	//maxLength,
 	onChange,
 	valueTransformer = (v) => v,
 	valueFormatter = (v) => v,
 	invalidate = () => null,
 	style,
 	placeholder,
-	inlineError,
 	showNumberCharactersTyped,
 	...otherProps
 }) => {
-	const {getSysFormComponentInfo} = useContext(SysFormContext);
-    const sysFormController = getSysFormComponentInfo?.(name);
-    const [valueText, setValueText] = useState(sysFormController?.defaultValue);
-	
-	const { schema } = otherProps;
-	const mask = otherProps && otherProps.mask ? otherProps.mask : schema && schema.mask ? schema.mask : undefined;
+	const { getSysFormComponentInfo } = useContext(SysFormContext);
+	const sysFormController = getSysFormComponentInfo?.(name);
+	const schema = sysFormController?.schema;
+	const [valueText, setValueText] = useState(sysFormController?.defaultValue);
 
 	let fieldValue = value === '-' ? '-' : value;
 
 	fieldValue = valueFormatter(value);
-	if (mask && fieldValue !== undefined && fieldValue !== null) {
-		fieldValue = generalMask(fieldValue, mask);
+	if (schema?.mask && fieldValue !== undefined && fieldValue !== null) {
+		fieldValue = generalMask(fieldValue, schema?.mask);
 	}
 
 	const onFieldChange = (e) => {
 		const newValue = e.target.value;
-        setValueText(newValue);
+		setValueText(newValue);
 		//@ts-ignore
 		onChange({ name, target: { name, value: newValue } }, { name, value: newValue });
 	};
 
 	const handleApplyMask = (event: React.BaseSyntheticEvent) => {
-		const inputValue = generalMask(event.target.value, mask);
+		const inputValue = generalMask(event.target.value, schema?.mask);
 		const transformedValue = removerFormatacoes(inputValue);
-        setValueText(inputValue);
+		setValueText(inputValue);
 		//@ts-ignore
 		onChange({ name, target: { name, value: inputValue } }, { name, value: transformedValue });
 	};
@@ -107,7 +100,7 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 		);
 	};
 
-    if(!!sysFormController && !sysFormController?.isVisibile) return null;
+	if (!!sysFormController && !sysFormController?.isVisibile) return null;
 
 	if (readOnly) {
 		if (typeof fieldValue === 'object') {
@@ -149,14 +142,14 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 			) : null}
 
 			<TextField
-				style={style}
+				sx={sxMap}
 				{...otherProps}
 				key={name}
 				onChange={(e) => {
 					sysFormController?.onChange(name, e.target.value);
-					mask ? handleApplyMask(e) : onFieldChange(e)
+					sysFormController?.schema?.mask ? handleApplyMask(e) : onFieldChange(e);
 				}}
-                value={valueText}
+				value={valueText}
 				placeholder={placeholder}
 				error={!!sysFormController?.erro}
 				disabled={disabled}
@@ -164,23 +157,9 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 				name={name}
 				helperText={sysFormController?.erro}
 				label={otherProps.rounded ? label : null}
-				inputProps={{ maxLength: maxCaracteres }}
+				inputProps={{ maxLength: schema?.max }}
 			/>
 			{showNumberCharactersTyped && showNumberCaracteres()}
-
-			{inlineError && error && (
-				<div
-					style={{
-						width: '100%',
-						textAlign: 'right',
-						margin: 0,
-						padding: 1,
-						color: '#DD0000',
-						fontSize: 10
-					}}>
-					{validateMsg || `${label || 'Valor'} inválido!`}
-				</div>
-			)}
 		</div>
 	);
 };
