@@ -7,7 +7,7 @@ import { SxProps, Theme } from '@mui/system';
 /**
  * Props para o componente SysPainelExpansivo.
  */
-export interface ISysPainelExpansivo {
+interface ISysPainelExpansivo {
 	/** O título do painel. */
 	titulo: string;
 	/** O conteúdo do painel. */
@@ -38,7 +38,7 @@ export interface ISysPainelExpansivo {
 /**
  * Interface para uma ação disponível no painel.
  */
-export interface IAction {
+interface IAction {
 	/** O título da ação. */
 	tituloAcao: string;
 	/** O manipulador de evento da ação. */

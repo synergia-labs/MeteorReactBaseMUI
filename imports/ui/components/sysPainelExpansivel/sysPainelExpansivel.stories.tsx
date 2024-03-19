@@ -1,7 +1,6 @@
 import React from 'react';
 import { SysPainelExpansivo } from './sysPainelExpansivel';
 import { Meta, StoryObj } from '@storybook/react';
-import DownloadIcon from '@mui/icons-material/Download';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const meta = {
