@@ -1,6 +1,7 @@
 import { IDoc } from '/imports/typings/IDoc';
+import { ISchema } from '/imports/typings/ISchema';
 
-export const exampleSch = {
+export const exampleSch: ISchema<IExample> = {
     image: {
         type: String,
         label: 'Imagem',
@@ -15,7 +16,7 @@ export const exampleSch = {
     title: {
         type: String,
         label: 'Título',
-        defaultValue: '',
+        defaultValue: 'Lalal',
         optional: false,
     },
     description: {
@@ -27,7 +28,6 @@ export const exampleSch = {
     check: {
         type: Object,
         label: 'check box',
-        defaultValue: {},
         optional: true,
         options: ['Todo', 'Doing', 'Done'],
     },
@@ -36,12 +36,18 @@ export const exampleSch = {
         label: 'Tipo',
         defaultValue: '',
         optional: false,
-        options: [
+        options:[
             { value: 'normal', label: 'Normal' },
             { value: 'hard', label: 'Dificil' },
             { value: 'internal', label: 'Interna' },
             { value: 'extra', label: 'Extra' },
         ],
+        validationFunction: (value: string) => {
+            const regexNumeros: RegExp = /-?\d+(\.\d+)?/g;
+            if (value.length < 3) return 'Muito curto';
+            if (value.match(regexNumeros)) return "O texto deve conter apenas letras e espaços."
+            return undefined;
+        },
     },
     typeMulti: {
         type: [String],

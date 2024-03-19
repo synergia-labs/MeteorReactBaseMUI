@@ -9,6 +9,7 @@ import { IRoute } from '/imports/modules/modulesTypings';
 import {Recurso} from '../pages/Home/Recurso';
 import { NoPermission } from '../pages/NoPermission/NoPermission';
 import SignInPage from '../pages/signIn/signIn';
+import SysFormTestsPage from '../pages/sysFormTests/sysFormTestsPage';
 
 export const pagesRouterList : (IRoute | null)[] = [
 	{
@@ -17,6 +18,11 @@ export const pagesRouterList : (IRoute | null)[] = [
 		component: Home,
 		isProtected: true,
 		resources: [Recurso.HOME_VIEW],
+	},
+	{
+		path: '/sysFormTests',
+		component: SysFormTestsPage,
+		isProtected: false,
 	},
 	{
 		path: '/signin',

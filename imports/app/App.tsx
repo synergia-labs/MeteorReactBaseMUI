@@ -28,6 +28,8 @@ export const App = () => {
 	const changeFontScale = useCallback((fontScale: number) => { setFontScale(fontScale);}, []);
 	const changeThemeMode = useCallback((value : boolean) => {setDarkThemeMode(value);}, []);
 	
+
+	// Verificar renderizações desnecessárias
 	const themeOptions : ISysThemeOptions = {
 		darkMode: !!darkThemeMode,
 		fontScale,

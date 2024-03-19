@@ -18,16 +18,21 @@ export interface IDefField<C> {
     mask?: string;
     subSchema?: ISchema<any>;
     visibilityFunction?: (doc: C) => boolean;
+    validationFunction?: (value: any, doc?: C) => string | undefined;
     isImage?: boolean;
     defaultSize?: IDefaultSize;
     isAvatar?: boolean;
     isUpload?: boolean;
     multiple?: boolean;
-    options?: string[] | LabelValue[];
+    options?: Array<string> | Array<LabelValue>;
     readOnly?: boolean;
+    isAudio?: boolean;
+    isMapLocation?: boolean;
+    max?: number;
+    min?: number;
+    radiosList?: Array<string>;
 }
 
-// @ts-ignore
 export interface ISchema<T extends IDoc> {
     [key: string]: IDefField<T>;
 }

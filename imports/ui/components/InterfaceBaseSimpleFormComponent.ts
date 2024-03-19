@@ -3,15 +3,15 @@ export interface IBaseSimpleFormComponent {
     label?: string;
     placeholder?: string;
     value?: any;
-    onChange?: (fieldTarget: React.ChangeEvent<HTMLInputElement>, field: object) => void;
-    onKeyPress?: (e: React.SyntheticEvent<Element, Event>, a: any) => void;
+    onChange?: (fieldTarget: React.ChangeEvent<HTMLInputElement>) => void;
     action?: IAction;
     readOnly?: boolean;
     error?: boolean;
     schema?: any;
     otherProps?: any;
-    style?: object;
     help?: string;
+    defaultValue?: any;
+    helper?: string;
 }
 
 interface IAction {
