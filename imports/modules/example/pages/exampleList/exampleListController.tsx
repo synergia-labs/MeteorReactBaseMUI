@@ -3,14 +3,11 @@ import ExampleListView from "./exampleListView";
 import { nanoid } from 'nanoid';
 import { useNavigate } from "react-router-dom";
 import { useTracker } from "meteor/react-meteor-data";
-import { exampleApi } from "../../api/exampleApi";
+import { ISchema } from "/imports/typings/ISchema";
 import { IExample } from "../../api/exampleSch";
+import { exampleApi } from "../../api/exampleApi";
 
 interface IInitialConfig {
-	pageProperties: {
-		currentPage: number;
-		pageSize: number;
-	};
 	sortProperties: { field: string; sortAscending: boolean };
 	filter: Object;
 	searchBy: string | null;
@@ -20,15 +17,13 @@ interface IInitialConfig {
 interface IExampleListContollerContext {
     onAddButtonClick: () => void;
     todoList: IExample[];
+    schema: ISchema<any>;
+
 }
 
 export const ExampleListControllerContext = React.createContext<IExampleListContollerContext>({} as IExampleListContollerContext);
 
 const initialConfig = {
-    pageProperties: {
-        currentPage: 1,
-        pageSize: 25
-    },
     sortProperties: { field: 'createdat', sortAscending: true },
     filter: {},
     searchBy: null,
@@ -37,26 +32,24 @@ const initialConfig = {
 
 const ExampleListController = () => {
     const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
-
+    const {title, audio, image, description, type, typeMulti, createdby, ...resto} = exampleApi.getSchema();
+    const exampleSchReduzido = { title, description, type, typeMulti, nomeUsuario: { type: String, label: 'Criado por' } };
     const navigate = useNavigate();
-    const { sortProperties, filter, pageProperties } = config;
+    const { sortProperties, filter } = config;
 	const sort = {
 		[sortProperties.field]: sortProperties.sortAscending ? 1 : -1
 	};
-	const limit = pageProperties.pageSize;
-	const skip = (pageProperties.currentPage - 1) * pageProperties.pageSize;
 
-    const { loading, examples, total } = useTracker(() => {
+    const { loading, examples } = useTracker(() => {
 		const subHandle = exampleApi.subscribe('exampleList', filter, {
 			sort,
-			limit,
-			skip
 		});
 		const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : [];
 		return {
 			examples,
 			loading: !!subHandle && !subHandle.ready(),
-			total: subHandle ? subHandle.total : examples.length
+			total: subHandle ? subHandle.total : examples.length,
+
 		};
 	});
 
@@ -69,7 +62,9 @@ const ExampleListController = () => {
     return (
         <ExampleListControllerContext.Provider value={{
             onAddButtonClick,
-            todoList: examples
+            todoList: examples,
+            schema: exampleSchReduzido,
+
         }}>
             <ExampleListView />
         </ExampleListControllerContext.Provider>
