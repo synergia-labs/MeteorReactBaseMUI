@@ -20,7 +20,7 @@ const PainelExpansivoStyle = {
 	})),
 
 	acordion: styled(Accordion)(({ theme }) => ({
-		width: '50%',
+		width: '100%',
 		borderRadius: `${sysSizing.spacingFixedXs} !important`
 	})),
 
