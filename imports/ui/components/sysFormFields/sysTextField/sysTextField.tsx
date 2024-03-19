@@ -1,40 +1,186 @@
-import React, { useContext, useState } from "react";
-import { TextField, TextFieldProps } from "@mui/material";
-import { IBaseSimpleFormComponent } from "../../InterfaceBaseSimpleFormComponent";
-import SysFormContext from "../../sysForm/sysFormContext";
+import React, { useContext, useState } from 'react';
+import TextField from '@mui/material/TextField';
+import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import * as appStyle from '/imports/ui/materialui/styles';
+import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import { Box, Typography } from '@mui/material';
+import { generalMask } from '/imports/libs/MaskFunctions';
+import { removerFormatacoes } from '/imports/libs/normalizarTexto';
+import SysFormContext from '../../sysForm/sysFormContext';
 
+interface ISysTextFieldProps extends IBaseSimpleFormComponent {
+	maxCaracteres?: number;
+	help?: string;
+	mask?: string;
+	/**
+	 *
+	 * @param value valor que é exibido.
+	 * @param label nome do campo.
+	 * @return mensagem justificando valor invalido, ou true para mensagem padrão. Null se válido.
+	 */
+	invalidate?: (value: string | null, label: string) => string | null | true | false;
+	/**
+	 * transforma o dado do documento em string.
+	 */
+	valueFormatter?: (value?: any) => string;
 
-interface ISysTextField extends Omit<TextFieldProps, 'name' | 'label' | 'onChange' | 'value' | 'defaultValue'>, IBaseSimpleFormComponent {
+	/**
+	 *  tranforma o string em dado do documento
+	 */
+	valueTransformer?: (value?: string) => any;
 
+	/**
+	 * Aplica uma máscara ao valor a ser exibido.
+	 * @param value
+	 */
 
+	/**
+	 * Se verdadeiro exibe mensagem de erro no componente.
+	 */
+	inlineError?: boolean;
+	rows?: number;
+	maxRows?: number;
+	maxLength?: number;
+	showNumberCharactersTyped?: boolean;
+	[otherPropsKey: string]: any;
 }
 
-const SysTextField: React.FC<ISysTextField> = ({name}) => {
-    const {getSysFormComponentInfo} = useContext(SysFormContext);
-    const sysFormController = getSysFormComponentInfo(name);
-    console.log('Render SysTextField', name);
+export const SysTextField: React.FC<ISysTextFieldProps> = ({
+	name,
+	value,
+	label,
+	readOnly,
+	disabled,
+	tooltipMessage,
+	sxMap,
+	error,
+	maxCaracteres,
+	//maxLength,
+	onChange,
+	valueTransformer = (v) => v,
+	valueFormatter = (v) => v,
+	invalidate = () => null,
+	style,
+	placeholder,
+	inlineError,
+	showNumberCharactersTyped,
+	...otherProps
+}) => {
+	const {getSysFormComponentInfo} = useContext(SysFormContext);
+    const sysFormController = getSysFormComponentInfo?.(name);
+    const [valueText, setValueText] = useState(sysFormController?.defaultValue);
+	
+	const { schema } = otherProps;
+	const mask = otherProps && otherProps.mask ? otherProps.mask : schema && schema.mask ? schema.mask : undefined;
 
-    const [value, setValue] = useState(sysFormController?.defaultValue);
-    
+	let fieldValue = value === '-' ? '-' : value;
 
-    if(!sysFormController?.isVisibile) return null;
+	fieldValue = valueFormatter(value);
+	if (mask && fieldValue !== undefined && fieldValue !== null) {
+		fieldValue = generalMask(fieldValue, mask);
+	}
 
-    return (
-        <TextField
-            name={name}
-            value={value}
-            onChange={(e) => {
-                const {value} = e.target;
-                setValue(value);
-                sysFormController?.onChange(name, e.target.value);
-            }}
-            error={!!sysFormController?.erro}
-            helperText={sysFormController?.erro}
-            sx={{
-                transition: 'all 0.3s ease',
-            }}
-        />
-    );
+	const onFieldChange = (e) => {
+		const newValue = e.target.value;
+        setValueText(newValue);
+		//@ts-ignore
+		onChange({ name, target: { name, value: newValue } }, { name, value: newValue });
+	};
+
+	const handleApplyMask = (event: React.BaseSyntheticEvent) => {
+		const inputValue = generalMask(event.target.value, mask);
+		const transformedValue = removerFormatacoes(inputValue);
+        setValueText(inputValue);
+		//@ts-ignore
+		onChange({ name, target: { name, value: inputValue } }, { name, value: transformedValue });
+	};
+
+	const showNumberCaracteres = () => {
+		return (
+			<Box sx={{ marginLeft: 'auto', marginTop: !readOnly ? '6px' : undefined }}>
+				{otherProps?.inputProps?.maxLength ? (
+					<SimpleLabelView label={`${fieldValue?.length}/${otherProps?.inputProps?.maxLength}`} />
+				) : (
+					<SimpleLabelView label={`${fieldValue?.length}`} />
+				)}
+			</Box>
+		);
+	};
+
+    if(!!sysFormController && !sysFormController?.isVisibile) return null;
+
+	if (readOnly) {
+		if (typeof fieldValue === 'object') {
+			const objectKeys = Object.keys(fieldValue);
+			return (
+				<>
+					{objectKeys.map((key) => (
+						<>
+							<Typography>{key}</Typography>
+							<Typography>{fieldValue[key]}</Typography>
+						</>
+					))}
+				</>
+			);
+		}
+
+		return (
+			<>
+				<Typography>{label}</Typography>
+				<Typography>{fieldValue}</Typography>
+			</>
+		);
+	}
+
+	return (
+		<div
+			key={name}
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				...appStyle.fieldContainer
+			}}>
+			{label && !otherProps.rounded ? (
+				<SimpleLabelView
+					label={label}
+					help={tooltipMessage}
+					style={style ? { displayLabel: style.displayLabel } : undefined}
+				/>
+			) : null}
+
+			<TextField
+				style={style}
+				{...otherProps}
+				key={name}
+				onChange={(e) => {
+					sysFormController?.onChange(name, e.target.value);
+					mask ? handleApplyMask(e) : onFieldChange(e)
+				}}
+                value={valueText}
+				placeholder={placeholder}
+				error={!!sysFormController?.erro}
+				disabled={disabled}
+				id={name}
+				name={name}
+				helperText={sysFormController?.erro}
+				label={otherProps.rounded ? label : null}
+				inputProps={{ maxLength: maxCaracteres }}
+			/>
+			{showNumberCharactersTyped && showNumberCaracteres()}
+
+			{inlineError && error && (
+				<div
+					style={{
+						width: '100%',
+						textAlign: 'right',
+						margin: 0,
+						padding: 1,
+						color: '#DD0000',
+						fontSize: 10
+					}}>
+					{validateMsg || `${label || 'Valor'} inválido!`}
+				</div>
+			)}
+		</div>
+	);
 };
-
-export default SysTextField;
