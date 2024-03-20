@@ -206,6 +206,7 @@ const button = (_fontScale: number = 1) => ({
 	fontWeight: 600,
 	fontStyle: 'normal',
 	lineHeight: 'normal',
+	textTransform: 'none'
 });
 
 const button2 = (_fontScale: number = 1) => ({
