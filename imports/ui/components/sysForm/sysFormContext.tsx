@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import { IDefField, ISchema } from '/imports/typings/ISchema';
+import { IDefField } from '/imports/typings/ISchema';
 
 interface ISysFormContext {
 	getSysFormComponentInfo: (name: string) =>
