@@ -220,11 +220,10 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							'& button': {
 								color:  theme.palette.sysAction?.primaryIcon, //altera a cor dos icones de ação
 							},
-						}
-						},
-						'& .MuiDataGrid-footerContainer':{
-							padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
-							gap: `${appStyles.sysSizing.spacingFixedXl}`,
+							'& .MuiDataGrid-footerContainer':{
+								padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
+								gap: `${appStyles.sysSizing.spacingFixedXl}`,
+							}
 						}
 					},
 					row: {
@@ -791,6 +790,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			}
 		}
 	}
+}
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 	const fontScale = options.fontScale || 1;
