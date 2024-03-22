@@ -6,6 +6,11 @@ import { SysTextField } from '/imports/ui/components/sysFormFields/sysTextField/
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 
 const SysFormTestsPage: React.FC = () => {
+	const [dados, setDados] = React.useState<any>('');
+
+	const handleChangeData = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setDados(e.target.value);
+	};
 	return (
 		<Box
 			sx={{
@@ -26,7 +31,7 @@ const SysFormTestsPage: React.FC = () => {
 				<SysTextField key={'f1-tituloKEY'} placeholder="Titulo" name="title" />
 				<SysTextField key={'f1-descricaoKEY'} placeholder="Descrição" name="description" maxCaracteres={30} />
 
-				<SysTextField key={'f3-TelefoneKEY'} placeholder="Telefone" name="phone" />
+				<SysTextField key={'f3-TelefoneKEY'} placeholder="Telefone" name="phone" onChange={handleChangeData} />
 				<SysTextField key={'f3-CPFKEY'} placeholder="CPF" name="cpf" />
 				<SysTextField key={'f3-CodeIDY'} placeholder="Código" name="codeID" />
 

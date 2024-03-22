@@ -2,14 +2,18 @@ import React, { useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import * as appStyle from '/imports/ui/materialui/styles';
-import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { Box, SxProps, Theme, Typography } from '@mui/material';
+import { Box, InputAdornment, SxProps, Theme, Typography } from '@mui/material';
 import { generalMask } from '/imports/libs/MaskFunctions';
 import { removerFormatacoes } from '/imports/libs/normalizarTexto';
 import SysFormContext from '../../sysForm/sysFormContext';
+import { SysViewField } from '../sysViewField/sysViewField';
 
-interface ISysTextFieldProps extends IBaseSimpleFormComponent {
+interface ISysTextFieldProps {
 	sxMap?: SxProps<Theme>;
+	startAdormentPosition?: boolean;
+	endAdormentPosition?: boolean;
+	startAdornment?: React.ReactNode;
+	endAdornment?: React.ReactNode;
 
 	/**
 	 *
@@ -57,44 +61,47 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 	valueFormatter = (v) => v,
 	invalidate = () => null,
 	style,
+	mask,
 	placeholder,
 	showNumberCharactersTyped,
+	startAdormentPosition,
+	endAdormentPosition,
+	startAdornment,
+	endAdornment,
 	...otherProps
 }) => {
 	const { getSysFormComponentInfo } = useContext(SysFormContext);
 	const sysFormController = getSysFormComponentInfo?.(name);
 	const schema = sysFormController?.schema;
-	const [valueText, setValueText] = useState(sysFormController?.defaultValue);
+	const data = generalMask(sysFormController?.defaultValue, mask);
+	const [valueText, setValueText] = useState(data || value || '');
 
-	let fieldValue = value === '-' ? '-' : value;
+	mask = mask ? mask : schema?.mask;
 
-	fieldValue = valueFormatter(value);
-	if (schema?.mask && fieldValue !== undefined && fieldValue !== null) {
-		fieldValue = generalMask(fieldValue, schema?.mask);
-	}
+	error = error ? error : sysFormController?.erro;
 
-	const onFieldChange = (e) => {
+	const onFieldChange = (e: React.BaseSyntheticEvent) => {
 		const newValue = e.target.value;
-		setValueText(newValue);
-		//@ts-ignore
-		onChange({ name, target: { name, value: newValue } }, { name, value: newValue });
-	};
-
-	const handleApplyMask = (event: React.BaseSyntheticEvent) => {
-		const inputValue = generalMask(event.target.value, schema?.mask);
-		const transformedValue = removerFormatacoes(inputValue);
-		setValueText(inputValue);
-		//@ts-ignore
-		onChange({ name, target: { name, value: inputValue } }, { name, value: transformedValue });
+		if (mask) {
+			const inputValue = generalMask(newValue, mask);
+			const transformedValue = removerFormatacoes(inputValue);
+			setValueText(inputValue);
+			sysFormController?.onChange(name, transformedValue);
+			onChange(e);
+		} else {
+			setValueText(newValue);
+			sysFormController?.onChange(name, newValue);
+			onChange(e);
+		}
 	};
 
 	const showNumberCaracteres = () => {
 		return (
 			<Box sx={{ marginLeft: 'auto', marginTop: !readOnly ? '6px' : undefined }}>
 				{otherProps?.inputProps?.maxLength ? (
-					<SimpleLabelView label={`${fieldValue?.length}/${otherProps?.inputProps?.maxLength}`} />
+					<SimpleLabelView label={`${valueText?.length}/${otherProps?.inputProps?.maxLength}`} />
 				) : (
-					<SimpleLabelView label={`${fieldValue?.length}`} />
+					<SimpleLabelView label={`${valueText?.length}`} />
 				)}
 			</Box>
 		);
@@ -103,24 +110,9 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 	if (!!sysFormController && !sysFormController?.isVisibile) return null;
 
 	if (readOnly) {
-		if (typeof fieldValue === 'object') {
-			const objectKeys = Object.keys(fieldValue);
-			return (
-				<>
-					{objectKeys.map((key) => (
-						<>
-							<Typography>{key}</Typography>
-							<Typography>{fieldValue[key]}</Typography>
-						</>
-					))}
-				</>
-			);
-		}
-
 		return (
 			<>
-				<Typography>{label}</Typography>
-				<Typography>{fieldValue}</Typography>
+				<SysViewField label={label} placeholder={value} />
 			</>
 		);
 	}
@@ -143,21 +135,26 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 
 			<TextField
 				sx={sxMap}
-				{...otherProps}
 				key={name}
 				onChange={(e) => {
-					sysFormController?.onChange(name, e.target.value);
-					sysFormController?.schema?.mask ? handleApplyMask(e) : onFieldChange(e);
+					onFieldChange(e);
 				}}
 				value={valueText}
 				placeholder={placeholder}
-				error={!!sysFormController?.erro}
+				error={!!error}
 				disabled={disabled}
 				id={name}
 				name={name}
-				helperText={sysFormController?.erro}
+				helperText={error}
 				label={otherProps.rounded ? label : null}
 				inputProps={{ maxLength: schema?.max }}
+				{...otherProps}
+				InputProps={{
+					startAdornment: startAdormentPosition ? (
+						<InputAdornment position="start">{startAdornment}</InputAdornment>
+					) : null,
+					endAdornment: endAdormentPosition ? <InputAdornment position="end">{endAdornment}</InputAdornment> : null
+				}}
 			/>
 			{showNumberCharactersTyped && showNumberCaracteres()}
 		</div>
