@@ -4,7 +4,7 @@ import { IDefField } from '/imports/typings/ISchema';
 interface ISysFormContext {
 	getSysFormComponentInfo: (name: string) =>
 		| {
-				schema: IDefField<any>;
+				schema?: IDefField<any>;
 				isVisibile: boolean;
 				isOptional: boolean;
 				onChange: (key: string, value: any) => void;

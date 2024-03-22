@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, styled, Typography } from '@mui/material';
-import { sysSizing } from '../../materialui/styles';
+import { sysSizing } from '../../../materialui/styles';
 
 interface IInfo {
 	type: 'label' | 'placeholder';

@@ -47,33 +47,34 @@ export const mascaraPontosFixos = (value: string | undefined): string => {
 };
 
 
-export const generalMask = (inputValue: string, mask: string) => {
+export const generalMask = (inputValue?: string, mask?: string): string => {
 
+	if (!mask) return inputValue || '';
 
-	let text = '';
-	const data = inputValue;
-	let c;
+	let text: string = '';
+	const data: string | undefined = inputValue;
+	let c: string | undefined;
 
-	let m;
+	let m: string | undefined;
 
-	let i;
+	let i: number;
 
-	let x;
+	let x: number;
 
-	let valueCharCount = 0;
-	for (i = 0, x = 1; x && i < mask.length; ++i) {
-		c = data.charAt(valueCharCount);
+	let valueCharCount: number = 0;
+	for (i = 0, x = 1; x && i < (mask ? mask.length : 0); ++i) {
+		c = data?.charAt(valueCharCount);
 		m = mask.charAt(i);
 
-		if (valueCharCount >= data.length) {
+		if (valueCharCount >= (data?.length || 0)) {
 			break;
 		}
 
 		switch (mask.charAt(i)) {
 			case '9': // Number
 			case '#': // Number
-				if (/\d/.test(c)) {
-					text += c;
+				if (/\d/.test(c || '')) {
+					text += c || '';
 					valueCharCount++;
 				} else {
 					x = 0;
@@ -82,18 +83,18 @@ export const generalMask = (inputValue: string, mask: string) => {
 
 			case '8': // Alphanumeric
 			case 'A': // Alphanumeric
-				if (/[a-z]/i.test(c)) {
-					text += c;
+				if (/[a-z]/i.test(c || '')) {
+					text += c || '';
 					valueCharCount++;
 				} else {
 					x = 0;
 				}
 				break;
 
-			case '7': // Number or Alphanumerica
-			case 'N': // Number or Alphanumerica
-				if (/[a-z0-9]/i.test(c)) {
-					text += c;
+			case '7': // Number or Alphanumeric
+			case 'N': // Number or Alphanumeric
+				if (/[a-z0-9]/i.test(c || '')) {
+					text += c || '';
 					valueCharCount++;
 				} else {
 					x = 0;
@@ -102,7 +103,7 @@ export const generalMask = (inputValue: string, mask: string) => {
 
 			case '6': // Any
 			case 'X': // Any
-				text += c;
+				text += c || '';
 				valueCharCount++;
 
 				break;
