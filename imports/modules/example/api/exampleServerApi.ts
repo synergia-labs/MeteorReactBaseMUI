@@ -23,7 +23,6 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			},
 			(doc: IExample & { nomeUsuario: string }) => {
 				const userProfileDoc = userprofileServerApi.getCollectionInstance().findOne({ _id: doc.createdby });
-				console.log(doc)
 				return { ...doc };
 			}
 		);
