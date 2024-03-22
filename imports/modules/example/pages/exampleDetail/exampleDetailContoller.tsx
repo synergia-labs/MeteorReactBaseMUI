@@ -24,6 +24,7 @@ const ExampleDetailController = () => {
     const navigate = useNavigate();
     const exampleContext = useContext(ExampleModuleContext);
     const {showNotification} = useContext(SysAppLayoutContext);
+    
 
     const {document, loading}  = useTracker(() => {
         const {id} = exampleContext;
@@ -41,6 +42,7 @@ const ExampleDetailController = () => {
 
     const onSubmit = useCallback((doc: IExample) => {
         const {state} = exampleContext;
+        console.log(doc)
         const selectedAction = state === 'create' ? 'insert' : 'update';
 			exampleApi[selectedAction](doc, (e: IMeteorError) => {
 				if (!e) {

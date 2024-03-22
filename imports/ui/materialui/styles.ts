@@ -236,7 +236,7 @@ const body1 = (_fontScale: number = 1) => ({
 const body2 = (_fontScale: number = 1) => ({
 	fontFamily: fontFamily,
 	fontSize: `${0.875 * _fontScale}rem`,
-	fontWeight: 600,
+	fontWeight: 400,
 	fontStyle: 'normal',
 	lineHeight: 'normal',
 });

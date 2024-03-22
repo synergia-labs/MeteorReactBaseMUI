@@ -19,7 +19,7 @@ import Box from '@mui/material/Box';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import { Variant } from '@mui/material/styles/createTypography';
-import { complexTableStyle } from './ComplexTableStyle';
+import { ComplexTableContainer, ComplexTableRenderImg, ComplexTableRowText } from './ComplexTableStyle';
 import { Toolbar } from './Toolbar';
 import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
 import { IconButton, Tooltip } from '@mui/material';
@@ -303,9 +303,8 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				? (params: GridRenderCellParams) => {
 						if (schema[key].isImage || schema[key].isAvatar) {
 							return (
-								<Box
+								<ComplexTableRenderImg
 									component="img"
-									sx={complexTableStyle.renderImg}
 									src={params.value}
 									onError={(e: React.BaseSyntheticEvent) => {
 										e.target.onerror = null;
@@ -319,9 +318,9 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
 							return (
 								<Tooltip title={value} arrow={true}>
-									<Typography variant='body2' sx={complexTableStyle.rowText}>
+									<ComplexTableRowText variant='body2'>
 										{value}
-									</Typography>
+									</ComplexTableRowText>
 								</Tooltip>
 							);
 						}
@@ -383,7 +382,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							label={action.label}
 							icon={typeof action.icon === 'function' ? action.icon(params.row) : action.icon}
 							disabled={!!action.disabled}
-							sx={complexTableStyle.actionsMenu}
 							onClick={(evt: React.SyntheticEvent) => {
 								evt.stopPropagation();
 								action.onClick(params.row);
@@ -407,7 +405,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	}, [selectionModel]);
 
 	return (
-		<Box sx={{ ...complexTableStyle.container}}>
+		<ComplexTableContainer>
 			<DataGrid
 				rows={data}
 				columns={columns}
@@ -438,7 +436,20 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						filterIconWidth
 					},
 					columnsPanel: {
-						sx: { ...complexTableStyle.columnsPanel }
+						sx: { 
+							'& .MuiInputBase-root': {
+								border: 'none'
+							},
+							'& .MuiDataGrid-panelHeader': {
+								margin: '0.5rem 0.5rem 0.25rem 0.5rem'
+							},
+							'& .MuiDataGrid-columnsPanel ': {
+								margin: '0 0.25rem 0 0.25rem'
+							},
+							'& .MuiDataGrid-panelFooter': {
+								margin: '0.75rem'
+							}
+						 }
 					},
 					baseButton: {
 						sx: {
@@ -469,6 +480,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				pageSizeOptions={[15,20,25]}
 
 			/>
-		</Box>
+		</ComplexTableContainer>
 	);
 };
