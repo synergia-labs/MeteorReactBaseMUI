@@ -1,7 +1,7 @@
-import { IUserProfile } from '/imports/userprofile/api/UserProfileSch';
 import { mapRolesRecursos } from '/imports/security/config/MapRolesRecursos';
 import { Meteor } from 'meteor/meteor';
 import { getSystemUserProfile } from '/imports/libs/getUser';
+import { IUserProfile } from '/imports/modules/userprofile/api/UserProfileSch';
 
 type Recurso = string;
 
