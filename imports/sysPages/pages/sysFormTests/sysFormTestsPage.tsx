@@ -22,18 +22,15 @@ const SysFormTestsPage: React.FC = () => {
 				flexDirection: 'column',
 				gap: 2
 			}}>
-			<SysForm schema={exampleSch} doc={{}} mode="create" onSubmit={() => {}}>
+			<SysForm schema={exampleSch} doc={{}} mode="create" onSubmit={() => {}} onChange={(doc) => {setDados(doc)}}>
 				<Typography variant="h3">SysForm Tests</Typography>
+				<code style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(dados, null, 2)}</code>
+
 				<SysTextField name="type" />
 				<SysTextField name="title" />
 				<SysTextField name="typeMulti" />
 
-				<SysTextField key={'f1-tituloKEY'} placeholder="Titulo" name="title" />
-				<SysTextField key={'f1-descricaoKEY'} placeholder="Descrição" name="description" maxCaracteres={30} />
-
-				<SysTextField key={'f3-TelefoneKEY'} placeholder="Telefone" name="phone" onChange={handleChangeData} />
-				<SysTextField key={'f3-CPFKEY'} placeholder="CPF" name="cpf" />
-				<SysTextField key={'f3-CodeIDY'} placeholder="Código" name="codeID" />
+				
 
 				<Box
 					sx={(theme) => ({

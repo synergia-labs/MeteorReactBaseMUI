@@ -4,12 +4,12 @@ import SysFormContext from "../../sysForm/sysFormContext";
 
 const SysFormButton: React.FC<ButtonProps> = (props) => {
     const {getSysFormButtonInfo} = useContext(SysFormContext);
-    const sysFormController = getSysFormButtonInfo();
+    const sysFormController = getSysFormButtonInfo?.();
 
     return (
         <Button 
-            disabled={sysFormController.disabled}
-            onClick={sysFormController.onClick}
+            disabled={sysFormController?.disabled}
+            onClick={sysFormController?.onClick}
 
         {...props} />
     );

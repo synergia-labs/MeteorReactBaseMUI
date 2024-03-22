@@ -44,6 +44,7 @@ interface ISysTextFieldProps {
 	rows?: number;
 	maxRows?: number;
 	showNumberCharactersTyped?: boolean;
+	onChange?: (e: React.BaseSyntheticEvent) => void;
 	[otherPropsKey: string]: any;
 }
 
@@ -80,18 +81,17 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 
 	error = error ? error : sysFormController?.erro;
 
-	const onFieldChange = (e: React.BaseSyntheticEvent) => {
+	function onFieldChange(e: React.BaseSyntheticEvent) {
 		const newValue = e.target.value;
 		if (mask) {
 			const inputValue = generalMask(newValue, mask);
 			const transformedValue = removerFormatacoes(inputValue);
 			setValueText(inputValue);
-			sysFormController?.onChange(name, transformedValue);
-			onChange(e);
+			sysFormController?.onChange({name, value: transformedValue});
 		} else {
+			console.log('newValue', sysFormController?.onChange);
 			setValueText(newValue);
-			sysFormController?.onChange(name, newValue);
-			onChange(e);
+			sysFormController?.onChange({name, value: newValue});
 		}
 	};
 

@@ -1,5 +1,6 @@
 import React, { createContext } from 'react';
 import { IDefField } from '/imports/typings/ISchema';
+import { IOnChangeDocValue } from './sysForm';
 
 interface ISysFormContext {
 	getSysFormComponentInfo: (name: string) =>
@@ -7,7 +8,7 @@ interface ISysFormContext {
 				schema?: IDefField<any>;
 				isVisibile: boolean;
 				isOptional: boolean;
-				onChange: (key: string, value: any) => void;
+				onChange: ({name, value} : IOnChangeDocValue) => void;
 				erro: string | undefined;
 				defaultValue: any;
 		  }
