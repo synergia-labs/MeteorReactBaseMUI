@@ -7,7 +7,7 @@ export const ComplexTableContainer = styled(Box)(() => ({
 }));
 
 
-export const ComplexTableRenderImg = styled(Box)(() => ({
+export const ComplexTableRenderImg = styled("img")(() => ({
 	maxHeight: '50%',
 	maxWidth: '50%',
 	borderRadius: '50%'

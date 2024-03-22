@@ -304,7 +304,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						if (schema[key].isImage || schema[key].isAvatar) {
 							return (
 								<ComplexTableRenderImg
-									component="img"
 									src={params.value}
 									onError={(e: React.BaseSyntheticEvent) => {
 										e.target.onerror = null;
