@@ -36,7 +36,7 @@ const SysFormTestsStyles: ISysFormTestsStyles = {
         gap: '1rem',
         width: '100%',
         alignItems: 'flex-start',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
     }),
     codeContainer: styled(Paper)(({theme}) => ({
         width: '50%',

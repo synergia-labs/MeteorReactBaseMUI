@@ -7,6 +7,7 @@ import { sysFormTestsSch } from './sysFormTestsSch';
 import { SysTextField } from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import CodeViewSysForm from './components/codeViewSysForm';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = React.useState<{[key:string] : any}>({});
@@ -32,22 +33,8 @@ const SysFormTestsPage: React.FC = () => {
 			<Typography variant="h5">Schema e docValues</Typography>
 			<Box sx={{display: 'flex', flexDirection:'column', width:'100%'}}>
 				<SysFormTestsStyles.schemaAndValues>
-					<SysFormTestsStyles.codeContainer>
-						<SysFormTestsStyles.codeContainerHeader>
-							<Typography variant="h6">Schema</Typography>
-						</SysFormTestsStyles.codeContainerHeader>
-						<SysFormTestsStyles.codeContainerContent>
-							<code style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(sysFormTestsSch, null, 2)}</code>
-						</SysFormTestsStyles.codeContainerContent>	
-					</SysFormTestsStyles.codeContainer>
-					<SysFormTestsStyles.codeContainer>
-						<SysFormTestsStyles.codeContainerHeader sx={{backgroundColor: theme => theme.palette.secondary.main}}>
-							<Typography variant="h6">docValues</Typography>
-						</SysFormTestsStyles.codeContainerHeader>
-						<SysFormTestsStyles.codeContainerContent>
-							<code style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(dados, null, 2)}</code>
-						</SysFormTestsStyles.codeContainerContent>
-					</SysFormTestsStyles.codeContainer>
+					<CodeViewSysForm type="schema" document={sysFormTestsSch} />
+					<CodeViewSysForm type="docValues" document={dados} />
 				</SysFormTestsStyles.schemaAndValues>
 				<Typography variant="caption" sx={{mt: '5px'}}>*obs: As funções como de visibilidade e validação não aparecem nessa visualização do schema.</Typography>
 			</Box>
@@ -76,7 +63,7 @@ const SysFormTestsPage: React.FC = () => {
 				>
 					<SysTextField name="title" />
 
-					<SysTextField name="type" />
+					<SysTextField name="type" placeholder = "Teste" label="Teste 01	" />
 					<SysTextField name="typeMulti" />
 					<SysTextField name="contacts.cpf" />
 					<SysTextField name="contacts.phone" />

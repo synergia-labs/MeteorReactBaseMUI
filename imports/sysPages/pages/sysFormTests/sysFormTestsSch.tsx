@@ -5,7 +5,7 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
     title: {
         type: String,
         label: 'Título',
-        defaultValue: 'Lalal',
+        defaultValue: 'Teste',
         optional: false,
     },
     type: {
