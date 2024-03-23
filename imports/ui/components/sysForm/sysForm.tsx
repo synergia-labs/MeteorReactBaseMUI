@@ -1,40 +1,118 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState, ForwardRefRenderFunction, forwardRef, useRef, useImperativeHandle } from 'react';
-import { ISchema } from '/imports/typings/ISchema';
+import React, { createContext, useCallback, useEffect, useMemo, useState, ForwardRefRenderFunction, forwardRef, useRef, useImperativeHandle, useContext } from 'react';
 import { hasValue } from '/imports/libs/hasValue';
-import SysFormContext, { ISysFormContext } from './sysFormContext';
+import { IDocValues, IOnChangeDocValue, ISysForm, ISysFormContext, ISysFormRef, ISysFormState } from './typings';
+import { IDefField, ISchema } from '/imports/typings/ISchema';
+import { SysAppLayoutContext } from '/imports/app/AppLayout';
 
-interface IDocValues {
-	[key: string]: any;
-}
+const SysFormContext = createContext<ISysFormContext>({} as ISysFormContext);
 
-interface ISysForm {
-	schema: ISchema<any>;
-	doc: IDocValues;
-	mode: 'view' | 'edit' | 'create';
-	ref?: React.RefObject<HTMLFormElement>;
-	disabled?: boolean;
-	loading?: boolean;
-	onChange?: (doc: IDocValues) => void;
-	onSubmit?: (doc: IDocValues) => void;
-	children?: React.ReactNode;
-}
+const getSchemInfo = (schema: ISchema<any>, name: string) : IDefField<any>  => {
+	try{
+		const path = name.split('.');
+		if(path.length > 4 ) throw new Error('Não é possível ter mais que 4 níveis de aninhamento de subSchemas.');
+		if(path.length === 1) return schema[name];
+		if(!schema[path[0]].subSchema) throw new Error(`O campo não possui subSchema.`);
+		return getSchemInfo(schema[path[0]].subSchema!, path.slice(1).join('.'));
+	}catch(e: any){
+		throw new Error(`Erro ao buscar informações do campo ${name}: ${e.message}`);
+	}
+};
 
-interface ISysFormRef {
-	doc: IDocValues;
-	onChangeDocValue: ({name, value}: IOnChangeDocValue) => void;
+const getValueDocValue = (doc: IDocValues, name: string, schema: ISchema<any>) : any => {
+	try{
+		const path = name.split('.');
+		if(path.length === 1) return doc[name];
+		if(!doc[path[0]]) return undefined;
+		if(!schema[path[0]].subSchema) throw new Error(`O campo não possui subSchema.`);
+		return getValueDocValue(doc[path[0]], path.slice(1).join('.'), schema[path[0]].subSchema!);
+	}catch(e: any){
+		throw new Error(`Erro ao buscar valor do campo ${name}: ${e.message}`);
+	}
 
-}
+};
 
-interface ISysFormState {
-	loading: boolean;
-	disabled: boolean;
-	fieldsWithErrors: { [key: string]: string | undefined };
-}
+const setNewValueDocValue = (doc: IDocValues, name: string, value: any, schema: ISchema<any>) : IDocValues => {
+	try{
+		const path = name.split('.');
+		if(path.length === 1) return {...doc, [name]: value};
+		if(!doc[path[0]]) return doc;
+		if(!schema[path[0]].subSchema) throw new Error(`O campo não possui subSchema.`);
+		return {...doc, [path[0]]: setNewValueDocValue(doc[path[0]], path.slice(1).join('.'), value, schema[path[0]].subSchema!)};
+	}catch(e: any){
+		throw new Error(`Erro ao setar novo valor do campo ${name}: ${e.message}`);
+	}
+};
 
-export interface IOnChangeDocValue {
-	name: string;
-	value: any;
-}
+const getInitialParams = (
+	schema: ISchema<any>,
+	doc: IDocValues,
+	initialDefaultValues: IDocValues = {},
+	initialRequiredFields: string[] = [],
+	fieldsWithVisibilityFunction: string[] = []
+): {
+	initialDefaultValues: IDocValues;
+	initialRequiredFields: string[];
+	fieldsWithVisibilityFunction: string[];
+} => {
+	for (const key in schema) {
+		const { defaultValue, optional, visibilityFunction, subSchema } = schema[key];
+	  	if (!subSchema) {
+			const value = doc[key] !== undefined ? doc[key] : defaultValue;
+			initialDefaultValues[key] = value;
+			if (!optional) initialRequiredFields.push(key);
+			if (visibilityFunction) fieldsWithVisibilityFunction.push(key);
+	  	} else {
+			const {
+		  		initialDefaultValues: subInitialDefaultValues,
+		  		initialRequiredFields: subInitialRequiredFields,
+		  		fieldsWithVisibilityFunction: subFieldsWithVisibilityFunction,
+			} = getInitialParams(subSchema, doc[key] || {});
+			initialDefaultValues[key] = subInitialDefaultValues;
+			initialRequiredFields.push(...subInitialRequiredFields.map((field) => `${key}.${field}`));
+			fieldsWithVisibilityFunction.push(
+		 		...subFieldsWithVisibilityFunction.map((field) => `${key}.${field}`)
+			);
+	  	}
+	}
+	return { initialDefaultValues, initialRequiredFields, fieldsWithVisibilityFunction };
+};
+
+const validateFields = (
+	schema: ISchema<any>,
+	doc: IDocValues,
+	parentKey: string = '',
+	fieldsWithErrors: { [key: string]: string | undefined } = {}
+) : { [key: string]: string | undefined } => {
+	for (const key in schema) {
+		const currentKey = parentKey ? `${parentKey}.${key}` : key;
+  
+	  	if (schema[key].subSchema) {
+			fieldsWithErrors = validateFields(
+		  	schema[key].subSchema!,
+		  	doc[key] || {},
+		  	currentKey,
+		  	fieldsWithErrors
+			);
+	  	}
+  
+	  	const { validationFunction } = schema[key];
+	  	if (validationFunction) {
+			const value = getValueDocValue(doc, key, schema);
+			const isOptional = schema[key].optional;
+			const error = (isOptional && (value === undefined || value === '')) ? "Esse campo é obrigatório" : validationFunction(value, doc);
+			if (error) {
+		  		fieldsWithErrors[currentKey] = error;
+			}
+	  }
+	}
+	return fieldsWithErrors;
+};
+  
+
+const compareArrays = (arr1: Array<any>, arr2: Array<any>): boolean => {
+	return arr1.some((item) => !arr2.includes(item)) || arr2.some((item) => !arr1.includes(item));
+};
+
 
 const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	schema,
@@ -42,24 +120,26 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	mode = 'create',
 	disabled = false,
 	loading = false,
+	submitWithKeyEnter = true,
 	onChange,
 	onSubmit,
 	children
 }, ref) => {
-	const { initialDefaultValues, initialRequiredFields, fieldsWithVisibilityFunction } = useMemo(() => {
-		let initialDefaultValues: { [key: string]: any } = {};
-		let initialRequiredFields: Array<string> = [];
-		let fieldsWithVisibilityFunction: Array<string> = [];
-		Object.keys(schema).forEach((key) => {
-			if (!schema[key].optional) initialRequiredFields.push(key);
-			if (!!schema[key].visibilityFunction) fieldsWithVisibilityFunction.push(key);
-			if (doc[key]) initialDefaultValues[key] = doc[key];
-			else if (schema[key].defaultValue) initialDefaultValues[key] = schema[key].defaultValue;
-		});
-		return { initialDefaultValues, initialRequiredFields, fieldsWithVisibilityFunction };
+	const {showNotification} = useContext(SysAppLayoutContext);
+
+	const {initialDefaultValues, initialRequiredFields, fieldsWithVisibilityFunction } = useMemo(() => {
+		try{
+			if(!schema) throw new Error('Não há um schema definido para o sysForm.');
+			return getInitialParams(schema, doc);
+		}catch(e:any){
+			showNotification({title: 'Erro ao iniciar SysForm', message: e.message, type: 'error'});
+			return { initialDefaultValues: {}, initialRequiredFields: [], fieldsWithVisibilityFunction: [] };
+		}
 	}, [schema]);
 
-	const docValues = useRef<IDocValues>(doc);
+	const docValues = useRef<IDocValues>(initialDefaultValues);
+	
+
 	const [hiddenFields, setHiddenFields] = useState<Array<string>>([]);
 	const [requiredFieldsFilled, setRequiredFieldsFilled] = useState<boolean>(false);
 	const [state, setState] = useState<ISysFormState>({
@@ -68,100 +148,123 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		fieldsWithErrors: {}
 	});
 
-	const onChangeDocValue = useCallback(({name, value}: IOnChangeDocValue) => {
-		docValues.current = {
-			...docValues.current,
-			[name]: value
-		};
-		console.log(docValues.current);
-		checkIfAllRequiredFieldsAreFilled();
-		checkHiddenFieldsVisibility();
-		onChange?.(docValues.current);	
-	}, []);
+	const hiddenFieldsRef = useRef(hiddenFields);
+	const requiredFieldsFilledRef = useRef(requiredFieldsFilled);
 
 	const checkIfAllRequiredFieldsAreFilled = useCallback(() => {
 		const allRequiredFieldsAreFilled = initialRequiredFields.length === 0
 			? true
 			: initialRequiredFields.every((key) => {
-				if (schema[key].visibilityFunction) {
-					return schema[key].visibilityFunction?.(docValues.current);
+				const shcemaInfo = getSchemInfo(schema, key);
+				if (!!shcemaInfo.visibilityFunction && !shcemaInfo.visibilityFunction?.(docValues.current)) {
+					return true;
 				}
-				return hasValue(docValues.current[key]);
+				return hasValue(getValueDocValue(docValues.current, key, schema));
 			});
-		if(allRequiredFieldsAreFilled !== requiredFieldsFilled)
+		if(allRequiredFieldsAreFilled !== requiredFieldsFilledRef.current){
+			requiredFieldsFilledRef.current = allRequiredFieldsAreFilled;
 			setRequiredFieldsFilled(allRequiredFieldsAreFilled);
-	}, [requiredFieldsFilled, initialDefaultValues]);
+		}
 
-	const __compareArrays = useCallback((arr1: Array<any>, arr2: Array<any>): boolean => {
-		return arr1.some((item) => !arr2.includes(item)) || arr2.some((item) => !arr1.includes(item));
-	}, []);
+	}, [initialDefaultValues, requiredFieldsFilled]);
 
-	const checkHiddenFieldsVisibility = useCallback(() => {
+	const checkVisibilityFields = useCallback(() => {
 		const newHiddenFields = fieldsWithVisibilityFunction.filter((field) => {
-			return !schema[field].visibilityFunction?.(docValues.current);
+			const schemaInfo = getSchemInfo(schema, field);
+			return !schemaInfo.visibilityFunction?.(docValues.current);
 		});
-		if(hiddenFields.length === newHiddenFields.length && __compareArrays(hiddenFields, newHiddenFields)) return;
-		setHiddenFields(newHiddenFields);
+
+		if(compareArrays(hiddenFieldsRef.current, newHiddenFields)){
+			hiddenFieldsRef.current = newHiddenFields;
+			setHiddenFields(newHiddenFields);
+		}
+
 	}, [hiddenFields]);
-	
-	
-	
-	
-	
-	
-	
-	useImperativeHandle(ref, () => ({
-		doc: docValues.current,
-		onChangeDocValue
-	}), []);
+
+	const onChangeDocValue = useCallback(({name, value}: IOnChangeDocValue) => {
+		docValues.current = setNewValueDocValue(docValues.current, name, value, schema);
+		checkIfAllRequiredFieldsAreFilled();
+		checkVisibilityFields();
+		onChange?.(docValues.current);	
+	}, []);
 
 	const getSysFormComponentInfo = useCallback(
 		(name: string) => {
-			console.log('name', name);
-			if (!schema[name]) return undefined;
+			if (!!!getSchemInfo(schema, name)) return undefined;
 			return {
 				isVisibile: !hiddenFields.includes(name),
-				isOptional: !!schema[name].optional,
+				isOptional: !!getSchemInfo(schema, name).optional,
 				onChange: onChangeDocValue,
-				readOnly: mode === 'view' || schema[name].readOnly,
+				readOnly: mode === 'view' || getSchemInfo(schema, name).readOnly,
 				loading: state.loading,
 				erro: state.fieldsWithErrors[name],
-				defaultValue: docValues.current[name],
-				schema: schema[name]
+				defaultValue: getValueDocValue(docValues.current, name, schema),
+				schema: getSchemInfo(schema, name)
 			};
 		},
 		[hiddenFields, state]
 	);
 
+	const validate = useCallback(() => {
+		try{
+			const fieldsWithErrors = validateFields(schema, docValues.current);
+			setState((prev) => ({ ...prev, fieldsWithErrors }));
+			if(!requiredFieldsFilledRef.current) throw new Error('Preencha todos os campos obrigatórios.');
+			if(Object.keys(fieldsWithErrors).length > 0) throw new Error('Existem campos com erro.');
+			return true;
+		}catch(e:any){
+			showNotification({title: 'Erro ao validar campos', message: e.message, type: 'error'});
+			return false;
+		}
+	}, []);
+
+	const submit = useCallback(() => {
+		if(validate()) onSubmit?.(docValues.current);
+	}, []);
+
+
 	const getSysFormButtonInfo = useCallback(() => {
 		return {
 			disabled: !requiredFieldsFilled,
 			loading: state.loading,
-			onClick: () => {}
+			onClick: submit
 		};
 	}, [requiredFieldsFilled, state]);
 
+	useImperativeHandle(ref, () => ({
+		doc: docValues.current,
+		onChangeDocValue: onChangeDocValue,
+		checkIfAllRequiredFieldsAreFilled: checkIfAllRequiredFieldsAreFilled,
+		checkVisibilityFields: checkVisibilityFields,
+		validateFields: validate,
+		submit: submit
+	}), []);
+
 	useEffect(() => {
 		checkIfAllRequiredFieldsAreFilled();
-		checkHiddenFieldsVisibility();
+		checkVisibilityFields();
+		const handleKeyDown = (event : KeyboardEvent) => {
+            if(event.key !== 'Enter' || !requiredFieldsFilledRef.current) return;
+			if(submitWithKeyEnter) submit();
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+          document.removeEventListener('keydown', handleKeyDown);
+        };
 	}, []);
 
-	const providerValue: ISysFormContext = useMemo(
-		() => ({
-			getSysFormComponentInfo: getSysFormComponentInfo,
-			getSysFormButtonInfo: getSysFormButtonInfo
-		}),
-		[hiddenFields, state, requiredFieldsFilled]
-	);
+	const providerValue: ISysFormContext = useMemo(()=> ({
+		getSysFormComponentInfo: getSysFormComponentInfo,
+		getSysFormButtonInfo: getSysFormButtonInfo
+	}), [hiddenFields, state, requiredFieldsFilled]);
 
-
-
-
-
-	return <SysFormContext.Provider value={providerValue}>{children}</SysFormContext.Provider>;
-	
-
+	return (
+		<SysFormContext.Provider value={providerValue}>
+			{children}
+		</SysFormContext.Provider>
+	)
 }
 
 export type { ISysFormRef as ISysFormMethods };
+export { SysFormContext };
 export default forwardRef(SysForm);

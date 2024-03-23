@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {Button, ButtonProps} from "@mui/material";
-import SysFormContext from "../../sysForm/sysFormContext";
+import { SysFormContext } from "../../sysForm/sysForm";
 
 const SysFormButton: React.FC<ButtonProps> = (props) => {
-    const {getSysFormButtonInfo} = useContext(SysFormContext);
+    const {getSysFormButtonInfo} = useContext(SysFormContext    );
     const sysFormController = getSysFormButtonInfo?.();
 
     return (

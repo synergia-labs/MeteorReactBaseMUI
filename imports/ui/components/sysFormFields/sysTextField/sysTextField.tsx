@@ -5,8 +5,8 @@ import * as appStyle from '/imports/ui/materialui/styles';
 import { Box, InputAdornment, SxProps, Theme, Typography } from '@mui/material';
 import { generalMask } from '/imports/libs/MaskFunctions';
 import { removerFormatacoes } from '/imports/libs/normalizarTexto';
-import SysFormContext from '../../sysForm/sysFormContext';
 import { SysViewField } from '../sysViewField/sysViewField';
+import { SysFormContext } from '../../sysForm/sysForm';
 
 interface ISysTextFieldProps {
 	sxMap?: SxProps<Theme>;
@@ -74,13 +74,12 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 	const { getSysFormComponentInfo } = useContext(SysFormContext);
 	const sysFormController = getSysFormComponentInfo?.(name);
 	const schema = sysFormController?.schema;
+	mask = mask ? mask : schema?.mask;
 	const data = generalMask(sysFormController?.defaultValue, mask);
 	const [valueText, setValueText] = useState(data || value || '');
 
-	mask = mask ? mask : schema?.mask;
-
 	error = error ? error : sysFormController?.erro;
-
+	
 	function onFieldChange(e: React.BaseSyntheticEvent) {
 		const newValue = e.target.value;
 		if (mask) {
@@ -89,7 +88,6 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 			setValueText(inputValue);
 			sysFormController?.onChange({name, value: transformedValue});
 		} else {
-			console.log('newValue', sysFormController?.onChange);
 			setValueText(newValue);
 			sysFormController?.onChange({name, value: newValue});
 		}
@@ -118,13 +116,7 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 	}
 
 	return (
-		<div
-			key={name}
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				...appStyle.fieldContainer
-			}}>
+		<>
 			{label && !otherProps.rounded ? (
 				<SimpleLabelView
 					label={label}
@@ -136,6 +128,7 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 			<TextField
 				sx={sxMap}
 				key={name}
+				fullWidth
 				onChange={(e) => {
 					onFieldChange(e);
 				}}
@@ -157,6 +150,6 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 				}}
 			/>
 			{showNumberCharactersTyped && showNumberCaracteres()}
-		</div>
+		</>
 	);
 };

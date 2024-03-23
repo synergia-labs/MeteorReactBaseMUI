@@ -1,55 +1,91 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import { exampleSch } from '/imports/modules/example/api/exampleSch';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
-import { SysTextField } from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
+import SysFormTestsStyles from './sysFormTestsStyles';
+import { sysFormTestsSch } from './sysFormTestsSch';
+import { SysTextField } from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
+import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
 const SysFormTestsPage: React.FC = () => {
-	const [dados, setDados] = React.useState<any>('');
+	const [dados, setDados] = React.useState<{[key:string] : any}>({});
+	const sysFormRef = React.useRef<ISysFormRef>(null);
 
-	const handleChangeData = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setDados(e.target.value);
-	};
-	return (
-		<Box
-			sx={{
-				width: '100%',
-				maxWidth: '750px',
-				margin: '0 auto',
-				padding: '10px 40px',
-				display: 'flex',
-				flexDirection: 'column',
-				gap: 2
-			}}>
-			<SysForm schema={exampleSch} doc={{}} mode="create" onSubmit={() => {}} onChange={(doc) => {setDados(doc)}}>
-				<Typography variant="h3">SysForm Tests</Typography>
-				<code style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(dados, null, 2)}</code>
+	useEffect(() => {
+		if(sysFormRef.current){
+			setDados(sysFormRef.current.doc);
+		}
 
-				<SysTextField name="type" />
-				<SysTextField name="title" />
-				<SysTextField name="typeMulti" />
+	}, []);
 
-				
+	return(
+		<SysFormTestsStyles.container>
+			<SysFormTestsStyles.header>
+				<Typography variant="h3">Testes do componente de SysForm</Typography>
+				<Typography variant="body1">
+					Essa página é dedicada aos testes e exibições de componentes e funcionalidades do nosso sistema. Esperamos
+					que você aproveite e aprenda bastante com ela. Para mais dúvidas consulte nossa documentação oficial pelo
+					storybook.
+				</Typography>
+			</SysFormTestsStyles.header>
+			<Typography variant="h5">Schema e docValues</Typography>
+			<Box sx={{display: 'flex', flexDirection:'column', width:'100%'}}>
+				<SysFormTestsStyles.schemaAndValues>
+					<SysFormTestsStyles.codeContainer>
+						<SysFormTestsStyles.codeContainerHeader>
+							<Typography variant="h6">Schema</Typography>
+						</SysFormTestsStyles.codeContainerHeader>
+						<SysFormTestsStyles.codeContainerContent>
+							<code style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(sysFormTestsSch, null, 2)}</code>
+						</SysFormTestsStyles.codeContainerContent>	
+					</SysFormTestsStyles.codeContainer>
+					<SysFormTestsStyles.codeContainer>
+						<SysFormTestsStyles.codeContainerHeader sx={{backgroundColor: theme => theme.palette.secondary.main}}>
+							<Typography variant="h6">docValues</Typography>
+						</SysFormTestsStyles.codeContainerHeader>
+						<SysFormTestsStyles.codeContainerContent>
+							<code style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(dados, null, 2)}</code>
+						</SysFormTestsStyles.codeContainerContent>
+					</SysFormTestsStyles.codeContainer>
+				</SysFormTestsStyles.schemaAndValues>
+				<Typography variant="caption" sx={{mt: '5px'}}>*obs: As funções como de visibilidade e validação não aparecem nessa visualização do schema.</Typography>
+			</Box>
+			<Typography variant="h5">Controladores</Typography>
+			<SysFormTestsStyles.controllersContainer>
+				<Button
+					startIcon={<ManageSearchIcon />}
+					onClick={() => {
+						if(sysFormRef.current){
+							sysFormRef.current.validateFields();
+						}
+					}}
+				>
+					Validar
+				</Button>
+			</SysFormTestsStyles.controllersContainer>
 
-				<Box
-					sx={(theme) => ({
-						backgroundColor: theme.palette.sysBackground?.bg2,
-						padding: theme.spacing(2),
-						borderRadius: '5px',
-						display: 'flex',
-						flexDirection: 'column',
-						gap: theme.spacing(2)
-					})}>
-					<Typography variant="h5">SubForm</Typography>
+			<Typography variant="h5">SysForm</Typography>
+			<SysFormTestsStyles.sysFormContainer>
+				<SysForm 
+					schema={sysFormTestsSch} 
+					doc={dados} 
+					mode="create" 
+					onSubmit={() => {}} 
+					ref={sysFormRef}
+				>
+					<SysTextField name="title" />
+
+					<SysTextField name="type" />
+					<SysTextField name="typeMulti" />
 					<SysTextField name="contacts.cpf" />
 					<SysTextField name="contacts.phone" />
-				</Box>
+					<SysFormButton sx={{alignSelf: 'flex-end'}}>Submit</SysFormButton>
+				</SysForm>
+			</SysFormTestsStyles.sysFormContainer>
+		</SysFormTestsStyles.container>
+	)
 
-				<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>
-			</SysForm>
-		</Box>
-	);
-};
+}
 
 export default SysFormTestsPage;
