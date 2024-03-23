@@ -99,7 +99,7 @@ const validateFields = (
 	  	if (validationFunction) {
 			const value = getValueDocValue(doc, key, schema);
 			const isOptional = schema[key].optional;
-			const error = (isOptional && (value === undefined || value === '')) ? "Esse campo é obrigatório" : validationFunction(value, doc);
+			const error = (!isOptional && (value === undefined || value === '')) ? "Esse campo é obrigatório" : validationFunction(value, doc);
 			if (error) {
 		  		fieldsWithErrors[currentKey] = error;
 			}
@@ -148,6 +148,35 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		fieldsWithErrors: {}
 	});
 
+	useImperativeHandle(ref, () => ({
+		doc: docValues,
+		hiddenFields: hiddenFields,
+		hiddenFieldsRef: hiddenFieldsRef,
+		requiredFields: initialRequiredFields,
+		onChangeDocValue: onChangeDocValue,
+		checkIfAllRequiredFieldsAreFilled: checkIfAllRequiredFieldsAreFilled,
+		checkVisibilityFields: checkVisibilityFields,
+		validateFields: validate,
+		submit: submit
+	}), []);
+
+	useEffect(() => {
+		checkIfAllRequiredFieldsAreFilled();
+		checkVisibilityFields();
+		const handleKeyDown = (event : KeyboardEvent) => {
+            if(event.key !== 'Enter' || !requiredFieldsFilledRef.current) return;
+			if(submitWithKeyEnter) submit();
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+          document.removeEventListener('keydown', handleKeyDown);
+        };
+	}, []);
+
+	useEffect(() => {
+		setState((prev) => ({ ...prev, loading, disabled }));
+	}, [loading, disabled]);
+
 	const hiddenFieldsRef = useRef(hiddenFields);
 	const requiredFieldsFilledRef = useRef(requiredFieldsFilled);
 
@@ -188,23 +217,6 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		onChange?.(docValues.current);	
 	}, []);
 
-	const getSysFormComponentInfo = useCallback(
-		(name: string) => {
-			if (!!!getSchemInfo(schema, name)) return undefined;
-			return {
-				isVisibile: !hiddenFields.includes(name),
-				isOptional: !!getSchemInfo(schema, name).optional,
-				onChange: onChangeDocValue,
-				readOnly: mode === 'view' || getSchemInfo(schema, name).readOnly,
-				loading: state.loading,
-				erro: state.fieldsWithErrors[name],
-				defaultValue: getValueDocValue(docValues.current, name, schema),
-				schema: getSchemInfo(schema, name)
-			};
-		},
-		[hiddenFields, state]
-	);
-
 	const validate = useCallback(() => {
 		try{
 			const fieldsWithErrors = validateFields(schema, docValues.current);
@@ -222,6 +234,22 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		if(validate()) onSubmit?.(docValues.current);
 	}, []);
 
+	const getSysFormComponentInfo = useCallback(
+		(name: string) => {
+			if (!!!getSchemInfo(schema, name)) return undefined;
+			return {
+				isVisibile: !hiddenFields.includes(name),
+				isOptional: !!getSchemInfo(schema, name).optional,
+				onChange: onChangeDocValue,
+				readOnly: mode === 'view' || getSchemInfo(schema, name).readOnly,
+				loading: state.loading,
+				erro: state.fieldsWithErrors[name],
+				defaultValue: getValueDocValue(docValues.current, name, schema),
+				schema: getSchemInfo(schema, name)
+			};
+		},
+		[hiddenFields, state]
+	);
 
 	const getSysFormButtonInfo = useCallback(() => {
 		return {
@@ -230,28 +258,6 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 			onClick: submit
 		};
 	}, [requiredFieldsFilled, state]);
-
-	useImperativeHandle(ref, () => ({
-		doc: docValues.current,
-		onChangeDocValue: onChangeDocValue,
-		checkIfAllRequiredFieldsAreFilled: checkIfAllRequiredFieldsAreFilled,
-		checkVisibilityFields: checkVisibilityFields,
-		validateFields: validate,
-		submit: submit
-	}), []);
-
-	useEffect(() => {
-		checkIfAllRequiredFieldsAreFilled();
-		checkVisibilityFields();
-		const handleKeyDown = (event : KeyboardEvent) => {
-            if(event.key !== 'Enter' || !requiredFieldsFilledRef.current) return;
-			if(submitWithKeyEnter) submit();
-        };
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-          document.removeEventListener('keydown', handleKeyDown);
-        };
-	}, []);
 
 	const providerValue: ISysFormContext = useMemo(()=> ({
 		getSysFormComponentInfo: getSysFormComponentInfo,

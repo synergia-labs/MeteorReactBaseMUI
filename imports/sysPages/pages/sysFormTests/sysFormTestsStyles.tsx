@@ -6,9 +6,6 @@ interface ISysFormTestsStyles {
     container: ElementType<BoxProps>;
     header: ElementType<BoxProps>;
     schemaAndValues: ElementType<BoxProps>;
-    codeContainer: ElementType<PaperProps>;
-    codeContainerHeader: ElementType<BoxProps>;
-    codeContainerContent: ElementType<BoxProps>;
     controllersContainer: ElementType<BoxProps>;
     sysFormContainer: ElementType<BoxProps>;
 }
@@ -38,35 +35,9 @@ const SysFormTestsStyles: ISysFormTestsStyles = {
         alignItems: 'flex-start',
         justifyContent: 'space-between',
     }),
-    codeContainer: styled(Paper)(({theme}) => ({
-        width: '50%',
-        height: '500px',
-        borderRadius: '12px',
-        border: `1px solid ${theme.palette.divider}`,
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-    })),
-    codeContainerHeader: styled(Box)(({theme}) => ({
-        display: 'flex',
-        flexDirection: 'row',
-        gap: '1rem',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '8px',
-        borderBottom: `2px solid ${theme.palette.divider}`,
-        backgroundColor: theme.palette.tertiary?.main,
-        color: theme.palette.tertiary?.contrastText,
-    })),
-    codeContainerContent: styled(Box)(({theme}) => ({
-        padding: '1rem',
-        overflowY: 'auto',
-        flexGrow: 1,
-        backgroundColor: theme.palette.sysBackground?.bg1,
-    })),
     controllersContainer: styled(Box)({
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         gap: '1rem',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',

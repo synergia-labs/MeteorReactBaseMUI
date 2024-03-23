@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import { IDefField, ISchema } from "/imports/typings/ISchema";
 
 interface IDocValues {
@@ -18,7 +19,10 @@ interface ISysForm {
 }
 
 interface ISysFormRef {
-	doc: IDocValues;
+	doc: RefObject<IDocValues>;
+	hiddenFields: Array<string>;
+	hiddenFieldsRef: RefObject<Array<string>>;
+	requiredFields: Array<string>;
 	onChangeDocValue: ({name, value}: IOnChangeDocValue) => void;
     checkIfAllRequiredFieldsAreFilled: () => void;
     checkVisibilityFields: () => void;
@@ -33,6 +37,7 @@ interface ISysFormContext {
             schema?: IDefField<any>;
             isVisibile: boolean;
             isOptional: boolean;
+			loading: boolean;
             onChange: ({name, value} : IOnChangeDocValue) => void;
             erro: string | undefined;
             defaultValue: any;

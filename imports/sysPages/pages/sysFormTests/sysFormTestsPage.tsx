@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
@@ -8,17 +8,33 @@ import { SysTextField } from '/imports/ui/components/sysFormFields/sysTextField/
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import CodeViewSysForm from './components/codeViewSysForm';
+import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
+import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
+import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
+import { SysAppLayoutContext } from '/imports/app/AppLayout';
 
 const SysFormTestsPage: React.FC = () => {
-	const [dados, setDados] = React.useState<{[key:string] : any}>({});
-	const sysFormRef = React.useRef<ISysFormRef>(null);
+	const [dados, setDados] = useState<{[key:string] : any}>({});
+	const [loading, setLoading] = useState<boolean>(false);
+	const sysFormRef = useRef<ISysFormRef>(null);
+
+	const {showNotification} = useContext(SysAppLayoutContext);
+
+	const onSubmit = (doc: {[key:string] : any}) => {
+		setDados(doc);
+		showNotification({title: 'Formulário submetido', message: 'O formulário foi submetido com sucesso.', type: 'success'});
+	};
 
 	useEffect(() => {
 		if(sysFormRef.current){
-			setDados(sysFormRef.current.doc);
+			setDados(sysFormRef.current.doc.current || {});
 		}
 
 	}, []);
+
+	const validateForm = () => sysFormRef.current?.validateFields();
+	const updateDoc = () => setDados(sysFormRef.current?.doc?.current || {});
+	const forceSubmit = () => sysFormRef.current?.submit();
 
 	return(
 		<SysFormTestsStyles.container>
@@ -42,13 +58,27 @@ const SysFormTestsPage: React.FC = () => {
 			<SysFormTestsStyles.controllersContainer>
 				<Button
 					startIcon={<ManageSearchIcon />}
-					onClick={() => {
-						if(sysFormRef.current){
-							sysFormRef.current.validateFields();
-						}
-					}}
+					onClick={() => validateForm()}
 				>
 					Validar
+				</Button>
+				<Button
+					startIcon={<SyncOutlinedIcon />}
+					onClick={() => updateDoc()}
+				>
+					Atualizar DocValues
+				</Button>
+				<Button
+					startIcon={<HourglassEmptyOutlinedIcon />}
+					onClick={() => setLoading(!loading)}
+				>
+					{loading ? 'Desativar Loading' : 'Ativar Loading'}
+				</Button>
+				<Button
+					onClick={() => forceSubmit()}
+					startIcon={<SecurityOutlinedIcon />}
+				>
+					Forçar Submit
 				</Button>
 			</SysFormTestsStyles.controllersContainer>
 
@@ -58,12 +88,12 @@ const SysFormTestsPage: React.FC = () => {
 					schema={sysFormTestsSch} 
 					doc={dados} 
 					mode="create" 
-					onSubmit={() => {}} 
+					onSubmit={onSubmit} 
 					ref={sysFormRef}
+					loading={loading}
 				>
 					<SysTextField name="title" />
-
-					<SysTextField name="type" placeholder = "Teste" label="Teste 01	" />
+					<SysTextField name="type"  />
 					<SysTextField name="typeMulti" />
 					<SysTextField name="contacts.cpf" />
 					<SysTextField name="contacts.phone" />
