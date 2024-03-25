@@ -12,10 +12,18 @@ import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/Sli
 import { SysButton } from "/imports/ui/components/SimpleFormFields/SysButton/SysButton";
 import CheckIcon from '@mui/icons-material/Check';
 import { ExampleModuleContext } from "../../exampleContainer";
+import DatePickerField from "/imports/ui/components/SimpleFormFields/DatePickerField/DatePickerField";
+import CheckBoxField from "/imports/ui/components/SimpleFormFields/CheckBoxField/CheckBoxField";
+import ToggleButtonField from "/imports/ui/components/SimpleFormFields/ToggleButtonField/ToggleButtonField";
 
 const ExampleDetailView = () => {
     const controller = useContext(ExampleDetailControllerContext);
     const {state} = useContext(ExampleModuleContext);
+
+    const save = () => {
+        console.log(controller.document)
+    }
+
     return(
         <ExampleDetailStyledContainer>
             <ExampleDetailStyledHeader>
@@ -32,28 +40,30 @@ const ExampleDetailView = () => {
 				onSubmit={controller.onSubmit}
 				loading={controller.loading}
             >
+
                 <ExampleDetailStyledContainer sx={{padding: 0}}>
                     <ExampleDetailStyledBody>
                         <ExampleDetailStyledFormContainer>
-                            <TextField key={'f1-tituloKEY'} placeholder="Titulo" name="title" />
-                            <TextField key={'f1-descricaoKEY'} placeholder="Descrição" name="description" />
-                            <SelectField key={'f2-tipoKEY'} placeholder="Selecione um tipo" name="type" />
-        					<SelectField key={'f2-multiTipoKEY'} placeholder="Selecione alguns tipos" name="typeMulti" />
-                            <SliderField key={'ExempleDetail-SliderFieldKEY'} placeholder="Slider" name="slider" />
-                        </ExampleDetailStyledFormContainer>
-                        <ExampleDetailStyledFormContainer>
+                            <TextField key={'tituloKEY'} placeholder="Ex.: Item XX" name="title" />
+                            <DatePickerField key={'dateKEY'} placeholder="dd/mm/aa" name="date" />
+                            <SelectField key={'tipoKEY'} placeholder="Selecionar" name="type" />
                             <RadioButtonField
-                                key={'ExempleDetail-RadioKEY'}
+                                key={'radioKEY'}
                                 placeholder="Opções da Tarefa"
                                 name="statusRadio"
                                 options={[
-                                    { value: 'valA', label: 'Valor A' },
-                                    { value: 'valB', label: 'Valor B' },
-                                    { value: 'valC', label: 'Valor C' }
+                                    { value: 'baixa', label: 'Baixa' },
+                                    { value: 'media', label: 'Média' },
+                                    { value: 'alta', label: 'Alta' },
                                 ]}
                             />
+                            <TextField key={'descricaoKEY'} placeholder="Descrição" name="description" />
+                        </ExampleDetailStyledFormContainer>
+                        <ExampleDetailStyledFormContainer>
+        					<CheckBoxField key={'checkKEY'} name="check"/>
+                            <ToggleButtonField  key={'toggleKEY'} name="statusToggle"/>
                             <UploadFilesCollection
-                                key={'ExempleDetail-UploadsFilesKEY'}
+                                key={'EuploadsFilesKEY'}
                                 name="files"
                                 label={'Arquivos'}
                                 doc={{ _id: controller.document._id ?? ''  }}
@@ -62,21 +72,22 @@ const ExampleDetailView = () => {
                         </ExampleDetailStyledFormContainer>
                     </ExampleDetailStyledBody>
                     <ExampleDetailStyledFooter>
-                        <SysButton 
+                        <Button 
                             key={"btnCancel"} 
                             onClick={controller.closePage}
-                            styleVariant="secondary"
+                            variant="outlined"
                             startIcon={<CloseIcon />}
                         > 
-                            {'Cancelar'}
-                        </SysButton>
-                        <SysButton 
+                            Cancelar
+                        </Button>
+                        <Button 
                             key={"btnSave"} 
                             id="submit"
+                            variant="contained"
                             startIcon={<CheckIcon />}
                         >
-                            {'Salvar'}
-                        </SysButton>
+                            Salvar
+                        </Button>
                     </ExampleDetailStyledFooter>
                 </ExampleDetailStyledContainer>
             </SimpleForm>

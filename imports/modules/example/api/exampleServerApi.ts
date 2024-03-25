@@ -18,12 +18,12 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			'exampleList',
 			(filter = {}) => {
 				return this.defaultListCollectionPublication(filter, {
-					projection: { image: 1, title: 1, description: 1, createdby: 1 }
+					projection: {  title: 1, type: 1, typeMulti: 1, createdat: 1}
 				});
 			},
 			(doc: IExample & { nomeUsuario: string }) => {
 				const userProfileDoc = userprofileServerApi.getCollectionInstance().findOne({ _id: doc.createdby });
-				return { ...doc, nomeUsuario: userProfileDoc?.username };
+				return { ...doc };
 			}
 		);
 

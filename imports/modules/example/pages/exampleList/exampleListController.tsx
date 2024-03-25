@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useContext, useEffect} from "react";
 import ExampleListView from "./exampleListView";
 import { nanoid } from 'nanoid';
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ interface IInitialConfig {
 
 interface IExampleListContollerContext {
     onAddButtonClick: () => void;
+    onDeleteButtonClick: (row: any) => void;
     todoList: IExample[];
     schema: ISchema<any>;
 
@@ -32,8 +33,8 @@ const initialConfig = {
 
 const ExampleListController = () => {
     const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
-    const {title, audio, image, description, type, typeMulti, createdby, ...resto} = exampleApi.getSchema();
-    const exampleSchReduzido = { title, description, type, typeMulti, nomeUsuario: { type: String, label: 'Criado por' } };
+    const {title, description, type, typeMulti, createdby, ...resto} = exampleApi.getSchema();
+    const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
     const navigate = useNavigate();
     const { sortProperties, filter } = config;
 	const sort = {
@@ -58,10 +59,13 @@ const ExampleListController = () => {
         navigate(`/example/create/${newDocumentId}`);
     }, []);
 
-
+    const onDeleteButtonClick = useCallback((row: any) => {
+        exampleApi.remove(row);
+    }, []);
     return (
         <ExampleListControllerContext.Provider value={{
             onAddButtonClick,
+            onDeleteButtonClick,
             todoList: examples,
             schema: exampleSchReduzido,
 
