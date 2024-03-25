@@ -1,5 +1,5 @@
 import React, {ElementType} from "react";
-import { styled, Box, BoxProps, Paper, PaperProps } from "@mui/material";
+import { styled, Box, BoxProps } from "@mui/material";
 import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface ISysFormTestsStyles {

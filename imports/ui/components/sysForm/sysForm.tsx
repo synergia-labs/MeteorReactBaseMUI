@@ -95,15 +95,16 @@ const validateFields = (
 			);
 	  	}
   
-	  	const { validationFunction } = schema[key];
+	  	const { validationFunction, optional } = schema[key];
+		const value = getValueDocValue(doc, key, schema);
+
 	  	if (validationFunction) {
-			const value = getValueDocValue(doc, key, schema);
-			const isOptional = schema[key].optional;
-			const error = (!isOptional && (value === undefined || value === '')) ? "Esse campo é obrigatório" : validationFunction(value, doc);
-			if (error) {
-		  		fieldsWithErrors[currentKey] = error;
-			}
-	  }
+			const error = validationFunction(value, doc);
+			if (error)  fieldsWithErrors[currentKey] = error;
+	  	}
+		if((!optional) && value === undefined || value === ''){
+			fieldsWithErrors[currentKey] = "Esse campo é obrigatório";
+		}
 	}
 	return fieldsWithErrors;
 };

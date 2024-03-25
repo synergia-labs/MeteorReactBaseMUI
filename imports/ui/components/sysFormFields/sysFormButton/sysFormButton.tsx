@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import {Button, ButtonProps} from "@mui/material";
+import {Button, ButtonProps, CircularProgress} from "@mui/material";
 import { SysFormContext } from "../../sysForm/sysForm";
 
 const SysFormButton: React.FC<ButtonProps> = (props) => {
@@ -10,6 +10,7 @@ const SysFormButton: React.FC<ButtonProps> = (props) => {
         <Button 
             disabled={sysFormController?.disabled}
             onClick={sysFormController?.onClick}
+            startIcon={!sysFormController?.loading ? undefined : <CircularProgress size={15} />}
 
         {...props} />
     );
