@@ -6,6 +6,7 @@
 import React from 'react';
 import { SysViewFieldStyle } from './sysViewFieldStyles';
 import { SxProps, Theme } from '@mui/system';
+import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 /**
  * Propriedades aceitas pelo componente SysViewField.
@@ -14,7 +15,7 @@ interface ISysViewField {
 	/**
 	 * Rótulo do campo de visualização.
 	 */
-	label: string;
+	label: string | undefined;
 	/**
 	 * Texto de espaço reservado para o campo de visualização.
 	 */

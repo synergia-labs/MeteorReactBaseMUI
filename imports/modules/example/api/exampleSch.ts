@@ -16,7 +16,7 @@ export const exampleSch: ISchema<IExample> = {
     title: {
         type: String,
         label: 'Título',
-        defaultValue: 'Lalal',
+        defaultValue: '',
         optional: false,
     },
     description: {
@@ -81,29 +81,30 @@ export const exampleSch: ISchema<IExample> = {
         defaultValue: '',
         optional: true,
     },
-    // contacts: {
-    //     type: Object,
-    //     label: 'Contatos',
-    //     defaultValue: '',
-    //     optional: true,
-    //     subSchema: {
+     contacts: {
+         type: Object,
+         label: 'Contatos',
+         defaultValue: '',
+         optional: true,
+         subSchema: {
+        phone: {
+            type: String,
+            label: 'Telefone',
+            defaultValue: '',
+            optional: true,
+            mask: '(##) ####-####',
+        },
+        cpf: {
+            type: String,
+            label: 'CPF',
+            defaultValue: '',
+            optional: true,
+            mask: '###.###.###-##',
+        },
           
-    //     },
-    // },
-    phone: {
-        type: String,
-        label: 'Telefone',
-        defaultValue: '',
-        optional: true,
-        mask: '(##) ####-####',
+         },
     },
-    cpf: {
-        type: String,
-        label: 'CPF',
-        defaultValue: '',
-        optional: true,
-        mask: '###.###.###-##',
-    },
+   
     tasks: {
         type: [Object],
         label: 'Tarefas',

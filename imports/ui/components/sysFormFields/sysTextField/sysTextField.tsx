@@ -1,20 +1,43 @@
 import React, { useContext, useState } from 'react';
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import * as appStyle from '/imports/ui/materialui/styles';
-import { Box, InputAdornment, SxProps, Theme, Typography } from '@mui/material';
+import { Box, InputAdornment, SxProps, Theme } from '@mui/material';
 import { generalMask } from '/imports/libs/MaskFunctions';
 import { removerFormatacoes } from '/imports/libs/normalizarTexto';
 import { SysViewField } from '../sysViewField/sysViewField';
 import { SysFormContext } from '../../sysForm/sysForm';
+import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
-interface ISysTextFieldProps {
+interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
+	/**
+	 * SxMap: Estilo do componente.
+	 */
 	sxMap?: SxProps<Theme>;
+	/**
+	 * startAdormentPosition: Posição do ícone no início do campo.
+	 * @return boolean
+	 */
 	startAdormentPosition?: boolean;
+	/**
+	 * endAdormentPosition: Posição do ícone no final do campo.
+	 */
 	endAdormentPosition?: boolean;
+	/**
+	 * startAdornment: Componente que será exibido no início do campo.
+	 */
 	startAdornment?: React.ReactNode;
+	/**
+	 * endAdornment: Componente que será exibido no final do campo.
+	 */
 	endAdornment?: React.ReactNode;
-
+	/**
+	 * max: Número máximo de caracteres.
+	 */
+	max?: number;
+	/**
+	 * min: Número mínimo de caracteres.
+	 */
+	min?: number;
 	/**
 	 *
 	 * @param value valor que é exibido.
@@ -31,21 +54,14 @@ interface ISysTextFieldProps {
 	 *  tranforma o string em dado do documento
 	 */
 	valueTransformer?: (value?: string) => any;
-
 	/**
-	 * Aplica uma máscara ao valor a ser exibido.
-	 * @param value
+	 * showNumberCharactersTyped: Mostra a quantidade de caracteres digitados.
 	 */
-
-	/**
-	 * Se verdadeiro exibe mensagem de erro no componente.
-	 */
-	inlineError?: boolean;
-	rows?: number;
-	maxRows?: number;
 	showNumberCharactersTyped?: boolean;
-	onChange?: (e: React.BaseSyntheticEvent) => void;
-	[otherPropsKey: string]: any;
+	/**
+	 * mask: Máscara de formatação.
+	 */
+	mask?: string;
 }
 
 export const SysTextField: React.FC<ISysTextFieldProps> = ({
@@ -69,35 +85,38 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 	endAdormentPosition,
 	startAdornment,
 	endAdornment,
+	helperText,
+	max,
+	min,
 	...otherProps
 }) => {
 	const { getSysFormComponentInfo } = useContext(SysFormContext);
 	const sysFormController = getSysFormComponentInfo?.(name);
 	const schema = sysFormController?.schema;
 	mask = mask ? mask : schema?.mask;
+	min = min ? min : schema?.min;
+	max = max ? max : schema?.max;
 	const data = generalMask(sysFormController?.defaultValue, mask);
-	const [valueText, setValueText] = useState(data || value || '');
+	const [valueText, setValueText] = useState(value || data || '');
 
-	error = error ? error : sysFormController?.erro;
-	
 	function onFieldChange(e: React.BaseSyntheticEvent) {
 		const newValue = e.target.value;
 		if (mask) {
 			const inputValue = generalMask(newValue, mask);
 			const transformedValue = removerFormatacoes(inputValue);
 			setValueText(inputValue);
-			sysFormController?.onChange({name, value: transformedValue});
+			sysFormController?.onChange({ name, value: transformedValue });
 		} else {
 			setValueText(newValue);
-			sysFormController?.onChange({name, value: newValue});
+			sysFormController?.onChange({ name, value: newValue });
 		}
-	};
+	}
 
 	const showNumberCaracteres = () => {
 		return (
 			<Box sx={{ marginLeft: 'auto', marginTop: !readOnly ? '6px' : undefined }}>
-				{otherProps?.inputProps?.maxLength ? (
-					<SimpleLabelView label={`${valueText?.length}/${otherProps?.inputProps?.maxLength}`} />
+				{max ? (
+					<SimpleLabelView label={`${valueText?.length}/${max}`} />
 				) : (
 					<SimpleLabelView label={`${valueText?.length}`} />
 				)}
@@ -134,13 +153,12 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 				}}
 				value={valueText}
 				placeholder={placeholder}
-				error={!!error}
+				error={!!error || !!sysFormController?.erro}
 				disabled={disabled || sysFormController?.loading}
 				id={name}
 				name={name}
-				helperText={error}
-				label={otherProps.rounded ? label : null}
-				inputProps={{ maxLength: schema?.max }}
+				helperText={helperText || error || sysFormController?.erro}
+				inputProps={{ maxLength: max, minLength: min }}
 				{...otherProps}
 				InputProps={{
 					startAdornment: startAdormentPosition ? (
