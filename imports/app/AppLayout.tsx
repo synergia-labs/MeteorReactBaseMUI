@@ -11,12 +11,7 @@ import SysRoutes from './routes';
 const routes = new SysRoutes();
 export const SysAppLayoutContext = React.createContext<ISysAppLayoutContext>({} as ISysAppLayoutContext);
 
-const defaultState: ISysGeneralComponentsCommon = {
-    open: false,
-    close: () => {throw new Error('Função de fechar não implementada');},
-    onOpen: () => {throw new Error('Função de abrir não implementada');},
-    onClose: () => {throw new Error('Função de fechar não implementada');},
-}
+const defaultState: ISysGeneralComponentsCommon = {open: false}
 
 /* Opções default do template */
 export const defaultTemplate: ISysTemplate = {
@@ -154,7 +149,6 @@ export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
         showWindow:         showWindowHandler,
         closeWindow:        handleCloseWindow,
     }), [themeOptions]);
-
 
     return (
         <SysAppLayoutContext.Provider value={providerValue}>

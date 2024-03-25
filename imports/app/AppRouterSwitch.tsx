@@ -50,7 +50,6 @@ interface IAppRouterSwitchProps {
 	defaultTemplate: ISysTemplate;
 }
 
-
 export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ defaultTemplate }) => {
 	const location = useLocation();
 	const { isLoggedIn, user } = useContext(SysAppContext);

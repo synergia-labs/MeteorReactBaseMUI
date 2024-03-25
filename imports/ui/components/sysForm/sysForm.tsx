@@ -140,7 +140,6 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 
 	const docValues = useRef<IDocValues>(initialDefaultValues);
 	
-
 	const [hiddenFields, setHiddenFields] = useState<Array<string>>([]);
 	const [requiredFieldsFilled, setRequiredFieldsFilled] = useState<boolean>(false);
 	const [state, setState] = useState<ISysFormState>({

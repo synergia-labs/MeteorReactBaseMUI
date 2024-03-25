@@ -52,7 +52,7 @@ const ExampleListController = () => {
 			total: subHandle ? subHandle.total : examples.length,
 
 		};
-	});
+	}, [config]);
 
     const onAddButtonClick = useCallback(() => {
         const newDocumentId = nanoid();

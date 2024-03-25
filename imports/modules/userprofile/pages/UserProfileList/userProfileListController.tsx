@@ -51,7 +51,7 @@ const ExampleListController = () => {
 			total: subHandle ? subHandle.total : usuarios.length,
 
 		};
-	});
+	}, [config]);
 
     const onAddButtonClick = useCallback(() => {
         const newDocumentId = nanoid();

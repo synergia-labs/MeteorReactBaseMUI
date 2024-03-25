@@ -34,7 +34,7 @@ const ExampleDetailController = () => {
             document: document as IExample ?? {_id : id} as IExample,
             loading: !!subHandle && !subHandle?.ready()
         };
-    }, []);
+    }, [exampleContext.id]);
     
 
     const closePage = useCallback(() => {navigate(-1);}, []);

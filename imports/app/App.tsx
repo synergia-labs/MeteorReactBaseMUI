@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { getTheme } from '/imports/ui/materialui/theme';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -25,18 +25,18 @@ export const App = () => {
 	const [fontScale, setFontScale] = useState<number>(1);
 	const deviceType : 'mobile' | 'tablet' | 'desktop' = (isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop');
 
-	const changeFontScale = useCallback((fontScale: number) => { setFontScale(fontScale);}, []);
-	const changeThemeMode = useCallback((value : boolean) => {setDarkThemeMode(value);}, []);
+	const changeFontScale = useCallback((fontScale: number) => { setFontScale(fontScale);}, [fontScale]);
+	const changeThemeMode = useCallback((value : boolean) => {setDarkThemeMode(value);}, [darkThemeMode]);
 	
 
 	// Verificar renderizações desnecessárias
-	const themeOptions : ISysThemeOptions = {
+	const themeOptions : ISysThemeOptions = useMemo(() => ({
 		darkMode: !!darkThemeMode,
 		fontScale,
 		deviceType,
 		setDarkThemeMode: changeThemeMode,
 		setFontScale: changeFontScale
-	};
+	}), [ darkThemeMode, fontScale, deviceType]);
 
 	return (
 		<ThemeProvider theme={getTheme(themeOptions)}>
