@@ -196,7 +196,13 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							'& .MuiDataGrid-columnSeparator': {
 								visibility: 'hidden'
 							},
+						},
+						'& .MuiDataGrid-columnHeaders': {
 							borderBottom: `2px solid ${theme.palette.sysAction?.primary}`
+						},
+
+						'& .MuiTablePagination-root':{
+							color: theme.palette.sysText?.body,
 						},
 						'& .MuiDataGrid-cell': {
 							padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,

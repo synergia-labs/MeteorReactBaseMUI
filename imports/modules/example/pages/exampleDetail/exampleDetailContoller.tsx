@@ -24,6 +24,7 @@ const ExampleDetailController = () => {
     const navigate = useNavigate();
     const exampleContext = useContext(ExampleModuleContext);
     const {showNotification} = useContext(SysAppLayoutContext);
+    
 
     const {document, loading}  = useTracker(() => {
         const {id} = exampleContext;
