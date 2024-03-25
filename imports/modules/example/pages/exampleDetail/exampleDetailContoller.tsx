@@ -42,7 +42,6 @@ const ExampleDetailController = () => {
 
     const onSubmit = useCallback((doc: IExample) => {
         const {state} = exampleContext;
-        console.log(doc)
         const selectedAction = state === 'create' ? 'insert' : 'update';
 			exampleApi[selectedAction](doc, (e: IMeteorError) => {
 				if (!e) {
