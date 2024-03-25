@@ -28,8 +28,6 @@ export const exampleSch: ISchema<IExample> = {
 
     check: {
         type: Object,
-        label: 'check box',
-        frontEndComponent: 'checkbox',
         label: 'Grupos associados',
         defaultValue: {},
         optional: true,
@@ -45,12 +43,6 @@ export const exampleSch: ISchema<IExample> = {
             { value: 'Categoria B', label: 'Categoria B' },
             { value: 'Categoria C', label: 'Categoria C' },
         ],
-        validationFunction: (value: string) => {
-            const regexNumeros: RegExp = /-?\d+(\.\d+)?/g;
-            if (value.length < 3) return 'Muito curto';
-            if (value.match(regexNumeros)) return "O texto deve conter apenas letras e espaços."
-            return undefined;
-        },
     },
     typeMulti: {
         type: [Object],
