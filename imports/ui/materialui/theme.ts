@@ -802,10 +802,22 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						opacity: 1
 					}
 				}
-			}
+			},
+
+			MuiTooltip: {
+				styleOverrides: {
+					tooltip: {
+							backgroundColor: theme.palette.sysAction?.auxiliary,
+							color: theme.palette.sysText?.base,
+							borderRadius: appStyles.sysSizing.radiusXs,
+							padding: `${appStyles.sysSizing.spacingRemXs} ${appStyles.sysSizing.spacingRemSm}`,
+		
+						}
+					}
+				}
+			},
 		}
 	}
-}
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 	const fontScale = options.fontScale || 1;

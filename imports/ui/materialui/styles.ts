@@ -127,6 +127,7 @@ const sysSizing = {
 	spacingRemMd: sysBaseSizes.baseRem1,
 	spacingRemLg: sysBaseSizes.baseRem15,
 	spacingRemXl: sysBaseSizes.baseRem2,
+	radiusXs: sysBaseSizes.baseFixed025,
 	radiusSm: sysBaseSizes.baseFixed050,
 	radiusMd: sysBaseSizes.baseFixed1,
 	radiusLg: sysBaseSizes.baseFixed15,

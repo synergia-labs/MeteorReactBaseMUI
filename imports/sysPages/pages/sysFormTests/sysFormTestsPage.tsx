@@ -98,15 +98,14 @@ const SysFormTestsPage: React.FC = () => {
 					onSubmit={onSubmit}
 					ref={sysFormRef}
 					loading={loading}
-					disabled={disabled}
-				>
-					<SysTextField name="title"  showNumberCharactersTyped/>
+					disabled={disabled}>
+					<SysTextField name="title" showNumberCharactersTyped />
 					<SysTextField name="type" />
 					<SysTextField name="typeMulti" />
 					<SysTextField name="contacts.cpf" />
 					<SysTextField name="contacts.phone" />
-					<SysTextField name="contacts.cnpj" />
-					<SysTextField name="contacts.email"  endAdornment={<EmailOutlinedIcon/>} />
+					<SysTextField name="contacts.cnpj" tooltipMessage="Digite o CNPJ da sua empresa" positionTooltip="left-end" />
+					<SysTextField name="contacts.email" endAdornment={<EmailOutlinedIcon />} />
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>
 				</SysForm>
 			</SysFormTestsStyles.sysFormContainer>
