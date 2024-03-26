@@ -101,10 +101,10 @@ const validateFields = (
 	  	if (validationFunction) {
 			const error = validationFunction(value, doc);
 			if (error)  fieldsWithErrors[currentKey] = error;
+			if((!optional) && (value === undefined || value === '')){
+				fieldsWithErrors[currentKey] = "Esse campo é obrigatório";
+			}
 	  	}
-		if((!optional) && value === undefined || value === ''){
-			fieldsWithErrors[currentKey] = "Esse campo é obrigatório";
-		}
 	}
 	return fieldsWithErrors;
 };
@@ -118,7 +118,7 @@ const compareArrays = (arr1: Array<any>, arr2: Array<any>): boolean => {
 const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	schema,
 	doc,
-	mode = 'create',
+	mode = 'view',
 	disabled = false,
 	loading = false,
 	submitWithKeyEnter = true,
@@ -145,6 +145,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	const [state, setState] = useState<ISysFormState>({
 		loading: loading,
 		disabled: disabled,
+		mode: mode,
 		fieldsWithErrors: {}
 	});
 
@@ -174,8 +175,8 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	}, []);
 
 	useEffect(() => {
-		setState((prev) => ({ ...prev, loading, disabled }));
-	}, [loading, disabled]);
+		setState((prev) => ({ ...prev, loading, disabled, mode }));
+	}, [loading, disabled, mode]);
 
 	const hiddenFieldsRef = useRef(hiddenFields);
 	const requiredFieldsFilledRef = useRef(requiredFieldsFilled);
@@ -241,11 +242,12 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 				isVisibile: !hiddenFields.includes(name),
 				isOptional: !!getSchemInfo(schema, name).optional,
 				onChange: onChangeDocValue,
-				readOnly: mode === 'view' || getSchemInfo(schema, name).readOnly,
 				loading: state.loading,
+				disabled: state.disabled,
 				erro: state.fieldsWithErrors[name],
 				defaultValue: getValueDocValue(docValues.current, name, schema),
-				schema: getSchemInfo(schema, name)
+				schema: getSchemInfo(schema, name),
+				readOnly: state.mode === 'view' || !!getSchemInfo(schema, name).readOnly,
 			};
 		},
 		[hiddenFields, state]

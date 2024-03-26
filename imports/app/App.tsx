@@ -42,7 +42,7 @@ export const App = () => {
 		<ThemeProvider theme={getTheme(themeOptions)}>
 			<CssBaseline enableColorScheme />
 			<AppContainer>
-				<AppLayout {...themeOptions} />
+				<AppLayout themeOptions={themeOptions} />
 			</AppContainer>
 		</ThemeProvider>
 	);

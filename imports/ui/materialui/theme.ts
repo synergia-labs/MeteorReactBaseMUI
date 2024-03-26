@@ -430,6 +430,9 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						color: theme.palette.sysText?.body,
 						borderRadius: '8px',
 						border: `1px solid ${theme.palette.divider}`,
+						'& .MuiSvgIcon-root': {
+							color: theme.palette.sysText?.auxiliary
+						},	
 						'&:hover': {
 							backgroundColor: theme.palette.sysBackground?.bg1
 						},
@@ -444,7 +447,10 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						'&.Mui-disabled': {
 							backgroundColor: theme.palette.sysAction?.bgDisabled,
 							border: `1px solid ${theme.palette.sysBackground?.bg2}`,
-							color: theme.palette.sysText?.disabled
+							color: theme.palette.sysText?.disabled,
+							'& .MuiSvgIcon-root': {
+								color: theme.palette.sysText?.disabled
+							},	
 						},
 						'&.Mui-error': {
 							backgroundColor: theme.palette.sysBackground?.default,
@@ -452,7 +458,10 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							border: `1px solid ${theme.palette.error.main}`,
 							'&:hover': {
 								backgroundColor: theme.palette.sysBackground?.bg1
-							}
+							},
+							'& .MuiSvgIcon-root': {
+								color: theme.palette.error.dark
+							},
 						},
 					},
 					input: {

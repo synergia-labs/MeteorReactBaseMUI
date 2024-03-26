@@ -20,7 +20,7 @@ export const defaultTemplate: ISysTemplate = {
     props: undefined,
 }
 
-export const AppLayout:React.FC<ISysThemeOptions> = ({...themeOptions}) => {
+export const AppLayout:React.FC<{themeOptions: ISysThemeOptions}> = ({themeOptions}) => {
     const [showNotification, setShowNotification] = React.useState<IShowNotificationProps>(defaultState);
     const [showDialog, setShowDialog]             = React.useState<IShowDialogProps>(defaultState);
     const [showDrawer, setShowDrawer]             = React.useState<IShowDrawerProps>(defaultState);

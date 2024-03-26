@@ -1,3 +1,6 @@
+import { validarCPF } from '/imports/libs/validaCPF';
+import { validarEmail } from '/imports/libs/validaEmail';
+import { validarCNPJ } from '/imports/libs/validarCNPJ';
 import { IDoc } from '/imports/typings/IDoc';
 import { ISchema } from '/imports/typings/ISchema';
 
@@ -47,7 +50,39 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
                 defaultValue: '16187235614',
                 optional: true,
                 mask: '###.###.###-##',
+                validationFunction: (value: string) => {
+                    if(!value) return undefined;
+                    const cpf = validarCPF(value);
+                    if (!cpf) return 'CPF inválido';
+                    return undefined;
+                }
             },
+            cnpj: {
+                type: String,
+                label: 'CNPJ',
+                defaultValue: '12345678000199',
+                optional: true,
+                mask: '##.###.###/####-##',
+                validationFunction: (value: string) => {
+                    if(!value) return undefined;
+                    const cnpj = validarCNPJ(value);
+                    if (!cnpj) return 'CNPJ inválido';
+                    return undefined;
+                }
+            },
+            email:{
+                type: String,
+                label: 'Email',
+                defaultValue: 'teste@teste.com',
+                optional: true,
+                mask: '',
+                validationFunction: (value: string) => {
+                    if(!value) return undefined;
+                    const email = validarEmail(value);
+                    if (!email) return 'Email inválido';
+                    return undefined;
+                }
+            }
         },
     },
 };

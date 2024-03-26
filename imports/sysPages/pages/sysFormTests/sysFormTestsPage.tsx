@@ -12,13 +12,21 @@ import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
 import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import NotInterestedOutlinedIcon from '@mui/icons-material/NotInterestedOutlined';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
 	const [loading, setLoading] = useState<boolean>(false);
+	const [disabled, setDisabled] = useState<boolean>(false);
+	const [mode, setMode] = useState<'view' | 'edit' | 'create'>('create');
 	const sysFormRef = useRef<ISysFormRef>(null);
 
 	const { showNotification } = useContext(SysAppLayoutContext);
+
+	const changeMode = () => {
+		setMode(mode === 'view' ? 'create' : 'view');
+	};
 
 	const onSubmit = (doc: { [key: string]: any }) => {
 		setDados(doc);
@@ -73,6 +81,12 @@ const SysFormTestsPage: React.FC = () => {
 				<Button onClick={() => forceSubmit()} startIcon={<SecurityOutlinedIcon />}>
 					Forçar Submit
 				</Button>
+				<Button onClick={() => setDisabled(!disabled)} startIcon={<NotInterestedOutlinedIcon />}>
+					{!disabled ? 'Desativar Formulário' : 'Ativar Formulário'}
+				</Button>
+				<Button onClick={() => changeMode()} startIcon={<ManageSearchIcon />}>
+					{mode === 'view' ? 'Mudar para Criar' : 'Mudar para Visualizar'}
+				</Button>
 			</SysFormTestsStyles.controllersContainer>
 
 			<Typography variant="h5">SysForm</Typography>
@@ -80,15 +94,19 @@ const SysFormTestsPage: React.FC = () => {
 				<SysForm
 					schema={sysFormTestsSch}
 					doc={dados}
-					mode="create"
+					mode={mode}
 					onSubmit={onSubmit}
 					ref={sysFormRef}
-					loading={loading}>
-					<SysTextField name="title" />
+					loading={loading}
+					disabled={disabled}
+				>
+					<SysTextField name="title"  showNumberCharactersTyped/>
 					<SysTextField name="type" />
 					<SysTextField name="typeMulti" />
 					<SysTextField name="contacts.cpf" />
 					<SysTextField name="contacts.phone" />
+					<SysTextField name="contacts.cnpj" />
+					<SysTextField name="contacts.email"  endAdornment={<EmailOutlinedIcon/>} />
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>
 				</SysForm>
 			</SysFormTestsStyles.sysFormContainer>

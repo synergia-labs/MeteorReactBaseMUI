@@ -28,7 +28,6 @@ interface ISysFormRef {
     checkVisibilityFields: () => void;
     validateFields: () => void;
     submit: () => void;
-
 }
 
 interface ISysFormContext {
@@ -37,7 +36,9 @@ interface ISysFormContext {
             schema?: IDefField<any>;
             isVisibile: boolean;
             isOptional: boolean;
+			readOnly: boolean;
 			loading: boolean;
+			disabled: boolean;
             onChange: ({name, value} : IOnChangeDocValue) => void;
             erro: string | undefined;
             defaultValue: any;
@@ -53,6 +54,7 @@ interface ISysFormContext {
 interface ISysFormState {
 	loading: boolean;
 	disabled: boolean;
+	mode: 'view' | 'edit' | 'create';
 	fieldsWithErrors: { [key: string]: string | undefined };
 }
 
