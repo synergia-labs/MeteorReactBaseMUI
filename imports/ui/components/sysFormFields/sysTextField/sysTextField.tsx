@@ -42,6 +42,8 @@ interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 		| 'top-start'
 		| 'top'
 		| undefined;
+	/** Ícone de ajuda */
+	helpIcon?: boolean;
 }
 
 export const SysTextField: React.FC<ISysTextFieldProps> = ({
@@ -62,6 +64,7 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 	showNumberCharactersTyped,
 	sxMap,
 	positionTooltip,
+	helpIcon,
 	...otherProps
 }) => {
 	//Busca as informações do contexto do SysForm
@@ -116,7 +119,8 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 			tooltipMessage={tooltipMessage}
 			disabled={disabled}
 			sxMap={sxMap}
-			placement={positionTooltip}>
+			placement={positionTooltip}
+			helpIcon={helpIcon}>
 			<TextField
 				{...otherProps}
 				name={name}

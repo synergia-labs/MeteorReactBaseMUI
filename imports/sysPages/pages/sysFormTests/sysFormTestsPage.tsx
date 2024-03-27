@@ -104,8 +104,13 @@ const SysFormTestsPage: React.FC = () => {
 					<SysTextField name="type" />
 					<SysTextField name="typeMulti" />
 					<SysTextField name="contacts.cpf" />
-					<SysTextField name="contacts.phone" />
-					<SysTextField name="contacts.cnpj" tooltipMessage="Digite o CNPJ da sua empresa" positionTooltip="left-end" />
+					<SysTextField name="contacts.phone" helpIcon tooltipMessage="Digite o telefone" />
+					<SysTextField
+						name="contacts.cnpj"
+						helpIcon
+						tooltipMessage="Digite o CNPJ da sua empresa"
+						positionTooltip="left-end"
+					/>
 					<SysTextField name="contacts.email" endAdornment={<EmailOutlinedIcon />} />
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>
 				</SysForm>
