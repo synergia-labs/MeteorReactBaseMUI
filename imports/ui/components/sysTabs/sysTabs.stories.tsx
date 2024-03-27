@@ -65,7 +65,9 @@ export const Scrollable: Story = {
 		variant: 'scrollable',
 		scrollButtons: 'auto',
 		sxMap: {
-			container: { width: '480px' }
+			container: { width: '480px' },
+			tabs: {},
+			tab: {}
 		}
 	}
 };
@@ -76,7 +78,9 @@ export const PreventScroll: Story = {
 		variant: 'scrollable',
 		scrollButtons: false,
 		sxMap: {
-			container: { width: '520px' }
+			container: { width: '520px' },
+			tabs: {},
+			tab: {}
 		}
 	}
 };
@@ -85,7 +89,9 @@ export const Vertical: Story = {
 	args: {
 		orientation: 'vertical',
 		sxMap: {
-			container: { width: '150px' }
+			container: { width: '150px' },
+			tabs: {},
+			tab: {}
 		}
 	}
 };
