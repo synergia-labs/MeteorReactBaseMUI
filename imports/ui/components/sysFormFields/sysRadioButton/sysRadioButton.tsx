@@ -66,12 +66,11 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	const { getSysFormComponentInfo } = useContext(SysFormContext);
 	const sysFormController = getSysFormComponentInfo?.(name);
 
-	// @ts-ignore
-	options = options || sysFormController?.schema?.options;
+	options = options || sysFormController?.schema?.options || ([] as any);
 	defaultValue = defaultValue || sysFormController?.schema?.defaultValue;
 	label = label || sysFormController?.schema?.label;
 	readOnly = readOnly || sysFormController?.readOnly;
-	error = error || sysFormController?.erro;
+	error = error || sysFormController?.error;
 	disabled = disabled || sysFormController?.disabled;
 	defaultValue = defaultValue || value || sysFormController?.defaultValue;
 
@@ -86,8 +85,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	if (!!sysFormController && !sysFormController?.isVisibile) return null;
 
 	if (readOnly) {
-		// @ts-ignore
-		const viewValue = options.find((option) => option.value === valueRadio);
+		const viewValue = options && options.find((option) => option.value === valueRadio);
 		return <SysViewField label={label} placeholder={viewValue?.label || '-'} />;
 	}
 
