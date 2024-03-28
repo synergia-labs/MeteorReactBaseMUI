@@ -56,10 +56,10 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 		sysFormController?.onChange({ name, value: newValue });
 	};
 
-	const viewValue = options.find((option) => option.value === valueText)?.label;
-
-	if (readOnly) return <SysViewField label={label} placeholder={viewValue || '-'} />;
-
+	if (readOnly) {
+		const viewValue = options.find((option) => option.value === valueText)?.label;
+		return <SysViewField label={label} placeholder={viewValue || '-'} />;
+	}
 	// function onFieldChange(e: React.BaseSyntheticEvent) {
 	// 	const newValue = e.target.value;
 	// 	if (!!max && newValue.length > max) return;
