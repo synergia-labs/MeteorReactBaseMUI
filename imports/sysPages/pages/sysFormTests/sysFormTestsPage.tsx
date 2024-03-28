@@ -16,6 +16,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import NotInterestedOutlinedIcon from '@mui/icons-material/NotInterestedOutlined';
 import SysLabelView from '/imports/ui/components/sysLabelView/sysLabelView';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
+import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
@@ -112,6 +113,7 @@ const SysFormTestsPage: React.FC = () => {
 						tooltipMessage="Digite o CNPJ da sua empresa"
 						positionTooltip="left-end"
 					/>
+					<SysSelectField name="nivel" />
 					<SysTextField name="contacts.email" endAdornment={<EmailOutlinedIcon />} />
 					<SysRadioButton name="sexo" alinhamento="linha" />
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>

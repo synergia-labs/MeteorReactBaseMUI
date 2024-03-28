@@ -1,5 +1,5 @@
-import { RefObject } from "react";
-import { IDefField, ISchema } from "/imports/typings/ISchema";
+import { RefObject } from 'react';
+import { IDefField, ISchema } from '/imports/typings/ISchema';
 
 interface IDocValues {
 	[key: string]: any;
@@ -14,7 +14,7 @@ interface ISysForm {
 	loading?: boolean;
 	onChange?: (doc: IDocValues) => void;
 	onSubmit?: (doc: IDocValues) => void;
-    submitWithKeyEnter?: boolean;
+	submitWithKeyEnter?: boolean;
 	children?: React.ReactNode;
 }
 
@@ -23,25 +23,25 @@ interface ISysFormRef {
 	hiddenFields: Array<string>;
 	hiddenFieldsRef: RefObject<Array<string>>;
 	requiredFields: Array<string>;
-	onChangeDocValue: ({name, value}: IOnChangeDocValue) => void;
-    checkIfAllRequiredFieldsAreFilled: () => void;
-    checkVisibilityFields: () => void;
-    validateFields: () => void;
-    submit: () => void;
+	onChangeDocValue: ({ name, value }: IOnChangeDocValue) => void;
+	checkIfAllRequiredFieldsAreFilled: () => void;
+	checkVisibilityFields: () => void;
+	validateFields: () => void;
+	submit: () => void;
 }
 
 interface ISysFormContext {
 	getSysFormComponentInfo: (name: string) =>
-		{
-            schema?: IDefField<any>;
-            isVisibile: boolean;
-            isOptional: boolean;
-			readOnly: boolean;
-			loading: boolean;
-			disabled: boolean;
-            onChange: ({name, value} : IOnChangeDocValue) => void;
-            erro: string | undefined;
-            defaultValue: any;
+		| {
+				schema?: IDefField<any>;
+				isVisibile: boolean;
+				isOptional: boolean;
+				readOnly: boolean;
+				loading: boolean;
+				disabled: boolean;
+				onChange: ({ name, value }: IOnChangeDocValue) => void;
+				error: string | undefined;
+				defaultValue: any;
 		  }
 		| undefined;
 	getSysFormButtonInfo: () => {
@@ -63,12 +63,4 @@ interface IOnChangeDocValue {
 	value: any;
 }
 
-
-export type {
-    IDocValues,
-    ISysForm,
-    ISysFormRef,
-    ISysFormState,
-    IOnChangeDocValue,
-    ISysFormContext
-}
+export type { IDocValues, ISysForm, ISysFormRef, ISysFormState, IOnChangeDocValue, ISysFormContext };

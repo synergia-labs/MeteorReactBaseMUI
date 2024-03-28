@@ -41,6 +41,17 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
 			{ value: 'feminino', label: 'Feminino' }
 		]
 	},
+	nivel: {
+		type: String,
+		label: 'Categoria',
+		defaultValue: '1',
+		optional: false,
+		options: [
+			{ value: '1', label: 'Nível 1' },
+			{ value: '2', label: 'Nível 2' },
+			{ value: '3', label: 'Nível 3' }
+		]
+	},
 	contacts: {
 		type: Object,
 		label: 'Contatos',

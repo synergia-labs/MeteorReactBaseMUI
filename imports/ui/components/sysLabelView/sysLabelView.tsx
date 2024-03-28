@@ -12,7 +12,7 @@ interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'place
 		helpIcon?: SxProps<Theme>;
 	};
 	children?: ReactNode | ReactElement;
-	placement: string | undefined;
+	placement?: string | undefined;
 	helpIcon?: boolean;
 	readOnly?: boolean;
 }

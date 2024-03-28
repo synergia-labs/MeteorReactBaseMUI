@@ -24,7 +24,7 @@ export interface IDefField<C> {
     isAvatar?: boolean;
     isUpload?: boolean;
     multiple?: boolean;
-    options?: Array<string> | Array<LabelValue>;
+    options?: Array<string> | Array<LabelValue> | [];
     readOnly?: boolean;
     isAudio?: boolean;
     isMapLocation?: boolean;
