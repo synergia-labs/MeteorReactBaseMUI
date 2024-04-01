@@ -7,6 +7,8 @@ import { SysViewField } from '../sysViewField/sysViewField';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import SysLabelView from '../../sysLabelView/sysLabelView';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 
 interface IOption {
 	/** Label do elemento.*/
@@ -52,6 +54,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	options,
 	value,
 	disabled,
+	onChange,
 	readOnly,
 	error,
 	tooltipMessage,
@@ -74,7 +77,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	disabled = disabled || sysFormController?.disabled;
 	defaultValue = defaultValue || value || sysFormController?.defaultValue;
 
-	const [valueRadio, setValueRadio] = useState(defaultValue);
+	const [valueRadio, setValueRadio] = useState('' || defaultValue);
 
 	function onFieldChange(e: React.BaseSyntheticEvent) {
 		const newValue = e.target.value;
@@ -90,30 +93,33 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	}
 
 	return (
-		<SysLabelView
-			label={label}
-			tooltipMessage={tooltipMessage}
-			disabled={disabled}
-			placement={positionTooltip}
-			helpIcon={helpIcon}
-			sx={sxMap?.container}>
-			<RadioGroup
-				defaultValue={defaultValue}
-				value={value}
-				onChange={onFieldChange}
-				sx={{ flexDirection: alinhamento === 'linha' ? 'row' : 'column', flexWrap: 'wrap', ...sxMap?.radioGroup }}>
-				{options &&
-					options.map((opt) => (
-						<FormControlLabel
-							key={opt.value}
-							value={opt.value}
-							control={<Radio />}
-							label={opt.label}
-							disabled={disabled || sysFormController?.loading}
-							sx={opt?.formControlLabel}
-						/>
-					))}
-			</RadioGroup>
-		</SysLabelView>
+		<FormControl error={!!error}>
+			<SysLabelView
+				label={label}
+				tooltipMessage={tooltipMessage}
+				disabled={disabled}
+				placement={positionTooltip}
+				helpIcon={helpIcon}
+				sx={sxMap?.container}>
+				<RadioGroup
+					value={valueRadio}
+					name="controlled-radio-buttons-group"
+					onChange={onFieldChange}
+					sx={{ flexDirection: alinhamento === 'linha' ? 'row' : 'column', flexWrap: 'wrap', ...sxMap?.radioGroup }}>
+					{options &&
+						options.map((opt) => (
+							<FormControlLabel
+								key={opt.value}
+								value={opt.value}
+								control={<Radio />}
+								label={opt.label}
+								disabled={disabled || sysFormController?.loading}
+								sx={opt?.formControlLabel}
+							/>
+						))}
+				</RadioGroup>
+			</SysLabelView>
+			<FormHelperText>{!!error}</FormHelperText>
+		</FormControl>
 	);
 };

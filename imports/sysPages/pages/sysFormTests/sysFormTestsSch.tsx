@@ -52,6 +52,14 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
 			{ value: '3', label: 'Nível 3' }
 		]
 	},
+	grupos: {
+		type: Array<String>,
+		label: 'Grupos associados',
+		defaultValue: '',
+		optional: true,
+		multiple: true,
+		options: ['Grupo 1', 'Grupo 2', 'Grupo 3']
+	},
 	contacts: {
 		type: Object,
 		label: 'Contatos',
