@@ -4,7 +4,6 @@ import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import SysFormTestsStyles from './sysFormTestsStyles';
 import { sysFormTestsSch } from './sysFormTestsSch';
-import { SysTextField } from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import CodeViewSysForm from './components/codeViewSysForm';
@@ -14,12 +13,17 @@ import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import { SysAppLayoutContext } from '/imports/app/AppLayout';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import NotInterestedOutlinedIcon from '@mui/icons-material/NotInterestedOutlined';
+import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import WrapTextField from './components/wrapTextField';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
 	const [loading, setLoading] = useState<boolean>(false);
 	const [disabled, setDisabled] = useState<boolean>(false);
 	const [mode, setMode] = useState<'view' | 'edit' | 'create'>('create');
+	const [onChangeRealTime, setOnChangeRealTime] = useState<boolean>(false);
 	const sysFormRef = useRef<ISysFormRef>(null);
 
 	const { showNotification } = useContext(SysAppLayoutContext);
@@ -39,13 +43,16 @@ const SysFormTestsPage: React.FC = () => {
 
 	useEffect(() => {
 		if (sysFormRef.current) {
-			setDados(sysFormRef.current.doc.current || {});
+			setDados(sysFormRef.current.getDocValues() || {});
 		}
 	}, []);
 
 	const validateForm = () => sysFormRef.current?.validateFields();
-	const updateDoc = () => setDados(sysFormRef.current?.doc?.current || {});
+	const updateDoc = () => setDados(sysFormRef.current?.getDocValues() || {});
 	const forceSubmit = () => sysFormRef.current?.submit();
+	const clear = () => sysFormRef.current?.clearForm();
+
+	console.log("Renderizou SysFormPage");
 
 	return (
 		<SysFormTestsStyles.container>
@@ -72,6 +79,9 @@ const SysFormTestsPage: React.FC = () => {
 				<Button startIcon={<ManageSearchIcon />} onClick={() => validateForm()}>
 					Validar
 				</Button>
+				<Button startIcon={<CleaningServicesIcon />} onClick={() => clear()}>
+					Limpar
+				</Button>
 				<Button startIcon={<SyncOutlinedIcon />} onClick={() => updateDoc()}>
 					Atualizar DocValues
 				</Button>
@@ -85,13 +95,17 @@ const SysFormTestsPage: React.FC = () => {
 					{!disabled ? 'Desativar Formulário' : 'Ativar Formulário'}
 				</Button>
 				<Button onClick={() => changeMode()} startIcon={<ManageSearchIcon />}>
-					{mode === 'view' ? 'Mudar para Criar' : 'Mudar para Visualizar'}
+					{mode === 'view' ? 'Mudar para modo: Create' : 'Mudar para modo: View'}
+				</Button>
+				<Button onClick={() => setOnChangeRealTime(!onChangeRealTime)} startIcon={<AccessTimeIcon />}>
+					{!onChangeRealTime ? "Ativar atualização em tempo real" : 'Desativar atualização em tempo real'}
 				</Button>
 			</SysFormTestsStyles.controllersContainer>
 
-			<Typography variant="h5">SysForm</Typography>
+
+			<Typography variant="h5">SysForm</Typography> 
 			<SysFormTestsStyles.sysFormContainer>
-				<SysForm
+				<SysForm 
 					schema={sysFormTestsSch}
 					doc={dados}
 					mode={mode}
@@ -99,14 +113,39 @@ const SysFormTestsPage: React.FC = () => {
 					ref={sysFormRef}
 					loading={loading}
 					disabled={disabled}
+					onChange={onChangeRealTime ? updateDoc : undefined}
 				>
-					<SysTextField name="title"  showNumberCharactersTyped/>
-					<SysTextField name="type" />
-					<SysTextField name="typeMulti" />
-					<SysTextField name="contacts.cpf" />
-					<SysTextField name="contacts.phone" />
-					<SysTextField name="contacts.cnpj" />
-					<SysTextField name="contacts.email"  endAdornment={<EmailOutlinedIcon/>} />
+					<WrapTextField 
+						name="title" 
+						isVisibled={sysFormRef.current?.checkVisibilityField('title') ?? true}
+						onClick={() => sysFormRef.current?.validateIndividualField('title')} 
+					/>
+					<WrapTextField 
+						name="type" 
+						isVisibled={sysFormRef.current?.checkVisibilityField('type') ?? true}
+						onClick={() => sysFormRef.current?.validateIndividualField('type')} 
+					/>
+					<SysTextField name="typeMulti"/>
+					<WrapTextField 
+						name="contacts.cpf" 
+						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cpf') ?? true}
+						onClick={() => sysFormRef.current?.validateIndividualField('contacts.cpf')}
+					/>
+					<WrapTextField 
+						name="contacts.phone" 
+						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.phone') ?? true}
+						onClick={() => sysFormRef.current?.validateIndividualField('contacts.phone')}	
+					/>
+					<WrapTextField 
+						name="contacts.cnpj" 
+						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cnpj') ?? true}
+						onClick={() => sysFormRef.current?.validateIndividualField('contacts.cnpj')}
+					/>
+					<SysTextField 
+						name="contacts.novoSubSchema.email"  
+						endAdornment={<EmailOutlinedIcon/>} 
+					/>
+
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>
 				</SysForm>
 			</SysFormTestsStyles.sysFormContainer>

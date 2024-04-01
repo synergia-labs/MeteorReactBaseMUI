@@ -70,17 +70,25 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
                     return undefined;
                 }
             },
-            email:{
-                type: String,
-                label: 'Email',
-                defaultValue: 'teste@teste.com',
+            novoSubSchema:{
+                type: Object,
+                label: 'Contatos',
                 optional: true,
-                mask: '',
-                validationFunction: (value: string) => {
-                    if(!value) return undefined;
-                    const email = validarEmail(value);
-                    if (!email) return 'Email inválido';
-                    return undefined;
+                subSchema: {
+                    email:{
+                        type: String,
+                        label: 'Email',
+                        defaultValue: 'teste@teste.com',
+                        optional: false,
+                        visibilityFunction: (doc: any) => !!doc.type && doc.type === 'extra',
+                        mask: '',
+                        validationFunction: (value: string) => {
+                            if(!value) return undefined;
+                            const email = validarEmail(value);
+                            if (!email) return 'Email inválido';
+                            return undefined;
+                        }
+                    }       
                 }
             }
         },
