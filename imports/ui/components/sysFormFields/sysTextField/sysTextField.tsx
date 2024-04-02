@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { InputAdornment, SxProps, Theme, Typography } from '@mui/material';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
@@ -98,7 +98,12 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 			if(inSysFormContext)
 				controllerSysForm.onChangeComponentValue({ refComponent: refObject! , value: newValue });
 		}
+		onChange?.(e);
 	}
+
+	useEffect(() => {
+		onFieldChange({ target: { value: value } } as React.BaseSyntheticEvent);
+	}, [value]);
 
 	const ShowNumberCaracteres : React.FC = () => (
 		<Typography 
