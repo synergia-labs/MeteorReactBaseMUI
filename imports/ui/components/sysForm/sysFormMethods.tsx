@@ -94,6 +94,8 @@ class SysFormMethods{
     public static getDocValues = (doc: IDocRef, schema: ISchema<any>): IDocValues => {
         const docValues: IDocValues = {};
         try{
+            if(!schema) throw new Error('schema não informado ou incompleto.');
+            if(!doc) throw new Error('doc não informado ou inválido.');
             for (const key in schema) {
                 const { subSchema } = schema[key];
                 if (!subSchema) 

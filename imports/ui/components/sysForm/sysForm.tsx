@@ -8,7 +8,7 @@ const SysFormContext = createContext<ISysFormContext>({} as ISysFormContext);
 
 const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	schema,
-	doc,
+	doc = {},
 	mode = 'view',
 	disabled = false,
 	loading = false,
@@ -30,7 +30,6 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		if(debugAlerts) 
 			showNotification({
 				title: 'Erro no Formulário',
-				//Filtrando a palavra erro, em todos os casos, para evitar redundância
 				message: error.message.replace(/error:/gi, ''),
 				type: 'error'
 			});
@@ -183,13 +182,33 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	}, []);
 
 	useImperativeHandle(ref, () => ({
-		getDocValues: () => SysFormMethods.getDocValues(refComponents.current, schema),
+		getDocValues: () => {
+			try{
+				return SysFormMethods.getDocValues(refComponents.current, schema);
+			}catch(error:any){
+				return {};
+			}
+		},
 		clearForm: () => SysFormMethods.clearForm(refComponents.current, schema),
 		validateFields: () => validateFields(),
 		submit: () => onSubmitForm(),
-		getComponentRef: (name: string) => SysFormMethods.getRefComponentByName(refComponents.current, name),
+		getComponentRef: (name: string) => {
+			try{
+				return SysFormMethods.getRefComponentByName(refComponents.current, name);
+			}catch(error:any){
+				__onFailure(error);
+				return {current: {} as ISysFormComponentRef};
+			}
+		},
 		getComponentsRef: () => refComponents.current,
-		validateIndividualField: (name: string) => checkIfErrorExists(SysFormMethods.getRefComponentByName(refComponents.current, name)),
+		validateIndividualField: (name: string) => {
+			try{
+				return checkIfErrorExists(SysFormMethods.getRefComponentByName(refComponents.current, name));
+			}catch(error:any){
+				__onFailure(error);
+				return;
+			}
+		},
 		checkVisibility: () => checkVisibilityFields(),
 		checkVisibilityField: (name: string) => {
 			try{
@@ -222,7 +241,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		onChangeComponentValue : onChangeComponentValue,
 		setInteractiveMethods : setInteractiveMethods,
 		setButtonRef : setButtonRef,
-	}), [loading, disabled, mode]);
+	}), [loading, disabled, mode, onChange]);
 
 	return (
 		<SysFormContext.Provider value={providerValue}>

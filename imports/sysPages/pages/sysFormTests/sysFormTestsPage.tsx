@@ -43,7 +43,7 @@ const SysFormTestsPage: React.FC = () => {
 
 	useEffect(() => {
 		if (sysFormRef.current) {
-			setDados(sysFormRef.current.getDocValues() || {});
+			setDados(sysFormRef.current.getDocValues() ?? {});
 		}
 	}, []);
 
@@ -52,7 +52,9 @@ const SysFormTestsPage: React.FC = () => {
 	const forceSubmit = () => sysFormRef.current?.submit();
 	const clear = () => sysFormRef.current?.clearForm();
 
-	console.log("Renderizou SysFormPage");
+	const updateRealTime = (doc: {[key:string] : any}) => {
+		if(onChangeRealTime) setDados(doc);
+	}
 
 	return (
 		<SysFormTestsStyles.container>
@@ -113,7 +115,7 @@ const SysFormTestsPage: React.FC = () => {
 					ref={sysFormRef}
 					loading={loading}
 					disabled={disabled}
-					onChange={onChangeRealTime ? updateDoc : undefined}
+					onChange={updateRealTime}
 				>
 					<WrapTextField 
 						name="title" 

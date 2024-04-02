@@ -33,21 +33,16 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
     },
     contacts: {
         type: Object,
-        label: 'Contatos',
-        defaultValue: '',
-        optional: true,
         subSchema: {
             phone: {
                 type: String,
                 label: 'Telefone',
-                defaultValue: '37999767465',
                 optional: true,
                 mask: '(##) ####-####',
             },
             cpf: {
                 type: String,
                 label: 'CPF',
-                defaultValue: '16187235614',
                 optional: true,
                 mask: '###.###.###-##',
                 validationFunction: (value: string) => {
@@ -72,8 +67,6 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
             },
             novoSubSchema:{
                 type: Object,
-                label: 'Contatos',
-                optional: true,
                 subSchema: {
                     email:{
                         type: String,

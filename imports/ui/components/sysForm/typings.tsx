@@ -12,7 +12,7 @@ interface IDocRef {
 
 interface ISysForm {
 	schema: ISchema<any>;
-	doc: IDocValues;
+	doc?: IDocValues;
 	mode: 'view' | 'edit' | 'create';
 	ref?: React.RefObject<HTMLFormElement>;
 	debugAlerts?: boolean;
