@@ -101,7 +101,12 @@ class SysFormMethods{
                 else 
                     docValues[key] = SysFormMethods.getDocValues(doc[key] as IDocRef, subSchema);
             }
-            return docValues;
+
+            return Object.fromEntries(
+                Object.entries(docValues)
+                    .filter(([_, value]) => hasValue(value))
+            );
+
         }catch(error){
             throw new Error(`[SysFormMethods.getDocValues] ${error}`);
         }
