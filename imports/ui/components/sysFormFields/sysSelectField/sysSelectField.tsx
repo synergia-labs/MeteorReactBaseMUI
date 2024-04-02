@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { MenuItem, Select, SelectChangeEvent, SelectProps, SxProps, Theme } from '@mui/material';
+import { ListItemText, MenuItem, Select, SelectChangeEvent, SelectProps, SxProps, Theme } from '@mui/material';
 import { SysFormContext } from '../../sysForm/sysForm';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SysViewField } from '../sysViewField/sysViewField';
@@ -63,8 +63,24 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 
 	return (
 		<SysLabelView label={label}>
-			<Select labelId={`${label}${name}`} id={name} value={valueText} onChange={handleChange}>
-				{options?.map((option) => <MenuItem value={option.value}>{option.label}</MenuItem>)}
+			<Select
+				labelId={`${label}${name}`}
+				id={name}
+				value={valueText}
+				onChange={handleChange}
+				disabled={disabled || sysFormController?.loading}
+				multiple={multiple}>
+				{options?.length === 0 ? (
+					<MenuItem id={'NoValues'} disabled value="">
+						<ListItemText primary="Nenhuma opção para selecionar" />
+					</MenuItem>
+				) : (
+					options?.map((option) => (
+						<MenuItem key={option.value} value={option.value}>
+							{option.label}
+						</MenuItem>
+					))
+				)}
 			</Select>
 		</SysLabelView>
 	);
