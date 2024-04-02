@@ -28,6 +28,7 @@ class SysFormMethods{
             const path = name.split('.');
 
             if(path.length === 1){
+                if(hasValue(mainRef[name])) return mainRef;
                 if(!!!schema[name]) throw new Error(`${name} não encontrado no schema.`);
                 componentRef.current = {
                     ...componentRef.current,
