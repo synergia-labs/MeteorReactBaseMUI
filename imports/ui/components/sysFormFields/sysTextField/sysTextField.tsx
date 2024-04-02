@@ -101,10 +101,6 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 		onChange?.(e);
 	}
 
-	useEffect(() => {
-		onFieldChange({ target: { value: value } } as React.BaseSyntheticEvent);
-	}, [value]);
-
 	const ShowNumberCaracteres : React.FC = () => (
 		<Typography 
 			variant="caption" 
