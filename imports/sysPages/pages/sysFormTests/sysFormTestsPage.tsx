@@ -18,6 +18,7 @@ import SysLabelView from '/imports/ui/components/sysLabelView/sysLabelView';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
+import { SysDatePickerField } from '/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
@@ -118,6 +119,7 @@ const SysFormTestsPage: React.FC = () => {
 					<SysTextField name="contacts.email" endAdornment={<EmailOutlinedIcon />} />
 					<SysRadioButton name="sexo" alinhamento="linha" />
 					<SysCheckBox name="grupos" />
+					<SysDatePickerField name="date" view="linha" />
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>
 				</SysForm>
 			</SysFormTestsStyles.sysFormContainer>

@@ -60,6 +60,12 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
 		multiple: true,
 		options: ['Grupo 1', 'Grupo 2', 'Grupo 3']
 	},
+	date: {
+		type: Date,
+		label: 'Data de lancamento:',
+		defaultValue: '',
+		optional: true
+	},
 	contacts: {
 		type: Object,
 		label: 'Contatos',
