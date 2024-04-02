@@ -10,12 +10,14 @@ class SysFormMethods{
         schema,
         key,
         initialDefaultValues,
+        fieldsWithOptions
     } : {
         mainRef: IDocRef;
         componentRef: MutableRefObject<ISysFormComponentRef>;
         schema: ISchema<any>;
         key?: string;
         initialDefaultValues?: IDocValues;
+        fieldsWithOptions: MutableRefObject<IDocRef>;
     }) => {
         try{
             if(!schema) throw new Error('schema não informado ou incompleto.');
@@ -34,8 +36,11 @@ class SysFormMethods{
                     ...componentRef.current,
                     value: componentRef.current.value || initialDefaultValues?.[name],
                     isVisible: schema[name].visibilityFunction?.(initialDefaultValues),
-                    schema: schema[name]
+                    schema: schema[name],
+                    options: schema[name].options?.(initialDefaultValues),
                 };
+                if(hasValue(schema[name].options)) 
+                    fieldsWithOptions.current[componentRef.current.name] = componentRef;
                 mainRef[name] = componentRef;
                 return mainRef;
             }
@@ -49,6 +54,7 @@ class SysFormMethods{
                 schema: subSchema,
                 key: path.slice(1).join('.'),
                 initialDefaultValues : initialDefaultValues?.[path[0]],
+                fieldsWithOptions
             }) as IDocRef;
 
             return mainRef;

@@ -53,7 +53,6 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	...otherProps
 }) => {
 
-
 	const controllerSysForm = useContext(SysFormContext);
 	const inSysFormContext = hasValue(controllerSysForm);
 
@@ -72,9 +71,9 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	if(mask) defaultValue = generalMask(defaultValue, mask);
 
 
-	const [valueState, setValueState] = useState<string | undefined>(defaultValue);
+	const [valueState, setValueState]     = useState<string | undefined>(defaultValue);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
-	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [errorState, setErrorState]     = useState<string | undefined>(error);
 
 	if(inSysFormContext) controllerSysForm.setInteractiveMethods({
 		componentRef: refObject!,

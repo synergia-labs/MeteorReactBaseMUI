@@ -19,6 +19,7 @@ import WrapTextField from './components/wrapTextField';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ErrorIcon from '@mui/icons-material/Error';
 import { hasValue } from '/imports/libs/hasValue';
+import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
@@ -161,6 +162,7 @@ const SysFormTestsPage: React.FC = () => {
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.phone') ?? true}
 						onClick={() => sysFormRef.current?.validateIndividualField('contacts.phone')}
 					/>
+					<SysRadioButton name="sexo" alinhamento="linha" />
 					<WrapTextField
 						name="contacts.cnpj"
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cnpj') ?? true}

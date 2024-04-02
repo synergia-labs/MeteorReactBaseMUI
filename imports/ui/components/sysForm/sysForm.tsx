@@ -3,6 +3,7 @@ import { IDocRef, IDocValues, ISysForm, ISysFormButtonRef, ISysFormComponentRef,
 import { SysAppLayoutContext } from '/imports/app/AppLayout';
 import SysFormMethods from './sysFormMethods';
 import { hasValue } from '/imports/libs/hasValue';
+import { IOption } from '../InterfaceBaseSimpleFormComponent';
 
 const SysFormContext = createContext<ISysFormContext>({} as ISysFormContext);
 
@@ -25,6 +26,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	const refComponents = useRef<IDocRef>({});
 	const refButton = useRef<MutableRefObject<ISysFormButtonRef>>();
 	const fieldsWithErrors = useRef<{[key: string] : string}>({});
+	const fieldsWithOptions = useRef<IDocRef>({});
 
 	const __onFailure = (error: Error) => {
 		if(debugAlerts)
@@ -50,7 +52,8 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 				mainRef: refComponents.current,
 				componentRef: component,
 				schema: schema,
-				initialDefaultValues: initialDefaultValues
+				initialDefaultValues: initialDefaultValues,
+				fieldsWithOptions: fieldsWithOptions,
 			});
 		}catch(error:any){
 			__onFailure(error);
@@ -63,12 +66,14 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		setValueMethod,
 		changeVisibilityMethod,
 		setErrorMethod,
+		setOptionsMethod
 	}:{
 		componentRef: MutableRefObject<ISysFormComponentRef>;
 		clearMethod: () => void;
 		setValueMethod: (value: any) => void;
 		changeVisibilityMethod: (visible: boolean) => void;
 		setErrorMethod: (error: string | undefined) => void;
+		setOptionsMethod?: (options: Array<IOption>) => void;
 	}) => {
 		try{
 			componentRef.current = {
@@ -77,6 +82,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 				setValue: setValueMethod,
 				setVisible: changeVisibilityMethod,
 				setError: setErrorMethod,
+				setOptions: setOptionsMethod,
 			};
 		}catch(error:any){
 			__onFailure(error);
@@ -107,6 +113,17 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 			) checkIfErrorExists(refComponent);
 			if(initialRequiredFields.includes(refComponent.current.name))
 				refButton.current?.current?.setDisabled?.(!checkIfAllRequiredFieldsAreFilled());
+			
+			for(const key in fieldsWithOptions.current){
+				const refComponent = fieldsWithOptions.current[key] as MutableRefObject<ISysFormComponentRef>;
+				if(!refComponent) continue;
+				const schemaInfo = SysFormMethods.getSchemaByName(schema, refComponent.current.name);
+				if(!schemaInfo) continue;
+				const newOptions = schemaInfo.options?.(SysFormMethods.getDocValues(refComponents.current, schema));
+				refComponent.current.options = schemaInfo.options?.(newOptions);
+				refComponent.current.setOptions?.(newOptions ?? []);
+			}
+
 
 			onChange?.(SysFormMethods.getDocValues(refComponents.current, schema));
 		}catch(error:any){

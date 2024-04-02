@@ -23,6 +23,32 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
             return undefined;
         },
     },
+    sexo: {
+		type: String,
+		label: 'Sexo',
+		optional: false,
+		options: (doc?:  ISysFormTestsSch | undefined ) => {
+        
+            if(doc?.title === 'Teste') return [
+                { value: 'masculinosss', label: 'Masculinosssss' },
+                { value: 'femininoss', label: 'Femininosssss' }
+		    ]
+
+            if(doc?.type === 'extra2') return [
+                { value: 'masculino', label: 'Masculino' },
+                { value: 'feminino', label: 'Feminino' },
+                { value: 'outro', label: 'Outro' }
+            ]
+
+            return [{
+                value: 'masculino',
+                label: 'Masculino'
+            }, {
+                value: 'feminino',
+                label: 'Feminino'
+            }]
+        }
+	},
     typeMulti: {
         type: Array<String>,
         label: 'Tipos Multi',

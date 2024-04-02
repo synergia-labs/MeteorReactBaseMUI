@@ -1,7 +1,8 @@
+import { IOption } from '../ui/components/InterfaceBaseSimpleFormComponent';
 import { IDoc } from './IDoc';
 
 export type LabelValue = {
-    value: string | number | boolean;
+    value: any;
     label: string;
 };
 
@@ -24,7 +25,7 @@ export interface IDefField<C> {
     isAvatar?: boolean;
     isUpload?: boolean;
     multiple?: boolean;
-    options?: Array<string> | Array<LabelValue> | [];
+    options?: (doc?:C) => Array<IOption>;
     readOnly?: boolean;
     isAudio?: boolean;
     isMapLocation?: boolean;
