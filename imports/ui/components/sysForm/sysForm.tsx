@@ -24,13 +24,14 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	const {showNotification} = useContext(SysAppLayoutContext);
 	const refComponents = useRef<IDocRef>({});
 	const refButton = useRef<MutableRefObject<ISysFormButtonRef>>();
-	const fieldsWithErrors = useRef<Array<string>>([]);
+	const fieldsWithErrors = useRef<{[key: string] : string}>({});
 
 	const __onFailure = (error: Error) => {
 		if(debugAlerts) 
 			showNotification({
 				title: 'Erro no Formulário',
-				message: error.message, 
+				//Filtrando a palavra erro, em todos os casos, para evitar redundância
+				message: error.message.replace(/error:/gi, ''),
 				type: 'error'
 			});
 	};
@@ -103,7 +104,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 			if(
 				(!Array.isArray(validateOnChange) && validateOnChange) ||
 				Array.isArray(validateOnChange) && validateOnChange.includes(refComponent.current.name) ||
-				fieldsWithErrors.current.includes(refComponent.current.name)
+				hasValue(fieldsWithErrors.current[refComponent.current.name])
 			) checkIfErrorExists(refComponent);
 			if(initialRequiredFields.includes(refComponent.current.name))
 				refButton.current?.current?.setDisabled?.(!checkIfAllRequiredFieldsAreFilled());
@@ -167,16 +168,17 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 			});
 		}catch(error:any){
 			__onFailure(error);
-			return false;
+			throw error;
 		}
 	}, []);
 	
 	const onSubmitForm = useCallback(() => {
 		try{
-			if(validateFields()) throw new Error('Existem campos inválidos.');
+			validateFields();
 			if(onSubmit) onSubmit(SysFormMethods.getDocValues(refComponents.current, schema));
 		}catch(error:any){
 			__onFailure(error);
+			throw error;
 		}
 	}, []);
 
@@ -220,7 +222,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		onChangeComponentValue : onChangeComponentValue,
 		setInteractiveMethods : setInteractiveMethods,
 		setButtonRef : setButtonRef,
-	}), [loading, disabled, mode, onChange]);
+	}), [loading, disabled, mode]);
 
 	return (
 		<SysFormContext.Provider value={providerValue}>

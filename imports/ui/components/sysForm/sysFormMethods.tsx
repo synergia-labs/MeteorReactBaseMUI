@@ -161,15 +161,14 @@ class SysFormMethods{
         schema, 
         doc,
         requiredFields,
-        fieldsWithErrors
+        fieldsWithErrors,
     }: {
         schema: ISchema<any>;
         doc: IDocRef;
         requiredFields: string[];
-        fieldsWithErrors: MutableRefObject<string[]>;
-    }): boolean => {
+        fieldsWithErrors: MutableRefObject<{[key: string] : string}>;
+    }) => {
         try{
-            let hasError = false;
             for(const key in schema){
                 const { subSchema } = schema[key];
                 if(!!subSchema){
@@ -184,19 +183,25 @@ class SysFormMethods{
 
                 const value = ref.current.value;
                 const errorMessage = schema[key].validationFunction?.(value) ?? ((requiredFields.includes(ref.current.name) && !hasValue(value)) ? 'Campo obrigatório.' : undefined);
-                if(hasValue(errorMessage)){
-                    hasError = true;
-                    fieldsWithErrors.current.push(ref.current.name);
-                }else{
-                    fieldsWithErrors.current = fieldsWithErrors.current.filter((field) => field !== ref.current.name);
-                }
 
                 ref.current.error = errorMessage;
-                ref.current.setError?.(errorMessage);               
+                ref.current.setError?.(errorMessage);
+
+                if(hasValue(errorMessage)){
+                    fieldsWithErrors.current[ref.current.name] = errorMessage!;
+                }else{
+                    if(hasValue(fieldsWithErrors.current[ref.current.name]))
+                        delete fieldsWithErrors.current[ref.current.name];
+                }              
             }
-            return hasError;
+            if(hasValue(fieldsWithErrors.current)) throw new Error(`
+                Erro nos campos: ${Object.keys(fieldsWithErrors.current).map((key) => {
+                    const path = key.split('.');
+                    return path[path.length - 1];
+                }).join(', ')}
+            `);
         }catch(error){
-            throw new Error(`[SysFormMethods.validate] ${error}`);
+            throw error;
         }
     };
 
