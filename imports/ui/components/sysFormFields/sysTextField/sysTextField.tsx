@@ -1,12 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { InputAdornment, SxProps, Theme, Typography } from '@mui/material';
+import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import { SysFormContext } from '../../sysForm/sysForm';
+import { ISysFormComponentRef } from '../../sysForm/typings';
 import { generalMask } from '/imports/libs/MaskFunctions';
+import { hasValue } from '/imports/libs/hasValue';
+import SysLabelView from '../../sysLabelView/sysLabelView';
 import { removerFormatacoes } from '/imports/libs/normalizarTexto';
 import { SysViewField } from '../sysViewField/sysViewField';
-import { SysFormContext } from '../../sysForm/sysForm';
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import SysLabelView from '../../sysLabelView/sysLabelView';
 
 interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 	/** mask: Máscara de formatação.*/
@@ -26,31 +28,16 @@ interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 		container?: SxProps<Theme>;
 		header?: SxProps<Theme>;
 		textField?: SxProps<Theme>;
-	};
-	/** PositionTooltip */
-	positionTooltip?:
-		| 'bottom-end'
-		| 'bottom-start'
-		| 'bottom'
-		| 'left-end'
-		| 'left-start'
-		| 'left'
-		| 'right-end'
-		| 'right-start'
-		| 'right'
-		| 'top-end'
-		| 'top-start'
-		| 'top'
-		| undefined;
-	/** Ícone de ajuda */
-	helpIcon?: boolean;
+	}
 }
 
-export const SysTextField: React.FC<ISysTextFieldProps> = ({
+
+const SysTextField: React.FC<ISysTextFieldProps> = ({
 	name,
 	label,
 	value,
 	disabled,
+	loading,
 	onChange,
 	readOnly,
 	error,
@@ -63,82 +50,104 @@ export const SysTextField: React.FC<ISysTextFieldProps> = ({
 	min,
 	showNumberCharactersTyped,
 	sxMap,
-	positionTooltip,
-	helpIcon,
 	...otherProps
 }) => {
-	//Busca as informações do contexto do SysForm
-	const { getSysFormComponentInfo } = useContext(SysFormContext);
-	const sysFormController = getSysFormComponentInfo?.(name);
 
-	//Se o valor não for passado, busca o valor default do SysFormController
-	const schema = sysFormController?.schema;
 
-	label = label || sysFormController?.schema?.label;
-	mask = mask || schema?.mask;
-	min = min || schema?.min;
-	max = max || schema?.max;
-	readOnly = readOnly || sysFormController?.readOnly;
-	error = error || sysFormController?.error;
-	disabled = disabled || sysFormController?.disabled;
-	defaultValue = defaultValue || value || sysFormController?.defaultValue;
-	if (mask) defaultValue = generalMask(defaultValue, mask);
+	const controllerSysForm = useContext(SysFormContext);
+	const inSysFormContext = hasValue(controllerSysForm);
 
-	const [valueText, setValueText] = useState(defaultValue);
+	const refObject =  !inSysFormContext ? null : useRef<ISysFormComponentRef>({name, value: value || defaultValue});
+	if(inSysFormContext) controllerSysForm.setRefComponent(refObject!);
+	const schema = refObject?.current.schema;
+
+	label = label || schema?.label;
+	mask  = mask  || schema?.mask;
+	min   = min   || schema?.min;
+	max   = max   || schema?.max;
+	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
+	disabled = disabled || controllerSysForm.disabled;
+	loading = loading || controllerSysForm.loading;
+	defaultValue = refObject?.current.value || schema?.defaultValue;
+	if(mask) defaultValue = generalMask(defaultValue, mask);
+
+
+	const [valueState, setValueState] = useState<string | undefined>(defaultValue);
+	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
+	const [errorState, setErrorState] = useState<string | undefined>(error);
+
+	if(inSysFormContext) controllerSysForm.setInteractiveMethods({
+		componentRef: refObject!,
+		clearMethod: () => setValueState(''),
+		setValueMethod: (value) => setValueState(value),
+		changeVisibilityMethod: (visible) => setVisibleState(visible),
+		setErrorMethod: (error) => setErrorState(error),
+	});
 
 	function onFieldChange(e: React.BaseSyntheticEvent) {
 		const newValue = e.target.value;
-		if (!!max && newValue.length > max) return;
+		if(!!max && newValue.length > max) return;
 		if (mask) {
 			const inputValue = generalMask(newValue, mask);
 			const transformedValue = removerFormatacoes(inputValue);
-			setValueText(inputValue);
-			sysFormController?.onChange({ name, value: transformedValue });
+			setValueState(inputValue);
+			if(inSysFormContext)
+				controllerSysForm.onChangeComponentValue({ refComponent: refObject! , value: transformedValue });
 		} else {
-			setValueText(newValue);
-			sysFormController?.onChange({ name, value: newValue });
+			setValueState(newValue);
+			if(inSysFormContext)
+				controllerSysForm.onChangeComponentValue({ refComponent: refObject! , value: newValue });
 		}
+		onChange?.(e);
 	}
 
-	const ShowNumberCaracteres: React.FC = () => (
-		<Typography
-			variant="caption"
-			color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}
-			sx={{ width: '100%', textAlign: 'right' }}>
-			{`${valueText?.length || 0}${max ? `/${max}` : ''}`}
+	useEffect(() => {
+		onFieldChange({ target: { value: value } } as React.BaseSyntheticEvent);
+	}, [value]);
+
+	const ShowNumberCaracteres : React.FC = () => (
+		<Typography 
+			variant="caption" 
+			color={theme => disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary}
+			sx={{ width: '100%', textAlign: 'right',}}
+		>
+			{`${valueState?.length || 0}${max ? `/${max}` : ''}`}
 		</Typography>
 	);
 
-	if (!!sysFormController && !sysFormController?.isVisibile) return null;
+	if(!visibleState) return null;
 
-	if (readOnly) return <SysViewField label={label} placeholder={valueText || '-'} />;
+	if (readOnly) return <SysViewField label={label } placeholder={valueState || '-'} />;
 
 	return (
-		<SysLabelView
-			label={label}
+		<SysLabelView 
+			label={label} 
 			tooltipMessage={tooltipMessage}
 			disabled={disabled}
 			sxMap={sxMap}
-			placement={positionTooltip}
-			helpIcon={helpIcon}>
+		>
 			<TextField
 				{...otherProps}
-				name={name}
-				id={name}
-				key={name}
-				sx={sxMap?.textField}
-				value={valueText}
-				onChange={onFieldChange}
-				error={!!error}
-				disabled={disabled || sysFormController?.loading}
-				helperText={otherProps.helperText || error}
-				inputProps={{ maxLength: max, minLength: min }}
-				InputProps={{
-					startAdornment: startAdornment && <InputAdornment position="start">{startAdornment}</InputAdornment>,
-					endAdornment: endAdornment && <InputAdornment position="end">{endAdornment}</InputAdornment>
-				}}
-			/>
+				name = {name}
+				id   = {name}
+				key  = {name}
+	 			sx 	 = {sxMap?.textField}
+	 			value = {valueState}
+				onChange = {onFieldChange}
+	 			error = {!!errorState}
+	 			disabled = {disabled || loading}
+	 			helperText = {otherProps.helperText || errorState}
+	 			inputProps = {{ maxLength: max, minLength: min }}
+	 			InputProps = {{
+	 				startAdornment: startAdornment && (<InputAdornment position="start">{startAdornment}</InputAdornment>),
+	 				endAdornment: endAdornment && (<InputAdornment position="end">{endAdornment}</InputAdornment>) 
+	 			}}
+	 		/>
 			{showNumberCharactersTyped && <ShowNumberCaracteres />}
 		</SysLabelView>
 	);
+
 };
+
+export type {ISysTextFieldProps};
+export default SysTextField;

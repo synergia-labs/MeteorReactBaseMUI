@@ -8,6 +8,7 @@ interface ISysFormTestsStyles {
     schemaAndValues: ElementType<BoxProps>;
     controllersContainer: ElementType<BoxProps>;
     sysFormContainer: ElementType<BoxProps>;
+    erroContainer: ElementType<BoxProps>;
 }
 
 const SysFormTestsStyles: ISysFormTestsStyles = {
@@ -35,13 +36,19 @@ const SysFormTestsStyles: ISysFormTestsStyles = {
         alignItems: 'flex-start',
         justifyContent: 'space-between',
     }),
-    controllersContainer: styled(Box)({
+    controllersContainer: styled(Box)(({theme}) => ({
         display: 'flex',
         flexDirection: 'row',
         gap: '1rem',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-    }),
+        width: '100%',
+        flexWrap: 'wrap',
+        backgroundColor: theme.palette.sysBackground?.bg3,
+        padding: theme.spacing(2),
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: '10px',
+    })),
     sysFormContainer: styled(Box)({
         display: 'flex',
         flexDirection: 'column',
@@ -50,6 +57,16 @@ const SysFormTestsStyles: ISysFormTestsStyles = {
         justifyContent: 'flex-start',
         width: '100%',
     }),
+    erroContainer: styled(Box)({
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        width: '100%',
+        padding: '1rem',
+    }),
+
 };
 
 export default SysFormTestsStyles;

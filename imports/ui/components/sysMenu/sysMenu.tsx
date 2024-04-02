@@ -67,7 +67,7 @@ export const SysMenu: React.FC<SysMenuProps> = ({ name, onClick, anchorEl,handle
                     ]
                 : [
                         
-                        <Typography variant="subtitle1" sx={StyledSysMenu.header}
+                        <Typography key={'userName'} variant="subtitle1" sx={StyledSysMenu.header}
                         
                         >{user.username}</Typography>
                         ,

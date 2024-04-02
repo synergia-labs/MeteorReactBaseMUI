@@ -1,54 +1,81 @@
-import { RefObject } from 'react';
-import { IDefField, ISchema } from '/imports/typings/ISchema';
+import { MutableRefObject, RefObject } from "react";
+import { IDefField, ISchema } from "/imports/typings/ISchema";
+import { ISysFormComponent } from "../InterfaceBaseSimpleFormComponent";
 
 interface IDocValues {
 	[key: string]: any;
 }
 
+interface IDocRef {
+	[key: string]: MutableRefObject<ISysFormComponentRef> | IDocRef;
+}
+
 interface ISysForm {
 	schema: ISchema<any>;
-	doc: IDocValues;
+	doc?: IDocValues;
 	mode: 'view' | 'edit' | 'create';
 	ref?: React.RefObject<HTMLFormElement>;
+	debugAlerts?: boolean;
 	disabled?: boolean;
 	loading?: boolean;
 	onChange?: (doc: IDocValues) => void;
 	onSubmit?: (doc: IDocValues) => void;
-	submitWithKeyEnter?: boolean;
+    submitWithKeyEnter?: boolean;
+	validateOnChange?: boolean | Array<string>;
 	children?: React.ReactNode;
 }
 
 interface ISysFormRef {
-	doc: RefObject<IDocValues>;
-	hiddenFields: Array<string>;
-	hiddenFieldsRef: RefObject<Array<string>>;
-	requiredFields: Array<string>;
-	onChangeDocValue: ({ name, value }: IOnChangeDocValue) => void;
-	checkIfAllRequiredFieldsAreFilled: () => void;
-	checkVisibilityFields: () => void;
-	validateFields: () => void;
-	submit: () => void;
+	getFieldWithErrors(): { [key: string]: string };
+	getDocValues(): IDocValues;
+	clearForm(): void;
+	validateFields(): void;
+	submit(): void;
+	getComponentRef(name: string): MutableRefObject<ISysFormComponentRef>;
+	getComponentsRef(): IDocRef;
+	validateIndividualField(name: string): void;
+	checkVisibility: () => void;
+	checkVisibilityField: (name: string) => boolean;
 }
 
 interface ISysFormContext {
-	getSysFormComponentInfo: (name: string) =>
-		| {
-				schema?: IDefField<any>;
-				isVisibile: boolean;
-				isOptional: boolean;
-				readOnly: boolean;
-				loading: boolean;
-				disabled: boolean;
-				onChange: ({ name, value }: IOnChangeDocValue) => void;
-				error: string | undefined;
-				defaultValue: any;
-		  }
-		| undefined;
-	getSysFormButtonInfo: () => {
-		disabled: boolean;
-		loading: boolean;
-		onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-	};
+	mode : 'view' | 'edit' | 'create';
+	loading: boolean;
+	disabled: boolean;
+	setRefComponent: (component: MutableRefObject<ISysFormComponentRef>) => void;
+	setButtonRef: (button: MutableRefObject<ISysFormButtonRef>) => void;
+	onChangeComponentValue: ({refComponent, value}: {refComponent: MutableRefObject<ISysFormComponentRef>, value: any}) => void;
+	setInteractiveMethods: ({
+		componentRef,
+		clearMethod,
+		setValueMethod,
+		changeVisibilityMethod,
+		setErrorMethod,
+	}:{
+		componentRef: MutableRefObject<ISysFormComponentRef>;
+		clearMethod: () => void;
+		setValueMethod: (value: any) => void;
+		changeVisibilityMethod: (visible: boolean) => void;
+		setErrorMethod: (error: string | undefined) => void;
+	}) => void;
+}
+
+interface ISysFormComponentRef {
+	name: string;
+	value?: any;
+	schema?: IDefField<any>;
+	isVisible?: boolean;
+	error?: string;
+	setValue?: (value: any) => void;
+	clearValue?: () => void;
+	setVisible?: (visible: boolean) => void;
+	setError?: (error: string | undefined) => void;
+}
+
+interface ISysFormButtonRef {
+	disabled?: boolean;
+	setDisabled?: (disabled: boolean) => void;
+	onClick?: () => void;
 }
 
 interface ISysFormState {
@@ -63,4 +90,15 @@ interface IOnChangeDocValue {
 	value: any;
 }
 
-export type { IDocValues, ISysForm, ISysFormRef, ISysFormState, IOnChangeDocValue, ISysFormContext };
+
+export type {
+    IDocValues,
+	IDocRef,
+    ISysForm,
+    ISysFormRef,
+	ISysFormButtonRef,
+    ISysFormState,
+    IOnChangeDocValue,
+    ISysFormContext,
+	ISysFormComponentRef
+}
