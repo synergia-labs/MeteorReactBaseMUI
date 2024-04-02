@@ -8,6 +8,7 @@ interface ISysFormTestsStyles {
     schemaAndValues: ElementType<BoxProps>;
     controllersContainer: ElementType<BoxProps>;
     sysFormContainer: ElementType<BoxProps>;
+    erroContainer: ElementType<BoxProps>;
 }
 
 const SysFormTestsStyles: ISysFormTestsStyles = {
@@ -56,6 +57,16 @@ const SysFormTestsStyles: ISysFormTestsStyles = {
         justifyContent: 'flex-start',
         width: '100%',
     }),
+    erroContainer: styled(Box)({
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        width: '100%',
+        padding: '1rem',
+    }),
+
 };
 
 export default SysFormTestsStyles;

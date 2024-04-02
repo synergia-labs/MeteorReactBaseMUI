@@ -26,6 +26,7 @@ interface ISysForm {
 }
 
 interface ISysFormRef {
+	getFieldWithErrors(): { [key: string]: string };
 	getDocValues(): IDocValues;
 	clearForm(): void;
 	validateFields(): void;

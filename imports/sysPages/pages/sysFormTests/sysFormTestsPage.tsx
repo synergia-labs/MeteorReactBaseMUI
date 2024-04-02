@@ -17,6 +17,8 @@ import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysT
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import WrapTextField from './components/wrapTextField';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ErrorIcon from '@mui/icons-material/Error';
+import { hasValue } from '/imports/libs/hasValue';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
@@ -26,7 +28,7 @@ const SysFormTestsPage: React.FC = () => {
 	const [onChangeRealTime, setOnChangeRealTime] = useState<boolean>(false);
 	const sysFormRef = useRef<ISysFormRef>(null);
 
-	const { showNotification } = useContext(SysAppLayoutContext);
+	const { showNotification, showDialog } = useContext(SysAppLayoutContext);
 
 	const changeMode = () => {
 		setMode(mode === 'view' ? 'create' : 'view');
@@ -54,6 +56,24 @@ const SysFormTestsPage: React.FC = () => {
 
 	const updateRealTime = (doc: {[key:string] : any}) => {
 		if(onChangeRealTime) setDados(doc);
+	} 
+
+	const showErrorFields = () => {
+		const errors = sysFormRef.current?.getFieldWithErrors();
+		showDialog({
+			title: 'Campos com erro',
+			body: (
+				<SysFormTestsStyles.erroContainer>
+					{hasValue(errors) ? (
+						<pre>
+							{JSON.stringify(errors, null, 2)}
+						</pre>
+					): (
+						<Typography variant="body1">Nenhum campo com erro</Typography>
+					)}
+				</SysFormTestsStyles.erroContainer>
+			)
+		});
 	}
 
 	return (
@@ -101,6 +121,9 @@ const SysFormTestsPage: React.FC = () => {
 				</Button>
 				<Button onClick={() => setOnChangeRealTime(!onChangeRealTime)} startIcon={<AccessTimeIcon />}>
 					{!onChangeRealTime ? "Ativar atualização em tempo real" : 'Desativar atualização em tempo real'}
+				</Button>
+				<Button onClick={showErrorFields} startIcon={<ErrorIcon />}>
+					Ver campos com erro
 				</Button>
 			</SysFormTestsStyles.controllersContainer>
 

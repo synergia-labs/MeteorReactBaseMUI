@@ -151,6 +151,12 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 			const errorMessage = schamaInfo?.validationFunction?.(componentRef.current.value);
 			componentRef.current.error = errorMessage;
 			componentRef.current.setError?.(errorMessage);
+			if(!!errorMessage){
+				fieldsWithErrors.current[componentRef.current.name] = errorMessage;
+			}else{
+				delete fieldsWithErrors.current[componentRef.current.name];
+			}
+
 		}catch(error:any){
 			__onFailure(error);
 		}
@@ -182,6 +188,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	}, []);
 
 	useImperativeHandle(ref, () => ({
+		getFieldWithErrors: () => fieldsWithErrors.current,
 		getDocValues: () => {
 			try{
 				return SysFormMethods.getDocValues(refComponents.current, schema);
@@ -206,7 +213,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 				return checkIfErrorExists(SysFormMethods.getRefComponentByName(refComponents.current, name));
 			}catch(error:any){
 				__onFailure(error);
-				return;
+				throw error;
 			}
 		},
 		checkVisibility: () => checkVisibilityFields(),
