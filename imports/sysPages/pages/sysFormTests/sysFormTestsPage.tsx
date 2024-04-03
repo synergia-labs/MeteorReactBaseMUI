@@ -162,7 +162,14 @@ const SysFormTestsPage: React.FC = () => {
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.phone') ?? true}
 						onClick={() => sysFormRef.current?.validateIndividualField('contacts.phone')}
 					/>
-					<SysRadioButton name="sexo" alinhamento="linha" />
+					<SysRadioButton 
+						name="entertainment" 
+						alignment='row' 
+					/>
+					<SysRadioButton 
+						name="entertainmentSpecific" 
+						alignment='row' 
+					/>
 					<WrapTextField
 						name="contacts.cnpj"
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cnpj') ?? true}

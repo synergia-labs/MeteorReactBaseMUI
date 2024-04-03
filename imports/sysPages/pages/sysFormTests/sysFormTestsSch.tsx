@@ -23,32 +23,48 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
             return undefined;
         },
     },
-    sexo: {
+    entertainment: {
 		type: String,
-		label: 'Sexo',
+		label: 'Entretenimento',
 		optional: false,
-		options: (doc?:  ISysFormTestsSch | undefined ) => {
-        
-            if(doc?.title === 'Teste') return [
-                { value: 'masculinosss', label: 'Masculinosssss' },
-                { value: 'femininoss', label: 'Femininosssss' }
-		    ]
-
-            if(doc?.type === 'extra2') return [
-                { value: 'masculino', label: 'Masculino' },
-                { value: 'feminino', label: 'Feminino' },
-                { value: 'outro', label: 'Outro' }
-            ]
-
-            return [{
-                value: 'masculino',
-                label: 'Masculino'
-            }, {
-                value: 'feminino',
-                label: 'Feminino'
-            }]
-        }
+		options: () => [
+            { label: 'Filme', value: 'filme'   },
+            { label: 'Série', value: 'serie'   },
+            { label: 'Livro', value: 'livro'   },
+            { label: 'Música', value: 'musica' },
+        ]
 	},
+    entertainmentSpecific: {
+        type: String,
+        label: 'Escolha uma das opções',
+        defaultValue: '',
+        optional: false,
+        visibilityFunction: (doc: ISysFormTestsSch) => !!doc.entertainment,
+        options: (doc: ISysFormTestsSch | undefined ) => {
+            if(!doc) return [];
+            if(doc.entertainment === 'filme') return [
+                { label: 'Terror', value: 'terror' },
+                { label: 'Comédia', value: 'comedia' },
+                { label: 'Ação', value: 'acao' },
+            ];
+            if(doc.entertainment === 'serie') return [
+                { label: 'Drama', value: 'drama' },
+                { label: 'Comédia', value: 'comedia' },
+                { label: 'Ação', value: 'acao' },
+            ];
+            if(doc.entertainment === 'livro') return [
+                { label: 'Romance', value: 'romance' },
+                { label: 'Ficção', value: 'ficcao' },
+                { label: 'Aventura', value: 'aventura' },
+            ];
+            if(doc.entertainment === 'musica') return [
+                { label: 'Rock', value: 'rock' },
+                { label: 'Pop', value: 'pop' },
+                { label: 'Sertanejo', value: 'sertanejo' },
+            ];
+            return [];
+        }
+    },
     typeMulti: {
         type: Array<String>,
         label: 'Tipos Multi',
@@ -118,6 +134,8 @@ export interface ISysFormTestsSch extends IDoc {
     title: string;
     description: string;
     type: string;
+    entertainment: 'filme' | 'serie' | 'livro' | 'musica';
+    entertainmentSpecific: string;
     typeMulti: Array<string>;
     contacts: {
         phone: string;

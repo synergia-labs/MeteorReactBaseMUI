@@ -12,8 +12,6 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 
-
-
 interface ISysRadioProps extends ISysFormComponent<RadioProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
@@ -21,9 +19,7 @@ interface ISysRadioProps extends ISysFormComponent<RadioProps> {
 		radioGroup?: SxProps<Theme>;
 	};
 	/** Posicionamento dos elementos */
-	alinhamento?: 'linha' | 'coluna';
-	/** Ícone de ajuda */
-	helpIcon?: boolean;
+	alignment?: 'row' | 'column';
 }
 
 export const SysRadioButton: React.FC<ISysRadioProps> = ({
@@ -40,8 +36,9 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	defaultValue,
 	positionTooltip,
 	helpIcon,
-	alinhamento = 'coluna',
+	alignment = 'column',
 	sxMap,
+	...otherProps
 }) => {
 
 	const controllerSysForm = useContext(SysFormContext);
@@ -51,7 +48,6 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	if(inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 	const schema = refObject?.current.schema;
 
-
 	options = options || refObject?.current.options || ([] as any);
 	defaultValue = defaultValue || schema?.defaultValue;
 	label = label || schema?.label;
@@ -60,7 +56,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	loading = loading || controllerSysForm.loading;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
 
-	const [valueState, setValueState]     = useState<string>('' || defaultValue);
+	const [valueState, setValueState]     = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] 	  = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
@@ -81,7 +77,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 		onChange?.(e);
 	}
 
-	if (!visibleState) return null;
+	if (!visibleState || options?.length === 0) return null;
 
 	if (readOnly) {
 		const viewValue = optionsState && optionsState.find((option) => option.value === valueState);
@@ -89,7 +85,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	}
 
 	return (
-		<FormControl error={!!error}>
+		<FormControl error={!!errorState}>
 			<SysLabelView
 				label={label}
 				tooltipMessage={tooltipMessage}
@@ -101,21 +97,27 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 					value={valueState}
 					name="controlled-radio-buttons-group"
 					onChange={onFieldChange}
-					sx={{ flexDirection: alinhamento === 'linha' ? 'row' : 'column', flexWrap: 'wrap', ...sxMap?.radioGroup }}>
+					sx={[
+						{
+							flexDirection: alignment, 
+							flexWrap: 'wrap',
+						}, 
+						...(Array.isArray(sxMap?.radioGroup) ? sxMap?.radioGroup : [sxMap?.radioGroup]) 
+					]}
+				>
 					{optionsState &&
 						optionsState.map((opt) => (
 							<FormControlLabel
 								key={opt.value}
 								value={opt.value}
-								control={<Radio />}
+								control={<Radio {...otherProps}/>}
 								label={opt.label}
 								disabled={disabled || loading}
-								sx={opt?.formControlLabel}
 							/>
 						))}
 				</RadioGroup>
 			</SysLabelView>
-			<FormHelperText>{!!errorState}</FormHelperText>
+			<FormHelperText>{errorState}</FormHelperText>
 		</FormControl>
 	);
 };

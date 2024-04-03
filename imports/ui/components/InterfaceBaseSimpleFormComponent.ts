@@ -1,12 +1,9 @@
-import { SxProps, Theme } from "@mui/material";
 
 interface IOption {
 	/** Label do elemento.*/
 	label: string;
 	/** Valor do elemento.*/
 	value: any;
-	/** Estilo do elemento.*/
-	formControlLabel?: SxProps<Theme>;
     description?: string;
 }
 
@@ -22,6 +19,7 @@ export interface IBaseSimpleFormComponent {
     tooltipMessage?: string;
     defaultValue?: any;
     options?: Array<IOption>;
+	helpIcon?: boolean;
 	positionTooltip?:
         | 'bottom-end'
         | 'bottom-start'

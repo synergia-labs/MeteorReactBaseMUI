@@ -1,9 +1,29 @@
-import React, { createContext, useCallback, useMemo, ForwardRefRenderFunction, forwardRef, useRef, useContext, MutableRefObject, useEffect, useImperativeHandle } from 'react';
-import { IDocRef, IDocValues, ISysForm, ISysFormButtonRef, ISysFormComponentRef, ISysFormContext, ISysFormRef,} from './typings';
+import React, { 
+	createContext, 
+	useCallback, 
+	useMemo, 
+	ForwardRefRenderFunction, 
+	forwardRef, 
+	useRef, 
+	useContext, 
+	MutableRefObject, 
+	useEffect, 
+	useImperativeHandle 
+} from 'react';
+import { 
+	IDocRef, 
+	IDocValues, 
+	ISysForm, 
+	ISysFormButtonRef, 
+	ISysFormComponentRef, 
+	ISysFormContext, 
+	ISysFormRef
+} from './typings';
 import { SysAppLayoutContext } from '/imports/app/AppLayout';
 import SysFormMethods from './sysFormMethods';
 import { hasValue } from '/imports/libs/hasValue';
 import { IOption } from '../InterfaceBaseSimpleFormComponent';
+import compareArrays from '/imports/libs/compareArrays';
 
 const SysFormContext = createContext<ISysFormContext>({} as ISysFormContext);
 
@@ -20,7 +40,6 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	onSubmit,
 	children
 }, ref) => {
-
 
 	const {showNotification} = useContext(SysAppLayoutContext);
 	const refComponents = useRef<IDocRef>({});
@@ -114,16 +133,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 			if(initialRequiredFields.includes(refComponent.current.name))
 				refButton.current?.current?.setDisabled?.(!checkIfAllRequiredFieldsAreFilled());
 			
-			for(const key in fieldsWithOptions.current){
-				const refComponent = fieldsWithOptions.current[key] as MutableRefObject<ISysFormComponentRef>;
-				if(!refComponent) continue;
-				const schemaInfo = SysFormMethods.getSchemaByName(schema, refComponent.current.name);
-				if(!schemaInfo) continue;
-				const newOptions = schemaInfo.options?.(SysFormMethods.getDocValues(refComponents.current, schema));
-				refComponent.current.options = schemaInfo.options?.(newOptions);
-				refComponent.current.setOptions?.(newOptions ?? []);
-			}
-
+			checkIfNeedToUpdateOptions();
 
 			onChange?.(SysFormMethods.getDocValues(refComponents.current, schema));
 		}catch(error:any){
@@ -178,6 +188,26 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 			__onFailure(error);
 		}
 
+	}, []);
+
+	const checkIfNeedToUpdateOptions = useCallback(() => {
+		try{
+			if(Object.keys(fieldsWithOptions.current).length === 0) return;
+			for(const key in fieldsWithOptions.current){
+				const refComponent = fieldsWithOptions.current[key] as MutableRefObject<ISysFormComponentRef>;
+				if(!refComponent) throw new Error('Componente não encontrado.');
+				const schemaInfo = SysFormMethods.getSchemaByName(schema, refComponent.current.name);
+				if(!schemaInfo) throw new Error('Schema não encontrado.');
+				const newOptions = schemaInfo.options?.(SysFormMethods.getDocValues(refComponents.current, schema));
+				if(!newOptions) throw new Error('Opções não encontradas.');
+				if(compareArrays(newOptions, refComponent.current.options!)) 
+					continue;
+				refComponent.current.options = newOptions;
+				refComponent.current.setOptions?.(newOptions ?? []);
+			}
+		}catch(error:any){
+			__onFailure(error);
+		}
 	}, []);
 
 	const validateFields = useCallback(() => {
