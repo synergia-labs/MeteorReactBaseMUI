@@ -1,18 +1,30 @@
-import React, { useContext, useState } from 'react';
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { ListItemText, MenuItem, Select, SelectChangeEvent, SelectProps, SxProps, Theme } from '@mui/material';
+import React, { useContext, useRef, useState } from 'react';
+import { IOption, ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import {
+	FormControl,
+	ListItemText,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	SelectProps,
+	SxProps,
+	Theme
+} from '@mui/material';
 import { SysFormContext } from '../../sysForm/sysForm';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SysViewField } from '../sysViewField/sysViewField';
+import { hasValue } from '/imports/libs/hasValue';
+import { ISysFormComponentRef } from '../../sysForm/typings';
 
 interface ISysSelectFieldProps extends ISysFormComponent<SelectProps> {
-	options?: Array<{ value: any; label: string; description?: string }>;
+	//options?: Array<{ value: any; label: string; description?: string }>;
 	defaultValue?: string;
 	description?: string;
 	menuNone?: boolean;
 	menuNotSelected?: boolean;
 	multiple?: boolean;
 	sxMap?: {
+		container: SxProps<Theme>;
 		menuProps: SxProps<Theme> | null;
 	};
 }
@@ -22,6 +34,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	label,
 	value,
 	disabled,
+	loading,
 	onChange,
 	readOnly,
 	error,
@@ -31,57 +44,88 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	description,
 	menuNone,
 	menuNotSelected,
+	positionTooltip,
+	helpIcon,
 	multiple,
 	renderValue,
 	placeholder,
 	sxMap,
 	...otherProps
 }) => {
-	const { getSysFormComponentInfo } = useContext(SysFormContext);
-	const sysFormController = getSysFormComponentInfo?.(name);
+	const controllerSysForm = useContext(SysFormContext);
+	const inSysFormContext = hasValue(controllerSysForm);
 
-	label = label || sysFormController?.schema?.label;
-	defaultValue = defaultValue || value || sysFormController?.defaultValue;
-	disabled = disabled || sysFormController?.disabled;
-	error = error || sysFormController?.error;
-	readOnly = readOnly || sysFormController?.readOnly;
-	options = options || sysFormController?.schema?.options || ([] as any);
-	multiple = multiple || sysFormController?.schema?.multiple;
+	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
+	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 
-	const [valueText, setValueText] = useState(defaultValue);
+	const schema = refObject?.current.schema;
+
+	label = label || schema?.label;
+	defaultValue = refObject?.current.value || schema?.defaultValue;
+	multiple = multiple || schema?.multiple;
+
+	disabled = disabled || controllerSysForm?.disabled;
+	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
+	options = options || (schema?.options as any);
+
+	const [valueState, setValueState] = useState<string | undefined>(defaultValue);
+	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
+	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
+
+	if (inSysFormContext)
+		controllerSysForm.setInteractiveMethods({
+			componentRef: refObject!,
+			clearMethod: () => setValueState(''),
+			setValueMethod: (value) => setValueState(value),
+			changeVisibilityMethod: (visible) => setVisibleState(visible),
+			setErrorMethod: (error) => setErrorState(error),
+			setOptionsMethod: (options) => setOptionsState(options)
+		});
 
 	const handleChange = (e: SelectChangeEvent) => {
 		const newValue = e.target.value;
-		setValueText(newValue);
-		sysFormController?.onChange({ name, value: newValue });
+		setValueState(newValue);
+		controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
+		onChange?.(e);
 	};
 
+	if (!visibleState || options?.length === 0) return null;
+
 	if (readOnly) {
-		const viewValue = options?.find((option) => option.value === valueText)?.label;
-		return <SysViewField label={label} placeholder={viewValue || '-'} />;
+		const viewValue = optionsState && optionsState.find((option) => option.value === valueState);
+		return <SysViewField label={label} placeholder={viewValue?.label || '-'} />;
 	}
 
 	return (
-		<SysLabelView label={label}>
-			<Select
-				labelId={`${label}${name}`}
-				id={name}
-				value={valueText}
-				onChange={handleChange}
-				disabled={disabled || sysFormController?.loading}
-				multiple={multiple}>
-				{options?.length === 0 ? (
-					<MenuItem id={'NoValues'} disabled value="">
-						<ListItemText primary="Nenhuma opção para selecionar" />
-					</MenuItem>
-				) : (
-					options?.map((option) => (
-						<MenuItem key={option.value} value={option.value}>
-							{option.label}
+		<FormControl error={!!errorState}>
+			<SysLabelView
+				label={label}
+				tooltipMessage={tooltipMessage}
+				disabled={disabled}
+				placement={positionTooltip}
+				helpIcon={helpIcon}
+				sx={sxMap?.container}>
+				<Select
+					labelId={`${label}${name}`}
+					id={name}
+					value={valueState}
+					onChange={handleChange}
+					disabled={disabled || loading}
+					multiple={multiple}>
+					{options?.length === 0 ? (
+						<MenuItem id={'NoValues'} disabled value="">
+							<ListItemText primary="Nenhuma opção para selecionar" />
 						</MenuItem>
-					))
-				)}
-			</Select>
-		</SysLabelView>
+					) : (
+						options?.map((option) => (
+							<MenuItem key={option.value} value={option.value}>
+								{option.label}
+							</MenuItem>
+						))
+					)}
+				</Select>
+			</SysLabelView>
+		</FormControl>
 	);
 };
