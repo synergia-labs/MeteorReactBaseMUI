@@ -66,9 +66,9 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 
 	disabled = disabled || controllerSysForm?.disabled;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
-	options = options || (schema?.options as any);
+	options = options || refObject?.current?.options || ([] as any);
 
-	const [valueState, setValueState] = useState<string | undefined>(defaultValue);
+	const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
@@ -107,6 +107,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 				helpIcon={helpIcon}
 				sx={sxMap?.container}>
 				<Select
+					{...otherProps}
 					labelId={`${label}${name}`}
 					id={name}
 					value={valueState}

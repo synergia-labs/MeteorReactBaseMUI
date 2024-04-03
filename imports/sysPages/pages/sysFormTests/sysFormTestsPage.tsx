@@ -20,6 +20,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ErrorIcon from '@mui/icons-material/Error';
 import { hasValue } from '/imports/libs/hasValue';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
+import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
@@ -55,9 +56,9 @@ const SysFormTestsPage: React.FC = () => {
 	const forceSubmit = () => sysFormRef.current?.submit();
 	const clear = () => sysFormRef.current?.clearForm();
 
-	const updateRealTime = (doc: {[key:string] : any}) => {
-		if(onChangeRealTime) setDados(doc);
-	}
+	const updateRealTime = (doc: { [key: string]: any }) => {
+		if (onChangeRealTime) setDados(doc);
+	};
 
 	const showErrorFields = () => {
 		const errors = sysFormRef.current?.getFieldWithErrors();
@@ -66,16 +67,14 @@ const SysFormTestsPage: React.FC = () => {
 			body: (
 				<SysFormTestsStyles.erroContainer>
 					{hasValue(errors) ? (
-						<pre>
-							{JSON.stringify(errors, null, 2)}
-						</pre>
-					): (
+						<pre>{JSON.stringify(errors, null, 2)}</pre>
+					) : (
 						<Typography variant="body1">Nenhum campo com erro</Typography>
 					)}
 				</SysFormTestsStyles.erroContainer>
 			)
 		});
-	}
+	};
 
 	return (
 		<SysFormTestsStyles.container>
@@ -121,13 +120,12 @@ const SysFormTestsPage: React.FC = () => {
 					{mode === 'view' ? 'Mudar para modo: Create' : 'Mudar para modo: View'}
 				</Button>
 				<Button onClick={() => setOnChangeRealTime(!onChangeRealTime)} startIcon={<AccessTimeIcon />}>
-					{!onChangeRealTime ? "Ativar atualização em tempo real" : 'Desativar atualização em tempo real'}
+					{!onChangeRealTime ? 'Ativar atualização em tempo real' : 'Desativar atualização em tempo real'}
 				</Button>
 				<Button onClick={showErrorFields} startIcon={<ErrorIcon />}>
 					Ver campos com erro
 				</Button>
 			</SysFormTestsStyles.controllersContainer>
-
 
 			<Typography variant="h5">SysForm</Typography>
 			<SysFormTestsStyles.sysFormContainer>
@@ -139,8 +137,7 @@ const SysFormTestsPage: React.FC = () => {
 					ref={sysFormRef}
 					loading={loading}
 					disabled={disabled}
-					onChange={updateRealTime}
-				>
+					onChange={updateRealTime}>
 					<WrapTextField
 						name="title"
 						isVisibled={sysFormRef.current?.checkVisibilityField('title') ?? true}
@@ -151,7 +148,7 @@ const SysFormTestsPage: React.FC = () => {
 						isVisibled={sysFormRef.current?.checkVisibilityField('type') ?? true}
 						onClick={() => sysFormRef.current?.validateIndividualField('type')}
 					/>
-					<SysTextField name="typeMulti"/>
+					<SysTextField name="typeMulti" />
 					<WrapTextField
 						name="contacts.cpf"
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cpf') ?? true}
@@ -162,23 +159,14 @@ const SysFormTestsPage: React.FC = () => {
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.phone') ?? true}
 						onClick={() => sysFormRef.current?.validateIndividualField('contacts.phone')}
 					/>
-					<SysRadioButton 
-						name="entertainment" 
-						alignment='row' 
-					/>
-					<SysRadioButton 
-						name="entertainmentSpecific" 
-						alignment='row' 
-					/>
+					<SysSelectField name="entertainment" fullWidth />
+					<SysRadioButton name="entertainmentSpecific" alignment="row" />
 					<WrapTextField
 						name="contacts.cnpj"
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cnpj') ?? true}
 						onClick={() => sysFormRef.current?.validateIndividualField('contacts.cnpj')}
 					/>
-					<SysTextField
-						name="contacts.novoSubSchema.email"
-						endAdornment={<EmailOutlinedIcon/>}
-					/>
+					<SysTextField name="contacts.novoSubSchema.email" endAdornment={<EmailOutlinedIcon />} />
 
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>
 				</SysForm>
