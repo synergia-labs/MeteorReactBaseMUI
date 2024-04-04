@@ -67,7 +67,7 @@ Loading
   width: 15px;
   height: 15px;
   border-radius: 15px;
-  background-color: #5a9902;
+  background-image: linear-gradient(to right, #6768f2, #00e280);
 }
 
 .loading .line:nth-last-child(1) {
