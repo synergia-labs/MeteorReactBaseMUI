@@ -1,10 +1,10 @@
 import React from "react";
 import { IAppMenu } from "/imports/modules/modulesTypings";
-import {ButtonProps} from "@mui/material";
+import {BoxProps, Typography} from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { SysNavLinkStyledContainer } from "./sysNavLinkStyles";
+import SysNavLinkStyles  from "./sysNavLinkStyles";
 
-interface ISysNavLink extends ButtonProps{ 
+interface ISysNavLink extends BoxProps{ 
     sysOptions?: IAppMenu;
     active?: boolean;
     text?: string;
@@ -23,20 +23,24 @@ export const SysNavLink: React.FC<ISysNavLink> = ({
     ...props
 }) => {
     const navigate = useNavigate();
+    
     const handleClick = () => { 
+        if(active) return;
         const definitivePath = path ?? sysOptions?.path;
         if (!!!definitivePath) return; 
         navigate(definitivePath);
     }
 
     return (
-        <SysNavLinkStyledContainer {...props} active={active} onClick={handleClick}>
+        <SysNavLinkStyles.container {...props} active = {active} onClick={handleClick}>
             {children ??
                 <> 
                     {sysOptions?.icon ?? icon ?? null}
-                    {text ?? sysOptions?.name ?? ""}
+                    <Typography variant="button2">
+                        {text ?? sysOptions?.name ?? ""}
+                    </Typography>
                 </>
             }
-        </SysNavLinkStyledContainer>
+        </SysNavLinkStyles.container>
     );
 }

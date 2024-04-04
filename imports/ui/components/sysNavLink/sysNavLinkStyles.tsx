@@ -1,23 +1,33 @@
 import React from "react";
-import {Button, ButtonProps, Theme, styled} from "@mui/material";
-import { sysSizing } from "/imports/ui/materialui/styles";
+import { styled, Box, BoxProps} from "@mui/material";
+import { sysSizing } from "../../materialui/styles";
 
-interface SysNavLinkStyledContainerProps extends ButtonProps {
-    active?: boolean;
+interface ISysNavLinkStyles {
+    container: React.ElementType<BoxProps & IContainer>;
 }
 
+interface IContainer{
+    active: boolean;
+}
 
-export const SysNavLinkStyledContainer = styled(Button)<SysNavLinkStyledContainerProps>(({ theme, active }) => ({
-    backgroundColor: active ? theme.palette.primary.dark : 'transparent',
-    borderRadius: sysSizing.radiusInfinite,
-    border: 'none', 
-    color: theme.palette.primary.contrastText,
-    '&:hover': {
-        backgroundColor: theme.palette.primary.light,
-        border: 'none', 
-    },
-    '&:focus': {
-        backgroundColor: active ? theme.palette.primary.dark : theme.palette.primary.light,
-    },
-    
-}));
+const SysNavLinkStyles: ISysNavLinkStyles = {
+    container: styled(Box)<IContainer>(({theme, active}) => ({
+        padding: `${sysSizing.spacingRemXs} ${sysSizing.spacingRemMd}`,
+        borderRadius: sysSizing.radiusInfinite,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: theme.spacing(1),
+        cursor: 'pointer',
+        backgroundColor: active ? theme.palette.sysAction?.primaryHover : undefined,
+        transition: 'all 0.3s ease',
+
+        '&:hover': {
+            backgroundColor: theme.palette.sysAction?.primaryHover,
+            boxShadow: active ? theme.shadows[1] : undefined,
+        }
+    }))
+}
+
+export default SysNavLinkStyles;

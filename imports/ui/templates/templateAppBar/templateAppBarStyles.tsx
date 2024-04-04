@@ -1,22 +1,25 @@
-import React from "react";
-import {Box, styled} from "@mui/material";
+import React, {ElementType} from "react";
+import { styled, Box, BoxProps } from "@mui/material";
 
-export const TemplateAppBarContainer = styled(Box)(() => ({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    width: '100%',
-    height: '100%',
-}));
+interface ITemplateAppBarStyles{
+    container: ElementType<BoxProps>;
+    contentContainer: ElementType<BoxProps>;
+}
 
-export const TemplateAppBarContent = styled(Box)(() => ({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    width: '100%',
-    overflowY: 'auto',
-    boxSizing: 'border-box',
-    height: '100%',
-}));
+const TemplateAppBarStyles: ITemplateAppBarStyles = {
+    container : styled(Box)({
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+    }),
+    contentContainer : styled(Box)({
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        overflow: 'auto',
+    }),
+};
+
+export default TemplateAppBarStyles;
