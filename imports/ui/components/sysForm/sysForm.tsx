@@ -30,7 +30,7 @@ const SysFormContext = createContext<ISysFormContext>({} as ISysFormContext);
 const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	schema,
 	doc = {},
-	mode = 'view',
+	mode = 'edit',
 	disabled = false,
 	loading = false,
 	debugAlerts = true,
