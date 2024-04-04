@@ -71,7 +71,6 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
 	if(mask) defaultValue = generalMask(defaultValue, mask);
 
-
 	const [valueState, setValueState]     = useState<string | undefined>(defaultValue);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState]     = useState<string | undefined>(error);

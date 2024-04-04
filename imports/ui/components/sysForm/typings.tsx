@@ -42,6 +42,7 @@ interface ISysFormContext {
 	mode : 'view' | 'edit' | 'create';
 	loading: boolean;
 	disabled: boolean;
+	docId?: string;
 	setRefComponent: (component: MutableRefObject<ISysFormComponentRef>) => void;
 	setButtonRef: (button: MutableRefObject<ISysFormButtonRef>) => void;
 	onChangeComponentValue: ({refComponent, value}: {refComponent: MutableRefObject<ISysFormComponentRef>, value: any}) => void;
