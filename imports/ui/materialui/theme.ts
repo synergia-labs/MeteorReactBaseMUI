@@ -607,16 +607,6 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				}
 			},
 
-			MuiTooltip: {
-				defaultProps: {
-					enterDelay: 300
-				},
-				styleOverrides: {
-					tooltip: {
-						fontWeight: 'normal'
-					}
-				}
-			},
 
 			MuiAppBar: {
 				styleOverrides: {
@@ -805,6 +795,9 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			},
 
 			MuiTooltip: {
+				defaultProps: {
+					enterDelay: 300,
+				},
 				styleOverrides: {
 					tooltip: {
 							backgroundColor: theme.palette.sysAction?.auxiliary,
