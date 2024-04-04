@@ -204,6 +204,8 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 					continue;
 				refComponent.current.options = newOptions;
 				refComponent.current.setOptions?.(newOptions ?? []);
+				refComponent.current.value = undefined;
+				refComponent.current.clearValue?.();
 			}
 		}catch(error:any){
 			__onFailure(error);
@@ -291,6 +293,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		loading: loading,
 		disabled: disabled,
 		mode: mode,
+		docId: doc._id || doc.id,
 		setRefComponent : setRefComponent,
 		onChangeComponentValue : onChangeComponentValue,
 		setInteractiveMethods : setInteractiveMethods,
