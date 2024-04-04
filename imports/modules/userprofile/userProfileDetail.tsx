@@ -1,10 +1,10 @@
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
-import { userprofileApi } from '../../api/UserProfileApi';
-import SimpleForm from '../../../../ui/components/SimpleForm/SimpleForm';
+import { userprofileApi } from './api/UserProfileApi';
+import SimpleForm from '../../ui/components/SimpleForm/SimpleForm';
 import Button from '@mui/material/Button';
 import FormGroup from '@mui/material/FormGroup';
-import TextField from '../../../../ui/components/SimpleFormFields/TextField/TextField';
+import TextField from '../../ui/components/SimpleFormFields/TextField/TextField';
 import ImageCompactField from '/imports/ui/components/SimpleFormFields/ImageCompactField/ImageCompactField';
 import { IUserProfile } from '/imports/modules/userprofile/api/UserProfileSch';
 import { IDefaultDetailProps } from '/imports/typings/BoilerplateDefaultTypings';

@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { OfflineBaseApi } from '../../../api/offlinebase';
 import { IUserProfile, userProfileSch } from './UserProfileSch';
 import { userprofileData } from '/imports/libs/getUser';
+import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
 
 // endregion
 
@@ -22,6 +23,10 @@ class UserProfileApi extends OfflineBaseApi {
 		}
 	) {
 		this.callMethod('insert', userData, callback);
+	}
+
+	changeUserStatus(id: string, callback = (e: IMeteorError, r: any) => { }) {
+		return this.callMethod('ChangeUserStatus', id, callback);
 	}
 }
 

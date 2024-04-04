@@ -3,8 +3,7 @@ import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypin
 import { useParams } from 'react-router-dom';
 import UserProfileListController from '/imports/modules/userprofile/pages/UserProfileList/userProfileListController';
 import { SysAppContext } from '/imports/app/AppContainer';
-
-
+import ExampleDetailController from '../example/pages/exampleDetail/exampleDetailContoller';
 
 export interface IUserProfileModuleContext {
     state?: string;
@@ -14,18 +13,17 @@ export interface IUserProfileModuleContext {
 export const UserProfileModuleContext = React.createContext<IUserProfileModuleContext>({});
 
 export default (props: IDefaultContainerProps) => {
-	const {user, isLoggedIn} = React.useContext(SysAppContext);
-	let { screenState, userprofileId } = useParams();
+    const { user } = React.useContext(SysAppContext);
+    let { screenState, userprofileId } = useParams();
 
-	const state = screenState ? screenState : props.screenState;
-	const id = userprofileId ?? user?._id;
+    const state = screenState ? screenState : props.screenState;
+    const id = userprofileId ?? user?._id;
 
     const validState = ['view', 'edit', 'create'];
 
-
     const renderPage = () => {
-        if(!!!state || !validState.includes(state)) return <UserProfileListController />;
-        // return <ExampleDetailController />;
+        if (!!!state || !validState.includes(state)) return <UserProfileListController />;
+        return <ExampleDetailController />;
     }
 
     const providerValue = {
