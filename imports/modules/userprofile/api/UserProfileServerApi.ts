@@ -25,6 +25,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		this.beforeUpdate = this.beforeUpdate.bind(this);
 		this.beforeRemove = this.beforeRemove.bind(this);
 		this._includeAuditData = this._includeAuditData.bind(this);
+		this.changeUserStatus = this.changeUserStatus.bind(this);
 
 		this.noImagePath = `${Meteor.absoluteUrl()}images/wireframe/user_no_photo.png`;
 
@@ -63,9 +64,11 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			return true;
 		});
 
+		this.registerMethod('ChangeUserStatus', this.changeUserStatus);
+
 		this.addPublication('userProfileList', (filter = {}) => {
 			return this.defaultListCollectionPublication(filter, {
-				projection: { photo: 1, email: 1, username: 1 }
+				projection: { email: 1, username: 1, status: 1, roles: 1 }
 			});
 		});
 
@@ -110,6 +113,32 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 					email: userprofile.email
 				});
 			}
+		}
+	};
+
+	changeUserStatus = (userId: string) => {
+		const user = this.collectionInstance.findOne({_id: userId})
+		let newStatus = '';
+		try {
+			if(user){
+				if(user.status !== 'active') {
+					newStatus = 'active';
+				} else {
+					newStatus = 'disabled';
+				}
+				this.collectionInstance.update(
+					{ _id: userId },
+					{
+						$set: {
+							status: newStatus
+						}
+					}
+				);
+				return true;
+			}
+		} catch (error) {
+			console.log('error :>> ', error);
+			throw new Meteor.Error('Acesso negado', `Vocẽ não tem permissão para alterar esses dados`);
 		}
 	};
 

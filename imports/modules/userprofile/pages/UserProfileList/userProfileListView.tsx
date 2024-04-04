@@ -1,44 +1,83 @@
 import React from 'react';
 import _ from 'lodash';
-import { IUserProfile } from '/imports/modules/userprofile/api/UserProfileSch';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
-import {  Typography } from '@mui/material';
-import { SysFab } from '/imports/ui/components/sysFab/sysFab';
-import { UserProfileListViewStyledContainer } from './userProfileListStyles';
+import { InputAdornment, TextField, Typography } from '@mui/material';
 import { UserProfileListControllerContext } from './userProfileListController';
+import { SysCardUser } from '/imports/ui/components/sysCardUser/sysCardUser';
+import UserProfileListViewStyled from './userProfileListStyles';
 import AddIcon from '@mui/icons-material/Add';
-import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
+import { SysFab } from '/imports/ui/components/sysFab/sysFab';
+import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
+import SearchIcon from '@mui/icons-material/Search';
+import { sysAction } from '/imports/ui/materialui/styles';
 
-interface IUserProfileList {
-	users: IUserProfile[];
-	navigate: NavigateFunction;
-}
+const UserProfileLisView = () => {
+    const context = React.useContext(UserProfileListControllerContext);
+    const { list, onAddButtonClick, onSearch, onSetFilter } = context;
+    const [selectedRole, setSelectedRole] = React.useState('');
+    const options = [
+        {
+            value: '',
+            label: 'Nenhum'
+        },
+        {
+            value: 'Administrador',
+            label: 'Admnistrador',
+        },
+        {
+            value: 'Usuario',
+            label: 'Usuário',
+        },
+    ];
 
-const UserProfileLisViewt = () => {
-	const userProfileListViewContext = React.useContext(UserProfileListControllerContext);
-    const navigate = useNavigate();
-    
-	return (
-        <UserProfileListViewStyledContainer>
-            <SysFab 
-                variant="extended" 
-                text="Adicionar" 
-                startIcon={<AddIcon />} 
-                fixed={true}
-                onClick={userProfileListViewContext.onAddButtonClick}
-            />
+    return (
+        <UserProfileListViewStyled.Container>
             <Typography variant="h5">Lista de usuários</Typography>
-            <ComplexTable
-					data={userProfileListViewContext.usuarios}
-					schema={userProfileListViewContext.schema}
-					onRowClick={(row) => navigate('/userprofile/view/' + row.id)}
-					searchPlaceholder={'Pesquisar usuário'}
-                    onEdit={(row) => navigate('/userprofile/edit/' + row._id)}
-                    onDelete={() => {}}
-					
-				/>
-        </UserProfileListViewStyledContainer>
+            <UserProfileListViewStyled.Filters>
+                <TextField
+                    name="userSearch"
+                    placeholder='Pesquisar por nome'
+                    onChange={(e) => onSearch(e.target.value)}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon sx={{ color: sysAction.primaryIcon }} />
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+                <SysSelectField
+                    name='roles'
+                    label='Filtrar por perfil'
+                    placeholder='Selecionar'
+                    value={selectedRole}
+                    onChange={(e) => {
+                        setSelectedRole(e.target.value);
+                        onSetFilter('roles', e.target.value)
+                    }}
+                    defaultValue={selectedRole}
+                    options={options}
+                />
+            </UserProfileListViewStyled.Filters>
+            {list && list?.map(user => {
+                return (
+                    <SysCardUser
+                        username={user.username}
+                        roles={user.roles}
+                        email={user.email}
+                        status={user.status}
+                        userId={user._id!}
+                    />
+                );
+            })}
+            <SysFab
+                variant="extended"
+                text="Adicionar"
+                startIcon={<AddIcon />}
+                fixed={true}
+                onClick={onAddButtonClick}
+            />
+        </UserProfileListViewStyled.Container>
     );
 };
 
-export default UserProfileLisViewt;
+export default UserProfileLisView;

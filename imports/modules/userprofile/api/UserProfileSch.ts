@@ -1,6 +1,8 @@
+import { validarEmail } from '/imports/libs/validaEmail';
 import { IDoc } from '/imports/typings/IDoc';
+import { ISchema } from '/imports/typings/ISchema';
 
-export const userProfileSch = {
+export const userProfileSch: ISchema<IUserProfile> = {
     photo: {
         type: String,
         label: 'Photo',
@@ -19,6 +21,12 @@ export const userProfileSch = {
         label: 'Email',
         defaultValue: '',
         optional: false,
+        validationFunction: (value: string) => {
+            if (!value) return undefined;
+            const email = validarEmail(value);
+            if (!email) return 'Email inválido';
+            return undefined;
+        }
     },
     phone: {
         type: String,
@@ -32,15 +40,30 @@ export const userProfileSch = {
         label: 'Perfil de acesso',
         defaultValue: [],
         optional: true,
-        componentName: 'ChipSelect',
-        options: [
+        options: ()  => [
             {
-                value: 'Administrador',
+                value: ['Administrador'],
                 label: 'Admnistrador',
             },
             {
-                value: 'Usuario',
+                value: ['Usuario'],
                 label: 'Usuário',
+            },
+        ],
+    },
+    status: {
+        type: [String],
+        label: 'Status',
+        defaultValue: 'disabled',
+        optional: true,
+        options: () => [
+            {
+                value: 'active',
+                label: 'Ativo',
+            },
+            {
+                value: 'disabled',
+                label: 'Desativado',
             },
         ],
     },
@@ -52,4 +75,5 @@ export interface IUserProfile extends IDoc {
     username: string;
     email: string;
     roles?: string[];
+    status?: string;
 }

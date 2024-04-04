@@ -189,6 +189,8 @@ class SysFormMethods{
 
                 const ref = doc[key] as MutableRefObject<ISysFormComponentRef>;
 
+                if(!ref)continue;
+                
                 const value = ref.current.value;
                 const errorMessage = schema[key].validationFunction?.(value) ?? ((requiredFields.includes(ref.current.name) && !hasValue(value)) ? 'Campo obrigatório.' : undefined);
 

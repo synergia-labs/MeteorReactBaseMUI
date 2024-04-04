@@ -135,6 +135,18 @@ const sysSizing = {
 	radiusInfinite: "800px",
 };
 
+const sysAction =  {
+	primary: sysBaseColors.purple50,
+	primaryHover: sysBaseColors.purple30,
+	primaryBgHover: sysBaseColors.purpleTransparent,
+	primaryContrastText: sysBaseColors.white,
+	primaryContrastBg: sysBaseColors.greyTransparent,
+	primaryIcon: sysBaseColors.purpleGrey,
+	disabled: sysBaseColors.grey70,
+	bgDisabled: sysBaseColors.grey95,
+	auxiliary: sysBaseColors.grey30,
+}
+
 /* Typography */
 const fontFamily = "'Poppins', sans-serif"
 const h1 = (_fontScale: number = 1) => ({
@@ -276,6 +288,7 @@ const boxShadowFab = {
 export {
 	//Colors
 	sysBaseColors,
+	sysAction,
 
 	//Sizing
 	sysBaseSizes,

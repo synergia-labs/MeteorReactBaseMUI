@@ -13,7 +13,7 @@ export interface IBaseSimpleFormComponent {
     value?: any;
     disabled?: boolean;
     loading?: boolean;
-    onChange?: (e: React.BaseSyntheticEvent) => void;
+    onChange?: (e: any) => void;
     readOnly?: boolean;
     error?: string | undefined;
     tooltipMessage?: string;
