@@ -38,9 +38,6 @@ class SysRoutes {
         
         return location.startsWith(normalizedRoutePath);
     }
-    
-    
-
 
 }
 

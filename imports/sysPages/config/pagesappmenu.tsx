@@ -1,17 +1,17 @@
 import React from 'react';
 import { IAppMenu } from '/imports/modules/modulesTypings';
-import Home from '@mui/icons-material/Home';
-import ScienceIcon from '@mui/icons-material/Science';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
 
 export const pagesMenuItemList : (IAppMenu | null)[] = [
     {
         path: '/',
-        name: 'Home',
-        icon: <Home />,
+        name: 'Início',
+        icon: <HomeOutlinedIcon />,
     },
     {
         path: '/sysFormTests',
-        name: 'SysFormTests',
-        icon: <ScienceIcon />,
+        name: 'SysForm Playground',
+        icon: <ScienceOutlinedIcon />,
     }
 ];
