@@ -7,7 +7,9 @@ import { SysAppContext } from "/imports/app/AppContainer";
 import { SysMenu } from "/imports/ui/components/sysMenu/sysMenu";
 import { SysNavLink } from "/imports/ui/components/sysNavLink/sysNavLink";
 import SysRoutes from "/imports/app/routes";
-import { Box } from "@mui/material";
+import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+
 export interface ISysAppBarProps{
     logo? : ReactNode;
     menuOptions?: (IAppMenu | null)[];
@@ -30,8 +32,17 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({
 	};
 
     const onLogoClick = () => navigate('/');
-    
 
+    const theme = useTheme();
+    const menorQueLg = useMediaQuery(theme.breakpoints.down('lg'));
+
+    const options = menuOptions?.map((option, index) => !!!option ? null : 
+        <SysNavLink 
+            key={index} 
+            active={SysRoutes.checkIsActiveRoute(option.path)}
+            sysOptions={option} 
+        />);
+    
     return (
         <SysAppBarStyles.container>
             <Box sx={{cursor: 'pointer'}} onClick={onLogoClick}>
@@ -39,13 +50,11 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({
             </Box>
             <SysAppBarStyles.navContainer>
                 {
-                    menuOptions?.map((option, index) => !!!option ? null : 
-                        <SysNavLink 
-                            key={index} 
-                            active={SysRoutes.checkIsActiveRoute(option.path)}
-                            sysOptions={option} 
-                        />
-                    )
+                    menorQueLg ? (
+                        <IconButton sx={{color: theme.palette.primary.contrastText, '&:focus': {color: theme.palette.sysAction?.primaryContrastText},}}>
+                            <MenuOutlinedIcon />
+                        </IconButton>
+                    ) : options
                 }
             </SysAppBarStyles.navContainer>
             <SysAvatar name={user?.username[0]} onClick={handleMenu} />
