@@ -68,7 +68,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
-	defaultValue = refObject?.current.value || schema?.defaultValue;
+	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
 	if(mask) defaultValue = generalMask(defaultValue, mask);
 
 

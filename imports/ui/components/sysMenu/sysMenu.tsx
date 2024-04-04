@@ -1,82 +1,98 @@
-import React from 'react';
-import { BoxProps, AvatarProps, Typography, Menu, MenuItem, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { SysAppContext } from '../../../app/AppContainer';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { StyledSysMenu } from './sysMenuStyles';
-import * as appStyles from '/imports/ui/materialui/styles';
-import { cleanUserCache } from '/imports/hooks/useUserAccount';
-import { Meteor } from 'meteor/meteor';
+import React, { ForwardRefRenderFunction, ReactNode, forwardRef, useImperativeHandle, useState } from 'react';
+import { ListItemText, Menu, MenuItem, MenuProps, SxProps, Theme, Typography } from '@mui/material';
+import SysMenuStyles from './sysMenuStyles';
 
-export interface SysMenuProps {
-	/**O nome que será usado para mostrar a primeira letra no avatar.*/
-	name?: string;
-	/**Estilos personalizados para o componente Box que envolve o Avatar.*/
-	backgroundSx?: BoxProps['sx'];
-	/**A cor da borda do avatar.*/
-	borderColor?: string;
-	/**Um manipulador de eventos onClick para o componente.*/
-	onClick?: (event?: any) => void;
-    anchorEl: any;
-    handleClose: any;
+interface IList {
+    key?: string;
+    id?: string;
+    icon?: ReactNode;
+    text: string;
+    action?: ReactNode;
+    onClick?: () => void; 
 }
 
-/**
- * O componente `SysAvatar` é um componente React personalizado que exibe um avatar.
- * Ele é construído usando componentes do Material-UI e estilos personalizados.
- *
- * Notas:
- * - O componente `SysAvatar` é um componente React personalizado que exibe um avatar.
- * - O componente prioriza a exibição da imagem através da propriedade `src` e, caso não seja possível, exibe a primeira letra do nome através da propriedade `name`.
- */
-export const SysMenu: React.FC<SysMenuProps> = ({ name, onClick, anchorEl,handleClose, backgroundSx, ...props }) => {
-    const open = Boolean(anchorEl);
-    const {user, isLoggedIn} = React.useContext(SysAppContext);
-    const navigate = useNavigate();
+interface SysMenuProps extends Omit<MenuProps, 'open' | 'onClose' | 'anchorEl'>{
+    accountMenu?: boolean;
+    options?: Array<IList>;
+    title?: string;
+    header?: ReactNode;
+    footer?: ReactNode;
+    sxMap?:{
+        container?: SxProps<Theme>;
+        menuItem?: SxProps<Theme>;
+    }
+}
 
-    const openPage = (url: string, exit:boolean = false) => async () => {
-		handleClose();
-		navigate(url);
-        if(!exit) return;
-        Meteor.logout();
-        await cleanUserCache();
-	};
+interface SysMenuRef {
+    handleClose: () => void;
+    handleOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const SysMenu: ForwardRefRenderFunction<SysMenuRef, SysMenuProps> = ({
+    anchorOrigin = {
+        vertical: 'bottom',
+        horizontal: 'right'
+    },
+    transformOrigin = {
+        vertical: 'top',
+        horizontal: 'right'
+    },
+    accountMenu = false,
+    title, 
+    header,
+    footer,
+    options,
+    children,
+    sxMap,
+    ...otherProps
+}, ref) => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    
+    const handleOpen  = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
+  
+    useImperativeHandle(ref, () => ({
+        handleClose: handleClose,
+        handleOpen : handleOpen
+    }), []);
 
 
 	return (
         <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl as Element}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-            }}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-            }}
+            {...otherProps}            
+            id='menu-boilerplate'
+            anchorEl={anchorEl}
             open={open}
-            sx={StyledSysMenu.menu}
-            onClose={handleClose}>
-            {!user || !user._id
-                ? [
-                        <MenuItem key={'signin'} onClick={openPage('/signin')}>
-                            Entrar
-                        </MenuItem>
-                    ]
-                : [
-                        
-                        <Typography key={'userName'} variant="subtitle1" sx={StyledSysMenu.header}
-                        
-                        >{user.username}</Typography>
-                        ,
-                        <MenuItem key={'signout'} onClick={openPage('/', true)}>
-                            <ExitToAppIcon />
-                            <Typography variant="body1" sx={StyledSysMenu.textColor}
-                            >Sair</Typography>
-                        </MenuItem>
-                    ]}
+            onClose={handleClose}
+            MenuListProps={{
+                'aria-labelledby': 'basic-button',
+            }}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+            PaperProps={otherProps.PaperProps ?? ( accountMenu ? {...SysMenuStyles.menuAccountStyles} : {})}
+        >
+            {
+                children || (
+                    <SysMenuStyles.container sx={sxMap?.container}>
+                        {header || (title && <Typography variant='subtitle1'>{title}</Typography>)}
+                        {options?.map((item, index) => (
+                            <SysMenuStyles.menuItem
+                                key={index}
+                                onClick={item.onClick}
+                                sx={sxMap?.menuItem}
+                            >
+                                {item.icon}
+                                <Typography variant='body1' sx={{flexGrow: 1}}>{item.text}</Typography>
+                                {item.action}
+                            </SysMenuStyles.menuItem>
+                        ))}
+                    </SysMenuStyles.container>
+                )
+            }
         </Menu>
-	);
+    )
 };
+
+export type { SysMenuRef };
+export default forwardRef(SysMenu);

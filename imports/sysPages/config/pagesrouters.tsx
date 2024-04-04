@@ -6,7 +6,8 @@ import { EmailVerify } from '../pages/EmailVerify/EmailVerify';
 import { ResetPassword } from '../pages/ResetPassword/ResetPassword';
 import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
-import {Recurso} from '../pages/Home/Recurso';
+import { Recurso as HomeRecurso} from '../pages/Home/Recurso';
+import { Recurso } from '../pages/sysFormTests/recursos';
 import { NoPermission } from '../pages/NoPermission/NoPermission';
 import SignInPage from '../pages/signIn/signIn';
 import SysFormTestsPage from '../pages/sysFormTests/sysFormTestsPage';
@@ -17,12 +18,13 @@ export const pagesRouterList : (IRoute | null)[] = [
 		exact: true,
 		component: Home,
 		isProtected: true,
-		resources: [Recurso.HOME_VIEW],
+		resources: [HomeRecurso.HOME_VIEW],
 	},
 	{
 		path: '/sysFormTests',
 		component: SysFormTestsPage,
-		isProtected: false,
+		isProtected: true,
+		resources: [Recurso.SYSFORMTESTS_VIEW],
 	},
 	{
 		path: '/signin',

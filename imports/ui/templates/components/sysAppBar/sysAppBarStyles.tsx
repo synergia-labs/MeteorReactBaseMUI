@@ -1,10 +1,11 @@
 import React, { ElementType } from 'react';
-import { styled, Box, BoxProps } from '@mui/material';
+import { styled, Box, BoxProps, IconButtonProps, IconButton } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISysAppBarStyles {
 	container: ElementType<BoxProps>;
 	navContainer: ElementType<BoxProps>;
+	iconButton: ElementType<IconButtonProps>;
 }
 
 const SysAppBarStyles: ISysAppBarStyles = {
@@ -35,7 +36,13 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		height: '100%',
-	})
+	}),
+	iconButton: styled(IconButton)(({theme}) => ({
+		color: theme.palette.primary.contrastText, 
+		'&:focus': {
+			color: 'white'
+		}
+	})),
 };
 
 export default SysAppBarStyles;

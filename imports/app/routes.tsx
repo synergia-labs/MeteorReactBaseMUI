@@ -29,6 +29,14 @@ class SysRoutes {
         return routeRegex.test(path);
     });
 
+    public checkIfRouteIsProtected = (path: string) : boolean => {
+        for (const route of this.routes) {
+            if (!route?.path || route.path !== path) continue; 
+            return route.isProtected || false;
+        }
+        return false;
+    }
+
     public static checkIsActiveRoute = (routePath?: string) => {
         const location = useLocation().pathname;
         if (!routePath) return false;
@@ -38,6 +46,7 @@ class SysRoutes {
         
         return location.startsWith(normalizedRoutePath);
     }
+
 
 }
 

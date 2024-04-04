@@ -13,13 +13,13 @@ interface IDocRef {
 interface ISysForm {
 	schema: ISchema<any>;
 	doc?: IDocValues;
-	mode: 'view' | 'edit' | 'create';
+	mode?: 'view' | 'edit' | 'create';
 	ref?: React.RefObject<HTMLFormElement>;
 	debugAlerts?: boolean;
 	disabled?: boolean;
 	loading?: boolean;
-	onChange?: (doc: IDocValues) => void;
-	onSubmit?: (doc: IDocValues) => void;
+	onChange?: (doc: any) => void;
+	onSubmit?: (doc: any) => void;
     submitWithKeyEnter?: boolean;
 	validateOnChange?: boolean | Array<string>;
 	children?: React.ReactNode;
