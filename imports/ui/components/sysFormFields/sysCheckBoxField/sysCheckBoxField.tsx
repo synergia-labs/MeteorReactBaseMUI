@@ -93,22 +93,6 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 		return <SysViewField label={label} placeholder={viewValue?.label || '-'} />;
 	}
 
-	//options = options || sysFormController?.schema?.options || ([] as any);
-	//defaultValue = defaultValue || sysFormController?.schema?.defaultValue;
-	//label = label || sysFormController?.schema?.label;
-	//readOnly = readOnly || sysFormController?.readOnly;
-	//error = error || sysFormController?.error;
-	//disabled = disabled || sysFormController?.disabled;
-	//defaultValue = defaultValue || value || sysFormController?.defaultValue;
-
-	// Estado para armazenar as opções selecionadas
-
-	// React.useEffect(() => {
-	// 	sysFormController?.onChange({ name, value: [...selectedOptions] });
-	// }, [selectedOptions]);
-
-	// Função para manipular a mudança na seleção das opções
-
 	return (
 		<FormControl error={!!error}>
 			<SysLabelView
@@ -125,6 +109,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 								key={opt.value}
 								control={
 									<Checkbox
+										{...otherProps}
 										onChange={handleCheckboxChange}
 										name={opt.label}
 										checked={selectedOptions.includes(opt.label)}
@@ -138,7 +123,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 						))}
 				</FormGroup>
 			</SysLabelView>
-			<FormHelperText>{!!error}</FormHelperText>
+			<FormHelperText>{!!errorState}</FormHelperText>
 		</FormControl>
 	);
 };
