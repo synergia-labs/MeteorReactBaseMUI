@@ -75,14 +75,32 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 			setOptionsMethod: (options) => setOptionsState(options)
 		});
 
+	// const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	// 	const { checked } = event.target;
+	// 	if (checked) {
+	// 		setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, event.target.name]);
+	// 		controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: selectedOptions });
+	// 		onChange?.(event);
+	// 	} else {
+	// 		setSelectedOptions((prevSelectedOptions) => prevSelectedOptions.filter((option) => option !== event.target.name));
+	// 	}
+	// };
+
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { checked } = event.target;
 		if (checked) {
-			setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, event.target.name]);
-			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: selectedOptions });
-			onChange?.(event);
+			setSelectedOptions((prevSelectedOptions) => {
+				const updatedOptions = [...prevSelectedOptions, event.target.name];
+				controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: updatedOptions });
+				onChange?.(event);
+				return updatedOptions;
+			});
 		} else {
-			setSelectedOptions((prevSelectedOptions) => prevSelectedOptions.filter((option) => option !== event.target.name));
+			setSelectedOptions((prevSelectedOptions) => {
+				const updatedOptions = prevSelectedOptions.filter((option) => option !== event.target.name);
+				onChange?.(event);
+				return updatedOptions;
+			});
 		}
 	};
 
@@ -123,7 +141,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 						))}
 				</FormGroup>
 			</SysLabelView>
-			<FormHelperText>{!!errorState}</FormHelperText>
+			<FormHelperText>{errorState}</FormHelperText>
 		</FormControl>
 	);
 };

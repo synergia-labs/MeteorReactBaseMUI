@@ -21,6 +21,8 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { hasValue } from '/imports/libs/hasValue';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
+import { SysDatePickerField } from '/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField';
+import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
@@ -159,8 +161,10 @@ const SysFormTestsPage: React.FC = () => {
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.phone') ?? true}
 						onClick={() => sysFormRef.current?.validateIndividualField('contacts.phone')}
 					/>
+					<SysDatePickerField name="date" />
 					<SysSelectField name="entertainment" fullWidth />
 					<SysRadioButton name="entertainmentSpecific" alignment="row" />
+					<SysCheckBox name="rating" alignment="row" />
 					<WrapTextField
 						name="contacts.cnpj"
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cnpj') ?? true}

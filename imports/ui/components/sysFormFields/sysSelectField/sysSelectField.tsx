@@ -27,6 +27,7 @@ interface ISysSelectFieldProps extends ISysFormComponent<SelectProps> {
 		container: SxProps<Theme>;
 		menuProps: SxProps<Theme> | null;
 	};
+	placeholder?: string;
 }
 
 export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
@@ -86,7 +87,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	const handleChange = (e: SelectChangeEvent) => {
 		const newValue = e.target.value;
 		setValueState(newValue);
-		if(inSysFormContext){
+		if (inSysFormContext) {
 			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
 		}
 		onChange?.(e);
@@ -115,7 +116,12 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					value={valueState}
 					onChange={handleChange}
 					disabled={disabled || loading}
-					multiple={multiple}>
+					multiple={multiple}
+					renderValue={(options) => {
+						if (options?.length === 0) {
+							return <em>{placeholder}</em>;
+						}
+					}}>
 					{options?.length === 0 ? (
 						<MenuItem id={'NoValues'} disabled value="">
 							<ListItemText primary="Nenhuma opção para selecionar" />

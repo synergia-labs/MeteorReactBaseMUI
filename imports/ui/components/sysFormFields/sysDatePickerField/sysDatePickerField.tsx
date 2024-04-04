@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
@@ -6,32 +6,20 @@ import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SxProps, Theme } from '@mui/material';
 import { SysViewField } from '../sysViewField/sysViewField';
 import Box from '@mui/material/Box';
+import { hasValue } from '/imports/libs/hasValue';
+import { ISysFormComponentRef } from '../../sysForm/typings';
+import SysTextField, { ISysTextFieldProps } from '../sysTextField/sysTextField';
 
-interface ISysDatePickerField extends ISysFormComponent<TextFieldProps> {
+interface ISysDatePickerField extends ISysFormComponent<ISysTextFieldProps> {
 	sxMap?: {
 		container?: SxProps<Theme>;
 		textField?: SxProps<Theme>;
 		boxContainer: SxProps<Theme>;
 	};
-	/** Posicionamento da Tooltip */
-	positionTooltip?:
-		| 'bottom-end'
-		| 'bottom-start'
-		| 'bottom'
-		| 'left-end'
-		| 'left-start'
-		| 'left'
-		| 'right-end'
-		| 'right-start'
-		| 'right'
-		| 'top-end'
-		| 'top-start'
-		| 'top'
-		| undefined;
 	/** Ícone de ajuda */
 	helpIcon?: boolean;
 	/** posicao dos elementos */
-	view?: 'linha' | 'coluna';
+	view?: 'row' | 'column';
 }
 
 export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
@@ -40,6 +28,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	value,
 	disabled,
 	onChange,
+	loading,
 	readOnly,
 	error,
 	tooltipMessage,
@@ -47,41 +36,67 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	positionTooltip,
 	helpIcon,
 	sxMap,
-	view = 'coluna',
+	view = 'column',
 	...otherProps
 }) => {
 	//Busca as informações do contexto do SysForm
-	const { getSysFormComponentInfo } = useContext(SysFormContext);
-	const sysFormController = getSysFormComponentInfo?.(name);
+	const controllerSysForm = useContext(SysFormContext);
+	const inSysFormContext = hasValue(controllerSysForm);
 
-	defaultValue = defaultValue || sysFormController?.schema?.defaultValue;
-	label = label || sysFormController?.schema?.label;
-	readOnly = readOnly || sysFormController?.readOnly;
-	error = error || sysFormController?.error;
-	disabled = disabled || sysFormController?.disabled;
-	defaultValue = defaultValue || value || sysFormController?.defaultValue;
+	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
 
-	const [dateValue, setDateValue] = useState(defaultValue || new Date());
+	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 
-	const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+	const schema = refObject?.current.schema;
+
+	label = label || schema?.label;
+	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
+	disabled = disabled || controllerSysForm?.disabled;
+	loading = loading || controllerSysForm?.loading;
+	defaultValue = refObject?.current.value || schema?.defaultValue;
+
+	//const [valueState, setValueState] = useState<string>(defaultValue || '');
+	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
+	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [dateValue, setDateValue] = useState(defaultValue);
+
+	if (inSysFormContext)
+		controllerSysForm.setInteractiveMethods({
+			componentRef: refObject!,
+			clearMethod: () => setDateValue(''),
+			setValueMethod: (value) => setDateValue(value),
+			changeVisibilityMethod: (visible) => setVisibleState(visible),
+			setErrorMethod: (error) => setErrorState(error)
+		});
+
+	// defaultValue = defaultValue || sysFormController?.schema?.defaultValue;
+	// label = label || sysFormController?.schema?.label;
+	// readOnly = readOnly || sysFormController?.readOnly;
+	// error = error || sysFormController?.error;
+	// disabled = disabled || sysFormController?.disabled;
+	// defaultValue = defaultValue || value || sysFormController?.defaultValue;
+
+	//const [dateValue, setDateValue] = useState(defaultValue || new Date());
+
+	function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
 		const newValue = evt.target.value;
 
 		if (!newValue) {
 			const nullValue: null = null;
-			sysFormController?.onChange({ name, value: nullValue });
+			//sysFormController?.onChange({ name, value: nullValue });
+			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: nullValue });
 			setDateValue(nullValue);
 			return;
 		}
-
 		const date = new Date(newValue);
 
 		if (!isNaN(date.getTime())) {
 			date.setHours(date.getHours() + 10);
-			sysFormController?.onChange({ name, value: date });
+			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: date });
+			//sysFormController?.onChange({ name, value: date });
 		}
-
 		setDateValue(newValue);
-	};
+	}
 
 	const onBlur = () => {
 		if (new Date(dateValue) !== new Date(value)) {
@@ -89,7 +104,8 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 				const date = new Date(dateValue);
 				if (!isNaN(date.getTime())) {
 					date.setHours(date.getHours() + 10);
-					sysFormController?.onChange({ name, value: date });
+					controllerSysForm.onChangeComponentValue({ refComponent: refObject!, value: date });
+					//sysFormController?.onChange({ name, value: date });
 				}
 			} catch (e) {
 				console.log('Data Inválida', e);
@@ -103,6 +119,8 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 		return formattedDate;
 	};
 
+	if (!visibleState) return null;
+
 	if (readOnly)
 		return <SysViewField label={label} placeholder={typeof dateValue != 'string' ? '-' : dateValue || '-'} />;
 
@@ -115,27 +133,29 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 				placement={positionTooltip}
 				helpIcon={helpIcon}
 				sx={sxMap?.container}>
-				{view === 'coluna' && (
-					<TextField
+				{view === 'column' && (
+					<SysTextField
+						{...otherProps}
 						type="date"
 						onBlur={onBlur}
 						onChange={handleChange}
 						value={dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue}
-						error={!!error}
-						disabled={disabled || sysFormController?.loading}
+						error={errorState}
+						disabled={disabled || loading}
 						name={name}
 						sx={sxMap?.textField}
 					/>
 				)}
 			</SysLabelView>
-			{view === 'linha' && (
-				<TextField
+			{view === 'row' && (
+				<SysTextField
+					{...otherProps}
 					type="date"
 					onBlur={onBlur}
 					onChange={handleChange}
 					value={dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue}
-					error={!!error}
-					disabled={disabled || sysFormController?.loading}
+					error={errorState}
+					disabled={disabled || loading}
 					name={name}
 					sx={sxMap?.textField}
 				/>
