@@ -86,7 +86,9 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	const handleChange = (e: SelectChangeEvent) => {
 		const newValue = e.target.value;
 		setValueState(newValue);
-		controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
+		if(inSysFormContext){
+			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
+		}
 		onChange?.(e);
 	};
 

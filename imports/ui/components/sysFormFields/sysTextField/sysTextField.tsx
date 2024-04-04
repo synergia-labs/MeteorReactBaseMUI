@@ -29,6 +29,7 @@ interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 		header?: SxProps<Theme>;
 		textField?: SxProps<Theme>;
 	}
+	placeholder?: string;
 }
 
 

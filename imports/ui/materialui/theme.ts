@@ -425,7 +425,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				},
 				styleOverrides: {
 					root: {
-						padding: '0.75rem 1rem',
+						padding: '8px 16px',
 						backgroundColor: theme.palette.sysBackground?.default,
 						color: theme.palette.sysText?.body,
 						borderRadius: '8px',
@@ -520,7 +520,21 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				styleOverrides: {
 					root: {
 						width: '100%',
-						marginTop: 0
+						marginTop: 0,
+					}
+				}
+			},
+
+			MuiSelect: {
+				defaultProps: {},
+				styleOverrides: {
+					root:{
+						width: '100%',
+						borderRadius: '8px'
+					},
+					select:{
+						width: '100%',
+						padding: '8px 16px'
 					}
 				}
 			},
@@ -535,7 +549,8 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				styleOverrides: {
 					root: {
 						borderRadius: '8px',
-						margin: 0
+						margin: 0,
+						width: '100%'
 					},
 					marginNormal: {
 						marginTop: 4
