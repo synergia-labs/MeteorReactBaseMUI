@@ -42,6 +42,14 @@ export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
 		optional: true
 	},
 
+	arquivos: {
+		type: [Object],
+		label: 'Anexos',
+		defaultValue: '',
+		optional: true,
+		isUpload: true
+	},
+
 	entertainmentSpecific: {
 		type: String,
 		label: 'Escolha uma das opções',
