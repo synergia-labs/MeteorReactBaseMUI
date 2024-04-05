@@ -8,7 +8,8 @@ import {
 	SelectChangeEvent,
 	SelectProps,
 	SxProps,
-	Theme
+	Theme,
+	Typography
 } from '@mui/material';
 import { SysFormContext } from '../../sysForm/sysForm';
 import SysLabelView from '../../sysLabelView/sysLabelView';
@@ -120,12 +121,14 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					id={name}
 					value={valueState}
 					onChange={handleChange}
+					displayEmpty
 					disabled={disabled || loading}
 					multiple={multiple}
 					renderValue={(options) => {
-						if (options?.length === 0) {
-							return <em>{placeholder}</em>;
+						if (!hasValue(options)) {
+							return <Typography variant="body1" color={'text.disabled'}>{placeholder}</Typography>;
 						}
+						return options;
 					}}>
 					{options?.length === 0 ? (
 						<MenuItem id={'NoValues'} disabled value="">

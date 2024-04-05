@@ -34,6 +34,8 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	tooltipMessage,
 	defaultValue,
 	positionTooltip,
+	showRequired,
+	requiredIndicator,
 	helpIcon,
 	sxMap,
 	view = 'column',
@@ -54,6 +56,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	disabled = disabled || controllerSysForm?.disabled;
 	loading = loading || controllerSysForm?.loading;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
+	showRequired = showRequired || (!!schema && !schema?.optional);
 
 	//const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
@@ -132,6 +135,8 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 				disabled={disabled}
 				placement={positionTooltip}
 				helpIcon={helpIcon}
+				showRequired={showRequired}
+				requiredIndicator={requiredIndicator}
 				sx={sxMap?.container}>
 				{view === 'column' && (
 					<SysTextField

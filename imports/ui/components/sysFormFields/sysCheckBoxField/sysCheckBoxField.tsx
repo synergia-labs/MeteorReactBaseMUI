@@ -59,7 +59,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	defaultValue = refObject?.current.value || schema?.defaultValue;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
 	options = options || refObject?.current?.options || ([] as any);
-	showRequired = showRequired || !schema?.optional;
+	showRequired = showRequired || (!!schema && !schema?.optional);
 
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);

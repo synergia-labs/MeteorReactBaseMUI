@@ -71,7 +71,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
-	showRequired = showRequired || !schema?.optional;
+	showRequired = showRequired || (!!schema && !schema?.optional);
 	if(mask) defaultValue = generalMask(defaultValue, mask);
 
 	const [valueState, setValueState]     = useState<string | undefined>(defaultValue);

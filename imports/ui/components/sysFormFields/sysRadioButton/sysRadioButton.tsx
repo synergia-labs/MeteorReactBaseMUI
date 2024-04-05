@@ -57,7 +57,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
-	showRequired = showRequired || !schema?.optional;
+	showRequired = showRequired || (!!schema && !schema?.optional);
 
 	const [valueState, setValueState]     = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);

@@ -50,6 +50,7 @@ const ExampleDetailView = () => {
                         />
                         <SysSelectField
                             name='type'
+                            placeholder="Selecionar"
                         />
                         <SysRadioButton
                             name='typeMulti' 
