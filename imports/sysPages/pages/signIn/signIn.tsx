@@ -60,7 +60,6 @@ const SignInPage: React.FC = () => {
 				<SignInStyles.formContainer>
 					<Typography variant="h5">Acesse o sistema</Typography>
 					<SysForm 
-						mode='edit'
 						schema={signInSchema} 
 						onSubmit={handleSubmit}
 						debugAlerts={false}
@@ -86,7 +85,6 @@ const SignInPage: React.FC = () => {
 							<SysFormButton 
 								variant="contained"
 								color="primary"
-								id="submit"
 								endIcon={<ArrowForwardRoundedIcon />}
 							>
 								Entrar

@@ -228,6 +228,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 
 	const updateValue = useCallback((doc: IDocValues) => {
 		try{
+			if(!hasValue(doc)) return;
 			SysFormMethods.updateDoc(doc, schema, refComponents.current);
 			const fieldsFilled = checkIfAllRequiredFieldsAreFilled();
 			refButton.current?.current?.setDisabled?.(!fieldsFilled);

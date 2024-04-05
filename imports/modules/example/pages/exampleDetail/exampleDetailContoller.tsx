@@ -22,7 +22,7 @@ export const ExampleDetailControllerContext = createContext<IExampleDetailContol
 
 const ExampleDetailController = () => {
     const navigate = useNavigate();
-    const {id} = useContext(ExampleModuleContext);
+    const {id, state} = useContext(ExampleModuleContext);
     const {showNotification} = useContext(SysAppLayoutContext);
 
     const {document, loading}  = useTracker(() => {
@@ -38,13 +38,14 @@ const ExampleDetailController = () => {
     const changeToEdit = useCallback((id: string) => {navigate(`/example/edit/${id}`);}, []);
 
     const onSubmit = useCallback((doc: IExample) => {
-        exampleApi.upsert(doc, (e: IMeteorError) => {
+        const selectedAction = state === 'create' ? 'insert' : 'update';
+        exampleApi[selectedAction](doc, (e: IMeteorError) => {
             if (!e) {
                 closePage();
                 showNotification({
                     type: 'success',
                     title: 'Operação realizada!',
-                    message: `O exemplo foi ${doc._id ? 'atualizado' : 'cadastrado'} com sucesso!`
+                    message: `O exemplo foi ${selectedAction === 'update' ? 'atualizado' : 'cadastrado'} com sucesso!`
                 });
             } else {
                 showNotification({
