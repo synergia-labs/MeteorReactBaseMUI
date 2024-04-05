@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, styled } from '@mui/material';
-import { sysAction, sysSizing } from "../../materialui/styles";
+import { sysAction, sysSizing } from "../../../../ui/materialui/styles";
 
 interface ISysCardUserStyled {
     Container: React.ElementType;

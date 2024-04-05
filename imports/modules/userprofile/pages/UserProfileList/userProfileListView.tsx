@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import _ from 'lodash';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import { UserProfileListControllerContext } from './userProfileListController';
-import { SysCardUser } from '/imports/ui/components/sysCardUser/sysCardUser';
+import { SysCardUser } from '../../components/sysCardUser/sysCardUser';
 import UserProfileListViewStyled from './userProfileListStyles';
 import AddIcon from '@mui/icons-material/Add';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
@@ -11,9 +11,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { sysAction } from '/imports/ui/materialui/styles';
 
 const UserProfileLisView = () => {
-    const context = React.useContext(UserProfileListControllerContext);
-    const { list, onAddButtonClick, onSearch, onSetFilter } = context;
-    const [selectedRole, setSelectedRole] = React.useState('');
+    const context = useContext(UserProfileListControllerContext);
+    const { list, onSearch, onSetFilter, onAddButtonClick } = context;
+    const [selectedRole, setSelectedRole] = useState('');
     const options = [
         {
             value: '',

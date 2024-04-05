@@ -68,7 +68,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 		this.addPublication('userProfileList', (filter = {}) => {
 			return this.defaultListCollectionPublication(filter, {
-				projection: { email: 1, username: 1, status: 1, roles: 1 }
+				projection: { email: 1, username: 1, status: 1, roles: 1, createdat: 1 }
 			});
 		});
 

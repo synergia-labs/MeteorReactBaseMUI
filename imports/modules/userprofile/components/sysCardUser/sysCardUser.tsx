@@ -5,7 +5,6 @@ import { UserProfileListControllerContext } from "/imports/modules/userprofile/p
 import DoNotDisturbOnOutlinedIcon from '@mui/icons-material/DoNotDisturbOnOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { sysAction } from "../../materialui/styles";
 
 interface ISysCardUserProps extends FabProps {
     username: string;

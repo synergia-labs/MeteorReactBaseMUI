@@ -1,31 +1,57 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
 import _ from 'lodash';
-import { IUserProfile } from '/imports/modules/userprofile/api/UserProfileSch';
-import { NavigateFunction } from 'react-router-dom';
-import {  Typography } from '@mui/material';
-import { SysFab } from '/imports/ui/components/sysFab/sysFab';
-import { UserProfileDetailViewStyledContainer } from './userProfileDetailStyles';
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Button, DialogTitle } from '@mui/material';
 import { UserProfileDetailControllerContext } from './userProfileDetailController';
-
-interface IUserProfileList {
-	users: IUserProfile[];
-	navigate: NavigateFunction;
-}
+import SysForm from '/imports/ui/components/sysForm/sysForm';
+import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
+import UserProfileDetailStyles from './userProfileDetailStyles';
+import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
+import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
+import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
+import { DialogTitleStyled } from '/imports/ui/appComponents/SysDialog/SysDialogStyles';
 
 const UserProfileDetailView = () => {
-	const userProfileListViewContext = React.useContext(UserProfileDetailControllerContext)
-	return (
-        <UserProfileDetailViewStyledContainer>
-            {/* <SysFab 
-                variant="extended" 
-                text="Adicionar" 
-                startIcon={<AddIcon />} 
-                fixed={true}
-                onClick={userProfileListViewContext.onAddButtonClick}
-            /> */}
-            <Typography variant="h5">Lista de usuários</Typography>
-        </UserProfileDetailViewStyledContainer>
+    const context = useContext(UserProfileDetailControllerContext);
+    const { user, onSubmit, schema, mode, closeDialog, loading } = context;
+    const sysFormRef = useRef<ISysFormRef>(null);
+    return (
+        <Box>
+            <DialogTitleStyled>
+                {mode === 'create' ? 'Adicionar usuário' : 'Editar usuário'}
+                <Box flexGrow={1} />
+            </DialogTitleStyled>
+            <SysForm
+                schema={schema}
+                doc={user}
+                mode={mode}
+                onSubmit={onSubmit}
+                ref={sysFormRef}
+                loading={loading}
+            >
+                <UserProfileDetailStyles.FieldsForm>
+                    <SysTextField
+                        name="username"
+                        placeholder="Ex.: José da Silva"
+                    />
+                    <SysTextField
+                        name="email"
+                        placeholder="Ex.: jose.silva@email.com"
+                    />
+                    <SysSelectField
+                        name="roles"
+                        placeholder="Selecionar"
+                    />
+                </UserProfileDetailStyles.FieldsForm>
+                <UserProfileDetailStyles.Actions>
+                    <Button onClick={closeDialog}>
+                        Cancelar
+                    </Button>
+                    <SysFormButton>
+                        Salvar
+                    </SysFormButton>
+                </UserProfileDetailStyles.Actions>
+            </SysForm>
+        </Box>
     );
 };
 

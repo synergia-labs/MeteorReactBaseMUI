@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { nanoid } from 'nanoid';
 import UserProfileListView from "./userProfileListView";
 import { IUserProfile, userProfileSch } from "../../api/UserProfileSch";
@@ -13,7 +13,8 @@ import { ISysFormRef } from "/imports/ui/components/sysForm/typings";
 import { Box } from "@mui/material";
 import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectField/sysSelectField";
 import UserProfileListViewStyled from "./userProfileListStyles";
-import UserProfileDetailController from "../UserProfileDetail/userProfileDetailController";
+import UserProfileDetailView from "../UserProfileDetail/userProfileDetailView";
+import UserProfileDetailController, { UserProfileDetailControllerContext } from "../UserProfileDetail/userProfileDetailController";
 
 interface IInitialConfig {
     pageProperties: {
@@ -27,15 +28,15 @@ interface IInitialConfig {
 
 interface IUserProfileListContollerContext {
     list: IUserProfile[];
-    onEdit: (id: string) => void;
-    onAddButtonClick: () => void;
     translateStatus: (status: string | undefined) => string;
     onChangeStatusClick: (id: string) => void;
     onSearch: (username: string | undefined) => void;
     onSetFilter: (field: string, value: string | null | undefined) => void;
+    onAddButtonClick: () => void;
+    onEdit: (id: string) => void;
 }
 
-export const UserProfileListControllerContext = React.createContext<IUserProfileListContollerContext>({} as IUserProfileListContollerContext);
+export const UserProfileListControllerContext = createContext<IUserProfileListContollerContext>({} as IUserProfileListContollerContext);
 
 const initialConfig = {
     pageProperties: {
@@ -49,9 +50,8 @@ const initialConfig = {
 };
 
 const UserProfileListController = () => {
-    const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
-    const sysFormRef = useRef<ISysFormRef>(null);
-    const { showNotification, showDialog, closeDialog } = React.useContext(SysAppLayoutContext);
+    const [config, setConfig] = useState<IInitialConfig>(initialConfig);
+    const { showNotification, showDialog } = useContext(SysAppLayoutContext);
 
     const { sortProperties, filter, pageProperties } = config;
     const sort = {
@@ -113,106 +113,17 @@ const UserProfileListController = () => {
         })
     }, []);
 
-    const updateUser = (doc: IUserProfile, id: string, mode: 'insert' | 'update') => {
-        doc._id = id;
-        doc.status = 'disabled'
-        userprofileApi[mode](doc, (e: IMeteorError, r: IUserProfile) => {
-            if (!e) {
-                showNotification &&
-                    showNotification({
-                        type: 'success',
-                        title: 'Operação realizada!',
-                        message: `Usuario ${mode === 'insert' ? 'criado' : 'atualizado'} com sucesso`
-                    });
-            } else {
-                console.log('Error:', e);
-                showNotification &&
-                    showNotification({
-                        type: 'warning',
-                        title: 'Operação não realizada!',
-                        message: `Erro ao realizar a operação: ${e.reason}`
-                    });
-            }
-        })
-    };
-
-    const onAddButtonClick2 = useCallback(() => {
-        showDialog({
-            children: <UserProfileDetailController mode={'create'} />,
-        })
-    }, []);
-
-    const onEdit2 = useCallback((id: string) => {
-        showDialog({
-            children: <UserProfileDetailController mode={'edit'} id={id} />,
-        })
-    }, []);
-
-    const userForm = useCallback((id: string, mode: 'view' | 'edit' | 'create') => {
-        const user = userList.find((item: IUserProfile) => item._id === id) || {};
-        const saveMode = mode === 'create' ? 'insert' : 'update';
-        return (
-            <Box>
-                <SysForm
-                    schema={userProfileSch}
-                    doc={user}
-                    mode={mode}
-                    onSubmit={(doc) => updateUser(doc as IUserProfile, id, saveMode)}
-                    ref={sysFormRef}
-                >
-                    <UserProfileListViewStyled.FieldsForm>
-                        <SysTextField
-                            name="username"
-                            placeholder="Ex.: José da Silva"
-                        />
-                        <SysTextField
-                            name="email"
-                            placeholder="Ex.: jose.silva@email.com"
-                        />
-                        <SysSelectField
-                            name="roles"
-                            placeholder="Selecionar"
-                        />
-                    </UserProfileListViewStyled.FieldsForm>
-                </SysForm>
-            </Box>
-        );
-    }, [sysFormRef, userList]);
-
     const onEdit = useCallback((id: string) => {
-        FormDialog({
-            showDialog,
-            closeDialog,
-            form: userForm(id, 'edit'),
-            title: 'Editar usuário',
-            onSubmit: () => {
-                try {
-                    sysFormRef.current?.validateFields();
-                    closeDialog();
-                    sysFormRef.current?.submit();
-                } catch (error) {
-                    console.log('error :>> ', error);
-                }
-        },
+        showDialog({
+            sx: {},
+            children: <UserProfileDetailController id={id} mode='edit' />
         })
     }, [userList]);
 
     const onAddButtonClick = useCallback(() => {
-        const id = nanoid();
-        FormDialog({
-            showDialog,
-            closeDialog,
-            form: userForm(id, 'create'),
-            title: 'Adicionar usuário',
-            onSubmit: () => {
-                    try {
-                        sysFormRef.current?.validateFields();
-                        closeDialog();
-                        sysFormRef.current?.submit();
-                    } catch (error) {
-                        console.log('error :>> ', error);
-                    }
-            },
+        showDialog({
+            sx: {},
+            children: <UserProfileDetailController id={nanoid()} mode='create' />
         })
     }, [userList]);
 
@@ -237,16 +148,18 @@ const UserProfileListController = () => {
         }));
     }, [userList]);
 
+    const providerValues = useMemo(() => ({
+        list: userList,
+        translateStatus,
+        onChangeStatusClick,
+        onSearch,
+        onSetFilter,
+        onAddButtonClick,
+        onEdit
+    }), [userList])
+
     return (
-        <UserProfileListControllerContext.Provider value={{
-            list: userList,
-            onEdit,
-            onAddButtonClick,
-            translateStatus,
-            onChangeStatusClick,
-            onSearch,
-            onSetFilter,
-        }}>
+        <UserProfileListControllerContext.Provider value={providerValues}>
             <UserProfileListView />
         </UserProfileListControllerContext.Provider>
     );
