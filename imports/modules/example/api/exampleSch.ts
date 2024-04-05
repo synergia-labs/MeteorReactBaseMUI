@@ -27,7 +27,7 @@ export const exampleSch: ISchema<IExample> = {
     },
 
     check: {
-        type: Object,
+        type: Array<String>,
         label: 'Grupos associados',
         defaultValue: {},
         optional: true,
@@ -161,7 +161,7 @@ export interface IExample extends IDoc {
     image: string;
     title: string;
     description: string;
-    check: object;
+    check: Array<string>;
     type: string;
     typeMulti: string;
     date: Date;
