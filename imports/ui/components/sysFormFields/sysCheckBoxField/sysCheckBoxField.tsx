@@ -81,6 +81,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 			setOptionsMethod: (options) => setOptionsState(options)
 		});
 
+	//setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, event.target.name]);
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { checked } = event.target;
 		const updatedOptions = checked
@@ -91,6 +92,12 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 			controllerSysForm?.onChangeComponentValue?.({ refComponent: refObject!, value: updatedOptions });
 		onChange?.(event);
 	};
+
+	React.useEffect(() => {
+		if (valueState?.length > 0) {
+			setSelectedOptions(valueState);
+		}
+	}, [valueState]);
 
 	if (!visibleState || optionsState?.length === 0) return null;
 
