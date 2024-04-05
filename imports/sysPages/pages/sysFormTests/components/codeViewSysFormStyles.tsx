@@ -30,6 +30,10 @@ const CodeViewSysFormStyles: ICodeViewSysFormStyles = {
         left: expanded ? '50%' : 'auto',
         transform: expanded ? 'translate(-50%, -50%)' : 'none',
         transition: 'width 0.3s, height 0.3s top 0.3s left 0.3s',
+        [theme.breakpoints.down('lg')]: {
+            width: expanded ? '90vw' : '100%',
+            height: expanded ? '90vh' : '500px',
+        }
     })),
     header: styled(Box)<IHeader>(({theme, type}) => ({
         display: 'flex',
