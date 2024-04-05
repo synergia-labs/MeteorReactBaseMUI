@@ -31,21 +31,26 @@ const ExampleDetailStyles: IExampleDetailStyles = {
         alignItems: 'center',
         width: '100%',
     }),
-    body: styled(Box)({
+    body: styled(Box)(({theme}) => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         width: '100%',
-        gap: '64px'
-    }),
+        gap: '64px',
+        [theme.breakpoints.down('md')]: {
+            flexDirection: 'column',
+            gap: sysSizing.spacingFixedMd
+        }
+    })),
     footer: styled(Box)({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
         width: '100%',
-        gap: sysSizing.spacingRemMd
+        gap: sysSizing.spacingRemMd,
+        marginTop: '40px'
     }),
     formColumn: styled(Box)({
         width: '100%',
