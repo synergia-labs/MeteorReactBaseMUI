@@ -37,7 +37,6 @@ const ExampleDetailView = () => {
                 schema = {controller.schema}
                 doc = {controller.document}
                 onSubmit={controller.onSubmit}
-                debugAlerts={false}
                 loading={controller.loading}
             >
                 <ExampleDetailStyles.body>
