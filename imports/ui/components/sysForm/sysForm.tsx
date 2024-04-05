@@ -46,6 +46,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	const refButton = useRef<MutableRefObject<ISysFormButtonRef>>();
 	const fieldsWithErrors = useRef<{[key: string] : string}>({});
 	const fieldsWithOptions = useRef<IDocRef>({});
+	const refDoc = useRef<IDocValues>(doc);
 
 	const __onFailure = (error: Error) => {
 		if(debugAlerts)
@@ -242,9 +243,9 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		try{
 			validateFields();
 			const newDoc = SysFormMethods.getDocValues(refComponents.current, schema);
-			for(const key in doc){
+			for(const key in refDoc?.current){
 				if(refComponents.current[key]) continue; 
-				newDoc[key] = doc[key];
+				newDoc[key] = refDoc?.current[key];
 			}
 			if(onSubmit) onSubmit(newDoc);
 		}catch(error:any){
@@ -308,6 +309,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 
 	useEffect(() => {
 		updateValue(doc);
+		refDoc.current = doc;
 	},[doc]);
 
 	const providerValue : ISysFormContext = useMemo(() => ({
