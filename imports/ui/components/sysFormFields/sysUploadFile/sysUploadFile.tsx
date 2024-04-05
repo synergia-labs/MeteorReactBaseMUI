@@ -278,18 +278,20 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 
 	return (
 		<SysUploadFileStyle.container>
-			<SysUploadFileStyle.button {...getRootProps()}>
-				<input {...getInputProps()} />
-				<SysUploadFileStyle.typographyInfo variant="caption">
-					Arraste o arquivo até aqui ou clique abaixo
-				</SysUploadFileStyle.typographyInfo>
-				<SysUploadFileStyle.typographyAdd variant="button2">
-					<AddIcon />
-					Adicionar
-				</SysUploadFileStyle.typographyAdd>
-			</SysUploadFileStyle.button>
+			{!readOnly && (
+				<SysUploadFileStyle.button {...getRootProps()}>
+					<input {...getInputProps()} />
+					<SysUploadFileStyle.typographyInfo variant="caption">
+						Arraste o arquivo até aqui ou clique abaixo
+					</SysUploadFileStyle.typographyInfo>
+					<SysUploadFileStyle.typographyAdd variant="button2">
+						<AddIcon />
+						Adicionar
+					</SysUploadFileStyle.typographyAdd>
+				</SysUploadFileStyle.button>
+			)}
 
-			{files && files.length > 0 && (
+			{files && files.length > 0 ? (
 				<SysUploadFileStyle.itenList>
 					{files.map((item: IArquivo, index: number) => (
 						<SysUploadFileStyle.boxItem key={index}>
@@ -313,7 +315,9 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 						</SysUploadFileStyle.boxItem>
 					))}
 				</SysUploadFileStyle.itenList>
-			)}
+			) : readOnly ? (
+				<Typography>Sem itens</Typography>
+			) : null}
 		</SysUploadFileStyle.container>
 	);
 };
