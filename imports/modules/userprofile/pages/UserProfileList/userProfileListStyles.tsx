@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, styled } from "@mui/material";
-import { sysSizing } from "/imports/ui/materialui/styles";
+import { sysBaseSizes, sysSizing } from "/imports/ui/materialui/styles";
 
 interface IUserProfileListViewStyled {
     Container: React.ElementType;
@@ -17,6 +17,7 @@ const UserProfileListViewStyled: IUserProfileListViewStyled = {
         width: '100%',
         padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
         gap: sysSizing.spacingFixedMd,
+        marginBottom: sysBaseSizes.baseFixed8,
     })),
     Filters: styled(Box)(() => ({
         display: 'flex',

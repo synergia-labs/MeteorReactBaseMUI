@@ -15,6 +15,7 @@ import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectFi
 import UserProfileListViewStyled from "./userProfileListStyles";
 import UserProfileDetailView from "../UserProfileDetail/userProfileDetailView";
 import UserProfileDetailController, { UserProfileDetailControllerContext } from "../UserProfileDetail/userProfileDetailController";
+import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface IInitialConfig {
     pageProperties: {
@@ -115,14 +116,14 @@ const UserProfileListController = () => {
 
     const onEdit = useCallback((id: string) => {
         showDialog({
-            sx: {},
+            sx: {borderRadius: sysSizing.radiusMd},
             children: <UserProfileDetailController id={id} mode='edit' />
         })
     }, [userList]);
 
     const onAddButtonClick = useCallback(() => {
         showDialog({
-            sx: {},
+            sx: {borderRadius: sysSizing.radiusMd},
             children: <UserProfileDetailController id={nanoid()} mode='create' />
         })
     }, [userList]);

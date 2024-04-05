@@ -55,7 +55,7 @@ const UserProfileDetailController = ({ id, mode }: IUserProfileDetailController)
             }
             closeDialog();
         })
-    }, []);
+    }, [user]);
 
     return (
         <UserProfileDetailControllerContext.Provider value={{

@@ -54,7 +54,6 @@ const UserProfileLisView = () => {
                         setSelectedRole(e.target.value);
                         onSetFilter('roles', e.target.value)
                     }}
-                    defaultValue={selectedRole}
                     options={options}
                 />
             </UserProfileListViewStyled.Filters>

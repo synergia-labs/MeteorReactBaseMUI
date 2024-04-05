@@ -8,18 +8,19 @@ import UserProfileDetailStyles from './userProfileDetailStyles';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import { DialogTitleStyled } from '/imports/ui/appComponents/SysDialog/SysDialogStyles';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const UserProfileDetailView = () => {
     const context = useContext(UserProfileDetailControllerContext);
     const { user, onSubmit, schema, mode, closeDialog, loading } = context;
     const sysFormRef = useRef<ISysFormRef>(null);
     return (
-        <Box>
-            <DialogTitleStyled>
+        <UserProfileDetailStyles.Container>
+            <DialogTitle variant="subtitle1" sx={{ padding: 0 }}>
                 {mode === 'create' ? 'Adicionar usuário' : 'Editar usuário'}
-                <Box flexGrow={1} />
-            </DialogTitleStyled>
+            </DialogTitle>
             <SysForm
                 schema={schema}
                 doc={user}
@@ -41,17 +42,17 @@ const UserProfileDetailView = () => {
                         name="roles"
                         placeholder="Selecionar"
                     />
+                    <UserProfileDetailStyles.Actions>
+                        <Button variant="outlined" startIcon={<CloseIcon />} onClick={closeDialog}>
+                            Cancelar
+                        </Button>
+                        <SysFormButton startIcon={<CheckIcon />}>
+                            Salvar
+                        </SysFormButton>
+                    </UserProfileDetailStyles.Actions>
                 </UserProfileDetailStyles.FieldsForm>
-                <UserProfileDetailStyles.Actions>
-                    <Button onClick={closeDialog}>
-                        Cancelar
-                    </Button>
-                    <SysFormButton>
-                        Salvar
-                    </SysFormButton>
-                </UserProfileDetailStyles.Actions>
             </SysForm>
-        </Box>
+        </UserProfileDetailStyles.Container>
     );
 };
 
