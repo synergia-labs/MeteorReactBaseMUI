@@ -18,12 +18,17 @@ const SysFormButton: React.FC<ButtonProps> = (props) => {
         setDisabled(value);
     }
 
+    const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+        buttonRef?.current.onClick?.();
+        props.onClick?.(e);
+    };
+
     if(inSysFormContext && sysFormController?.mode === 'view') return null;
     return (
         <Button 
             {...props} 
-            onClick={buttonRef?.current.onClick}
-            disabled={disabled}
+            onClick={onClickButton}
+            disabled={disabled || sysFormController?.disabled || sysFormController?.loading || props.disabled }
             startIcon={sysFormController?.loading ? <CircularProgress size={20} /> : props.startIcon}
         />
     );
