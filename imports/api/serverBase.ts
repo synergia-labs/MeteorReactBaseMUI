@@ -345,10 +345,15 @@ export class ServerApiBase<Doc extends IDoc> {
 				}
 			}
 		});
-		// Call the check from Meteor.
-		if (objForCheck.sincronizadoEm) {
-			check(objForCheck, { ...newSchema, sincronizadoEm: Date });
-		} else check(objForCheck, newSchema);
+
+
+		try{
+			if (objForCheck.sincronizadoEm) check(objForCheck, { ...newSchema, sincronizadoEm: Date });
+			else check(objForCheck, newSchema);
+		}catch(e:any){
+			const field = e.path;
+			throw new Meteor.Error('Erro de tipagem no schema', `Erro de tipagem no schema. Verifique se o campo "${field}" está correto.`);
+		}
 
 		return newDataObj;
 	};
