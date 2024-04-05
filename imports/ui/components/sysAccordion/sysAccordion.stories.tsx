@@ -1,11 +1,11 @@
 import React from 'react';
-import { SysPainelExpansivo } from './sysPainelExpansivel';
+import { SysAccordion } from './sysAccordion';
 import { Meta, StoryObj } from '@storybook/react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const meta = {
-	title: 'ui/components/sysPainelExpansivo',
-	component: SysPainelExpansivo,
+	title: 'ui/components/sysAccordion',
+	component: SysAccordion,
 	tags: ['autodocs'],
 	args: {
 		titulo: 'Título',
@@ -17,7 +17,7 @@ const meta = {
 		posicaoIcone: 'fim',
 		sxMap: {}
 	}
-} satisfies Meta<typeof SysPainelExpansivo>;
+} satisfies Meta<typeof SysAccordion>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
