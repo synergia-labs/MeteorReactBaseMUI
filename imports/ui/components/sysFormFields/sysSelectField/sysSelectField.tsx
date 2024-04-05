@@ -16,7 +16,7 @@ import { SysViewField } from '../sysViewField/sysViewField';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 
-interface ISysSelectFieldProps extends ISysFormComponent<SelectProps> {
+interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, 'variant'>> {
 	//options?: Array<{ value: any; label: string; description?: string }>;
 	defaultValue?: string;
 	description?: string;
@@ -50,6 +50,8 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	multiple,
 	renderValue,
 	placeholder,
+	showRequired, 
+	requiredIndicator,
 	sxMap,
 	...otherProps
 }) => {
@@ -68,6 +70,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	disabled = disabled || controllerSysForm?.disabled;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
 	options = options || refObject?.current?.options || ([] as any);
+	showRequired = showRequired || (!!schema && !schema?.optional);
 
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
@@ -108,6 +111,8 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 				disabled={disabled}
 				placement={positionTooltip}
 				helpIcon={helpIcon}
+				showRequired={showRequired}
+				requiredIndicator={requiredIndicator}
 				sx={sxMap?.container}>
 				<Select
 					{...otherProps}

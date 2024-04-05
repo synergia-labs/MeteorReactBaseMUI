@@ -20,6 +20,8 @@ export interface IBaseSimpleFormComponent {
     defaultValue?: any;
     options?: Array<IOption>;
 	helpIcon?: boolean;
+    showRequired?: boolean;
+    requiredIndicator?: string;
 	positionTooltip?:
         | 'bottom-end'
         | 'bottom-start'

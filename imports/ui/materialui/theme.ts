@@ -373,9 +373,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				},
 				styleOverrides:{
 					root: {
-						'&:hover': {
-							color: theme.palette.sysAction?.primaryBgHover,
-						}
+						color: theme.palette.sysAction?.primaryIcon,
 					}
 				}
 

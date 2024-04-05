@@ -101,7 +101,7 @@ class SysFormMethods{
         const docValues: IDocValues = {};
         try{
             if(!schema) throw new Error('schema não informado ou incompleto.');
-            if(!doc) throw new Error('doc não informado ou inválido.');
+            if(!doc) return docValues;
             for (const key in schema) {
                 const { subSchema } = schema[key];
                 if (!subSchema) 
@@ -165,6 +165,28 @@ class SysFormMethods{
         }
     };
 
+    public static updateDoc(doc: IDocValues, schema: ISchema<any>, ref: IDocRef){
+        try{
+            if(!schema) throw new Error('schema não informado ou incompleto.');
+            if(!doc) return;
+            if(!ref) return;
+            for(const key in schema){
+                const { subSchema } = schema[key];
+                if(!!subSchema){
+                    SysFormMethods.updateDoc(doc[key] as IDocValues, subSchema, ref[key] as IDocRef);
+                    continue;
+                }
+                const refComponent = ref[key] as MutableRefObject<ISysFormComponentRef>;
+                if(!refComponent) continue;
+                refComponent.current.value = doc[key];
+                refComponent.current.setValue?.(doc[key]);
+            }
+        }catch(error){
+            throw new Error(`[SysFormMethods.updateDoc] ${error}`);
+        }
+
+    }
+
     public static validate = ({
         schema, 
         doc,
@@ -177,6 +199,7 @@ class SysFormMethods{
         fieldsWithErrors: MutableRefObject<{[key: string] : string}>;
     }) => {
         try{
+            if(!doc) return;
             for(const key in schema){
                 const { subSchema } = schema[key];
                 if(!!subSchema){

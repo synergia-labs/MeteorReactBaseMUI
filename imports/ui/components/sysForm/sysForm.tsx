@@ -226,10 +226,24 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		}
 	}, []);
 
+	const updateValuer = useCallback((doc: IDocValues) => {
+		try{
+			SysFormMethods.updateDoc(doc, schema, refComponents.current);
+		}catch(error:any){
+			__onFailure(error);
+			throw error;
+		}
+	}, []);
+
 	const onSubmitForm = useCallback(() => {
 		try{
 			validateFields();
-			if(onSubmit) onSubmit(SysFormMethods.getDocValues(refComponents.current, schema));
+			const newDoc = SysFormMethods.getDocValues(refComponents.current, schema);
+			for(const key in doc){
+				if(refComponents.current[key]) continue; 
+				newDoc[key] = doc[key];
+			}
+			if(onSubmit) onSubmit(newDoc);
 		}catch(error:any){
 			__onFailure(error);
 			throw error;
@@ -288,6 +302,10 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
           document.removeEventListener('keydown', handleKeyDown);
         };
 	}, []);
+
+	useEffect(() => {
+		updateValuer(doc);
+	},[doc]);
 
 	const providerValue : ISysFormContext = useMemo(() => ({
 		loading: loading,

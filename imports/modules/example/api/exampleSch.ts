@@ -31,30 +31,31 @@ export const exampleSch: ISchema<IExample> = {
         label: 'Grupos associados',
         defaultValue: {},
         optional: true,
-        options: ['Grupo 1', 'Grupo 2', 'Grupo 3'],
+        options: () => [
+            { value: 'Grupo 1', label: 'Grupo 1' },
+            { value: 'Grupo 2', label: 'Grupo 2' },
+            { value: 'Grupo 3', label: 'Grupo 3' },
+        ],
     },
     type: {
         type: String,
         label: 'Categoria',
         defaultValue: '',
         optional: false,
-        options: [
+        options: () => [
             { value: 'Categoria A', label: 'Categoria A' },
             { value: 'Categoria B', label: 'Categoria B' },
             { value: 'Categoria C', label: 'Categoria C' },
         ],
     },
     typeMulti: {
-        type: [Object],
+        type: String,
         label: 'Prioridade',
-        defaultValue: '',
         optional: false,
-        multiple: true,
-        visibilityFunction: (doc: any) => !!doc.type && doc.type === 'media',
-        options: [
-            { value: 'baixa', label: 'Baixa' },
-            { value: 'media', label: 'Média' },
+        options: () => [
             { value: 'alta', label: 'Alta' },
+            { value: 'media', label: 'Média' },
+            { value: 'baixa', label: 'Baixa' },
         ],
     },
     date: {
@@ -82,22 +83,21 @@ export const exampleSch: ISchema<IExample> = {
          defaultValue: '',
          optional: true,
          subSchema: {
-        phone: {
-            type: String,
-            label: 'Telefone',
-            defaultValue: '',
-            optional: true,
-            mask: '(##) ####-####',
+            phone: {
+                type: String,
+                label: 'Telefone',
+                defaultValue: '',
+                optional: true,
+                mask: '(##) ####-####',
+            },
+            cpf: {
+                type: String,
+                label: 'CPF',
+                defaultValue: '',
+                optional: true,
+                mask: '###.###.###-##',
+            },
         },
-        cpf: {
-            type: String,
-            label: 'CPF',
-            defaultValue: '',
-            optional: true,
-            mask: '###.###.###-##',
-        },
-          
-         },
     },
    
     tasks: {
@@ -163,7 +163,7 @@ export interface IExample extends IDoc {
     description: string;
     check: object;
     type: string;
-    typeMulti: string[];
+    typeMulti: string;
     date: Date;
     files: object[];
     chip: string[];

@@ -51,6 +51,8 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	min,
 	showNumberCharactersTyped,
 	sxMap,
+	showRequired, 
+	requiredIndicator,
 	...otherProps
 }) => {
 
@@ -69,6 +71,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
+	showRequired = showRequired || !schema?.optional;
 	if(mask) defaultValue = generalMask(defaultValue, mask);
 
 	const [valueState, setValueState]     = useState<string | undefined>(defaultValue);
@@ -120,6 +123,8 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 			tooltipMessage={tooltipMessage}
 			disabled={disabled}
 			sxMap={sxMap}
+			showRequired={showRequired}
+			requiredIndicator={requiredIndicator}
 		>
 			<TextField
 				{...otherProps}

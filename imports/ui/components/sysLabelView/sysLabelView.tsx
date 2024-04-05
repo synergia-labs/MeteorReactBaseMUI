@@ -15,6 +15,8 @@ interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'place
 	placement?: string | undefined;
 	helpIcon?: boolean;
 	readOnly?: boolean;
+	showRequired?: boolean;
+	requiredIndicator?: string
 }
 
 const SysLabelView: React.FC<ISysLabelView> = ({
@@ -25,6 +27,8 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 	children,
 	placement,
 	helpIcon,
+	showRequired,
+	requiredIndicator = '*',
 	readOnly
 }) => {
 	return (
@@ -35,7 +39,7 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 						<Typography
 							variant="body2"
 							color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}>
-							{label}
+							{label} {showRequired && requiredIndicator}
 						</Typography>
 						{helpIcon && <SysLabelViewStyles.helpIcon disabled={disabled} />}
 					</SysLabelViewStyles.header>

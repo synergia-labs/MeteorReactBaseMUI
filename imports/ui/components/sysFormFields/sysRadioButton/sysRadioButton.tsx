@@ -37,6 +37,8 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	positionTooltip,
 	helpIcon,
 	alignment = 'column',
+	showRequired, 
+	requiredIndicator,
 	sxMap,
 	...otherProps
 }) => {
@@ -55,6 +57,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
+	showRequired = showRequired || !schema?.optional;
 
 	const [valueState, setValueState]     = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
@@ -92,7 +95,10 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 				disabled={disabled}
 				placement={positionTooltip}
 				helpIcon={helpIcon}
-				sx={sxMap?.container}>
+				showRequired={showRequired}
+				requiredIndicator={requiredIndicator}
+				sx={sxMap?.container}
+			>
 				<RadioGroup
 					value={valueState}
 					name="controlled-radio-buttons-group"

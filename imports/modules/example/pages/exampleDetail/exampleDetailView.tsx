@@ -1,98 +1,93 @@
 import React, { useContext } from "react";
-import { Box, Button, FormGroup, IconButton, Typography } from "@mui/material";
-import { ExampleDetailStyledBody, ExampleDetailStyledContainer, ExampleDetailStyledFooter, ExampleDetailStyledFormContainer, ExampleDetailStyledHeader } from "./exampleDetailStyles";
-import CloseIcon from '@mui/icons-material/Close';
 import { ExampleDetailControllerContext } from "./exampleDetailContoller";
-import SimpleForm from "/imports/ui/components/SimpleForm/SimpleForm";
-import TextField from "/imports/ui/components/SimpleFormFields/TextField/TextField";
-import SelectField from "/imports/ui/components/SimpleFormFields/SelectField/SelectField";
-import UploadFilesCollection from "/imports/ui/components/SimpleFormFields/UploadFiles/uploadFilesCollection";
-import RadioButtonField from "/imports/ui/components/SimpleFormFields/RadioButtonField/RadioButtonField";
-import SliderField from "/imports/ui/components/SimpleFormFields/SliderField/SliderField";
-import { SysButton } from "/imports/ui/components/SimpleFormFields/SysButton/SysButton";
-import CheckIcon from '@mui/icons-material/Check';
 import { ExampleModuleContext } from "../../exampleContainer";
-import DatePickerField from "/imports/ui/components/SimpleFormFields/DatePickerField/DatePickerField";
-import CheckBoxField from "/imports/ui/components/SimpleFormFields/CheckBoxField/CheckBoxField";
-import ToggleButtonField from "/imports/ui/components/SimpleFormFields/ToggleButtonField/ToggleButtonField";
+import ExampleDetailStyles from "./exampleDetailStyles";
+import SysForm from "/imports/ui/components/sysForm/sysForm";
+import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
+import CloseIcon from '@mui/icons-material/Close';
+import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import { Button, Icon, IconButton, Typography } from "@mui/material";
+import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectField/sysSelectField";
+import { SysRadioButton } from "/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton";
+import { SysCheckBox } from "/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField";
+import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
+
 
 const ExampleDetailView = () => {
     const controller = useContext(ExampleDetailControllerContext);
-    const {state} = useContext(ExampleModuleContext);
-
-    const save = () => {
-        console.log(controller.document)
-    }
+    const { state } = useContext(ExampleModuleContext);
+    const isView   = state === 'view';
+    const isEdit   = state === 'edit';
+    const isCreate = state === 'create';
 
     return(
-        <ExampleDetailStyledContainer>
-            <ExampleDetailStyledHeader>
-                <Typography variant='h5'>Adicionar item</Typography>
-                <IconButton onClick={controller.closePage}>
-                    <CloseIcon />
+        <ExampleDetailStyles.container>
+            <ExampleDetailStyles.header>
+                {isView && <IconButton onClick = {controller.closePage}><ArrowBackOutlinedIcon /></IconButton>}
+                <Typography variant='h5' sx={{flexGrow: 1}}>
+                    {isCreate ? 'Adicionar Item' : isEdit ? 'Editar Item' : controller.document.title}
+                </Typography>
+                <IconButton onClick = {!isView ? controller.closePage : () => controller.changeToEdit(controller.document._id || '')}>
+                    {!isView ? <CloseIcon /> : <ModeEditOutlinedIcon />}
                 </IconButton>
-            </ExampleDetailStyledHeader>
-            <SimpleForm
-				key={'ExempleDetail-SimpleFormKEY'}
-				doc={controller.document}
-                mode={state}
-				schema={controller.schema}
-				onSubmit={controller.onSubmit}
-				loading={controller.loading}
+
+            </ExampleDetailStyles.header>
+            <SysForm
+                mode = {state as 'create' | 'view' | 'edit'}
+                schema = {controller.schema}
+                doc = {controller.document}
+                onSubmit={controller.onSubmit}
+                debugAlerts={false}
             >
+                <ExampleDetailStyles.body>
 
-                <ExampleDetailStyledContainer sx={{padding: 0}}>
-                    <ExampleDetailStyledBody>
-                        <ExampleDetailStyledFormContainer>
-                            <TextField key={'tituloKEY'} placeholder="Ex.: Item XX" name="title" />
-                            <DatePickerField key={'dateKEY'} placeholder="dd/mm/aa" name="date" />
-                            <SelectField key={'tipoKEY'} placeholder="Selecionar" name="type" />
-                            <RadioButtonField
-                                key={'radioKEY'}
-                                placeholder="Opções da Tarefa"
-                                name="statusRadio"
-                                options={[
-                                    { value: 'baixa', label: 'Baixa' },
-                                    { value: 'media', label: 'Média' },
-                                    { value: 'alta', label: 'Alta' },
-                                ]}
-                            />
-                            <TextField key={'descricaoKEY'} placeholder="Descrição" name="description" />
-                        </ExampleDetailStyledFormContainer>
-                        <ExampleDetailStyledFormContainer>
-        					<CheckBoxField key={'checkKEY'} name="check"/>
-                            <ToggleButtonField  key={'toggleKEY'} name="statusToggle"/>
-                            <UploadFilesCollection
-                                key={'EuploadsFilesKEY'}
-                                name="files"
-                                label={'Arquivos'}
-                                doc={{ _id: controller.document._id ?? ''  }}
-                            />
+                    <ExampleDetailStyles.formColumn >
+                        <SysTextField 
+                            name = 'title'
+                            placeholder="Ex.: Item XX" 
+                        />
+                        <SysSelectField
+                            name='type'
+                        />
+                        <SysRadioButton
+                            name='typeMulti' 
+                            alignment="row"
+                            size='small'
+                        />
+                        <SysTextField 
+                            name='description'
+                            placeholder="Acrescente informações sobre o item (3 linhas)"
+                            multiline
+                            rows={3}
+                            maxRows={3}
+                            showNumberCharactersTyped
+                            max={200}
+                        />
+                    </ExampleDetailStyles.formColumn>
+                    <ExampleDetailStyles.formColumn>
+                        <SysCheckBox 
+                            name='check'
+                            alignment="row"
+                        />
+                    </ExampleDetailStyles.formColumn>
 
-                        </ExampleDetailStyledFormContainer>
-                    </ExampleDetailStyledBody>
-                    <ExampleDetailStyledFooter>
-                        <Button 
-                            key={"btnCancel"} 
-                            onClick={controller.closePage}
-                            variant="outlined"
-                            startIcon={<CloseIcon />}
-                        > 
-                            Cancelar
-                        </Button>
-                        <Button 
-                            key={"btnSave"} 
-                            id="submit"
-                            variant="contained"
-                            startIcon={<CheckIcon />}
-                        >
-                            Salvar
-                        </Button>
-                    </ExampleDetailStyledFooter>
-                </ExampleDetailStyledContainer>
-            </SimpleForm>
+                </ExampleDetailStyles.body>
+                <ExampleDetailStyles.footer>
+                    {!isView && <Button
+                        variant="outlined"
+                        startIcon={<CloseIcon />}
+                        onClick={controller.closePage}
+                    >
+                        Cancelar
+                    </Button>}
+                    <SysFormButton>
+                        Salvar
+                    </SysFormButton>
+                </ExampleDetailStyles.footer>
+            </SysForm>
 
-        </ExampleDetailStyledContainer>
+        </ExampleDetailStyles.container>
     );
 };
 

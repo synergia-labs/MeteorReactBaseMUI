@@ -13,6 +13,7 @@ import { ISysFormRef } from "/imports/ui/components/sysForm/typings";
 import { Box } from "@mui/material";
 import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectField/sysSelectField";
 import UserProfileListViewStyled from "./userProfileListStyles";
+import UserProfileDetailController from "../UserProfileDetail/userProfileDetailController";
 
 interface IInitialConfig {
     pageProperties: {
@@ -134,6 +135,18 @@ const UserProfileListController = () => {
             }
         })
     };
+
+    const onAddButtonClick2 = useCallback(() => {
+        showDialog({
+            children: <UserProfileDetailController mode={'create'} />,
+        })
+    }, []);
+
+    const onEdit2 = useCallback((id: string) => {
+        showDialog({
+            children: <UserProfileDetailController mode={'edit'} id={id} />,
+        })
+    }, []);
 
     const userForm = useCallback((id: string, mode: 'view' | 'edit' | 'create') => {
         const user = userList.find((item: IUserProfile) => item._id === id) || {};
