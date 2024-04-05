@@ -13,7 +13,6 @@ import { SysRadioButton } from "/imports/ui/components/sysFormFields/sysRadioBut
 import { SysCheckBox } from "/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField";
 import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
 
-
 const ExampleDetailView = () => {
     const controller = useContext(ExampleDetailControllerContext);
     const { state } = useContext(ExampleModuleContext);
