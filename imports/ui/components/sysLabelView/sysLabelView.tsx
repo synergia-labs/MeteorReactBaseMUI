@@ -16,7 +16,7 @@ interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'place
 	helpIcon?: boolean;
 	readOnly?: boolean;
 	showRequired?: boolean;
-	requiredIndicator?: string
+	requiredIndicator?: string;
 }
 
 const SysLabelView: React.FC<ISysLabelView> = ({
@@ -29,7 +29,6 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 	helpIcon,
 	showRequired,
 	requiredIndicator = '*',
-	readOnly
 }) => {
 	return (
 		<SysLabelViewStyles.container sx={sxMap?.container}>

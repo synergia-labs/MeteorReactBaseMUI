@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import Typography from '@mui/material/Typography';
-import PainelExpansivoStyle from './sysPainelExpansivelStyles';
-import { MouseEventHandler } from 'react';
+import AccordionStyle from './sysAccordionStyles';
 import { SxProps, Theme } from '@mui/system';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Button from '@mui/material/Button';
 
 /**
- * Props para o componente SysPainelExpansivo.
+ * Props para o componente SysAccordion.
  */
-interface ISysPainelExpansivo {
+interface ISysAccordion {
 	/** O título do painel. */
 	titulo: string;
 	/** O conteúdo do painel. */
@@ -53,14 +54,14 @@ interface IAction {
 }
 
 /**
- * O componente `SysPainelExpansivo` é um componente React personalizado que exibe um painel expansivo.
+ * O componente `SysAccordion` é um componente React personalizado que exibe um painel expansivo.
  *
  * Notas:
  * - O componente exibe um título, conteúdo e ícone de expansão.
  * - A lista de ações pode ser adicionada ao painel.
  * - Estilos personalizados podem ser fornecidos através da propriedade `sxMap`.
  */
-export const SysPainelExpansivo: React.FC<ISysPainelExpansivo> = ({
+export const SysAccordion: React.FC<ISysAccordion> = ({
 	titulo,
 	conteudo,
 	expandIcon,
@@ -71,32 +72,32 @@ export const SysPainelExpansivo: React.FC<ISysPainelExpansivo> = ({
 	sxMap
 }) => {
 	return (
-		<PainelExpansivoStyle.container>
-			<PainelExpansivoStyle.acordion
+		<AccordionStyle.container>
+			<AccordionStyle.accordion
 				sx={sxMap?.acordion}
 				defaultExpanded={aberta}
 				disabled={disabled}
 				slotProps={{ transition: { unmountOnExit: true } }}>
-				<PainelExpansivoStyle.acordionSumamry
+				<AccordionStyle.accordionSummary
 					expandIcon={expandIcon}
 					posicaoIcone={posicaoIcone}
 					sx={sxMap?.acordionSumamry}>
 					<Typography variant="h6">{titulo}</Typography>
-				</PainelExpansivoStyle.acordionSumamry>
+				</AccordionStyle.accordionSummary>
 
-				<PainelExpansivoStyle.acordionDetail sx={sxMap?.acordionDetail}>
+				<AccordionDetails sx={sxMap?.acordionDetail}>
 					<Typography variant="body1">{conteudo}</Typography>
-				</PainelExpansivoStyle.acordionDetail>
+				</AccordionDetails>
 
-				<PainelExpansivoStyle.acordionActions sx={sxMap?.acordionActions}>
+				<AccordionStyle.accordionActions sx={sxMap?.acordionActions}>
 					{actions.length > 0 &&
 						actions.map((acao, index) => (
-							<PainelExpansivoStyle.actionButton onClick={acao.acao} key={index} sx={acao.sxAction?.button}>
+							<Button onClick={acao.acao} key={index} sx={acao.sxAction?.button}>
 								<Typography sx={acao.sxAction?.textButton}>{acao.tituloAcao}</Typography>
-							</PainelExpansivoStyle.actionButton>
+							</Button>
 						))}
-				</PainelExpansivoStyle.acordionActions>
-			</PainelExpansivoStyle.acordion>
-		</PainelExpansivoStyle.container>
+				</AccordionStyle.accordionActions>
+			</AccordionStyle.accordion>
+		</AccordionStyle.container>
 	);
 };

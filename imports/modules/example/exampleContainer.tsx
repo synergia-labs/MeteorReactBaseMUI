@@ -1,5 +1,4 @@
 import React from 'react';
-import { ExampleDetailContainer } from '/imports/modules/example/pages/exampleDetail';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
 import ExampleListController from '/imports/modules/example/pages/exampleList/exampleListController';
@@ -21,7 +20,7 @@ export default (props: IDefaultContainerProps) => {
 
 
     const renderPage = () => {
-        if(!!!state || !validState.includes(state)) return <ExampleListController />;
+        if(!state || !validState.includes(state)) return <ExampleListController />;
         return <ExampleDetailController />;
     }
 
