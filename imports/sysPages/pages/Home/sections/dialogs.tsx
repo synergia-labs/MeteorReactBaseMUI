@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import HomeSection from "../components/section";
-import { HomePageRowButtons } from "../HomeStyle";
 import { Button } from "@mui/material";
 import { SysAppLayoutContext } from "/imports/app/AppLayout";
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
@@ -9,6 +8,7 @@ import DeleteDialog from "/imports/ui/appComponents/SysDialog/custom/deleteDialo
 import ConfirmDialog from "/imports/ui/appComponents/SysDialog/custom/confirmDialog/confirmDialog";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import DesktopWindowsOutlinedIcon from '@mui/icons-material/DesktopWindowsOutlined';
+import HomeStyles from "../HomeStyle";
 
 const HomeSectionDialogs : React.FC = () => {
     const sysLayoutContext = useContext(SysAppLayoutContext);
@@ -25,7 +25,7 @@ const HomeSectionDialogs : React.FC = () => {
 
             São na verdade um único componente de dialog com parâmetros diferentes. Caso queira renderizar rotas dentro deles, opte pelos componente Modal ou Window</>}
         >
-            <HomePageRowButtons>
+            <HomeStyles.rowButtons>
                 <Button
                     color='secondary'
                     startIcon={<HighlightOffRoundedIcon />}
@@ -105,7 +105,7 @@ const HomeSectionDialogs : React.FC = () => {
 
 
 
-            </HomePageRowButtons>
+            </HomeStyles.rowButtons>
 
         </HomeSection>
     )

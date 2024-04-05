@@ -62,6 +62,7 @@ const ExampleListController = () => {
     const onDeleteButtonClick = useCallback((row: any) => {
         exampleApi.remove(row);
     }, []);
+    
     return (
         <ExampleListControllerContext.Provider value={{
             onAddButtonClick,

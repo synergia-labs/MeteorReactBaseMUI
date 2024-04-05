@@ -35,7 +35,7 @@ function compareArrays<T extends Record<string, any>>(array1: T[], array2: T[]):
             // Itera sobre as chaves do primeiro objeto
             for (const key of keys1) {
                 // Verifica se a segunda chave existe no segundo objeto e se os valores correspondentes são iguais
-                if (!item2.hasOwnProperty(key) || item1[key] !== item2[key]) {
+                if (!item2.hasOwnProperty(key) || (!Array.isArray(item1[key]) ? item1[key] !== item2[key] : !compareArrays(item1[key], item2[key]))){
                     return false;
                 }
             }

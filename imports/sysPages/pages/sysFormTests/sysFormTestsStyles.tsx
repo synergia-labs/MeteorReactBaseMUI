@@ -12,14 +12,18 @@ interface ISysFormTestsStyles {
 }
 
 const SysFormTestsStyles: ISysFormTestsStyles = {
-    container: styled(Box)({
+    container: styled(Box)(({theme}) => ({
         display: 'flex',
         flexDirection: 'column',
         padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
         gap: '1rem',
         alignItems: 'flex-start',
-        justifyContent: 'flex-start',    
-    }),
+        justifyContent: 'flex-start',
+        transition: 'all 0.3s ease',
+        [theme.breakpoints.down('sm')]: {
+            padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`,
+        }   
+    })),
     header: styled(Box)({
         display: 'flex',
         flexDirection: 'column',
@@ -28,20 +32,24 @@ const SysFormTestsStyles: ISysFormTestsStyles = {
         justifyContent: 'flex-start',
         marginBottom: '1rem',
     }),
-    schemaAndValues: styled(Box)({
+    schemaAndValues: styled(Box)(({theme}) => ({
         display: 'flex',
         flexDirection: 'row',
         gap: '1rem',
         width: '100%',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-    }),
+        [theme.breakpoints.down('lg')]: {
+            flexDirection: 'column',
+            alignItems: 'center',
+        }
+    })),
     controllersContainer: styled(Box)(({theme}) => ({
         display: 'flex',
         flexDirection: 'row',
         gap: '1rem',
         alignItems: 'flex-start',
-        justifyContent: 'flex-start',
+        justifyContent: 'justify-start',
         width: '100%',
         flexWrap: 'wrap',
         backgroundColor: theme.palette.sysBackground?.bg3,

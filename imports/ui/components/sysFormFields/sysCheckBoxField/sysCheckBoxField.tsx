@@ -61,7 +61,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	options = options || refObject?.current?.options || ([] as any);
 	showRequired = showRequired || (!!schema && !schema?.optional);
 
-	const [valueState, setValueState] = useState<string>(defaultValue || '');
+	const [valueState, setValueState] = useState<Array<string>>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
@@ -71,47 +71,31 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({
 			componentRef: refObject!,
-			clearMethod: () => setValueState(''),
+			clearMethod: () => {
+				setValueState([]);
+				setSelectedOptions([]);
+			},
 			setValueMethod: (value) => setValueState(value),
 			changeVisibilityMethod: (visible) => setVisibleState(visible),
 			setErrorMethod: (error) => setErrorState(error),
 			setOptionsMethod: (options) => setOptionsState(options)
 		});
 
-	// const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-	// 	const { checked } = event.target;
-	// 	if (checked) {
-	// 		setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, event.target.name]);
-	// 		controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: selectedOptions });
-	// 		onChange?.(event);
-	// 	} else {
-	// 		setSelectedOptions((prevSelectedOptions) => prevSelectedOptions.filter((option) => option !== event.target.name));
-	// 	}
-	// };
-
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { checked } = event.target;
-		if (checked) {
-			setSelectedOptions((prevSelectedOptions) => {
-				const updatedOptions = [...prevSelectedOptions, event.target.name];
-				controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: updatedOptions });
-				onChange?.(event);
-				return updatedOptions;
-			});
-		} else {
-			setSelectedOptions((prevSelectedOptions) => {
-				const updatedOptions = prevSelectedOptions.filter((option) => option !== event.target.name);
-				onChange?.(event);
-				return updatedOptions;
-			});
-		}
+		const updatedOptions = checked
+			? [...selectedOptions, event.target.name]
+			: selectedOptions.filter((option) => option !== event.target.name);
+		setSelectedOptions(updatedOptions);
+		if (inSysFormContext)
+			controllerSysForm?.onChangeComponentValue?.({ refComponent: refObject!, value: updatedOptions });
+		onChange?.(event);
 	};
 
-	if (!visibleState || options?.length === 0) return null;
+	if (!visibleState || optionsState?.length === 0) return null;
 
 	if (readOnly) {
-		const viewValue = optionsState && optionsState.find((option) => option.value === valueState);
-		return <SysViewField label={label} placeholder={viewValue?.label || '-'} />;
+		return <SysViewField label={label} placeholder={valueState?.join?.(', ') || '-'} />;
 	}
 
 	return (
@@ -124,27 +108,25 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				helpIcon={helpIcon}
 				showRequired={showRequired}
 				requiredIndicator={requiredIndicator}
-				sx={sxMap?.container}
-			>
+				sx={sxMap?.container}>
 				<FormGroup sx={{ flexDirection: alignment === 'column' ? 'column' : 'row', ...sxMap?.formGroup }}>
-					{options &&
-						options.map((opt) => (
-							<FormControlLabel
-								key={opt.value}
-								control={
-									<Checkbox
-										{...otherProps}
-										onChange={handleCheckboxChange}
-										name={opt.label}
-										checked={selectedOptions.includes(opt.label)}
-										sx={sxMap?.checkbox}
-									/>
-								}
-								label={opt.label}
-								sx={sxMap?.formControllLabel}
-								disabled={disabled || loading}
-							/>
-						))}
+					{optionsState?.map((opt) => (
+						<FormControlLabel
+							key={opt.value}
+							control={
+								<Checkbox
+									{...otherProps}
+									onChange={handleCheckboxChange}
+									name={opt.label}
+									checked={selectedOptions.includes(opt.label)}
+									sx={sxMap?.checkbox}
+								/>
+							}
+							label={opt.label}
+							sx={sxMap?.formControllLabel}
+							disabled={disabled || loading}
+						/>
+					))}
 				</FormGroup>
 			</SysLabelView>
 			<FormHelperText>{errorState}</FormHelperText>

@@ -6,13 +6,9 @@ import { Mongo, MongoInternals } from 'meteor/mongo';
 import { ClientSession, MongoClient } from 'mongodb';
 import { Meteor, Subscription } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
-import { IDoc } from '../../shared/typings/IDoc';
-import { ISchema } from '../../shared/typings/ISchema';
-import { IContext } from '../../shared/typings/IContext';
 import sharp from 'sharp';
 import { countsCollection } from '/imports/api/countCollection';
 import { Validador } from '/imports/libs/Validador';
-import { IConnection } from '../../shared/typings/IConnection';
 import Selector = Mongo.Selector;
 import { segurancaApi } from '/imports/security/api/SegurancaApi';
 import { WebApp } from 'meteor/webapp';
@@ -22,8 +18,12 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 // @ts-ignore
 import connectRoute from 'connect-route';
-import { IBaseOptions } from '/shared/typings/IBaseOptions';
-import { IUserProfile } from '/shared/modules/userProfile/userProfileSch';
+import { ISchema } from '../typings/ISchema';
+import { IContext } from '../typings/IContext';
+import { IDoc } from '../typings/IDoc';
+import { IBaseOptions } from '../typings/IBaseOptions';
+import { IConnection } from '../typings/IConnection';
+import { IUserProfile } from '../modules/userprofile/api/UserProfileSch';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));

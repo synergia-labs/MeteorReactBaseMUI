@@ -90,7 +90,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 
 	const handleChange = (e: SelectChangeEvent) => {
 		const newValue = e.target.value;
-		setValueState(newValue);
+		setValueState(Array.isArray(newValue) ? newValue.join(',') : newValue as string);
 		if (inSysFormContext) {
 			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
 		}
@@ -129,7 +129,8 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 							return <Typography variant="body1" color={'text.disabled'}>{placeholder}</Typography>;
 						}
 						return options;
-					}}>
+					}}
+				>
 					{options?.length === 0 ? (
 						<MenuItem id={'NoValues'} disabled value="">
 							<ListItemText primary="Nenhuma opção para selecionar" />

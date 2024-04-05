@@ -19,6 +19,7 @@ const ExampleDetailStyles: IExampleDetailStyles = {
         padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
         paddingBottom: sysSizing.contentPb,
         gap: sysSizing.spacingFixedMd,
+        transition: 'all 0.3s ease',
         [theme.breakpoints.down('sm')]: {
             paddingLeft: sysSizing.spacingFixedMd,
             paddingRight: sysSizing.spacingFixedMd

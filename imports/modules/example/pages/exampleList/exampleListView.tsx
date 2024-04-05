@@ -1,6 +1,5 @@
 import React from "react";
-import {Box, TablePagination, Typography} from "@mui/material";
-import { ExampleListViewStyledContainer } from "./exampleListStyles";
+import {Typography} from "@mui/material";
 import { SysFab } from "/imports/ui/components/sysFab/sysFab";
 import AddIcon from '@mui/icons-material/Add';
 import { ExampleListControllerContext } from "./exampleListController";
@@ -8,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ComplexTable } from "/imports/ui/components/ComplexTable/ComplexTable";
 import DeleteDialog from "/imports/ui/appComponents/SysDialog/custom/deleteDialog/deleteDialog";
 import { SysAppLayoutContext } from "/imports/app/AppLayout";
+import ExampleListStyles from "./exampleListStyles";
 
 
 const ExampleListView = () => {
@@ -17,7 +17,7 @@ const ExampleListView = () => {
 
 
     return (
-        <ExampleListViewStyledContainer>
+        <ExampleListStyles.container>
             <SysFab 
                 variant="extended" 
                 text="Adicionar" 
@@ -50,7 +50,7 @@ const ExampleListView = () => {
                     }}
 				/>
 
-        </ExampleListViewStyledContainer>
+        </ExampleListStyles.container>
     );
 }
 
