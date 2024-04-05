@@ -39,6 +39,8 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	tooltipMessage,
 	defaultValue,
 	positionTooltip,
+	showRequired,
+	requiredIndicator,
 	helpIcon,
 	alignment = 'column',
 	sxMap,
@@ -57,6 +59,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	defaultValue = refObject?.current.value || schema?.defaultValue;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
 	options = options || refObject?.current?.options || ([] as any);
+	showRequired = showRequired || !schema?.optional;
 
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
@@ -101,7 +104,10 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				disabled={disabled}
 				placement={positionTooltip}
 				helpIcon={helpIcon}
-				sx={sxMap?.container}>
+				showRequired={showRequired}
+				requiredIndicator={requiredIndicator}
+				sx={sxMap?.container}
+			>
 				<FormGroup sx={{ flexDirection: alignment === 'column' ? 'column' : 'row', ...sxMap?.formGroup }}>
 					{options &&
 						options.map((opt) => (

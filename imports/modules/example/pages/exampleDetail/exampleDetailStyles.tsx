@@ -1,48 +1,60 @@
-import React from "react";
-import {styled, Box } from "@mui/material";
+import React, { ElementType } from "react";
+import { styled, Box, BoxProps } from "@mui/material";
 import { sysSizing } from "/imports/ui/materialui/styles";
 
-export const ExampleDetailStyledContainer = styled(Box)(({}) => ({
-    width: "100%",
-    padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    gap: sysSizing.spacingFixedMd,
-}));
+interface IExampleDetailStyles {
+    container: ElementType<BoxProps>;
+    header: ElementType<BoxProps>;
+    body: ElementType<BoxProps>;
+    footer: ElementType<BoxProps>;
+    formColumn: ElementType<BoxProps>;
+}
 
-export const ExampleDetailStyledHeader = styled(Box)(({}) => ({
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-}));
+const ExampleDetailStyles: IExampleDetailStyles = {
+    container: styled(Box)(({theme}) => ({
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
+        paddingBottom: sysSizing.contentPb,
+        gap: sysSizing.spacingFixedMd,
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: sysSizing.spacingFixedMd,
+            paddingRight: sysSizing.spacingFixedMd
+        }
+    })),
+    header: styled(Box)({
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+    }),
+    body: styled(Box)({
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        width: '100%',
+        gap: '64px'
+    }),
+    footer: styled(Box)({
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '100%',
+        gap: sysSizing.spacingRemMd
+    }),
+    formColumn: styled(Box)({
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        gap: sysSizing.spacingFixedLg
+    })
+}
 
-export const ExampleDetailStyledBody = styled(Box)(({}) => ({
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    gap: sysSizing.contentPb,
-}));
-
-export const ExampleDetailStyledFormContainer = styled(Box)(() => ({
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    gap: sysSizing.spacingFixedLg,
-    width: "100%",
-}));
-
-export const ExampleDetailStyledFooter = styled(Box)(({}) => ({
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    gap: sysSizing.spacingRemMd,
-}));
+export default ExampleDetailStyles;
