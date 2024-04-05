@@ -47,7 +47,7 @@ const HomeSection : React.FC<IHomeSection> = ({title, description, children, nee
                 <Typography variant='h5'>
                     {title}
                 </Typography>
-                <Typography variant='body1'>
+                <Typography variant='body1' textAlign={'justify'}>
                     {description}
                 </Typography>
             </Header>
