@@ -74,6 +74,7 @@ class SysFormMethods{
         initialRequiredFields: string[];
         fieldsWithVisibilityFunction: string[];
     } => {
+        if(!schema) throw new Error('schema não informado ou incompleto.');
         for (const key in schema) {
             const { defaultValue, optional, visibilityFunction, subSchema } = schema[key];
               if (!subSchema) {
