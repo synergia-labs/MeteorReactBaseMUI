@@ -1,323 +1,231 @@
-import React, { useCallback, useContext, useRef } from 'react';
-import SysUploadFileStyle from './sysUploadFileStyle';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
-import { useDropzone, FileWithPath } from 'react-dropzone';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AttachFile, Book, Image, LibraryBooks, LibraryMusic, VideoLibrary } from '@mui/icons-material';
+import { useDropzone, FileWithPath } from 'react-dropzone';
+import { SysAppLayoutContext } from '/imports/app/AppLayout';
 import { attachmentsCollection } from '/imports/api/attachmentsCollection';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
+import SysLabelView from '../../sysLabelView/sysLabelView';
+import SysUploadFileStyle from './sysUploadFileStyle';
+import { SxProps, Theme } from '@mui/material';
+import { SysLoading } from '../../sysLoading/sysLoading';
 
 interface IArquivo {
 	name: string;
 	type: string;
 	size: number;
 	_id?: string;
-	ext?: string;
-	queue?: boolean;
-	file?: object;
-	index?: number;
-	'mime-type'?: string;
-	status?: string;
+	_downloadRoute?: string;
+	_collectionName?: string;
 }
 
 interface ISysUploadFile extends ISysFormComponent<any> {
-	/** Componente que será exibido no início do campo.*/
 	startAdornment?: React.ReactNode;
-	/** Componente que será exibido no final do campo.*/
 	endAdornment?: React.ReactNode;
-	/** Formatos de arquivo válidos. */
 	validTypes?: ('text' | 'audio' | 'image' | 'video' | 'application' | string)[];
+	sxMap?: {
+		container?: SxProps<Theme>;
+		button?: SxProps<Theme>;
+		itenList?: SxProps<Theme>;
+		boxItem?: SxProps<Theme>;
+		boxIcon?: SxProps<Theme>;
+		cardInfo?: SxProps<Theme>;
+		cardTitle?: SxProps<Theme>;
+		cardDesc?: SxProps<Theme>;
+		boxIconsCard?: SxProps<Theme>;
+	};
+	btnTextDesc?: string;
 }
 
 export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	name,
 	value,
+	label,
 	defaultValue,
 	readOnly,
 	disabled,
+	sxMap,
 	loading,
-	onChange,
+	btnTextDesc = 'Arraste o arquivo até aqui ou clique abaixo',
 	error,
-	validTypes = ['text', 'audio', 'image', 'video', 'application'],
-	startAdornment,
-	endAdornment
+	validTypes = ['text', 'audio', 'image', 'video', 'application'] // Caso queira adicionar outras extensoes, adicione tambem ao arquivo attachment Collection.js
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
 	const inSysFormContext = hasValue(controllerSysForm);
 
+	const [files, setFiles] = useState<IArquivo[]>(value || defaultValue || []);
+	const { showNotification } = useContext(SysAppLayoutContext);
+
 	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
 	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 	const schema = refObject?.current.schema;
+	const [visibleState, setVisibleState] = React.useState<boolean>(refObject?.current.isVisible ?? true);
 
+	const maxSize = 15 * 1024 * 1024; // 15MB
+
+	label = label || schema?.label;
 	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
-	defaultValue = refObject?.current.value || schema?.defaultValue;
 
-	const [visibleState, setVisibleState] = React.useState<boolean>(refObject?.current.isVisible ?? true);
-	const [errorState, setErrorState] = React.useState<string | undefined>(error);
-	const [files, setFiles] = React.useState<IArquivo[]>(value || defaultValue || []);
-	let fileQueue: IArquivo[] | [];
-
-	const { showNotification } = useContext(SysAppLayoutContext);
-	const maxSize = 1048576 * 15; // 15MB
-
-	const verifyTypeFile = (typeFile: string, fileSize: number) => {
-		if (validTypes.includes(typeFile.split('/')[0])) return verifySize(fileSize);
-		else {
-			showNotification({
-				type: 'error',
-				title: 'Formato de arquivo invalido',
-				message: `O formato do seu arquivo não é valido.`
-			});
-			return false;
-		}
-	};
-
-	const verifySize = (fileSize: number) => {
-		if (fileSize > maxSize) {
-			showNotification({
-				type: 'error',
-				title: 'Arquivo muito grande',
-				message: `O tamanho do arquivo excede o limite de ${(maxSize / (1024 * 1024)).toFixed()}MB permitido.`
-			});
-			return false;
-		}
-		return true;
-	};
-
-	React.useEffect(() => {
-		if (files && files.length > 0) {
-			console.log('AquI >>>>');
-			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: files });
-		}
-	}, [files]);
-
-	const onDrop = useCallback((acceptedFiles: FileWithPath[], rejectedFiles: any[]) => {
-		let newFiles: IArquivo[] = [];
-		let firstFile: Partial<IArquivo> | null = null;
-		acceptedFiles.forEach((file, index: number) => {
-			let verify = verifyTypeFile(file.type || '', file.size);
-			if (verify) {
-				const arquivo: IArquivo = {
-					name: file.name.split('.')[0],
-					ext: file.name.split('.')[1],
-					status: 'InProgress',
-					queue: true,
-					size: file.size,
-					index,
-					file,
-					type: file.type
-				};
-
-				if (arquivo.size <= 0) {
+	const { getRootProps, getInputProps } = useDropzone({
+		onDrop: useCallback((acceptedFiles: FileWithPath[], rejectedFiles: any[]) => {
+			acceptedFiles.forEach((file) => {
+				const type = file.type.split('/')[0];
+				if (!validTypes.includes(type) || file.size > maxSize) {
 					showNotification({
-						type: 'warning',
-						title: 'Arquivo não anexado',
-						message: `O arquivo "${file.name}" está vazio.`
+						type: 'error',
+						title: 'Arquivo inválido',
+						message: `O arquivo "${file.name}" é inválido.`
 					});
 					return;
 				}
 
-				if (!firstFile) {
-					firstFile = arquivo;
-				}
+				const newFile: IArquivo = {
+					name: file.name,
+					type: file.type,
+					size: file.size
+				};
 
-				//fileQueue.push(arquivo);
+				const uploadInstance = attachmentsCollection.attachments.insert({
+					file,
+					meta: {
+						fieldName: name,
+						docId: controllerSysForm.docId || 'Error',
+						userId: Meteor.userId()
+					},
+					chunkSize: 'dynamic',
+					allowWebWorkers: true
+				});
 
-				newFiles.push(arquivo);
-			}
+				uploadInstance.on('uploaded', (error: string | null) => {
+					if (error) {
+						console.error(`Error during upload: ${error}`);
+						return;
+					}
+					setFiles((prevFiles) => [...prevFiles, newFile]);
+				});
+			});
+		}, [])
+	});
+
+	const { loadingAttachments, attachments, attachmentsExists } = useTracker(() => {
+		const docId = controllerSysForm.docId;
+		const handleAttachments = Meteor.subscribe('files-attachments', {
+			'meta.docId': docId ? docId : 'No-ID'
 		});
-		setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-		uploadIt(null, firstFile);
-	}, []);
+		const loadingAttachments = !handleAttachments.ready();
+		const attachments = attachmentsCollection
+			.find({
+				'meta.docId': docId ? docId || 'No-ID' : 'No-ID',
+				'meta.fieldName': name ? name || 'No-FieldName' : 'No-FieldName'
+			})
+			.fetch();
+		const attachmentsExists = !loadingAttachments && !!attachments;
+		if (attachments.length > 0 && files.length === 0) setFiles(attachments);
+		return {
+			attachments,
+			attachmentsExists,
+			loadingAttachments
+		};
+	});
 
-	const downloadURI = (name: string, arquivo: any) => {
+	const downloadURI = (item: IArquivo) => {
 		const link = document.createElement('a');
-		link.download = name;
-		link.href = URL.createObjectURL(arquivo);
+		link.download = item.name;
+		link.href = `${Meteor.absoluteUrl()}${item._downloadRoute}/${item._collectionName}/${item._id}/original/${item.name}`;
 		link.click();
 	};
 
-	const removeItem = (indexToRemove: number) => {
-		const copy = files.filter((_, index) => index !== indexToRemove);
-		setFiles(copy);
-	};
-
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-	const getIcon = (mimeType: string) => {
-		const type = {
-			base: mimeType.split('/')[0],
-			fileType: mimeType.split('/')[1]
-		};
-
-		switch (type.base) {
-			case 'text':
-				return <LibraryBooks color="primary" />;
-			case 'audio':
-				return <LibraryMusic color="primary" />;
-			case 'image':
-				return <Image color="primary" />;
-			case 'video':
-				return <VideoLibrary color="primary" />;
-
-			case 'application':
-				if (type.fileType === 'pdf') {
-					return <Book color="primary" />;
-				}
-				if (type.fileType.indexOf('msword') !== -1) {
-					return <Book color="primary" />;
-				}
-				return <AttachFile color="primary" />;
-
-			default:
-				return <AttachFile color="primary" />;
-		}
-	};
-
-	const uploadIt = (e: React.ChangeEvent<HTMLInputElement> | null, fileUpload: Partial<IArquivo>) => {
-		let file: any;
-
-		if (e) {
-			e.preventDefault();
-			if (e.currentTarget.files && e.currentTarget.files[0]) {
-				// Upload apenas um arquivo, caso
-				// tenham sido selecionados vários arquivos
-				file = e.currentTarget.files[0];
-			}
-		} else {
-			file = fileUpload?.file;
-		}
-
-		if (file) {
-			let uploadInstance;
-			try {
-				uploadInstance = attachmentsCollection.attachments.insert(
-					{
-						file,
-						meta: {
-							fieldName: name,
-							docId: controllerSysForm.docId || 'Error',
-							userId: Meteor.userId() // Optional, used to check on server for file tampering
-						},
-						chunkSize: 'dynamic',
-						allowWebWorkers: true
-					},
-					false
-				);
-			} catch (e) {
-				console.error(e);
-				showNotification({
-					type: 'warning',
-					title: 'Erro ao anexar arquivo',
-					message: `O arquivo "${file.name}" não foi anexado.`
-				});
+	const deleteFile = (id: string | undefined) => {
+		Meteor.call('RemoveFile', id, (err: boolean) => {
+			if (err) {
+				console.error(err);
 				return;
 			}
-
-			uploadInstance.on('uploaded', (error: string | null, fileObj: any): void => {
-				if (error) {
-					console.log(error);
-				}
-
-				const attachs = [];
-				let hasInsertedOjb = false;
-				attachmentsCollection.attachments
-					.find({ 'meta.docId': controllerSysForm.docId, 'meta.fieldName': name })
-					.fetch()
-					.forEach((file: any) => {
-						attachs.push({
-							name: file.name,
-							size: file.size,
-							type: file.type,
-							isAudio: file.isAudio,
-							isText: file.isText,
-							isJSON: file.isJSON,
-							isPDF: file.isPDF,
-							isVideo: file.isVideo
-						});
-						if (fileObj && file._id === fileObj._id) {
-							hasInsertedOjb = true;
-						}
-					});
-
-				if (!hasInsertedOjb && fileObj) {
-					attachs.push({
-						name: fileObj.name,
-						size: fileObj.size,
-						type: fileObj.type,
-						isAudio: fileObj.isAudio,
-						isText: fileObj.isText,
-						isJSON: fileObj.isJSON,
-						isPDF: fileObj.isPDF,
-						isVideo: fileObj.isVideo
-					});
-				}
-
-				const newFileQueue = fileQueue;
-
-				newFileQueue.shift(); // Remove Actual File Upload
-
-				if (newFileQueue.length > 0) {
-					const nextFile = newFileQueue[0];
-					uploadIt(null, nextFile);
-				}
-			});
-		}
+			setFiles((prevFiles) => prevFiles.filter((item) => item._id !== id));
+		});
 	};
 
 	if (!visibleState) return null;
 
 	return (
-		<SysUploadFileStyle.container>
-			{!readOnly && (
-				<SysUploadFileStyle.button {...getRootProps()}>
-					<input {...getInputProps()} />
-					<SysUploadFileStyle.typographyInfo variant="caption">
-						Arraste o arquivo até aqui ou clique abaixo
-					</SysUploadFileStyle.typographyInfo>
-					<SysUploadFileStyle.typographyAdd variant="button2">
-						<AddIcon />
-						Adicionar
-					</SysUploadFileStyle.typographyAdd>
-				</SysUploadFileStyle.button>
-			)}
+		<SysLabelView label={label} disabled={disabled} sxMap={sxMap}>
+			<SysUploadFileStyle.container readOnly={readOnly} sx={sxMap?.container}>
+				{!readOnly && (
+					<SysUploadFileStyle.button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
+						<input {...getInputProps()} />
+						<SysUploadFileStyle.typographyInfo variant="caption">{btnTextDesc}</SysUploadFileStyle.typographyInfo>
+						<SysUploadFileStyle.typographyAdd variant="button2">
+							<AddIcon />
+							Adicionar
+						</SysUploadFileStyle.typographyAdd>
+					</SysUploadFileStyle.button>
+				)}
 
-			{files && files.length > 0 ? (
-				<SysUploadFileStyle.itenList>
-					{files.map((item: IArquivo, index: number) => (
-						<SysUploadFileStyle.boxItem key={index}>
-							<SysUploadFileStyle.boxIcon>{getIcon(item.type)}</SysUploadFileStyle.boxIcon>
-							<SysUploadFileStyle.cardInfo>
-								<SysUploadFileStyle.elipsesText variant="body2" color={(theme) => theme.palette.sysText?.body}>
-									{item.name}.{item.ext}
-								</SysUploadFileStyle.elipsesText>
-								<Typography variant="caption" color={(theme) => theme.palette.sysText?.auxiliary}>
-									{item.size}Kb
-								</Typography>
-							</SysUploadFileStyle.cardInfo>
-							<SysUploadFileStyle.boxIconsCard>
-								<DeleteIcon color="primary" sx={{ cursor: 'pointer' }} onClick={() => removeItem(index)} />
-								<SaveAltIcon
-									color="primary"
-									onClick={() => downloadURI(item.name, item.file)}
-									sx={{ cursor: 'pointer' }}
-								/>
-							</SysUploadFileStyle.boxIconsCard>
-						</SysUploadFileStyle.boxItem>
-					))}
-				</SysUploadFileStyle.itenList>
-			) : readOnly ? (
-				<Typography>Sem itens</Typography>
-			) : null}
-		</SysUploadFileStyle.container>
+				{loadingAttachments && <SysLoading />}
+				{attachments.length > 0 ? (
+					<SysUploadFileStyle.itenList sx={sxMap?.itenList}>
+						{attachments.map((item: IArquivo) => (
+							<SysUploadFileStyle.boxItem key={item._id} sx={sxMap?.boxItem}>
+								<SysUploadFileStyle.boxIcon sx={sxMap?.boxIcon}>{getIcon(item.type)}</SysUploadFileStyle.boxIcon>
+
+								<SysUploadFileStyle.cardInfo sx={sxMap?.cardInfo}>
+									<SysUploadFileStyle.elipsesText variant="body2" sx={sxMap?.cardTitle}>
+										{item.name}
+									</SysUploadFileStyle.elipsesText>
+									<Typography variant="caption" sx={sxMap?.cardDesc}>
+										{item.size}Kb
+									</Typography>
+								</SysUploadFileStyle.cardInfo>
+
+								<SysUploadFileStyle.boxIconsCard sx={sxMap?.boxIconsCard}>
+									<DeleteIcon
+										color="primary"
+										sx={{ cursor: 'pointer', display: readOnly ? 'none' : 'block' }}
+										onClick={() => deleteFile(item._id)}
+									/>
+									<SaveAltIcon
+										color="primary"
+										onClick={() => downloadURI(item)}
+										sx={{ cursor: 'pointer', display: readOnly ? 'block' : 'none' }}
+									/>
+								</SysUploadFileStyle.boxIconsCard>
+							</SysUploadFileStyle.boxItem>
+						))}
+					</SysUploadFileStyle.itenList>
+				) : (
+					<Typography variant="body1" sx={{ display: readOnly ? 'block' : 'none' }}>
+						Sem Arquivos
+					</Typography>
+				)}
+			</SysUploadFileStyle.container>
+		</SysLabelView>
 	);
 };
+
+function getIcon(mimeType: string) {
+	const type = mimeType.split('/')[0];
+	switch (type) {
+		case 'text':
+			return <LibraryBooks color="primary" />;
+		case 'audio':
+			return <LibraryMusic color="primary" />;
+		case 'image':
+			return <Image color="primary" />;
+		case 'video':
+			return <VideoLibrary color="primary" />;
+		case 'application':
+			return <Book color="primary" />;
+		default:
+			return <AttachFile color="primary" />;
+	}
+}

@@ -1,19 +1,23 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import { Box, styled } from '@mui/material';
+import { Box, styled, Button } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
+interface IContainer {
+	readOnly: boolean | undefined;
+}
+
 const SysUploadFileStyle = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box)<IContainer>(({ theme, readOnly }) => ({
 		width: '485px',
-		padding: sysSizing.spacingRemMd,
+		padding: readOnly ? '0' : sysSizing.spacingRemMd,
 		background: theme.palette.sysBackground?.default,
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedSm
 	})),
 
-	button: styled(Box)(({ theme }) => ({
+	button: styled(Button)(({ theme }) => ({
 		width: '100%',
 		height: '96px',
 		display: 'flex',
@@ -25,8 +29,10 @@ const SysUploadFileStyle = {
 		border: `1px dashed ${theme.palette.divider}`,
 		cursor: 'pointer',
 		'&: hover': {
-			background: theme.palette.sysBackground?.bg1
-		}
+			background: theme.palette.sysBackground?.bg1,
+			border: `1px dashed ${theme.palette.divider}`
+		},
+		background: '#fff'
 	})),
 
 	typographyInfo: styled(Typography)(({ theme }) => ({
