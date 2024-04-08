@@ -1,12 +1,13 @@
 import React from 'react';
-import { BoxProps, AvatarProps, Typography } from '@mui/material';
-import { StyledSysAvatar, SysAvatarContainer } from './sysAvatarStyles';
+import { AvatarProps, Typography, SxProps, Theme } from '@mui/material';
+import SysAvatarStyles from './sysAvatarStyles';
+import { hasValue } from '/imports/libs/hasValue';
 
-export interface SysAvatarProps extends AvatarProps {
+export interface SysAvatarProps extends Omit<AvatarProps, 'onCLick'> {
 	/**O nome que será usado para mostrar a primeira letra no avatar.*/
 	name?: string;
 	/**Estilos personalizados para o componente Box que envolve o Avatar.*/
-	backgroundSx?: BoxProps['sx'];
+	backgroundSx?: SxProps<Theme>;
 	/**A cor da borda do avatar.*/
 	borderColor?: string;
 	/**Um manipulador de eventos onClick para o componente.*/
@@ -23,10 +24,10 @@ export interface SysAvatarProps extends AvatarProps {
  */
 export const SysAvatar: React.FC<SysAvatarProps> = ({ name, backgroundSx, borderColor, onClick, ...props }) => {
 	return (
-		<SysAvatarContainer sx={backgroundSx} onClick={onClick} onClickS={!!onClick} borderColor={borderColor}>
-			<StyledSysAvatar {...props} tabIndex={0}>
+		<SysAvatarStyles.container sx={backgroundSx} onClick={onClick} activeOnClick={hasValue(onClick)} borderColor={borderColor}>
+			<SysAvatarStyles.avatar {...props} tabIndex={0}>
 				<Typography variant="h3">{name?.[0].toUpperCase()}</Typography>
-			</StyledSysAvatar>
-		</SysAvatarContainer>
+			</SysAvatarStyles.avatar>
+		</SysAvatarStyles.container>
 	);
 };
