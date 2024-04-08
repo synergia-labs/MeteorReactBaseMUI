@@ -1,16 +1,17 @@
-import React from "react";
+import React, { ReactNode, createContext } from "react";
 import { useUserAccount } from "../hooks/useUserAccount";
 import { ISysAppContext } from "../typings/BoilerplateDefaultTypings";
 
-export const SysAppContext = React.createContext<ISysAppContext>({
+const SysAppContext = createContext<ISysAppContext>({
     isLoggedIn: false,
     user: null, 
     userLoading: false,
 } as ISysAppContext);
 
-export const AppContainer = ({ children } : {children?: JSX.Element | JSX.Element[]}) => {
+const AppContainer : React.FC<{children: ReactNode}> = ({ children }) => {
     const { user, userLoading, isLoggedIn } = useUserAccount();
-    const providerValue = {
+
+    const providerValue : ISysAppContext = {
         isLoggedIn,
         user,
         userLoading
@@ -21,6 +22,11 @@ export const AppContainer = ({ children } : {children?: JSX.Element | JSX.Elemen
             {children}
         </SysAppContext.Provider>
     )
+}
+
+export {
+    AppContainer,
+    SysAppContext
 }
 
 /* 

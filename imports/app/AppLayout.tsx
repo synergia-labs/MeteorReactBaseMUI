@@ -1,4 +1,4 @@
-import React, {useCallback } from "react";
+import React, {SyntheticEvent, createContext, useCallback, useMemo, useState } from "react";
 import { ISysAppLayoutContext, ISysGeneralComponentsCommon, ISysThemeOptions } from "/imports/typings/BoilerplateDefaultTypings";
 import { BrowserRouter as Router } from 'react-router-dom';
 import { IShowNotificationProps, ShowNotification } from "/imports/ui/appComponents/showNotification/showNotification";
@@ -9,7 +9,7 @@ import { ISysTemplate, SysTemplateOptions } from "/imports/ui/templates/getTempl
 import SysRoutes from './routes';
 
 const routes = new SysRoutes();
-export const SysAppLayoutContext = React.createContext<ISysAppLayoutContext>({} as ISysAppLayoutContext);
+export const SysAppLayoutContext = createContext<ISysAppLayoutContext>({} as ISysAppLayoutContext);
 
 const defaultState: ISysGeneralComponentsCommon = {open: false}
 
@@ -21,17 +21,17 @@ export const defaultTemplate: ISysTemplate = {
 }
 
 export const AppLayout:React.FC<{themeOptions: ISysThemeOptions}> = ({themeOptions}) => {
-    const [showNotification, setShowNotification] = React.useState<IShowNotificationProps>(defaultState);
-    const [showDialog, setShowDialog]             = React.useState<IShowDialogProps>(defaultState);
-    const [showDrawer, setShowDrawer]             = React.useState<IShowDrawerProps>(defaultState);
-    const [showModal, setShowModal]               = React.useState<IShowDialogProps>(defaultState);
-    const [showWindow, setShowWindow]             = React.useState<IShowDialogProps>(defaultState);
+    const [showNotification, setShowNotification] = useState<IShowNotificationProps>(defaultState);
+    const [showDialog, setShowDialog]             = useState<IShowDialogProps>(defaultState);
+    const [showDrawer, setShowDrawer]             = useState<IShowDrawerProps>(defaultState);
+    const [showModal, setShowModal]               = useState<IShowDialogProps>(defaultState);
+    const [showWindow, setShowWindow]             = useState<IShowDialogProps>(defaultState);
 
     // Show Notification 
     const handleCloseNotification = useCallback((
-        event?: React.SyntheticEvent | Event, 
+        event?: SyntheticEvent | Event, 
         reason?: string, 
-        callBack?: (event?: React.SyntheticEvent | Event, reason?: string,) => void
+        callBack?: (event?: SyntheticEvent | Event, reason?: string,) => void
     ) => {
         if (reason === 'clickaway') return;
         setShowNotification(defaultState);
@@ -43,7 +43,7 @@ export const AppLayout:React.FC<{themeOptions: ISysThemeOptions}> = ({themeOptio
         setShowNotification({
             ...showNotification,
             ...props,
-            close: (event?: React.SyntheticEvent | Event, reason?: string) => handleCloseNotification(event, reason, props?.onClose),
+            close: (event?: SyntheticEvent | Event, reason?: string) => handleCloseNotification(event, reason, props?.onClose),
             open: true,
         });
     }, []); 
@@ -136,7 +136,7 @@ export const AppLayout:React.FC<{themeOptions: ISysThemeOptions}> = ({themeOptio
     }, []);
     //Fim Show Window
 
-    const providerValue = React.useMemo(() => ({
+    const providerValue : ISysAppLayoutContext = useMemo(() => ({
         ...themeOptions,
         showNotification:   showNotificationHandler,
         showDialog:         showDialogHandler,

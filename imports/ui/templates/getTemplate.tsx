@@ -1,8 +1,10 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { TemplateAppBar } from "./templateAppBar/templateAppBar";
 import TemplateNone from "./templateNone/templateNone";
 import { IAppMenu } from "/imports/modules/modulesTypings";
 import { NavigateFunction } from "react-router-dom";
+
+//important: A definição do template default da aplicação é feita no aquivo /imports/app/AppLayout.tsx
 
 export enum SysTemplateOptions {
     AppBar = 'AppBar',
@@ -31,7 +33,7 @@ export interface ISysTemplate {
     */
     props?: any;
     navigate?: NavigateFunction;
-    children?: React.ReactNode;
+    children?: ReactNode;
 }
 
 export interface ISysTemplateProps extends Omit<ISysTemplate, 'variant' | 'props'> {}
@@ -49,5 +51,3 @@ export const SysTemplate = ({
         </Template>
     );
 }
-
-
