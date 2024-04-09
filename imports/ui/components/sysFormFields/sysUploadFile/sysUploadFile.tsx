@@ -17,6 +17,8 @@ import SysLabelView from '../../sysLabelView/sysLabelView';
 import SysUploadFileStyle from './sysUploadFileStyle';
 import { SxProps, Theme } from '@mui/material';
 import { SysLoading } from '../../sysLoading/sysLoading';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 
 interface IArquivo {
 	name: string;
@@ -75,6 +77,18 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
+
+	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [valueState, setValueState] = useState<string>(defaultValue || '');
+
+	if (inSysFormContext)
+		controllerSysForm.setInteractiveMethods({
+			componentRef: refObject!,
+			clearMethod: () => setValueState(''),
+			setValueMethod: (value) => setValueState(value),
+			changeVisibilityMethod: (visible) => setVisibleState(visible),
+			setErrorMethod: (error) => setErrorState(error)
+		});
 
 	const { getRootProps, getInputProps } = useDropzone({
 		onDrop: useCallback((acceptedFiles: FileWithPath[], rejectedFiles: any[]) => {
@@ -158,57 +172,60 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	if (!visibleState) return null;
 
 	return (
-		<SysLabelView label={label} disabled={disabled} sxMap={sxMap}>
-			<SysUploadFileStyle.container readOnly={readOnly} sx={sxMap?.container}>
-				{!readOnly && (
-					<SysUploadFileStyle.button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
-						<input {...getInputProps()} />
-						<SysUploadFileStyle.typographyInfo variant="caption">{btnTextDesc}</SysUploadFileStyle.typographyInfo>
-						<SysUploadFileStyle.typographyAdd variant="button2">
-							<AddIcon />
-							Adicionar
-						</SysUploadFileStyle.typographyAdd>
-					</SysUploadFileStyle.button>
-				)}
+		<FormControl error={!!errorState}>
+			<SysLabelView label={label} disabled={disabled} sxMap={sxMap}>
+				<SysUploadFileStyle.container readOnly={readOnly} sx={sxMap?.container}>
+					{!readOnly && (
+						<SysUploadFileStyle.button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
+							<input {...getInputProps()} />
+							<SysUploadFileStyle.typographyInfo variant="caption">{btnTextDesc}</SysUploadFileStyle.typographyInfo>
+							<SysUploadFileStyle.typographyAdd variant="button2">
+								<AddIcon />
+								Adicionar
+							</SysUploadFileStyle.typographyAdd>
+						</SysUploadFileStyle.button>
+					)}
 
-				{loadingAttachments && <SysLoading />}
-				{attachments.length > 0 ? (
-					<SysUploadFileStyle.itenList sx={sxMap?.itenList}>
-						{attachments.map((item: IArquivo) => (
-							<SysUploadFileStyle.boxItem key={item._id} sx={sxMap?.boxItem}>
-								<SysUploadFileStyle.boxIcon sx={sxMap?.boxIcon}>{getIcon(item.type)}</SysUploadFileStyle.boxIcon>
+					{loadingAttachments && <SysLoading />}
+					{attachments.length > 0 ? (
+						<SysUploadFileStyle.itenList sx={sxMap?.itenList}>
+							{attachments.map((item: IArquivo) => (
+								<SysUploadFileStyle.boxItem key={item._id} sx={sxMap?.boxItem}>
+									<SysUploadFileStyle.boxIcon sx={sxMap?.boxIcon}>{getIcon(item.type)}</SysUploadFileStyle.boxIcon>
 
-								<SysUploadFileStyle.cardInfo sx={sxMap?.cardInfo}>
-									<SysUploadFileStyle.elipsesText variant="body2" sx={sxMap?.cardTitle}>
-										{item.name}
-									</SysUploadFileStyle.elipsesText>
-									<Typography variant="caption" sx={sxMap?.cardDesc}>
-										{item.size}Kb
-									</Typography>
-								</SysUploadFileStyle.cardInfo>
+									<SysUploadFileStyle.cardInfo sx={sxMap?.cardInfo}>
+										<SysUploadFileStyle.elipsesText variant="body2" sx={sxMap?.cardTitle}>
+											{item.name}
+										</SysUploadFileStyle.elipsesText>
+										<Typography variant="caption" sx={sxMap?.cardDesc}>
+											{item.size}Kb
+										</Typography>
+									</SysUploadFileStyle.cardInfo>
 
-								<SysUploadFileStyle.boxIconsCard sx={sxMap?.boxIconsCard}>
-									<DeleteIcon
-										color="primary"
-										sx={{ cursor: 'pointer', display: readOnly ? 'none' : 'block' }}
-										onClick={() => deleteFile(item._id)}
-									/>
-									<SaveAltIcon
-										color="primary"
-										onClick={() => downloadURI(item)}
-										sx={{ cursor: 'pointer', display: readOnly ? 'block' : 'none' }}
-									/>
-								</SysUploadFileStyle.boxIconsCard>
-							</SysUploadFileStyle.boxItem>
-						))}
-					</SysUploadFileStyle.itenList>
-				) : (
-					<Typography variant="body1" sx={{ display: readOnly ? 'block' : 'none' }}>
-						Sem Arquivos
-					</Typography>
-				)}
-			</SysUploadFileStyle.container>
-		</SysLabelView>
+									<SysUploadFileStyle.boxIconsCard sx={sxMap?.boxIconsCard}>
+										<DeleteIcon
+											color="primary"
+											sx={{ cursor: 'pointer', display: readOnly ? 'none' : 'block' }}
+											onClick={() => deleteFile(item._id)}
+										/>
+										<SaveAltIcon
+											color="primary"
+											onClick={() => downloadURI(item)}
+											sx={{ cursor: 'pointer', display: readOnly ? 'block' : 'none' }}
+										/>
+									</SysUploadFileStyle.boxIconsCard>
+								</SysUploadFileStyle.boxItem>
+							))}
+						</SysUploadFileStyle.itenList>
+					) : (
+						<Typography variant="body1" sx={{ display: readOnly ? 'block' : 'none' }}>
+							Sem Arquivos
+						</Typography>
+					)}
+				</SysUploadFileStyle.container>
+			</SysLabelView>
+			<FormHelperText>{errorState}</FormHelperText>
+		</FormControl>
 	);
 };
 

@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import SysTextField, { ISysTextFieldProps } from '../sysTextField/sysTextField';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 
 interface ISysDatePickerField extends ISysFormComponent<ISysTextFieldProps> {
 	sxMap?: {
@@ -72,15 +74,6 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 			setErrorMethod: (error) => setErrorState(error)
 		});
 
-	// defaultValue = defaultValue || sysFormController?.schema?.defaultValue;
-	// label = label || sysFormController?.schema?.label;
-	// readOnly = readOnly || sysFormController?.readOnly;
-	// error = error || sysFormController?.error;
-	// disabled = disabled || sysFormController?.disabled;
-	// defaultValue = defaultValue || value || sysFormController?.defaultValue;
-
-	//const [dateValue, setDateValue] = useState(defaultValue || new Date());
-
 	function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
 		const newValue = evt.target.value;
 
@@ -128,17 +121,36 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 		return <SysViewField label={label} placeholder={typeof dateValue != 'string' ? '-' : dateValue || '-'} />;
 
 	return (
-		<Box sx={[{ display: 'flex', alignItems: 'center' }, ...(Array.isArray(sxMap?.boxContainer) ? sxMap?.boxContainer : [sxMap?.boxContainer])]}>
-			<SysLabelView
-				label={label}
-				tooltipMessage={tooltipMessage}
-				disabled={disabled}
-				placement={positionTooltip}
-				helpIcon={helpIcon}
-				showRequired={showRequired}
-				requiredIndicator={requiredIndicator}
-				sx={sxMap?.container}>
-				{view === 'column' && (
+		<FormControl error={!!errorState}>
+			<Box
+				sx={[
+					{ display: 'flex', alignItems: 'center' },
+					...(Array.isArray(sxMap?.boxContainer) ? sxMap?.boxContainer : [sxMap?.boxContainer])
+				]}>
+				<SysLabelView
+					label={label}
+					tooltipMessage={tooltipMessage}
+					disabled={disabled}
+					placement={positionTooltip}
+					helpIcon={helpIcon}
+					showRequired={showRequired}
+					requiredIndicator={requiredIndicator}
+					sx={sxMap?.container}>
+					{view === 'column' && (
+						<SysTextField
+							{...otherProps}
+							type="date"
+							onBlur={onBlur}
+							onChange={handleChange}
+							value={dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue}
+							error={errorState}
+							disabled={disabled || loading}
+							name={name}
+							sx={sxMap?.textField}
+						/>
+					)}
+				</SysLabelView>
+				{view === 'row' && (
 					<SysTextField
 						{...otherProps}
 						type="date"
@@ -151,20 +163,8 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 						sx={sxMap?.textField}
 					/>
 				)}
-			</SysLabelView>
-			{view === 'row' && (
-				<SysTextField
-					{...otherProps}
-					type="date"
-					onBlur={onBlur}
-					onChange={handleChange}
-					value={dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue}
-					error={errorState}
-					disabled={disabled || loading}
-					name={name}
-					sx={sxMap?.textField}
-				/>
-			)}
-		</Box>
+			</Box>
+			<FormHelperText>{errorState}</FormHelperText>
+		</FormControl>
 	);
 };
