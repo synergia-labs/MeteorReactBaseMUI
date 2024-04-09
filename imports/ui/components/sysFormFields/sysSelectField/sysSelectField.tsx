@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from 'react';
 import { IOption, ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import {
 	FormControl,
+	FormHelperText,
 	ListItemText,
 	MenuItem,
 	Select,
@@ -144,6 +145,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					)}
 				</Select>
 			</SysLabelView>
+			<FormHelperText>{errorState}</FormHelperText>
 		</FormControl>
 	);
 };

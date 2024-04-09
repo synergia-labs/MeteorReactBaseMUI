@@ -37,7 +37,7 @@ declare module '@mui/material/styles' {
 	}
 
 	interface Palette {
-		tertiary?: Palette['primary'];
+		tertiary: Palette['primary'];
 		sysText?: ISysText;
 		sysBackground?: ISysBackground;
 		sysAction?: ISysAction;
