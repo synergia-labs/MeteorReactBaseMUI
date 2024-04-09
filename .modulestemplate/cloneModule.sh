@@ -19,7 +19,7 @@ respostaProvider=$(valida_resposta "Deseja criar um módulo com provider? (s/n) 
 
 # Define o nome do diretório de origem com base na resposta
 if [ "$respostaProvider" = "s" ] || [ "$respostaProvider" = "S" ]; then
-    origem="exampleProvider"
+    origem="example"
 else
     origem="example"
 fi
