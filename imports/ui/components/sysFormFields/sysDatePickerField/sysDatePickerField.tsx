@@ -137,13 +137,13 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 					requiredIndicator={requiredIndicator}
 					sx={sxMap?.container}>
 					{view === 'column' && (
-						<SysTextField
+						<TextField
 							{...otherProps}
 							type="date"
 							onBlur={onBlur}
 							onChange={handleChange}
 							value={dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue}
-							error={errorState}
+							error={!!errorState}
 							disabled={disabled || loading}
 							name={name}
 							sx={sxMap?.textField}
@@ -151,13 +151,13 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 					)}
 				</SysLabelView>
 				{view === 'row' && (
-					<SysTextField
+					<TextField
 						{...otherProps}
 						type="date"
 						onBlur={onBlur}
 						onChange={handleChange}
 						value={dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue}
-						error={errorState}
+						error={!!errorState}
 						disabled={disabled || loading}
 						name={name}
 						sx={sxMap?.textField}
