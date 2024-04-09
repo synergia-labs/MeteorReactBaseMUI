@@ -16,6 +16,7 @@ const SysFormPlayground: React.FC = () => {
 	const [mode, setMode] = useState<'edit' | 'view'>('edit');
 	const [debugMode, setDebugMode] = useState<boolean>(true);
 	const [loading, setLoading] = useState<boolean>(false);
+	const [realTimeValidation, setRealTimeValidation] = useState<boolean>(false);
 
 	const { showDialog, closeDialog, showNotification } = useContext(SysAppLayoutContext);
 
@@ -73,8 +74,10 @@ const SysFormPlayground: React.FC = () => {
 		showFieldWithErrors: showFieldWithErrors,
 		loading: loading,
 		setLoading: setLoading,
-		onSubmit: onSubmit
-	}), [doc, updateRealTime, mode, debugMode, loading]);
+		onSubmit: onSubmit,
+		realTimeValidation: realTimeValidation,
+		setRealTimeValidation: setRealTimeValidation
+	}), [doc, updateRealTime, mode, debugMode, loading, realTimeValidation]);
 
 	return (
 		<SysFormPlaygroundContext.Provider value={providerValues}>

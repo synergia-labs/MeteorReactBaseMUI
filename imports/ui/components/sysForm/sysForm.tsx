@@ -47,6 +47,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	const fieldsWithErrors = useRef<{[key: string] : string}>({});
 	const fieldsWithOptions = useRef<IDocRef>({});
 	const refDoc = useRef<IDocValues>(doc);
+	const validateOnChangeRef = useRef<boolean | Array<string>>(validateOnChange);
 
 	const __onFailure = (error: Error) => {
 		if(debugAlerts)
@@ -127,8 +128,8 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 			refComponent.current.value = value;
 			checkVisibilityFields();
 			if(
-				(!Array.isArray(validateOnChange) && validateOnChange) ||
-				Array.isArray(validateOnChange) && validateOnChange.includes(refComponent.current.name) ||
+				(!Array.isArray(validateOnChangeRef.current) && validateOnChangeRef.current) ||
+				Array.isArray(validateOnChangeRef.current) && validateOnChangeRef.current.includes(refComponent.current.name) ||
 				hasValue(fieldsWithErrors.current[refComponent.current.name])
 			) checkIfErrorExists(refComponent);
 			if(initialRequiredFields.includes(refComponent.current.name))
@@ -314,6 +315,10 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 		updateValue(doc);
 		refDoc.current = doc;
 	},[doc]);
+
+	useEffect(() => {
+		validateOnChangeRef.current = validateOnChange;
+	}, [validateOnChange]);
 
 	const providerValue : ISysFormContext = useMemo(() => ({
 		loading: loading,

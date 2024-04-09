@@ -20,6 +20,8 @@ interface ISysFormPlaygroundContext {
     loading: boolean;
     setLoading: (value: boolean) => void;
     onSubmit: (doc: ISysFormPlaygroundSch) => void;
+    realTimeValidation: boolean;
+    setRealTimeValidation: (value: boolean) => void;
 }
 
 

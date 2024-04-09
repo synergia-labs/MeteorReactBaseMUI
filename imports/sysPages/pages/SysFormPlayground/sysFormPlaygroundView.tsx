@@ -21,6 +21,7 @@ import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { schemaFormated } from "./interface/sysFormSch";
+import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 
 const SysFormPlaygroundView: React.FC = () => {
     const controller = useContext(SysFormPlaygroundContext);
@@ -78,6 +79,7 @@ const SysFormPlaygroundView: React.FC = () => {
                         debugAlerts={controller.debugMode}
                         loading={controller.loading}
                         onSubmit={controller.onSubmit}
+                        validateOnChange={controller.realTimeValidation}
                     >
                         <SysFormPlaygroundStyles.rowElement>
                             <SysTextField 
@@ -192,6 +194,12 @@ const SysFormPlaygroundView: React.FC = () => {
                             onClick = {() => controller.setLoading(!controller.loading)}
                         >
                             Loading: {controller.loading ? 'Ativo' : 'Inativo'}
+                        </Button>
+                        <Button
+                            startIcon={<PublishedWithChangesOutlinedIcon />}
+                            onClick = {() => controller.setRealTimeValidation(!controller.realTimeValidation)}
+                        >
+                            Validação em tempo real: {controller.realTimeValidation ? 'Ativo' : 'Inativo'}
                         </Button>
                     </SysFormPlaygroundStyles.buttonContainer>
 
