@@ -6,11 +6,10 @@ import { EmailVerify } from '../pages/EmailVerify/EmailVerify';
 import { ResetPassword } from '../pages/ResetPassword/ResetPassword';
 import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
-import { Recurso as HomeRecurso} from '../pages/Home/Recurso';
-import { Recurso } from '../pages/sysFormTests/recursos';
 import { NoPermission } from '../pages/NoPermission/NoPermission';
 import SignInPage from '../pages/signIn/signIn';
-import SysFormTestsPage from '../pages/sysFormTests/sysFormTestsPage';
+import { HomeResources, SysFormTestPageResources } from './resources';
+import SysFormPlayground from '../pages/SysFormPlayground/sysFormPlayground';
 
 export const pagesRouterList : (IRoute | null)[] = [
 	{
@@ -18,13 +17,13 @@ export const pagesRouterList : (IRoute | null)[] = [
 		exact: true,
 		component: Home,
 		isProtected: true,
-		resources: [HomeRecurso.HOME_VIEW],
+		resources: [HomeResources.HOME_VIEW],
 	},
 	{
 		path: '/sysFormTests',
-		component: SysFormTestsPage,
+		component: SysFormPlayground,
 		isProtected: true,
-		resources: [Recurso.SYSFORMTESTS_VIEW],
+		resources: [SysFormTestPageResources.SYSFORMTESTS_VIEW],
 	},
 	{
 		path: '/signin',

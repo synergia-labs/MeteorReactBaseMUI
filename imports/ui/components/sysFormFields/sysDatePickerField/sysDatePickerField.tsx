@@ -14,7 +14,7 @@ interface ISysDatePickerField extends ISysFormComponent<ISysTextFieldProps> {
 	sxMap?: {
 		container?: SxProps<Theme>;
 		textField?: SxProps<Theme>;
-		boxContainer: SxProps<Theme>;
+		boxContainer?: SxProps<Theme>;
 	};
 	/** Ícone de ajuda */
 	helpIcon?: boolean;
@@ -128,7 +128,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 		return <SysViewField label={label} placeholder={typeof dateValue != 'string' ? '-' : dateValue || '-'} />;
 
 	return (
-		<Box sx={{ display: 'flex', alignItems: 'center', ...sxMap?.boxContainer }}>
+		<Box sx={[{ display: 'flex', alignItems: 'center' }, ...(Array.isArray(sxMap?.boxContainer) ? sxMap?.boxContainer : [sxMap?.boxContainer])]}>
 			<SysLabelView
 				label={label}
 				tooltipMessage={tooltipMessage}

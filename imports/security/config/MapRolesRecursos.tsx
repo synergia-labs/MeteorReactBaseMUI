@@ -1,8 +1,7 @@
 import { Recurso as Exemplo } from '/imports/modules/example/config/Recursos';
-import {Recurso as Home} from '/imports/sysPages/pages/Home/Recurso';
 import {Recurso as Usuarios} from '/imports/modules/userprofile/config/Recurso';
-import { Recurso as SysFormTests } from '/imports/sysPages/pages/sysFormTests/recursos';
 import { RoleType } from '/imports/security/config/RoleType';
+import { HomeResources, SysFormTestPageResources } from '/imports/sysPages/config/resources';
 
 type MapRolesRecursos = {
     [key: string]: string[];
@@ -31,32 +30,32 @@ export const mapRolesRecursos: MapRolesRecursos = {
         Exemplo.EXAMPLE_CREATE,
         Exemplo.EXAMPLE_UPDATE,
         Exemplo.EXAMPLE_REMOVE,
-        Home.HOME_CREATE,
-        Home.HOME_REMOVE,
-        Home.HOME_UPDATE,
-        Home.HOME_VIEW,
-        SysFormTests.SYSFORMTESTS_CREATE,
-        SysFormTests.SYSFORMTESTS_REMOVE,
-        SysFormTests.SYSFORMTESTS_UPDATE,
-        SysFormTests.SYSFORMTESTS_VIEW,
+        HomeResources.HOME_VIEW,
+        HomeResources.HOME_CREATE,
+        HomeResources.HOME_UPDATE,
+        HomeResources.HOME_REMOVE,
+        SysFormTestPageResources.SYSFORMTESTS_VIEW,
+        SysFormTestPageResources.SYSFORMTESTS_CREATE,
+        SysFormTestPageResources.SYSFORMTESTS_UPDATE,
+        SysFormTestPageResources.SYSFORMTESTS_REMOVE,
         Usuarios.USUARIO_CREATE,
         Usuarios.USUARIO_REMOVE,
         Usuarios.USUARIO_UPDATE,
         Usuarios.USUARIO_VIEW,
     ],
     [RoleType.USUARIO]: [
-        Home.HOME_CREATE,
-        Home.HOME_REMOVE,
-        Home.HOME_UPDATE,
-        Home.HOME_VIEW,
         Exemplo.EXAMPLE_VIEW,
         Exemplo.EXAMPLE_CREATE,
         Exemplo.EXAMPLE_UPDATE,
         Exemplo.EXAMPLE_REMOVE,
-        SysFormTests.SYSFORMTESTS_CREATE,
-        SysFormTests.SYSFORMTESTS_REMOVE,
-        SysFormTests.SYSFORMTESTS_UPDATE,
-        SysFormTests.SYSFORMTESTS_VIEW,
+        HomeResources.HOME_VIEW,
+        HomeResources.HOME_CREATE,
+        HomeResources.HOME_UPDATE,
+        HomeResources.HOME_REMOVE,
+        SysFormTestPageResources.SYSFORMTESTS_VIEW,
+        SysFormTestPageResources.SYSFORMTESTS_CREATE,
+        SysFormTestPageResources.SYSFORMTESTS_UPDATE,
+        SysFormTestPageResources.SYSFORMTESTS_REMOVE,
     ],
     [RoleType.PUBLICO]: [],
 };

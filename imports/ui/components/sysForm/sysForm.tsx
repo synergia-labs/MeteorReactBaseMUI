@@ -176,7 +176,10 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = ({
 	const checkIfErrorExists = useCallback((componentRef: MutableRefObject<ISysFormComponentRef>) => {
 		try{
 			const schamaInfo = SysFormMethods.getSchemaByName(schema, componentRef.current.name);
-			const errorMessage = schamaInfo?.validationFunction?.(componentRef.current.value);
+			const isOptional = schamaInfo?.optional;
+			const value = componentRef.current.value;
+			if(isOptional && !hasValue(value)) return;
+			const errorMessage = (!isOptional && !hasValue(value)) ? "Campo obrigatório" : schamaInfo?.validationFunction?.(value);
 			componentRef.current.error = errorMessage;
 			componentRef.current.setError?.(errorMessage);
 			if(!!errorMessage){

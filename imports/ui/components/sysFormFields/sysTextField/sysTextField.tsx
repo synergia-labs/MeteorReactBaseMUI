@@ -81,7 +81,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	if(inSysFormContext) controllerSysForm.setInteractiveMethods({
 		componentRef: refObject!,
 		clearMethod: () => setValueState(''),
-		setValueMethod: (value) => setValueState(value),
+		setValueMethod: (value) => mask ? setValueState(generalMask(value, mask)) : setValueState(value),
 		changeVisibilityMethod: (visible) => setVisibleState(visible),
 		setErrorMethod: (error) => setErrorState(error),
 	});
