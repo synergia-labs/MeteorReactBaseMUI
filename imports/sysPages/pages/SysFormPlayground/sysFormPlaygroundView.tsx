@@ -75,6 +75,9 @@ const SysFormPlaygroundView: React.FC = () => {
                         doc = {controller.doc}
                         onChange={controller.updateDocRealTime}
                         mode={controller.mode}
+                        debugAlerts={controller.debugMode}
+                        loading={controller.loading}
+                        onSubmit={controller.onSubmit}
                     >
                         <SysFormPlaygroundStyles.rowElement>
                             <SysTextField 
@@ -183,6 +186,12 @@ const SysFormPlaygroundView: React.FC = () => {
                             color = {!controller.debugMode ? 'warning' : 'success'}
                         >
                             {controller.debugMode ? 'Desativar Debug' : 'Ativar Debug'}
+                        </Button>
+                        <Button
+                            startIcon={<SecurityOutlinedIcon />}
+                            onClick = {() => controller.setLoading(!controller.loading)}
+                        >
+                            Loading: {controller.loading ? 'Ativo' : 'Inativo'}
                         </Button>
                     </SysFormPlaygroundStyles.buttonContainer>
 

@@ -17,6 +17,9 @@ interface ISysFormPlaygroundContext {
     debugMode: boolean;
     setDebugMode: (value: boolean) => void;
     showFieldWithErrors: () => void;
+    loading: boolean;
+    setLoading: (value: boolean) => void;
+    onSubmit: (doc: ISysFormPlaygroundSch) => void;
 }
 
 

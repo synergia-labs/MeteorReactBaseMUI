@@ -15,8 +15,9 @@ const SysFormPlayground: React.FC = () => {
 	const [updateRealTime, setUpdateRealTime] = useState<boolean>(false);
 	const [mode, setMode] = useState<'edit' | 'view'>('edit');
 	const [debugMode, setDebugMode] = useState<boolean>(true);
+	const [loading, setLoading] = useState<boolean>(false);
 
-	const { showDialog, closeDialog } = useContext(SysAppLayoutContext);
+	const { showDialog, closeDialog, showNotification } = useContext(SysAppLayoutContext);
 
 	const validateIndividualField = useCallback((name:string) => {
 		if(!formRef.current) return;
@@ -41,6 +42,17 @@ const SysFormPlayground: React.FC = () => {
 		});
 	}, []);
 
+	const onSubmit = useCallback((doc: ISysFormPlaygroundSch) => {
+		showNotification({
+			type: 'success',
+			title: 'Formulário submetido',
+			message: `O formulário de ${doc.name} foi submetido com sucesso!`
+		});
+		updateDoc();
+		if(!formRef.current) return;
+		formRef.current.clearForm();
+	}, []);
+
 	useEffect(() => {
 		updateDoc();
 	}, []);
@@ -58,8 +70,11 @@ const SysFormPlayground: React.FC = () => {
 		setMode: setMode,
 		debugMode: debugMode,
 		setDebugMode: setDebugMode,
-		showFieldWithErrors: showFieldWithErrors
-	}), [doc, updateRealTime, mode, debugMode]);
+		showFieldWithErrors: showFieldWithErrors,
+		loading: loading,
+		setLoading: setLoading,
+		onSubmit: onSubmit
+	}), [doc, updateRealTime, mode, debugMode, loading]);
 
 	return (
 		<SysFormPlaygroundContext.Provider value={providerValues}>
