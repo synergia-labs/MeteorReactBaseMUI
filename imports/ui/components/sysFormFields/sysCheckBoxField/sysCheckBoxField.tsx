@@ -11,6 +11,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import { SysViewField } from '../sysViewField/sysViewField';
+import sysCheckBoxFieldStyle from './sysCheckBoxFieldStyle';
 
 interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
 	/** Estilo do componente.*/
@@ -116,7 +117,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				showRequired={showRequired}
 				requiredIndicator={requiredIndicator}
 				sx={sxMap?.container}>
-				<FormGroup sx={{ flexDirection: alignment === 'column' ? 'column' : 'row', ...sxMap?.formGroup }}>
+				<sysCheckBoxFieldStyle.formGroup sx={sxMap?.formGroup} alignment={alignment}>
 					{optionsState?.map((opt) => (
 						<FormControlLabel
 							key={opt.value}
@@ -134,7 +135,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 							disabled={disabled || loading}
 						/>
 					))}
-				</FormGroup>
+				</sysCheckBoxFieldStyle.formGroup>
 			</SysLabelView>
 			<FormHelperText>{errorState}</FormHelperText>
 		</FormControl>
