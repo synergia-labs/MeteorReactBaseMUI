@@ -1,20 +1,12 @@
-import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { nanoid } from 'nanoid';
 import UserProfileListView from "./userProfileListView";
-import { IUserProfile, userProfileSch } from "../../api/UserProfileSch";
+import { IUserProfile } from "../../api/UserProfileSch";
 import { useTracker } from "meteor/react-meteor-data";
 import { userprofileApi } from "../../api/UserProfileApi";
 import { IMeteorError } from "/imports/typings/BoilerplateDefaultTypings";
 import { SysAppLayoutContext } from "/imports/app/AppLayout";
-import FormDialog from "/imports/ui/appComponents/SysDialog/custom/formDialog/formDialog";
-import SysForm from "/imports/ui/components/sysForm/sysForm";
-import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
-import { ISysFormRef } from "/imports/ui/components/sysForm/typings";
-import { Box } from "@mui/material";
-import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectField/sysSelectField";
-import UserProfileListViewStyled from "./userProfileListStyles";
-import UserProfileDetailView from "../UserProfileDetail/userProfileDetailView";
-import UserProfileDetailController, { UserProfileDetailControllerContext } from "../UserProfileDetail/userProfileDetailController";
+import UserProfileDetailController from "../UserProfileDetail/userProfileDetailController";
 import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface IInitialConfig {
