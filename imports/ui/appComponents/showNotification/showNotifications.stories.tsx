@@ -57,8 +57,6 @@ export const Sucesso: Story = {
         type: 'success',
         title: 'Sucesso',
         message: `Sua operação foi realizada com sucesso!`,
-        transition: undefined,
-        transitionDirection: undefined,
     },
     parameters: {
         docs: {
@@ -75,7 +73,6 @@ export const Erro: Story = {
         type: 'error',
         title: 'Erro',
         message: `Ocorreu um erro inesperado.`,
-        transition: undefined,
     },
     parameters: {
         docs: {
@@ -92,7 +89,6 @@ export const Aviso: Story = {
         type: 'warning',
         title: 'Aviso',
         message: `É necessário preencher todos os campos obrigatórios.`,
-        transition: undefined,
     },
     parameters: {
         docs: {
@@ -107,7 +103,6 @@ export const Customizado: Story = {
     args: {
         open: true,
         title: 'Seu download está pronto!',
-        transition: undefined,
         sxMap: {
             container: {
                 background  : '#000000',
@@ -142,7 +137,6 @@ export const ComChildren: Story = {
         type: 'success',
         title: 'Sucesso',
         message: `Sua operação foi realizada com sucesso!`,
-        transition: undefined,
         children: (
             <Box sx={{
                 display: 'flex', 

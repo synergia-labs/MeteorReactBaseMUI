@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, IconButton, Snackbar, SxProps, Theme, Typography } from "@mui/material";
-import {ShowNotificationTransitions} from "../transitions";
 import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
 import { hasValue } from "/imports/libs/hasValue";
 import ShowNotificationStyles from "./showNotificationStyles";
@@ -21,10 +20,6 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon{
     showStartIcon?: boolean;
     /**Especifica o tipo da notificação, como sucesso, erro, informação ou aviso.*/
     type?: 'success' | 'error' | 'warning' | 'default';
-    /**Seleciona a animação de transição para a exibição da notificação.*/
-    transition?: 'slide' | 'grow' | 'fade' | 'zoom';
-    /**Define a direção da animação de transição.*/
-    transitionDirection?: 'up' | 'down' | 'left' | 'right';
     /** Define o título da notificação, destacado na parte superior.*/
     title?: string;
     /**Estabelece a mensagem principal da notificação.*/
@@ -91,9 +86,7 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
     duration = 4000,
     horizontal = 'left',
     vertical = 'bottom',
-    transition = 'slide',
     type = 'default',
-    transitionDirection,
     showCloseButton = false,
     showStartIcon = true,
     title,
@@ -118,10 +111,6 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
             open={open}
             onClose={close}
             autoHideDuration={duration}
-            TransitionComponent={ShowNotificationTransitions({
-                type: transition,
-                direction: !!transitionDirection ? transitionDirection : vertical === 'top' ? 'down' : 'up',
-            })}
             anchorOrigin={{
                 vertical: vertical,
                 horizontal: horizontal,

@@ -86,7 +86,8 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
         borderRadius: sysSizing.radiusSm,
         padding: sysSizing.spacingFixedMd,
         backgroundColor: theme.palette.sysBackground?.default,
-        border: `1px solid ${theme.palette.divider}`
+        border: `1px solid ${theme.palette.divider}`,
+        overflow: 'auto',
     }))
 }
 

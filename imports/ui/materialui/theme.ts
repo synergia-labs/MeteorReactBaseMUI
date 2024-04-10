@@ -247,7 +247,6 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			MuiBox: {
 				styleOverrides: {
 					root: {
-						maxHeight: '100vh'
 					}
 				}
 			},
@@ -256,7 +255,6 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				styleOverrides: {
 					root: {
 						'&.MuiBox-root': {
-							maxHeight: '100vh'
 						}
 					}
 				}

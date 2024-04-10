@@ -30,7 +30,7 @@ const sysFormPlaygroundSch : ISchema<ISysFormPlaygroundSch> = {
         type: Date,
         label: "Desde quando?",
         optional: false,
-        visibilityFunction: (doc: ISysFormPlaygroundSch) => doc.status === "casado" || doc.status === "divorciado" || doc.status === "viuvo"
+        visibilityFunction: (doc: ISysFormPlaygroundSch) => !!doc.status && doc.status !== 'solteiro'
     },
     cpf : {
         type: String,
@@ -46,7 +46,11 @@ const sysFormPlaygroundSch : ISchema<ISysFormPlaygroundSch> = {
         type: String,
         label: "Telefone",
         optional: true,
-        mask: "(##) # ####-####"
+        mask: "(##) # ####-####",
+        validationFunction: (value: string) => {
+            if(value.length < 6) return "Telefone inválido"
+            return undefined;
+        }
     },
     birthDate : {
         type: Date,
@@ -144,8 +148,10 @@ const sysFormPlaygroundSch : ISchema<ISysFormPlaygroundSch> = {
         optional: false,
         validationFunction: (value: string) => {
             const words = value.split(" ");
-            if(words.length < 2) return "O nome deve ter pelo menos um sobrenome"
-            if(words.some(word => word.length < 3)) return "Todos os nomes devem ter pelo menos 3 caracteres"
+            if(words.length < 2) 
+                return "O nome deve ter pelo menos um sobrenome"
+            if(words.some(word => word.length < 3)) 
+                return "Todos os nomes devem ter pelo menos 3 caracteres"
             return undefined
         }
     },
@@ -164,7 +170,7 @@ const sysFormPlaygroundSch : ISchema<ISysFormPlaygroundSch> = {
         type: Date,
         label: "Desde quando?",
         optional: false,
-        visibilityFunction: (doc: ISysFormPlaygroundSch) => doc.status === "casado" || doc.status === "divorciado" || doc.status === "viuvo"
+        visibilityFunction: (doc: ISysFormPlaygroundSch) => !!doc.status && doc.status !== 'solteiro'
     },
     cpf : {
         type: String,
