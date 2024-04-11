@@ -1,19 +1,39 @@
 import React, { useContext, useRef, useState } from 'react';
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { SelectProps, SxProps, Theme, FormControl, Select, MenuItem, ListItemText } from '@mui/material';
+import {
+	Autocomplete,
+	FormControl,
+	FormHelperText,
+	ListItemText,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	SxProps,
+	Theme,
+	SelectProps,
+	TextField
+} from '@mui/material';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
+import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import listEstados from './estados';
+import localidades from './localidades.json';
+import { SysViewField } from '../sysViewField/sysViewField';
+
+interface IDefaultValue {
+	estado: string | null;
+	municipio?: string | null;
+	distrito?: string | null;
+}
 
 interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, 'variant'>> {
-	defaultValue?: string;
+	defaultValue?: IDefaultValue;
 	sxMap?: {
 		container: SxProps<Theme>;
 		menuProps: SxProps<Theme> | null;
 	};
-	exibir?: 'estado' | 'municipio' | 'distrito' | 'todos';
+	onlyEstado?: boolean;
 }
 
 export const SysLocationField: React.FC<ISysLocationField> = ({
@@ -31,7 +51,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	positionTooltip,
 	helpIcon,
 	requiredIndicator,
-	exibir = 'todos',
+	onlyEstado = false,
 	sxMap,
 	...otherProps
 }) => {
@@ -41,7 +61,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
 	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 
-	const schema = refObject?.current.schema;
+	const schema = refObject?.current?.schema;
 
 	label = label || schema?.label;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
@@ -50,60 +70,99 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
 	showRequired = showRequired || (!!schema && !schema?.optional);
 
-	const [valueState, setValueState] = useState<string>(defaultValue || '');
-	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
+	const [valueState, setValueState] = useState<IDefaultValue | null>(defaultValue || null);
+	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current?.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 
-	if (inSysFormContext)
+	if (inSysFormContext) {
+		controllerSysForm.setRefComponent(refObject!);
 		controllerSysForm.setInteractiveMethods({
 			componentRef: refObject!,
-			clearMethod: () => setValueState(''),
+			clearMethod: () => setValueState({ estado: null, municipio: null, distrito: null }),
 			setValueMethod: (value) => setValueState(value),
 			changeVisibilityMethod: (visible) => setVisibleState(visible),
 			setErrorMethod: (error) => setErrorState(error)
 		});
+	}
 
-	const [estado, setEstado] = useState(value ? value.estado : undefined);
-	const [municipio, setMunicipio] = useState(value ? value.municipio : undefined);
-	const [distrito, setDistrito] = useState(value ? value.distrito : undefined);
-
-	const definirEstado = (e: { target: { value: string } }) => {
-		setEstado(e.target.value);
-		if (e.target.value == 'Não identificado') {
-			setMunicipio('Não identificado');
-			setDistrito(null);
-		} else if (e.target.value == 'Atribuição de Origem') {
-			setMunicipio('Não identificado');
-			setDistrito(null);
-		} else if (e.target.value == '') {
-			setEstado(undefined);
-			setMunicipio(undefined);
-			setDistrito(undefined);
-		} else {
-			setMunicipio(null);
-			setDistrito(null);
+	const handleChange = (e: SelectChangeEvent) => {
+		const newValue = {
+			...valueState!,
+			[e.target.name]: (e.target as HTMLSelectElement).value
+		};
+		setValueState(newValue);
+		if (inSysFormContext) {
+			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
 		}
+		onChange?.(e);
 	};
 
-	React.useEffect(() => {
-		if (value && value.estado !== estado) {
-			setEstado(value.estado);
-		}
-		if (value && value.municipio !== municipio) {
-			setMunicipio(value.municipio);
-		}
-		if (value && value.distrito !== distrito) {
-			setDistrito(value.distrito);
-		}
+	const [selectedValue, setSelectedValue] = useState(null);
 
-		if (!value) {
-			setEstado(undefined);
-			setMunicipio(undefined);
-			setDistrito(undefined);
+	const handleOnChange = (evt: React.ChangeEvent<{}>, selected: any, nome: string) => {
+		let newValue;
+		if (selected === null) {
+			// Se o usuário limpar a seleção
+			newValue = { estado: valueState?.estado || '', municipio: null, distrito: null };
+			setSelectedValue(null); // Limpa o valor selecionado
+		} else {
+			newValue = {
+				...valueState!,
+				...JSON.parse(selected.value)
+			};
+			setSelectedValue(selected.label);
 		}
-	}, [value]);
+		setValueState(newValue);
+		if (inSysFormContext) {
+			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
+		}
+		onChange?.(selected);
+	};
+
+	const [filteredLocalidades, setFilteredLocalidades] = useState<any[]>([]);
+
+	React.useEffect(() => {
+		console.log('SUE EFFECT >>>>');
+		if (valueState?.estado) {
+			const filtered = localidades.filter((entry) => {
+				console.log('DENTRO DO FILTER >>>>');
+				if (valueState?.estado) {
+					return entry.u === valueState?.estado;
+				} else {
+					return false;
+				}
+			});
+			setFilteredLocalidades(filtered);
+		}
+	}, [valueState?.estado]);
+
+	React.useEffect(() => {
+		if (valueState?.estado) {
+			const newValue = {
+				estado: valueState?.estado ? valueState?.estado : '',
+				municipio: null,
+				distrito: null
+			};
+			setValueState(newValue);
+			setSelectedValue(null);
+			if (inSysFormContext) {
+				controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
+			}
+		}
+	}, [valueState?.estado]);
 
 	if (!visibleState) return null;
+
+	if (readOnly) {
+		const str = valueState?.distrito
+			? `${valueState?.estado} - ${valueState?.municipio} - ${valueState?.distrito}`
+			: valueState?.municipio
+				? `${valueState?.estado} - ${valueState?.municipio}`
+				: valueState?.estado
+					? valueState?.estado
+					: '-';
+		return <SysViewField label={label} placeholder={str} />;
+	}
 
 	return (
 		<FormControl error={!!errorState}>
@@ -119,17 +178,41 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 				<Select
 					{...otherProps}
 					name={'estado'}
-					value={valueState}
-					onChange={definirEstado}
+					value={valueState?.estado || ''}
+					onChange={handleChange}
 					displayEmpty
+					error={!!errorState}
 					disabled={disabled || loading}>
 					{listEstados?.map((uf: string) => (
-						<MenuItem>
-							<ListItemText key={uf}>{uf}</ListItemText>
+						<MenuItem key={uf} value={uf}>
+							<ListItemText>{uf}</ListItemText>
 						</MenuItem>
 					))}
 				</Select>
+
+				<Autocomplete
+					key={name + 'noValue'}
+					id={name}
+					value={selectedValue}
+					noOptionsText={'Nenhuma opção'}
+					autoSelect={true}
+					clearOnEscape={true}
+					openOnFocus={true}
+					blurOnSelect={true}
+					onChange={handleOnChange}
+					sx={{ width: '100%', display: onlyEstado ? 'none' : 'flex' }}
+					options={filteredLocalidades.map((l) => ({
+						value: JSON.stringify({
+							municipio: l.m,
+							distrito: l.d || null
+						}),
+						label: `${l.m}${l.d ? ' - ' + l.d : ''}`
+					}))}
+					// getOptionLabel={(option) => option.label || ''}
+					renderInput={(params) => <TextField error={!!errorState} key={name + 'inputNoValue'} {...params} />}
+				/>
 			</SysLabelView>
+			<FormHelperText>{errorState}</FormHelperText>
 		</FormControl>
 	);
 };

@@ -9,12 +9,18 @@ interface IContainer {
 
 const SysUploadFileStyle = {
 	container: styled(Box)<IContainer>(({ theme, readOnly }) => ({
-		width: '485px',
+		width: '100%',
+		maxWidth: '485px',
+		minWidth: '279px',
 		padding: readOnly ? '0' : sysSizing.spacingRemMd,
 		background: theme.palette.sysBackground?.default,
 		display: 'flex',
 		flexDirection: 'column',
-		gap: sysSizing.spacingFixedSm
+		gap: sysSizing.spacingFixedSm,
+
+		[theme.breakpoints.only('xs')]: {
+			padding: 0
+		}
 	})),
 
 	button: styled(Button)(({ theme }) => ({
@@ -77,9 +83,9 @@ const SysUploadFileStyle = {
 	})),
 
 	cardInfo: styled(Box)(({ theme }) => ({
+		width: '60%',
 		maxWidth: '286px',
-		minWidth: '250px',
-		width: '100%',
+		minWidth: '150px',
 		height: '43px',
 		display: 'flex',
 		flexDirection: 'column',
