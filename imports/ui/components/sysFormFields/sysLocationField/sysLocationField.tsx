@@ -10,7 +10,8 @@ import {
 	SxProps,
 	Theme,
 	SelectProps,
-	TextField
+	TextField,
+	Typography
 } from '@mui/material';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
@@ -20,20 +21,33 @@ import SysLabelView from '../../sysLabelView/sysLabelView';
 import listEstados from './estados';
 import localidades from './localidades.json';
 import { SysViewField } from '../sysViewField/sysViewField';
+import SysLocationFieldStyle from './SysLocationFieldStyle';
 
-interface IDefaultValue {
-	estado: string | null;
+interface ILocation {
+	estado?: string | null;
 	municipio?: string | null;
 	distrito?: string | null;
 }
 
+interface ILocalidade {
+	u?: string;
+	m?: string;
+	d?: string;
+}
+
 interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, 'variant'>> {
-	defaultValue?: IDefaultValue;
+	defaultValue?: ILocation;
 	sxMap?: {
 		container: SxProps<Theme>;
-		menuProps: SxProps<Theme> | null;
+		select: SxProps<Theme> | null;
+		defaultMenuItem: SxProps<Theme> | null;
+		menuItem: SxProps<Theme> | null;
+		listItemText: SxProps<Theme> | null;
+		autoComplete: SxProps<Theme> | null;
+		textFieldAutoComplete: SxProps<Theme> | null;
 	};
 	onlyEstado?: boolean;
+	placeholder?: string;
 }
 
 export const SysLocationField: React.FC<ISysLocationField> = ({
@@ -52,6 +66,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	helpIcon,
 	requiredIndicator,
 	onlyEstado = false,
+	placeholder = 'Selecione um estado',
 	sxMap,
 	...otherProps
 }) => {
@@ -70,7 +85,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
 	showRequired = showRequired || (!!schema && !schema?.optional);
 
-	const [valueState, setValueState] = useState<IDefaultValue | null>(defaultValue || null);
+	const [valueState, setValueState] = useState<ILocation | null>(defaultValue || null);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current?.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 
@@ -119,35 +134,38 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 		onChange?.(selected);
 	};
 
-	const [filteredLocalidades, setFilteredLocalidades] = useState<any[]>([]);
+	const [filteredLocalidades, setFilteredLocalidades] = useState<ILocalidade[]>([]);
 
 	React.useEffect(() => {
-		console.log('SUE EFFECT >>>>');
-		if (valueState?.estado) {
-			const filtered = localidades.filter((entry) => {
-				console.log('DENTRO DO FILTER >>>>');
-				if (valueState?.estado) {
-					return entry.u === valueState?.estado;
-				} else {
-					return false;
-				}
-			});
-			setFilteredLocalidades(filtered);
-		}
-	}, [valueState?.estado]);
+		let newValue: ILocation = {};
+		let filtered: ILocalidade[] = [];
 
-	React.useEffect(() => {
-		if (valueState?.estado) {
-			const newValue = {
-				estado: valueState?.estado ? valueState?.estado : '',
+		if (valueState?.estado === 'Não identificado' || valueState?.estado === 'Atribuição de Origem') {
+			newValue = {
+				estado: valueState?.estado || '',
+				municipio: 'Não identificado',
+				distrito: null
+			};
+		} else if (valueState?.estado) {
+			filtered = localidades.filter((entry: ILocalidade) => entry?.u === valueState?.estado);
+			newValue = {
+				estado: valueState.estado,
 				municipio: null,
 				distrito: null
 			};
-			setValueState(newValue);
-			setSelectedValue(null);
-			if (inSysFormContext) {
-				controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
-			}
+		}
+
+		setFilteredLocalidades(filtered);
+		setValueState(newValue);
+		setSelectedValue(null);
+
+		if (inSysFormContext) {
+			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
+		}
+
+		// Limpa as localidades filtradas se nenhum estado estiver selecionado
+		if (!valueState?.estado && filteredLocalidades.length > 0) {
+			setFilteredLocalidades([]);
 		}
 	}, [valueState?.estado]);
 
@@ -182,15 +200,32 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					onChange={handleChange}
 					displayEmpty
 					error={!!errorState}
-					disabled={disabled || loading}>
+					disabled={disabled || loading}
+					renderValue={(options) => {
+						if (!hasValue(options)) {
+							return (
+								<Typography variant="body1" color={'text.disabled'}>
+									{placeholder}
+								</Typography>
+							);
+						}
+						return options;
+					}}
+					sx={sxMap?.select}>
+					<MenuItem value="Não identificado" sx={sxMap?.defaultMenuItem}>
+						Não identificado
+					</MenuItem>
+					<MenuItem value="Atribuição de Origem" sx={sxMap?.defaultMenuItem}>
+						Atribuição de Origem
+					</MenuItem>
 					{listEstados?.map((uf: string) => (
-						<MenuItem key={uf} value={uf}>
-							<ListItemText>{uf}</ListItemText>
+						<MenuItem key={uf} value={uf} sx={sxMap?.menuItem}>
+							<ListItemText sx={sxMap?.listItemText}>{uf}</ListItemText>
 						</MenuItem>
 					))}
 				</Select>
 
-				<Autocomplete
+				<SysLocationFieldStyle.autoComplete
 					key={name + 'noValue'}
 					id={name}
 					value={selectedValue}
@@ -199,8 +234,9 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					clearOnEscape={true}
 					openOnFocus={true}
 					blurOnSelect={true}
+					onlyEstado={onlyEstado}
 					onChange={handleOnChange}
-					sx={{ width: '100%', display: onlyEstado ? 'none' : 'flex' }}
+					sx={sxMap?.autoComplete}
 					options={filteredLocalidades.map((l) => ({
 						value: JSON.stringify({
 							municipio: l.m,
@@ -208,8 +244,15 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 						}),
 						label: `${l.m}${l.d ? ' - ' + l.d : ''}`
 					}))}
-					// getOptionLabel={(option) => option.label || ''}
-					renderInput={(params) => <TextField error={!!errorState} key={name + 'inputNoValue'} {...params} />}
+					renderInput={(params) => (
+						<SysLocationFieldStyle.textField
+							error={!!errorState}
+							key={name + 'inputNoValue'}
+							{...params}
+							placeholder="Cidade - municipio"
+							sx={sxMap?.textFieldAutoComplete}
+						/>
+					)}
 				/>
 			</SysLabelView>
 			<FormHelperText>{errorState}</FormHelperText>
