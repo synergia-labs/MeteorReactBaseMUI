@@ -1,13 +1,13 @@
 import type { Preview } from '@storybook/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
-import {getTheme} from '../imports/materialui/theme';
+import {getTheme} from '/imports/ui/materialui/theme';
 
 export const decorators = [
 	withThemeFromJSXProvider({
 	themes: {
-	  light: getTheme({darkMode: false, fontScale: 1, isMobile: false}),
-	  dark: getTheme({darkMode: true, fontScale: 1, isMobile: false})
+	  light: getTheme({darkMode: false, fontScale: 1}),
+	  dark: getTheme({darkMode: true, fontScale: 1})
 	},
 	defaultTheme: 'light',
 	Provider: ThemeProvider,

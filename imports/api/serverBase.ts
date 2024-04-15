@@ -6,15 +6,11 @@ import { Mongo, MongoInternals } from 'meteor/mongo';
 import { ClientSession, MongoClient } from 'mongodb';
 import { Meteor, Subscription } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
-import { IDoc } from '../../shared/typings/IDoc';
-import { ISchema } from '../../shared/typings/ISchema';
-import { IContext } from '../../shared/typings/IContext';
 import sharp from 'sharp';
 import { countsCollection } from '/imports/api/countCollection';
 import { Validador } from '/imports/libs/Validador';
-import { IConnection } from '../../shared/typings/IConnection';
 import Selector = Mongo.Selector;
-import { segurancaApi } from '/imports/seguranca/api/SegurancaApi';
+import { segurancaApi } from '/imports/security/api/SegurancaApi';
 import { WebApp } from 'meteor/webapp';
 // @ts-ignore
 import bodyParser from 'body-parser';
@@ -22,8 +18,12 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 // @ts-ignore
 import connectRoute from 'connect-route';
-import { IBaseOptions } from '/shared/typings/IBaseOptions';
-import { IUserProfile } from '/shared/modules/userProfile/userProfileSch';
+import { ISchema } from '../typings/ISchema';
+import { IContext } from '../typings/IContext';
+import { IDoc } from '../typings/IDoc';
+import { IBaseOptions } from '../typings/IBaseOptions';
+import { IConnection } from '../typings/IConnection';
+import { IUserProfile } from '../modules/userprofile/api/UserProfileSch';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -345,10 +345,15 @@ export class ServerApiBase<Doc extends IDoc> {
 				}
 			}
 		});
-		// Call the check from Meteor.
-		if (objForCheck.sincronizadoEm) {
-			check(objForCheck, { ...newSchema, sincronizadoEm: Date });
-		} else check(objForCheck, newSchema);
+
+
+		try{
+			if (objForCheck.sincronizadoEm) check(objForCheck, { ...newSchema, sincronizadoEm: Date });
+			else check(objForCheck, newSchema);
+		}catch(e:any){
+			const field = e.path;
+			throw new Meteor.Error('Erro de tipagem no schema', `Erro de tipagem no schema. Verifique se o campo "${field}" está correto.`);
+		}
 
 		return newDataObj;
 	};

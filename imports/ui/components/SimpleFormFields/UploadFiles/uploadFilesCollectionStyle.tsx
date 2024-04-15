@@ -14,7 +14,7 @@
 
  */
 
-import { secondary } from '/imports/materialui/styles';
+import { secondary } from '/imports/ui/materialui/styles';
 
 const backgroundColor = 'rgba(255,255,255,0.3)';
 const uploadFilesStyle: {
@@ -47,7 +47,8 @@ const uploadFilesStyle: {
 	},
 	containerUploadFiles: {
 		flex: 1,
-		flexDirection: 'column'
+		flexDirection: 'column',
+		width: '100%',
 	},
 	containerShowFiles: {
 		width: '100%'

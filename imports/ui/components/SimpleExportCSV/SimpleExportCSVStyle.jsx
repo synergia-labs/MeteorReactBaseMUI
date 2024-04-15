@@ -13,7 +13,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 
 export const simpleExportCSVStyle = {
     containerDoubleSelect: {

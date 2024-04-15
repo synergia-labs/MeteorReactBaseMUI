@@ -1,6 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { userprofileServerApi } from '../userprofile/api/UserProfileServerApi';
+import { userprofileServerApi } from '../modules/userprofile/api/UserProfileServerApi';
 import { getHTMLEmailTemplate } from './email';
 import req from 'request';
 

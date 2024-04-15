@@ -3,7 +3,7 @@ import _ from 'lodash';
 import TextField from '@mui/material/TextField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import InputBase from '@mui/material/InputBase';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import omit from 'lodash/omit';
 import { createStyles, Theme } from '@mui/material/styles';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';

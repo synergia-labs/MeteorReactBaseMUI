@@ -4,7 +4,7 @@ const config: StorybookConfig = {
 	'stories': [
 		'../stories/**/*.mdx', 
 		'../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-		'../imports/**/*.stories.mdx',
+		'../imports/**/*.mdx',
     	'../imports/**/*.stories.@(js|jsx|ts|tsx)'
 	],
 	'addons': [
@@ -13,7 +13,6 @@ const config: StorybookConfig = {
         '@storybook/addon-onboarding',
         '@storybook/addon-interactions',
         '@storybook/addon-themes',
-        '@storybook/themes',
     ],
 	'framework': {
 		'name': '@storybook/react-webpack5',

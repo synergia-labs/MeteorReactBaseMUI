@@ -15,7 +15,7 @@ import Box from '@mui/material/Box';
 
 import { isMobile } from '/imports/libs/deviceVerify';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import { Typography } from '@mui/material';
 
 interface IOption {

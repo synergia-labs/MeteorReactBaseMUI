@@ -1,6 +1,7 @@
 import { IDoc } from '/imports/typings/IDoc';
+import { ISchema } from '/imports/typings/ISchema';
 
-export const exampleSch = {
+export const exampleSch: ISchema<IExample> = {
     image: {
         type: String,
         label: 'Imagem',
@@ -14,7 +15,7 @@ export const exampleSch = {
     },
     title: {
         type: String,
-        label: 'Título',
+        label: 'Nome',
         defaultValue: '',
         optional: false,
     },
@@ -24,47 +25,48 @@ export const exampleSch = {
         defaultValue: '',
         optional: true,
     },
+
     check: {
-        type: Object,
-        label: 'check box',
+        type: Array<String>,
+        label: 'Grupos associados',
         defaultValue: {},
         optional: true,
-        options: ['Todo', 'Doing', 'Done'],
+        options: () => [
+            { value: 'Grupo 1', label: 'Grupo 1' },
+            { value: 'Grupo 2', label: 'Grupo 2' },
+            { value: 'Grupo 3', label: 'Grupo 3' },
+        ],
     },
     type: {
         type: String,
-        label: 'Tipo',
+        label: 'Categoria',
         defaultValue: '',
         optional: false,
-        options: [
-            { value: 'normal', label: 'Normal' },
-            { value: 'hard', label: 'Dificil' },
-            { value: 'internal', label: 'Interna' },
-            { value: 'extra', label: 'Extra' },
+        options: () => [
+            { value: 'Categoria A', label: 'Categoria A' },
+            { value: 'Categoria B', label: 'Categoria B' },
+            { value: 'Categoria C', label: 'Categoria C' },
         ],
     },
     typeMulti: {
-        type: [String],
-        label: 'Tipo com vários valores',
-        defaultValue: '',
+        type: String,
+        label: 'Prioridade',
         optional: false,
-        multiple: true,
-        visibilityFunction: (doc: any) => !!doc.type && doc.type === 'extra',
-        options: [
-            { value: 'normal', label: 'Normal' },
-            { value: 'extra', label: 'Extra' },
-            { value: 'minimo', label: 'Minimo' },
+        options: () => [
+            { value: 'alta', label: 'Alta' },
+            { value: 'media', label: 'Média' },
+            { value: 'baixa', label: 'Baixa' },
         ],
     },
     date: {
         type: Date,
-        label: 'Data',
+        label: 'Data de fabricação',
         defaultValue: '',
         optional: true,
     },
     files: {
         type: [Object],
-        label: 'Arquivos',
+        label: 'Anexos',
         defaultValue: '',
         optional: true,
         isUpload: true,
@@ -75,12 +77,12 @@ export const exampleSch = {
         defaultValue: '',
         optional: true,
     },
-    contacts: {
-        type: Object,
-        label: 'Contatos',
-        defaultValue: '',
-        optional: true,
-        subSchema: {
+     contacts: {
+         type: Object,
+         label: 'Contatos',
+         defaultValue: '',
+         optional: true,
+         subSchema: {
             phone: {
                 type: String,
                 label: 'Telefone',
@@ -97,6 +99,7 @@ export const exampleSch = {
             },
         },
     },
+   
     tasks: {
         type: [Object],
         label: 'Tarefas',
@@ -141,14 +144,14 @@ export const exampleSch = {
     },
     statusRadio: {
         type: String,
-        label: 'Status RadioButton',
+        label: 'Prioridade',
         defaultValue: '',
         optional: true,
-        radiosList: ['Todo', 'Doing', 'Done'],
+        radiosList: ['Baixa', 'Média', 'Alta'],
     },
     statusToggle: {
         type: Boolean,
-        label: 'Status Toogle',
+        label: 'Exigir comprovação',
         defaultValue: false,
         optional: true,
     },
@@ -158,7 +161,17 @@ export interface IExample extends IDoc {
     image: string;
     title: string;
     description: string;
+    check: Array<string>;
+    type: string;
+    typeMulti: string;
+    date: Date;
+    files: object[];
+    chip: string[];
+    contacts: object;
+    tasks: object[];
     audio: string;
-    statusCheck: object;
+    address: object;
+    slider: number;
+    statusRadio: string;
     statusToggle: boolean;
 }

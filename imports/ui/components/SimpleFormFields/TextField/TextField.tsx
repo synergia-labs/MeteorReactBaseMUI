@@ -2,7 +2,7 @@ import React from 'react';
 import InputBase from '@mui/material/InputBase';
 import TextField from '@mui/material/TextField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 
 interface ITextFieldSimpleFormComponent extends IBaseSimpleFormComponent {
@@ -150,7 +150,7 @@ export default ({
 				display: 'flex',
 				flexDirection: 'column',
 				...appStyle.fieldContainer,
-				...(containerStyle ? containerStyle : {})
+				...(containerStyle ? containerStyle : {width: '100%'})
 			}}>
 			{label && !otherProps.rounded ? (
 				<SimpleLabelView label={label} help={help} style={style ? { displayLabel: style.displayLabel } : undefined} />

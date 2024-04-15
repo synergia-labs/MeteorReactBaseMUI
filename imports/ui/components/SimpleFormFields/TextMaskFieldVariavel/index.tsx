@@ -11,7 +11,7 @@ import { createStyles, Theme } from '@mui/material/styles';
 
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 
 export default ({

@@ -1,8 +1,8 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import { Loading } from '/imports/ui/components/Loading/Loading';
+import { SysLoading } from '../ui/components/sysLoading/sysLoading';
 
-const asyncComponent = (importingComponent, LoadingComponent = () => <Loading />) =>
+const asyncComponent = (importingComponent, LoadingComponent = () => <Loading/>) =>
 	Loadable({
 		loader: typeof importingComponent === 'function' ? importingComponent : () => importingComponent,
 		loading: LoadingComponent // Loading screen when asynchronously importing component
