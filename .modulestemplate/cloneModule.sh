@@ -14,15 +14,7 @@ valida_resposta() {
     done
 }
 
-# Pergunta ao usuário se deseja criar um módulo com provider
-respostaProvider=$(valida_resposta "Deseja criar um módulo com provider? (s/n) ")
-
-# Define o nome do diretório de origem com base na resposta
-if [ "$respostaProvider" = "s" ] || [ "$respostaProvider" = "S" ]; then
-    origem="example"
-else
-    origem="example"
-fi
+origem="example"
 
 # Pergunta o nome do novo módulo
 read -p "Qual o nome do novo módulo? " destino
