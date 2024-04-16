@@ -13,6 +13,8 @@ import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioBut
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
+import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
+import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 
 const ExampleDetailView = () => {
 	const controller = useContext(ExampleDetailControllerContext);
@@ -58,6 +60,8 @@ const ExampleDetailView = () => {
 							max={200}
 						/>
 						<SysUploadFile name="files" />
+						<SysSlider name="slider" />
+						<SysLocationField name="address" />
 					</ExampleDetailStyles.formColumn>
 					<ExampleDetailStyles.formColumn>
 						<SysCheckBox name="check" alignment="row" />

@@ -29,7 +29,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 
 		this.addPublication('exampleDetail', (filter = {}) => {
 			return this.defaultDetailCollectionPublication(filter, {
-				projection: {contacts: 1, title: 1, description: 1, type: 1, typeMulti: 1, date: 1, files: 1, chip: 1, statusRadio: 1, statusToggle: 1, slider: 1, check: 1},
+				projection: {contacts: 1, title: 1, description: 1, type: 1, typeMulti: 1, date: 1, files: 1, chip: 1, statusRadio: 1, statusToggle: 1, slider: 1, check: 1, address: 1},
 			});
 		});
 

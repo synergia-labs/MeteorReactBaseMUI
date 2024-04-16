@@ -23,6 +23,7 @@ import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { schemaFormated } from './interface/sysFormSch';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
+import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);
@@ -139,6 +140,7 @@ const SysFormPlaygroundView: React.FC = () => {
 						<SysTextField name="otherFavorite" placeholder="Informe seu tipo favorito de mídia e um exemplo" />
 						<SysRadioButton name="rate" alignment="row" />
 						<SysLocationField name="address" />
+						<SysSlider name="temperature" />
 						<SysFormButton sx={{ alignSelf: 'flex-start' }} startIcon={<CheckOutlinedIcon />}>
 							Enviar
 						</SysFormButton>
