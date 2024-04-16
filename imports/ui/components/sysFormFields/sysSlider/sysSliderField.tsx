@@ -52,7 +52,7 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 	loading = loading || controllerSysForm.loading;
 	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
 
-	const [valueState, setValueState] = useState<number>();
+	const [valueState, setValueState] = useState<number>(defaultValue || 0);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 
@@ -67,7 +67,7 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 
 	const handleChange = (event: Event, newValue: number | number[]) => {
 		setValueState(newValue as number);
-		if (inSysFormContext) controllerSysForm?.onChangeComponentValue?.({ refComponent: refObject!, value: valueState });
+		if (inSysFormContext) controllerSysForm?.onChangeComponentValue?.({ refComponent: refObject!, value: newValue });
 		onChange?.(event);
 	};
 
