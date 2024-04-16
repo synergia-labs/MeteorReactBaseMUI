@@ -1,10 +1,10 @@
 import { ApiBase } from '/imports/api/base';
 import { getUser } from '/imports/libs/getUser';
 
-import { IProductBaseOptions } from '../../shared/typings/IBaseOptions';
+import { IProductBaseOptions } from '/imports/typings/IBaseOptions';
 import { Meteor } from 'meteor/meteor';
-import { IDoc } from '/shared/typings/IDoc';
-import { ISchema } from '/shared/typings/ISchema';
+import { IDoc } from '/imports/typings/IDoc';
+import { ISchema } from '/imports/typings/ISchema';
 
 export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
 	private enableCallMethodObserver: boolean | undefined;
@@ -95,18 +95,15 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
 
 	getImageThumbnail(field: string, _id: string) {
 		const date = new Date();
-		const path = `${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
-		return path;
+		return `${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
 	}
 	getImageURL(field: string, _id: string) {
 		const date = new Date();
-		const path = `${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
-		return path;
+		return `${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
 	}
 
 	getAudioURL(field: string, _id: string) {
 		const date = new Date();
-		const path = `${Meteor.absoluteUrl()}audio/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
-		return path;
+		return `${Meteor.absoluteUrl()}audio/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
 	}
 }
