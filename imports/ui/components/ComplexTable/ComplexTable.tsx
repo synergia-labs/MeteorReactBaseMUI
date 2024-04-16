@@ -3,7 +3,6 @@ import {
 	DataGrid,
 	GridActionsCellItem,
 	GridColumnHeaderParams,
-	GridColumns,
 	GridFilterModel,
 	GridRenderCellParams,
 	GridRowId,
@@ -11,7 +10,8 @@ import {
 	GridRowParams,
 	MuiEvent,
 	ptBR,
-	GRID_CHECKBOX_SELECTION_COL_DEF
+	GRID_CHECKBOX_SELECTION_COL_DEF,
+	GridColumnGroupHeaderParams
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
@@ -19,23 +19,11 @@ import Box from '@mui/material/Box';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import { Variant } from '@mui/material/styles/createTypography';
-import { complexTableStyle } from './ComplexTableStyle';
+import { ComplexTableContainer, ComplexTableRenderImg, ComplexTableRowText } from './ComplexTableStyle';
 import { Toolbar } from './Toolbar';
-import { GridColumnGroupHeaderParams, GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
-import { Chip, Tooltip } from '@mui/material';
-import {
-	amareloClaro,
-	aquaClaro,
-	cinza30,
-	cinza90,
-	cinzaClaro,
-	onBackground,
-	onPrimaryContainer,
-	onSecondaryContainer,
-	primaryContainer,
-	secondaryContainer,
-	verdeEscuro
-} from '/imports/materialui/styles';
+import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
+import { IconButton, Tooltip } from '@mui/material';
+
 
 interface ISchema {
 	[key: string]: any;
@@ -162,10 +150,6 @@ interface IComplexTableProps {
 	 */
 	id?: 'complexTable';
 	/**
-	 * Prop que muda a height padrão do componente;
-	 */
-	heightCustomizada?: string;
-	/**
 	 * Prop que define o valor inicial da seleção de linhas na tabela. É um array com IDs de elementos na tabela.
 	 */
 	selectionModel?: GridRowId[];
@@ -247,7 +231,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		onEdit,
 		openFilterModal,
 		getId,
-		heightCustomizada,
 		selectionModel,
 		setSelectionModel,
 		groupColumns,
@@ -280,16 +263,15 @@ export const ComplexTable = (props: IComplexTableProps) => {
 					textOverflow: 'ellipsis',
 					overflow: 'hidden',
 					whiteSpace: 'nowrap',
-					color: onBackground
 				}}
-				variant={'labelMedium' ?? 'h5'}>
+				variant='subtitle2'>
 				{params.colDef.headerName}
 			</Typography>
 		</Tooltip>
 	);
 
 	const renderHeaderGroup = (params: GridColumnGroupHeaderParams) => (
-		<Typography variant={headerVariant ?? 'h5'}>{params.headerName}</Typography>
+		<Typography variant='subtitle2'>{params.headerName}</Typography>
 	);
 
 	const transformGroup = (params: GridColumnGroupingModel) => {
@@ -304,33 +286,13 @@ export const ComplexTable = (props: IComplexTableProps) => {
 
 	const groupColumsTransform = groupColumns ? transformGroup(groupColumns) : undefined;
 
-	const columns: GridColumns = Object.keys(schema).map((key: string) => {
+	const columns: any = Object.keys(schema).map((key: string) => {
 		return {
 			field: key,
 			headerName: schema[key].label,
 			flex: 1,
-			align:
-				schema[key].label === 'Duração' ||
-				schema[key].label === 'Nível de risco' ||
-				schema[key].label === 'Contém registros' ||
-				schema[key].label === 'Eventos' ||
-				schema[key].label === 'Registrado em' ||
-				schema[key].label === 'Cód.' ||
-				schema[key].label === 'Empresa' ||
-				schema[key].label === 'Situação'
-					? 'center'
-					: 'flex-start',
-			headerAlign:
-				schema[key].label === 'Duração' ||
-				schema[key].label === 'Eventos' ||
-				schema[key].label === 'Contém registros' ||
-				schema[key].label === 'Nível de risco' ||
-				schema[key].label === 'Registrado em' ||
-				schema[key].label === 'Cód.' ||
-				schema[key].label === 'Empresa' ||
-				schema[key].label === 'Situação'
-					? 'center'
-					: 'flex-start',
+			align: 'left',
+			headerAlign: 'left',
 			sortable: disableSorting ? false : true,
 			minWidth: fieldsMinWidthColumnModified?.hasOwnProperty(key) ? fieldsMinWidthColumnModified[key] : 150,
 			maxWidth: fieldsMaxWidthColumnModified?.hasOwnProperty(key) ? fieldsMaxWidthColumnModified[key] : 'auto',
@@ -341,9 +303,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				? (params: GridRenderCellParams) => {
 						if (schema[key].isImage || schema[key].isAvatar) {
 							return (
-								<Box
-									component="img"
-									sx={complexTableStyle.renderImg}
+								<ComplexTableRenderImg
 									src={params.value}
 									onError={(e: React.BaseSyntheticEvent) => {
 										e.target.onerror = null;
@@ -351,40 +311,15 @@ export const ComplexTable = (props: IComplexTableProps) => {
 									}}
 								/>
 							);
-						} else if (params.field === 'statusCaminhamento') {
-							if (params.value === 'FINALIZADO') params.value = 'EXECUTADO';
-							return params.value ? (
-								<Chip
-									variant="outlined"
-									label={`${params.value.charAt(0).toUpperCase() + params.value.slice(1).toLowerCase()}`}
-									sx={{
-										...complexTableStyle.chips
-									}}
-								/>
-							) : null;
-						} else if (params.field === 'quantidadeEventos') {
-							return params.value ? (
-								<Chip
-									variant="outlined"
-									label={params.value}
-									sx={{
-										...complexTableStyle.chips,
-										background: amareloClaro,
-										color: cinza30
-									}}
-								/>
-							) : (
-								<Typography variant="bodySmall">-</Typography>
-							);
-						} else {
+						}  else {
 							const paramsValue = !params.value || params.value === 'undefined - undefined' ? '-' : params.value;
 							const value = transformData(paramsValue, schema[key].type, schema[key].renderKey);
 							const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
 							return (
 								<Tooltip title={value} arrow={true}>
-									<Typography variant={variant} color={onBackground} sx={complexTableStyle.rowText}>
+									<ComplexTableRowText variant='body2'>
 										{value}
-									</Typography>
+									</ComplexTableRowText>
 								</Tooltip>
 							);
 						}
@@ -404,22 +339,11 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		(!!actions && actions.length > 0) ||
 		(!!conditionalActions && conditionalActions.length > 0)
 	) {
-		let maxWidthActions = 70;
-
-		if (conditionalActions && conditionalActions.length > 1) {
-			maxWidthActions = conditionalActions.length * 70;
-		} else if (actions && actions.length > 1) {
-			maxWidthActions = actions.length * 70;
-		}
-
 		columns.push({
 			field: 'actions',
 			type: 'actions',
 			headerName: 'Ações',
-			flex: 0.5,
-			minWidth: 168,
-			maxWidth: maxWidthActions,
-			headerAlign: 'center',
+			headerAlign: 'left',
 			hideable: false,
 			renderHeader,
 			getActions: (params: GridRowParams) => {
@@ -437,13 +361,13 @@ export const ComplexTable = (props: IComplexTableProps) => {
 					conditionalActions.forEach((action: IConditionalAction) => {
 						if (action.condition(params.row)) {
 							renderActions.push({
-								icon: action.if.icon,
+								icon: <IconButton> {action.if.icon} </IconButton>,
 								label: action.if.label,
 								onClick: action.if.onClick
 							});
 						} else if (!!action.else) {
 							renderActions.push({
-								icon: action.else.icon,
+								icon: <IconButton>{action.else.icon}</IconButton>,
 								label: action.else.label,
 								onClick: action.else.onClick
 							});
@@ -457,7 +381,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							label={action.label}
 							icon={typeof action.icon === 'function' ? action.icon(params.row) : action.icon}
 							disabled={!!action.disabled}
-							sx={complexTableStyle.actionsMenu}
 							onClick={(evt: React.SyntheticEvent) => {
 								evt.stopPropagation();
 								action.onClick(params.row);
@@ -481,19 +404,16 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	}, [selectionModel]);
 
 	return (
-		<Box sx={{ ...complexTableStyle.container, height: heightCustomizada ?? '90%' }}>
+		<ComplexTableContainer>
 			<DataGrid
-				sx={complexTableStyle.hideScrollBar}
-				autoHeight={autoHeight ?? true}
-				// experimentalFeatures={{ columnGrouping: true }}
-				// columnGroupingModel={groupColumsTransform ?? undefined}
 				rows={data}
 				columns={columns}
 				rowCount={data?.length}
+				autoHeight={autoHeight ?? true}
 				localeText={locale}
 				getRowId={!!getId ? getId : (row) => row._id}
-				onSelectionModelChange={(newSelection) => setSelection(newSelection)}
-				selectionModel={selection}
+				onRowSelectionModelChange={(newSelection) => setSelection(newSelection)}
+				rowSelectionModel={selection}
 				onRowClick={
 					!!onRowClick
 						? (params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
@@ -503,11 +423,11 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						: undefined
 				}
 				getRowHeight={() => 'auto'}
-				components={{
-					Toolbar: Toolbar,
-					BaseSwitch: Checkbox
+				slots={{
+					toolbar: Toolbar,
+					baseSwitch: Checkbox
 				}}
-				componentsProps={{
+				slotProps={{
 					toolbar: {
 						buttonVariant,
 						toolbarOptions: toolbar,
@@ -515,13 +435,29 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						filterIconWidth
 					},
 					columnsPanel: {
-						sx: { ...complexTableStyle.columnsPanel }
+						sx: { 
+							'& .MuiInputBase-root': {
+								border: 'none'
+							},
+							'& .MuiDataGrid-panelHeader': {
+								margin: '0.5rem 0.5rem 0.25rem 0.5rem'
+							},
+							'& .MuiDataGrid-columnsPanel ': {
+								margin: '0 0.25rem 0 0.25rem'
+							},
+							'& .MuiDataGrid-panelFooter': {
+								margin: '0.75rem'
+							}
+						 }
 					},
 					baseButton: {
 						sx: {
 							pb: '0.3em',
 							pt: '0.3em'
 						}
+					},
+					pagination:{
+						labelRowsPerPage: 'Itens por página',
 					}
 				}}
 				filterMode={!!onFilterChange ? 'server' : 'client'}
@@ -534,11 +470,15 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						: undefined
 				}
 				loading={loading ?? undefined}
-				hideFooter
 				checkboxSelection={disableCheckboxSelection ? false : true}
 				disableColumnFilter
 				disableColumnMenu
+				initialState={{
+					pagination: { paginationModel: { pageSize: 15 } },
+				  }}
+				pageSizeOptions={[15,20,25]}
+
 			/>
-		</Box>
+		</ComplexTableContainer>
 	);
 };

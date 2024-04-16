@@ -4,7 +4,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import SelectMunicipioDistritoField from './SelectMunicipioDistritoField';
 import SelectField from '/imports/ui/components/SimpleFormFields/SelectField/SelectField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 
 import { hasValue } from '/imports/libs/hasValue';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';

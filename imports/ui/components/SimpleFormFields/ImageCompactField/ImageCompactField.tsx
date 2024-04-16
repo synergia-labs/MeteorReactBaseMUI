@@ -7,12 +7,11 @@ import { isMobile } from '/imports/libs/deviceVerify';
 import { hasValue } from '/imports/libs/hasValue';
 
 import { compactImageStyle } from './ImageCompactFieldStyle';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
-import { showNotification } from '/imports/ui/AppGeneralComponents';
 
 export default ({
     name,

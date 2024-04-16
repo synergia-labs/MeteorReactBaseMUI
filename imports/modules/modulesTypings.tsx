@@ -1,23 +1,33 @@
 import React from 'react';
+import { SysTemplateOptions } from '/imports/ui/templates/getTemplate';
 
-export interface IAppMenu {
+interface IAppMenu {
     path?: string;
     name?: string;
     isProtected?: boolean;
-    icon?: React.ReactFragment;
+    icon?: React.ReactNode;
 }
-export interface IRoute {
+interface IRoute {
     path?: string;
     component:
-        | React.ReactFragment
+        | React.ReactNode
         | React.Component
         | React.FunctionComponent<any>
         | React.ComponentType<any>;
     isProtected?: boolean;
     exact?: string | boolean | undefined;
     resources?: string[];
+    templateVariant?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+    templateMenuOptions?: (IAppMenu | null)[];
+    templateProps?: any;
 }
-export interface IModules {
-    modulesRouterList: (IRoute | null)[];
-    modulesAppMenuItemList: (IAppMenu | null)[];
+interface IModuleHub {
+    pagesRouterList: (IRoute | null)[];
+    pagesMenuItemList: (IAppMenu | null)[];
+}
+
+export {
+    IAppMenu,
+    IRoute,
+    IModuleHub
 }

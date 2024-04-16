@@ -1,20 +1,42 @@
-export interface IBaseSimpleFormComponent {
-    name: string;
-    label?: string;
-    placeholder?: string;
-    value?: any;
-    onChange?: (fieldTarget: React.ChangeEvent<HTMLInputElement>, field: object) => void;
-    onKeyPress?: (e: React.SyntheticEvent<Element, Event>, a: any) => void;
-    action?: IAction;
-    readOnly?: boolean;
-    error?: boolean;
-    schema?: any;
-    otherProps?: any;
-    style?: object;
-    help?: string;
+
+interface IOption {
+	/** Label do elemento.*/
+	label: string;
+	/** Valor do elemento.*/
+	value: any;
+    description?: string;
 }
 
-interface IAction {
-    icon: string;
-    onClick: (e: React.SyntheticEvent<Element, Event>, a: any) => void;
+export interface IBaseSimpleFormComponent {
+    name: string;
+    label?: string | undefined;
+    value?: any;
+    disabled?: boolean;
+    loading?: boolean;
+    onChange?: (e: any) => void;
+    readOnly?: boolean;
+    error?: string | undefined;
+    tooltipMessage?: string;
+    defaultValue?: any;
+    options?: Array<IOption>;
+	helpIcon?: boolean;
+    showRequired?: boolean;
+    requiredIndicator?: string;
+	positionTooltip?:
+        | 'bottom-end'
+        | 'bottom-start'
+        | 'bottom'
+        | 'left-end'
+        | 'left-start'
+        | 'left'
+        | 'right-end'
+        | 'right-start'
+        | 'right'
+        | 'top-end'
+        | 'top-start'
+        | 'top'
+        | undefined;
 }
+
+export type ISysFormComponent<T> = Omit<T, 'name' | 'label' | 'onChange' | 'loading' | 'value' | 'defaultValue' | 'error' | 'positionTooltip'> & IBaseSimpleFormComponent;
+export type { IOption };

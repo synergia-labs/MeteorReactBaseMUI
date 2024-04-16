@@ -5,7 +5,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 
 import localidades from './localidades.json';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import * as appStyle from '/imports/materialui/styles';
+import * as appStyle from '/imports/ui/materialui/styles';
 
 const filterOptions = createFilterOptions({
 	matchFrom: 'any',
