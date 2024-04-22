@@ -1,17 +1,33 @@
 import { Recurso as Exemplo } from '/imports/modules/example/config/Recursos';
-import {Recurso as Usuarios} from '/imports/modules/userprofile/config/Recurso';
+import { Recurso as Usuarios } from '/imports/modules/userprofile/config/Recurso';
 import { RoleType } from '/imports/security/config/RoleType';
 import { HomeResources, SysFormTestPageResources } from '/imports/sysPages/config/resources';
 
 type MapRolesRecursos = {
-    [key: string]: string[];
+	[key: string]: string[];
 };
 
-// @ts-ignore
-function obterStringsEnum(enumValue: { [s: number]: string | number }): [string] {
-    // @ts-ignore
-    return Object.values(enumValue).filter((value) => typeof value === 'string');
-}
+const publicRoles: string[] = [];
+
+const usuarioRoles: string[] = [
+	...publicRoles,
+	Exemplo.EXAMPLE_VIEW,
+	Exemplo.EXAMPLE_CREATE,
+	Exemplo.EXAMPLE_UPDATE,
+	Exemplo.EXAMPLE_REMOVE,
+	HomeResources.HOME_VIEW,
+	HomeResources.HOME_CREATE,
+	HomeResources.HOME_UPDATE,
+	HomeResources.HOME_REMOVE,
+	SysFormTestPageResources.SYSFORMTESTS_VIEW,
+	SysFormTestPageResources.SYSFORMTESTS_CREATE,
+	SysFormTestPageResources.SYSFORMTESTS_UPDATE,
+	SysFormTestPageResources.SYSFORMTESTS_REMOVE,
+	Usuarios.USUARIO_UPDATE,
+	Usuarios.USUARIO_VIEW
+];
+
+const adminstradorRoles: string[] = [...usuarioRoles, Usuarios.USUARIO_CREATE, Usuarios.USUARIO_REMOVE];
 
 /**
  * Mapeamento entre as roles (perfil de usuário) e os recursos.
@@ -25,37 +41,7 @@ function obterStringsEnum(enumValue: { [s: number]: string | number }): [string]
  *
  */
 export const mapRolesRecursos: MapRolesRecursos = {
-    [RoleType.ADMINISTRADOR]: [
-        Exemplo.EXAMPLE_VIEW,
-        Exemplo.EXAMPLE_CREATE,
-        Exemplo.EXAMPLE_UPDATE,
-        Exemplo.EXAMPLE_REMOVE,
-        HomeResources.HOME_VIEW,
-        HomeResources.HOME_CREATE,
-        HomeResources.HOME_UPDATE,
-        HomeResources.HOME_REMOVE,
-        SysFormTestPageResources.SYSFORMTESTS_VIEW,
-        SysFormTestPageResources.SYSFORMTESTS_CREATE,
-        SysFormTestPageResources.SYSFORMTESTS_UPDATE,
-        SysFormTestPageResources.SYSFORMTESTS_REMOVE,
-        Usuarios.USUARIO_CREATE,
-        Usuarios.USUARIO_REMOVE,
-        Usuarios.USUARIO_UPDATE,
-        Usuarios.USUARIO_VIEW,
-    ],
-    [RoleType.USUARIO]: [
-        Exemplo.EXAMPLE_VIEW,
-        Exemplo.EXAMPLE_CREATE,
-        Exemplo.EXAMPLE_UPDATE,
-        Exemplo.EXAMPLE_REMOVE,
-        HomeResources.HOME_VIEW,
-        HomeResources.HOME_CREATE,
-        HomeResources.HOME_UPDATE,
-        HomeResources.HOME_REMOVE,
-        SysFormTestPageResources.SYSFORMTESTS_VIEW,
-        SysFormTestPageResources.SYSFORMTESTS_CREATE,
-        SysFormTestPageResources.SYSFORMTESTS_UPDATE,
-        SysFormTestPageResources.SYSFORMTESTS_REMOVE,
-    ],
-    [RoleType.PUBLICO]: [],
+	[RoleType.ADMINISTRADOR]: adminstradorRoles,
+	[RoleType.USUARIO]: usuarioRoles,
+	[RoleType.PUBLICO]: publicRoles
 };
