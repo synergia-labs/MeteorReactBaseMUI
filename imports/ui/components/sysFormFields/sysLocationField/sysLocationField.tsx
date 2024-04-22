@@ -112,7 +112,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 		onChange?.(e);
 	};
 
-	const [selectedValue, setSelectedValue] = useState(null);
+	const [selectedValue, setSelectedValue] = useState<string | null>(null);
 
 	const handleOnChange = (evt: React.ChangeEvent<{}>, selected: any, nome: string) => {
 		let newValue;
@@ -168,6 +168,18 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 			setFilteredLocalidades([]);
 		}
 	}, [valueState?.estado]);
+
+	React.useEffect(() => {
+		let str = '';
+		if (valueState?.municipio != null) {
+			if (valueState?.distrito) {
+				str = `${valueState?.municipio} - ${valueState?.distrito}`;
+			} else {
+				str = `${valueState?.municipio}`;
+			}
+			setSelectedValue(str);
+		}
+	}, [valueState?.municipio]);
 
 	if (!visibleState) return null;
 

@@ -113,6 +113,11 @@ const sysFormPlaygroundSch: ISchema<ISysFormPlaygroundSch> = {
 		isMapLocation: true,
 		optional: true
 	},
+	temperature: {
+		type: Number,
+		label: 'Temperatura',
+		optional: true
+	},
 	rate: {
 		type: String,
 		label: 'Nota',
@@ -139,6 +144,7 @@ interface ISysFormPlaygroundSch extends IDoc {
 	otherFavorite?: string;
 	rate?: string;
 	address?: object;
+	temperature: number;
 }
 
 export { sysFormPlaygroundSch };
