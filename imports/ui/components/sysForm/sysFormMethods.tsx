@@ -106,7 +106,7 @@ class SysFormMethods {
 				else docValues[key] = SysFormMethods.getDocValues(doc[key] as IDocRef, subSchema);
 			}
 
-			return Object.fromEntries(Object.entries(docValues).filter(([_, value]) => hasValue(value)));
+			return Object.fromEntries(Object.entries(docValues)); //.filter(([_, value]) => hasValue(value))); //ToDo Removido porque estava gerando erro durante o update. Avaliar se vale a pena mantê-lo durante a criação.
 		} catch (error) {
 			throw new Error(`[SysFormMethods.getDocValues] ${error}`);
 		}
