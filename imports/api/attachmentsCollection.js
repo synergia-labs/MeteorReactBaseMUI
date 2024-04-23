@@ -1,6 +1,5 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 import { Meteor } from 'meteor/meteor';
-import { nanoid } from 'nanoid';
 
 let uploadPaths = null;
 if (Meteor.isServer) {

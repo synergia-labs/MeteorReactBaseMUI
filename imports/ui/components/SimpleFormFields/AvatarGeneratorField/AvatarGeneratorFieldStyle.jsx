@@ -15,18 +15,18 @@
  */
 
 const avatarGeneratorStyle = {
-    selectImage: {
-        cursor: 'pointer',
-        fontSize: '12px',
-        // fontFamily: '"PT"',
-        fontWeight: 400,
-        lineHeight: 1,
-        letterSpacing: '0.00938em',
-        color: 'rgba(108, 104, 104)',
-    },
-    containerEmptyAvatar: {
-        color: '#BBB',
-    },
+	selectImage: {
+		cursor: 'pointer',
+		fontSize: '12px',
+		// fontFamily: '"PT"',
+		fontWeight: 400,
+		lineHeight: 1,
+		letterSpacing: '0.00938em',
+		color: 'rgba(108, 104, 104)'
+	},
+	containerEmptyAvatar: {
+		color: '#BBB'
+	}
 };
 
 export { avatarGeneratorStyle };

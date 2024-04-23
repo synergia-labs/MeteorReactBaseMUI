@@ -28,7 +28,7 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 	placement,
 	helpIcon,
 	showRequired,
-	requiredIndicator = '*',
+	requiredIndicator = '*'
 }) => {
 	return (
 		<SysLabelViewStyles.container sx={sxMap?.container}>

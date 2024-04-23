@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, styled, Typography } from '@mui/material';
 import { sysSizing } from '../../../materialui/styles';
 

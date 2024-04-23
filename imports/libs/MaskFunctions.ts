@@ -46,9 +46,7 @@ export const mascaraPontosFixos = (value: string | undefined): string => {
 	}
 };
 
-
 export const generalMask = (inputValue?: string, mask?: string): string => {
-
 	if (!mask) return inputValue || '';
 
 	let text: string = '';

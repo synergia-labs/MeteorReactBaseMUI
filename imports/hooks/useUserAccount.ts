@@ -15,9 +15,8 @@ export const cleanUserCache = () => del('userId', accountStore);
 export const useUserAccount = () =>
 	useTracker(() => {
 		const isConnected = Meteor.status().connected;
-		
+
 		if (!isConnected) {
-			
 			return {
 				user: undefined,
 				userId: undefined,
@@ -52,10 +51,9 @@ export const useUserAccount = () =>
 			subHandle.ready() && meteorUser
 				? userprofileApi.findOne({
 						email: meteorUser ? meteorUser.profile.email : null
-				  })
+					})
 				: null;
 
-				
 		return {
 			user,
 			userId,

@@ -29,10 +29,10 @@ export const getLocalidade = () => {
 			l.municipio.microrregiao && l.municipio.microrregiao.mesorregiao && l.municipio.microrregiao.mesorregiao.UF
 				? l.municipio.microrregiao.mesorregiao.UF.sigla
 				: l['regiao-imediata'] &&
-				  l.municipio['regiao-imediata']['regiao-intermediaria'] &&
-				  l.municipio['regiao-imediata']['regiao-intermediaria'].UF
-				? l.municipio['regiao-imediata']['regiao-intermediaria'].UF.sigla
-				: null;
+					  l.municipio['regiao-imediata']['regiao-intermediaria'] &&
+					  l.municipio['regiao-imediata']['regiao-intermediaria'].UF
+					? l.municipio['regiao-imediata']['regiao-intermediaria'].UF.sigla
+					: null;
 
 		return {
 			u: uf,
@@ -114,14 +114,14 @@ export default ({
 		value.estado && value.estado.id
 			? bemculturalLocalidade.filter(
 					(x) => x.municipio.microrregiao.mesorregiao.UF.id === value.estado.id && x.municipio.nome === x.nome
-			  )
+				)
 			: bemculturalLocalidade.filter((x) => x.municipio.nome === x.nome);
 
 	const distritos = (municipio) =>
 		municipio && municipio.nome
 			? bemculturalLocalidade.filter(
 					(x) => x.municipio.nome === value.municipio.nome && x.nome !== value.municipio.nome
-			  )
+				)
 			: [];
 	const onChangeFields = (evt: React.BaseSyntheticEvent, nameField: string, values: [string]) => {
 		onChange(

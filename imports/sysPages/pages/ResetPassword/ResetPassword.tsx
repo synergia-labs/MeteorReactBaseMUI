@@ -5,11 +5,10 @@ import { Accounts } from 'meteor/accounts-base';
 import TextField from '../../../ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { SysAppLayoutContext } from '/imports/app/AppLayout';
-import { useNavigate } from 'react-router-dom';
 import SignInStyles from '../signIn/signInStyles';
 import DoneIcon from '@mui/icons-material/Done';
 

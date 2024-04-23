@@ -3,7 +3,6 @@ import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { SxProps, Theme } from '@mui/material';
 import { IOption, ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import { SysFormContext } from '../../sysForm/sysForm';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import FormControl from '@mui/material/FormControl';

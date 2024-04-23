@@ -1,35 +1,28 @@
-import React, { ReactNode, createContext } from "react";
-import { useUserAccount } from "../hooks/useUserAccount";
-import { ISysAppContext } from "../typings/BoilerplateDefaultTypings";
+import React, { createContext, ReactNode } from 'react';
+import { useUserAccount } from '../hooks/useUserAccount';
+import { ISysAppContext } from '../typings/BoilerplateDefaultTypings';
 
 const SysAppContext = createContext<ISysAppContext>({
-    isLoggedIn: false,
-    user: null, 
-    userLoading: false,
+	isLoggedIn: false,
+	user: null,
+	userLoading: false
 } as ISysAppContext);
 
-const AppContainer : React.FC<{children: ReactNode}> = ({ children }) => {
-    const { user, userLoading, isLoggedIn } = useUserAccount();
+const AppContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
+	const { user, userLoading, isLoggedIn } = useUserAccount();
 
-    const providerValue : ISysAppContext = {
-        isLoggedIn,
-        user,
-        userLoading
-    }
+	const providerValue: ISysAppContext = {
+		isLoggedIn,
+		user,
+		userLoading
+	};
 
-    return (
-        <SysAppContext.Provider value={providerValue}>
-            {children}
-        </SysAppContext.Provider>
-    )
-}
+	return <SysAppContext.Provider value={providerValue}>{children}</SysAppContext.Provider>;
+};
 
-export {
-    AppContainer,
-    SysAppContext
-}
+export { AppContainer, SysAppContext };
 
-/* 
+/*
     Adicione nesse provider valores de contexto globais que você queira acessar em qualquer lugar da aplicação.
     exemplo:
         * Dados do usuário logado

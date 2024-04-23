@@ -8,6 +8,6 @@ import GoogleOAuthInit from './oauth-google';
 import { Meteor } from 'meteor/meteor';
 
 Meteor.startup(() => {
-    FacebookOAuthInit();
-    GoogleOAuthInit();
+	FacebookOAuthInit();
+	GoogleOAuthInit();
 });

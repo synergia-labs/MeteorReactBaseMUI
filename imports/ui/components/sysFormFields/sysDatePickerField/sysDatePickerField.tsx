@@ -1,14 +1,14 @@
 import React, { useContext, useRef, useState } from 'react';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SxProps, Theme } from '@mui/material';
 import { SysViewField } from '../sysViewField/sysViewField';
 import Box from '@mui/material/Box';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
-import SysTextField, { ISysTextFieldProps } from '../sysTextField/sysTextField';
+import { ISysTextFieldProps } from '../sysTextField/sysTextField';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 

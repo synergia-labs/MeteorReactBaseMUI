@@ -1,50 +1,45 @@
-import React from "react";
-import { IShowDialogProps } from "../../SysDialog";
-import { Button, DialogActions, DialogTitle } from "@mui/material";
-import { deleteDialogStyles } from "./deleteDialogStyles";
+import React from 'react';
+import { IShowDialogProps } from '../../SysDialog';
+import { Button, DialogActions, DialogTitle } from '@mui/material';
+import { deleteDialogStyles } from './deleteDialogStyles';
 
 interface IDeleteDialogProps extends IShowDialogProps {
-    showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
+	showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
 	closeDialog: (
-		event?: {}, 
-		reason?: "backdropClick" | "escapeKeyDown", 
-		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+		event?: {},
+		reason?: 'backdropClick' | 'escapeKeyDown',
+		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
 	) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
-    // Adicione aqui os demais métodos e propriedades que o componente de diálogo precisa.
-    onDeleteConfirm?: () => void;
+	// Adicione aqui os demais métodos e propriedades que o componente de diálogo precisa.
+	onDeleteConfirm?: () => void;
 }
 
-function DeleteDialog({
-    showDialog,
-    closeDialog,
-    onDeleteConfirm,
-    title,
-    ...props
-}: IDeleteDialogProps){
-    
-    showDialog({
-        ...props,
-        sx: deleteDialogStyles.box,
-        header:(
-            <DialogTitle variant="subtitle1" sx={{padding: 0}}>
-                {title}
-            </DialogTitle>
-        ),
-        actions: (
-            <DialogActions sx={deleteDialogStyles.actions}>
-                <Button variant="outlined" onClick={closeDialog}>
-                    Cancelar
-                </Button>
-                <Button variant="contained" onClick={() => {
-                    onDeleteConfirm?.();
-                    closeDialog();
-                }}>
-                    Excluir
-                </Button>
-            </DialogActions>
-        )
-    });
-};
+function DeleteDialog({ showDialog, closeDialog, onDeleteConfirm, title, ...props }: IDeleteDialogProps) {
+	showDialog({
+		...props,
+		sx: deleteDialogStyles.box,
+		header: (
+			<DialogTitle variant="subtitle1" sx={{ padding: 0 }}>
+				{title}
+			</DialogTitle>
+		),
+		actions: (
+			<DialogActions sx={deleteDialogStyles.actions}>
+				<Button variant="outlined" onClick={closeDialog}>
+					Cancelar
+				</Button>
+				<Button
+					variant="contained"
+					onClick={() => {
+						onDeleteConfirm?.();
+						closeDialog();
+					}}>
+					Excluir
+				</Button>
+			</DialogActions>
+		)
+	});
+}
 
 export default DeleteDialog;
 

@@ -51,26 +51,26 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 		if (userProfile) {
 			return userProfile;
 		}
-        const d = new Date();
-        const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
-        const id = connection && connection.id ? simpleDate + connection.id : nanoid();
+		const d = new Date();
+		const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
+		const id = connection && connection.id ? simpleDate + connection.id : nanoid();
 
-        return {
-            email: '',
-            username: '',
-            _id: id,
-            roles: [EnumUserRoles.PUBLICO],
-        };
-    } catch (e) {
-        const d = new Date();
-        const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
-        const id = connection && connection.id ? simpleDate + connection.id : nanoid();
-        return {
-            id,
-            _id: id,
-            roles: [EnumUserRoles.PUBLICO],
-        };
-    }
+		return {
+			email: '',
+			username: '',
+			_id: id,
+			roles: [EnumUserRoles.PUBLICO]
+		};
+	} catch (e) {
+		const d = new Date();
+		const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
+		const id = connection && connection.id ? simpleDate + connection.id : nanoid();
+		return {
+			id,
+			_id: id,
+			roles: [EnumUserRoles.PUBLICO]
+		};
+	}
 };
 
 const SYSTEM_USER: Readonly<{

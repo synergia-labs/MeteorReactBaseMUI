@@ -1,5 +1,5 @@
-import React, { ElementType } from 'react';
-import { Avatar, AvatarProps, Box, BoxProps, Theme, styled } from '@mui/material';
+import { ElementType } from 'react';
+import { Avatar, AvatarProps, Box, BoxProps, styled, Theme } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISysAvatarStyles {
@@ -43,6 +43,6 @@ const SysAvatarStyles: ISysAvatarStyles = {
 			outline: 'none'
 		}
 	}))
-}
+};
 
 export default SysAvatarStyles;

@@ -195,7 +195,7 @@ Meteor.startup(() => {
 					? {
 							_id: params.user._id,
 							username: params.user.username
-					  }
+						}
 					: '-'
 			);
 

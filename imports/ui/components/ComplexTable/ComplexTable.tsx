@@ -1,7 +1,9 @@
 import React from 'react';
 import {
 	DataGrid,
+	GRID_CHECKBOX_SELECTION_COL_DEF,
 	GridActionsCellItem,
+	GridColumnGroupHeaderParams,
 	GridColumnHeaderParams,
 	GridFilterModel,
 	GridRenderCellParams,
@@ -9,13 +11,10 @@ import {
 	GridRowIdGetter,
 	GridRowParams,
 	MuiEvent,
-	ptBR,
-	GRID_CHECKBOX_SELECTION_COL_DEF,
-	GridColumnGroupHeaderParams
+	ptBR
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
-import Box from '@mui/material/Box';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import { Variant } from '@mui/material/styles/createTypography';
@@ -24,12 +23,12 @@ import { Toolbar } from './Toolbar';
 import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
 import { IconButton, Tooltip } from '@mui/material';
 
-
 interface ISchema {
 	[key: string]: any;
 }
 
 type onClickFunction = (row: any) => void;
+
 interface IAction {
 	icon: JSX.Element | ((doc: any) => JSX.Element);
 	label: string;
@@ -160,10 +159,10 @@ interface IComplexTableProps {
 	/**
 	 * Prop que controla os grupos de colunas. É necessario passar um objeto com o seguinte esquema para essa prop
 	 * obj:{
-	 *  	groupId: <id_do_grupo>
-	 * 		headerName: <nome_da_coluna_do_grupo>
-	 * 		children:[{field: <campo_no_esquema_para_agrupar>}]
-	 * 	}
+	 *    groupId: <id_do_grupo>
+	 *    headerName: <nome_da_coluna_do_grupo>
+	 *    children:[{field: <campo_no_esquema_para_agrupar>}]
+	 *  }
 	 */
 	groupColumns?: GridColumnGroupingModel;
 
@@ -262,16 +261,16 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				sx={{
 					textOverflow: 'ellipsis',
 					overflow: 'hidden',
-					whiteSpace: 'nowrap',
+					whiteSpace: 'nowrap'
 				}}
-				variant='subtitle2'>
+				variant="subtitle2">
 				{params.colDef.headerName}
 			</Typography>
 		</Tooltip>
 	);
 
 	const renderHeaderGroup = (params: GridColumnGroupHeaderParams) => (
-		<Typography variant='subtitle2'>{params.headerName}</Typography>
+		<Typography variant="subtitle2">{params.headerName}</Typography>
 	);
 
 	const transformGroup = (params: GridColumnGroupingModel) => {
@@ -311,19 +310,17 @@ export const ComplexTable = (props: IComplexTableProps) => {
 									}}
 								/>
 							);
-						}  else {
+						} else {
 							const paramsValue = !params.value || params.value === 'undefined - undefined' ? '-' : params.value;
 							const value = transformData(paramsValue, schema[key].type, schema[key].renderKey);
 							const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
 							return (
 								<Tooltip title={value} arrow={true}>
-									<ComplexTableRowText variant='body2'>
-										{value}
-									</ComplexTableRowText>
+									<ComplexTableRowText variant="body2">{value}</ComplexTableRowText>
 								</Tooltip>
 							);
 						}
-				  }
+					}
 				: renderCellModified
 		};
 	});
@@ -419,7 +416,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						? (params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
 								event.stopPropagation();
 								onRowClick(params);
-						  }
+							}
 						: undefined
 				}
 				getRowHeight={() => 'auto'}
@@ -435,7 +432,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						filterIconWidth
 					},
 					columnsPanel: {
-						sx: { 
+						sx: {
 							'& .MuiInputBase-root': {
 								border: 'none'
 							},
@@ -448,7 +445,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							'& .MuiDataGrid-panelFooter': {
 								margin: '0.75rem'
 							}
-						 }
+						}
 					},
 					baseButton: {
 						sx: {
@@ -456,8 +453,8 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							pt: '0.3em'
 						}
 					},
-					pagination:{
-						labelRowsPerPage: 'Itens por página',
+					pagination: {
+						labelRowsPerPage: 'Itens por página'
 					}
 				}}
 				filterMode={!!onFilterChange ? 'server' : 'client'}
@@ -466,7 +463,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						? (model: GridFilterModel) => {
 								const search = model.quickFilterValues![0] ? model.quickFilterValues![0] : '';
 								onFilterChange(search);
-						  }
+							}
 						: undefined
 				}
 				loading={loading ?? undefined}
@@ -474,10 +471,9 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				disableColumnFilter
 				disableColumnMenu
 				initialState={{
-					pagination: { paginationModel: { pageSize: 15 } },
-				  }}
-				pageSizeOptions={[15,20,25]}
-
+					pagination: { paginationModel: { pageSize: 15 } }
+				}}
+				pageSizeOptions={[15, 20, 25]}
 			/>
 		</ComplexTableContainer>
 	);

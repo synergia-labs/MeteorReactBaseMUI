@@ -1,6 +1,6 @@
 import React from 'react';
 import SysTabsStyles from './sysTabsStyles';
-import { SxProps, Theme } from '@mui/system';
+import {SxProps, Theme} from '@mui/system';
 
 /**
  * Interface para representar uma aba em um sistema de abas.

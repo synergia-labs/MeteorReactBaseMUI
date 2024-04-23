@@ -32,5 +32,5 @@ mapa.set('SP', 'São Paulo');
 mapa.set('TO', 'Tocantins');
 
 export const converterSiglaParaNome = (val: string) => {
-    return mapa.get(val.toUpperCase());
+	return mapa.get(val.toUpperCase());
 };

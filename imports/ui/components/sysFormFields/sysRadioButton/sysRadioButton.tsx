@@ -37,17 +37,16 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	positionTooltip,
 	helpIcon,
 	alignment = 'column',
-	showRequired, 
+	showRequired,
 	requiredIndicator,
 	sxMap,
 	...otherProps
 }) => {
-
 	const controllerSysForm = useContext(SysFormContext);
 	const inSysFormContext = hasValue(controllerSysForm);
 
-	const refObject =  !inSysFormContext ? null : useRef<ISysFormComponentRef>({name, value: value || defaultValue});
-	if(inSysFormContext) controllerSysForm.setRefComponent(refObject!);
+	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
+	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 	const schema = refObject?.current.schema;
 
 	options = options || refObject?.current.options || ([] as any);
@@ -59,19 +58,20 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	defaultValue = refObject?.current.value || schema?.defaultValue;
 	showRequired = showRequired || (!!schema && !schema?.optional);
 
-	const [valueState, setValueState]     = useState<string>(defaultValue || '');
+	const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
-	const [errorState, setErrorState] 	  = useState<string | undefined>(error);
+	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
 
-	if(inSysFormContext) controllerSysForm.setInteractiveMethods({
-		componentRef: refObject!,
-		clearMethod: () => setValueState(''),
-		setValueMethod: (value) => setValueState(value),
-		changeVisibilityMethod: (visible) => setVisibleState(visible),
-		setErrorMethod: (error) => setErrorState(error),
-		setOptionsMethod: (options) => setOptionsState(options),
-	});
+	if (inSysFormContext)
+		controllerSysForm.setInteractiveMethods({
+			componentRef: refObject!,
+			clearMethod: () => setValueState(''),
+			setValueMethod: (value) => setValueState(value),
+			changeVisibilityMethod: (visible) => setVisibleState(visible),
+			setErrorMethod: (error) => setErrorState(error),
+			setOptionsMethod: (options) => setOptionsState(options)
+		});
 
 	function onFieldChange(e: React.BaseSyntheticEvent) {
 		const newValue = e.target.value;
@@ -97,26 +97,24 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 				helpIcon={helpIcon}
 				showRequired={showRequired}
 				requiredIndicator={requiredIndicator}
-				sx={sxMap?.container}
-			>
+				sx={sxMap?.container}>
 				<RadioGroup
 					value={valueState}
 					name="controlled-radio-buttons-group"
 					onChange={onFieldChange}
 					sx={[
 						{
-							flexDirection: alignment, 
-							flexWrap: 'wrap',
-						}, 
-						...(Array.isArray(sxMap?.radioGroup) ? sxMap?.radioGroup : [sxMap?.radioGroup]) 
-					]}
-				>
+							flexDirection: alignment,
+							flexWrap: 'wrap'
+						},
+						...(Array.isArray(sxMap?.radioGroup) ? sxMap?.radioGroup : [sxMap?.radioGroup])
+					]}>
 					{optionsState &&
 						optionsState.map((opt) => (
 							<FormControlLabel
 								key={opt.value}
 								value={opt.value}
-								control={<Radio {...otherProps}/>}
+								control={<Radio {...otherProps} />}
 								label={opt.label}
 								disabled={disabled || loading}
 							/>

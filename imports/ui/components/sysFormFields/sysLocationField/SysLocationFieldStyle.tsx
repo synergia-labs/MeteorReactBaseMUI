@@ -1,5 +1,4 @@
-import React from 'react';
-import { styled, Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, styled, TextField } from '@mui/material';
 
 interface IAutoComplete {
 	onlyEstado: boolean;

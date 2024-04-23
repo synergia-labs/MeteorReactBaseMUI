@@ -6,12 +6,12 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { ApiBase } from '/imports/api/base';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { Mongo } from 'meteor/mongo';
-import Selector = Mongo.Selector;
 import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 import { SxProps } from '@mui/system';
 import { IDoc } from '/imports/api/IDoc';
 import * as appStyle from '/imports/ui/materialui/styles';
 import ClearIcon from '@mui/icons-material/Clear';
+import Selector = Mongo.Selector;
 
 interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {
 	api: ApiBase<T>;
@@ -73,7 +73,7 @@ export default function SearchDocField<T extends IDoc>({
 	placeholder,
 	showAll = false,
 	showCompletDoc = false,
-	onDocLoad = () => { },
+	onDocLoad = () => {},
 	style,
 	isSearchId
 }: SearchDocApiProps<T>) {
@@ -103,10 +103,9 @@ export default function SearchDocField<T extends IDoc>({
 				ready && isTextLengthGreaterThanMin ? api.find({}, { sort: sortCondition }).fetch() : [];
 
 			const options = optionsSemValidar.filter((word) => {
-				return (isSearchId ?
-					unidecode(word.codigo).toLowerCase().includes(unidecode(text).toLowerCase())
-					: unidecode(word.nome).toLowerCase().includes(unidecode(text).toLowerCase())
-				)
+				return isSearchId
+					? unidecode(word.codigo).toLowerCase().includes(unidecode(text).toLowerCase())
+					: unidecode(word.nome).toLowerCase().includes(unidecode(text).toLowerCase());
 			});
 
 			if (sortFront) options.sort(sortFront);
@@ -150,12 +149,12 @@ export default function SearchDocField<T extends IDoc>({
 				style
 					? style
 					: {
-						width: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-						marginTop: '0.5rem',
-						...appStyle.fieldContainer
-					}
+							width: '100%',
+							display: 'flex',
+							flexDirection: 'column',
+							marginTop: '0.5rem',
+							...appStyle.fieldContainer
+						}
 			}
 			key={name}>
 			{label ? <SimpleLabelView label={label} help={help} disabled={readOnly} /> : null}

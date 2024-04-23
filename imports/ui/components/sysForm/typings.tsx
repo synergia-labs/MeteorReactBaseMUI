@@ -1,6 +1,6 @@
-import { MutableRefObject, RefObject } from "react";
-import { IDefField, ISchema } from "/imports/typings/ISchema";
-import { IOption, ISysFormComponent } from "../InterfaceBaseSimpleFormComponent";
+import { MutableRefObject } from 'react';
+import { IDefField, ISchema } from '/imports/typings/ISchema';
+import { IOption } from '../InterfaceBaseSimpleFormComponent';
 
 interface IDocValues {
 	[key: string]: any;
@@ -20,32 +20,46 @@ interface ISysForm {
 	loading?: boolean;
 	onChange?: (doc: any) => void;
 	onSubmit?: (doc: any) => void;
-    submitWithKeyEnter?: boolean;
+	submitWithKeyEnter?: boolean;
 	validateOnChange?: boolean | Array<string>;
 	children?: React.ReactNode;
 }
 
 interface ISysFormRef {
 	getFieldWithErrors(): { [key: string]: string };
+
 	getDocValues(): IDocValues;
+
 	clearForm(): void;
+
 	validateFields(): void;
+
 	submit(): void;
+
 	getComponentRef(name: string): MutableRefObject<ISysFormComponentRef>;
+
 	getComponentsRef(): IDocRef;
+
 	validateIndividualField(name: string): void;
+
 	checkVisibility: () => void;
 	checkVisibilityField: (name: string) => boolean;
 }
 
 interface ISysFormContext {
-	mode : 'view' | 'edit' | 'create';
+	mode: 'view' | 'edit' | 'create';
 	loading: boolean;
 	disabled: boolean;
 	docId?: string;
 	setRefComponent: (component: MutableRefObject<ISysFormComponentRef>) => void;
 	setButtonRef: (button: MutableRefObject<ISysFormButtonRef>) => void;
-	onChangeComponentValue: ({refComponent, value}: {refComponent: MutableRefObject<ISysFormComponentRef>, value: any}) => void;
+	onChangeComponentValue: ({
+		refComponent,
+		value
+	}: {
+		refComponent: MutableRefObject<ISysFormComponentRef>;
+		value: any;
+	}) => void;
 	setInteractiveMethods: ({
 		componentRef,
 		clearMethod,
@@ -53,7 +67,7 @@ interface ISysFormContext {
 		changeVisibilityMethod,
 		setErrorMethod,
 		setOptionsMethod
-	}:{
+	}: {
 		componentRef: MutableRefObject<ISysFormComponentRef>;
 		clearMethod: () => void;
 		setValueMethod: (value: any) => void;
@@ -95,15 +109,14 @@ interface IOnChangeDocValue {
 	value: any;
 }
 
-
 export type {
-    IDocValues,
+	IDocValues,
 	IDocRef,
-    ISysForm,
-    ISysFormRef,
+	ISysForm,
+	ISysFormRef,
 	ISysFormButtonRef,
-    ISysFormState,
-    IOnChangeDocValue,
-    ISysFormContext,
+	ISysFormState,
+	IOnChangeDocValue,
+	ISysFormContext,
 	ISysFormComponentRef
-}
+};

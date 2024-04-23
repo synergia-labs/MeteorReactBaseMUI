@@ -12,7 +12,6 @@ import { hasValue } from '/imports/libs/hasValue';
 
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { checkBoxStyle } from './CheckBoxFieldStyle';
-import { read } from 'fs';
 
 interface ICheckBoxSimpleFormComponent extends IBaseSimpleFormComponent {
 	/**
@@ -51,8 +50,8 @@ export default ({
 		otherProps.checksList && hasValue(otherProps.checksList)
 			? otherProps.checksList
 			: schema && hasValue(schema.checksList)
-			? schema.checksList
-			: null;
+				? schema.checksList
+				: null;
 
 	return (
 		<div style={error ? checkBoxStyle.fieldError : undefined}>

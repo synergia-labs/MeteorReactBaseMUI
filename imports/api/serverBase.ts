@@ -4,12 +4,11 @@ import { hasValue } from '../libs/hasValue';
 import { getUser } from '/imports/libs/getUser';
 import { Mongo, MongoInternals } from 'meteor/mongo';
 import { ClientSession, MongoClient } from 'mongodb';
-import { Meteor, Subscription } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import sharp from 'sharp';
 import { countsCollection } from '/imports/api/countCollection';
 import { Validador } from '/imports/libs/Validador';
-import Selector = Mongo.Selector;
 import { segurancaApi } from '/imports/security/api/SegurancaApi';
 import { WebApp } from 'meteor/webapp';
 // @ts-ignore
@@ -24,6 +23,7 @@ import { IDoc } from '../typings/IDoc';
 import { IBaseOptions } from '../typings/IBaseOptions';
 import { IConnection } from '../typings/IConnection';
 import { IUserProfile } from '../modules/userprofile/api/UserProfileSch';
+import Selector = Mongo.Selector;
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -48,6 +48,7 @@ interface IApiRestImage {
 	addRoute: (path: string, handle: any) => void;
 	addThumbnailRoute: (path: string, handle: any) => void;
 }
+
 interface IApiRestAudio {
 	addRoute: (path: string, handle: any) => void;
 }
@@ -346,13 +347,15 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		});
 
-
-		try{
+		try {
 			if (objForCheck.sincronizadoEm) check(objForCheck, { ...newSchema, sincronizadoEm: Date });
 			else check(objForCheck, newSchema);
-		}catch(e:any){
+		} catch (e: any) {
 			const field = e.path;
-			throw new Meteor.Error('Erro de tipagem no schema', `Erro de tipagem no schema. Verifique se o campo "${field}" está correto.`);
+			throw new Meteor.Error(
+				'Erro de tipagem no schema',
+				`Erro de tipagem no schema. Verifique se o campo "${field}" está correto.`
+			);
 		}
 
 		return newDataObj;
@@ -377,6 +380,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			doc.updatedby = userId;
 		}
 	}
+
 	_prepareDocForUpdate = (doc: Doc, oldDoc: any, nullValues: { [key: string]: string }) => {
 		const newDoc: any = {};
 		Object.keys(doc).forEach((key: any) => {
@@ -542,6 +546,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		}
 	}
+
 	initApiRest() {
 		if (Meteor.isServer) {
 			this.apiRestAudio = {

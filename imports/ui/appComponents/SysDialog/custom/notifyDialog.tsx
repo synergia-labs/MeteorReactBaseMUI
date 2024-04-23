@@ -1,11 +1,11 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import { IShowDialogProps } from '../SysDialog';
 import { Box, DialogContent, DialogTitle, IconButton, styled } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Header = styled(Box)(({}) => ({
 	display: 'flex',
-	justifyContent: 'flex-end',
+	justifyContent: 'flex-end'
 }));
 
 const Body = styled(DialogContent)(({}) => ({
@@ -15,32 +15,26 @@ const Body = styled(DialogContent)(({}) => ({
 	flexDirection: 'column',
 	height: '100%',
 	'& .MuiSvgIcon-root': {
-		fontSize: '7rem',
+		fontSize: '7rem'
 	}
 }));
 
 interface INotifyDialogProps {
-    showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
+	showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
 	closeDialog: (
-		event?: {}, 
-		reason?: "backdropClick" | "escapeKeyDown", 
-		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+		event?: {},
+		reason?: 'backdropClick' | 'escapeKeyDown',
+		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
 	) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
-    title?: string;
-    duration?: number;
-    icon: ReactNode;
+	title?: string;
+	duration?: number;
+	icon: ReactNode;
 }
 
-function NotifyDialog({
-	showDialog,
-	closeDialog,
-	title,
-	duration,
-	icon,
-}: INotifyDialogProps){
+function NotifyDialog({ showDialog, closeDialog, title, duration, icon }: INotifyDialogProps) {
 	showDialog({
 		duration,
-		sx : {
+		sx: {
 			minHeight: '250px'
 		},
 		children: (
@@ -57,6 +51,6 @@ function NotifyDialog({
 			</>
 		)
 	});
-};
+}
 
 export default NotifyDialog;

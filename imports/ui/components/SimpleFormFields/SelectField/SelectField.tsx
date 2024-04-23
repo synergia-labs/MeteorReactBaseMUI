@@ -1,11 +1,9 @@
 import React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import Chip from '@mui/material/Chip';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { hasValue } from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import InputBase from '@mui/material/InputBase';
 import * as appStyle from '/imports/ui/materialui/styles';
 import omit from 'lodash/omit';
 import MenuItem from '@mui/material/MenuItem';
@@ -26,6 +24,7 @@ interface IOtherProps {
 	description?: string;
 	menuNone?: boolean;
 	menuNotSelected?: boolean;
+
 	[otherPropsKey: string]: any;
 }
 
@@ -89,7 +88,7 @@ export default ({
 											color={'primary'}
 										/>
 									);
-							  })}
+								})}
 					</div>
 				</div>
 			);
@@ -202,12 +201,12 @@ export default ({
 					...(style
 						? style
 						: {
-								borderColor: '#C7C7D1',
-						  }),
+								borderColor: '#C7C7D1'
+							}),
 					...{
 						border: error ? '1px solid #ff0000' : 'undefined',
 						borderRadius: '8px'
-					},
+					}
 				}}
 				value={hasValue(value) ? value : multiple ? [] : ''}
 				onChange={onChangeSelect}

@@ -1,18 +1,18 @@
 import { Theme } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
-import { NavigateFunction, Location } from 'react-router-dom';
+import { Location, NavigateFunction } from 'react-router-dom';
 import { IShowNotificationProps } from '/imports/ui/appComponents/showNotification/showNotification';
 import { IShowDialogProps } from '/imports/ui/appComponents/SysDialog/SysDialog';
 import { IShowDrawerProps } from '/imports/ui/appComponents/showDrawer/showDrawer';
 import { IUserProfile } from '../modules/userprofile/api/UserProfileSch';
 
-
 export interface ISysAppContext {
-    isLoggedIn: boolean;
-    user?: IUserProfile | undefined | null;
-    userLoading: boolean
+	isLoggedIn: boolean;
+	user?: IUserProfile | undefined | null;
+	userLoading: boolean;
 }
+
 export interface ISysThemeOptions {
 	darkMode: boolean;
 	fontScale: number;
@@ -21,72 +21,68 @@ export interface ISysThemeOptions {
 	setFontScale: (fontScale: number) => void;
 }
 
-export interface ISysAppLayoutContext extends ISysThemeOptions{
+export interface ISysAppLayoutContext extends ISysThemeOptions {
 	showNotification: (options?: IShowNotificationProps) => void;
-	closeNotification:(
-		event?: React.SyntheticEvent | Event, 
-        reason?: string, 
-        callBack?: (event?: React.SyntheticEvent | Event, reason?: string,) => void
+	closeNotification: (
+		event?: React.SyntheticEvent | Event,
+		reason?: string,
+		callBack?: (event?: React.SyntheticEvent | Event, reason?: string) => void
 	) => void;
 	showDialog: (options?: IShowDialogProps) => void;
 	closeDialog: (
-		event?: {}, 
-		reason?: "backdropClick" | "escapeKeyDown", 
-		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+		event?: {},
+		reason?: 'backdropClick' | 'escapeKeyDown',
+		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
 	) => void;
 	showDrawer: (options?: IShowDrawerProps) => void;
 	closeDrawer: (
-		event?: {}, 
-		reason?: "backdropClick" | "escapeKeyDown",
-		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+		event?: {},
+		reason?: 'backdropClick' | 'escapeKeyDown',
+		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
 	) => void;
 	showModal: (options?: IShowDialogProps) => void;
 	closeModal: (
-		event?: {}, 
-		reason?: "backdropClick" | "escapeKeyDown", 
-		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+		event?: {},
+		reason?: 'backdropClick' | 'escapeKeyDown',
+		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
 	) => void;
 	showWindow: (options?: IShowDialogProps) => void;
 	closeWindow: (
-		event?: {}, 
-		reason?: "backdropClick" | "escapeKeyDown", 
-		callBack?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void
+		event?: {},
+		reason?: 'backdropClick' | 'escapeKeyDown',
+		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
 	) => void;
 }
 
-export interface ISysGeneralComponentsCommon{
-	/** 
-     * Controla a visibilidade do componente. 
-     * **Gerenciado automaticamente pelo provider e não deve ser usada diretamente**.
-	*/
+export interface ISysGeneralComponentsCommon {
+	/**
+	 * Controla a visibilidade do componente.
+	 * **Gerenciado automaticamente pelo provider e não deve ser usada diretamente**.
+	 */
 	open?: boolean;
-	/** 
+	/**
 	 * Função chamada para fechar o componente.
 	 * **Gerenciado automaticamente pelo provider e não deve ser usada diretamente**.
-	*/
+	 */
 	close?: (...props: any) => void;
-	/** 
+	/**
 	 * Função de callback chamada quando o estado do componente é alterado para true.
 	 */
 	onOpen?: (...props: any) => void;
 	/** Função de callback chamada quando o estado do componente é alterado para false*/
 	onClose?: (...props: any) => void;
 	/** Tempo em milissegundos para fechamento automático do diálogo, útil para alertas temporários. */
-    duration?: number;
+	duration?: number;
 }
-
 
 export interface IBoilerplateShowMethods {
 	showModal?: (options?: Object) => void;
 	showCompartilhar?: (anchorEl: any, link: string) => void;
 	showDialog?: (options?: Object) => void;
 	showDeleteDialog?: (title: string, message: string, doc: Object, remove: (doc: any) => void) => void;
-	showDrawer?: (options?: Object) => void; 
+	showDrawer?: (options?: Object) => void;
 	showWindow?: (options?: Object) => void;
 }
-
-
-
 
 export interface IDefaultContainerProps extends IBoilerplateShowMethods {
 	themeOptions: any;
@@ -107,6 +103,7 @@ export interface IDefaultContainerProps extends IBoilerplateShowMethods {
 }
 
 export interface IDefaultDetailProps extends IDefaultContainerProps {}
+
 export interface IDefaultListProps extends IDefaultContainerProps {
 	navigate: NavigateFunction;
 	user: IUserProfile;

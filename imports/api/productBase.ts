@@ -10,6 +10,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
 	private enableCallMethodObserver: boolean | undefined;
 	private enableSubscribeObserver: boolean | undefined;
 	private _tmpLastSubscribeRegister: string | undefined;
+
 	constructor(apiName: string, apiSch: ISchema<Doc>, options?: IProductBaseOptions | undefined) {
 		super(apiName, apiSch, options);
 
@@ -97,6 +98,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
 		const date = new Date();
 		return `${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
 	}
+
 	getImageURL(field: string, _id: string) {
 		const date = new Date();
 		return `${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;

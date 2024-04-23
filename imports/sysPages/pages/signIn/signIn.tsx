@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
-import React, { useContext, useEffect, } from 'react';
+import React, { useContext, useEffect } from 'react';
 import SignInStyles from './signInStyles';
 import { Meteor } from 'meteor/meteor';
 import { SysAppLayoutContext } from '/imports/app/AppLayout';
@@ -59,34 +59,15 @@ const SignInPage: React.FC = () => {
 
 				<SignInStyles.formContainer>
 					<Typography variant="h5">Acesse o sistema</Typography>
-					<SysForm 
-						schema={signInSchema} 
-						onSubmit={handleSubmit}
-						debugAlerts={false}
-					>
+					<SysForm schema={signInSchema} onSubmit={handleSubmit} debugAlerts={false}>
 						<SignInStyles.formWrapper>
-							<SysTextField
-								name= 'email'
-								label="Email"
-								fullWidth
-								placeholder='Digite seu email'
-							/>
-							<SysTextField
-								label="Senha"
-								fullWidth
-								name="password"
-								placeholder="Digite sua senha"
-								type="password"
-							/>
+							<SysTextField name="email" label="Email" fullWidth placeholder="Digite seu email" />
+							<SysTextField label="Senha" fullWidth name="password" placeholder="Digite sua senha" type="password" />
 							<Button variant="text" sx={{ alignSelf: 'flex-end' }} onClick={handleForgotPassword}>
 								<Typography variant="link">Esqueci minha senha</Typography>
 							</Button>
 							<Box />
-							<SysFormButton 
-								variant="contained"
-								color="primary"
-								endIcon={<ArrowForwardRoundedIcon />}
-							>
+							<SysFormButton variant="contained" color="primary" endIcon={<ArrowForwardRoundedIcon />}>
 								Entrar
 							</SysFormButton>
 						</SignInStyles.formWrapper>

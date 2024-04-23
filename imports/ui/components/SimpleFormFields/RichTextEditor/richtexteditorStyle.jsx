@@ -15,9 +15,9 @@
  */
 
 const richtextStyle = {
-    containerQLFont: {
-        width: 200,
-    },
+	containerQLFont: {
+		width: 200
+	}
 };
 
 export { richtextStyle };

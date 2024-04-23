@@ -1,6 +1,5 @@
-import React from 'react';
 import Typography from '@mui/material/Typography';
-import { Box, styled, Button } from '@mui/material';
+import { Box, Button, styled } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface IContainer {

@@ -3,6 +3,7 @@ import { Recurso } from '../config/Recursos';
 import { exampleSch, IExample } from './exampleSch';
 import { userprofileServerApi } from '/imports/modules/userprofile/api/UserProfileServerApi';
 import { ProductServerBase } from '/imports/api/productServerBase';
+
 // endregion
 
 class ExampleServerApi extends ProductServerBase<IExample> {
@@ -18,7 +19,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			'exampleList',
 			(filter = {}) => {
 				return this.defaultListCollectionPublication(filter, {
-					projection: {  title: 1, type: 1, typeMulti: 1, createdat: 1}
+					projection: { title: 1, type: 1, typeMulti: 1, createdat: 1 }
 				});
 			},
 			(doc: IExample & { nomeUsuario: string }) => {
@@ -29,7 +30,21 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 
 		this.addPublication('exampleDetail', (filter = {}) => {
 			return this.defaultDetailCollectionPublication(filter, {
-				projection: {contacts: 1, title: 1, description: 1, type: 1, typeMulti: 1, date: 1, files: 1, chip: 1, statusRadio: 1, statusToggle: 1, slider: 1, check: 1, address: 1},
+				projection: {
+					contacts: 1,
+					title: 1,
+					description: 1,
+					type: 1,
+					typeMulti: 1,
+					date: 1,
+					files: 1,
+					chip: 1,
+					statusRadio: 1,
+					statusToggle: 1,
+					slider: 1,
+					check: 1,
+					address: 1
+				}
 			});
 		});
 
@@ -45,7 +60,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 
 		this.addRestEndpoint(
 			'view/:exampleId',
-			(params, options) => {
+			(params, _options) => {
 				console.log('Rest', params);
 				if (params.exampleId) {
 					return self

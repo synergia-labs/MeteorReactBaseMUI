@@ -3,8 +3,6 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
 import { attachmentsCollection } from '/imports/api/attachmentsCollection';
-
-import { isMobile } from '/imports/libs/deviceVerify';
 import Box from '@mui/material/Box';
 
 import LibraryBooks from '@mui/icons-material/LibraryBooks';
@@ -395,8 +393,8 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 												item.status && item.status === 'InProgress' && item.index === this.currentFileUpload
 													? this.state.progress
 													: item.status && item.status === 'InProgress'
-													? 0
-													: 100
+														? 0
+														: 100
 											}
 										/>
 									) : item.size / 1024 < 1000 ? (
@@ -463,7 +461,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 													item.status && item.status === 'InProgress'
 														? {
 																barColorSecondary: appStyle.onBackground
-														  }
+															}
 														: undefined
 												}
 												variant="determinate"
@@ -471,8 +469,8 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 													item.status && item.status === 'InProgress' && item.index === this.currentFileUpload
 														? this.state.progress
 														: item.status && item.status === 'InProgress'
-														? 0
-														: 100
+															? 0
+															: 100
 												}
 											/>
 										) : item.size / 1024 < 1000 ? (
@@ -491,7 +489,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 							</Tooltip>
 						</ListItem>
 					);
-			  })
+				})
 			: null;
 
 	getConteudoDropzoneEmUpload = () => <Box sx={uploadFilesStyle.containerStatusUpload}>{'Enviando'}</Box>;
@@ -766,8 +764,8 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 											border: this.props.error
 												? '1px dashed red'
 												: isDragActive
-												? `1px dashed ${appStyle.onBackground}`
-												: '1px dashed rgb(189, 189, 189)'
+													? `1px dashed ${appStyle.onBackground}`
+													: '1px dashed rgb(189, 189, 189)'
 										}}>
 										<Box />
 										{this.state.inProgress

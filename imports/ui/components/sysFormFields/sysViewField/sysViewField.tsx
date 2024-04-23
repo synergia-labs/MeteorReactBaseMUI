@@ -4,9 +4,8 @@
  * Também permite a personalização dos estilos usando o objeto sxMap.
  */
 import React from 'react';
-import { SysViewFieldStyle } from './sysViewFieldStyles';
-import { SxProps, Theme } from '@mui/system';
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import {SysViewFieldStyle} from './sysViewFieldStyles';
+import {SxProps, Theme} from '@mui/system';
 
 /**
  * Propriedades aceitas pelo componente SysViewField.

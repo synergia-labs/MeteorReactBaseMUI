@@ -1,5 +1,5 @@
 import React from 'react';
-import { AvatarProps, Typography, SxProps, Theme } from '@mui/material';
+import { AvatarProps, SxProps, Theme, Typography } from '@mui/material';
 import SysAvatarStyles from './sysAvatarStyles';
 import { hasValue } from '/imports/libs/hasValue';
 
@@ -24,7 +24,11 @@ export interface SysAvatarProps extends Omit<AvatarProps, 'onCLick'> {
  */
 export const SysAvatar: React.FC<SysAvatarProps> = ({ name, backgroundSx, borderColor, onClick, ...props }) => {
 	return (
-		<SysAvatarStyles.container sx={backgroundSx} onClick={onClick} activeOnClick={hasValue(onClick)} borderColor={borderColor}>
+		<SysAvatarStyles.container
+			sx={backgroundSx}
+			onClick={onClick}
+			activeOnClick={hasValue(onClick)}
+			borderColor={borderColor}>
 			<SysAvatarStyles.avatar {...props} tabIndex={0}>
 				<Typography variant="h3">{name?.[0].toUpperCase()}</Typography>
 			</SysAvatarStyles.avatar>

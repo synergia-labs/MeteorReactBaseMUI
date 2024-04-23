@@ -33,6 +33,7 @@
     "idb-keyval": "^6.2.1",
     "jquery": "^3.7.0",
     "konva": "^9.2.0",
+    "later": "^1.2.0",
     "lodash": "^4.17.21",
     "meteor-node-stubs": "^1.2.5",
     "nanoid": "^4.0.2",

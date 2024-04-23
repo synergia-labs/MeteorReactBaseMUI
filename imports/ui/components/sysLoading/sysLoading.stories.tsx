@@ -20,8 +20,7 @@ export const Default: Story = Template.bind({});
 Default.args = {};
 
 export const CustomStyle: Story = Template.bind({});
-CustomStyle.args = {
-};
+CustomStyle.args = {};
 
 export const CustomLabel: Story = Template.bind({});
 CustomLabel.args = {

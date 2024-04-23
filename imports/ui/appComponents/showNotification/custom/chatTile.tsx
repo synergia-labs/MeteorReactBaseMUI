@@ -1,66 +1,69 @@
-import React from "react";
-import { IShowNotificationProps } from "../showNotification";
-import { Avatar, Box, IconButton, Typography, useTheme } from "@mui/material";
+import React from 'react';
+import { IShowNotificationProps } from '../showNotification';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface IShowNotificationChatProps {
-    // Métodos obrigatórios para toda notificação personalizada
-    showNotification: (options?: IShowNotificationProps) => void;
-	closeNotification:(
-		event?: React.SyntheticEvent | Event, 
-        reason?: string, 
-        callBack?: (event?: React.SyntheticEvent | Event, reason?: string,) => void
+	// Métodos obrigatórios para toda notificação personalizada
+	showNotification: (options?: IShowNotificationProps) => void;
+	closeNotification: (
+		event?: React.SyntheticEvent | Event,
+		reason?: string,
+		callBack?: (event?: React.SyntheticEvent | Event, reason?: string) => void
 	) => void;
 
-    // Métodos e atributos personalizados
-    userName: string;
-    message: string;
-    avatar?: string;
-    duration?: number;
+	// Métodos e atributos personalizados
+	userName: string;
+	message: string;
+	avatar?: string;
+	duration?: number;
 }
 
 function ShowNotificationChat({
-    showNotification,
-    closeNotification,
-    userName,
-    message,
-    avatar,
-    duration,
-}: IShowNotificationChatProps){
-    const showAvatar = avatar ? avatar : userName[0].toUpperCase();
+	showNotification,
+	closeNotification,
+	userName,
+	message,
+	avatar,
+	duration
+}: IShowNotificationChatProps) {
+	const showAvatar = avatar ? avatar : userName[0].toUpperCase();
 
-    showNotification({
-        horizontal: 'right',
-        duration: duration,
-        children: (
-            <Box sx={{
-                display: 'flex', 
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderRadius: '8px',
-                border: '1px solid #ccc',
-                padding: '6px 24px',
-                paddingRight: '12px',
-            }}>
-                <Avatar sx={{mr: 2}}>{showAvatar}</Avatar>
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                    <Typography variant="subtitle1" >{userName}</Typography>
-                    <Typography variant="body2" >{message}</Typography>    
-                </Box>
-                <IconButton onClick={() => closeNotification()} sx={{
-                    alignSelf: 'flex-start',
-                }}>
-                    <CloseIcon />
-                </IconButton>
-            </Box>
-        )
-    });
+	showNotification({
+		horizontal: 'right',
+		duration: duration,
+		children: (
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					borderRadius: '8px',
+					border: '1px solid #ccc',
+					padding: '6px 24px',
+					paddingRight: '12px'
+				}}>
+				<Avatar sx={{ mr: 2 }}>{showAvatar}</Avatar>
+				<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+					<Typography variant="subtitle1">{userName}</Typography>
+					<Typography variant="body2">{message}</Typography>
+				</Box>
+				<IconButton
+					onClick={() => closeNotification()}
+					sx={{
+						alignSelf: 'flex-start'
+					}}>
+					<CloseIcon />
+				</IconButton>
+			</Box>
+		)
+	});
 }
 
 export default ShowNotificationChat;
 
 /* Como usar ?
-import React from 'react'; 
+import React from 'react';
 import ShowNotificationChat from '/imports/ui/appComponents/showNotification/custom/chatTile';
 import { SysAppLayoutContext } from '/imports/ui/layouts/AppLayout';
 

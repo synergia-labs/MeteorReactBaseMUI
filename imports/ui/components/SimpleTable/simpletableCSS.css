@@ -1,102 +1,102 @@
 .mobileTable {
-    border: 1px solid #ccc;
-    border-collapse: collapse;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    table-layout: fixed;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
 }
 
 .mobileTable caption {
-    font-size: 1.5em;
-    margin: 0.5em 0 0.75em;
+  font-size: 1.5em;
+  margin: 0.5em 0 0.75em;
 }
 
 .mobileTable tr {
-    padding: 0.35em;
+  padding: 0.35em;
 }
 
 .mobileTable th,
 .mobileTable td {
-    padding: 0.625em;
-    text-align: left;
+  padding: 0.625em;
+  text-align: left;
 }
 
 .mobileTable th {
-    font-size: 0.85em;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 @media screen and (max-width: 600px) {
-    .mobileTable {
-        border: 0;
-    }
+  .mobileTable {
+    border: 0;
+  }
 
-    .mobileTable caption {
-        font-size: 1.3em;
-    }
+  .mobileTable caption {
+    font-size: 1.3em;
+  }
 
-    .mobileTable thead {
-        border: none;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-    }
+  .mobileTable thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
 
-    .mobileTable tr {
-        border-bottom: 3px solid #ddd;
-        display: block;
-        margin-bottom: 0.625em;
-    }
+  .mobileTable tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
+  }
 
-    .mobileTable td {
-        border-bottom: 1px solid #ddd;
-        display: block;
-        font-size: 0.8em;
-        text-align: right;
-    }
+  .mobileTable td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+  }
 
-    .mobileTable td::before {
-        /*
-        * aria-label has no advantage, it won't be read inside a .mobileTable
-        content: attr(aria-label);
-        */
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
+  .mobileTable td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a .mobileTable
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 
-    .mobileTable td:last-child {
-        border-bottom: 0;
-    }
+  .mobileTable td:last-child {
+    border-bottom: 0;
+  }
 }
 
 .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
 }
 
 .tooltip .tooltiptext {
-    visibility: hidden;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
 
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
 }
 
 .tooltip:hover .tooltiptext {
-    visibility: visible;
-    position: fixed;
+  visibility: visible;
+  position: fixed;
 }

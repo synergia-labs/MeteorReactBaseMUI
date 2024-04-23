@@ -12,6 +12,7 @@ export interface IDatePicker extends IBaseSimpleFormComponent {
 	min?: string;
 	containerStyle?: object;
 }
+
 export default ({ name, label, value, onChange, readOnly, error, containerStyle, ...otherProps }: IDatePicker) => {
 	if (readOnly) {
 		return (

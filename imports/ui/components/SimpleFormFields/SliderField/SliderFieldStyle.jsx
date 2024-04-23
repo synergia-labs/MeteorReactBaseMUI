@@ -15,35 +15,35 @@
  */
 
 const sliderFieldStyle = {
-    slider: {
-        padding: '10px 10px',
-        width: '60%',
-        margin: '10px 10px',
-    },
-    containerSlider: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        marginTop: 16,
-        width: '100%',
-        marginBottom: 16,
-    },
-    subContainerSlider: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'left',
-        marginTop: 20,
-        width: '100%',
-    },
-    containerSliderError: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'left',
-        marginTop: 16,
-        width: '100%',
-        marginBottom: 16,
-        border: '1px solid red',
-    },
+	slider: {
+		padding: '10px 10px',
+		width: '60%',
+		margin: '10px 10px'
+	},
+	containerSlider: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		marginTop: 16,
+		width: '100%',
+		marginBottom: 16
+	},
+	subContainerSlider: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'left',
+		marginTop: 20,
+		width: '100%'
+	},
+	containerSliderError: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'left',
+		marginTop: 16,
+		width: '100%',
+		marginBottom: 16,
+		border: '1px solid red'
+	}
 };
 
 export { sliderFieldStyle };

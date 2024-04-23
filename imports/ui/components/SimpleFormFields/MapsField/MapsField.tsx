@@ -59,7 +59,7 @@ class LocationComponent extends React.Component<IBaseSimpleFormComponent> {
 									: {
 											lat: -19.9051,
 											lng: -43.9445
-									  }
+										}
 							}
 							zoom={12}
 							onClick={this.handleMapClick}>

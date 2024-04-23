@@ -15,7 +15,7 @@
  */
 
 const textMaskStyle = {
-    /*  example: {
+	/*  example: {
         color: 'rgba(0, 0, 0, 0.54)',
         padding: 0,
         fontSize: '1rem',

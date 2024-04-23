@@ -1,7 +1,7 @@
-import React, { MouseEventHandler } from 'react';
+import React, {MouseEventHandler} from 'react';
 import Typography from '@mui/material/Typography';
 import AccordionStyle from './sysAccordionStyles';
-import { SxProps, Theme } from '@mui/system';
+import {SxProps, Theme} from '@mui/system';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Button from '@mui/material/Button';
 

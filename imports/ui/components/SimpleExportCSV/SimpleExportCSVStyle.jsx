@@ -16,15 +16,15 @@
 import * as appStyle from '/imports/ui/materialui/styles';
 
 export const simpleExportCSVStyle = {
-    containerDoubleSelect: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        float: 'right',
-    },
+	containerDoubleSelect: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+		float: 'right'
+	}
 };
 
 export const colors = {
-    primaryColor: appStyle.primaryColor,
-    secondaryColor: appStyle.secondaryColor,
+	primaryColor: appStyle.primaryColor,
+	secondaryColor: appStyle.secondaryColor
 };

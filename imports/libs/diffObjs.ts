@@ -1,4 +1,4 @@
-import { isEqual, isObject, transform } from 'lodash';
+import {isEqual, isObject, transform} from 'lodash';
 
 /**
  * Deep diff between two object, using lodash

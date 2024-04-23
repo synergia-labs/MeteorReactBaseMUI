@@ -1,5 +1,5 @@
-import React, { ElementType } from 'react';
-import { styled, Box, BoxProps, IconButtonProps, IconButton } from '@mui/material';
+import { ElementType } from 'react';
+import { Box, BoxProps, IconButton, IconButtonProps, styled } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISysAppBarStyles {
@@ -9,7 +9,7 @@ interface ISysAppBarStyles {
 }
 
 const SysAppBarStyles: ISysAppBarStyles = {
-	container: styled(Box)(({theme}) => ({
+	container: styled(Box)(({ theme }) => ({
 		width: '100%',
 		height: '56px',
 		overflow: 'hidden',
@@ -24,7 +24,7 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		padding: `${sysSizing.spacingFixedSm} ${sysSizing.spacingFixedMd}`,
 		gap: sysSizing.spacingFixedMd,
 		[theme.breakpoints.up('sm')]: {
-			padding: `${sysSizing.spacingFixedSm} ${sysSizing.contentPx}`,
+			padding: `${sysSizing.spacingFixedSm} ${sysSizing.contentPx}`
 		}
 	})),
 	navContainer: styled(Box)({
@@ -35,14 +35,14 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		flexShrink: 0,
 		justifyContent: 'flex-end',
 		alignItems: 'center',
-		height: '100%',
+		height: '100%'
 	}),
-	iconButton: styled(IconButton)(({theme}) => ({
-		color: theme.palette.primary.contrastText, 
+	iconButton: styled(IconButton)(({ theme }) => ({
+		color: theme.palette.primary.contrastText,
 		'&:focus': {
 			color: 'white'
 		}
-	})),
+	}))
 };
 
 export default SysAppBarStyles;

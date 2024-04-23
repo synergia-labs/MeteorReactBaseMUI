@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Route, Routes, useParams, useLocation, Location } from 'react-router-dom';
+import { Location, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { NotFound } from '../sysPages/pages/NotFound/NotFound';
 import { getUser } from '/imports/libs/getUser';
 import { segurancaApi } from '/imports/security/api/SegurancaApi';
@@ -61,24 +61,23 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 			) : (
 				routes.getRoutes().map((route: IRoute | null) => {
 					if (route?.isProtected) {
-						return (
-							isLoggedIn? (
-								segurancaApi.podeAcessarRecurso(getUser(), ...(route?.resources || []))? (
-									<Route
-										key={route?.path}
-										path={route?.path as string}
-										element={
-											<WrapComponent
-												component={route?.component as React.ElementType}
-												location={location}
-												templateVariant={route?.templateVariant}
-												templateProps={route?.templateProps}
-												templateMenuOptions={route?.templateMenuOptions}
-												defaultTemplate={defaultTemplate}
-											/>
+						return isLoggedIn ? (
+							segurancaApi.podeAcessarRecurso(getUser(), ...(route?.resources || [])) ? (
+								<Route
+									key={route?.path}
+									path={route?.path as string}
+									element={
+										<WrapComponent
+											component={route?.component as React.ElementType}
+											location={location}
+											templateVariant={route?.templateVariant}
+											templateProps={route?.templateProps}
+											templateMenuOptions={route?.templateMenuOptions}
+											defaultTemplate={defaultTemplate}
+										/>
 									}
 								/>
-								):(
+							) : (
 								<Route
 									key={route?.path}
 									path={route?.path as string}
@@ -93,9 +92,9 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 										/>
 									}
 								/>
-								)
-							):(
-								<Route
+							)
+						) : (
+							<Route
 								key={route?.path}
 								path={route?.path as string}
 								element={
@@ -109,7 +108,6 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 									/>
 								}
 							/>
-							)		
 						);
 					} else
 						return (

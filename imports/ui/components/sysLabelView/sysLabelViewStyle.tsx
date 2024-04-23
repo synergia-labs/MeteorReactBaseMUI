@@ -1,5 +1,5 @@
-import React, { ElementType } from 'react';
-import { styled, Box, BoxProps } from '@mui/material';
+import { ElementType } from 'react';
+import { Box, BoxProps, styled } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 interface ISysLabelViewStyles {

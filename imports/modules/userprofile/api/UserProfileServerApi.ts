@@ -117,11 +117,11 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	};
 
 	changeUserStatus = (userId: string) => {
-		const user = this.collectionInstance.findOne({_id: userId})
+		const user = this.collectionInstance.findOne({ _id: userId });
 		let newStatus = '';
 		try {
-			if(user){
-				if(user.status !== 'active') {
+			if (user) {
+				if (user.status !== 'active') {
 					newStatus = 'active';
 				} else {
 					newStatus = 'disabled';

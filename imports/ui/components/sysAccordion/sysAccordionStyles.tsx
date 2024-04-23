@@ -36,7 +36,7 @@ const AccordionStyle: ISysAccordion = {
 
 	accordionActions: styled(AccordionActions)(() => ({
 		display: 'flex'
-	})),
+	}))
 };
 
 export default AccordionStyle;

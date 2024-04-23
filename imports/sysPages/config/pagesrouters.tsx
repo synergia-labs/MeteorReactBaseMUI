@@ -1,4 +1,3 @@
-import React from 'react';
 import Home from '../pages/Home/Home';
 import { SignUp } from '../pages/SignUp/SignUp';
 import Signout from '../pages/SignOut/Signout';
@@ -11,25 +10,25 @@ import SignInPage from '../pages/signIn/signIn';
 import { HomeResources, SysFormTestPageResources } from './resources';
 import SysFormPlayground from '../pages/SysFormPlayground/sysFormPlayground';
 
-export const pagesRouterList : (IRoute | null)[] = [
+export const pagesRouterList: (IRoute | null)[] = [
 	{
 		path: '/',
 		exact: true,
 		component: Home,
 		isProtected: true,
-		resources: [HomeResources.HOME_VIEW],
+		resources: [HomeResources.HOME_VIEW]
 	},
 	{
 		path: '/sysFormTests',
 		component: SysFormPlayground,
 		isProtected: true,
-		resources: [SysFormTestPageResources.SYSFORMTESTS_VIEW],
+		resources: [SysFormTestPageResources.SYSFORMTESTS_VIEW]
 	},
 	{
 		path: '/signin',
 		component: SignInPage,
 		isProtected: false,
-		templateVariant: 'None',
+		templateVariant: 'None'
 	},
 	{
 		path: '/signup',
@@ -46,7 +45,7 @@ export const pagesRouterList : (IRoute | null)[] = [
 	{
 		path: '/no-permission',
 		component: NoPermission,
-		isProtected: true,
+		isProtected: true
 	},
 	{
 		path: '/password-recovery',
@@ -67,5 +66,5 @@ export const pagesRouterList : (IRoute | null)[] = [
 		path: '/verify-email/:token',
 		component: EmailVerify,
 		templateVariant: 'None'
-	},
+	}
 ];

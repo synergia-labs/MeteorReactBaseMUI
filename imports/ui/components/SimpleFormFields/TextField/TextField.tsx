@@ -37,6 +37,7 @@ interface ITextFieldSimpleFormComponent extends IBaseSimpleFormComponent {
 	inlineError?: boolean;
 	rows?: number;
 	maxRows?: number;
+
 	[otherPropsKey: string]: any;
 }
 
@@ -65,8 +66,8 @@ export default ({
 		value === '-'
 			? '-'
 			: schema && schema.type === Date && !!value && value instanceof Date
-			? value.toLocaleDateString('pt-BR')
-			: value;
+				? value.toLocaleDateString('pt-BR')
+				: value;
 
 	fieldValue = valueFormatter(fieldValue);
 	fieldValue = applyMask(fieldValue);
@@ -150,7 +151,7 @@ export default ({
 				display: 'flex',
 				flexDirection: 'column',
 				...appStyle.fieldContainer,
-				...(containerStyle ? containerStyle : {width: '100%'})
+				...(containerStyle ? containerStyle : { width: '100%' })
 			}}>
 			{label && !otherProps.rounded ? (
 				<SimpleLabelView label={label} help={help} style={style ? { displayLabel: style.displayLabel } : undefined} />

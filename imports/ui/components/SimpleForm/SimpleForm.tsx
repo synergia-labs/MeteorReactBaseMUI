@@ -457,8 +457,8 @@ class SimpleForm extends Component<ISimpleFormProps> {
 					self.docValue && hasValue(self.docValue[element.props.name])
 						? self.docValue[element.props.name]
 						: self.props.schema
-						? self.initialValueDefault(self.props.schema[element.props.name])
-						: undefined
+							? self.initialValueDefault(self.props.schema[element.props.name])
+							: undefined
 				}
 				reactElement={element}
 				setDoc={self.setDoc}

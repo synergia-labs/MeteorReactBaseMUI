@@ -15,39 +15,39 @@
  */
 
 const simpleTableStyle = {
-    containerRenderType: {
-        maxHeight: 70,
-        maxWidth: 80,
-    },
-    tableBox: {
-        boxSizing: 'border-box',
-    },
-    tableHeadCell: {
-        textAlign: 'flex-start',
-        fontSize: '0.75rem',
-        padding: '5px',
-    },
-    tableCell: {
-        textAlign: 'flex-start',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-    },
-    tableCellActions: {
-        textAlign: 'flex-start',
-        width: 80,
-    },
-    spanHead: {
-        border: 0,
-        clip: 'rect(0 0 0 0)',
-        height: 1,
-        margin: -1,
-        overflow: 'hidden',
-        padding: 0,
-        position: 'absolute',
-        top: 20,
-        width: 1,
-    },
+	containerRenderType: {
+		maxHeight: 70,
+		maxWidth: 80
+	},
+	tableBox: {
+		boxSizing: 'border-box'
+	},
+	tableHeadCell: {
+		textAlign: 'flex-start',
+		fontSize: '0.75rem',
+		padding: '5px'
+	},
+	tableCell: {
+		textAlign: 'flex-start',
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis'
+	},
+	tableCellActions: {
+		textAlign: 'flex-start',
+		width: 80
+	},
+	spanHead: {
+		border: 0,
+		clip: 'rect(0 0 0 0)',
+		height: 1,
+		margin: -1,
+		overflow: 'hidden',
+		padding: 0,
+		position: 'absolute',
+		top: 20,
+		width: 1
+	}
 };
 
 export { simpleTableStyle };

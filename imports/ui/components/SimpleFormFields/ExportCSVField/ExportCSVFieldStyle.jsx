@@ -15,12 +15,12 @@
  */
 
 const exportCSVFieldStyle = {
-    containerDoubleSelect: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        float: 'right',
-    },
+	containerDoubleSelect: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+		float: 'right'
+	}
 };
 
 export { exportCSVFieldStyle };

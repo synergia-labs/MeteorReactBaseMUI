@@ -1,11 +1,11 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { countsCollection } from '/imports/api/countCollection';
-import Selector = Mongo.Selector;
 import { IBaseOptions } from '/imports/typings/IBaseOptions';
 import { ISchema } from '/imports/typings/ISchema';
 import { IMeteorError } from '/imports/typings/IMeteorError';
 import { IDoc } from '/imports/typings/IDoc';
+import Selector = Mongo.Selector;
 
 const defaultOptions = {
 	disableDefaultPublications: true

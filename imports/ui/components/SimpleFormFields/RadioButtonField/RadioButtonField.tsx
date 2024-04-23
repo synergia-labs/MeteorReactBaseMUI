@@ -26,8 +26,8 @@ export default ({
 		otherProps.options && hasValue(otherProps.options)
 			? otherProps.options
 			: schema && hasValue(schema.options)
-			? schema.options
-			: null;
+				? schema.options
+				: null;
 
 	const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
 		onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck });

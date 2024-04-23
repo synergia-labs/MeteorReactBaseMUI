@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 import * as appStyles from '/imports/ui/materialui/styles';
 import React from 'react';
-import { ButtonProps, Theme } from '@mui/material';
+import { Theme } from '@mui/material';
 
 declare module '@mui/material/styles' {
 	interface ISysText {
@@ -33,7 +33,7 @@ declare module '@mui/material/styles' {
 		disabled: string;
 		bgDisabled: string;
 		auxiliary: string;
-		boxShadowFab:string;
+		boxShadowFab: string;
 	}
 
 	interface Palette {
@@ -75,7 +75,7 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 		palette: {
 			common: {
 				black: appStyles.sysBaseColors.black,
-				white: appStyles.sysBaseColors.white,
+				white: appStyles.sysBaseColors.white
 			},
 			primary: {
 				light: appStyles.sysBaseColors.purple70,
@@ -144,7 +144,7 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 				default: appStyles.sysBaseColors.white,
 				bg1: appStyles.sysBaseColors.grey97,
 				bg2: appStyles.sysBaseColors.grey95,
-				bg3: appStyles.sysBaseColors.grey90,
+				bg3: appStyles.sysBaseColors.grey90
 			},
 			divider: appStyles.sysBaseColors.grey80,
 			sysAction: {
@@ -156,7 +156,7 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 				primaryIcon: appStyles.sysBaseColors.purpleGrey,
 				disabled: appStyles.sysBaseColors.grey70,
 				bgDisabled: appStyles.sysBaseColors.grey95,
-				auxiliary: appStyles.sysBaseColors.grey30,
+				auxiliary: appStyles.sysBaseColors.grey30
 			}
 		},
 		typography: {
@@ -175,9 +175,9 @@ const getLightThemeBase = (props: { fontScale: number }) => {
 			body1: appStyles.body1(fontScale),
 			body2: appStyles.body2(fontScale),
 			caption: appStyles.caption(fontScale)
-		},
-	}
-}
+		}
+	};
+};
 
 const getConfiguration = (theme: Theme, fontScale: number) => {
 	return {
@@ -188,32 +188,31 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						borderRadius: appStyles.sysSizing.radiusSm,
 						border: `1px solid ${theme.palette.divider}`,
 						'& .MuiCircularProgress-root': {
-							color: theme.palette.primary.main,
+							color: theme.palette.primary.main
 						},
 						'& .MuiDataGrid-columnHeader': {
 							padding: `${appStyles.sysSizing.spacingFixedMd} ${appStyles.sysSizing.spacingFixedLg}`,
 							gap: `${appStyles.sysSizing.spacingFixedXl}`,
 							'& .MuiDataGrid-columnSeparator': {
 								visibility: 'hidden'
-							},
+							}
 						},
 						'& .MuiDataGrid-columnHeaders': {
 							borderBottom: `2px solid ${theme.palette.sysAction?.primary}`
 						},
 
-						'& .MuiTablePagination-root':{
-							color: theme.palette.sysText?.body,
+						'& .MuiTablePagination-root': {
+							color: theme.palette.sysText?.body
 						},
 						'& .MuiDataGrid-cell': {
 							padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
 							gap: `${appStyles.sysSizing.spacingFixedXl}`,
-							textAlign: 'center',
-							
+							textAlign: 'center'
 						},
 						'& .MuiDataGrid-row': {
 							borderBottom: `1px solid ${theme.palette.divider}`,
 							'&:hover': {
-								backgroundColor: theme.palette.sysAction?.primaryBgHover,
+								backgroundColor: theme.palette.sysAction?.primaryBgHover
 							}
 						},
 						'& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within': {
@@ -224,11 +223,11 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						},
 						'& .MuiDataGrid-actionsCell': {
 							'& button': {
-								color:  theme.palette.sysAction?.primaryIcon, //altera a cor dos icones de ação
+								color: theme.palette.sysAction?.primaryIcon //altera a cor dos icones de ação
 							},
-							'& .MuiDataGrid-footerContainer':{
+							'& .MuiDataGrid-footerContainer': {
 								padding: `${appStyles.sysSizing.spacingFixedSm} ${appStyles.sysSizing.spacingFixedLg}`,
-								gap: `${appStyles.sysSizing.spacingFixedXl}`,
+								gap: `${appStyles.sysSizing.spacingFixedXl}`
 							}
 						}
 					},
@@ -246,16 +245,14 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 
 			MuiBox: {
 				styleOverrides: {
-					root: {
-					}
+					root: {}
 				}
 			},
 
 			MuiModal: {
 				styleOverrides: {
 					root: {
-						'&.MuiBox-root': {
-						}
+						'&.MuiBox-root': {}
 					}
 				}
 			},
@@ -264,7 +261,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				defaultProps: {
 					variant: 'contained',
 					size: 'medium',
-					disableElevation: true,
+					disableElevation: true
 				},
 				styleOverrides: {
 					root: {
@@ -273,7 +270,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						textTransform: 'none',
 						'&:focus': {
 							outline: 'none'
-						},
+						}
 					},
 					contained: {
 						'&.Mui-disabled': {
@@ -312,7 +309,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					},
 					text: {
 						'&.MuiButton-root': {
-							padding: 0,
+							padding: 0
 						},
 						'&.Mui-disabled': {
 							color: theme.palette.sysAction?.disabled,
@@ -325,7 +322,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						color: theme.palette.sysAction?.primary,
 						'&:hover': {
 							color: theme.palette.sysAction?.primaryHover,
-							backgroundColor: theme.palette.sysAction?.primaryBgHover,
+							backgroundColor: theme.palette.sysAction?.primaryBgHover
 						}
 					},
 					sizeMedium: {
@@ -333,7 +330,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					},
 					sizeSmall: {
 						padding: `${appStyles.sysSizing.componentsButtonSmallPy} ${appStyles.sysSizing.componentsButtonSmallPx}`,
-						...appStyles.button2(fontScale),
+						...appStyles.button2(fontScale)
 					},
 					startIcon: {
 						margin: 0,
@@ -369,12 +366,11 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					color: theme.palette.sysAction?.primaryIcon,
 					size: 'medium'
 				},
-				styleOverrides:{
+				styleOverrides: {
 					root: {
-						color: theme.palette.sysAction?.primaryIcon,
+						color: theme.palette.sysAction?.primaryIcon
 					}
 				}
-
 			},
 
 			MuiToggleButton: {
@@ -428,7 +424,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						border: `1px solid ${theme.palette.divider}`,
 						'& .MuiSvgIcon-root': {
 							color: theme.palette.sysText?.auxiliary
-						},	
+						},
 						'&:hover': {
 							backgroundColor: theme.palette.sysBackground?.bg1
 						},
@@ -446,7 +442,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							color: theme.palette.sysText?.disabled,
 							'& .MuiSvgIcon-root': {
 								color: theme.palette.sysText?.disabled
-							},	
+							}
 						},
 						'&.Mui-error': {
 							backgroundColor: theme.palette.sysBackground?.default,
@@ -457,8 +453,8 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							},
 							'& .MuiSvgIcon-root': {
 								color: theme.palette.error.dark
-							},
-						},
+							}
+						}
 					},
 					input: {
 						color: theme.palette.sysText?.body,
@@ -496,8 +492,8 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							background: theme.palette.sysAction?.primaryBgHover
 						},
 						'&.Mui-disabled': {
-							color: theme.palette.sysAction?.disabled,
-						},
+							color: theme.palette.sysAction?.disabled
+						}
 					}
 				}
 			},
@@ -516,7 +512,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				styleOverrides: {
 					root: {
 						width: '100%',
-						marginTop: 0,
+						marginTop: 0
 					}
 				}
 			},
@@ -524,11 +520,11 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			MuiSelect: {
 				defaultProps: {},
 				styleOverrides: {
-					root:{
+					root: {
 						width: '100%',
 						borderRadius: '8px'
 					},
-					select:{
+					select: {
 						width: '100%',
 						padding: '8px 16px'
 					}
@@ -556,8 +552,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 
 			MuiDialog: {
 				styleOverrides: {
-					paper: {
-					}
+					paper: {}
 				}
 			},
 
@@ -584,7 +579,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 					root: {
 						'&.MuiTextField-root': {
 							padding: '0'
-						},
+						}
 					},
 					popupIndicator: {
 						color: theme.palette.sysText?.body
@@ -596,7 +591,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						padding: '.3125rem 0.75rem'
 					},
 					paper: {
-						borderRadius: '8px',
+						borderRadius: '8px'
 					},
 					option: {
 						color: theme.palette.sysText?.body,
@@ -604,7 +599,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						'&:hover, &.Mui-focused': {
 							color: theme.palette.sysText?.primary,
 							backgroundColor: `${theme.palette.sysAction?.primaryBgHover} !important`
-						},
+						}
 					}
 				}
 			},
@@ -618,7 +613,6 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				}
 			},
 
-
 			MuiAppBar: {
 				styleOverrides: {
 					root: {
@@ -630,11 +624,11 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 
 			MuiSwitch: {
 				defaultProps: {
-					color: 'primary',
+					color: 'primary'
 				},
 				styleOverrides: {
 					root: {
-						color: theme.palette.sysText?.body,
+						color: theme.palette.sysText?.body
 					},
 					switchBase: {
 						'&:hover': {
@@ -657,11 +651,11 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						'&.Mui-disabled': {
 							color: theme.palette.sysAction?.bgDisabled,
 							opacity: 1
-						},
+						}
 					},
 					track: {
 						background: theme.palette.sysBackground?.bg3,
-						opacity: 1,
+						opacity: 1
 					}
 				}
 			},
@@ -683,7 +677,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							}
 						},
 						'&.Mui-disabled': {
-							'& > .MuiSvgIcon-root':{
+							'& > .MuiSvgIcon-root': {
 								color: theme.palette.sysAction?.disabled
 							}
 						}
@@ -709,7 +703,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 							}
 						},
 						'&.Mui-disabled': {
-							'& > span > .MuiSvgIcon-root':{
+							'& > span > .MuiSvgIcon-root': {
 								color: theme.palette.sysAction?.disabled
 							}
 						}
@@ -734,11 +728,11 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				styleOverrides: {
 					root: {
 						background: theme.palette.sysAction?.primary,
-						color: theme.palette.sysAction?.primaryContrastText,
+						color: theme.palette.sysAction?.primaryContrastText
 					},
 					'MuiFab-primary': {
 						border: `1px solid ${theme.palette.sysAction?.primary}`,
-						boxShadow: appStyles.boxShadowFab,
+						boxShadow: appStyles.boxShadowFab
 					},
 					'&:hover': {
 						background: theme.palette.sysAction?.primaryHover,
@@ -748,8 +742,7 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 						background: theme.palette.sysAction?.bgDisabled,
 						color: theme.palette.sysAction?.disabled,
 						border: `1px solid ${theme.palette.sysAction?.bgDisabled}`,
-						boxShadow: appStyles.boxShadowFab,
-
+						boxShadow: appStyles.boxShadowFab
 					},
 					iconSizeMedium: {
 						'& .MuiSvgIcon-root': {
@@ -760,21 +753,21 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 			},
 
 			MuiTab: {
-				styleOverrides:{
-					root:{
+				styleOverrides: {
+					root: {
 						textColor: theme.palette.sysText?.body,
 						textTransform: 'none',
 						padding: `${appStyles.sysSizing.radiusSm} ${appStyles.sysSizing.radiusLg}`,
 						'&:hover': {
 							background: theme.palette.sysAction?.primaryBgHover,
 							color: theme.palette.sysAction?.primaryHover
-						},
+						}
 					},
-					'&.Mui-selected':{
+					'&.Mui-selected': {
 						indicatorColor: theme.palette.sysAction?.primary,
 						textColor: theme.palette.sysAction?.primaryHover
 					},
-					'&:disabled':{
+					'&:disabled': {
 						textColor: theme.palette.sysAction?.disabled
 					}
 				}
@@ -783,15 +776,15 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 				defaultProps: {
 					color: 'primary',
 					valueLabelDisplay: 'auto',
-					ariaLabel:'Default'
+					ariaLabel: 'Default'
 				},
-				styleOverrides:{
-					root:{
+				styleOverrides: {
+					root: {
 						color: theme.palette.sysAction?.primary,
 						opacity: 1,
 						width: 250,
 						'& .MuiSlider-valueLabel': {
-							backgroundColor: theme.palette.sysAction?.primaryHover,
+							backgroundColor: theme.palette.sysAction?.primaryHover
 						}
 					},
 					'&.Mui-Slider-thumb': {
@@ -807,21 +800,20 @@ const getConfiguration = (theme: Theme, fontScale: number) => {
 
 			MuiTooltip: {
 				defaultProps: {
-					enterDelay: 300,
+					enterDelay: 300
 				},
 				styleOverrides: {
 					tooltip: {
-							backgroundColor: theme.palette.sysAction?.auxiliary,
-							color: theme.palette.sysText?.base,
-							borderRadius: appStyles.sysSizing.radiusXs,
-							padding: `${appStyles.sysSizing.spacingRemXs} ${appStyles.sysSizing.spacingRemSm}`,
-		
-						}
+						backgroundColor: theme.palette.sysAction?.auxiliary,
+						color: theme.palette.sysText?.base,
+						borderRadius: appStyles.sysSizing.radiusXs,
+						padding: `${appStyles.sysSizing.spacingRemXs} ${appStyles.sysSizing.spacingRemSm}`
 					}
 				}
-			},
+			}
 		}
-	}
+	};
+};
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 	const fontScale = options.fontScale || 1;

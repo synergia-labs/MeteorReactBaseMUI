@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import LoadingStyle from './sysLoadingStyle';
-import { SxProps, Theme } from '@mui/material';
+import {SxProps, Theme} from '@mui/material';
 
 /**
  * Props para o componente SysLoading.
