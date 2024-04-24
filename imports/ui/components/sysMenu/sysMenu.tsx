@@ -81,7 +81,13 @@ const SysMenu: ForwardRefRenderFunction<SysMenuRef, SysMenuProps> = (
 				<SysMenuStyles.container sx={sxMap?.container}>
 					{header || (title && <Typography variant="subtitle1">{title}</Typography>)}
 					{options?.map((item, index) => (
-						<SysMenuStyles.menuItem key={index} onClick={item.onClick} sx={sxMap?.menuItem}>
+						<SysMenuStyles.menuItem
+							key={index}
+							onClick={(_e) => {
+								handleClose();
+								item.onClick && item.onClick();
+							}}
+							sx={sxMap?.menuItem}>
 							{item.icon}
 							<Typography variant="body1" sx={{ flexGrow: 1 }}>
 								{item.text}

@@ -24,7 +24,7 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 	const colorDisabled = theme.palette.sysText?.disabled;
 
 	return (
-		<SysCardUserStyled.Container sx={sx}>
+		<SysCardUserStyled.Container sx={sx} key={userId}>
 			<SysCardUserStyled.TitleBox>
 				<Typography className="title" variant="subtitle1">
 					{username}
@@ -33,7 +33,11 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 			<SysCardUserStyled.InfoBox>
 				<Box className="roles">
 					{roles?.map((role) => {
-						return <Typography variant="body1">{role}</Typography>;
+						return (
+							<Typography key={role} variant="body1">
+								{role}
+							</Typography>
+						);
 					})}
 				</Box>
 				<Typography className="email" variant="body1">

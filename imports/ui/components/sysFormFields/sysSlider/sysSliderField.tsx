@@ -81,7 +81,8 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 		<FormControl error={!!errorState}>
 			<SysLabelView label={label} disabled={disabled} sxMap={sxMap}>
 				<Slider
-					value={valueState}
+					aria-label={undefined}
+					value={valueState || 0}
 					onChange={handleChange}
 					disabled={disabled || loading}
 					sx={sxMap?.slider}

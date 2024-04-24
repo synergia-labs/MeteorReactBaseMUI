@@ -60,6 +60,7 @@ const UserProfileLisView = () => {
 				list?.map((user) => {
 					return (
 						<SysCardUser
+							key={user._id}
 							username={user.username}
 							roles={user.roles}
 							email={user.email}

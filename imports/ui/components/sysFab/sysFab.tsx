@@ -10,18 +10,24 @@ interface ISysFabProps extends FabProps {
 	children?: React.ReactNode;
 }
 
-export const SysFab: React.FC<ISysFabProps> = ({ fixed = false, children, ...props }: ISysFabProps) => {
+export const SysFab: React.FC<ISysFabProps> = ({
+	fixed = false,
+	children,
+	startIcon,
+	endIcon,
+	...props
+}: ISysFabProps) => {
 	return (
 		<SysFabStyled {...props} fixed={fixed}>
 			{children ?? (
 				<>
-					{props.startIcon}
+					{startIcon}
 					{!!props.text && (
 						<Typography variant="button" sx={{ textTransform: 'none' }}>
 							{props.text}
 						</Typography>
 					)}
-					{props.endIcon}
+					{endIcon}
 				</>
 			)}
 		</SysFabStyled>

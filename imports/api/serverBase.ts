@@ -381,26 +381,31 @@ export class ServerApiBase<Doc extends IDoc> {
 		}
 	}
 
-	_prepareDocForUpdate = (doc: Doc, oldDoc: any, nullValues: { [key: string]: string }) => {
+	_prepareDocForUpdate = (doc: Doc, oldDoc: Doc, nullValues: { [key: string]: string }) => {
 		const newDoc: any = {};
-		Object.keys(doc).forEach((key: any) => {
+		Object.keys(doc).forEach((key: string) => {
 			// @ts-ignore
 			let docData = doc[key];
 			const isDate = docData && docData instanceof Date && !isNaN(docData.valueOf());
-
-			if (!!nullValues && !docData && docData !== 0 && typeof docData !== 'boolean') {
+			const isBoolean = typeof docData === 'boolean';
+			if (!!nullValues && !docData && docData !== 0 && !isBoolean) {
 				nullValues[key] = '';
-			} else if (
-				key !== '_id' &&
-				['lastupdate', 'createdat', 'createdby', 'updatedby'].indexOf(key) === -1 &&
-				!isDate &&
-				isObject(docData) &&
-				!isArray(docData) &&
-				Object.keys(docData).filter((k) => isArray(docData[k])).length === 0
-			) {
-				newDoc[key] = merge(oldDoc[key] || {}, docData);
 			} else {
-				newDoc[key] = docData;
+				if (
+					key !== '_id' &&
+					['lastupdate', 'createdat', 'createdby', 'updatedby'].indexOf(key) === -1 &&
+					!isDate &&
+					isObject(docData) &&
+					!isArray(docData) &&
+					!!docData &&
+					// @ts-ignore
+					Object.keys(docData).filter((k: string) => isArray(docData[k])).length === 0
+				) {
+					// @ts-ignore
+					newDoc[key] = merge(oldDoc[key] || {}, docData);
+				} else {
+					newDoc[key] = docData;
+				}
 			}
 		});
 
@@ -717,7 +722,6 @@ export class ServerApiBase<Doc extends IDoc> {
 
 									if (doc && !!doc[field] && doc[field] !== '-') {
 										const destructImage = doc[field].split(';');
-										const mimType = destructImage[0].split(':')[1];
 										const imageData = destructImage[1].split(',')[1];
 
 										try {
@@ -1288,8 +1292,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	serverUpsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		const objCollection = this.getCollectionInstance().findOne({ _id: _docObj._id });
 		if (!objCollection) {
-			const insert = this.serverInsert(_docObj, _context);
-			return insert;
+			return this.serverInsert(_docObj, _context);
 		}
 		return this.serverUpdate(_docObj, _context);
 	}

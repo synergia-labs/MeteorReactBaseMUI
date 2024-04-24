@@ -1,12 +1,16 @@
 import { Fab, FabProps, styled, Theme } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import React from 'react';
 
 interface ISysFabProps extends FabProps {
 	fixed?: boolean;
 	theme?: Theme;
 }
 
-export const SysFabStyled = styled(Fab)<ISysFabProps>(({ theme, fixed }) => {
+export const SysFabStyled = styled(({ fixed, ...otherProps }: ISysFabProps) => <Fab {...otherProps} />)<ISysFabProps>(({
+	theme,
+	fixed
+}) => {
 	const defaultStyle = {
 		borderRadius: sysSizing.radiusInfinite,
 		backgroundColor: theme?.palette.sysAction?.primary,

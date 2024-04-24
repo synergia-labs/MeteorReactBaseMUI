@@ -4,5 +4,6 @@ export interface IDoc {
 	updatedby?: string | null;
 	createdby?: string | null;
 	lastupdate?: Date;
+	sincronizadoEm?: Date;
 	needSync?: boolean;
 }

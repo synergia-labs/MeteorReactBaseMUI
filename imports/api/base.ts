@@ -200,7 +200,7 @@ export class ApiBase<Doc extends IDoc> {
 			if (
 				!!schema[key] &&
 				((!schema[key].isImage && !schema[key].isAvatar) ||
-					(docObj[key].indexOf('/img/') === -1 && docObj[key].indexOf('/thumbnail/') === -1))
+					(docObj[key] && docObj[key].indexOf('/img/') === -1 && docObj[key].indexOf('/thumbnail/') === -1))
 			) {
 				newObj[key] = docObj[key];
 			}

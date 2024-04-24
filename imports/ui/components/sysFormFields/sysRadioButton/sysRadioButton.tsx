@@ -50,7 +50,6 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	const schema = refObject?.current.schema;
 
 	options = options || refObject?.current.options || ([] as any);
-	defaultValue = defaultValue || schema?.defaultValue;
 	label = label || schema?.label;
 	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
@@ -99,7 +98,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 				requiredIndicator={requiredIndicator}
 				sx={sxMap?.container}>
 				<RadioGroup
-					value={valueState}
+					value={valueState || ''}
 					name="controlled-radio-buttons-group"
 					onChange={onFieldChange}
 					sx={[
@@ -113,7 +112,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 						optionsState.map((opt) => (
 							<FormControlLabel
 								key={opt.value}
-								value={opt.value}
+								value={opt.value || ''}
 								control={<Radio {...otherProps} />}
 								label={opt.label}
 								disabled={disabled || loading}
