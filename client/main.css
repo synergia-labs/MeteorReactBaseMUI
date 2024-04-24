@@ -15,6 +15,11 @@ body {
   user-select: none;
 }
 
+.custom-list-item::before {
+  content: "• ";  /* Unicode para bullet */
+  margin-right: 5px;
+}
+
 @font-face {
   font-display: swap;
   font-family: 'Poppins';

@@ -23,11 +23,16 @@ const HomeSectionDialogs: React.FC = () => {
 					acessíveis através do contexto SysAppLayoutContext, que é compartilhado por toda a aplicação. Para usar basta
 					apenas chamar a função showDialog e passar as propriedades desejadas. <br />
 					<br /> Todos os 3 componentes:
-					<ul>
-						<li>Dialog</li>
-						<li>Modal</li>
-						<li>Window</li>
-					</ul>
+					<span>
+						<br />
+						<span className="custom-list-item">Dialog</span>
+						<br />
+						<span className="custom-list-item">Modal</span>
+						<br />
+						<span className="custom-list-item">Window</span>
+						<br />
+						<br />
+					</span>
 					São na verdade um único componente de dialog com parâmetros diferentes. Caso queira renderizar rotas dentro
 					deles, opte pelos componente Modal ou Window
 				</>

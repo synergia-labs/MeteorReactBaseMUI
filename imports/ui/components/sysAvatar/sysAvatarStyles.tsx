@@ -1,4 +1,4 @@
-import { ElementType } from 'react';
+import React, { ElementType } from 'react';
 import { Avatar, AvatarProps, Box, BoxProps, styled, Theme } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
@@ -13,7 +13,7 @@ interface IContainer {
 }
 
 const SysAvatarStyles: ISysAvatarStyles = {
-	container: styled(Box)<IContainer>(
+	container: styled(({ activeOnClick, borderColor, ...otherProps }: IContainer) => <Box {...otherProps} />)<IContainer>(
 		({ theme, activeOnClick, borderColor }: { theme?: Theme; activeOnClick?: boolean; borderColor?: string }) => ({
 			width: sysSizing.componentsButtonMediumMinHeight,
 			height: sysSizing.componentsButtonMediumMinHeight,

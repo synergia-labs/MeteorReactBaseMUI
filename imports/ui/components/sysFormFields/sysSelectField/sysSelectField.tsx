@@ -120,7 +120,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					{...otherProps}
 					labelId={`${label}${name}`}
 					id={name}
-					value={valueState}
+					value={valueState || ''}
 					onChange={handleChange}
 					displayEmpty
 					disabled={disabled || loading}
