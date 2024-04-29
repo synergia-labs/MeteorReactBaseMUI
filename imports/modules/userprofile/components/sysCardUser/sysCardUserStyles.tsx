@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, styled } from '@mui/material';
-import { sysAction, sysSizing } from '../../../../ui/materialui/styles';
+import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISysCardUserStyled {
 	Container: React.ElementType;
@@ -47,12 +47,12 @@ const SysCardUserStyled: ISysCardUserStyled = {
 			maxWidth: '100px'
 		}
 	})),
-	ActionBox: styled(Box)(({}) => ({
+	ActionBox: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		gap: sysSizing.spacingFixedMd,
 		'> svg': {
 			cursor: 'pointer',
-			color: sysAction.primaryIcon
+			color: theme.palette.sysAction?.primaryIcon
 		}
 	}))
 };

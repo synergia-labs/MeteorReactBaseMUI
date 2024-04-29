@@ -7,7 +7,7 @@ import { ISysThemeOptions } from '../typings/BoilerplateDefaultTypings';
 import { AppContainer } from './AppContainer';
 import { AppLayout } from './AppLayout';
 
-export interface ThemeOptions {
+export interface IThemeOptions {
 	darkMode: boolean;
 	fontScale: number;
 	isMobile: boolean;

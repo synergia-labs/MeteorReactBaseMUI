@@ -7,12 +7,13 @@ import AddIcon from '@mui/icons-material/Add';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import SearchIcon from '@mui/icons-material/Search';
-import { sysAction } from '/imports/ui/materialui/styles';
+import { useTheme } from '@mui/material/styles';
 
 const UserProfileLisView = () => {
 	const context = useContext(UserProfileListControllerContext);
 	const { list, onSearch, onSetFilter, onAddButtonClick } = context;
 	const [selectedRole, setSelectedRole] = useState('');
+	const theme = useTheme();
 	const options = [
 		{
 			value: '',
@@ -39,7 +40,7 @@ const UserProfileLisView = () => {
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
-								<SearchIcon sx={{ color: sysAction.primaryIcon }} />
+								<SearchIcon sx={{ color: theme.palette.sysAction?.primaryIcon }} />
 							</InputAdornment>
 						)
 					}}
