@@ -4,7 +4,7 @@ import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISysFormPlaygroundStyles {
 	container: ElementType<BoxProps>;
-	description: ElementType<TypographyProps>;
+	description: ElementType<BoxProps>;
 	playground: ElementType<BoxProps>;
 	formContainer: ElementType<BoxProps>;
 	controlerContainer: ElementType<BoxProps>;
@@ -26,7 +26,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 			padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`
 		}
 	})),
-	description: styled(Typography)({
+	description: styled(Box)({
 		textAlign: 'justify',
 		display: 'flex',
 		flexDirection: 'column',

@@ -603,7 +603,6 @@ const getSysComponentsStyles = (theme: Theme) => {
 				defaultProps: {
 					color: 'primary',
 					valueLabelDisplay: 'auto',
-					ariaLabel: 'Default'
 				},
 				styleOverrides: {
 					root: {
