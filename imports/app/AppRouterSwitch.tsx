@@ -11,6 +11,7 @@ import SysRoutes from './routes';
 import { ISysTemplate, SysTemplate, SysTemplateOptions } from '/imports/ui/templates/getTemplate';
 import { NoPermission } from '../sysPages/pages/NoPermission/NoPermission';
 import SignInPage from '../sysPages/pages/signIn/signIn';
+import { SysLoading } from '../ui/components/sysLoading/sysLoading';
 
 const routes = new SysRoutes();
 
@@ -52,13 +53,15 @@ interface IAppRouterSwitchProps {
 
 export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ defaultTemplate }) => {
 	const location = useLocation();
-	const { isLoggedIn, user } = useContext(SysAppContext);
+	const { isLoggedIn, userLoading } = useContext(SysAppContext);
 
 	return (
 		<Routes location={location}>
 			{!routes.checkIfRouteExists(location.pathname) ? (
-				<Route path="*" element={<NotFound />} />
-			) : (
+				<Route path="*" element={ <NotFound/> } />
+			) : userLoading ? (
+				<Route path="*" element={ <SysLoading label = 'Buscando informações de acesso...' /> } />
+      ) : (
 				routes.getRoutes().map((route: IRoute | null) => {
 					if (route?.isProtected) {
 						return isLoggedIn ? (

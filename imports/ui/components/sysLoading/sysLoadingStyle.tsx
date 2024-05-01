@@ -20,7 +20,7 @@ interface ILoading {
 
 const LoadingStyle: ILoadingStyle = {
 	loading: styled(Box)<ILoading>(({ theme, size }) => ({
-		width: size === 'small' ? '25px' : size === 'medium' ? '50px' : '100px', //SYSTODO: Perguntar o Arthur as medidas de small, medium e large
+		width: size === 'small' ? '25px' : size === 'medium' ? '50px' : '100px',
 		height: size === 'small' ? '25px' : size === 'medium' ? '50px' : '100px',
 		border: `5px solid ${theme.palette.sysAction?.primaryBgHover}`,
 		borderRadius: '50%',
