@@ -117,8 +117,8 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 
 	if (!visibleState) return null;
 
-	if (readOnly)
-		return <SysViewField label={label} placeholder={typeof dateValue != 'string' ? '-' : dateValue || '-'} />;
+  if (readOnly)
+    return <SysViewField label={label} placeholder={dateValue instanceof Date ? formatDate(dateValue) : dateValue} />;
 
 	return (
 		<FormControl error={!!errorState}>
@@ -142,7 +142,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 							type="date"
 							onBlur={onBlur}
 							onChange={handleChange}
-							value={dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue}
+							value={(dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue) || ''}
 							error={!!errorState}
 							disabled={disabled || loading}
 							name={name}
@@ -156,7 +156,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 						type="date"
 						onBlur={onBlur}
 						onChange={handleChange}
-						value={dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue}
+						value={(dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue) || ''}
 						error={!!errorState}
 						disabled={disabled || loading}
 						name={name}
