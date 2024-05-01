@@ -337,10 +337,11 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 	}, []);
 
 	useEffect(() => {
-		updateValue(doc);
-		refDoc.current = doc;
-		checkVisibilityFields();
-	}, [doc]);
+    const newDoc = {...SysFormMethods.getDocValues(refComponents.current, schema), ...doc};
+    updateValue(newDoc);
+    refDoc.current = newDoc;
+    checkVisibilityFields();
+ }, [doc]);
 
 	useEffect(() => {
 		validateOnChangeRef.current = validateOnChange;
