@@ -59,9 +59,7 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 		<Routes location={location}>
 			{!routes.checkIfRouteExists(location.pathname) ? (
 				<Route path="*" element={ <NotFound/> } />
-			) : userLoading ? (
-				<Route path="*" element={ <SysLoading label = 'Buscando informações de acesso...' /> } />
-      ) : (
+			) : (
 				routes.getRoutes().map((route: IRoute | null) => {
 					if (route?.isProtected) {
 						return isLoggedIn ? (
