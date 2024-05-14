@@ -5,7 +5,7 @@ import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import SysLabelView from '../../sysLabelView/sysLabelView';
-import { SxProps, Theme } from '@mui/material';
+import { FormControlLabel, SxProps, Theme } from '@mui/material';
 
 interface ISysSwitchProps extends ISysFormComponent<SwitchProps> {
 	/** Estilo do componente.*/
@@ -14,6 +14,8 @@ interface ISysSwitchProps extends ISysFormComponent<SwitchProps> {
 		header?: SxProps<Theme>;
 		switch?: SxProps<Theme>;
 	};
+	labelPosition?: 'top' | 'start' | 'bottom' | 'end';
+	valueLabel?: string;
 }
 
 const SysSwitch: React.FC<ISysSwitchProps> = ({
@@ -28,6 +30,8 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 	readOnly,
 	loading,
 	disabled,
+	labelPosition = 'end',
+	valueLabel,
 	showRequired,
 	requiredIndicator,
 	...otherProps
@@ -78,15 +82,22 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 			disabled={disabled}
 			showRequired={showRequired}
 			requiredIndicator={requiredIndicator}>
-			<Switch
-				{...otherProps}
-				name={name}
-				id={name}
-				key={name}
-				sx={sxMap?.switch}
-				value={valueState || false}
-				onChange={handleToggleSwitch}
-				disabled={disabled || loading}
+			<FormControlLabel
+				value={labelPosition}
+				label={valueLabel ?? valueState ? 'Sim' : 'Não'}
+				control={
+					<Switch
+						{...otherProps}
+						name={name}
+						id={name}
+						key={name}
+						sx={sxMap?.switch}
+						value={valueState || false}
+						checked={valueState}
+						onChange={handleToggleSwitch}
+						disabled={disabled || loading || readOnly}
+					/>
+				}
 			/>
 		</SysLabelView>
 	);
