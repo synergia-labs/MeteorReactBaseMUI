@@ -99,6 +99,7 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 					/>
 				}
 			/>
+			<FormHelperText sx={{ color: (theme) => theme.palette.error.main }}> {errorState} </FormHelperText>
 		</SysLabelView>
 	);
 };
