@@ -5,7 +5,7 @@ import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import SysLabelView from '../../sysLabelView/sysLabelView';
-import { FormControlLabel, SxProps, Theme } from '@mui/material';
+import { FormControlLabel, FormHelperText, SxProps, Theme } from '@mui/material';
 
 interface ISysSwitchProps extends ISysFormComponent<SwitchProps> {
 	/** Estilo do componente.*/
@@ -84,7 +84,7 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 			requiredIndicator={requiredIndicator}>
 			<FormControlLabel
 				value={labelPosition}
-				label={valueLabel ?? valueState ? 'Sim' : 'Não'}
+				label={valueLabel ?? (valueState ? 'Sim' : 'Não')}
 				control={
 					<Switch
 						{...otherProps}
