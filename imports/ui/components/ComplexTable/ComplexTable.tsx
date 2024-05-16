@@ -10,8 +10,7 @@ import {
 	GridRowId,
 	GridRowIdGetter,
 	GridRowParams,
-	MuiEvent,
-	ptBR
+	MuiEvent
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
@@ -22,6 +21,7 @@ import { ComplexTableContainer, ComplexTableRenderImg, ComplexTableRowText } fro
 import { Toolbar } from './Toolbar';
 import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
 import { IconButton, Tooltip } from '@mui/material';
+import { ptBR } from '@mui/x-data-grid/locales';
 
 interface ISchema {
 	[key: string]: any;
@@ -406,6 +406,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				rows={data}
 				columns={columns}
 				rowCount={data?.length}
+				paginationMode={'server'}
 				autoHeight={autoHeight ?? true}
 				localeText={locale}
 				getRowId={!!getId ? getId : (row) => row._id}
