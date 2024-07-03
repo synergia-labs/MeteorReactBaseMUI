@@ -188,59 +188,38 @@ Meteor.startup(() => {
 	};
 
 	Accounts.onLogin(
-		(params: { user: { _id: any; username: any }; connection: { onClose: (arg0: () => void) => void } }) => {
-			console.log(
-				'OnLogin:',
-				params && params.user
-					? {
-							_id: params.user._id,
-							username: params.user.username
-						}
-					: '-'
-			);
+    (params: { user: Meteor.User; connection: { onClose: (arg0: () => void) => void } }) => {
+       //@ts-ignore
+       const userProfile = params.user ? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0] : undefined;
 
-			const userProfile = params.user ? userprofileServerApi.find({ _id: params.user._id }).fetch()[0] : undefined;
+       if (userProfile)
+          userprofileServerApi.getCollectionInstance().update(
+             { _id: userProfile._id },
+             {$set: { lastacess: new Date(), connected: true }}
+          );
 
-			// const userLanguage = userProfile && userProfile.language ? userProfile.language : 'pt-BR';
 
-			if (userProfile) {
-				userprofileServerApi.getCollectionInstance().update(
-					{ _id: userProfile._id },
-					{
-						$set: { lastacess: new Date(), connected: true }
-					}
-				);
-			}
-
-			params.connection.onClose(
-				Meteor.bindEnvironment(() => {
-					if (userProfile) {
-						userprofileServerApi.getCollectionInstance().update(
-							{ _id: userProfile._id },
-							{
-								$set: { lastacess: new Date(), connected: false }
-							}
-						);
-					}
-					// console.log('OnDesconect:',params.user._id); // called once the user disconnects
-				})
-			);
-		}
-	);
+       params.connection.onClose(
+          Meteor.bindEnvironment(() => {
+             if (userProfile)
+                userprofileServerApi.getCollectionInstance().update(
+                   { _id: userProfile._id },
+                   {$set: { lastacess: new Date(), connected: false }}
+                );
+          })
+       );
+    }
+ );
 
 	Accounts.onLogout((params) => {
-		const userProfile = params.user ? userprofileServerApi.find({ _id: params.user._id }).fetch()[0] : undefined;
-
-		if (userProfile) {
-			userprofileServerApi.getCollectionInstance().update(
-				{ _id: userProfile._id },
-				{
-					$set: { lastacess: new Date(), connected: false }
-				}
-			);
-		}
-		// console.log('Logoff',!!userProfile?userProfile._id:'noUser')
-	});
+		//@ts-ignore
+    const userProfile = params.user ? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0] : undefined;
+    if (userProfile)
+       userprofileServerApi.getCollectionInstance().update(
+          { _id: userProfile._id },
+          {$set: { lastacess: new Date(), connected: false }}
+       );
+  });
 
 	Accounts.config({
 		sendVerificationEmail: true,
