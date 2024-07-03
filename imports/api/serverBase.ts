@@ -812,11 +812,11 @@ export class ServerApiBase<Doc extends IDoc> {
 		if (Meteor.isServer) {
 			Meteor.publish(`${self.collectionName}.${publication}`, function (query, options) {
 				const subHandle = newPublicationsFunction(query, options)?.observe({
-					added: (document: { _id: string }) => {
-						this.added(`${self.collectionName}`, document._id, transformDocFunc(document));
+					added: async (document: { _id: string }) => {
+						this.added(`${self.collectionName}`, document._id, await transformDocFunc(document));
 					},
-					changed: (newDocument: { _id: string }) => {
-						this.changed(`${self.collectionName}`, newDocument._id, transformDocFunc(newDocument));
+					changed: async (newDocument: { _id: string }) => {
+						this.changed(`${self.collectionName}`, newDocument._id, await transformDocFunc(newDocument));
 					},
 					removed: (oldDocument: { _id: string }) => {
 						this.removed(`${self.collectionName}`, oldDocument._id);
