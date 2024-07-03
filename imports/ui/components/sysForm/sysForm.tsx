@@ -145,7 +145,13 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 
         checkIfNeedToUpdateOptions();
 
-        onChange?.(SysFormMethods.getDocValues(refComponents.current, schema));
+        const newDoc = SysFormMethods.getDocValues(refComponents.current, schema);
+        for (const key in refDoc?.current) {
+          if (refComponents.current[key]) continue;
+          newDoc[key] = refDoc?.current[key];
+        }
+
+        onChange?.(newDoc);
       } catch (error: any) {
         __onFailure(error);
       }
@@ -268,7 +274,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
         if (refComponents.current[key]) continue;
         newDoc[key] = refDoc?.current[key];
       }
-      if (onSubmit) onSubmit(newDoc);
+      onSubmit?.(newDoc);
     } catch (error: any) {
       __onFailure(error);
       throw error;
