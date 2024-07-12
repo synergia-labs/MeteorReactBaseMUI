@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import HomeSection from '../components/section';
-import HomeStyles from '../HomeStyle';
+import HomeStyles from '../homeStyle';
 import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';

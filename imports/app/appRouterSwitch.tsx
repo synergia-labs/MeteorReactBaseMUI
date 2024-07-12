@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Location, Route, Routes, useLocation, useParams } from 'react-router-dom';
-import { NotFound } from '../sysPages/pages/NotFound/NotFound';
+import { NotFound } from '/imports/sysPages/pages/notFound/notFound';
 import { getUser } from '/imports/libs/getUser';
 import { segurancaApi } from '/imports/security/api/segurancaApi';
 import { IAppMenu, IRoute } from '/imports/modules/modulesTypings';
@@ -9,7 +9,7 @@ import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { subjectRouter } from '/imports/analytics/analyticsSubscriber';
 import SysRoutes from './routes';
 import { ISysTemplate, SysTemplate, SysTemplateOptions } from '/imports/ui/templates/getTemplate';
-import { NoPermission } from '../sysPages/pages/NoPermission/NoPermission';
+import { NoPermission } from '/imports/sysPages/pages/noPermission/noPermission';
 import SignInPage from '../sysPages/pages/signIn/signIn';
 import { SysLoading } from '../ui/components/sysLoading/sysLoading';
 

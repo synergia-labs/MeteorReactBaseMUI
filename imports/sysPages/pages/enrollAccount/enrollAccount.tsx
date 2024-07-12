@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accounts } from 'meteor/accounts-base';
 
-import { enrollAccountStyle } from './EnrollAccountStyle';
+import { enrollAccountStyle } from './enrollAccountStyle';
 import { useParams } from 'react-router-dom';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import HomeSectionNotificacoes from './sections/notificacoes';
 import HomeSectionDialogs from './sections/dialogs';
-import HomeStyles from './HomeStyle';
+import HomeStyles from './homeStyle';
 
 const Home: React.FC = () => {
 	return (

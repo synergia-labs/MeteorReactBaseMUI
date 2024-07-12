@@ -8,7 +8,7 @@ import DeleteDialog from '/imports/ui/appComponents/SysDialog/custom/deleteDialo
 import ConfirmDialog from '/imports/ui/appComponents/SysDialog/custom/confirmDialog/confirmDialog';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import DesktopWindowsOutlinedIcon from '@mui/icons-material/DesktopWindowsOutlined';
-import HomeStyles from '../HomeStyle';
+import HomeStyles from '../homeStyle';
 
 const HomeSectionDialogs: React.FC = () => {
 	const sysLayoutContext = useContext(SysAppLayoutContext);

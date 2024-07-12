@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { Meteor } from 'meteor/meteor';
 import { cleanUserCache } from '../../../hooks/useUserAccount';
 
-import { signoutStyle } from './SignoutStyle';
+import { signoutStyle } from './signoutStyle';
 
 const Signout = () => {
 	useEffect(() => {

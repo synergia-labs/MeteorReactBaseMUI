@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import { userprofileApi } from '../../../modules/userprofile/api/userProfileApi';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
-import { signUpStyle } from './SignUpStyle';
+import { signUpStyle } from './signUpStyle';
 import { Box } from '@mui/system';
 import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 
