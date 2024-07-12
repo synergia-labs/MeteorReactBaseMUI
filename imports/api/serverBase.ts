@@ -8,7 +8,7 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import sharp from 'sharp';
 import { countsCollection } from '/imports/api/countCollection';
-import { Validador } from '/imports/libs/Validador';
+import { Validador } from '/imports/libs/validador';
 import { segurancaApi } from '/imports/security/api/SegurancaApi';
 import { WebApp } from 'meteor/webapp';
 // @ts-ignore

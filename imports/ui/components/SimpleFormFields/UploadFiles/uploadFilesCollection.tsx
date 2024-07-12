@@ -30,7 +30,7 @@ import * as appStyle from '/imports/ui/materialui/styles';
 import { uploadFilesStyle } from './uploadFilesCollectionStyle';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
-import { retornarErrosUpload } from '/imports/libs/RetornarMensagemErro';
+import { retornarErrosUpload } from '/imports/libs/retornarMensagemErro';
 import Tooltip from '@mui/material/Tooltip';
 
 const { grey100, grey500, grey700 } = ['#eeeeee', '#c9c9c9', '#a1a1a1'];
