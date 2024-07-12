@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
 import { Location, NavigateFunction } from 'react-router-dom';
 import { IShowNotificationProps } from '/imports/ui/appComponents/showNotification/showNotification';
-import { IShowDialogProps } from '/imports/ui/appComponents/SysDialog/SysDialog';
+import { IShowDialogProps } from '/imports/ui/appComponents/showDialog/showDialog';
 import { IShowDrawerProps } from '/imports/ui/appComponents/showDrawer/showDrawer';
 import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 

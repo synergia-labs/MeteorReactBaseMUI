@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { ExampleListControllerContext } from './exampleListController';
 import { useNavigate } from 'react-router-dom';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
-import DeleteDialog from '/imports/ui/appComponents/SysDialog/custom/deleteDialog/deleteDialog';
+import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import { SysAppLayoutContext } from '/imports/app/appLayout';
 import ExampleListStyles from './exampleListStyles';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';

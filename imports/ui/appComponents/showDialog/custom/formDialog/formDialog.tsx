@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { IShowDialogProps } from '../../SysDialog';
+import { IShowDialogProps } from '../../showDialog';
 import { Button, DialogActions, DialogTitle } from '@mui/material';
 import { formDialogStyles } from './formDialogStyles';
 import CheckIcon from '@mui/icons-material/Check';

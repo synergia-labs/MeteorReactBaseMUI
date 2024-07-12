@@ -19,7 +19,7 @@ import SysLabelView from '../../sysLabelView/sysLabelView';
 import listEstados from './estados';
 import localidades from './localidades.json';
 import { SysViewField } from '../sysViewField/sysViewField';
-import SysLocationFieldStyle from './SysLocationFieldStyle';
+import SysLocationFieldStyle from './sysLocationFieldStyle';
 
 interface ILocation {
 	estado?: string | null;

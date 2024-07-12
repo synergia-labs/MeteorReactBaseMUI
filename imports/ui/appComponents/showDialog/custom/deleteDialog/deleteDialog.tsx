@@ -1,9 +1,9 @@
 import React from 'react';
-import { IShowDialogProps } from '../../SysDialog';
+import { IShowDialogProps } from '../../showDialog';
 import { Button, DialogActions, DialogTitle } from '@mui/material';
-import { confirmDialogStyles } from './confirmDialogStyles';
+import { deleteDialogStyles } from './deleteDialogStyles';
 
-interface IConfirmDialogProps extends IShowDialogProps {
+interface IDeleteDialogProps extends IShowDialogProps {
 	showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
 	closeDialog: (
 		event?: {},
@@ -11,37 +11,37 @@ interface IConfirmDialogProps extends IShowDialogProps {
 		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
 	) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
 	// Adicione aqui os demais métodos e propriedades que o componente de diálogo precisa.
-	onConfirm?: () => void;
+	onDeleteConfirm?: () => void;
 }
 
-function ConfirmDialog({ showDialog, closeDialog, onConfirm, title, ...props }: IConfirmDialogProps) {
+function DeleteDialog({ showDialog, closeDialog, onDeleteConfirm, title, ...props }: IDeleteDialogProps) {
 	showDialog({
 		...props,
-		sx: confirmDialogStyles.box,
+		sx: deleteDialogStyles.box,
 		header: (
 			<DialogTitle variant="subtitle1" sx={{ padding: 0 }}>
 				{title}
 			</DialogTitle>
 		),
 		actions: (
-			<DialogActions sx={confirmDialogStyles.actions}>
+			<DialogActions sx={deleteDialogStyles.actions}>
 				<Button variant="outlined" onClick={closeDialog}>
 					Cancelar
 				</Button>
 				<Button
 					variant="contained"
 					onClick={() => {
-						onConfirm?.();
+						onDeleteConfirm?.();
 						closeDialog();
 					}}>
-					Confirmar
+					Excluir
 				</Button>
 			</DialogActions>
 		)
 	});
 }
 
-export default ConfirmDialog;
+export default DeleteDialog;
 
 /* EXEMPLO DE USO
 import React from 'react';
@@ -55,20 +55,20 @@ const seuComponente = () => {
     return (
         <Button
             onClick={() => {
-                ConfirmDialog({
+                DeleteDialog({
                     showDialog,
                     closeDialog,
-                    title: 'Confirmar cadastro',
-                    message: 'Tem certeza que deseja confirmar o cadastro dos dados preenchidos?',
-                    onConfirm: () => {
+                    title: 'Tem certeza que deseja excluir?',
+                    message: 'Esta ação não poderá ser desfeita.',
+                    onDeleteConfirm: () => {
                         showNotification({
-                            message: 'Dados salvos!',
+                            message: 'Excluído com sucesso!',
                         });
                     }
-                });
+                })
             }}
         >
-            Exbir diálogo de confirmação
+            Exbir diálogo de exclusão
         </Button>
     );
 }

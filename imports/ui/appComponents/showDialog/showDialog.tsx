@@ -11,7 +11,7 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import { DialogContentStyled, DialogTitleStyled } from './SysDialogStyles';
+import { DialogContentStyled, DialogTitleStyled } from './showDialogStyles';
 import { DialogTransitions } from '../transitions';
 import { MemoryRouter } from 'react-router-dom';
 import { AppRouterSwitch } from '../../../app/appRouterSwitch';
