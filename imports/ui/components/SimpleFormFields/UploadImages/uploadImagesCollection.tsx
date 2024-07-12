@@ -32,7 +32,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import { retornarErrosUpload } from '/imports/libs/retornarMensagemErro';
+import { retornarErrosUpload } from '/imports/libs/RetornarMensagemErro';
 
 const { grey100, grey500, grey700 } = ['#eeeeee', '#c9c9c9', '#a1a1a1'];
 

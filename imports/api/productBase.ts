@@ -29,7 +29,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
 	callMethod(name: string, ...params: (string | object | any)[]) {
 		if (this.enableCallMethodObserver) {
 			const self = this;
-			import('../analytics/analyticsSubscriber').then(({ subjectCallMethod }) => {
+			import('../analytics/AnalyticsSubscriber').then(({ subjectCallMethod }) => {
 				const preparedParams = params
 					? Object.keys(params)
 							.filter((key: any) => Array.isArray(params[key]) || typeof params[key] !== 'function')
@@ -66,7 +66,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
 	} | null {
 		if (this.enableSubscribeObserver) {
 			const self = this;
-			import('../analytics/analyticsSubscriber').then(({ subjectSubscribe }) => {
+			import('../analytics/AnalyticsSubscriber').then(({ subjectSubscribe }) => {
 				const preparedParams = params
 					? Object.keys(params)
 							.filter((key: any) => Array.isArray(params[key]) || typeof params[key] !== 'function')
