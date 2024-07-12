@@ -9,7 +9,7 @@ import { check, Match } from 'meteor/check';
 import sharp from 'sharp';
 import { countsCollection } from '/imports/api/countCollection';
 import { Validador } from '/imports/libs/Validador';
-import { segurancaApi } from '/imports/security/api/SegurancaApi';
+import { segurancaApi } from '/imports/security/api/segurancaApi';
 import { WebApp } from 'meteor/webapp';
 // @ts-ignore
 import bodyParser from 'body-parser';
@@ -22,7 +22,7 @@ import { IContext } from '../typings/IContext';
 import { IDoc } from '../typings/IDoc';
 import { IBaseOptions } from '../typings/IBaseOptions';
 import { IConnection } from '../typings/IConnection';
-import { IUserProfile } from '../modules/userprofile/api/UserProfileSch';
+import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 import Selector = Mongo.Selector;
 
 WebApp.connectHandlers.use(cors());

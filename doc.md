@@ -14,7 +14,7 @@
 │   │   └── exampleContainer.tsx        # Container do módulo. Arquivo principal do módulo que deve ser chamado para renderização
 ├── security                            # Arquivos relacionados à configuração de segurança
 │   └── config                          # Configurações de segurança, como mapeamento de papéis e recursos
-│       └── MapRolesRecursos.tsx        # Mapeamento de papéis e recursos
+│       └── mapRolesRecursos.tsx        # Mapeamento de papéis e recursos
 ├── server                              # Configurções do servidor
 │   └── registerApi.ts                  # Arquivo responsável por registrar as APIs do sistema
 ├── sysPages                            # Páginas do sistema. São páginas que não pertencem a nenhum módulo específico e não precisam de uma estrutura de módulo

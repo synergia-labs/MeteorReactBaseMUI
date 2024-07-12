@@ -10,7 +10,7 @@ import CodeViewSysForm from './components/codeViewSysForm';
 import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
 import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import NotInterestedOutlinedIcon from '@mui/icons-material/NotInterestedOutlined';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';

@@ -3,7 +3,7 @@ import { ISysFormPlaygroundContext } from './interface/types';
 import SysFormPlaygroundView from './sysFormPlaygroundView';
 import { ISysFormPlaygroundSch, sysFormPlaygroundSch } from './interface/sysFormSch';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import FieldsWithErrorsDialog from './components/fieldsWithErrorDialog/fieldWithErroDialog';
 
 const SysFormPlaygroundContext = createContext<ISysFormPlaygroundContext>({} as ISysFormPlaygroundContext);

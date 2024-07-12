@@ -4,8 +4,8 @@ import { createStore, del, get, set } from 'idb-keyval';
 import { parse, stringify } from 'zipson';
 import settings from '/settings.json';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { userprofileApi } from '../modules/userprofile/api/UserProfileApi';
-import { IUserProfile } from '../modules/userprofile/api/UserProfileSch';
+import { userprofileApi } from '../modules/userprofile/api/userProfileApi';
+import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 
 const accountStore = createStore(`${settings.name}_UserAccount`, 'store');
 const cachedUser = new ReactiveVar(null);

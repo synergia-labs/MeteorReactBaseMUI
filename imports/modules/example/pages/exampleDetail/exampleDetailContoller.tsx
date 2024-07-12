@@ -7,7 +7,7 @@ import { exampleApi } from '../../api/exampleApi';
 import { IExample } from '../../api/exampleSch';
 import { ISchema } from '/imports/typings/ISchema';
 import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 
 interface IExampleDetailContollerContext {
 	closePage: () => void;

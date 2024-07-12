@@ -8,7 +8,7 @@ import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
 import DoneIcon from '@mui/icons-material/Done';
 

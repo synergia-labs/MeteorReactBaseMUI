@@ -1,7 +1,7 @@
 // region Imports
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { IUserProfile, userProfileSch } from './UserProfileSch';
+import { IUserProfile, userProfileSch } from './userProfileSch';
 import { getUser, userprofileData } from '../../../libs/getUser';
 import settings from '../../../../settings.json';
 import { check } from 'meteor/check';

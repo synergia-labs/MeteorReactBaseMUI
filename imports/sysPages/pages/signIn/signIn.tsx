@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import SignInStyles from './signInStyles';
 import { Meteor } from 'meteor/meteor';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import { SysAppContext } from '/imports/app/AppContainer';
+import { SysAppContext } from '/imports/app/appContainer';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';

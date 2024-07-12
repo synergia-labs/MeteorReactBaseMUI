@@ -8,12 +8,12 @@ import { Link, NavigateFunction } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
-import { userprofileApi } from '../../../modules/userprofile/api/UserProfileApi';
+import { userprofileApi } from '../../../modules/userprofile/api/userProfileApi';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
 import { signUpStyle } from './SignUpStyle';
 import { Box } from '@mui/system';
-import { IUserProfile } from '/imports/modules/userprofile/api/UserProfileSch';
+import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 
 interface ISignUp {
 	showNotification: (options?: Object) => void;

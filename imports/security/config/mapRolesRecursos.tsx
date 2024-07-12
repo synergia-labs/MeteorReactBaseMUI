@@ -1,6 +1,6 @@
-import { Recurso as Exemplo } from '/imports/modules/example/config/Recursos';
-import { Recurso as Usuarios } from '/imports/modules/userprofile/config/Recurso';
-import { RoleType } from '/imports/security/config/RoleType';
+import { Recurso as Exemplo } from '/imports/modules/example/config/recursos';
+import { Recurso as Usuarios } from '/imports/modules/userprofile/config/recurso';
+import { RoleType } from '/imports/security/config/roleType';
 import { HomeResources, SysFormTestPageResources } from '/imports/sysPages/config/resources';
 
 type MapRolesRecursos = {

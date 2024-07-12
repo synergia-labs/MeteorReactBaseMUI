@@ -19,7 +19,7 @@ import {
   ISysFormContext,
   ISysFormRef
 } from './typings';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SysFormMethods from './sysFormMethods';
 import { hasValue } from '/imports/libs/hasValue';
 import { IOption } from '../InterfaceBaseSimpleFormComponent';

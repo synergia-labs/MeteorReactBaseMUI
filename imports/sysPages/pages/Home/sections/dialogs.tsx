@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import HomeSection from '../components/section';
 import { Button } from '@mui/material';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import DeleteDialog from '/imports/ui/appComponents/SysDialog/custom/deleteDialog/deleteDialog';

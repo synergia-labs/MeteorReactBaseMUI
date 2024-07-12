@@ -6,7 +6,7 @@ import {
 } from '/imports/typings/BoilerplateDefaultTypings';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { IShowNotificationProps, ShowNotification } from '/imports/ui/appComponents/showNotification/showNotification';
-import { AppRouterSwitch } from './AppRouterSwitch';
+import { AppRouterSwitch } from './appRouterSwitch';
 import { IShowDialogProps, ShowDialog } from '/imports/ui/appComponents/SysDialog/SysDialog';
 import { IShowDrawerProps, ShowDrawer } from '/imports/ui/appComponents/showDrawer/showDrawer';
 import { ISysTemplate, SysTemplateOptions } from '/imports/ui/templates/getTemplate';

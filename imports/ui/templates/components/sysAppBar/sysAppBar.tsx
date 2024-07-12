@@ -3,7 +3,7 @@ import SysAppBarStyles from './sysAppBarStyles';
 import { SysAvatar } from '/imports/ui/components/sysAvatar/sysAvatar';
 import { IAppMenu } from '/imports/modules/modulesTypings';
 import { useNavigate } from 'react-router-dom';
-import { SysAppContext } from '/imports/app/AppContainer';
+import { SysAppContext } from '/imports/app/appContainer';
 import SysMenu, { SysMenuRef } from '/imports/ui/components/sysMenu/sysMenu';
 import { SysNavLink } from '/imports/ui/components/sysNavLink/sysNavLink';
 import SysRoutes from '/imports/app/routes';

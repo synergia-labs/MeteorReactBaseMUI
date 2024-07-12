@@ -4,8 +4,8 @@ import { getTheme } from '/imports/ui/materialui/theme';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ISysThemeOptions } from '../typings/BoilerplateDefaultTypings';
-import { AppContainer } from './AppContainer';
-import { AppLayout } from './AppLayout';
+import { AppContainer } from './appContainer';
+import { AppLayout } from './appLayout';
 
 export interface IThemeOptions {
 	darkMode: boolean;

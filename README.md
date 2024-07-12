@@ -9,7 +9,7 @@ Dentre os benefícios de adotá-lo no desenvolvimento de um novo produto nós po
 
 - suporte à prevenção de erros de desenvolvimento através da implementação de classes que encapsulam operações básicas referente à interação cliente-servidor e à comunicação com o banco de dados.
 
-- estruturação do código para ampliar o controle das operações de banco de dados; 
+- estruturação do código para ampliar o controle das operações de banco de dados;
 
 - gestão e controle do schema das coleções bem como a validação dos dados a partir de schemas, e;
 
@@ -68,7 +68,7 @@ Pasta que contém os principais arquivos do produto. Esta pasta está organizada
     		SignIn            --> Página de sign in e seu style.
     		SignOut           --> Página de sign out e seu style.
     		SignUp            --> Página de sign up e seu style.
-    		App.tsx           --> Componente principal montado na index.html.
+    		app.tsx           --> Componente principal montado na index.html.
     		AppGeneralComponents.tsx  --> Conjunto de componentes que podem ser acionados a qualquer momento como: caixas de diálogo, telas modais, etc.
     		AppGeneralComponentStyle.tsx  --> Estilo dos componentes gerais.
     	userprofile       --> Pasta que contém o módulo do sistema referente a exibição e edição do perfil de usuário, com seus respectivos arquivos-base (api, schema e rotas do módulo).
@@ -604,11 +604,11 @@ A verificação se o cliente está acessando ou não através de um dispositivo 
 
 ### Perfis e controle de acesso
 
-O controle de acesso através de perfis está implementado no múdulo "seguranca", e funciona da seguinte forma: no arquivo "RoleType.tsx" são definidos os perfis de acesso disponívels na aplicação. Cada módulo deverá possuir seu próprio arquivo de recursos, chamado "Recurso" na pasta "config" do próprio módulo. Nele, são definidos os recursos necessários para utilização daquele módulo. Basta agora atribuir os recursos necessários para cada perfil de usuário no arquivo "MapRolesRecursos.tsx". Nele, devem ser atribuidos para cada perfil os recursos que o mesmo possui. Como exemplo, já temos implementados recursos para o módulo "example" e perfil "Administrador".
+O controle de acesso através de perfis está implementado no múdulo "seguranca", e funciona da seguinte forma: no arquivo "roleType.tsx" são definidos os perfis de acesso disponívels na aplicação. Cada módulo deverá possuir seu próprio arquivo de recursos, chamado "Recurso" na pasta "config" do próprio módulo. Nele, são definidos os recursos necessários para utilização daquele módulo. Basta agora atribuir os recursos necessários para cada perfil de usuário no arquivo "mapRolesRecursos.tsx". Nele, devem ser atribuidos para cada perfil os recursos que o mesmo possui. Como exemplo, já temos implementados recursos para o módulo "example" e perfil "Administrador".
 
 Como funciona a validação dos recursos? Para validações no backend, utilize a função podeAcessarRecurso. Para validações no frontend, utilize o componente funcional "RenderComPermissao", que somente renderizará qualquer JSX passado como children caso a validação de recursos retorne verdadeiro. Para validação de acesso a rotas do sistema, a propriedade "resources" deve ser informada na configuração da rota, no arquivo "nomeDoModuloRouters.tsx". Exemplos de uso para todos os três casos estão implementados no módulo "example".
 
-Caso não queira utilizar essa implementação de controle de acesso, não utilize as funções mencionadas acima e remova a validação por perfil de acesso no arquivo "AppRouterSwitch.tsx", linhas 66-67.
+Caso não queira utilizar essa implementação de controle de acesso, não utilize as funções mencionadas acima e remova a validação por perfil de acesso no arquivo "appRouterSwitch.tsx", linhas 66-67.
 
 ### Contexto geral da aplicação
 

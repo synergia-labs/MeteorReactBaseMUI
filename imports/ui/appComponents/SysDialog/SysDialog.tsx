@@ -14,8 +14,8 @@ import {
 import { DialogContentStyled, DialogTitleStyled } from './SysDialogStyles';
 import { DialogTransitions } from '../transitions';
 import { MemoryRouter } from 'react-router-dom';
-import { AppRouterSwitch } from '../../../app/AppRouterSwitch';
-import { defaultTemplate } from '../../../app/AppLayout';
+import { AppRouterSwitch } from '../../../app/appRouterSwitch';
+import { defaultTemplate } from '../../../app/appLayout';
 
 export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, 'open'> {
 	open?: boolean;

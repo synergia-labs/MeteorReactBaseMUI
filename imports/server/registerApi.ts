@@ -1,3 +1,3 @@
 import '../api/attachmentsCollection';
-import '../modules/userprofile/api/UserProfileServerApi';
+import '../modules/userprofile/api/userProfileServerApi';
 import '../modules/example/api/exampleServerApi';

@@ -5,7 +5,7 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AttachFile, Book, Image, LibraryBooks, LibraryMusic, VideoLibrary } from '@mui/icons-material';
 import { FileWithPath, useDropzone } from 'react-dropzone';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import { attachmentsCollection } from '/imports/api/attachmentsCollection';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
