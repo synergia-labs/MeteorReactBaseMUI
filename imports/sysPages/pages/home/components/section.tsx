@@ -1,5 +1,8 @@
 import React from 'react';
-import { Box, styled, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
 
 const Container = styled(Box)(({}) => ({
 	display: 'flex',

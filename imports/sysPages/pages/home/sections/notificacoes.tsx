@@ -1,7 +1,11 @@
 import React, { useContext } from 'react';
 import HomeSection from '../components/section';
 import HomeStyles from '../homeStyle';
-import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
@@ -12,12 +16,13 @@ import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 
 const HomeSectionNotificacoes: React.FC = () => {
 	const sysLayoutContext = useContext(SysAppLayoutContext);
+  const { RowButtons, } = HomeStyles;
 
 	return (
 		<HomeSection
 			title="Notificações"
 			description="As notificações são mensagens exibidas ao usuário para informar sobre ações realizadas ou necessárias. Elas podem ser personalizadas e possuem diferentes tipos de exibição. Estão acessíveis através do contexto SysAppLayoutContext, que é compartilhado por toda a aplicação. Para usar basta apenas chamar a função showNotification e passar a mensagem desejada.">
-			<HomeStyles.rowButtons>
+			<RowButtons>
 				<Button
 					color="secondary"
 					startIcon={<HighlightOffRoundedIcon />}
@@ -110,7 +115,7 @@ const HomeSectionNotificacoes: React.FC = () => {
 					}}>
 					Notificação personalizada
 				</Button>
-			</HomeStyles.rowButtons>
+			</RowButtons>
 		</HomeSection>
 	);
 };

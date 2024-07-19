@@ -7,7 +7,9 @@ import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
 import DoneIcon from '@mui/icons-material/Done';
@@ -18,6 +20,12 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
 	const [loading, setLoading] = React.useState<boolean>(false);
 
 	const { token } = useParams();
+  const {
+    Container,
+    Content,
+    FormContainer,
+    FormWrapper,
+  } = SignInStyles;
 
 	const handleSubmit = (doc: { password: string; repassword: string }) => {
 		const { password, repassword } = doc;
@@ -60,8 +68,8 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
 	};
 
 	return (
-		<SignInStyles.container>
-			<SignInStyles.content>
+		<Container>
+			<Content>
 				<Typography variant="h1" display={'inline-flex'} gap={1}>
 					<Typography variant="inherit" color={(theme) => theme.palette.sysText?.tertiary}>
 						{'{'}
@@ -72,10 +80,10 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
 					</Typography>
 				</Typography>
 
-				<SignInStyles.formContainer>
+				<FormContainer>
 					<Typography variant="h5">Redefinição de senha</Typography>
 					<SimpleForm schema={schema} onSubmit={handleSubmit}>
-						<SignInStyles.formWrapper>
+						<FormWrapper>
 							<TextField
 								label="Nova senha"
 								fullWidth={true}
@@ -102,12 +110,12 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
 								sx={{ transition: 'all 0.3s ease' }}>
 								{loading ? <CircularProgress size={24} /> : 'Confirmar'}
 							</Button>
-						</SignInStyles.formWrapper>
+						</FormWrapper>
 					</SimpleForm>
-				</SignInStyles.formContainer>
+				</FormContainer>
 
 				<Box component="img" src="/images/wireframe/synergia-logo.svg" sx={{ width: '100%', maxWidth: '400px' }} />
-			</SignInStyles.content>
-		</SignInStyles.container>
+			</Content>
+		</Container>
 	);
 };

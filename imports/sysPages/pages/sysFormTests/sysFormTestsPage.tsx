@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import SysFormTestsStyles from './sysFormTestsStyles';

@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
 import SysFormPlaygroundStyles from './sysFormPlaygroundStyles';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import { SysFormPlaygroundContext } from './sysFormPlayground';
@@ -27,11 +30,22 @@ import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderF
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);
+  const {
+    Container,
+    ControlerContainer,
+    ButtonContainer,
+    Description,
+    DocContainer,
+    FormContainer,
+    Playground,
+    RowElement,
+    SchemaContainer,
+  } = SysFormPlaygroundStyles;
 
 	return (
-		<SysFormPlaygroundStyles.container>
+		<Container>
 			<Typography variant="h3">SysForm</Typography>
-			<SysFormPlaygroundStyles.description>
+			<Description>
 				<p>
 					O SysForm é um componente desenvolvido para gerenciar formulários em aplicações React. Ele foi criado com o
 					propósito de simplificar todas as etapas do ciclo de vida de um formulário, desde a sua criação até a
@@ -81,18 +95,18 @@ const SysFormPlaygroundView: React.FC = () => {
 					garantida e pode causar problemas de funcionamento. Além disso, valores default devem ser passados no schema
 					ou no doc informado para o SysForm e nunca inline nos componentes.
 				</p>
-			</SysFormPlaygroundStyles.description>
+			</Description>
 
 			<Typography variant="h5">Playground</Typography>
 			<Box sx={{ display: 'flex', flexDirection: 'column', gap: sysSizing.spacingFixedLg }}>
 				<Typography variant="subtitle1">schema</Typography>
-				<SysFormPlaygroundStyles.schemaContainer>
+				<SchemaContainer>
 					<pre>{schemaFormated}</pre>
-				</SysFormPlaygroundStyles.schemaContainer>
+				</SchemaContainer>
 			</Box>
 
-			<SysFormPlaygroundStyles.playground>
-				<SysFormPlaygroundStyles.formContainer>
+			<Playground>
+				<FormContainer>
 					<Typography variant="subtitle1">Formulário</Typography>
 					<SysForm
 						schema={controller.schema}
@@ -104,7 +118,7 @@ const SysFormPlaygroundView: React.FC = () => {
 						loading={controller.loading}
 						onSubmit={controller.onSubmit}
 						validateOnChange={controller.realTimeValidation}>
-						<SysFormPlaygroundStyles.rowElement>
+						<RowElement>
 							<SysTextField name="name" placeholder="Digite seu nome completo" />
 							{controller.mode === 'edit' && (
 								<Button
@@ -115,12 +129,12 @@ const SysFormPlaygroundView: React.FC = () => {
 									Validar
 								</Button>
 							)}
-						</SysFormPlaygroundStyles.rowElement>
-						<SysFormPlaygroundStyles.rowElement>
+						</RowElement>
+						<RowElement>
 							<SysSelectField name="status" placeholder="Selecionar" />
 							<SysDatePickerField name="statusDate" placeholder="Selecione uma data" />
-						</SysFormPlaygroundStyles.rowElement>
-						<SysFormPlaygroundStyles.rowElement>
+						</RowElement>
+						<RowElement>
 							<SysTextField name="cpf" placeholder="Ex.: 123.456.789-00" />
 							{controller.mode === 'edit' && (
 								<IconButton
@@ -130,12 +144,12 @@ const SysFormPlaygroundView: React.FC = () => {
 									<TaskOutlinedIcon />
 								</IconButton>
 							)}
-						</SysFormPlaygroundStyles.rowElement>
+						</RowElement>
 						<SysTextField name="phone" placeholder="Ex.: (31) 91234-5678" />
-						<SysFormPlaygroundStyles.rowElement>
+						<RowElement>
 							<SysDatePickerField name="birthDate" />
 							<SysSelectField name="midia" placeholder="Selecione" />
-						</SysFormPlaygroundStyles.rowElement>
+						</RowElement>
 						<SysCheckBox name="favorites" alignment="row" />
 						<SysTextField name="otherFavorite" placeholder="Informe seu tipo favorito de mídia e um exemplo" />
 						<SysRadioButton name="rate" alignment="row" />
@@ -145,10 +159,10 @@ const SysFormPlaygroundView: React.FC = () => {
 							Enviar
 						</SysFormButton>
 					</SysForm>
-				</SysFormPlaygroundStyles.formContainer>
-				<SysFormPlaygroundStyles.controlerContainer>
+				</FormContainer>
+				<ControlerContainer>
 					<Typography variant="subtitle1">Controles</Typography>
-					<SysFormPlaygroundStyles.buttonContainer>
+					<ButtonContainer>
 						<Button startIcon={<TaskOutlinedIcon />} onClick={controller.sysFormRef.current?.validateFields}>
 							Validar
 						</Button>
@@ -188,10 +202,10 @@ const SysFormPlaygroundView: React.FC = () => {
 							onClick={() => controller.setRealTimeValidation(!controller.realTimeValidation)}>
 							Validação em tempo real: {controller.realTimeValidation ? 'Ativo' : 'Inativo'}
 						</Button>
-					</SysFormPlaygroundStyles.buttonContainer>
+					</ButtonContainer>
 
 					<Typography variant="subtitle1">Doc</Typography>
-					<SysFormPlaygroundStyles.docContainer>
+					<DocContainer>
 						<pre>{JSON.stringify(controller.doc, null, 2)}</pre>
 						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 							<IconButton onClick={controller.updateDoc}>
@@ -204,10 +218,10 @@ const SysFormPlaygroundView: React.FC = () => {
 								<ErrorOutlineOutlinedIcon color="error" />
 							</IconButton>
 						</Box>
-					</SysFormPlaygroundStyles.docContainer>
-				</SysFormPlaygroundStyles.controlerContainer>
-			</SysFormPlaygroundStyles.playground>
-		</SysFormPlaygroundStyles.container>
+					</DocContainer>
+				</ControlerContainer>
+			</Playground>
+		</Container>
 	);
 };
 

@@ -1,15 +1,16 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box, { BoxProps } from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface IHomeStyles {
-	container: ElementType<BoxProps>;
-	header: ElementType<BoxProps>;
-	rowButtons: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
+	Header: ElementType<BoxProps>;
+	RowButtons: ElementType<BoxProps>;
 }
 
 const HomeStyles: IHomeStyles = {
-	container: styled(Box)(({ theme }) => ({
+	Container: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'flex-start',
@@ -23,7 +24,7 @@ const HomeStyles: IHomeStyles = {
 			padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`
 		}
 	})),
-	header: styled(Box)(({}) => ({
+	Header: styled(Box)(({}) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'flex-start',
@@ -31,7 +32,7 @@ const HomeStyles: IHomeStyles = {
 		gap: '1rem',
 		marginBottom: '1rem'
 	})),
-	rowButtons: styled(Box)(({ theme }) => ({
+	RowButtons: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
