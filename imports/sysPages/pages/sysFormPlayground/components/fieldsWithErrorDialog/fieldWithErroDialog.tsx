@@ -1,4 +1,6 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import React from 'react';
 import FieldsWithErrorDialogStyles from './fieldsWithErrorDialogStyles';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -10,14 +12,16 @@ interface IFieldsWithErrorsDialog {
 
 const FieldsWithErrorsDialog: React.FC<IFieldsWithErrorsDialog> = ({ errors, closeDialog }) => {
 	const hasError = Object.keys(errors).length > 0;
+  const { Container, Body, Header, } = FieldsWithErrorDialogStyles;
+
 	return (
-		<FieldsWithErrorDialogStyles.container>
-			<FieldsWithErrorDialogStyles.header>
+		<Container>
+			<Header>
 				<Typography variant="h5">Campos do formulário com erro</Typography>
 				<IconButton onClick={closeDialog}>
 					<CloseOutlinedIcon />
 				</IconButton>
-			</FieldsWithErrorDialogStyles.header>
+			</Header>
 			{!hasError ? (
 				<Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 					<Typography variant="body1" textAlign="center">
@@ -25,11 +29,11 @@ const FieldsWithErrorsDialog: React.FC<IFieldsWithErrorsDialog> = ({ errors, clo
 					</Typography>
 				</Box>
 			) : (
-				<FieldsWithErrorDialogStyles.body>
+				<Body>
 					<pre>{JSON.stringify(errors, null, 2)}</pre>
-				</FieldsWithErrorDialogStyles.body>
+				</Body>
 			)}
-		</FieldsWithErrorDialogStyles.container>
+		</Container>
 	);
 };
 

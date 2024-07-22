@@ -1,6 +1,6 @@
 import React from 'react';
 import { Accounts } from 'meteor/accounts-base';
-
+import Box from '@mui/material/Box';
 import { enrollAccountStyle } from './enrollAccountStyle';
 import { useParams } from 'react-router-dom';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
@@ -29,11 +29,11 @@ export const EnrollAccount = (props: IDefaultContainerProps) => {
 	}
 
 	return (
-		<h2 style={enrollAccountStyle.labelStatus}>
+		<Box sx={enrollAccountStyle.labelStatus}>
 			<img src="/images/wireframe/logo.png" style={enrollAccountStyle.imageLogo} />
 			<div>
 				<p>{!status ? 'Verificando token, aguarde....' : status}</p>
 			</div>
-		</h2>
+		</Box>
 	);
 };

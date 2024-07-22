@@ -10,7 +10,9 @@ import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
@@ -25,6 +27,12 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 	const { showNotification } = useContext(SysAppLayoutContext);
 	console.log('AQUI >>>> ', useContext(SysAppLayoutContext));
 	const navigate = useNavigate();
+  const {
+    Container,
+    Content,
+    FormContainer,
+    FormWrapper,
+  } = SignInStyles;
 
 	const handleSubmit = (doc: { email: string }) => {
 		const { email } = doc;
@@ -70,8 +78,8 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 	};
 
 	return (
-		<SignInStyles.container>
-			<SignInStyles.content>
+		<Container>
+			<Content>
 				<Typography variant="h1" display={'inline-flex'} gap={1}>
 					<Typography variant="inherit" color={(theme) => theme.palette.sysText?.tertiary}>
 						{'{'}
@@ -82,7 +90,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 					</Typography>
 				</Typography>
 
-				<SignInStyles.formContainer>
+				<FormContainer>
 					<Typography variant="h5" color={(theme) => theme.palette.sysText?.title}>
 						{!msg ? 'Esqueceu sua senha?' : 'Agora é só aguardar!'}
 					</Typography>
@@ -93,7 +101,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 							: 'Caso o e-mail informado esteja cadastrado no sistema, enviaremos um link para a redefinição de sua senha'}
 					</Typography>
 					<SimpleForm schema={schema} onSubmit={handleSubmit} styles={{ display: !msg ? 'block' : 'none' }}>
-						<SignInStyles.formWrapper>
+						<FormWrapper>
 							<TextField
 								label="Email"
 								fullWidth={true}
@@ -123,7 +131,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 									{loading ? <CircularProgress size={24} /> : 'Confirmar'}
 								</Button>
 							</Box>
-						</SignInStyles.formWrapper>
+						</FormWrapper>
 					</SimpleForm>
 					<Button
 						onClick={() => navigate('/')}
@@ -134,10 +142,10 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 						sx={{ transition: 'all 0.3s ease', display: !msg ? 'none' : 'flex' }}>
 						{loading ? <CircularProgress size={24} /> : 'Voltar para o Login'}
 					</Button>
-				</SignInStyles.formContainer>
+				</FormContainer>
 
 				<Box component="img" src="/images/wireframe/synergia-logo.svg" sx={{ width: '100%', maxWidth: '400px' }} />
-			</SignInStyles.content>
-		</SignInStyles.container>
+			</Content>
+		</Container>
 	);
 };

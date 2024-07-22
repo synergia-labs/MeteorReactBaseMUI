@@ -19,11 +19,10 @@ import {Menu, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {MoreVert, Person, Settings} from "@mui/icons-material";
 import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import Autocomplete from "@mui/material/Autocomplete";
 
 const Home: React.FC = () => {
+  const { Container, Header, } = HomeStyles;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,8 +33,8 @@ const Home: React.FC = () => {
   };
 
 	return (
-		<HomeStyles.container>
-			<HomeStyles.header>
+		<Container>
+			<Header>
 				<Typography variant="h3">Página de testes</Typography>
 				<Typography variant="body1" textAlign={'justify'}>
 					Bem vindo ao Boilerplate do Synergia. Essa é uma página dedicada aos testes e exibições de componentes e
@@ -151,10 +150,10 @@ const Home: React.FC = () => {
           <Tab label='Aba 2' />
           <Tab label='Aba 3' disabled />
         </Tabs>
-			</HomeStyles.header>
+			</Header>
 			<HomeSectionNotificacoes />
 			<HomeSectionDialogs />
-		</HomeStyles.container>
+		</Container>
 	);
 };
 

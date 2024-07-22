@@ -1,15 +1,16 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import  Box,{ BoxProps } from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface IExampleListStyles {
-	container: ElementType<BoxProps>;
-	loadingContainer: ElementType<BoxProps>;
-	searchContainer: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
+	LoadingContainer: ElementType<BoxProps>;
+	SearchContainer: ElementType<BoxProps>;
 }
 
 const ExampleListStyles: IExampleListStyles = {
-	container: styled(Box)(({ theme }) => ({
+	Container: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
@@ -24,7 +25,7 @@ const ExampleListStyles: IExampleListStyles = {
 			padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`
 		}
 	})),
-	loadingContainer: styled(Box)(({ theme }) => ({
+	LoadingContainer: styled(Box)(({ theme }) => ({
 		width: '100%',
 		display: 'flex',
 		flexGrow: 1,
@@ -33,7 +34,7 @@ const ExampleListStyles: IExampleListStyles = {
 		flexDirection: 'column',
 		gap: theme.spacing(2)
 	})),
-	searchContainer: styled(Box)(({ theme }) => ({
+	SearchContainer: styled(Box)(({ theme }) => ({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'row',

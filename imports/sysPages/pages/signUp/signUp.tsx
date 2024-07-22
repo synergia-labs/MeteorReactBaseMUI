@@ -12,7 +12,7 @@ import { userprofileApi } from '../../../modules/userprofile/api/userProfileApi'
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
 import { signUpStyle } from './signUpStyle';
-import { Box } from '@mui/system';
+import Box from '@mui/material/Box';
 import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 
 interface ISignUp {
@@ -49,10 +49,10 @@ export const SignUp = (props: ISignUp) => {
 
 	return (
 		<Container style={signUpStyle.containerSignUp}>
-			<h2 style={signUpStyle.labelRegisterSystem}>
+			<Box sx={signUpStyle.labelRegisterSystem}>
 				<img src="/images/wireframe/logo.png" style={signUpStyle.imageLogo} />
 				{'Cadastrar no sistema'}
-			</h2>
+			</Box>
 			<SimpleForm
 				schema={{
 					email: {

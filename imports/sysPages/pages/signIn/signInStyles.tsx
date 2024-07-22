@@ -1,16 +1,18 @@
 import React from 'react';
-import { Box, Paper, styled } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISignInStyles {
-	container: React.ElementType;
-	content: React.ElementType;
-	formContainer: React.ElementType;
-	formWrapper: React.ElementType;
+	Container: React.ElementType;
+	Content: React.ElementType;
+	FormContainer: React.ElementType;
+	FormWrapper: React.ElementType;
 }
 
 const SignInStyles: ISignInStyles = {
-	container: styled(Box)(({ theme }) => ({
+	Container: styled(Box)(({ theme }) => ({
 		minHeight: '100vh',
 		width: '100%',
 		backgroundColor: theme.palette.primary.main,
@@ -23,7 +25,7 @@ const SignInStyles: ISignInStyles = {
 			backgroundPosition: 'right'
 		}
 	})),
-	content: styled(Box)(({ theme }) => ({
+	Content: styled(Box)(({ theme }) => ({
 		width: '100%',
 		height: '100%',
 		display: 'flex',
@@ -42,7 +44,7 @@ const SignInStyles: ISignInStyles = {
 			transform: 'translateY(-50%)'
 		}
 	})),
-	formContainer: styled(Paper)(({ theme }) => ({
+	FormContainer: styled(Paper)(({ theme }) => ({
 		width: '100%',
 		padding: `${sysSizing.spacingFixedLg} ${sysSizing.spacingFixedXl}`,
 		borderRadius: sysSizing.radiusLg,
@@ -54,7 +56,7 @@ const SignInStyles: ISignInStyles = {
 		alignItems: 'center',
 		maxWidth: '400px'
 	})),
-	formWrapper: styled(Box)(({ theme }) => ({
+	FormWrapper: styled(Box)(({ theme }) => ({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',

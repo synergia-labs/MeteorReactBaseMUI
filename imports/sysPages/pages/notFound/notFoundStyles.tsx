@@ -1,12 +1,13 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
+import Box, { BoxProps } from '@mui/material/Box';
 
 interface INotFoundStyles {
-	container: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
 }
 
 const NotFoundStyles: INotFoundStyles = {
-	container: styled(Box)(() => ({
+	Container: styled(Box)(() => ({
 		display: 'flex',
 		width: '100%',
 		height: '100%',

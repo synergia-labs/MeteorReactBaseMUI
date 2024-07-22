@@ -12,6 +12,7 @@ import HomeStyles from '../homeStyle';
 
 const HomeSectionDialogs: React.FC = () => {
 	const sysLayoutContext = useContext(SysAppLayoutContext);
+  const { RowButtons, } = HomeStyles;
 
 	return (
 		<HomeSection
@@ -37,7 +38,7 @@ const HomeSectionDialogs: React.FC = () => {
 					deles, opte pelos componente Modal ou Window
 				</>
 			}>
-			<HomeStyles.rowButtons>
+			<RowButtons>
 				<Button color="secondary" startIcon={<HighlightOffRoundedIcon />} onClick={sysLayoutContext.closeDialog}>
 					Fechar Dialog
 				</Button>
@@ -102,7 +103,7 @@ const HomeSectionDialogs: React.FC = () => {
 					}}>
 					Mostrar janela com rota
 				</Button>
-			</HomeStyles.rowButtons>
+			</RowButtons>
 		</HomeSection>
 	);
 };

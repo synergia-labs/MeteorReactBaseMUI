@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 import { IShowDialogProps } from '../../showDialog';
-import { Button, DialogActions, DialogTitle } from '@mui/material';
+import Button from '@mui/material/Button';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 import { formDialogStyles } from './formDialogStyles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';

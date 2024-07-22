@@ -1,21 +1,23 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled, Typography, TypographyProps } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box, { BoxProps } from '@mui/material/Box';
+
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISysFormPlaygroundStyles {
-	container: ElementType<BoxProps>;
-	description: ElementType<BoxProps>;
-	playground: ElementType<BoxProps>;
-	formContainer: ElementType<BoxProps>;
-	controlerContainer: ElementType<BoxProps>;
-	docContainer: ElementType<BoxProps>;
-	buttonContainer: ElementType<BoxProps>;
-	rowElement: ElementType<BoxProps>;
-	schemaContainer: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
+	Description: ElementType<BoxProps>;
+	Playground: ElementType<BoxProps>;
+	FormContainer: ElementType<BoxProps>;
+	ControlerContainer: ElementType<BoxProps>;
+	DocContainer: ElementType<BoxProps>;
+	ButtonContainer: ElementType<BoxProps>;
+	RowElement: ElementType<BoxProps>;
+	SchemaContainer: ElementType<BoxProps>;
 }
 
 const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
-	container: styled(Box)(({ theme }) => ({
+	Container: styled(Box)(({ theme }) => ({
 		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
 		paddingBottom: sysSizing.contentPb,
 		transition: 'all 0.3s ease',
@@ -26,18 +28,18 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 			padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`
 		}
 	})),
-	description: styled(Box)({
+	Description: styled(Box)({
 		textAlign: 'justify',
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedSm
 	}),
-	playground: styled(Box)({
+	Playground: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		gap: '64px'
 	}),
-	formContainer: styled(Box)({
+	FormContainer: styled(Box)({
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedMd,
@@ -46,7 +48,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		top: '16px',
 		height: 'fit-content'
 	}),
-	controlerContainer: styled(Box)(({ theme }) => ({
+	ControlerContainer: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedLg,
@@ -56,7 +58,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		backgroundColor: theme.palette.sysAction?.primaryBgHover,
 		height: 'fit-content'
 	})),
-	docContainer: styled(Box)(({ theme }) => ({
+	DocContainer: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -66,7 +68,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		maxHeight: '350px',
 		padding: sysSizing.spacingFixedMd
 	})),
-	buttonContainer: styled(Box)({
+	ButtonContainer: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		flexWrap: 'wrap',
@@ -74,13 +76,13 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		rowGap: sysSizing.spacingRemMd,
 		columnGap: sysSizing.spacingRemMd
 	}),
-	rowElement: styled(Box)({
+	RowElement: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		gap: sysSizing.spacingFixedMd,
 		alignItems: 'flex-start'
 	}),
-	schemaContainer: styled(Box)(({ theme }) => ({
+	SchemaContainer: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		borderRadius: sysSizing.radiusSm,

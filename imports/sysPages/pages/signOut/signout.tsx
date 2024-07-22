@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 
 import { Meteor } from 'meteor/meteor';
 import { cleanUserCache } from '../../../hooks/useUserAccount';
-
+import Box from '@mui/material/Box';
 import { signoutStyle } from './signoutStyle';
 
 const Signout = () => {
@@ -17,10 +17,10 @@ const Signout = () => {
 
 	return (
 		<Container style={signoutStyle.containerSignOut}>
-			<h2 style={signoutStyle.labelExitSystem}>
+			<Box sx={signoutStyle.labelExitSystem}>
 				<img src="/images/wireframe/logo.png" style={signoutStyle.imageLogo} />
 				<p>{'Volte sempre!!!'}</p>
-			</h2>
+			</Box>
 		</Container>
 	);
 };

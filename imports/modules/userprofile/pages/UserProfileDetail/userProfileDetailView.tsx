@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from 'react';
-import { Button, DialogTitle } from '@mui/material';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 import { UserProfileDetailControllerContext } from './userProfileDetailController';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
@@ -14,25 +15,31 @@ const UserProfileDetailView = () => {
 	const context = useContext(UserProfileDetailControllerContext);
 	const { user, onSubmit, schema, mode, closeDialog, loading } = context;
 	const sysFormRef = useRef<ISysFormRef>(null);
+  const {
+    Container,
+    FieldsForm,
+    Actions,
+  } = UserProfileDetailStyles;
+
 	return (
-		<UserProfileDetailStyles.Container>
+		<Container>
 			<DialogTitle variant="subtitle1" sx={{ padding: 0 }}>
 				{mode === 'create' ? 'Adicionar usuário' : 'Editar usuário'}
 			</DialogTitle>
 			<SysForm schema={schema} doc={user} mode={mode} onSubmit={onSubmit} ref={sysFormRef} loading={loading}>
-				<UserProfileDetailStyles.FieldsForm>
+				<FieldsForm>
 					<SysTextField name="username" placeholder="Ex.: José da Silva" />
 					<SysTextField name="email" placeholder="Ex.: jose.silva@email.com" />
 					<SysSelectField name="roles" placeholder="Selecionar" />
-					<UserProfileDetailStyles.Actions>
+					<Actions>
 						<Button variant="outlined" startIcon={<CloseIcon />} onClick={closeDialog}>
 							Cancelar
 						</Button>
 						<SysFormButton startIcon={<CheckIcon />}>Salvar</SysFormButton>
-					</UserProfileDetailStyles.Actions>
-				</UserProfileDetailStyles.FieldsForm>
+					</Actions>
+				</FieldsForm>
 			</SysForm>
-		</UserProfileDetailStyles.Container>
+		</Container>
 	);
 };
 

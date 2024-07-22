@@ -1,15 +1,16 @@
-import { Box, BoxProps, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box, { BoxProps } from '@mui/material/Box';
 import { ElementType } from 'react';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface IFieldsWithErrorDialog {
-	container: ElementType<BoxProps>;
-	header: ElementType<BoxProps>;
-	body: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
+	Header: ElementType<BoxProps>;
+	Body: ElementType<BoxProps>;
 }
 
 const FieldsWithErrorDialogStyles: IFieldsWithErrorDialog = {
-	container: styled(Box)({
+	Container: styled(Box)({
 		display: 'flex',
 		flexDirection: 'column',
 		gap: '16px',
@@ -17,13 +18,13 @@ const FieldsWithErrorDialogStyles: IFieldsWithErrorDialog = {
 		minHeight: '300px',
 		padding: '16px'
 	}),
-	header: styled(Box)({
+	Header: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		gap: '16px',
 		justifyContent: 'space-between'
 	}),
-	body: styled(Box)(({ theme }) => ({
+	Body: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		flexGrow: 1,
