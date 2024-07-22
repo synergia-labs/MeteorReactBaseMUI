@@ -1,16 +1,12 @@
 import React, { FC, ReactNode, useEffect } from 'react';
 import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
-import {
-	Box,
-	Dialog,
-	DialogActions,
-	DialogContentText,
-	DialogProps,
-	SxProps,
-	Theme,
-	useMediaQuery,
-	useTheme
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContentText from '@mui/material/DialogContentText';
+import { Theme, SxProps } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import { DialogContentStyled, DialogTitleStyled } from './showDialogStyles';
 import { DialogTransitions } from '../transitions';
 import { MemoryRouter } from 'react-router-dom';

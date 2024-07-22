@@ -1,6 +1,9 @@
 import React, { ReactNode, useEffect } from 'react';
 import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
 import { Drawer, DrawerProps, SxProps, Theme } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
+import DrawerProps from '@mui/material/Drawer';
+import SxProps from '@mui/material/SxProps';
 
 export interface IShowDrawerProps extends ISysGeneralComponentsCommon, Omit<DrawerProps, 'open' | 'onClose'> {
 	/** Define o lado do ancoramento do Drawer. */

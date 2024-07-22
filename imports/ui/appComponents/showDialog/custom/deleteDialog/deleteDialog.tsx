@@ -1,6 +1,8 @@
 import React from 'react';
 import { IShowDialogProps } from '../../showDialog';
-import { Button, DialogActions, DialogTitle } from '@mui/material';
+import Button from '@mui/material/Button';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 import { deleteDialogStyles } from './deleteDialogStyles';
 
 interface IDeleteDialogProps extends IShowDialogProps {

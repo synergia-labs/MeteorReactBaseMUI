@@ -1,6 +1,10 @@
 import React, { ReactNode } from 'react';
 import { IShowDialogProps } from '../showDialog';
-import { Box, DialogContent, DialogTitle, IconButton, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Header = styled(Box)(({}) => ({
