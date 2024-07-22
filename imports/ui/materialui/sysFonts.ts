@@ -6,48 +6,48 @@ class SysFonts {
 	public static readonly h1 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${3 * _fontScale}rem`,
-		fontWeight: 700,
-		fontStyle: 'bold',
+		fontWeight: 600,
+    fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
 	public static readonly h2 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${2 * _fontScale}rem`,
-		fontWeight: 700,
-		fontStyle: 'bold',
+		fontWeight: 600,
+    fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
 	public static readonly h3 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.5 * _fontScale}rem`,
-		fontWeight: 700,
-		fontStyle: 'bold',
+		fontWeight: 600,
+    fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
 	public static readonly h4 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.5 * _fontScale}rem`,
-		fontWeight: 500,
-		fontStyle: 'light',
+		fontWeight: 400,
+    fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
 	public static readonly h5 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.25 * _fontScale}rem`,
-		fontWeight: 700,
-		fontStyle: 'light',
+		fontWeight: 600,
+    fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
 	public static readonly h6 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
-		fontSize: `${1.25 * _fontScale}rem`,
-		fontWeight: 500,
-		fontStyle: 'light',
+		fontSize: `${1.125 * _fontScale}rem`,
+		fontWeight: 400,
+    fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
@@ -70,16 +70,16 @@ class SysFonts {
 	public static readonly button = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${_fontScale}rem`,
-		fontWeight: 700,
-		fontStyle: 'bold',
+		fontWeight: 600,
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
 	public static readonly button2 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${0.875 * _fontScale}rem`,
-		fontWeight: 700,
-		fontStyle: 'bold',
+		fontWeight: 600,
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
@@ -95,15 +95,16 @@ class SysFonts {
 	public static readonly body1 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${_fontScale}rem`,
+    fontWeight: 400,
 		fontStyle: 'normal',
-		lineHeight: '20px'
+    lineHeight: 'normal'
 	});
 
 	public static readonly body2 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${0.875 * _fontScale}rem`,
-		fontWeight: 500,
-		fontStyle: 'light',
+		fontWeight: 400,
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 

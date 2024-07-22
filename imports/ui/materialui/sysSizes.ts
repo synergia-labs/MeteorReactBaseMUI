@@ -22,7 +22,7 @@ export const sysBaseSizes = {
 	baseRem4: '4rem'
 };
 
-const sysSizing = {
+const sysMainSizes = {
 	base: sysBaseSizes,
 	componentsInputMinHeight: 0,
 	componentsButtonSmallPy: sysBaseSizes.baseRem025,
@@ -58,4 +58,4 @@ const sysSizing = {
 	radiusInfinite: '800px'
 };
 
-export default sysSizing;
+export default sysMainSizes;

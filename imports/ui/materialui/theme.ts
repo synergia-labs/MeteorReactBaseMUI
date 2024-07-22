@@ -1,12 +1,9 @@
 import { createTheme } from '@mui/material/styles';
 import React from 'react';
 import { Theme, ThemeOptions } from '@mui/material';
-import sysLightPalette from './colors/sysColors';
-import prodLightPalette from './colors/prodColors';
-import SysFonts from './fonts/sysFonts';
-import ProdFonts from './fonts/prodFonts';
-import getProdComponentsStyles from './components/prodComponents';
-import getSysComponentsStyles from './components/sysComponents';
+import sysLightPalette from './sysColors';
+import SysFonts from './sysFonts';
+import getSysComponentsStyles from './sysComponents';
 
 declare module '@mui/material/styles' {
 	interface ISysText {
@@ -89,8 +86,8 @@ declare module '@mui/material/Typography' {
 const getLightThemeBase = (props: { fontScale: number }): ThemeOptions => {
 	const fontScale = props.fontScale;
 	return {
-		palette: { ...sysLightPalette, ...prodLightPalette },
-		typography: { ...SysFonts.getTypography(fontScale), ...ProdFonts.getTypography(fontScale) },
+		palette: { ...sysLightPalette },
+		typography: { ...SysFonts.getTypography(fontScale) },
 		spacing: 8,
 		breakpoints: {
 			values: {
@@ -108,5 +105,5 @@ export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 	const fontScale = options.fontScale || 1;
 	let theme: Theme = createTheme(getLightThemeBase({ fontScale }));
 
-	return createTheme(theme, { ...getSysComponentsStyles(theme), ...getProdComponentsStyles(theme) });
+	return createTheme(theme, { ...getSysComponentsStyles(theme, fontScale) });
 };

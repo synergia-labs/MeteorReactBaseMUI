@@ -54,6 +54,15 @@ body {
   url('../fonts/poppins-v20-latin-regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-display: swap;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/poppins-v20-latin-600.woff2') format('woff2'),
+  url('../fonts/poppins-v20-latin-600.ttf') format('truetype');
+}
+
 /* Ensure that the max height respects the viewport height */
 .MuiModal-root .MuiBox-root {
   max-height: calc(100vh - (100vh - 100%));
