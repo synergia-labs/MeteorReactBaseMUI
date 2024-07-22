@@ -1,6 +1,9 @@
 import React from 'react';
 import { IShowNotificationProps } from '../showNotification';
-import { Avatar, Box, IconButton, Typography } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface IShowNotificationChatProps {

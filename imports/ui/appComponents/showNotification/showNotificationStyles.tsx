@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, Paper, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface IShowNotificationStyles {

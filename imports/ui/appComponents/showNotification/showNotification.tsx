@@ -1,5 +1,9 @@
 import React from 'react';
-import { Button, IconButton, Snackbar, SxProps, Theme, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { Theme, SxProps } from '@mui/material';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar'
 import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
 import { hasValue } from '/imports/libs/hasValue';
 import ShowNotificationStyles from './showNotificationStyles';
