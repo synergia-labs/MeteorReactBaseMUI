@@ -2,6 +2,12 @@ import React, { forwardRef, ForwardRefRenderFunction, ReactNode, useImperativeHa
 import { Menu, MenuProps, SxProps, Theme, Typography } from '@mui/material';
 import SysMenuStyles from './sysMenuStyles';
 
+
+const {
+  Container,
+  MenuItem,
+} = SysMenuStyles;
+
 interface IList {
 	key?: string;
 	id?: string;
@@ -78,10 +84,10 @@ const SysMenu: ForwardRefRenderFunction<SysMenuRef, SysMenuProps> = (
 			transformOrigin={transformOrigin}
 			PaperProps={otherProps.PaperProps ?? (accountMenu ? { ...SysMenuStyles.menuAccountStyles } : {})}>
 			{children || (
-				<SysMenuStyles.container sx={sxMap?.container}>
+				<Container sx={sxMap?.container}>
 					{header || (title && <Typography variant="subtitle1">{title}</Typography>)}
 					{options?.map((item, index) => (
-						<SysMenuStyles.menuItem
+						<MenuItem
 							key={index}
 							onClick={(_e) => {
 								handleClose();
@@ -93,9 +99,9 @@ const SysMenu: ForwardRefRenderFunction<SysMenuRef, SysMenuProps> = (
 								{item.text}
 							</Typography>
 							{item.action}
-						</SysMenuStyles.menuItem>
+						</MenuItem>
 					))}
-				</SysMenuStyles.container>
+				</Container>
 			)}
 		</Menu>
 	);

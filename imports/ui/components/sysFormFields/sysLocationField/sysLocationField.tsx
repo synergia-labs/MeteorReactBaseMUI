@@ -1,16 +1,11 @@
 import React, { useContext, useRef, useState } from 'react';
-import {
-	FormControl,
-	FormHelperText,
-	ListItemText,
-	MenuItem,
-	Select,
-	SelectChangeEvent,
-	SelectProps,
-	SxProps,
-	Theme,
-	Typography
-} from '@mui/material';
+import { Theme, SxProps } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
@@ -47,6 +42,8 @@ interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, 'variant
 	onlyEstado?: boolean;
 	placeholder?: string;
 }
+
+const { AutoComplete, TextField } = SysLocationFieldStyle;
 
 export const SysLocationField: React.FC<ISysLocationField> = ({
 	name,
@@ -235,7 +232,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					))}
 				</Select>
 
-				<SysLocationFieldStyle.autoComplete
+				<AutoComplete
 					key={name + 'noValue'}
 					id={name}
 					value={selectedValue}
@@ -255,7 +252,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 						label: `${l.m}${l.d ? ' - ' + l.d : ''}`
 					}))}
 					renderInput={(params) => (
-						<SysLocationFieldStyle.textField
+						<TextField
 							error={!!errorState}
 							key={name + 'inputNoValue'}
 							{...params}

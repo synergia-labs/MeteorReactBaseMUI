@@ -20,6 +20,19 @@ import { SysLoading } from '../../sysLoading/sysLoading';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 
+
+const {
+  BoxItem,
+  BoxIcon,
+  BoxIconsCard,
+  CardInfo,
+  TypographyInfo,
+  TypographyAdd,
+  ElipsesText,
+  Container,
+  Button,
+} = SysUploadFileStyle;
+
 interface IArquivo {
 	name: string;
 	type: string;
@@ -174,35 +187,35 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	return (
 		<FormControl error={!!errorState}>
 			<SysLabelView label={label} disabled={disabled} sxMap={sxMap}>
-				<SysUploadFileStyle.container readOnly={readOnly} sx={sxMap?.container}>
+				<Container readOnly={readOnly} sx={sxMap?.container}>
 					{!readOnly && (
-						<SysUploadFileStyle.button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
+						<Button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
 							<input {...getInputProps()} />
-							<SysUploadFileStyle.typographyInfo variant="caption">{btnTextDesc}</SysUploadFileStyle.typographyInfo>
-							<SysUploadFileStyle.typographyAdd variant="button2">
+							<TypographyInfo variant="caption">{btnTextDesc}</TypographyInfo>
+							<TypographyAdd variant="button2">
 								<AddIcon />
 								Adicionar
-							</SysUploadFileStyle.typographyAdd>
-						</SysUploadFileStyle.button>
+							</TypographyAdd>
+						</Button>
 					)}
 
 					{loadingAttachments && <SysLoading />}
 					{attachments.length > 0 ? (
 						<SysUploadFileStyle.itenList sx={sxMap?.itenList}>
 							{attachments.map((item: IArquivo) => (
-								<SysUploadFileStyle.boxItem key={item._id} sx={sxMap?.boxItem}>
-									<SysUploadFileStyle.boxIcon sx={sxMap?.boxIcon}>{getIcon(item.type)}</SysUploadFileStyle.boxIcon>
+								<BoxItem key={item._id} sx={sxMap?.boxItem}>
+									<BoxIcon sx={sxMap?.boxIcon}>{getIcon(item.type)}</BoxIcon>
 
-									<SysUploadFileStyle.cardInfo sx={sxMap?.cardInfo}>
-										<SysUploadFileStyle.elipsesText variant="body2" sx={sxMap?.cardTitle}>
+									<CardInfo sx={sxMap?.cardInfo}>
+										<ElipsesText variant="body2" sx={sxMap?.cardTitle}>
 											{item.name}
-										</SysUploadFileStyle.elipsesText>
+										</ElipsesText>
 										<Typography variant="caption" sx={sxMap?.cardDesc}>
 											{item.size}Kb
 										</Typography>
-									</SysUploadFileStyle.cardInfo>
+									</CardInfo>
 
-									<SysUploadFileStyle.boxIconsCard sx={sxMap?.boxIconsCard}>
+									<BoxIconsCard sx={sxMap?.boxIconsCard}>
 										<DeleteIcon
 											color="primary"
 											sx={{ cursor: 'pointer', display: readOnly ? 'none' : 'block' }}
@@ -213,8 +226,8 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 											onClick={() => downloadURI(item)}
 											sx={{ cursor: 'pointer', display: readOnly ? 'block' : 'none' }}
 										/>
-									</SysUploadFileStyle.boxIconsCard>
-								</SysUploadFileStyle.boxItem>
+									</BoxIconsCard>
+								</BoxItem>
 							))}
 						</SysUploadFileStyle.itenList>
 					) : (
@@ -222,7 +235,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 							Sem Arquivos
 						</Typography>
 					)}
-				</SysUploadFileStyle.container>
+				</Container>
 			</SysLabelView>
 			<FormHelperText>{errorState}</FormHelperText>
 		</FormControl>

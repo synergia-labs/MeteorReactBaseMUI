@@ -1,15 +1,16 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import  Box, {BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 import { sysSizing } from '../../materialui/styles';
 
 interface ISysMenuStyles {
-	container: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
 	menuAccountStyles: Object;
-	menuItem: ElementType<BoxProps>;
+	MenuItem: ElementType<BoxProps>;
 }
 
 const SysMenuStyles: ISysMenuStyles = {
-	container: styled(Box)({
+	Container: styled(Box)({
 		padding: sysSizing.spacingFixedMd,
 		display: 'flex',
 		flexDirection: 'column',
@@ -45,7 +46,7 @@ const SysMenuStyles: ISysMenuStyles = {
 			}
 		}
 	},
-	menuItem: styled(Box)(({ theme }) => ({
+	MenuItem: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		justifyContent: 'flex-start',
 		alignItems: 'center',

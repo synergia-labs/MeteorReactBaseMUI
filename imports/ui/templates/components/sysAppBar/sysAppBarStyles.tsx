@@ -3,13 +3,13 @@ import { Box, BoxProps, IconButton, IconButtonProps, styled } from '@mui/materia
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISysAppBarStyles {
-	container: ElementType<BoxProps>;
-	navContainer: ElementType<BoxProps>;
-	iconButton: ElementType<IconButtonProps>;
+	Container: ElementType<BoxProps>;
+	NavContainer: ElementType<BoxProps>;
+	IconButton: ElementType<IconButtonProps>;
 }
 
 const SysAppBarStyles: ISysAppBarStyles = {
-	container: styled(Box)(({ theme }) => ({
+	Container: styled(Box)(({ theme }) => ({
 		width: '100%',
 		height: '56px',
 		overflow: 'hidden',
@@ -27,7 +27,7 @@ const SysAppBarStyles: ISysAppBarStyles = {
 			padding: `${sysSizing.spacingFixedSm} ${sysSizing.contentPx}`
 		}
 	})),
-	navContainer: styled(Box)({
+	NavContainer: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		gap: sysSizing.spacingFixedMd,
@@ -37,7 +37,7 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		alignItems: 'center',
 		height: '100%'
 	}),
-	iconButton: styled(IconButton)(({ theme }) => ({
+	IconButton: styled(IconButton)(({ theme }) => ({
 		color: theme.palette.primary.contrastText,
 		'&:focus': {
 			color: 'white'

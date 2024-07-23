@@ -12,7 +12,10 @@ import { ISysFormComponentRef } from '../../sysForm/typings';
 import { SysViewField } from '../sysViewField/sysViewField';
 import sysCheckBoxFieldStyle from './sysCheckBoxFieldStyle';
 
-interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
+
+const { FormGroup } = sysCheckBoxFieldStyle;
+
+  interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
 		container?: SxProps<Theme>;
@@ -116,7 +119,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				showRequired={showRequired}
 				requiredIndicator={requiredIndicator}
 				sx={sxMap?.container}>
-				<sysCheckBoxFieldStyle.formGroup sx={sxMap?.formGroup} alignment={alignment}>
+				<FormGroup sx={sxMap?.formGroup} alignment={alignment}>
 					{optionsState?.map((opt) => (
 						<FormControlLabel
 							key={opt.value}
@@ -134,7 +137,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 							disabled={disabled || loading}
 						/>
 					))}
-				</sysCheckBoxFieldStyle.formGroup>
+				</FormGroup>
 			</SysLabelView>
 			<FormHelperText>{errorState}</FormHelperText>
 		</FormControl>

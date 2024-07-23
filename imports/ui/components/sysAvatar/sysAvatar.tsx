@@ -1,7 +1,12 @@
 import React from 'react';
-import { AvatarProps, SxProps, Theme, Typography } from '@mui/material';
+import { AvatarProps } from '@mui/material/Avatar';
+import { SxProps, Theme } from '@mui/material';
+import Typography from '@mui/material/Typography';
+
 import SysAvatarStyles from './sysAvatarStyles';
 import { hasValue } from '/imports/libs/hasValue';
+
+const { Container, Avatar, } = SysAvatarStyles;
 
 export interface SysAvatarProps extends Omit<AvatarProps, 'onCLick'> {
 	/**O nome que será usado para mostrar a primeira letra no avatar.*/
@@ -24,14 +29,14 @@ export interface SysAvatarProps extends Omit<AvatarProps, 'onCLick'> {
  */
 export const SysAvatar: React.FC<SysAvatarProps> = ({ name, backgroundSx, borderColor, onClick, ...props }) => {
 	return (
-		<SysAvatarStyles.container
+		<Container
 			sx={backgroundSx}
 			onClick={onClick}
 			activeOnClick={hasValue(onClick)}
 			borderColor={borderColor}>
-			<SysAvatarStyles.avatar {...props} tabIndex={0}>
+			<Avatar {...props} tabIndex={0}>
 				<Typography variant="h3">{name?.[0].toUpperCase()}</Typography>
-			</SysAvatarStyles.avatar>
-		</SysAvatarStyles.container>
+			</Avatar>
+		</Container>
 	);
 };

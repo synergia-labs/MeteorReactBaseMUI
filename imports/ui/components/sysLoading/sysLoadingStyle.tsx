@@ -1,5 +1,6 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import  Box, {BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 import { keyframes } from '@mui/system';
 import { sysSizing } from '../../materialui/styles';
 
@@ -10,8 +11,8 @@ const spin = keyframes`
 `;
 
 interface ILoadingStyle {
-	container: ElementType;
-	loading: ElementType<BoxProps & ILoading>;
+	Container: ElementType;
+	Loading: ElementType<BoxProps & ILoading>;
 }
 
 interface ILoading {
@@ -19,7 +20,7 @@ interface ILoading {
 }
 
 const LoadingStyle: ILoadingStyle = {
-	loading: styled(Box)<ILoading>(({ theme, size }) => ({
+	Loading: styled(Box)<ILoading>(({ theme, size }) => ({
 		width: size === 'small' ? '25px' : size === 'medium' ? '50px' : '100px',
 		height: size === 'small' ? '25px' : size === 'medium' ? '50px' : '100px',
 		border: `5px solid ${theme.palette.sysAction?.primaryBgHover}`,
@@ -28,7 +29,7 @@ const LoadingStyle: ILoadingStyle = {
 		animation: `${spin} linear infinite 1s`
 	})),
 
-	container: styled(Box)(() => ({
+	Container: styled(Box)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',

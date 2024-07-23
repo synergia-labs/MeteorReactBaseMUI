@@ -3,12 +3,12 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material';
 
 const SysProgressBarStyles = {
-	container: styled(Box)(({}) => ({
+	Container: styled(Box)(({}) => ({
 		display: 'flex',
 		alignItems: 'center'
 	})),
 
-	progressBar: styled(Slider)(({}) => ({
+	ProgressBar: styled(Slider)(({}) => ({
 		'& .MuiSlider-thumb': {
 			width: 0,
 			height: 0,

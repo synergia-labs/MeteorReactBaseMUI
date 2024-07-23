@@ -5,7 +5,9 @@
  */
 import React from 'react';
 import {SysViewFieldStyle} from './sysViewFieldStyles';
-import {SxProps, Theme} from '@mui/system';
+import {SxProps, Theme} from '@mui/material';
+
+const { Container, Info } = SysViewFieldStyle;
 
 /**
  * Propriedades aceitas pelo componente SysViewField.
@@ -53,15 +55,15 @@ interface ISysViewField {
  */
 export const SysViewField: React.FC<ISysViewField> = ({ label, placeholder, disabled, sxMap }) => {
 	return (
-		<SysViewFieldStyle.container sx={sxMap?.container}>
+		<Container sx={sxMap?.container}>
 			{/* Exibe o rótulo */}
-			<SysViewFieldStyle.info variant="body2" sx={sxMap?.label} type={'label'} disabled={disabled || false}>
+			<Info variant="body2" sx={sxMap?.label} type={'label'} disabled={disabled || false}>
 				{label}
-			</SysViewFieldStyle.info>
+			</Info>
 			{/* Exibe o espaço reservado */}
-			<SysViewFieldStyle.info variant="body1" sx={sxMap?.placeholder} type={'placeholder'} disabled={disabled || false}>
+			<Info variant="body1" sx={sxMap?.placeholder} type={'placeholder'} disabled={disabled || false}>
 				{placeholder}
-			</SysViewFieldStyle.info>
-		</SysViewFieldStyle.container>
+			</Info>
+		</Container>
 	);
 };

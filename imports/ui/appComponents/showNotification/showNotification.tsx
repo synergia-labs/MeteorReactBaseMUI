@@ -13,6 +13,13 @@ import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
+
+const {
+  Body,
+  Container,
+  Header
+} = ShowNotificationStyles;
+
 export interface IShowNotificationProps extends ISysGeneralComponentsCommon {
 	onOpen?: () => void;
 	close?: () => void;
@@ -120,11 +127,11 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 			{hasValue(children) ? (
 				children
 			) : (
-				<ShowNotificationStyles.container type={type} sx={sxMap?.container}>
-					<ShowNotificationStyles.header sx={sxMap?.header}>
+				<Container type={type} sx={sxMap?.container}>
+					<Header sx={sxMap?.header}>
 						<Typography variant="subtitle1">{title}</Typography>
-					</ShowNotificationStyles.header>
-					<ShowNotificationStyles.body sx={sxMap?.body}>
+					</Header>
+					<Body sx={sxMap?.body}>
 						{showStartIcon && (hasValue(icon) ? icon : icons[type])}
 						<Typography variant="body1" color="textPrimary" sx={{ flexGrow: 1 }}>
 							{message}
@@ -153,8 +160,8 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 								<CloseRoundedIcon />
 							</IconButton>
 						)}
-					</ShowNotificationStyles.body>
-				</ShowNotificationStyles.container>
+					</Body>
+				</Container>
 			)}
 		</Snackbar>
 	);

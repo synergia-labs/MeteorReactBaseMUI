@@ -1,20 +1,21 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import Box, { BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 
 interface ITemplateAppBarStyles {
-	container: ElementType<BoxProps>;
-	contentContainer: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
+	ContentContainer: ElementType<BoxProps>;
 }
 
 const TemplateAppBarStyles: ITemplateAppBarStyles = {
-	container: styled(Box)({
+	Container: styled(Box)({
 		display: 'flex',
 		flexDirection: 'column',
 		width: '100vw',
 		height: '100vh',
 		overflow: 'hidden'
 	}),
-	contentContainer: styled(Box)({
+	ContentContainer: styled(Box)({
 		display: 'flex',
 		flexDirection: 'column',
 		flex: 1,

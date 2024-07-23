@@ -2,6 +2,13 @@ import React from 'react';
 import SysTabsStyles from './sysTabsStyles';
 import {SxProps, Theme} from '@mui/system';
 
+
+const {
+  Container,
+  Tab,
+  Tabs,
+} = SysTabsStyles;
+
 /**
  * Interface para representar uma aba em um sistema de abas.
  */
@@ -71,8 +78,8 @@ export const SysTabs: React.FC<ISysTabs> = ({
 	sxMap
 }) => {
 	return (
-		<SysTabsStyles.container orientation={orientation} sx={sxMap?.container}>
-			<SysTabsStyles.tabs
+		<Container orientation={orientation} sx={sxMap?.container}>
+			<Tabs
 				scrollButtons={scrollButtons}
 				centered={centered}
 				value={value}
@@ -84,7 +91,7 @@ export const SysTabs: React.FC<ISysTabs> = ({
 				orientation={orientation}
 				sx={sxMap?.tabs}>
 				{abas.map((aba) => (
-					<SysTabsStyles.tab
+					<Tab
 						label={aba.label}
 						value={aba.value}
 						key={aba.value}
@@ -94,7 +101,7 @@ export const SysTabs: React.FC<ISysTabs> = ({
 						iconPosition={aba?.iconPosition}
 					/>
 				))}
-			</SysTabsStyles.tabs>
-		</SysTabsStyles.container>
+			</Tabs>
+		</Container>
 	);
 };

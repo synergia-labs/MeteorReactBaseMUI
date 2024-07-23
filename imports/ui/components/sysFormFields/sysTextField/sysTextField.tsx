@@ -1,6 +1,8 @@
 import React, { useContext, useRef, useState } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { InputAdornment, SxProps, Theme, Typography } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import Typography from '@mui/material/Typography';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { ISysFormComponentRef } from '../../sysForm/typings';

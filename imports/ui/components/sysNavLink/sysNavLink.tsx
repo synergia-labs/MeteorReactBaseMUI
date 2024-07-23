@@ -4,6 +4,9 @@ import { BoxProps, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SysNavLinkStyles from './sysNavLinkStyles';
 
+
+const { Container } = SysNavLinkStyles;
+
 interface ISysNavLink extends BoxProps {
 	sysOptions?: IAppMenu;
 	active?: boolean;
@@ -32,13 +35,13 @@ export const SysNavLink: React.FC<ISysNavLink> = ({
 	};
 
 	return (
-		<SysNavLinkStyles.container {...props} active={active} onClick={handleClick}>
+		<Container {...props} active={active} onClick={handleClick}>
 			{children ?? (
 				<>
 					{sysOptions?.icon ?? icon ?? null}
 					<Typography variant="button2">{text ?? sysOptions?.name ?? ''}</Typography>
 				</>
 			)}
-		</SysNavLinkStyles.container>
+		</Container>
 	);
 };

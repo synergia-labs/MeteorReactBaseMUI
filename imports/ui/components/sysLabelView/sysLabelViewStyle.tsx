@@ -1,11 +1,12 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box, { BoxProps } from '@mui/material/Box';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 interface ISysLabelViewStyles {
-	container: ElementType<BoxProps>;
-	header: ElementType<BoxProps>;
-	helpIcon: ElementType<IHelpIconProps>;
+	Container: ElementType<BoxProps>;
+	Header: ElementType<BoxProps>;
+	HelpIcon: ElementType<IHelpIconProps>;
 }
 
 interface IHelpIconProps {
@@ -13,7 +14,7 @@ interface IHelpIconProps {
 }
 
 const SysLabelViewStyles: ISysLabelViewStyles = {
-	container: styled(Box)(() => ({
+	Container: styled(Box)(() => ({
 		display: 'flex',
 		width: '100%',
 		flexDirection: 'column',
@@ -21,14 +22,14 @@ const SysLabelViewStyles: ISysLabelViewStyles = {
 		justifyContent: 'flex-start',
 		gap: '4px'
 	})),
-	header: styled(Box)(() => ({
+	Header: styled(Box)(() => ({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		gap: '4px'
 	})),
-	helpIcon: styled(HelpOutlineIcon)<IHelpIconProps>(({ theme, disabled }) => ({
+	HelpIcon: styled(HelpOutlineIcon)<IHelpIconProps>(({ theme, disabled }) => ({
 		fontSize: theme.typography.body2.fontSize,
 		color: disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary
 	}))

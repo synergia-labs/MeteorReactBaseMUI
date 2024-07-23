@@ -4,6 +4,9 @@ import { BoxProps, Typography } from '@mui/material';
 import TemplateAppBarStyles from './templateAppBarStyles';
 import { SysAppBar } from '../components/sysAppBar/sysAppBar';
 
+
+const { Container, ContentContainer } = TemplateAppBarStyles;
+
 export interface ITemplateAppBar extends ISysTemplateProps {
 	containerProps?: BoxProps;
 	logo?: React.ReactNode;
@@ -11,10 +14,10 @@ export interface ITemplateAppBar extends ISysTemplateProps {
 
 export const TemplateAppBar: React.FC<ITemplateAppBar> = ({ children, menuOptions, logo, containerProps }) => {
 	return (
-		<TemplateAppBarStyles.container>
+		<Container>
 			<SysAppBar logo={logo ?? <BoilerplateLogo />} menuOptions={menuOptions} />
-			<TemplateAppBarStyles.contentContainer {...containerProps}>{children}</TemplateAppBarStyles.contentContainer>
-		</TemplateAppBarStyles.container>
+			<ContentContainer {...containerProps}>{children}</ContentContainer>
+		</Container>
 	);
 };
 

@@ -3,8 +3,8 @@ import { Avatar, AvatarProps, Box, BoxProps, styled, Theme } from '@mui/material
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface ISysAvatarStyles {
-	container: ElementType<BoxProps & IContainer>;
-	avatar: ElementType<AvatarProps>;
+	Container: ElementType<BoxProps & IContainer>;
+	Avatar: ElementType<AvatarProps>;
 }
 
 interface IContainer {
@@ -13,7 +13,7 @@ interface IContainer {
 }
 
 const SysAvatarStyles: ISysAvatarStyles = {
-	container: styled(({ activeOnClick, borderColor, ...otherProps }: IContainer) => <Box {...otherProps} />)<IContainer>(
+	Container: styled(({ activeOnClick, borderColor, ...otherProps }: IContainer) => <Box {...otherProps} />)<IContainer>(
 		({ theme, activeOnClick, borderColor }: { theme?: Theme; activeOnClick?: boolean; borderColor?: string }) => ({
 			width: sysSizing.componentsButtonMediumMinHeight,
 			height: sysSizing.componentsButtonMediumMinHeight,
@@ -29,7 +29,7 @@ const SysAvatarStyles: ISysAvatarStyles = {
 			flexShrink: 0
 		})
 	),
-	avatar: styled(Avatar)(({ theme }) => ({
+	Avatar: styled(Avatar)(({ theme }) => ({
 		width: sysSizing.contentPt,
 		height: sysSizing.contentPt,
 		backgroundColor: theme?.palette.primary.dark,

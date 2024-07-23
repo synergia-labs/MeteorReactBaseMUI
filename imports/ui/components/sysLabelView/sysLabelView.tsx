@@ -1,6 +1,8 @@
 import React, { ReactElement, ReactNode } from 'react';
 import SysLabelViewStyles from './sysLabelViewStyle';
-import { SxProps, Theme, Tooltip, TooltipProps, Typography } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
 interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'placement'> {
 	label?: string;
@@ -19,6 +21,12 @@ interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'place
 	requiredIndicator?: string;
 }
 
+const {
+  Container,
+  Header,
+  HelpIcon
+} = SysLabelViewStyles;
+
 const SysLabelView: React.FC<ISysLabelView> = ({
 	label,
 	tooltipMessage,
@@ -31,21 +39,21 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 	requiredIndicator = '*'
 }) => {
 	return (
-		<SysLabelViewStyles.container sx={sxMap?.container}>
+		<Container sx={sxMap?.container}>
 			{(!!label || !!tooltipMessage) && (
 				<Tooltip title={tooltipMessage} placement={placement as any}>
-					<SysLabelViewStyles.header sx={sxMap?.header}>
+					<Header sx={sxMap?.header}>
 						<Typography
 							variant="body2"
 							color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}>
 							{label} {showRequired && requiredIndicator}
 						</Typography>
-						{helpIcon && <SysLabelViewStyles.helpIcon disabled={disabled} />}
-					</SysLabelViewStyles.header>
+						{helpIcon && <HelpIcon disabled={disabled} />}
+					</Header>
 				</Tooltip>
 			)}
 			{children}
-		</SysLabelViewStyles.container>
+		</Container>
 	);
 };
 
