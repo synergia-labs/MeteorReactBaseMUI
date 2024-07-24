@@ -1,6 +1,7 @@
 import React from 'react';
 import { ISysTemplateProps } from '../getTemplate';
-import { BoxProps, Typography } from '@mui/material';
+import { BoxProps } from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import TemplateAppBarStyles from './templateAppBarStyles';
 import { SysAppBar } from '../components/sysAppBar/sysAppBar';
 
