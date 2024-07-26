@@ -11,6 +11,7 @@ interface ISysNavLink extends BoxProps {
 	icon?: React.ReactNode;
 	path?: string;
 	children?: React.ReactNode;
+  disabled?: boolean;
 }
 
 export const SysNavLink: React.FC<ISysNavLink> = ({
@@ -20,6 +21,7 @@ export const SysNavLink: React.FC<ISysNavLink> = ({
 	icon,
 	path,
 	children,
+  disabled = false,
 	...props
 }) => {
 	const navigate = useNavigate();
@@ -27,12 +29,12 @@ export const SysNavLink: React.FC<ISysNavLink> = ({
 	const handleClick = () => {
 		if (active) return;
 		const definitivePath = path ?? sysOptions?.path;
-		if (!!!definitivePath) return;
+		if (!definitivePath) return;
 		navigate(definitivePath);
 	};
 
 	return (
-		<SysNavLinkStyles.container {...props} active={active} onClick={handleClick}>
+		<SysNavLinkStyles.container {...props} active={active} disabled={disabled} onClick={handleClick}>
 			{children ?? (
 				<>
 					{sysOptions?.icon ?? icon ?? null}

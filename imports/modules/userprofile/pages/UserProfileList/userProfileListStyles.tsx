@@ -10,7 +10,7 @@ interface IUserProfileListViewStyled {
 }
 
 const UserProfileListViewStyled: IUserProfileListViewStyled = {
-	Container: styled(Box)(() => ({
+	Container: styled(Box)(({theme}) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
@@ -18,7 +18,13 @@ const UserProfileListViewStyled: IUserProfileListViewStyled = {
 		width: '100%',
 		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
 		gap: sysSizing.spacingFixedMd,
-		marginBottom: sysSizing.base.baseFixed8
+		marginBottom: sysSizing.base.baseFixed8,
+    [theme.breakpoints.down('md')]: {
+      padding: '3rem 5vw'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '3rem 1rem'
+    }
 	})),
 	Filters: styled(Box)(() => ({
 		display: 'flex',

@@ -150,6 +150,8 @@ const Home: React.FC = () => {
           <Tab label='Aba 2' />
           <Tab label='Aba 3' disabled />
         </Tabs>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
+        </Box>
 			</Header>
 			<HomeSectionNotificacoes />
 			<HomeSectionDialogs />

@@ -25,28 +25,22 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 
 	return (
 		<SysCardUserStyled.Container sx={sx} key={userId}>
-			<SysCardUserStyled.TitleBox>
-				<Typography className="title" variant="subtitle1">
-					{username}
-				</Typography>
-			</SysCardUserStyled.TitleBox>
-			<SysCardUserStyled.InfoBox>
-				<Box className="roles">
-					{roles?.map((role) => {
-						return (
-							<Typography key={role} variant="body1">
-								{role}
-							</Typography>
-						);
-					})}
-				</Box>
-				<Typography className="email" variant="body1">
-					{email}
-				</Typography>
-				<Typography className="status" color={status === 'active' ? colorPrimary : colorDisabled} variant="body1">
-					{translateStatus(status)}
-				</Typography>
-			</SysCardUserStyled.InfoBox>
+      <Typography sx={{ gridArea: 'name' }} variant="subtitle1">
+        {username}
+      </Typography>
+      <Box sx={{ gridArea: 'roles' }}>
+        {roles?.map((role) => {
+          return (
+            <Typography key={role} variant="body1">
+              {role}
+            </Typography>
+          );
+        })}
+      </Box>
+      <Typography variant="body1" sx={{ gridArea: 'email' }}>{email}</Typography>
+      <Typography color={status === 'active' ? colorPrimary : colorDisabled} variant="body1" sx={{ gridArea: 'status' }}>
+        {translateStatus(status)}
+      </Typography>
 			<SysCardUserStyled.ActionBox>
 				{status === 'active' ? (
 					<>
@@ -54,10 +48,7 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 						<EditOutlinedIcon onClick={() => onEdit(userId)} />
 					</>
 				) : (
-					<>
-						<Box sx={{ width: '24px', height: '24px' }} />
-						<CheckCircleOutlinedIcon onClick={() => onChangeStatusClick(userId!)} />
-					</>
+          <CheckCircleOutlinedIcon onClick={() => onChangeStatusClick(userId!)} />
 				)}
 			</SysCardUserStyled.ActionBox>
 		</SysCardUserStyled.Container>

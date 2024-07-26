@@ -33,14 +33,17 @@ const SysAvatarStyles: ISysAvatarStyles = {
 		width: sysSizing.contentPt,
 		height: sysSizing.contentPt,
 		backgroundColor: theme?.palette.primary.dark,
+    transition: 'all 150ms linear',
 		'&:hover': {
 			backgroundColor: theme?.palette.sysAction?.primaryContrastText,
-			color: theme.palette.sysAction?.primaryHover
+			color: theme.palette.sysAction?.primaryHover,
+      transition: 'all 150ms linear'
 		},
 		'&:focus': {
 			backgroundColor: theme?.palette.sysAction?.primaryContrastText,
 			color: theme?.palette.sysAction?.primaryHover,
-			outline: 'none'
+			outline: 'none',
+      transition: 'all 150ms linear'
 		}
 	}))
 };
