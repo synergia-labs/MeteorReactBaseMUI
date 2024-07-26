@@ -2,6 +2,8 @@ import React from 'react';
 import SysProgressBarStyles from './sysProgressBarStyle';
 import {SxProps, Theme} from '@mui/system';
 
+
+const { Container, ProgressBar } = SysProgressBarStyles;
 /**
  * Interface para representar uma barra de progressão.
  */
@@ -61,8 +63,8 @@ const SysProgressBar: React.FC<ISysProgressBar> = ({ progress, sxMap }) => {
 	}
 
 	return (
-		<SysProgressBarStyles.container sx={sxMap?.container}>
-			<SysProgressBarStyles.progressBar
+		<Container sx={sxMap?.container}>
+			<ProgressBar
 				// Usa o progresso passado como prop ou o progresso interno se não houver progresso definido
 				value={progress ? progress : componentProgress}
 				aria-labelledby="discrete-slider"
@@ -75,7 +77,7 @@ const SysProgressBar: React.FC<ISysProgressBar> = ({ progress, sxMap }) => {
 				onMouseLeave={handleMouseLeave}
 				sx={sxMap?.progressBar}
 			/>
-		</SysProgressBarStyles.container>
+		</Container>
 	);
 };
 

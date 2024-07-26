@@ -1,17 +1,12 @@
 import React, { useContext, useRef, useState } from 'react';
 import { IOption, ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import {
-	FormControl,
-	FormHelperText,
-	ListItemText,
-	MenuItem,
-	Select,
-	SelectChangeEvent,
-	SelectProps,
-	SxProps,
-	Theme,
-	Typography
-} from '@mui/material';
+import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Select,{ SelectChangeEvent, SelectProps,} from '@mui/material/Select';
+import { SxProps, Theme } from '@mui/material';
 import { SysFormContext } from '../../sysForm/sysForm';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SysViewField } from '../sysViewField/sysViewField';

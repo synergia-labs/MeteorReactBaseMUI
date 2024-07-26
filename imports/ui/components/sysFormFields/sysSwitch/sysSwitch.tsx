@@ -5,7 +5,10 @@ import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import SysLabelView from '../../sysLabelView/sysLabelView';
-import { FormControlLabel, FormHelperText, SxProps, Theme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+
 
 interface ISysSwitchProps extends ISysFormComponent<SwitchProps> {
 	/** Estilo do componente.*/

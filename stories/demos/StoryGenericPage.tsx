@@ -1,5 +1,12 @@
 import React from 'react';
-import { Typography, Button, Card, CardContent, Grid, Box, SxProps, Theme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+
 
 /** Essa página é apenas demonstrativa, sua função é ser usada para exemplificar os componentes do StotyBook */
 
@@ -11,7 +18,7 @@ function StoryGenericPage({
             <Typography variant="h2" gutterBottom>
                 Título da Página
             </Typography>
-            
+
             <Typography variant="h5" gutterBottom>
                 Subtítulo da Seção 1
             </Typography>

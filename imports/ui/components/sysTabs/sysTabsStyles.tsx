@@ -1,13 +1,14 @@
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Box, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
 interface IContainer {
 	orientation?: 'horizontal' | 'vertical';
 }
 
 const SysTabsStyles = {
-	container: styled(Box)<IContainer>(({ theme, orientation }) => ({
+	Container: styled(Box)<IContainer>(({ theme, orientation }) => ({
 		borderRight: orientation === 'vertical' ? '1px solid' : 'none',
 		borderBottom: orientation === 'horizontal' ? '1px solid' : 'none',
 		borderColor: theme.palette.divider,
@@ -15,9 +16,9 @@ const SysTabsStyles = {
 		maxWidth: '100%'
 	})),
 
-	tabs: styled(Tabs)(({ theme }) => ({})),
+	Tabs: styled(Tabs)(({ theme }) => ({})),
 
-	tab: styled(Tab)(({ theme }) => ({}))
+	Tab: styled(Tab)(({ theme }) => ({}))
 };
 
 export default SysTabsStyles;

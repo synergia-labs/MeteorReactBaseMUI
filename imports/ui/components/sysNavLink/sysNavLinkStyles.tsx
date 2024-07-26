@@ -3,7 +3,7 @@ import { Box, BoxProps, styled } from '@mui/material';
 import { sysSizing } from '../../materialui/styles';
 
 interface ISysNavLinkStyles {
-	container: React.ElementType<BoxProps & IContainer>;
+	Container: React.ElementType<BoxProps & IContainer>;
 }
 
 interface IContainer {
@@ -12,7 +12,7 @@ interface IContainer {
 }
 
 const SysNavLinkStyles: ISysNavLinkStyles = {
-	container: styled(({ active, disabled, ...otherProps }: IContainer) => <Box {...otherProps} />)<IContainer>(
+	Container: styled(({ active, disabled, ...otherProps }: IContainer) => <Box {...otherProps} />)<IContainer>(
 		({ theme, active, disabled }) => ({
 			padding: `${sysSizing.spacingRemXs} ${sysSizing.spacingRemMd}`,
 			borderRadius: sysSizing.radiusInfinite,

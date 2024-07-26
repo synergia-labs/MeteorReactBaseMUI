@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
-import { Button, ButtonProps, CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button, { ButtonProps } from '@mui/material/Button';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { ISysFormButtonRef } from '../../sysForm/typings';
 import { hasValue } from '/imports/libs/hasValue';

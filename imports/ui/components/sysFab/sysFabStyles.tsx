@@ -1,4 +1,6 @@
-import { Fab, FabProps, styled, Theme } from '@mui/material';
+import { Theme } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Fab, { FabProps } from '@mui/material/Fab';
 import { sysSizing } from '/imports/ui/materialui/styles';
 import React from 'react';
 

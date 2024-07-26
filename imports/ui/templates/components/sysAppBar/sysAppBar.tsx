@@ -7,13 +7,23 @@ import { SysAppContext } from '/imports/app/appContainer';
 import SysMenu, { SysMenuRef } from '/imports/ui/components/sysMenu/sysMenu';
 import { SysNavLink } from '/imports/ui/components/sysNavLink/sysNavLink';
 import SysRoutes from '/imports/app/routes';
-import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Meteor } from 'meteor/meteor';
 import { cleanUserCache } from '/imports/hooks/useUserAccount';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import { hasValue } from '/imports/libs/hasValue';
+
+
+const {
+  Container,
+  IconButton,
+  NavContainer,
+} = SysAppBarStyles;
 
 export interface ISysAppBarProps {
 	logo?: ReactNode;
@@ -61,16 +71,16 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 	const userLogin = () => navigate('/signin');
 
 	return (
-		<SysAppBarStyles.container>
+		<Container>
 			<Box sx={{ cursor: 'pointer' }} onClick={onLogoClick}>
 				{logo}
 			</Box>
-			<SysAppBarStyles.navContainer>
+			<NavContainer>
 				{isSmallerThanLg && hasValue(optionsMobile) ? (
 					<>
-						<SysAppBarStyles.iconButton onClick={openNavMenu}>
+						<IconButton onClick={openNavMenu}>
 							<MenuOutlinedIcon />
-						</SysAppBarStyles.iconButton>
+						</IconButton>
 						<SysMenu
 							ref={menuNavRef}
 							// @ts-ignore
@@ -80,7 +90,7 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 				) : (
 					options
 				)}
-			</SysAppBarStyles.navContainer>
+			</NavContainer>
 			{isLoggedIn ? (
 				<>
 					<SysAvatar name={user?.username[0]} onClick={openMenu} />
@@ -102,6 +112,6 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 					Login
 				</Button>
 			)}
-		</SysAppBarStyles.container>
+		</Container>
 	);
 };
