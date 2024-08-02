@@ -34,7 +34,7 @@ const LoadingStyle: ILoadingStyle = {
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
-		gap: sysSizing.spacingRemMd
+		gap: sysSizing.spacingRemSm
 	}))
 };
 

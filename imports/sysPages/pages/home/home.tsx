@@ -20,6 +20,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {MoreVert, Person, Settings} from "@mui/icons-material";
 import Select from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
+import { SysLoading } from '../../../ui/components/sysLoading/sysLoading';
 
 const Home: React.FC = () => {
   const { Container, Header, } = HomeStyles;
@@ -155,6 +156,7 @@ const Home: React.FC = () => {
 			</Header>
 			<HomeSectionNotificacoes />
 			<HomeSectionDialogs />
+      <SysLoading label='Carregando...' />
 		</Container>
 	);
 };

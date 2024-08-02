@@ -1,6 +1,10 @@
 :root {
   --scrollbar-thumb-color: #3e6b01;
   --scrollbar-track-color: #ccc;
+  --loading-color: #6768f2;
+  --loader-border: #6768f21a;
+
+  --loading-gap: 8px;
 }
 
 *, *::before, *::after {
@@ -68,34 +72,23 @@ body {
   max-height: calc(100vh - (100vh - 100%));
 }
 
-/* Loading animations */
-.line {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  border-radius: 15px;
-  background-image: linear-gradient(to right, #6768f2, #00e280);
+.loadingText {
+  font-size: 20px;
+  color: var(--loading-color);
+  margin-top: var(--loading-gap);
 }
 
-.loading .line {
-  animation: loadingC 0.6s linear infinite;
+
+.loader {
+  width: 100px;
+  height: 100px;
+  border: 10px solid var(--loader-border);
+  border-radius: 50%;
+  border-top: 10px solid var(--loading-color);
+  animation: loading 1s linear infinite;
 }
 
-.loading .line:nth-last-child(1) {
-  animation-delay: 0.1s;
-}
-.loading .line:nth-last-child(2) {
-  animation-delay: 0.2s;
-}
-.loading .line:nth-last-child(3) {
-  animation-delay: 0.3s;
-}
-
-@keyframes loadingC {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(0, 15px);
-  }
+@keyframes loading {
+  from { transform: rotate(0deg)}
+  to { transform: rotate(360deg)}
 }
