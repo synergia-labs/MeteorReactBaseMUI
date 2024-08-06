@@ -51,6 +51,7 @@ const ExampleListController = () => {
 		const subHandle = exampleApi.subscribe('exampleList', filter, {
 			sort
 		});
+
 		const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : [];
 		return {
 			examples,

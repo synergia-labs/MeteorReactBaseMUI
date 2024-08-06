@@ -8,16 +8,22 @@ const absolutePath = Meteor.absolutePath;
 console.log('Meteor PATHs - rootPath:', rootPath);
 console.log('Meteor PATHs - absolutePath:', absolutePath);
 
-function createDefautUser() {
+async function createDefautUser() {
 	// if (Meteor.isDevelopment && Meteor.users.find().count() === 0) {
-	if (Meteor.users.find({}).count() === 0) {
+	console.log('ENTRNDO');
+	const count = await Meteor.users.find({}).countAsync();
+	console.log('COUNT', count);
+	if ((await Meteor.users.find({}).countAsync()) === 0) {
 		let createdUserId = '';
-		createdUserId = Accounts.createUser({
+		createdUserId = await Accounts.createUserAsync({
 			username: 'Administrador',
 			email: 'admin@mrb.com',
 			password: 'admin@mrb.com'
 		});
-		Meteor.users.update(
+
+		console.log('createdUserId', createdUserId, '<<<');
+
+		await Meteor.users.upsertAsync(
 			{ _id: createdUserId },
 			{
 				$set: {
@@ -30,19 +36,21 @@ function createDefautUser() {
 			}
 		);
 
-		userprofileServerApi.collectionInstance.insert({
+		await userprofileServerApi.getCollectionInstance().insertAsync({
 			_id: createdUserId,
 			username: 'Administrador',
 			email: 'admin@mrb.com',
 			roles: ['Administrador']
 		});
 		console.log('############## ADMIN CRIADO################');
+	} else {
+		console.log('Usuário já criado');
 	}
 }
 
 // if the database is empty on server start, create some sample data.
-Meteor.startup(() => {
+Meteor.startup(async () => {
 	console.log('fixtures Meteor.startup');
 	// Add default admin account
-	createDefautUser();
+	await createDefautUser();
 });

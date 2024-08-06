@@ -2,8 +2,8 @@
 import { Meteor } from 'meteor/meteor';
 import { OfflineBaseApi } from '../../../api/offlinebase';
 import { userProfileSch } from './UserProfileSch';
-import { userprofileData } from '/imports/libs/getUser';
-import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
+import { userprofileData } from '../../../libs/getUser';
+import { IMeteorError } from '../../../typings/BoilerplateDefaultTypings';
 
 // endregion
 

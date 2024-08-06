@@ -1,8 +1,8 @@
 // region Imports
 import { Recurso } from '../config/Recursos';
 import { exampleSch, IExample } from './exampleSch';
-import { userprofileServerApi } from '/imports/modules/userprofile/api/UserProfileServerApi';
-import { ProductServerBase } from '/imports/api/productServerBase';
+import { userprofileServerApi } from '../../userprofile/api/UserProfileServerApi';
+import { ProductServerBase } from '../../../api/productServerBase';
 
 // endregion
 
@@ -22,8 +22,8 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 					projection: { title: 1, type: 1, typeMulti: 1, createdat: 1 }
 				});
 			},
-			(doc: IExample & { nomeUsuario: string }) => {
-				const userProfileDoc = userprofileServerApi.getCollectionInstance().findOne({ _id: doc.createdby });
+			async (doc: IExample & { nomeUsuario: string }) => {
+				const userProfileDoc = await userprofileServerApi.getCollectionInstance().findOneAsync({ _id: doc.createdby });
 				return { ...doc };
 			}
 		);

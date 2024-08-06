@@ -1,10 +1,10 @@
-import { ApiBase } from '/imports/api/base';
-import { getUser } from '/imports/libs/getUser';
+import { ApiBase } from './base';
+import { getUser } from '../libs/getUser';
 
-import { IProductBaseOptions } from '/imports/typings/IBaseOptions';
+import { IProductBaseOptions } from '../typings/IBaseOptions';
 import { Meteor } from 'meteor/meteor';
-import { IDoc } from '/imports/typings/IDoc';
-import { ISchema } from '/imports/typings/ISchema';
+import { IDoc } from '../typings/IDoc';
+import { ISchema } from '../typings/ISchema';
 
 export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
 	private enableCallMethodObserver: boolean | undefined;

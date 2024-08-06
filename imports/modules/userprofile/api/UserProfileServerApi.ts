@@ -5,13 +5,51 @@ import { IUserProfile, userProfileSch } from './UserProfileSch';
 import { getUser, userprofileData } from '../../../libs/getUser';
 import settings from '../../../../settings.json';
 import { check } from 'meteor/check';
-import { IContext } from '/imports/typings/IContext';
-import { IDoc } from '/imports/typings/IDoc';
-import { ProductServerBase } from '/imports/api/productServerBase';
+import { IContext } from '../../../typings/IContext';
+import { IDoc } from '../../../typings/IDoc';
+import { ProductServerBase } from '../../../api/productServerBase';
+import { EnumUserRoles } from './EnumUser';
 
 interface IUserProfileEstendido extends IUserProfile {
 	password?: string;
 }
+
+/**
+ * Return Logged User if exists.
+ * @return {Object} Logged User
+ */
+export const getUserServer = async (connection?: { id: string } | null): IUserProfile => {
+	const user = await Meteor.user();
+
+	try {
+		const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
+			email: user.profile.email
+		});
+
+		if (userProfile) {
+			return userProfile;
+		}
+		const d = new Date();
+		const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
+		const id = connection && connection.id ? simpleDate + connection.id : nanoid();
+
+		return {
+			email: '',
+			username: '',
+			_id: id,
+			roles: [EnumUserRoles.PUBLICO]
+		};
+	} catch (e) {
+		const d = new Date();
+		const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
+		const id = connection && connection.id ? simpleDate + connection.id : nanoid();
+		return {
+			id,
+			_id: id,
+			roles: [EnumUserRoles.PUBLICO]
+		};
+	}
+};
 
 class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	constructor() {
@@ -21,7 +59,6 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		this.serverInsert = this.serverInsert.bind(this);
 		this.afterInsert = this.afterInsert.bind(this);
 		this.beforeInsert = this.beforeInsert.bind(this);
-		this.afterUpdate = this.afterUpdate.bind(this);
 		this.beforeUpdate = this.beforeUpdate.bind(this);
 		this.beforeRemove = this.beforeRemove.bind(this);
 		this._includeAuditData = this._includeAuditData.bind(this);
@@ -84,8 +121,8 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			return this.collectionInstance.find(Object.assign({}, { ...filter }), queryOptions);
 		});
 
-		this.addPublication('getLoggedUserProfile', () => {
-			const user = Meteor.user();
+		this.addPublication('getLoggedUserProfile', async () => {
+			const user = await Meteor.user();
 
 			if (!user) {
 				return;

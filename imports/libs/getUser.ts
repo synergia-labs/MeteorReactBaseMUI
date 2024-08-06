@@ -39,13 +39,14 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 		}
 	}
 
+	const user = Meteor.user();
+
 	try {
 		if (!userprofileData.collectionInstance) {
-			console.log('UserProfile Collection not Avaliable');
-			return Meteor.user();
+			return user;
 		}
 		const userProfile = userprofileData.collectionInstance.findOne({
-			email: Meteor.user().profile.email
+			email: user.profile.email
 		});
 
 		if (userProfile) {
@@ -72,6 +73,12 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 		};
 	}
 };
+
+if (Meteor.isServer) {
+	console.log('###############################################################################');
+	console.log('############ ERROR - getUser sendo chamado no lado do servidor ################');
+	console.log('###############################################################################');
+}
 
 const SYSTEM_USER: Readonly<{
 	createdat: Date;

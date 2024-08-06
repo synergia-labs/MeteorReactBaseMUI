@@ -187,39 +187,37 @@ Meteor.startup(() => {
 		return getHTMLEmailTemplate('Alteração da senha atual', email, footer);
 	};
 
-	Accounts.onLogin(
-    (params: { user: Meteor.User; connection: { onClose: (arg0: () => void) => void } }) => {
-       //@ts-ignore
-       const userProfile = params.user ? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0] : undefined;
+	Accounts.onLogin((params: { user: Meteor.User; connection: { onClose: (arg0: () => void) => void } }) => {
+		//@ts-ignore
+		const userProfile = params.user
+			? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0]
+			: undefined;
 
-       if (userProfile)
-          userprofileServerApi.getCollectionInstance().update(
-             { _id: userProfile._id },
-             {$set: { lastacess: new Date(), connected: true }}
-          );
+		if (userProfile)
+			userprofileServerApi
+				.getCollectionInstance()
+				.update({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: true } });
 
-
-       params.connection.onClose(
-          Meteor.bindEnvironment(() => {
-             if (userProfile)
-                userprofileServerApi.getCollectionInstance().update(
-                   { _id: userProfile._id },
-                   {$set: { lastacess: new Date(), connected: false }}
-                );
-          })
-       );
-    }
- );
+		params.connection.onClose(
+			Meteor.bindEnvironment(() => {
+				if (userProfile)
+					userprofileServerApi
+						.getCollectionInstance()
+						.update({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: false } });
+			})
+		);
+	});
 
 	Accounts.onLogout((params) => {
 		//@ts-ignore
-    const userProfile = params.user ? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0] : undefined;
-    if (userProfile)
-       userprofileServerApi.getCollectionInstance().update(
-          { _id: userProfile._id },
-          {$set: { lastacess: new Date(), connected: false }}
-       );
-  });
+		const userProfile = params.user
+			? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0]
+			: undefined;
+		if (userProfile)
+			userprofileServerApi
+				.getCollectionInstance()
+				.update({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: false } });
+	});
 
 	Accounts.config({
 		sendVerificationEmail: true,
@@ -227,7 +225,6 @@ Meteor.startup(() => {
 	});
 
 	Accounts.validateLoginAttempt(({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {
-		// console.log('user, allowed',user, allowed)
 		if (!allowed) {
 			console.log('Acesso não autorizado');
 			return allowed;

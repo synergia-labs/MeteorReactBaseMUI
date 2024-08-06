@@ -256,10 +256,10 @@ const registerGoogleMobileLoginHandler = () => {
 	});
 };
 
-const init = () => {
+const init = async () => {
 	if (!settings || !settings.settingsGoogle) return;
 
-	ServiceConfiguration.configurations.upsert(
+	await ServiceConfiguration.configurations.upsertAsync(
 		{ service: 'google' },
 		{
 			$set: {

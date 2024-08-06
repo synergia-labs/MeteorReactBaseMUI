@@ -1,15 +1,14 @@
 import { noAvatarBase64, noImageBase64 } from './noimage';
 import { isArray, isObject, merge } from 'lodash';
 import { hasValue } from '../libs/hasValue';
-import { getUser } from '/imports/libs/getUser';
 import { Mongo, MongoInternals } from 'meteor/mongo';
 import { ClientSession, MongoClient } from 'mongodb';
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import sharp from 'sharp';
-import { countsCollection } from '/imports/api/countCollection';
-import { Validador } from '/imports/libs/Validador';
-import { segurancaApi } from '/imports/security/api/SegurancaApi';
+import { countsCollection } from './countCollection';
+import { Validador } from '../libs/Validador';
+import { segurancaApi } from '../security/api/SegurancaApi';
 import { WebApp } from 'meteor/webapp';
 // @ts-ignore
 import bodyParser from 'body-parser';
@@ -24,6 +23,7 @@ import { IBaseOptions } from '../typings/IBaseOptions';
 import { IConnection } from '../typings/IConnection';
 import { IUserProfile } from '../modules/userprofile/api/UserProfileSch';
 import Selector = Mongo.Selector;
+import { getUserServer } from '../modules/userprofile/api/UserProfileServerApi';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -219,8 +219,8 @@ export class ServerApiBase<Doc extends IDoc> {
 	/**
 	 * @returns {String} - Return the number of documents from a collection.
 	 */
-	countDocuments() {
-		return this.getCollectionInstance().find().count();
+	async countDocuments() {
+		return await this.getCollectionInstance().find().countAsync();
 	}
 
 	//**AUXS METHODS**
@@ -368,8 +368,8 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {String} action - Action the will be perform.
 	 * @param defaultUser
 	 */
-	_includeAuditData(doc: Doc | Partial<Doc>, action: string, defaultUser: string = 'Anonymous') {
-		const userId = getUser() ? getUser()?._id : defaultUser;
+	async _includeAuditData(doc: Doc | Partial<Doc>, action: string, defaultUser: string = 'Anonymous') {
+		const userId = (await getUserServer()) ? await getUserServer()?._id : defaultUser;
 		if (action === 'insert') {
 			doc.createdby = userId;
 			doc.createdat = new Date();
@@ -412,7 +412,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		return newDoc;
 	};
 
-	protected _createContext(
+	protected async _createContext(
 		schema: ISchema<Doc>,
 		collection: string,
 		action: string,
@@ -421,7 +421,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		validadorArg?: Validador,
 		session?: MongoInternals.MongoConnection
 	): IContext {
-		const user: IUserProfile = userProfile || getUser(connection);
+		const user: IUserProfile = userProfile || (await getUserServer(connection));
 
 		const validador = validadorArg || new Validador(schema);
 		return {
@@ -595,7 +595,7 @@ export class ServerApiBase<Doc extends IDoc> {
 						'CREATE ENDPOINT GET ' + `audio/${this.collectionName}/${field}/:audio ########## IMAGE #############`
 					);
 					this.apiRestAudio &&
-						this.apiRestAudio.addRoute(`${this.collectionName}/${field}/:audio`, (req: any, res: any) => {
+						this.apiRestAudio.addRoute(`${this.collectionName}/${field}/:audio`, async (req: any, res: any) => {
 							const { params } = req;
 
 							if (params && !!params.audio) {
@@ -603,7 +603,7 @@ export class ServerApiBase<Doc extends IDoc> {
 									params.audio.indexOf('?') !== -1
 										? params.audio.split('?')[0].split('.')[0]
 										: params.audio.split('.')[0];
-								const doc = self.getCollectionInstance().findOne({ _id: docID });
+								const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
 
 								if (doc && !!doc[field] && doc[field] !== '-') {
 									if (doc[field].indexOf(';base64,') !== -1) {
@@ -656,13 +656,13 @@ export class ServerApiBase<Doc extends IDoc> {
 						'CREATE ENDPOINT GET ' + `img/${this.collectionName}/${field}/:image ########## IMAGE #############`
 					);
 					this.apiRestImage &&
-						this.apiRestImage.addRoute(`${this.collectionName}/${field}/:image`, (req: any, res: any) => {
+						this.apiRestImage.addRoute(`${this.collectionName}/${field}/:image`, async (req: any, res: any) => {
 							const { params } = req;
 
 							if (params && !!params.image) {
 								const docID =
 									params.image.indexOf('.png') !== -1 ? params.image.split('.png')[0] : params.image.split('.jpg')[0];
-								const doc = self.getCollectionInstance().findOne({ _id: docID });
+								const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
 
 								if (doc && !!doc[field] && doc[field] !== '-') {
 									const matches = doc[field].match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
@@ -718,7 +718,7 @@ export class ServerApiBase<Doc extends IDoc> {
 								if (params && !!params.image) {
 									const docID =
 										params.image.indexOf('.') !== -1 ? params.image.split('.')[0] : params.image.split('.')[0];
-									const doc = self.getCollectionInstance().findOne({ _id: docID });
+									const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
 
 									if (doc && !!doc[field] && doc[field] !== '-') {
 										const destructImage = doc[field].split(';');
@@ -810,8 +810,10 @@ export class ServerApiBase<Doc extends IDoc> {
 		const self = this;
 
 		if (Meteor.isServer) {
-			Meteor.publish(`${self.collectionName}.${publication}`, function (query, options) {
-				const subHandle = newPublicationsFunction(query, options)?.observe({
+			Meteor.publish(`${self.collectionName}.${publication}`, async function (query, options) {
+				const subHandle = await (
+					await newPublicationsFunction(query, options)
+				)?.observe({
 					added: async (document: { _id: string }) => {
 						this.added(`${self.collectionName}`, document._id, await transformDocFunc(document));
 					},
@@ -871,7 +873,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	};
 
 	//**DEFAULT PUBLICATIONS**
-	defaultCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
+	async defaultCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
 		if (!optionsPub) {
 			optionsPub = { limit: 999999, skip: 0 };
 		}
@@ -979,11 +981,11 @@ export class ServerApiBase<Doc extends IDoc> {
 	}
 
 	defaultCounterCollectionPublication = (collection: any, publishName: string) =>
-		function (...params: any) {
+		async function (...params: any) {
 			// `observeChanges` only returns after the initial `added` callbacks have run.
 			// Until then, we don't want to send a lot of `changed` messages—hence
 			// tracking the `initializing` state.
-			let handlePub = collection.publications[publishName](...params, { limit: 999999999 });
+			let handlePub = await collection.publications[publishName](...params, { limit: 999999999 });
 			if (handlePub) {
 				if (Array.isArray(handlePub)) {
 					handlePub = handlePub[0];
@@ -1013,7 +1015,7 @@ export class ServerApiBase<Doc extends IDoc> {
 							nonMutatingCallbacks: true
 						}
 					);
-					count = handlePub.count(false);
+					count = handlePub.countAsync(false);
 					// @ts-ignore
 					this.added('counts', `${publishName}Total`, { count });
 					loaded = true;
@@ -1030,8 +1032,8 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		};
 
-	defaultListCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
-		const user = getUser();
+	async defaultListCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
+		const user = await getUserServer();
 
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
 			if (!segurancaApi.podeAcessarRecurso(user, this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`])) {
@@ -1051,8 +1053,8 @@ export class ServerApiBase<Doc extends IDoc> {
 		return this.defaultCollectionPublication(filter, defaultListOptions);
 	}
 
-	defaultDetailCollectionPublication(filter: Partial<IDoc>, optionsPub: Partial<IMongoOptions<Doc>>) {
-		const user = getUser();
+	async defaultDetailCollectionPublication(filter: Partial<IDoc>, optionsPub: Partial<IMongoOptions<Doc>>) {
+		const user = await getUserServer();
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
 			if (!segurancaApi.podeAcessarRecurso(user, this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`])) {
 				// throw new Meteor.Error(
@@ -1084,7 +1086,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		const schema = this.schema;
 
 		const method = {
-			[methodFullName](...param: any[]) {
+			async [methodFullName](...param: any[]) {
 				console.log('CALL Method:', name, param ? param.length : '-');
 				// Prevent unauthorized access
 
@@ -1092,7 +1094,7 @@ export class ServerApiBase<Doc extends IDoc> {
 					let connection: IConnection;
 					// @ts-ignore
 					connection = this.connection;
-					const meteorContext = self._createContext(schema, collection, action, connection);
+					const meteorContext = await self._createContext(schema, collection, action, connection);
 
 					// Here With pass the new Metoer Method with the framework
 					// security and the meteor _context.
@@ -1178,8 +1180,8 @@ export class ServerApiBase<Doc extends IDoc> {
 		this.registerMethod('exportCollection', this.exportCollection);
 	}
 
-	exportCollection = () => {
-		return this.getCollectionInstance().find({}).fetch();
+	exportCollection = async () => {
+		return await this.getCollectionInstance().find({}).fetchAsync();
 	};
 
 	/**
@@ -1188,21 +1190,26 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param _docObj
 	 * @param _context
 	 */
-	serverSync(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	async serverSync(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		if (!_docObj || !_docObj._id) {
 			return false;
 		}
 
-		const oldDoc = this.getCollectionInstance().findOne({ _id: _docObj._id });
+		const oldDoc = await this.getCollectionInstance().findOneAsync({ _id: _docObj._id });
 
-		if (!(((!oldDoc || !oldDoc._id) && this.beforeInsert(_docObj, _context)) || this.beforeUpdate(_docObj, _context))) {
+		if (
+			!(
+				((!oldDoc || !oldDoc._id) && (await this.beforeInsert(_docObj, _context))) ||
+				(await this.beforeUpdate(_docObj, _context))
+			)
+		) {
 			return false;
 		}
 
 		if (!oldDoc || !oldDoc._id) {
 			_docObj = this._checkDataBySchema(_docObj, this.auditFields);
-			this._includeAuditData(_docObj, 'insert');
-			const insertId = this.getCollectionInstance().insert(_docObj);
+			await this._includeAuditData(_docObj, 'insert');
+			const insertId = await this.getCollectionInstance().insertAsync(_docObj);
 			return { _id: insertId, ..._docObj };
 		}
 		let docToSave;
@@ -1213,12 +1220,12 @@ export class ServerApiBase<Doc extends IDoc> {
 		}
 
 		docToSave = this._checkDataBySchema(docToSave, this.auditFields);
-		this._includeAuditData(docToSave, 'update');
+		await this._includeAuditData(docToSave, 'update');
 
-		this.getCollectionInstance().update(_docObj._id, {
+		await this.getCollectionInstance().updateAsync(_docObj._id, {
 			$set: docToSave
 		});
-		return this.getCollectionInstance().findOne({ _id: _docObj._id });
+		return await this.getCollectionInstance().findOneAsync({ _id: _docObj._id });
 	}
 
 	/**
@@ -1226,17 +1233,17 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} _docObj - Collection document the will be inserted.
 	 * @param  {Object} _context - Meteor this _context.
 	 */
-	serverInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	async serverInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		try {
 			const id = _docObj._id;
-			if (this.beforeInsert(_docObj, _context)) {
+			if (await this.beforeInsert(_docObj, _context)) {
 				_docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
-				this._includeAuditData(_docObj, 'insert');
+				await this._includeAuditData(_docObj, 'insert');
 				if (id) {
 					_docObj._id = id;
 				}
-				const result = this.getCollectionInstance().insert(_docObj);
-				this.afterInsert(Object.assign({ _id: id || result }, _docObj), _context);
+				const result = await this.getCollectionInstance().insertAsync(_docObj);
+				await this.afterInsert(Object.assign({ _id: id || result }, _docObj), _context);
 				if (_context.rest) {
 					_context.rest.response.statusCode = 201;
 				}
@@ -1260,7 +1267,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * (If we don't have _context, undefied will be set to this.)
 	 * @returns {Boolean} - Returns true for any action.
 	 */
-	beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	async beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_CREATE`]) {
 			segurancaApi.validarAcessoRecursos(_context.user, [`${this.collectionName?.toUpperCase()}_CREATE`]);
 		}
@@ -1275,7 +1282,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param _context
 	 * @returns {Object} - Object updated with the current status.
 	 */
-	afterInsert(_docObj: Doc | Partial<Doc>, _context?: IContext) {
+	async afterInsert(_docObj: Doc | Partial<Doc>, _context?: IContext) {
 		return {
 			..._docObj,
 			collection: this.collectionName
@@ -1289,12 +1296,12 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} _docObj - Collection document the will be inserted or updated.
 	 * @param  {Object} _context - Meteor this _context.
 	 */
-	serverUpsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
-		const objCollection = this.getCollectionInstance().findOne({ _id: _docObj._id });
+	async serverUpsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
+		const objCollection = await this.getCollectionInstance().findOneAsync({ _id: _docObj._id });
 		if (!objCollection) {
-			return this.serverInsert(_docObj, _context);
+			return await this.serverInsert(_docObj, _context);
 		}
-		return this.serverUpdate(_docObj, _context);
+		return await this.serverUpdate(_docObj, _context);
 	}
 
 	/**
@@ -1315,14 +1322,14 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} _docObj - Collection document the will be updated.
 	 * @param  {Object} _context - Meteor this _context.
 	 */
-	serverUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	async serverUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		try {
 			check(_docObj._id, String);
 			const id = _docObj._id;
 			if (this.beforeUpdate(_docObj, _context)) {
 				_docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
-				this._includeAuditData(_docObj, 'update');
-				const oldData = this.getCollectionInstance().findOne({ _id: id }) || {};
+				await this._includeAuditData(_docObj, 'update');
+				const oldData = (await this.getCollectionInstance().findOneAsync({ _id: id })) || {};
 				const nullValues = {};
 
 				const preparedData = this._prepareDocForUpdate(_docObj as Doc, oldData, nullValues);
@@ -1332,9 +1339,9 @@ export class ServerApiBase<Doc extends IDoc> {
 				if (Object.keys(nullValues).length > 0) {
 					action['$unset'] = nullValues;
 				}
-				const result = this.getCollectionInstance().update({ _id: id }, action);
+				const result = await this.getCollectionInstance().updateAsync({ _id: id }, action);
 				preparedData._id = id;
-				this.afterUpdate(preparedData, _context);
+				await this.afterUpdate(preparedData, _context);
 				return result;
 			}
 			return null;
@@ -1369,7 +1376,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param _context
 	 * @returns {Object} - Object updated with the current status.
 	 */
-	afterUpdate(_docObj: Doc, _context: IContext) {
+	async afterUpdate(_docObj: Doc, _context: IContext) {
 		const document = {
 			..._docObj,
 			collection: this.collectionName
@@ -1384,7 +1391,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		});
 
 		if (Object.keys(unsetFields).length > 0) {
-			this.getCollectionInstance().update(
+			await this.getCollectionInstance().upsertAsync(
 				{ _id: _docObj._id },
 				{
 					$unset: unsetFields
@@ -1401,13 +1408,13 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} _docObj - Collection document the will be removed.
 	 * @param  {Object} _context - Meteor this _context.
 	 */
-	serverRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	async serverRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		try {
-			if (this.beforeRemove(_docObj, _context)) {
+			if (await this.beforeRemove(_docObj, _context)) {
 				const id = _docObj._id;
 				check(id, String);
-				const result = this.getCollectionInstance().remove(id);
-				this.afterRemove(_docObj, _context);
+				const result = await this.getCollectionInstance().removeAsync(id);
+				await this.afterRemove(_docObj, _context);
 				return result;
 			}
 			return null;
@@ -1428,7 +1435,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * (If we don't have _context, undefied will be set to this.)
 	 * @returns {Boolean} - Returns true for any action.
 	 */
-	beforeRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	async beforeRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_REMOVE`]) {
 			segurancaApi.validarAcessoRecursos(_context.user, [`${this.collectionName?.toUpperCase()}_REMOVE`]);
 		}
@@ -1442,7 +1449,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param _context
 	 * @returns {Object} - Object updated with the current status.
 	 */
-	afterRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	async afterRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		return {
 			..._docObj,
 			collection: this.collectionName
@@ -1458,10 +1465,10 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} optionsPub - Options Publication, like publications.
 	 * @returns {Array} - Array of documents.
 	 */
-	serverGetDocs(publicationName = 'default', filter = {}, optionsPub: IMongoOptions<Doc>) {
+	async serverGetDocs(publicationName = 'default', filter = {}, optionsPub: IMongoOptions<Doc>) {
 		const result = this.publications[publicationName](filter, optionsPub);
 		if (result) {
-			return result.fetch();
+			return await result.fetchAsync();
 		} else {
 			return null;
 		}
@@ -1485,7 +1492,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} query - Params to query a document.
 	 * @param  {Object} projection - Params to define which fiedls will return.
 	 */
-	findOne(query: Selector<Doc> | string = {}, projection = {}): Partial<Doc> {
-		return this.getCollectionInstance().findOne(query, projection);
+	async findOne(query: Selector<Doc> | string = {}, projection = {}): Partial<Doc> {
+		return await this.getCollectionInstance().findOneAsync(query, projection);
 	}
 }
