@@ -4,9 +4,6 @@ import { ExampleModuleContext } from '../../exampleContainer';
 import ExampleDetailStyles from './exampleDetailStyles';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
-import CloseIcon from '@mui/icons-material/Close';
-import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -17,6 +14,7 @@ import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sy
 import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
 import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 const ExampleDetailView = () => {
 	const controller = useContext(ExampleDetailControllerContext);
@@ -37,7 +35,7 @@ const ExampleDetailView = () => {
 			<Header>
 				{isView && (
 					<IconButton onClick={controller.closePage}>
-						<ArrowBackOutlinedIcon />
+            <SysIcon name={'arrowBack'} />
 					</IconButton>
 				)}
 				<Typography variant="h5" sx={{ flexGrow: 1 }}>
@@ -45,7 +43,7 @@ const ExampleDetailView = () => {
 				</Typography>
 				<IconButton
 					onClick={!isView ? controller.closePage : () => controller.changeToEdit(controller.document._id || '')}>
-					{!isView ? <CloseIcon /> : <ModeEditOutlinedIcon />}
+					{!isView ? <SysIcon name={'close'} /> : <SysIcon name={'edit'} /> }
 				</IconButton>
 			</Header>
 			<SysForm
@@ -77,7 +75,7 @@ const ExampleDetailView = () => {
 				</Body>
 				<Footer>
 					{!isView && (
-						<Button variant="outlined" startIcon={<CloseIcon />} onClick={controller.closePage}>
+						<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={controller.closePage}>
 							Cancelar
 						</Button>
 					)}

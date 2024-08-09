@@ -14,14 +14,13 @@ import {
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
-import Delete from '@mui/icons-material/Delete';
-import Edit from '@mui/icons-material/Edit';
 import { Variant } from '@mui/material/styles/createTypography';
 import { ComplexTableContainer, ComplexTableRenderImg, ComplexTableRowText } from './ComplexTableStyle';
 import { Toolbar } from './Toolbar';
 import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
 import { IconButton, Tooltip } from '@mui/material';
 import { ptBR } from '@mui/x-data-grid/locales';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 interface ISchema {
 	[key: string]: any;
@@ -347,12 +346,12 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				const renderActions = !!actions ? [...actions] : [];
 				if (!!onDelete)
 					renderActions.unshift({
-						icon: <Delete />,
+						icon: <SysIcon name={'delete'}/>,
 						label: 'Deletar',
 						onClick: onDelete
 					});
 
-				if (!!onEdit) renderActions.unshift({ icon: <Edit />, label: 'Editar', onClick: onEdit });
+				if (!!onEdit) renderActions.unshift({ icon: <SysIcon name={'edit'} />, label: 'Editar', onClick: onEdit });
 
 				if (!!conditionalActions) {
 					conditionalActions.forEach((action: IConditionalAction) => {

@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
-import DoneIcon from '@mui/icons-material/Done';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 export const ResetPassword = (props: IDefaultContainerProps) => {
 	const { showNotification } = useContext(SysAppLayoutContext);
@@ -106,7 +106,7 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
 								color="primary"
 								id="submit"
 								disabled={loading}
-								startIcon={<DoneIcon />}
+								startIcon={<SysIcon name={'check'} />}
 								sx={{ transition: 'all 0.3s ease' }}>
 								{loading ? <CircularProgress size={24} /> : 'Confirmar'}
 							</Button>

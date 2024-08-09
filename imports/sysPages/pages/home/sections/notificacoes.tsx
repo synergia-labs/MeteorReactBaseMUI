@@ -6,13 +6,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
-import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import { SysAppLayoutContext } from '/imports/app/appLayout';
-import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+
 
 const HomeSectionNotificacoes: React.FC = () => {
 	const sysLayoutContext = useContext(SysAppLayoutContext);
@@ -25,7 +21,7 @@ const HomeSectionNotificacoes: React.FC = () => {
 			<RowButtons>
 				<Button
 					color="secondary"
-					startIcon={<HighlightOffRoundedIcon />}
+					startIcon={<SysIcon name={'highlightOff'} />}
 					onClick={sysLayoutContext.closeNotification}
 					sx={{ mr: '1.5rem' }}>
 					Fechar Notificação
@@ -33,7 +29,7 @@ const HomeSectionNotificacoes: React.FC = () => {
 
 				<Button
 					color="primary"
-					startIcon={<NotificationsNoneRoundedIcon />}
+					startIcon={<SysIcon name={'notification'} />}
 					onClick={() => {
 						sysLayoutContext.showNotification({
 							title: 'Notificação padrão',
@@ -48,7 +44,7 @@ const HomeSectionNotificacoes: React.FC = () => {
 
 				<Button
 					color="error"
-					startIcon={<ErrorOutlineRoundedIcon />}
+					startIcon={<SysIcon name={'error'} />}
 					onClick={() => {
 						sysLayoutContext.showNotification({
 							title: 'Notificação de erro',
@@ -63,7 +59,7 @@ const HomeSectionNotificacoes: React.FC = () => {
 
 				<Button
 					color="warning"
-					startIcon={<WarningAmberRoundedIcon />}
+					startIcon={<SysIcon name={'warningAmber'} />}
 					onClick={() => {
 						sysLayoutContext.showNotification({
 							title: 'Notificação de aviso',
@@ -77,7 +73,7 @@ const HomeSectionNotificacoes: React.FC = () => {
 
 				<Button
 					color="success"
-					startIcon={<CheckCircleOutlineRoundedIcon />}
+					startIcon={<SysIcon name={'checkCircle'} />}
 					onClick={() => {
 						sysLayoutContext.showNotification({
 							title: 'Notificação de sucesso',
@@ -90,7 +86,7 @@ const HomeSectionNotificacoes: React.FC = () => {
 
 				<Button
 					color="info"
-					startIcon={<ChatRoundedIcon />}
+					startIcon={<SysIcon name={'chat'} />}
 					onClick={() => {
 						sysLayoutContext.showNotification({
 							horizontal: 'right',

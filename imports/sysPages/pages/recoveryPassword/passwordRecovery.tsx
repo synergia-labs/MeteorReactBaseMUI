@@ -7,8 +7,7 @@ import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextFie
 import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
-import DoneIcon from '@mui/icons-material/Done';
-import ClearIcon from '@mui/icons-material/Clear';
+
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -18,7 +17,8 @@ import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
 import { useNavigate } from 'react-router-dom';
 import { sysSizing } from '/imports/ui/materialui/styles';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+
 
 export const PasswordRecovery = (props: IDefaultContainerProps) => {
 	const [loading, setLoading] = React.useState<boolean>(false);
@@ -118,7 +118,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 									color="primary"
 									id="cancelar"
 									disabled={loading}
-									startIcon={<ClearIcon />}
+									startIcon={<SysIcon name={'close'} />}
 									sx={{ transition: 'all 0.3s ease' }}>
 									{loading ? <CircularProgress size={24} /> : 'Cancelar'}
 								</Button>
@@ -126,7 +126,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 									variant="contained"
 									color="primary"
 									id="submit"
-									startIcon={<DoneIcon />}
+									startIcon={<SysIcon name={'check'} />}
 									sx={{ transition: 'all 0.3s ease', display: loading ? 'none' : 'flex' }}>
 									{loading ? <CircularProgress size={24} /> : 'Confirmar'}
 								</Button>
@@ -138,7 +138,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 						variant="contained"
 						color="primary"
 						id="cancelar"
-						startIcon={<ArrowBackIcon />}
+						startIcon={<SysIcon name={'arrowBack'}/>}
 						sx={{ transition: 'all 0.3s ease', display: !msg ? 'none' : 'flex' }}>
 						{loading ? <CircularProgress size={24} /> : 'Voltar para o Login'}
 					</Button>

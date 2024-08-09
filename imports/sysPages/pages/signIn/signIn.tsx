@@ -3,7 +3,6 @@ import SignInStyles from './signInStyles';
 import { Meteor } from 'meteor/meteor';
 import { SysAppLayoutContext } from '/imports/app/appLayout';
 import { useNavigate } from 'react-router-dom';
-import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import { SysAppContext } from '/imports/app/appContainer';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
@@ -12,6 +11,7 @@ import { signInSchema } from './signinsch';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 const SignInPage: React.FC = () => {
   const { showNotification } = useContext(SysAppLayoutContext);
@@ -71,7 +71,7 @@ const SignInPage: React.FC = () => {
                 <Typography variant="link">Esqueci minha senha</Typography>
               </Button>
               <Box />
-              <SysFormButton variant="contained" color="primary" endIcon={<ArrowForwardRoundedIcon />}>
+              <SysFormButton variant="contained" color="primary" endIcon={<SysIcon name={'arrowForward'} />}>
                 Entrar
               </SysFormButton>
             </FormWrapper>

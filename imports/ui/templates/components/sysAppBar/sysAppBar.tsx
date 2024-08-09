@@ -11,12 +11,11 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Meteor } from 'meteor/meteor';
 import { cleanUserCache } from '/imports/hooks/useUserAccount';
-import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import { hasValue } from '/imports/libs/hasValue';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+
 
 
 const {
@@ -79,7 +78,7 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 				{isSmallerThanLg && hasValue(optionsMobile) ? (
 					<>
 						<IconButton onClick={openNavMenu}>
-							<MenuOutlinedIcon />
+              <SysIcon name={'menu'} />
 						</IconButton>
 						<SysMenu
 							ref={menuNavRef}
@@ -101,14 +100,14 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 						options={[
 							{
 								text: 'Sair',
-								icon: <LogoutRoundedIcon />,
+								icon: <SysIcon name={'logout'} />,
 								onClick: userLogout
 							}
 						]}
 					/>
 				</>
 			) : (
-				<Button startIcon={<LoginRoundedIcon />} onClick={userLogin} size="small">
+				<Button startIcon={<SysIcon name={'logout'} />} onClick={userLogin} size="small">
 					Login
 				</Button>
 			)}

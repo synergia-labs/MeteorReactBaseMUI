@@ -8,8 +8,7 @@ import UserProfileDetailStyles from './userProfileDetailStyles';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 const UserProfileDetailView = () => {
 	const context = useContext(UserProfileDetailControllerContext);
@@ -32,10 +31,10 @@ const UserProfileDetailView = () => {
 					<SysTextField name="email" placeholder="Ex.: jose.silva@email.com" />
 					<SysSelectField name="roles" placeholder="Selecionar" />
 					<Actions>
-						<Button variant="outlined" startIcon={<CloseIcon />} onClick={closeDialog}>
+						<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={closeDialog}>
 							Cancelar
 						</Button>
-						<SysFormButton startIcon={<CheckIcon />}>Salvar</SysFormButton>
+						<SysFormButton startIcon={<SysIcon name={'check'} />}>Salvar</SysFormButton>
 					</Actions>
 				</FieldsForm>
 			</SysForm>

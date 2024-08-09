@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
-import AddIcon from '@mui/icons-material/Add';
 import { ExampleListControllerContext } from './exampleListController';
 import { useNavigate } from 'react-router-dom';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
@@ -10,7 +9,7 @@ import { SysAppLayoutContext } from '/imports/app/appLayout';
 import ExampleListStyles from './exampleListStyles';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
-import SearchIcon from '@mui/icons-material/Search';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);
@@ -27,7 +26,7 @@ const ExampleListView = () => {
 					name="search"
 					placeholder="Pesquisar por nome"
 					onChange={controller.onChangeTextField}
-					startAdornment={<SearchIcon />}
+					startAdornment={<SysIcon name={'search'} />}
 				/>
 				<SysSelectField
 					name="Category"
@@ -71,7 +70,7 @@ const ExampleListView = () => {
 			<SysFab
 				variant="extended"
 				text="Adicionar"
-				startIcon={<AddIcon />}
+				startIcon={<SysIcon name={'add'} />}
 				fixed={true}
 				onClick={controller.onAddButtonClick}
 			/>

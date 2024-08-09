@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import React from 'react';
 import FieldsWithErrorDialogStyles from './fieldsWithErrorDialogStyles';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 interface IFieldsWithErrorsDialog {
 	errors: { [key: string]: string };
@@ -19,7 +19,7 @@ const FieldsWithErrorsDialog: React.FC<IFieldsWithErrorsDialog> = ({ errors, clo
 			<Header>
 				<Typography variant="h5">Campos do formulário com erro</Typography>
 				<IconButton onClick={closeDialog}>
-					<CloseOutlinedIcon />
+					<SysIcon name={'close'} />
 				</IconButton>
 			</Header>
 			{!hasError ? (

@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import ReplyAllOutlinedIcon from '@mui/icons-material/ReplyAllOutlined';
 import { useNavigate } from 'react-router-dom';
 import NoPermissionStyles from './noPermissionStyles';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 export const NoPermission: React.FC = () => {
 	const navigate = useNavigate();
@@ -19,7 +19,7 @@ export const NoPermission: React.FC = () => {
 			<Typography variant="body1" textAlign={'center'} sx={{ mt: 2, mb: 5 }}>
 				A página que você está tentando acessar não permite a sua visualização.
 			</Typography>
-			<Button startIcon={<ReplyAllOutlinedIcon />} onClick={backToHome}>
+			<Button startIcon={<SysIcon name={'replyAll'} />} onClick={backToHome}>
 				Voltar para a página inicial
 			</Button>
 		</Container>

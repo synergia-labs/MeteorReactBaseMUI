@@ -2,13 +2,10 @@ import React, { useContext } from 'react';
 import HomeSection from '../components/section';
 import { Button } from '@mui/material';
 import { SysAppLayoutContext } from '/imports/app/appLayout';
-import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import ConfirmDialog from '/imports/ui/appComponents/showDialog/custom/confirmDialog/confirmDialog';
-import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-import DesktopWindowsOutlinedIcon from '@mui/icons-material/DesktopWindowsOutlined';
 import HomeStyles from '../homeStyle';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 const HomeSectionDialogs: React.FC = () => {
 	const sysLayoutContext = useContext(SysAppLayoutContext);
@@ -39,17 +36,17 @@ const HomeSectionDialogs: React.FC = () => {
 				</>
 			}>
 			<RowButtons>
-				<Button color="secondary" startIcon={<HighlightOffRoundedIcon />} onClick={sysLayoutContext.closeDialog}>
+				<Button color="secondary" startIcon={<SysIcon name={'highlightOff'} />} onClick={sysLayoutContext.closeDialog}>
 					Fechar Dialog
 				</Button>
 
-				<Button color="secondary" startIcon={<HighlightOffRoundedIcon />} onClick={sysLayoutContext.closeModal}>
+				<Button color="secondary" startIcon={<SysIcon name={'highlightOff'} />} onClick={sysLayoutContext.closeModal}>
 					Fechar Modal
 				</Button>
 
 				<Button
 					color="secondary"
-					startIcon={<HighlightOffRoundedIcon />}
+					startIcon={<SysIcon name={'highlightOff'} />}
 					onClick={sysLayoutContext.closeWindow}
 					sx={{ mr: '1.5rem' }}>
 					Fechar window
@@ -57,7 +54,7 @@ const HomeSectionDialogs: React.FC = () => {
 
 				<Button
 					color="primary"
-					startIcon={<ThumbUpAltOutlinedIcon />}
+					startIcon={<SysIcon name={'thumbUpAlt'} />}
 					onClick={() => {
 						ConfirmDialog({
 							showDialog: sysLayoutContext.showDialog,
@@ -76,7 +73,7 @@ const HomeSectionDialogs: React.FC = () => {
 
 				<Button
 					color="primary"
-					startIcon={<WarningAmberRoundedIcon />}
+					startIcon={<SysIcon name={'warningAmber'} />}
 					onClick={() => {
 						DeleteDialog({
 							showDialog: sysLayoutContext.showDialog,
@@ -95,7 +92,7 @@ const HomeSectionDialogs: React.FC = () => {
 
 				<Button
 					color="primary"
-					startIcon={<DesktopWindowsOutlinedIcon />}
+					startIcon={<SysIcon name={'desktopWindows'} />}
 					onClick={() => {
 						sysLayoutContext.showWindow({
 							urlPath: '/'
