@@ -8,25 +8,15 @@ import { sysSizing } from '/imports/ui/materialui/styles';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import { SysFormPlaygroundContext } from './sysFormPlayground';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
-import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { SysDatePickerField } from '/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import ReplayIcon from '@mui/icons-material/Replay';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import CleaningServicesOutlinedIcon from '@mui/icons-material/CleaningServicesOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { schemaFormated } from './interface/sysFormSch';
-import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);
@@ -124,7 +114,7 @@ const SysFormPlaygroundView: React.FC = () => {
 								<Button
 									variant="outlined"
 									sx={{ height: 'fit-content', alignSelf: 'center' }}
-									startIcon={<TaskOutlinedIcon />}
+									startIcon={<SysIcon name={'task'} />}
 									onClick={() => controller.validateIndividualField('name')}>
 									Validar
 								</Button>
@@ -141,7 +131,7 @@ const SysFormPlaygroundView: React.FC = () => {
 									size="small"
 									onClick={() => controller.validateIndividualField('cpf')}
 									sx={{ alignSelf: 'flex-end' }}>
-									<TaskOutlinedIcon />
+									<SysIcon name={'task'} />
 								</IconButton>
 							)}
 						</RowElement>
@@ -155,7 +145,7 @@ const SysFormPlaygroundView: React.FC = () => {
 						<SysRadioButton name="rate" alignment="row" />
 						<SysLocationField name="address" />
 						<SysSlider name="temperature" />
-						<SysFormButton sx={{ alignSelf: 'flex-start' }} startIcon={<CheckOutlinedIcon />}>
+						<SysFormButton sx={{ alignSelf: 'flex-start' }} startIcon={<SysIcon name={'check'} />}>
 							Enviar
 						</SysFormButton>
 					</SysForm>
@@ -163,18 +153,18 @@ const SysFormPlaygroundView: React.FC = () => {
 				<ControlerContainer>
 					<Typography variant="subtitle1">Controles</Typography>
 					<ButtonContainer>
-						<Button startIcon={<TaskOutlinedIcon />} onClick={controller.sysFormRef.current?.validateFields}>
+						<Button startIcon={<SysIcon name={'task'} />} onClick={controller.sysFormRef.current?.validateFields}>
 							Validar
 						</Button>
 						<Button
-							startIcon={controller.mode === 'edit' ? <VisibilityOutlinedIcon /> : <ModeEditOutlineOutlinedIcon />}
+							startIcon={controller.mode === 'edit' ? <SysIcon name={'visibility'}/> : <SysIcon name={'edit'} />}
 							onClick={() => controller.setMode(controller.mode === 'edit' ? 'view' : 'edit')}
 							//@ts-ignore
 							color={controller.mode === 'edit' ? 'tertiary' : 'secondary'}>
 							{controller.mode === 'edit' ? 'Alterar Modo: Visualização' : 'Alterar Modo: Edição'}
 						</Button>
 						<Button
-							startIcon={<CleaningServicesOutlinedIcon />}
+							startIcon={<SysIcon name={'cleaning'} />}
 							color="error"
 							onClick={() => {
 								controller.sysFormRef.current?.clearForm();
@@ -183,22 +173,22 @@ const SysFormPlaygroundView: React.FC = () => {
 							Limpar
 						</Button>
 						<Button
-							startIcon={<SecurityOutlinedIcon />}
+							startIcon={<SysIcon name={'security'} />}
 							onClick={controller.sysFormRef.current?.submit}
 							color="warning">
 							Forçar submit
 						</Button>
 						<Button
-							startIcon={<ManageSearchOutlinedIcon />}
+							startIcon={<SysIcon name={'manageSearch'} />}
 							onClick={() => controller.setDebugMode(!controller.debugMode)}
 							color={!controller.debugMode ? 'warning' : 'success'}>
 							{controller.debugMode ? 'Desativar Debug' : 'Ativar Debug'}
 						</Button>
-						<Button startIcon={<SecurityOutlinedIcon />} onClick={() => controller.setLoading(!controller.loading)}>
+						<Button startIcon={<SysIcon name={'security'} />} onClick={() => controller.setLoading(!controller.loading)}>
 							Loading: {controller.loading ? 'Ativo' : 'Inativo'}
 						</Button>
 						<Button
-							startIcon={<PublishedWithChangesOutlinedIcon />}
+							startIcon={<SysIcon name={'published'} />}
 							onClick={() => controller.setRealTimeValidation(!controller.realTimeValidation)}>
 							Validação em tempo real: {controller.realTimeValidation ? 'Ativo' : 'Inativo'}
 						</Button>
@@ -209,13 +199,13 @@ const SysFormPlaygroundView: React.FC = () => {
 						<pre>{JSON.stringify(controller.doc, null, 2)}</pre>
 						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 							<IconButton onClick={controller.updateDoc}>
-								<ReplayIcon />
+								<SysIcon name={'replay'} />
 							</IconButton>
 							<IconButton onClick={() => controller.changeUpdateRealTime(!controller.updateRealTime)}>
-								{controller.updateRealTime ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
+								{controller.updateRealTime ? <SysIcon name={'visibility'} /> : <SysIcon name={'visibilityOff'}/>}
 							</IconButton>
 							<IconButton onClick={controller.showFieldWithErrors}>
-								<ErrorOutlineOutlinedIcon color="error" />
+								<SysIcon name={'errorCircle'} color="error" />
 							</IconButton>
 						</Box>
 					</DocContainer>

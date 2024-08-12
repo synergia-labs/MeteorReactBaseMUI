@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 const Header = styled(Box)(({}) => ({
 	display: 'flex',
@@ -45,7 +45,7 @@ function NotifyDialog({ showDialog, closeDialog, title, duration, icon }: INotif
 			<>
 				<Header>
 					<IconButton onClick={closeDialog}>
-						<CloseIcon />
+						<SysIcon name={'close'}/>
 					</IconButton>
 				</Header>
 				<Body>

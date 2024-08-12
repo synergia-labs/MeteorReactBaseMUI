@@ -4,8 +4,7 @@ import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { formDialogStyles } from './formDialogStyles';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 interface IFormDialogProps extends IShowDialogProps {
 	showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
@@ -31,11 +30,11 @@ function FormDialog({ showDialog, closeDialog, onSubmit, title, form, ...props }
 		body: form,
 		actions: (
 			<DialogActions sx={formDialogStyles.actions}>
-				<Button variant="outlined" startIcon={<CloseIcon />} onClick={closeDialog}>
+				<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={closeDialog}>
 					Cancelar
 				</Button>
 				<Button
-					startIcon={<CheckIcon />}
+					startIcon={<SysIcon name={'check'} />}
 					type="submit"
 					variant="contained"
 					onClick={() => {

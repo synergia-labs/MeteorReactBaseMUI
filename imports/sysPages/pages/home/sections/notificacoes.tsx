@@ -44,7 +44,7 @@ const HomeSectionNotificacoes: React.FC = () => {
 
 				<Button
 					color="error"
-					startIcon={<SysIcon name={'error'} />}
+					startIcon={<SysIcon name={'errorCircle'} />}
 					onClick={() => {
 						sysLayoutContext.showNotification({
 							title: 'Notificação de erro',

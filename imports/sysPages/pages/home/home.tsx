@@ -22,7 +22,6 @@ import { SysLoading } from '../../../ui/components/sysLoading/sysLoading';
 import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 
-
 const Home: React.FC = () => {
   const { Container, Header, } = HomeStyles;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
