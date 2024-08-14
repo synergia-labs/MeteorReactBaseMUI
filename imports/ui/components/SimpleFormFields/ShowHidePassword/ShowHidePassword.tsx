@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 
@@ -48,7 +46,7 @@ export const ShowHidePassword = ({ name, onChange, error, placeholder, style, la
 							onClick={handleClickShowPassword}
 							onMouseDown={handleMouseDownPassword}
 							edge="end">
-							{values.showPassword ? <Visibility /> : <VisibilityOff />}
+							{values.showPassword ? <Visibility SysIcon name={'visibility'} /> : <SysIcon name={'visibilityOff'} />}
 						</IconButton>
 					</InputAdornment>
 				}

@@ -5,7 +5,8 @@ import { hasValue } from '/imports/libs/hasValue';
 
 import { simpleLabelListStyle } from './SimpleLabelViewListStyle';
 import Tooltip from '@mui/material/Tooltip';
-import Help from '@mui/icons-material/Help';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+
 
 interface ISimpleLabelView {
 	label: string;
@@ -29,7 +30,7 @@ export default ({ label, value, help, style }: ISimpleLabelView) => {
 								right: -23
 							}}>
 							<Tooltip title={help}>
-								<Help style={{ color: '#FFF', fontSize: 20 }} />
+								<SysIcon name={'helpFilled'} style={{ color: '#FFF', fontSize: 20 }} />
 							</Tooltip>
 						</div>
 					</div>

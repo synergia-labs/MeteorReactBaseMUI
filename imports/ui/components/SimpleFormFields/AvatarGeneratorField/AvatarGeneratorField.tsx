@@ -3,18 +3,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 import Konva from 'konva';
-
 import { characteres } from './Characteres';
-
 import { avatarGeneratorStyle } from './AvatarGeneratorFieldStyle';
-
-import FaceIcon from '@mui/icons-material/Face';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-
 import { hasValue } from '/imports/libs/hasValue';
+
 
 const drawCharacter = (character, charObj, layer = null, listOfObjects = null) => {
 	if (!layer || !listOfObjects) {
@@ -283,7 +278,7 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
 								variant="contained"
 								color="default"
 								style={avatarGeneratorStyle.selectImage}
-								startIcon={<FaceIcon />}
+								startIcon={<SysIcon name={'face'}/>}
 								onClick={() => this.setState({ open: true })}>
 								{'Selecionar avatar'}
 							</Button>
@@ -294,7 +289,7 @@ class AvatarGeneratorField extends React.Component<IBaseSimpleFormComponent> {
 								variant="contained"
 								color="default"
 								style={avatarGeneratorStyle.selectImage}
-								startIcon={<DeleteIcon />}
+								startIcon={<SysIcon name={'delete'} />}
 								onClick={() => this.deleteAvatar()}>
 								{'Deletar'}
 							</Button>

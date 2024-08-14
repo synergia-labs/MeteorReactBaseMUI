@@ -1,9 +1,5 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import AddIcon from '@mui/icons-material/Add';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { AttachFile, Book, Image, LibraryBooks, LibraryMusic, VideoLibrary } from '@mui/icons-material';
 import { FileWithPath, useDropzone } from 'react-dropzone';
 import { SysAppLayoutContext } from '/imports/app/appLayout';
 import { attachmentsCollection } from '/imports/api/attachmentsCollection';
@@ -19,6 +15,7 @@ import { SxProps, Theme } from '@mui/material';
 import { SysLoading } from '../../sysLoading/sysLoading';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 
 const {
@@ -193,7 +190,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 							<input {...getInputProps()} />
 							<TypographyInfo variant="caption">{btnTextDesc}</TypographyInfo>
 							<TypographyAdd variant="button2">
-								<AddIcon />
+                <SysIcon name={'add'}/>
 								Adicionar
 							</TypographyAdd>
 						</Button>
@@ -216,12 +213,12 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 									</CardInfo>
 
 									<BoxIconsCard sx={sxMap?.boxIconsCard}>
-										<DeleteIcon
+                    <SysIcon name={'delete'}
 											color="primary"
 											sx={{ cursor: 'pointer', display: readOnly ? 'none' : 'block' }}
 											onClick={() => deleteFile(item._id)}
 										/>
-										<SaveAltIcon
+										<SysIcon name={'download'}
 											color="primary"
 											onClick={() => downloadURI(item)}
 											sx={{ cursor: 'pointer', display: readOnly ? 'block' : 'none' }}
@@ -246,16 +243,16 @@ function getIcon(mimeType: string) {
 	const type = mimeType.split('/')[0];
 	switch (type) {
 		case 'text':
-			return <LibraryBooks color="primary" />;
+			return <SysIcon name={'bookLibrary'} color="primary" />;
 		case 'audio':
-			return <LibraryMusic color="primary" />;
+			return <SysIcon name={'musicLibrary'} color="primary" />;
 		case 'image':
-			return <Image color="primary" />;
+			return <SysIcon name={'image'} color="primary" />;
 		case 'video':
-			return <VideoLibrary color="primary" />;
+			return <SysIcon name={'videoLibrary'} color="primary" />;
 		case 'application':
-			return <Book color="primary" />;
+			return <SysIcon name={'book'} color="primary" />;
 		default:
-			return <AttachFile color="primary" />;
+			return <SysIcon name={'attachFile'} color="primary" />;
 	}
 }

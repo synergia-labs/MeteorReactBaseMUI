@@ -10,8 +10,9 @@ import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSi
 import { SxProps } from '@mui/system';
 import { IDoc } from '/imports/api/IDoc';
 import * as appStyle from '/imports/ui/materialui/styles';
-import ClearIcon from '@mui/icons-material/Clear';
 import Selector = Mongo.Selector;
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+
 
 interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {
 	api: ApiBase<T>;
@@ -171,7 +172,7 @@ export default function SearchDocField<T extends IDoc>({
 				openText={'Abrir'}
 				closeText={'Fechar'}
 				options={options}
-				clearIcon={<ClearIcon fontSize="small" onClick={() => setText('')} />}
+				clearIcon={<SysIcon name={'close'} fontSize="small" onClick={() => setText('')} />}
 				sx={autocompleteSx ?? {}}
 				renderInput={(params) => (
 					<TextField

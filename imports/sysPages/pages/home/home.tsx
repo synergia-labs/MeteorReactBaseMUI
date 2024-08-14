@@ -35,7 +35,7 @@ const Home: React.FC = () => {
 
 	return (
 		<Container>
-			<Header>
+        <Header>
 				<Typography variant="h3">Página de testes</Typography>
 				<Typography variant="body1" textAlign={'justify'}>
 					Bem vindo ao Boilerplate do Synergia. Essa é uma página dedicada aos testes e exibições de componentes e

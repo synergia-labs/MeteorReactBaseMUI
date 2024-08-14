@@ -2,8 +2,6 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import Star from '@mui/icons-material/Star';
-import StarBorder from '@mui/icons-material/StarBorder';
 
 interface IRatingField {
 	name: string;
@@ -57,8 +55,8 @@ export const RatingField = ({
 				size={size}
 				readOnly={!!readOnly}
 				max={max}
-				icon={icon ? icon : <Star fontSize="inherit" />}
-				emptyIcon={emptyIcon ? emptyIcon : <StarBorder fontSize="inherit" />}
+				icon={icon ? icon : <SysIcon name={'star'} fontSize="inherit" />}
+				emptyIcon={emptyIcon ? emptyIcon : <SysIcon name={'starBorder'} fontSize="inherit" />}
 			/>
 		</Box>
 	);
