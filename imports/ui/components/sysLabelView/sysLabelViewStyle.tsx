@@ -29,10 +29,6 @@ const SysLabelViewStyles: ISysLabelViewStyles = {
 		justifyContent: 'flex-start',
 		gap: '4px'
 	})),
-	HelpIcon: styled(HelpOutlineIcon)<IHelpIconProps>(({ theme, disabled }) => ({
-		fontSize: theme.typography.body2.fontSize,
-		color: disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary
-	}))
 };
 
 export default SysLabelViewStyles;

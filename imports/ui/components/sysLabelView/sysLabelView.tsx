@@ -3,6 +3,7 @@ import SysLabelViewStyles from './sysLabelViewStyle';
 import { SxProps, Theme } from '@mui/material';
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'placement'> {
 	label?: string;
@@ -15,7 +16,6 @@ interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'place
 	};
 	children?: ReactNode | ReactElement;
 	placement?: string | undefined;
-	helpIcon?: boolean;
 	readOnly?: boolean;
 	showRequired?: boolean;
 	requiredIndicator?: string;
@@ -24,7 +24,6 @@ interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'place
 const {
   Container,
   Header,
-  HelpIcon
 } = SysLabelViewStyles;
 
 const SysLabelView: React.FC<ISysLabelView> = ({
@@ -34,7 +33,6 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 	disabled,
 	children,
 	placement,
-	helpIcon,
 	showRequired,
 	requiredIndicator = '*'
 }) => {
@@ -48,8 +46,8 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 							color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}>
 							{label} {showRequired && requiredIndicator}
 						</Typography>
-						{helpIcon && <HelpIcon disabled={disabled} />}
-					</Header>
+						{!!tooltipMessage && <SysIcon name={'help'} color={disabled ? 'disabled' : 'inherit'} />}
+          </Header>
 				</Tooltip>
 			)}
 			{children}
