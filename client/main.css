@@ -1,9 +1,6 @@
 :root {
-  --scrollbar-thumb-color: #3e6b01;
-  --scrollbar-track-color: #ccc;
   --loading-color: #6768f2;
   --loader-border: #6768f21a;
-
   --loading-gap: 8px;
 }
 
@@ -11,37 +8,18 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
 }
 
 html {
   height: 100%;
   overflow-y: hidden;
-  background-color: #eee;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   height: 100%;
   margin: 0;
-  /* Consider commenting on why user-select is none for accessibility purposes */
   user-select: none;
-}
-
-/* Scrollbar styles for Webkit browsers */
-*::-webkit-scrollbar {
-  width: 12px;
-}
-
-*::-webkit-scrollbar-track {
-  background: var(--scrollbar-track-color);
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb-color);
-  border-radius: 20px;
-  border: 3px solid var(--scrollbar-track-color);
 }
 
 .custom-list-item::before {
@@ -77,7 +55,6 @@ body {
   color: var(--loading-color);
   margin-top: var(--loading-gap);
 }
-
 
 .loader {
   width: 100px;

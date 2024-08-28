@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ISysThemeOptions } from '../typings/BoilerplateDefaultTypings';
 import { AppContainer } from './appContainer';
 import { AppLayout } from './appLayout';
+import GlobalStyles from "@mui/material/GlobalStyles";
 
 export interface IThemeOptions {
 	darkMode: boolean;
@@ -21,7 +22,7 @@ export const App = () => {
 	const isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(userAgent);
 	const isTablet = /ipad|android 3.0|xoom|sch-i800|playbook|tablet|kindle/.test(userAgent);
 
-	const [darkThemeMode, setDarkThemeMode] = useState<boolean>(!!prefersDarkMode);
+	const [darkThemeMode, setDarkThemeMode] = useState<boolean>(prefersDarkMode);
 	const [fontScale, setFontScale] = useState<number>(1);
 	const deviceType: 'mobile' | 'tablet' | 'desktop' = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
 
@@ -40,7 +41,7 @@ export const App = () => {
 
 	const themeOptions: ISysThemeOptions = useMemo(
 		() => ({
-			darkMode: !!darkThemeMode,
+			darkMode: darkThemeMode,
 			fontScale,
 			deviceType,
 			setDarkThemeMode: changeThemeMode,
@@ -52,6 +53,27 @@ export const App = () => {
 	return (
 		<ThemeProvider theme={getTheme(themeOptions)}>
 			<CssBaseline enableColorScheme />
+      { !isMobile && !isTablet && <GlobalStyles styles={{
+        scrollbarColor: '#ccc #00000012',
+        scrollbarWidth: 'thin',
+        '::-webkit-scrollbar': {
+          width: '10px',
+          height: '8px',
+          margin: '16px'
+        },
+        '::-webkit-scrollbar-track': {
+          background: '#00000012',
+          margin: '16px',
+          borderRadius: '20px'
+        },
+        '::-webkit-scrollbar-thumb': {
+          background: '#ccc',
+          borderRadius: '20px'
+        },
+        '::-webkit-scrollbar-thumb:hover': {
+          background: '#bbb'
+        }
+      }}/>}
 			<AppContainer>
 				<AppLayout themeOptions={themeOptions} />
 			</AppContainer>
