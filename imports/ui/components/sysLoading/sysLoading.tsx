@@ -36,7 +36,7 @@ export const SysLoading: React.FC<ISysLoading> = ({ label, size = 'medium', sxMa
 		<Container sx={sxMap?.container}>
 			<Loading sx={sxMap?.loading} size={size} />
 			{label && (
-				<Typography variant="caption" color={(theme) => theme.palette.sysText?.primary}>
+				<Typography variant={size === 'small' ? 'caption' : 'body1'} color={(theme) => theme.palette.sysText?.primary}>
 					{label}
 				</Typography>
 			)}

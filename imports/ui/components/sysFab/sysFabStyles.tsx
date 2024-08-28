@@ -29,7 +29,14 @@ export const SysFabStyled = styled(({ fixed, ...otherProps }: ISysFabProps) => <
 	const fixedStyle = {
 		position: 'absolute',
 		right: '72px',
-		bottom: '56px'
+		bottom: '56px',
+    [theme.breakpoints.down('md')]: {
+      right: '40px',
+      bottom: '32px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      right: '24px',
+    }
 	};
 
 	if (fixed)

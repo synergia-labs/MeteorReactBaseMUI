@@ -51,7 +51,7 @@ body {
 }
 
 .loadingText {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--loading-color);
   margin-top: var(--loading-gap);
 }

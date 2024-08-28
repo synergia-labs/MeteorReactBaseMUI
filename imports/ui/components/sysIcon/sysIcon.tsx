@@ -1,6 +1,6 @@
 import React from 'react';
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
-import materialSymbolsIcons, { MaterialSymbolsIconsNames } from '/imports/ui/components/SysIcon/materialSymbolsIcons';
+import materialSymbolsIcons, { MaterialSymbolsIconsNames } from '/imports/ui/components/sysIcon/materialSymbolsIcons';
 
 interface ISysIconProps extends SvgIconProps {
   name: MaterialSymbolsIconsNames;

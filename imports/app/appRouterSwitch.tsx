@@ -55,6 +55,8 @@ export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ de
 	const location = useLocation();
 	const { isLoggedIn, userLoading } = useContext(SysAppContext);
 
+  if (userLoading) return <SysLoading size={'large'} label={'Carregando...'} />;
+
 	return (
 		<Routes location={location}>
 			{!routes.checkIfRouteExists(location.pathname) ? (

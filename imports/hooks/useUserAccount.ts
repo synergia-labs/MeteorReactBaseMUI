@@ -16,7 +16,7 @@ export const useUserAccount = () =>
   useTracker(() => {
     const isConnected = Meteor.status().connected;
 
-    if (!isConnected)
+    if (!isConnected) {
       return {
         user: undefined,
         userId: undefined,
@@ -24,6 +24,7 @@ export const useUserAccount = () =>
         isLoggedIn: false,
         connected: false
       };
+    }
 
     let meteorUser = Meteor.user();
     let userId = Meteor.userId();
@@ -32,7 +33,6 @@ export const useUserAccount = () =>
       get('userId', accountStore).then((result) => {
         cachedUser.set(result ? parse(result) : null);
       });
-
 
     if (userId) set('userId', stringify(meteorUser), accountStore);
     else if (Meteor.status().status === 'waiting') {
@@ -56,7 +56,7 @@ export const useUserAccount = () =>
     return {
       user,
       userId,
-      userLoading: !subHandle?.ready(),
+      userLoading: meteorUser !== null && user === null,
       isLoggedIn: !!meteorUser,
       connected: isConnected
     };

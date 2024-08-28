@@ -156,7 +156,9 @@ const Home: React.FC = () => {
 			</Header>
 			<HomeSectionNotificacoes />
 			<HomeSectionDialogs />
+      <SysLoading label='Carregando...' size={'small'}/>
       <SysLoading label='Carregando...' />
+      <SysLoading label='Carregando...' size={'large'} />
 		</Container>
 	);
 };
