@@ -7,7 +7,7 @@ import Snackbar from '@mui/material/Snackbar'
 import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
 import { hasValue } from '/imports/libs/hasValue';
 import ShowNotificationStyles from './showNotificationStyles';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 const {

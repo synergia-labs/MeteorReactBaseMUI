@@ -9,7 +9,7 @@ import { SysAppLayoutContext } from '/imports/app/appLayout';
 import ExampleListStyles from './exampleListStyles';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);

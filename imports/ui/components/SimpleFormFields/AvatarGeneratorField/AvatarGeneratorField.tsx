@@ -3,7 +3,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import Konva from 'konva';
 import { characteres } from './Characteres';
 import { avatarGeneratorStyle } from './AvatarGeneratorFieldStyle';

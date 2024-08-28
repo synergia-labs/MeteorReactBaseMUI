@@ -3,7 +3,7 @@ import NotFoundStyles from './notFoundStyles';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 export const NotFound: React.FC = () => {
 	const navigate = useNavigate();

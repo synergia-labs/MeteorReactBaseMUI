@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, FabProps, SxProps, Theme, Typography, useTheme } from '@mui/material';
 import SysCardUserStyled from './sysCardUserStyles';
 import { UserProfileListControllerContext } from '/imports/modules/userprofile/pages/UserProfileList/userProfileListController';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISysCardUserProps extends FabProps {
 	username: string;

@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const Header = styled(Box)(({}) => ({
 	display: 'flex',

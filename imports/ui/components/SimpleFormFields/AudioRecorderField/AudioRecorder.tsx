@@ -2,7 +2,7 @@ import React from 'react';
 
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import Fab from '@mui/material/Fab';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import { audioRecorderStyle } from './AudioRecorderStyle';
 import { hasValue } from '/imports/libs/hasValue';
 

@@ -11,7 +11,7 @@ import { SxProps } from '@mui/system';
 import { IDoc } from '/imports/api/IDoc';
 import * as appStyle from '/imports/ui/materialui/styles';
 import Selector = Mongo.Selector;
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {

@@ -16,7 +16,7 @@ import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sy
 import { schemaFormated } from './interface/sysFormSch';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);

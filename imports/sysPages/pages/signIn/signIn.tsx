@@ -11,7 +11,7 @@ import { signInSchema } from './signinsch';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const SignInPage: React.FC = () => {
   const { showNotification } = useContext(SysAppLayoutContext);

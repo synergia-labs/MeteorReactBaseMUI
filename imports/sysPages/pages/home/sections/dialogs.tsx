@@ -5,7 +5,7 @@ import { SysAppLayoutContext } from '/imports/app/appLayout';
 import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import ConfirmDialog from '/imports/ui/appComponents/showDialog/custom/confirmDialog/confirmDialog';
 import HomeStyles from '../homeStyle';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const HomeSectionDialogs: React.FC = () => {
 	const sysLayoutContext = useContext(SysAppLayoutContext);

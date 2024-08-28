@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import { simpleTableStyle } from './SimpleTableStyle';
 import './simpletableCSS.css';
 import { useTheme } from '@mui/material/styles';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISimpleTable {
 	schema: ISchema;

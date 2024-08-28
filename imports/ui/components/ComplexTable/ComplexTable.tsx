@@ -20,7 +20,7 @@ import { Toolbar } from './Toolbar';
 import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
 import { IconButton, Tooltip } from '@mui/material';
 import { ptBR } from '@mui/x-data-grid/locales';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISchema {
 	[key: string]: any;

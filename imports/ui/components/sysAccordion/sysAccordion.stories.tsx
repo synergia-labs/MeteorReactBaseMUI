@@ -1,7 +1,7 @@
 import React from 'react';
 import { SysAccordion } from './sysAccordion';
 import { Meta, StoryObj } from '@storybook/react';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 const meta = {

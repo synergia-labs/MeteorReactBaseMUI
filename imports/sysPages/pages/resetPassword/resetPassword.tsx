@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 export const ResetPassword = (props: IDefaultContainerProps) => {
 	const { showNotification } = useContext(SysAppLayoutContext);

@@ -3,7 +3,7 @@ import SysLabelViewStyles from './sysLabelViewStyle';
 import {SxProps, Theme} from '@mui/material';
 import Tooltip, {TooltipProps} from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'placement'> {
   label?: string;

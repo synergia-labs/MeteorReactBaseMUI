@@ -17,7 +17,7 @@ import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
 import { useNavigate } from 'react-router-dom';
 import { sysSizing } from '/imports/ui/materialui/styles';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 export const PasswordRecovery = (props: IDefaultContainerProps) => {

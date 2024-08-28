@@ -6,7 +6,7 @@ import { hasValue } from '/imports/libs/hasValue';
 import { simpleLabelStyle } from './SimpleLabelViewStyle';
 import Tooltip from '@mui/material/Tooltip';
 import { useTheme } from '@mui/material/styles';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISimpleLabelView {
 	label: string;

@@ -22,7 +22,7 @@ import { uploadFilesStyle } from './uploadFilesCollectionStyle';
 import Typography from '@mui/material/Typography';
 import { retornarErrosUpload } from '/imports/libs/RetornarMensagemErro';
 import Tooltip from '@mui/material/Tooltip';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const { grey100, grey500, grey700 } = ['#eeeeee', '#c9c9c9', '#a1a1a1'];
 

@@ -18,7 +18,7 @@ import { SysDatePickerField } from '/imports/ui/components/sysFormFields/sysDate
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});

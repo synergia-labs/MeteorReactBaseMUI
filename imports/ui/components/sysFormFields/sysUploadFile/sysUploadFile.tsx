@@ -15,7 +15,7 @@ import { SxProps, Theme } from '@mui/material';
 import { SysLoading } from '../../sysLoading/sysLoading';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 const {

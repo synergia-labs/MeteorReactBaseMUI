@@ -8,7 +8,7 @@ import UserProfileListViewStyled from './userProfileListStyles';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { useTheme } from '@mui/material/styles';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const UserProfileLisView = () => {
 	const context = useContext(UserProfileListControllerContext);

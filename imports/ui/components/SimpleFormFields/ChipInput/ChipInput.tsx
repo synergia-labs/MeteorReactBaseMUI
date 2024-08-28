@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import { styles } from './ChipInputStyle';
 import _ from 'lodash';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 export default ({ name, label, value, onChange, readOnly, error, ...otherProps }: IBaseSimpleFormComponent) => {

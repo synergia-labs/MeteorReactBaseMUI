@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import SimpleForm, { IElementProps } from '/imports/ui/components/SimpleForm/SimpleForm';
 import Tooltip from '@mui/material/Tooltip';
 import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISubFormArrayComponent {
 	reactElement: (React.ComponentType | React.ReactElement<any>) & {

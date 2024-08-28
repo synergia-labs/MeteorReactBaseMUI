@@ -13,7 +13,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import { toolbarStyle } from './ToolbarStyle';
 import { IToolbarOptions } from './ComplexTable';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface IToolbarProps {
 	buttonVariant?: 'text' | 'outlined' | 'contained';

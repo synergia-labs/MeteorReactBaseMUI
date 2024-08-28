@@ -8,7 +8,7 @@ import UserProfileDetailStyles from './userProfileDetailStyles';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const UserProfileDetailView = () => {
 	const context = useContext(UserProfileDetailControllerContext);

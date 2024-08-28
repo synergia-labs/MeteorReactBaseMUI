@@ -14,7 +14,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Meteor } from 'meteor/meteor';
 import { cleanUserCache } from '/imports/hooks/useUserAccount';
 import { hasValue } from '/imports/libs/hasValue';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 

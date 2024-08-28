@@ -19,7 +19,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 import { SysLoading } from '../../../ui/components/sysLoading/sysLoading';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 const Home: React.FC = () => {

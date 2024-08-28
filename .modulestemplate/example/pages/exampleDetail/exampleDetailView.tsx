@@ -12,7 +12,7 @@ import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sy
 import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
 import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const ExampleDetailView = () => {
 	const controller = useContext(ExampleDetailControllerContext);

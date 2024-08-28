@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { hasValue } from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { checkBoxStyle } from './CheckBoxFieldStyle';
-import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 
 interface ICheckBoxSimpleFormComponent extends IBaseSimpleFormComponent {
