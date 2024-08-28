@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
 
 import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface ISysFormPlaygroundStyles {
 	Container: ElementType<BoxProps>;
@@ -17,16 +18,10 @@ interface ISysFormPlaygroundStyles {
 }
 
 const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
-	Container: styled(Box)(({ theme }) => ({
-		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
-		paddingBottom: sysSizing.contentPb,
-		transition: 'all 0.3s ease',
+	Container: styled(SysSectionPaddingXY)(() => ({
 		gap: sysSizing.spacingFixedMd,
 		display: 'flex',
 		flexDirection: 'column',
-		[theme.breakpoints.down('sm')]: {
-			padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`
-		}
 	})),
 	Description: styled(Box)({
 		textAlign: 'justify',

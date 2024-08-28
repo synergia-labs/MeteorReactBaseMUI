@@ -220,24 +220,6 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
           }
         }
       },
-//
-      MuiDrawer: {
-        styleOverrides: {
-          root: {
-            width: 360, // drawerWidth,
-            flexShrink: 0
-          },
-          paper: {
-            top: 10,
-            right: 10,
-            width: 360, //,drawerWidth,
-            height: 'calc(100% - 85px)',
-            boxShadow: '-10px 20px 20px -18px #000000, 12px 0px 20px -18px #000000',
-            overflow: 'hidden',
-            borderRadius: 15
-          }
-        }
-      },
 
       MuiFab: {
         defaultProps: {
@@ -349,7 +331,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
           }
         }
       },
-//
+
       MuiFormControl: {
         styleOverrides: {
           root: {
@@ -362,7 +344,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
           }
         }
       },
-//
+
       MuiFormHelperText: {
         defaultProps: {
           margin: 'dense'
@@ -480,7 +462,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
           }
         }
       },
-//todo adicionar ícone correto depois que o sysIcon estiver configurado
+
       MuiSelect: {
         defaultProps: {
           variant: 'filled'

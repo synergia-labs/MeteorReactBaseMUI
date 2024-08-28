@@ -10,13 +10,13 @@ const SysSectionPaddingXY = styled(Box)(({theme}) => ({
     padding: `${sysSizes.contentPt} 5vw ${sysSizes.contentPb}`
   },
   [theme.breakpoints.down('sm')]: {
-    padding: `${sysSizes.contentPt} ${sysSizes.spacingFixedSm} ${sysSizes.contentPb}`
+    padding: `${sysSizes.contentPt} ${sysSizes.spacingFixedMd} ${sysSizes.contentPb}`
   }
 }));
 
 const SysSectionPaddingX = styled(Box) (({theme}) => ({
-  paddingLeft: `${sysSizes.contentPx}`,
-  paddingRight: `${sysSizes.contentPx}`,
+  paddingLeft: `10vw`,
+  paddingRight: `10vw`,
   [theme.breakpoints.down('md')]: {
     paddingLeft: `5vw`,
     paddingRight: `5vw`,

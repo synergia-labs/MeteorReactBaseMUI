@@ -2,6 +2,7 @@ import { ElementType } from 'react';
 import { styled } from '@mui/material/styles';
 import  Box, { BoxProps } from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface IUserProfileListViewStyled {
 	Container: ElementType<BoxProps>;
@@ -10,21 +11,14 @@ interface IUserProfileListViewStyled {
 }
 
 const UserProfileListViewStyled: IUserProfileListViewStyled = {
-	Container: styled(Box)(({theme}) => ({
+	Container: styled(SysSectionPaddingXY)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
 		width: '100%',
-		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
 		gap: sysSizing.spacingFixedMd,
-		marginBottom: sysSizing.base.baseFixed8,
-    [theme.breakpoints.down('md')]: {
-      padding: '3rem 5vw'
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '3rem 1rem'
-    }
+    marginBottom: sysSizing.contentFabDistance
 	})),
 	Filters: styled(Box)(() => ({
 		display: 'flex',

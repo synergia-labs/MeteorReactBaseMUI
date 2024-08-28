@@ -1,6 +1,7 @@
 import { ElementType } from 'react';
 import { Box, BoxProps, IconButton, IconButtonProps, styled } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingX} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface ISysAppBarStyles {
 	Container: ElementType<BoxProps>;
@@ -9,7 +10,7 @@ interface ISysAppBarStyles {
 }
 
 const SysAppBarStyles: ISysAppBarStyles = {
-	Container: styled(Box)(({ theme }) => ({
+	Container: styled(SysSectionPaddingX)(({ theme }) => ({
 		width: '100%',
 		height: '56px',
 		overflow: 'hidden',
@@ -20,12 +21,9 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		flexShrink: 0,
-		transition: 'all 0.3s ease',
-		padding: `${sysSizing.spacingFixedSm} ${sysSizing.spacingFixedMd}`,
-		gap: sysSizing.spacingFixedMd,
-		[theme.breakpoints.up('sm')]: {
-			padding: `${sysSizing.spacingFixedSm} ${sysSizing.contentPx}`
-		}
+		paddingTop: sysSizing.spacingFixedSm,
+		paddingBottom: sysSizing.spacingFixedSm,
+		gap: sysSizing.spacingFixedMd
 	})),
 	NavContainer: styled(Box)({
 		display: 'flex',

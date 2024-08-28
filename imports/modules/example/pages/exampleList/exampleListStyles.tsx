@@ -2,6 +2,7 @@ import { ElementType } from 'react';
 import { styled } from '@mui/material/styles';
 import  Box,{ BoxProps } from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface IExampleListStyles {
 	Container: ElementType<BoxProps>;
@@ -10,7 +11,7 @@ interface IExampleListStyles {
 }
 
 const ExampleListStyles: IExampleListStyles = {
-	Container: styled(Box)(({ theme }) => ({
+	Container: styled(SysSectionPaddingXY)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
@@ -18,12 +19,8 @@ const ExampleListStyles: IExampleListStyles = {
 		width: '100%',
 		height: '100vh',
 		overflow: 'auto',
-		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
 		gap: sysSizing.spacingFixedMd,
-		transition: 'all 0.3s ease',
-		[theme.breakpoints.down('sm')]: {
-			padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`
-		}
+    marginBottom: sysSizing.contentFabDistance
 	})),
 	LoadingContainer: styled(Box)(({ theme }) => ({
 		width: '100%',

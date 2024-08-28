@@ -40,6 +40,7 @@ const sysMainSizes = {
 	contentPt: sysBaseSizes.baseFixed2,
 	contentPb: sysBaseSizes.baseFixed4,
 	contentPx: '8.5rem',
+  contentFabDistance: sysBaseSizes.baseFixed4,
 	spacingFixedXs: sysBaseSizes.baseFixed025,
 	spacingFixedSm: sysBaseSizes.baseFixed050,
 	spacingFixedMd: sysBaseSizes.baseFixed1,

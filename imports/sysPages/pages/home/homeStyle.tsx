@@ -1,7 +1,7 @@
 import { ElementType } from 'react';
 import { styled } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
-import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface IHomeStyles {
 	Container: ElementType<BoxProps>;
@@ -10,19 +10,13 @@ interface IHomeStyles {
 }
 
 const HomeStyles: IHomeStyles = {
-	Container: styled(Box)(({ theme }) => ({
+	Container: styled(SysSectionPaddingXY)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'flex-start',
 		justifyContent: 'flex-start',
 		gap: '2.5rem',
 		width: '100%',
-		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
-		paddingBottom: '100px',
-		transition: 'all 0.3s ease',
-		[theme.breakpoints.down('sm')]: {
-			padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`
-		}
 	})),
 	Header: styled(Box)(({}) => ({
 		display: 'flex',

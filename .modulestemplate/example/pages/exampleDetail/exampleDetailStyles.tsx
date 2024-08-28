@@ -1,6 +1,7 @@
 import { ElementType } from 'react';
 import { Box, BoxProps, styled } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface IExampleDetailStyles {
 	container: ElementType<BoxProps>;
@@ -11,19 +12,12 @@ interface IExampleDetailStyles {
 }
 
 const ExampleDetailStyles: IExampleDetailStyles = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(SysSectionPaddingXY)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
-		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
-		paddingBottom: sysSizing.contentPb,
-		gap: sysSizing.spacingFixedMd,
-		transition: 'all 0.3s ease',
-		[theme.breakpoints.down('sm')]: {
-			paddingLeft: sysSizing.spacingFixedMd,
-			paddingRight: sysSizing.spacingFixedMd
-		}
+		gap: sysSizing.spacingFixedMd
 	})),
 	header: styled(Box)({
 		display: 'flex',
