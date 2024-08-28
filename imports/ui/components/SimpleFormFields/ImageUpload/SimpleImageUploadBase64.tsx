@@ -4,7 +4,6 @@ import FileInputComponent from 'react-file-input-previews-base64';
 import { hasValue } from '../../../../libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import Button from '@mui/material/Button';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import Avatar from '@mui/material/Avatar';
 import { simpleImageStyle } from './SimpleImageUploadBase64Style';
 
@@ -47,7 +46,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 						variant="contained"
 						color="default"
 						style={simpleImageStyle.selectImage}
-						startIcon={<PhotoCameraIcon />}
+						startIcon={<SysIcon name={'photoCamera'} />}
 						label="Selecionar imagem"
 						arialabel="Selecionar imagem"
 						id="Selecionar imagem">

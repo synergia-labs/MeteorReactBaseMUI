@@ -10,7 +10,6 @@ import { compactImageStyle } from './ImageCompactFieldStyle';
 import * as appStyle from '/imports/ui/materialui/styles';
 
 import Typography from '@mui/material/Typography';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 
 export default ({ name, label, value, onChange, readOnly, error, ...otherProps }: IBaseSimpleFormComponent) => {
@@ -330,7 +329,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 					backgroundColor: '#e26139'
 				}}>
 				{!readOnly && ((!!actualImage && actualImage !== '-' && hasValue(actualImage)) || !!image) ? (
-					<Button variant="secondary" size="small" startIcon={<DeleteIcon />} onClick={deleteImageCompact}>
+					<Button variant="secondary" size="small" startIcon={<SysIcon name={'delete'} />} onClick={deleteImageCompact}>
 						Deletar
 					</Button>
 				) : null}

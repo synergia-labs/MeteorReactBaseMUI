@@ -7,11 +7,7 @@ import Snackbar from '@mui/material/Snackbar'
 import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
 import { hasValue } from '/imports/libs/hasValue';
 import ShowNotificationStyles from './showNotificationStyles';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 
 const {
@@ -109,10 +105,10 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 	children
 }) => {
 	const icons = {
-		success: <CheckRoundedIcon />,
-		error: <ErrorOutlineRoundedIcon />,
-		warning: <WarningAmberRoundedIcon />,
-		default: <NotificationsNoneRoundedIcon />
+		success: <SysIcon name={'check'} />,
+		error: <SysIcon name={'errorCircle'} />,
+		warning: <SysIcon name={'warningAmber'} />,
+		default: <SysIcon name={'notification'} />
 	};
 
 	return (
@@ -157,7 +153,7 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 								)}
 						{showCloseButton && (
 							<IconButton onClick={close}>
-								<CloseRoundedIcon />
+								<SysIcon name={'close'} />
 							</IconButton>
 						)}
 					</Body>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { SysAccordion } from './sysAccordion';
 import { Meta, StoryObj } from '@storybook/react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+
 
 const meta = {
 	title: 'ui/components/sysAccordion',
@@ -11,7 +12,7 @@ const meta = {
 		titulo: 'Título',
 		conteudo:
 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-		expandIcon: <ExpandMoreIcon />,
+		expandIcon: <SysIcon name={'expandMore'} />,
 		//aberta: false,
 		disabled: false,
 		posicaoIcone: 'fim',

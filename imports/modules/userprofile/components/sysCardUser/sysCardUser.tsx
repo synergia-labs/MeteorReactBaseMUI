@@ -2,9 +2,7 @@ import React from 'react';
 import { Box, FabProps, SxProps, Theme, Typography, useTheme } from '@mui/material';
 import SysCardUserStyled from './sysCardUserStyles';
 import { UserProfileListControllerContext } from '/imports/modules/userprofile/pages/UserProfileList/userProfileListController';
-import DoNotDisturbOnOutlinedIcon from '@mui/icons-material/DoNotDisturbOnOutlined';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 interface ISysCardUserProps extends FabProps {
 	username: string;
@@ -44,11 +42,11 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 			<SysCardUserStyled.ActionBox>
 				{status === 'active' ? (
 					<>
-						<DoNotDisturbOnOutlinedIcon onClick={() => onChangeStatusClick(userId!)} />
-						<EditOutlinedIcon onClick={() => onEdit(userId)} />
+						<SysIcon name={'doNotDisturbOn'} onClick={() => onChangeStatusClick(userId!)} />
+						<SysIcon name={'edit'} onClick={() => onEdit(userId)} />
 					</>
 				) : (
-          <CheckCircleOutlinedIcon onClick={() => onChangeStatusClick(userId!)} />
+          <SysIcon name={'checkCircle'} onClick={() => onChangeStatusClick(userId!)} />
 				)}
 			</SysCardUserStyled.ActionBox>
 		</SysCardUserStyled.Container>

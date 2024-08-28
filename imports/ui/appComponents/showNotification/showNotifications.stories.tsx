@@ -1,10 +1,11 @@
 import React from 'react';
 import { ShowNotification } from './showNotification';
 import { Meta, StoryObj } from '@storybook/react';
-import DownloadIcon from '@mui/icons-material/Download';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+
 
 const meta = {
 	title: 'ui/appComponents/ShowNotification',
@@ -110,7 +111,7 @@ export const Customizado: Story = {
 				color: '#fff'
 			}
 		},
-		icon: <DownloadIcon />
+		icon: <SysIcon name={'download'} />
 	},
 	parameters: {
 		docs: {

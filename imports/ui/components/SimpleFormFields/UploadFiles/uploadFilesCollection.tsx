@@ -5,33 +5,24 @@ import _ from 'lodash';
 import { attachmentsCollection } from '/imports/api/attachmentsCollection';
 import Box from '@mui/material/Box';
 
-import LibraryBooks from '@mui/icons-material/LibraryBooks';
-import LibraryMusic from '@mui/icons-material/LibraryMusic';
-import Image from '@mui/icons-material/Image';
-import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import Book from '@mui/icons-material/Book';
-import AttachFile from '@mui/icons-material/AttachFile';
 import ListItem from '@mui/material/ListItem/ListItem';
 import Avatar from '@mui/material/Avatar/Avatar';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 import { Meteor } from 'meteor/meteor';
 
-import ClearIcon from '@mui/icons-material/Clear';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import Snackbar from '@mui/material/Snackbar';
 
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 
 import LinearProgress from '@mui/material/LinearProgress';
-import CloudUpload from '@mui/icons-material/CloudUpload';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import * as appStyle from '/imports/ui/materialui/styles';
 import { uploadFilesStyle } from './uploadFilesCollectionStyle';
 import Typography from '@mui/material/Typography';
-import AddIcon from '@mui/icons-material/Add';
 import { retornarErrosUpload } from '/imports/libs/RetornarMensagemErro';
 import Tooltip from '@mui/material/Tooltip';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
 
 const { grey100, grey500, grey700 } = ['#eeeeee', '#c9c9c9', '#a1a1a1'];
 
@@ -205,25 +196,25 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 
 		switch (type.base) {
 			case 'text':
-				return <LibraryBooks style={{ color: appStyle.secondaryOnHover }} />;
+				return <SysIcon name={'bookLibrary'} style={{ color: appStyle.secondaryOnHover }} />;
 			case 'audio':
-				return <LibraryMusic style={{ color: appStyle.secondaryOnHover }} />;
+				return <SysIcon name={'musicLibrary'} style={{ color: appStyle.secondaryOnHover }} />;
 			case 'image':
-				return <Image style={{ color: appStyle.secondaryOnHover }} />;
+				return <SysIcon name={'image'} style={{ color: appStyle.secondaryOnHover }} />;
 			case 'video':
-				return <VideoLibrary style={{ color: appStyle.secondaryOnHover }} />;
+				return <SysIcon name={'videoLibrary'} style={{ color: appStyle.secondaryOnHover }} />;
 
 			case 'application':
 				if (type.fileType === 'pdf') {
-					return <Book style={{ color: appStyle.secondaryOnHover }} />;
+					return <SysIcon name={'book'} style={{ color: appStyle.secondaryOnHover }} />;
 				}
 				if (type.fileType.indexOf('msword') !== -1) {
-					return <Book style={{ color: appStyle.secondaryOnHover }} />;
+					return <SysIcon name={'book'} style={{ color: appStyle.secondaryOnHover }} />;
 				}
-				return <AttachFile style={{ color: appStyle.secondaryOnHover }} />;
+				return <SysIcon name={'attachFile'} style={{ color: appStyle.secondaryOnHover }} />;
 
 			default:
-				return <AttachFile style={{ color: appStyle.secondaryOnHover }} />;
+				return <SysIcon name={'attachFile'} style={{ color: appStyle.secondaryOnHover }} />;
 		}
 	};
 
@@ -369,7 +360,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 									this.getIcon(item.type)
 								)
 							) : (
-								<CloudUpload />
+								<SysIcon name={'cloudUpload'}/>
 							)}
 						</Avatar>
 						<ListItemText
@@ -408,7 +399,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 						/>
 						<Tooltip title={'Fazer download'}>
 							<IconButton>
-								<FileDownloadIcon sx={{ color: appStyle.secondaryOnHover }} />
+								<SysIcon name={'download'} sx={{ color: appStyle.secondaryOnHover }} />
 							</IconButton>
 						</Tooltip>
 					</ListItem>
@@ -443,7 +434,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 										this.getIcon(item.type)
 									)
 								) : (
-									<CloudUpload />
+                  <SysIcon name={'cloudUpload'}/>
 								)}
 							</Avatar>
 							<ListItemText
@@ -484,7 +475,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 							/>
 							<Tooltip title={'Cancelar'}>
 								<IconButton onClick={() => this.excluirArquivo(item.id)}>
-									<ClearIcon sx={{ color: appStyle.secondaryOnHover }} />
+									<SysIcon name={'close'} sx={{ color: appStyle.secondaryOnHover }} />
 								</IconButton>
 							</Tooltip>
 						</ListItem>
@@ -519,7 +510,7 @@ class UploadFile extends React.Component<IUploadFileProps & IUploadFilesCollecti
 							justifyContent: 'center',
 							alignItems: 'center'
 						}}>
-						<AddIcon />
+						<SysIcon name={'add'} />
 						<Typography variant="body1">Adicionar arquivos</Typography>
 					</Box>
 					<Typography variant="body2" color={'textDisabled'}>

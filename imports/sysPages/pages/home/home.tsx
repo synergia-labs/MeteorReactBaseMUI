@@ -5,7 +5,6 @@ import HomeSectionNotificacoes from './sections/notificacoes';
 import HomeSectionDialogs from './sections/dialogs';
 import HomeStyles from './homeStyle';
 import Button from "@mui/material/Button";
-import Add from "@mui/icons-material/Add";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
 import Fab from "@mui/material/Fab";
@@ -17,10 +16,11 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import {Menu, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import {MoreVert, Person, Settings} from "@mui/icons-material";
 import Select from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 import { SysLoading } from '../../../ui/components/sysLoading/sysLoading';
+import SysIcon from '/imports/ui/components/SysIcon/sysIcon';
+
 
 const Home: React.FC = () => {
   const { Container, Header, } = HomeStyles;
@@ -35,7 +35,7 @@ const Home: React.FC = () => {
 
 	return (
 		<Container>
-			<Header>
+        <Header>
 				<Typography variant="h3">Página de testes</Typography>
 				<Typography variant="body1" textAlign={'justify'}>
 					Bem vindo ao Boilerplate do Synergia. Essa é uma página dedicada aos testes e exibições de componentes e
@@ -43,22 +43,22 @@ const Home: React.FC = () => {
 					consulte nossa documentação oficial pelo storybook.
 				</Typography>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
-          <Button startIcon={<Add />}> Contained M </Button>
-          <Button startIcon={<Add />} disabled> Contained M </Button>
-          <Button startIcon={<Add />} size={'small'}> Contained S </Button>
-          <Button startIcon={<Add />} disabled size={'small'}> Contained S </Button>
+          <Button startIcon={<SysIcon name={'add'} />}> Contained M </Button>
+          <Button startIcon={<SysIcon name={'add'} />} disabled> Contained M </Button>
+          <Button startIcon={<SysIcon name={'add'} />} size={'small'}> Contained S </Button>
+          <Button startIcon={<SysIcon name={'add'} />} disabled size={'small'}> Contained S </Button>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
-          <Button variant={'outlined'} startIcon={<Add />}> Outlined M </Button>
-          <Button variant={'outlined'} startIcon={<Add />} disabled> Outlined M </Button>
-          <Button variant={'outlined'} startIcon={<Add />} size={'small'}> Outlined S </Button>
-          <Button variant={'outlined'} startIcon={<Add />} disabled size={'small'}> Outlined S </Button>
+          <Button variant={'outlined'} startIcon={<SysIcon name={'add'} />}> Outlined M </Button>
+          <Button variant={'outlined'} startIcon={<SysIcon name={'add'} />} disabled> Outlined M </Button>
+          <Button variant={'outlined'} startIcon={<SysIcon name={'add'} />} size={'small'}> Outlined S </Button>
+          <Button variant={'outlined'} startIcon={<SysIcon name={'add'} />} disabled size={'small'}> Outlined S </Button>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
-          <Button variant={'text'} startIcon={<Add />}> Text M </Button>
-          <Button variant={'text'} startIcon={<Add />} disabled> Text M </Button>
-          <Button variant={'text'} startIcon={<Add />} size={'small'}> Text S </Button>
-          <Button variant={'text'} startIcon={<Add />} disabled size={'small'}> Text S </Button>
+          <Button variant={'text'} startIcon={<SysIcon name={'add'} />}> Text M </Button>
+          <Button variant={'text'} startIcon={<SysIcon name={'add'} />} disabled> Text M </Button>
+          <Button variant={'text'} startIcon={<SysIcon name={'add'} />} size={'small'}> Text S </Button>
+          <Button variant={'text'} startIcon={<SysIcon name={'add'} />} disabled size={'small'}> Text S </Button>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
           <Radio />
@@ -72,20 +72,20 @@ const Home: React.FC = () => {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
           <Fab>
-            <Add /> Action
+            <SysIcon name={'add'}  /> Action
           </Fab>
           <Fab disabled>
-            <Add /> Action
+            <SysIcon name={'add'}  /> Action
           </Fab>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
           <Tooltip title={'Teste tooltip'}>
             <IconButton >
-              <Add />
+              <SysIcon name={'add'}  />
             </IconButton>
           </Tooltip>
           <IconButton id={'basic-button'} onClick={handleMenuOpen}>
-            <MoreVert />
+            <SysIcon name={'moreVert'} />
           </IconButton>
           <Menu
             id="basic-menu"
@@ -96,12 +96,12 @@ const Home: React.FC = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleMenuClose} disabled><Person color={'primary'}/>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose} selected><Settings /> My account</MenuItem>
+            <MenuItem onClick={handleMenuClose} disabled><SysIcon name={'person'} color={'primary'}/>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose} selected><SysIcon name={'settings'} /> My account</MenuItem>
             <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
           </Menu>
           <IconButton id={'basic-button'} disabled>
-            <Add />
+            <SysIcon name={'add'} />
           </IconButton>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2rem', minWidth: '500px' }}>
