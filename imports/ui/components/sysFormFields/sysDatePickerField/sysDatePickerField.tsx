@@ -18,27 +18,25 @@ interface ISysDatePickerField extends ISysFormComponent<ISysTextFieldProps> {
 		textField?: SxProps<Theme>;
 		boxContainer?: SxProps<Theme>;
 	};
-	/** Ícone de ajuda */
-	helpIcon?: boolean;
 	/** posicao dos elementos */
 	view?: 'row' | 'column';
 }
 
 export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
-	name,
-	label,
-	value,
-	disabled,
-	onChange,
-	loading,
-	readOnly,
-	error,
-	tooltipMessage,
-	defaultValue,
-	positionTooltip,
-	showRequired,
-	requiredIndicator,
-	helpIcon,
+  name,
+  label,
+  value,
+  defaultValue,
+  onChange,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
 	sxMap,
 	view = 'column',
 	...otherProps
@@ -58,7 +56,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	disabled = disabled || controllerSysForm?.disabled;
 	loading = loading || controllerSysForm?.loading;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
-	showRequired = showRequired || (!!schema && !schema?.optional);
+	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	//const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
@@ -131,10 +129,10 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 					label={label}
 					tooltipMessage={tooltipMessage}
 					disabled={disabled}
-					placement={positionTooltip}
-					helpIcon={helpIcon}
-					showRequired={showRequired}
-					requiredIndicator={requiredIndicator}
+					tooltipPosition={tooltipPosition}
+					showTooltip={showTooltip}
+					showLabelAdornment={showLabelAdornment}
+					labelAdornment={labelAdornment}
 					sx={sxMap?.container}>
 					{view === 'column' && (
 						<TextField

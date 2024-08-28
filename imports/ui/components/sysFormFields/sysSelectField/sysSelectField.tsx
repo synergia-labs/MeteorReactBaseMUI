@@ -28,27 +28,27 @@ interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, 'vari
 }
 
 export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
-	name,
-	label,
-	value,
-	disabled,
-	loading,
-	onChange,
-	readOnly,
-	error,
-	tooltipMessage,
-	defaultValue,
-	options,
-	description,
-	menuNone,
-	menuNotSelected,
-	positionTooltip,
-	helpIcon,
+  name,
+  label,
+  value,
+  defaultValue,
+  options,
+  onChange,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
+  description,
+  menuNone,
+  menuNotSelected,
 	multiple,
 	renderValue,
 	placeholder,
-	showRequired,
-	requiredIndicator,
 	sxMap,
 	...otherProps
 }) => {
@@ -67,7 +67,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	disabled = disabled || controllerSysForm?.disabled;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
 	options = options || refObject?.current?.options || ([] as any);
-	showRequired = showRequired || (!!schema && !schema?.optional);
+	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
@@ -101,16 +101,16 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	}
 
 	return (
-		<FormControl error={!!errorState}>
+		<FormControl error={!!errorState} sx={sxMap?.container}>
 			<SysLabelView
-				label={label}
-				tooltipMessage={tooltipMessage}
-				disabled={disabled}
-				placement={positionTooltip}
-				helpIcon={helpIcon}
-				showRequired={showRequired}
-				requiredIndicator={requiredIndicator}
-				sx={sxMap?.container}>
+        label={label}
+        showLabelAdornment={showLabelAdornment}
+        labelAdornment={labelAdornment}
+        disabled={disabled}
+        showTooltip={showTooltip}
+        tooltipMessage={tooltipMessage}
+        tooltipPosition={tooltipPosition}
+      >
 				<Select
 					{...otherProps}
 					labelId={`${label}${name}`}

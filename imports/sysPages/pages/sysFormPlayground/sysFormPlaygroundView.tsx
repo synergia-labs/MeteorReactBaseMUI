@@ -150,9 +150,9 @@ const SysFormPlaygroundView: React.FC = () => {
 							<SysDatePickerField name="birthDate" />
 							<SysSelectField name="midia" placeholder="Selecione" />
 						</RowElement>
-						<SysCheckBox name="favorites" alignment="row" />
+						<SysCheckBox name="favorites" childrenAlignment="row" />
 						<SysTextField name="otherFavorite" placeholder="Informe seu tipo favorito de mídia e um exemplo" />
-						<SysRadioButton name="rate" alignment="row" />
+						<SysRadioButton name="rate" childrenAlignment="row" />
 						<SysLocationField name="address" />
 						<SysSlider name="temperature" />
 						<SysFormButton sx={{ alignSelf: 'flex-start' }} startIcon={<CheckOutlinedIcon />}>

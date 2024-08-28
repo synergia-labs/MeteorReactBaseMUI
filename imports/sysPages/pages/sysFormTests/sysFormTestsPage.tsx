@@ -167,8 +167,8 @@ const SysFormTestsPage: React.FC = () => {
 					/>
 					<SysDatePickerField name="date" />
 					<SysSelectField name="entertainment" fullWidth />
-					<SysRadioButton name="entertainmentSpecific" alignment="row" />
-					<SysCheckBox name="rating" alignment="row" />
+					<SysRadioButton name="entertainmentSpecific" childrenAlignment="row" />
+					<SysCheckBox name="rating" childrenAlignment="row" />
 					<WrapTextField
 						name="contacts.cnpj"
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cnpj') ?? true}

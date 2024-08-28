@@ -43,8 +43,6 @@ interface IArquivo {
 }
 
 interface ISysUploadFile extends ISysFormComponent<any> {
-	startAdornment?: React.ReactNode;
-	endAdornment?: React.ReactNode;
 	validTypes?: ('text' | 'audio' | 'image' | 'video' | 'application' | string)[];
 	sxMap?: {
 		container?: SxProps<Theme>;
@@ -61,16 +59,21 @@ interface ISysUploadFile extends ISysFormComponent<any> {
 }
 
 export const SysUploadFile: React.FC<ISysUploadFile> = ({
-	name,
-	value,
-	label,
-	defaultValue,
-	readOnly,
-	disabled,
+  name,
+  label,
+  value,
+  defaultValue,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
 	sxMap,
-	loading,
 	btnTextDesc = 'Arraste o arquivo até aqui ou clique abaixo',
-	error,
 	validTypes = ['text', 'audio', 'image', 'video', 'application'] // Caso queira adicionar outras extensoes, adicione tambem ao arquivo attachment Collection.js
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
@@ -90,6 +93,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
+  showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
@@ -186,7 +190,15 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 
 	return (
 		<FormControl error={!!errorState}>
-			<SysLabelView label={label} disabled={disabled} sxMap={sxMap}>
+			<SysLabelView
+        label={label}
+        showLabelAdornment={showLabelAdornment}
+        labelAdornment={labelAdornment}
+        disabled={disabled}
+        showTooltip={showTooltip}
+        tooltipMessage={tooltipMessage}
+        tooltipPosition={tooltipPosition}
+      >
 				<Container readOnly={readOnly} sx={sxMap?.container}>
 					{!readOnly && (
 						<Button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>

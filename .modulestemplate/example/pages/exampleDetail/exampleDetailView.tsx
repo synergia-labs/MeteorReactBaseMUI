@@ -49,7 +49,7 @@ const ExampleDetailView = () => {
 					<ExampleDetailStyles.formColumn>
 						<SysTextField name="title" placeholder="Ex.: Item XX" />
 						<SysSelectField name="type" placeholder="Selecionar" />
-						<SysRadioButton name="typeMulti" alignment="row" size="small" />
+						<SysRadioButton name="typeMulti" childrenAlignment="row" size="small" />
 						<SysTextField
 							name="description"
 							placeholder="Acrescente informações sobre o item (3 linhas)"
@@ -64,7 +64,7 @@ const ExampleDetailView = () => {
 						<SysLocationField name="address" />
 					</ExampleDetailStyles.formColumn>
 					<ExampleDetailStyles.formColumn>
-						<SysCheckBox name="check" alignment="row" />
+						<SysCheckBox name="check" childrenAlignment="row" />
 					</ExampleDetailStyles.formColumn>
 				</ExampleDetailStyles.body>
 				<ExampleDetailStyles.footer>

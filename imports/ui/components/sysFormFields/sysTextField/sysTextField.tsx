@@ -27,33 +27,34 @@ interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 	showNumberCharactersTyped?: boolean;
 	/** Estilo do componente.*/
 	sxMap?: {
-		container?: SxProps<Theme>;
-		header?: SxProps<Theme>;
 		textField?: SxProps<Theme>;
 	};
 	placeholder?: string;
 }
 
 const SysTextField: React.FC<ISysTextFieldProps> = ({
-	name,
-	label,
-	value,
-	disabled,
-	loading,
-	onChange,
-	readOnly,
-	error,
-	tooltipMessage,
-	defaultValue,
+  name,
+  label,
+  value,
+  defaultValue,
+  onChange,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
 	mask,
 	startAdornment,
 	endAdornment,
 	max,
 	min,
 	showNumberCharactersTyped,
+  placeholder,
 	sxMap,
-	showRequired,
-	requiredIndicator,
 	...otherProps
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
@@ -71,7 +72,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
-	showRequired = showRequired || (!!schema && !schema?.optional);
+	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 	if (mask) defaultValue = generalMask(defaultValue, mask);
 
 	const [valueState, setValueState] = useState<string | undefined>(defaultValue);
@@ -118,12 +119,14 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 
 	return (
 		<SysLabelView
-			label={label}
-			tooltipMessage={tooltipMessage}
-			disabled={disabled}
-			sxMap={sxMap}
-			showRequired={showRequired}
-			requiredIndicator={requiredIndicator}>
+      label={label}
+      showLabelAdornment={showLabelAdornment}
+      labelAdornment={labelAdornment}
+      disabled={disabled}
+      showTooltip={showTooltip}
+      tooltipMessage={tooltipMessage}
+      tooltipPosition={tooltipPosition}
+    >
 			<TextField
 				{...otherProps}
 				name={name}

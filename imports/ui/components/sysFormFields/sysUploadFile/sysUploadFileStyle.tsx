@@ -51,7 +51,7 @@ const SysUploadFileStyle = {
 		gap: sysSizing.componentsButtonGap
 	})),
 
-	itenList: styled(Box)(({ theme }) => ({
+	itenList: styled(Box)(() => ({
 		width: '100%',
 		height: 'auto',
 		display: 'flex',
@@ -81,7 +81,7 @@ const SysUploadFileStyle = {
 		background: theme.palette.sysAction?.primaryBgHover
 	})),
 
-	CardInfo: styled(Box)(({ theme }) => ({
+	CardInfo: styled(Box)(() => ({
 		width: '60%',
 		maxWidth: '286px',
 		minWidth: '150px',
@@ -92,14 +92,14 @@ const SysUploadFileStyle = {
 		gap: sysSizing.spacingRemXs
 	})),
 
-	ElipsesText: styled(Typography)(({ theme }) => ({
+	ElipsesText: styled(Typography)(() => ({
 		maxWidth: '95%',
 		textOverflow: 'ellipsis',
 		whiteSpace: 'nowrap',
 		overflow: 'hidden'
 	})),
 
-	BoxIconsCard: styled(Box)(({ theme }) => ({
+	BoxIconsCard: styled(Box)(() => ({
 		width: '60px',
 		display: 'flex',
 		justifyContent: 'space-between'

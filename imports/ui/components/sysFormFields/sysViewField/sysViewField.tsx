@@ -7,8 +7,6 @@ import React from 'react';
 import {SysViewFieldStyle} from './sysViewFieldStyles';
 import {SxProps, Theme} from '@mui/material';
 
-const { Container, Info } = SysViewFieldStyle;
-
 /**
  * Propriedades aceitas pelo componente SysViewField.
  */
@@ -54,7 +52,8 @@ interface ISysViewField {
  * @returns Um componente de campo de visualização.
  */
 export const SysViewField: React.FC<ISysViewField> = ({ label, placeholder, disabled, sxMap }) => {
-	return (
+  const { Container, Info } = SysViewFieldStyle;
+  return (
 		<Container sx={sxMap?.container}>
 			{/* Exibe o rótulo */}
 			<Info variant="body2" sx={sxMap?.label} type={'label'} disabled={disabled || false}>

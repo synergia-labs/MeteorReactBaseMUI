@@ -46,20 +46,20 @@ interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, 'variant
 const { AutoComplete, TextField } = SysLocationFieldStyle;
 
 export const SysLocationField: React.FC<ISysLocationField> = ({
-	name,
-	label,
-	value,
-	disabled,
-	loading,
-	onChange,
-	readOnly,
-	error,
-	tooltipMessage,
-	defaultValue,
-	showRequired,
-	positionTooltip,
-	helpIcon,
-	requiredIndicator,
+  name,
+  label,
+  value,
+  defaultValue,
+  onChange,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
 	onlyEstado = false,
 	placeholder = 'Selecione um estado',
 	sxMap,
@@ -78,7 +78,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 
 	disabled = disabled || controllerSysForm?.disabled;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
-	showRequired = showRequired || (!!schema && !schema?.optional);
+	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [valueState, setValueState] = useState<ILocation | null>(defaultValue || null);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current?.isVisible ?? true);
@@ -190,16 +190,16 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	}
 
 	return (
-		<FormControl error={!!errorState}>
+		<FormControl error={!!errorState} sx={sxMap?.container}>
 			<SysLabelView
-				label={label}
-				tooltipMessage={tooltipMessage}
-				disabled={disabled}
-				placement={positionTooltip}
-				helpIcon={helpIcon}
-				showRequired={showRequired}
-				requiredIndicator={requiredIndicator}
-				sx={sxMap?.container}>
+        label={label}
+        showLabelAdornment={showLabelAdornment}
+        labelAdornment={labelAdornment}
+        disabled={disabled}
+        showTooltip={showTooltip}
+        tooltipMessage={tooltipMessage}
+        tooltipPosition={tooltipPosition}
+      >
 				<Select
 					{...otherProps}
 					name={'estado'}

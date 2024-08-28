@@ -19,27 +19,27 @@ interface ISysRadioProps extends ISysFormComponent<RadioProps> {
 		radioGroup?: SxProps<Theme>;
 	};
 	/** Posicionamento dos elementos */
-	alignment?: 'row' | 'column';
+	childrenAlignment?: 'row' | 'column';
 }
 
 export const SysRadioButton: React.FC<ISysRadioProps> = ({
-	name,
-	label,
-	options,
-	value,
-	disabled,
-	loading,
-	onChange,
-	readOnly,
-	error,
-	tooltipMessage,
-	defaultValue,
-	positionTooltip,
-	helpIcon,
-	alignment = 'column',
-	showRequired,
-	requiredIndicator,
-	sxMap,
+  name,
+  label,
+  value,
+  defaultValue,
+  options,
+  onChange,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
+  childrenAlignment = 'column',
+  sxMap,
 	...otherProps
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
@@ -55,7 +55,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
-	showRequired = showRequired || (!!schema && !schema?.optional);
+	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
@@ -87,23 +87,23 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	}
 
 	return (
-		<FormControl error={!!errorState}>
+		<FormControl error={!!errorState} sx={sxMap?.container}>
 			<SysLabelView
-				label={label}
-				tooltipMessage={tooltipMessage}
-				disabled={disabled}
-				placement={positionTooltip}
-				helpIcon={helpIcon}
-				showRequired={showRequired}
-				requiredIndicator={requiredIndicator}
-				sx={sxMap?.container}>
+        label={label}
+        showLabelAdornment={showLabelAdornment}
+        labelAdornment={labelAdornment}
+        disabled={disabled}
+        showTooltip={showTooltip}
+        tooltipMessage={tooltipMessage}
+        tooltipPosition={tooltipPosition}
+      >
 				<RadioGroup
 					value={valueState || ''}
 					name="controlled-radio-buttons-group"
 					onChange={onFieldChange}
 					sx={[
 						{
-							flexDirection: alignment,
+							flexDirection: childrenAlignment,
 							flexWrap: 'wrap'
 						},
 						...(Array.isArray(sxMap?.radioGroup) ? sxMap?.radioGroup : [sxMap?.radioGroup])
