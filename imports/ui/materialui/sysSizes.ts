@@ -56,7 +56,8 @@ const sysMainSizes = {
 	radiusMd: sysBaseSizes.baseFixed1,
 	radiusLg: sysBaseSizes.baseFixed15,
 	radiusXl: sysBaseSizes.baseFixed2,
-	radiusInfinite: '800px'
+	radiusInfinite: '800px',
+  menuMinWidth: '250px'
 };
 
 export default sysMainSizes;

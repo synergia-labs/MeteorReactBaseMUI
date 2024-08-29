@@ -29,7 +29,6 @@ interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 	sxMap?: {
 		textField?: SxProps<Theme>;
 	};
-	placeholder?: string;
 }
 
 const SysTextField: React.FC<ISysTextFieldProps> = ({
@@ -53,7 +52,6 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	max,
 	min,
 	showNumberCharactersTyped,
-  placeholder,
 	sxMap,
 	...otherProps
 }) => {

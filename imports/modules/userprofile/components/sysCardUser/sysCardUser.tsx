@@ -1,10 +1,14 @@
 import React from 'react';
-import { Box, FabProps, SxProps, Theme, Typography, useTheme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import SysCardUserStyled from './sysCardUserStyles';
 import { UserProfileListControllerContext } from '/imports/modules/userprofile/pages/UserProfileList/userProfileListController';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
-interface ISysCardUserProps extends FabProps {
+interface ISysCardUserProps {
 	username: string;
 	roles?: string[];
 	email: string;
@@ -16,13 +20,12 @@ interface ISysCardUserProps extends FabProps {
 export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardUserProps) => {
 	const context = React.useContext(UserProfileListControllerContext);
 	const { translateStatus, onChangeStatusClick, onEdit } = context;
-	const theme = useTheme();
 	const { username, roles, email, status, userId, sx } = props;
-	const colorPrimary = theme.palette.sysText?.primary;
-	const colorDisabled = theme.palette.sysText?.disabled;
+
+  const {Container, ActionBox, Status} = SysCardUserStyled;
 
 	return (
-		<SysCardUserStyled.Container sx={sx} key={userId}>
+		<Container sx={sx} key={userId}>
       <Typography sx={{ gridArea: 'name' }} variant="subtitle1">
         {username}
       </Typography>
@@ -36,19 +39,31 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
         })}
       </Box>
       <Typography variant="body1" sx={{ gridArea: 'email' }}>{email}</Typography>
-      <Typography color={status === 'active' ? colorPrimary : colorDisabled} variant="body1" sx={{ gridArea: 'status' }}>
+      <Status color={status === 'active' ? 'primary.main' : 'sysText.disabled'} variant="body1">
         {translateStatus(status)}
-      </Typography>
-			<SysCardUserStyled.ActionBox>
+      </Status>
+			<ActionBox>
 				{status === 'active' ? (
 					<>
-						<SysIcon name={'doNotDisturbOn'} onClick={() => onChangeStatusClick(userId!)} />
-						<SysIcon name={'edit'} onClick={() => onEdit(userId)} />
+            <Tooltip title={'Destivar'}>
+              <IconButton onClick={() => onChangeStatusClick(userId!)}>
+                <SysIcon name={'doNotDisturbOn'}/>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={'Editar'}>
+              <IconButton onClick={() => onEdit(userId)}>
+                <SysIcon name={'edit'}/>
+              </IconButton>
+            </Tooltip>
 					</>
 				) : (
-          <SysIcon name={'checkCircle'} onClick={() => onChangeStatusClick(userId!)} />
+          <Tooltip title={'Ativar'}>
+            <IconButton onClick={() => onChangeStatusClick(userId!)}>
+              <SysIcon name={'checkCircle'}  />
+            </IconButton>
+          </Tooltip>
 				)}
-			</SysCardUserStyled.ActionBox>
-		</SysCardUserStyled.Container>
+			</ActionBox>
+		</Container>
 	);
 };

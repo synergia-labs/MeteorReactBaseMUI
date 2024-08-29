@@ -14,7 +14,7 @@ export const userProfileSch: ISchema<IUserProfile> = {
 		type: String,
 		label: 'Username',
 		defaultValue: '',
-		optional: true
+		optional: false
 	},
 	email: {
 		type: String,

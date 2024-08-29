@@ -12,6 +12,7 @@ import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SysViewField } from '../sysViewField/sysViewField';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 
 interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, 'variant'>> {
 	//options?: Array<{ value: any; label: string; description?: string }>;
@@ -120,6 +121,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					displayEmpty
 					disabled={disabled || loading}
 					multiple={multiple}
+          IconComponent={() => <SysIcon name={'arrowDropDown'} />}
 					renderValue={(options) => {
 						if (!hasValue(options)) {
 							return (
@@ -143,7 +145,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					)}
 				</Select>
 			</SysLabelView>
-			<FormHelperText>{errorState}</FormHelperText>
+      {errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

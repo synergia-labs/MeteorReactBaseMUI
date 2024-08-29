@@ -20,13 +20,15 @@ const UserProfileListViewStyled: IUserProfileListViewStyled = {
 		gap: sysSizing.spacingFixedMd,
     marginBottom: sysSizing.contentFabDistance
 	})),
-	Filters: styled(Box)(() => ({
+	Filters: styled(Box)(({theme}) => ({
 		display: 'flex',
 		gap: sysSizing.spacingFixedMd,
 		alignItems: 'flex-end',
-		width: '100%',
-		maxWidth: '616px',
-		marginBottom: sysSizing.spacingFixedMd
+		width: 'min(600px, 100%)',
+		marginBottom: sysSizing.spacingFixedMd,
+    [theme.breakpoints.down('sm')]:{
+      flexDirection: 'column'
+    }
 	})),
 	FieldsForm: styled(Box)(() => ({
 		display: 'flex',

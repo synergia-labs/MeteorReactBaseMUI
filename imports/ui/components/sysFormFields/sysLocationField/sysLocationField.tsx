@@ -15,6 +15,7 @@ import listEstados from './estados';
 import localidades from './localidades.json';
 import { SysViewField } from '../sysViewField/sysViewField';
 import SysLocationFieldStyle from './sysLocationFieldStyle';
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 
 interface ILocation {
 	estado?: string | null;
@@ -208,6 +209,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					displayEmpty
 					error={!!errorState}
 					disabled={disabled || loading}
+          IconComponent={() => <SysIcon name={'arrowDropDown'} />}
 					renderValue={(options) => {
 						if (!hasValue(options)) {
 							return (
@@ -243,6 +245,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					blurOnSelect={true}
 					onlyEstado={onlyEstado}
 					onChange={handleOnChange}
+          IconComponent={() => <SysIcon name={'arrowDropDown'} />}
 					sx={sxMap?.autoComplete}
 					options={filteredLocalidades.map((l) => ({
 						value: JSON.stringify({

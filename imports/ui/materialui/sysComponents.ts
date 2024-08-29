@@ -470,7 +470,12 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
         styleOverrides: {
           root: {
             padding: 0,
-            width: '100%'
+            width: '100%',
+            '& .MuiSvgIcon-root': {
+              position: 'absolute',
+              top: 'calc(100% -0.5em)',
+              right: sysSizing.spacingRemSm
+            },
           },
           select: {
             width: '100%',
@@ -484,9 +489,6 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
               borderRadius: sysSizing.radiusSm,
             },
             ...theme.typography.body1
-          },
-          icon: {
-            right: sysSizing.componentsInputPx
           }
         }
       },
