@@ -17,6 +17,7 @@ import { schemaFormated } from './interface/sysFormSch';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import Tooltip from "@mui/material/Tooltip";
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);
@@ -113,9 +114,9 @@ const SysFormPlaygroundView: React.FC = () => {
 							{controller.mode === 'edit' && (
 								<Button
 									variant="outlined"
-									sx={{ height: 'fit-content', alignSelf: 'center' }}
 									startIcon={<SysIcon name={'task'} />}
-									onClick={() => controller.validateIndividualField('name')}>
+									onClick={() => controller.validateIndividualField('name')}
+                  sx={{ mt: '1.5rem' }}>
 									Validar
 								</Button>
 							)}
@@ -127,12 +128,14 @@ const SysFormPlaygroundView: React.FC = () => {
 						<RowElement>
 							<SysTextField name="cpf" placeholder="Ex.: 123.456.789-00" />
 							{controller.mode === 'edit' && (
-								<IconButton
-									size="small"
-									onClick={() => controller.validateIndividualField('cpf')}
-									sx={{ alignSelf: 'flex-end' }}>
-									<SysIcon name={'task'} />
-								</IconButton>
+                <Tooltip title={'Validar'}>
+                  <IconButton
+                    size="small"
+                    onClick={() => controller.validateIndividualField('cpf')}
+                    sx={{ mt: '2rem' }}>
+                    <SysIcon name={'task'} />
+                  </IconButton>
+                </Tooltip>
 							)}
 						</RowElement>
 						<SysTextField name="phone" placeholder="Ex.: (31) 91234-5678" />
@@ -198,15 +201,21 @@ const SysFormPlaygroundView: React.FC = () => {
 					<DocContainer>
 						<pre>{JSON.stringify(controller.doc, null, 2)}</pre>
 						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-							<IconButton onClick={controller.updateDoc}>
-								<SysIcon name={'replay'} />
-							</IconButton>
-							<IconButton onClick={() => controller.changeUpdateRealTime(!controller.updateRealTime)}>
-								{controller.updateRealTime ? <SysIcon name={'visibility'} /> : <SysIcon name={'visibilityOff'}/>}
-							</IconButton>
-							<IconButton onClick={controller.showFieldWithErrors}>
-								<SysIcon name={'errorCircle'} color="error" />
-							</IconButton>
+              <Tooltip title={'Atualizar doc'}>
+                <IconButton onClick={controller.updateDoc}>
+                  <SysIcon name={'replay'} />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={controller.updateRealTime ? 'Atualização em tempo real' : 'Atualização manual'}>
+                <IconButton onClick={() => controller.changeUpdateRealTime(!controller.updateRealTime)}>
+                  {controller.updateRealTime ? <SysIcon name={'visibility'} /> : <SysIcon name={'visibilityOff'}/>}
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={'Campos com erro'}>
+                <IconButton onClick={controller.showFieldWithErrors}>
+                  <SysIcon name={'errorCircle'} color="error" />
+                </IconButton>
+              </Tooltip>
 						</Box>
 					</DocContainer>
 				</ControlerContainer>

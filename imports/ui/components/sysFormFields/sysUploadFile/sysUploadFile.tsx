@@ -246,7 +246,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 					)}
 				</Container>
 			</SysLabelView>
-			<FormHelperText>{errorState}</FormHelperText>
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

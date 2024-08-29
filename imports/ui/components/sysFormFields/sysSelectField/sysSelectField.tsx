@@ -15,7 +15,6 @@ import { ISysFormComponentRef } from '../../sysForm/typings';
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 
 interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, 'variant'>> {
-	//options?: Array<{ value: any; label: string; description?: string }>;
 	defaultValue?: string;
 	description?: string;
 	menuNone?: boolean;
@@ -25,7 +24,6 @@ interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, 'vari
 		container: SxProps<Theme>;
 		menuProps: SxProps<Theme> | null;
 	};
-	placeholder?: string;
 }
 
 export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
@@ -87,7 +85,8 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 
 	const handleChange = (e: SelectChangeEvent) => {
 		const newValue = e.target.value;
-		setValueState(Array.isArray(newValue) ? newValue.join(',') : (newValue as string));
+    const selectedOption = optionsState?.find((option) => option.value === newValue);
+    setValueState(selectedOption?.label || '');
 		if (inSysFormContext) {
 			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
 		}
@@ -145,7 +144,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					)}
 				</Select>
 			</SysLabelView>
-      {errorState && <FormHelperText>{errorState}</FormHelperText>}
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

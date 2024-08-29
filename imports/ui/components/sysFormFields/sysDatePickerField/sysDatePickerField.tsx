@@ -162,7 +162,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 					/>
 				)}
 			</Box>
-			<FormHelperText>{errorState}</FormHelperText>
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

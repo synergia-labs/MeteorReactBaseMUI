@@ -9,7 +9,8 @@ const Container = styled(Box)(({}) => ({
 	flexDirection: 'column',
 	alignItems: 'flex-start',
 	justifyContent: 'flex-start',
-	gap: '0.8rem'
+	gap: '1rem',
+  width: '100%'
 }));
 
 const Header = styled(Box)(({}) => ({

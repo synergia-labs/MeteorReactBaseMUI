@@ -95,7 +95,7 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 					{...otherProps}
 				/>
 			</SysLabelView>
-			<FormHelperText>{errorState}</FormHelperText>
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

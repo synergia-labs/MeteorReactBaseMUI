@@ -15,7 +15,8 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
             color: theme.palette.sysText?.body
           },
           endAdornment: {
-            top: 'unset'
+            top: 'unset',
+            right: sysSizing.spacingRemSm,
           },
           inputRoot: {
             padding: '.3125rem 0.75rem'

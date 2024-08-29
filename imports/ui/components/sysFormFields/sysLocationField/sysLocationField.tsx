@@ -245,7 +245,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					blurOnSelect={true}
 					onlyEstado={onlyEstado}
 					onChange={handleOnChange}
-          IconComponent={() => <SysIcon name={'arrowDropDown'} />}
+          popupIcon={<SysIcon name={'arrowDropDown'} />}
 					sx={sxMap?.autoComplete}
 					options={filteredLocalidades.map((l) => ({
 						value: JSON.stringify({
@@ -265,7 +265,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					)}
 				/>
 			</SysLabelView>
-			<FormHelperText>{errorState}</FormHelperText>
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

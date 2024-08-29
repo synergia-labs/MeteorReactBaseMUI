@@ -29,25 +29,27 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedSm
 	}),
-	Playground: styled(Box)({
+	Playground: styled(Box)(({theme}) => ({
 		display: 'flex',
 		flexDirection: 'row',
-		gap: '64px'
-	}),
-	FormContainer: styled(Box)({
+		gap: '32px 64px',
+    marginTop: sysSizing.spacingFixedLg,
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column-reverse'
+    }
+	})),
+	FormContainer: styled(Box)(() => ({
+    flex: 1,
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedMd,
-		width: '50%',
-		position: 'sticky',
-		top: '16px',
 		height: 'fit-content'
-	}),
+	})),
 	ControlerContainer: styled(Box)(({ theme }) => ({
+    flex: 1,
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedLg,
-		width: '50%',
 		borderRadius: sysSizing.radiusSm,
 		padding: sysSizing.spacingFixedMd,
 		backgroundColor: theme.palette.sysAction?.primaryBgHover,
@@ -75,7 +77,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		display: 'flex',
 		flexDirection: 'row',
 		gap: sysSizing.spacingFixedMd,
-		alignItems: 'flex-start'
+		alignItems: 'start'
 	}),
 	SchemaContainer: styled(Box)(({ theme }) => ({
 		display: 'flex',
