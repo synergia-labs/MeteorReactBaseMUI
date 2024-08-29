@@ -4,7 +4,9 @@ import { ExampleModuleContext } from '../../exampleContainer';
 import ExampleDetailStyles from './exampleDetailStyles';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
-import { Button, IconButton, Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
@@ -20,10 +22,17 @@ const ExampleDetailView = () => {
 	const isView = state === 'view';
 	const isEdit = state === 'edit';
 	const isCreate = state === 'create';
+  const {
+    Container,
+    Body,
+    Header,
+    Footer,
+    FormColumn
+  } = ExampleDetailStyles;
 
 	return (
-		<ExampleDetailStyles.container>
-			<ExampleDetailStyles.header>
+		<Container>
+			<Header>
 				{isView && (
 					<IconButton onClick={controller.closePage}>
 						<SysIcon name={'arrowBack'} />
@@ -36,15 +45,15 @@ const ExampleDetailView = () => {
 					onClick={!isView ? controller.closePage : () => controller.changeToEdit(controller.document._id || '')}>
 					{!isView ? <SysIcon name={'close'} /> : <SysIcon name={'edit'} />}
 				</IconButton>
-			</ExampleDetailStyles.header>
+			</Header>
 			<SysForm
 				mode={state as 'create' | 'view' | 'edit'}
 				schema={controller.schema}
 				doc={controller.document}
 				onSubmit={controller.onSubmit}
 				loading={controller.loading}>
-				<ExampleDetailStyles.body>
-					<ExampleDetailStyles.formColumn>
+				<Body>
+					<FormColumn>
 						<SysTextField name="title" placeholder="Ex.: Item XX" />
 						<SysSelectField name="type" placeholder="Selecionar" />
 						<SysRadioButton name="typeMulti" childrenAlignment="row" size="small" />
@@ -60,21 +69,21 @@ const ExampleDetailView = () => {
 						<SysUploadFile name="files" />
 						<SysSlider name="slider" />
 						<SysLocationField name="address" />
-					</ExampleDetailStyles.formColumn>
-					<ExampleDetailStyles.formColumn>
+					</FormColumn>
+					<FormColumn>
 						<SysCheckBox name="check" childrenAlignment="row" />
-					</ExampleDetailStyles.formColumn>
-				</ExampleDetailStyles.body>
-				<ExampleDetailStyles.footer>
+					</FormColumn>
+				</Body>
+				<Footer>
 					{!isView && (
 						<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={controller.closePage}>
 							Cancelar
 						</Button>
 					)}
 					<SysFormButton>Salvar</SysFormButton>
-				</ExampleDetailStyles.footer>
+				</Footer>
 			</SysForm>
-		</ExampleDetailStyles.container>
+		</Container>
 	);
 };
 

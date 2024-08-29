@@ -60,7 +60,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 
 		this.addRestEndpoint(
 			'view/:exampleId',
-			(params, options) => {
+			(params, _options) => {
 				console.log('Rest', params);
 				if (params.exampleId) {
 					return self
