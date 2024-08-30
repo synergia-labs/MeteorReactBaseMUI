@@ -12,6 +12,7 @@ import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxFie
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import {SysDatePickerField} from "/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField";
+import Box from "@mui/material/Box";
 
 const AniversarioDetailView = () => {
 	const controller = useContext(AniversarioDetailControllerContext);
@@ -24,7 +25,8 @@ const AniversarioDetailView = () => {
     Body,
     Header,
     Footer,
-    FormColumn
+    FormColumn,
+    Image
   } = AniversarioDetailStyles;
 
 	return (
@@ -57,6 +59,9 @@ const AniversarioDetailView = () => {
             <SysCheckBox name={'remember'} />
             <SysSelectField name={'delivery'} placeholder={'Selecionar'}/>
 					</FormColumn>
+          <FormColumn>
+            <Image src={'/images/img-motivacional.svg'} />
+          </FormColumn>
 				</Body>
 				<Footer>
 					{!isView && (

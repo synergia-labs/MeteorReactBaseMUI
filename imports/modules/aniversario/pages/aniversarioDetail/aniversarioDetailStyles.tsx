@@ -10,15 +10,17 @@ interface IAniversarioDetailStyles {
 	Body: ElementType<BoxProps>;
 	Footer: ElementType<BoxProps>;
 	FormColumn: ElementType<BoxProps>;
+	Image: ElementType;
 }
 
 const AniversarioDetailStyles: IAniversarioDetailStyles = {
 	Container: styled(SysSectionPaddingXY)(() => ({
+    flex: 1,
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
-		gap: sysSizing.spacingFixedMd
+		gap: sysSizing.spacingFixedLg
 	})),
 	Header: styled(Box)({
 		display: 'flex',
@@ -35,7 +37,7 @@ const AniversarioDetailStyles: IAniversarioDetailStyles = {
 		width: '100%',
 		gap: '64px',
 		[theme.breakpoints.down('md')]: {
-			flexDirection: 'column',
+			flexDirection: 'column-reverse',
 			gap: sysSizing.spacingFixedMd
 		}
 	})),
@@ -46,7 +48,7 @@ const AniversarioDetailStyles: IAniversarioDetailStyles = {
 		alignItems: 'center',
 		width: '100%',
 		gap: sysSizing.spacingRemMd,
-		marginTop: '40px'
+		marginTop: 'auto'
 	}),
 	FormColumn: styled(Box)({
 		width: '100%',
@@ -55,7 +57,14 @@ const AniversarioDetailStyles: IAniversarioDetailStyles = {
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
 		gap: sysSizing.spacingFixedLg
-	})
+	}),
+  Image: styled('img')(({theme}) => ({
+    width: '100%',
+    [theme.breakpoints.down('md')]: {
+      maxWidth: '500px',
+      margin: 'auto'
+    }
+  }))
 };
 
 export default AniversarioDetailStyles;
