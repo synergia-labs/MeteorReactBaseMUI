@@ -1,4 +1,5 @@
 import { Recurso as Exemplo } from '/imports/modules/example/config/recursos';
+import { Recurso as Aniversario } from '/imports/modules/aniversario/config/recursos';
 import { Recurso as Usuarios } from '/imports/modules/userprofile/config/recurso';
 import { RoleType } from '/imports/security/config/roleType';
 import { HomeResources, SysFormTestPageResources } from '/imports/sysPages/config/resources';
@@ -24,7 +25,11 @@ const usuarioRoles: string[] = [
 	SysFormTestPageResources.SYSFORMTESTS_UPDATE,
 	SysFormTestPageResources.SYSFORMTESTS_REMOVE,
 	Usuarios.USUARIO_UPDATE,
-	Usuarios.USUARIO_VIEW
+	Usuarios.USUARIO_VIEW,
+  Aniversario.ANIVERSARIO_VIEW,
+  Aniversario.ANIVERSARIO_CREATE,
+  Aniversario.ANIVERSARIO_UPDATE,
+  Aniversario.ANIVERSARIO_REMOVE,
 ];
 
 const adminstradorRoles: string[] = [...usuarioRoles, Usuarios.USUARIO_CREATE, Usuarios.USUARIO_REMOVE];

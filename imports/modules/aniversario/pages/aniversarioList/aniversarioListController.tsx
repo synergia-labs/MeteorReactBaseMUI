@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import ExampleListView from './exampleListView';
+import AniversarioListView from './aniversarioListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 import { ISchema } from '/imports/typings/ISchema';
-import { IExample } from '../../api/exampleSch';
-import { exampleApi } from '../../api/exampleApi';
+import { IAniversario } from '../../api/aniversarioSch';
+import { aniversarioApi } from '../../api/aniversarioApi';
 
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean };
@@ -14,18 +14,18 @@ interface IInitialConfig {
 	viewComplexTable: boolean;
 }
 
-interface IExampleListContollerContext {
+interface IAniversarioListContollerContext {
 	onAddButtonClick: () => void;
 	onDeleteButtonClick: (row: any) => void;
-	todoList: IExample[];
+	aniversarioList: IAniversario[];
 	schema: ISchema<any>;
 	loading: boolean;
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const ExampleListControllerContext = React.createContext<IExampleListContollerContext>(
-	{} as IExampleListContollerContext
+export const AniversarioListControllerContext = React.createContext<IAniversarioListContollerContext>(
+	{} as IAniversarioListContollerContext
 );
 
 const initialConfig = {
@@ -35,11 +35,11 @@ const initialConfig = {
 	viewComplexTable: false
 };
 
-const ExampleListController = () => {
+const AniversarioListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 
-	const { title, type, typeMulti } = exampleApi.getSchema();
-	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
+	const { title, type, typeMulti } = aniversarioApi.getSchema();
+	const aniversarioSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
 	const navigate = useNavigate();
 
 	const { sortProperties, filter } = config;
@@ -47,25 +47,25 @@ const ExampleListController = () => {
 		[sortProperties.field]: sortProperties.sortAscending ? 1 : -1
 	};
 
-	const { loading, examples } = useTracker(() => {
-		const subHandle = exampleApi.subscribe('aniversarioList', filter, {
+	const { loading, aniversarios } = useTracker(() => {
+		const subHandle = aniversarioApi.subscribe('aniversarioList', filter, {
 			sort
 		});
-		const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : [];
+		const aniversarios = subHandle?.ready() ? aniversarioApi.find(filter, { sort }).fetch() : [];
 		return {
-			examples,
+			aniversarios,
 			loading: !!subHandle && !subHandle.ready(),
-			total: subHandle ? subHandle.total : examples.length
+			total: subHandle ? subHandle.total : aniversarios.length
 		};
 	}, [config]);
 
 	const onAddButtonClick = useCallback(() => {
 		const newDocumentId = nanoid();
-		navigate(`/example/create/${newDocumentId}`);
+		navigate(`/aniversario/create/${newDocumentId}`);
 	}, []);
 
 	const onDeleteButtonClick = useCallback((row: any) => {
-		exampleApi.remove(row);
+		aniversarioApi.remove(row);
 	}, []);
 
 	const onChangeTextField = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,24 +94,24 @@ const ExampleListController = () => {
 		setConfig((prev) => ({ ...prev, filter: { ...prev.filter, type: value } }));
 	}, []);
 
-	const providerValues: IExampleListContollerContext = useMemo(
+	const providerValues: IAniversarioListContollerContext = useMemo(
 		() => ({
 			onAddButtonClick,
 			onDeleteButtonClick,
-			todoList: examples,
-			schema: exampleSchReduzido,
+			aniversarioList: aniversarios,
+			schema: aniversarioSchReduzido,
 			loading,
 			onChangeTextField,
 			onChangeCategory: onSelectedCategory
 		}),
-		[examples, loading]
+		[aniversarios, loading]
 	);
 
 	return (
-		<ExampleListControllerContext.Provider value={providerValues}>
-			<ExampleListView />
-		</ExampleListControllerContext.Provider>
+		<AniversarioListControllerContext.Provider value={providerValues}>
+			<AniversarioListView />
+		</AniversarioListControllerContext.Provider>
 	);
 };
 
-export default ExampleListController;
+export default AniversarioListController;
