@@ -36,30 +36,23 @@ const AniversarioDetailController = () => {
 		};
 	}, [id]);
 
-	const closePage = useCallback(() => {
-		navigate(-1);
-	}, []);
-	const changeToEdit = useCallback((id: string) => {
-		navigate(`/aniversario/edit/${id}`);
-	}, []);
+	const closePage = useCallback(() => navigate(-1), []);
+	const changeToEdit = useCallback((id: string) => navigate(`/aniversario/edit/${id}`),[]);
 
 	const onSubmit = useCallback((doc: IAniversario) => {
 		const selectedAction = state === 'create' ? 'insert' : 'update';
 		aniversarioApi[selectedAction](doc, (e: IMeteorError) => {
-			if (!e) {
-				closePage();
-				showNotification({
-					type: 'success',
-					title: 'Operação realizada!',
-					message: `O exemplo foi ${selectedAction === 'update' ? 'atualizado' : 'cadastrado'} com sucesso!`
-				});
-			} else {
-				showNotification({
-					type: 'error',
-					title: 'Operação não realizada!',
-					message: `Erro ao realizar a operação: ${e.reason}`
-				});
-			}
+      if(e) return showNotification({
+        type: 'error',
+        title: 'Operação não realizada!',
+        message: `Erro ao realizar a operação: ${e.reason}`
+      });
+      closePage();
+      showNotification({
+        type: 'success',
+        title: 'Operação realizada!',
+        message: `O exemplo foi ${selectedAction === 'update' ? 'atualizado' : 'cadastrado'} com sucesso!`
+      });
 		});
 	}, []);
 
