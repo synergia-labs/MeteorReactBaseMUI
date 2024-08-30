@@ -61,7 +61,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	options = options || refObject?.current?.options || ([] as any);
 	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
-	const [valueState, setValueState] = useState<Array<string>>(defaultValue || '');
+	const [valueState, setValueState] = useState<Array<string>>(defaultValue || []);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
@@ -104,7 +104,11 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	if (!visibleState || optionsState?.length === 0) return null;
 
 	if (readOnly) {
-		return <SysViewField label={label} placeholder={valueState?.join?.(', ') || '-'} />;
+		return <SysViewField label={label} placeholder={
+      valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label)
+      .join?.(', ') || '-'
+
+    } />;
 	}
 
 	return (

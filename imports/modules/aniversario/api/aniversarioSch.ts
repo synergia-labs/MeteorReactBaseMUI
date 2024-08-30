@@ -16,7 +16,6 @@ export const aniversarioSch: ISchema<IAniversario> = {
   phone: {
     type: String,
     label: 'Telefone',
-    defaultValue: '',
     optional: true,
     mask: '(##) ####-####'
   },
@@ -26,7 +25,7 @@ export const aniversarioSch: ISchema<IAniversario> = {
     options: () => [
       { value: true, label: 'Enviar lembrete' },
     ],
-		optional: false
+		optional: true
 	},
 	delivery: {
 		type: String,

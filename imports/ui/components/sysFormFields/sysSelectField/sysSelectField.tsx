@@ -6,7 +6,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Select,{ SelectChangeEvent, SelectProps,} from '@mui/material/Select';
-import { SxProps, Theme } from '@mui/material';
+import { Collapse, SxProps, Theme } from '@mui/material';
 import { SysFormContext } from '../../sysForm/sysForm';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SysViewField } from '../sysViewField/sysViewField';
@@ -93,58 +93,62 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 		onChange?.(e);
 	};
 
-	if (!visibleState || options?.length === 0) return null;
-
 	if (readOnly) {
 		const viewValue = optionsState && optionsState.find((option) => option.value === valueState);
 		return <SysViewField label={label} placeholder={viewValue?.label || '-'} />;
 	}
 
 	return (
-		<FormControl error={!!errorState} sx={sxMap?.container}>
-			<SysLabelView
-        label={label}
-        showLabelAdornment={showLabelAdornment}
-        labelAdornment={labelAdornment}
-        disabled={disabled}
-        showTooltip={showTooltip}
-        tooltipMessage={tooltipMessage}
-        tooltipPosition={tooltipPosition}
-      >
-				<Select
-					{...otherProps}
-					labelId={`${label}${name}`}
-					id={name}
-					value={valueState || ''}
-					onChange={handleChange}
-					displayEmpty
-					disabled={disabled || loading}
-					multiple={multiple}
-          IconComponent={() => <SysIcon name={'arrowDropDown'} />}
-					renderValue={(options) => {
-						if (!hasValue(options)) {
-							return (
-								<Typography variant="body1" color={'text.disabled'}>
-									{placeholder}
-								</Typography>
-							);
-						}
-						return options;
-					}}>
-					{options?.length === 0 ? (
-						<MenuItem id={'NoValues'} disabled value="">
-							<ListItemText primary="Nenhuma opção para selecionar" />
-						</MenuItem>
-					) : (
-						options?.map((option) => (
-							<MenuItem key={option.value} value={option.value}>
-								{option.label}
-							</MenuItem>
-						))
-					)}
-				</Select>
-			</SysLabelView>
-      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
-		</FormControl>
+    <Collapse
+      in={!!visibleState && options?.length !== 0}
+      unmountOnExit
+      sx={{ width: '100%' }}
+    >
+      <FormControl error={!!errorState} sx={sxMap?.container}>
+        <SysLabelView
+          label={label}
+          showLabelAdornment={showLabelAdornment}
+          labelAdornment={labelAdornment}
+          disabled={disabled}
+          showTooltip={showTooltip}
+          tooltipMessage={tooltipMessage}
+          tooltipPosition={tooltipPosition}
+        >
+          <Select
+            {...otherProps}
+            labelId={`${label}${name}`}
+            id={name}
+            value={valueState || ''}
+            onChange={handleChange}
+            displayEmpty
+            disabled={disabled || loading}
+            multiple={multiple}
+            IconComponent={() => <SysIcon name={'arrowDropDown'} />}
+            renderValue={(options) => {
+              if (!hasValue(options)) {
+                return (
+                  <Typography variant="body1" color={'text.disabled'}>
+                    {placeholder}
+                  </Typography>
+                );
+              }
+              return options;
+            }}>
+            {options?.length === 0 ? (
+              <MenuItem id={'NoValues'} disabled value="">
+                <ListItemText primary="Nenhuma opção para selecionar" />
+              </MenuItem>
+            ) : (
+              options?.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))
+            )}
+          </Select>
+        </SysLabelView>
+        {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
+      </FormControl>
+    </Collapse>
 	);
 };

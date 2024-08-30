@@ -140,7 +140,8 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
           hasValue(fieldsWithErrors.current[refComponent.current.name])
         )
           checkIfErrorExists(refComponent);
-        if (initialRequiredFields.includes(refComponent.current.name))
+
+        if(refButton.current?.current?.disabled !== !checkIfAllRequiredFieldsAreFilled())
           refButton.current?.current?.setDisabled?.(!checkIfAllRequiredFieldsAreFilled());
 
         checkIfNeedToUpdateOptions();

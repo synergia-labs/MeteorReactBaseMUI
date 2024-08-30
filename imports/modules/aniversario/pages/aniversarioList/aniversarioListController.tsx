@@ -38,8 +38,8 @@ const initialConfig = {
 const AniversarioListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 
-	const { name, birthday, remember } = aniversarioApi.getSchema();
-	const aniversarioSchReduzido = { birthday, name, remember };
+	const { name, birthday, delivery } = aniversarioApi.getSchema();
+	const aniversarioSchReduzido = { birthday, name, delivery };
 	const navigate = useNavigate();
 
 	const { sortProperties, filter } = config;
