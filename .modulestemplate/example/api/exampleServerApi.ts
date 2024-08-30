@@ -1,5 +1,5 @@
 // region Imports
-import { Recurso } from '../config/Recursos';
+import { Recurso } from '../config/recursos';
 import { exampleSch, IExample } from './exampleSch';
 import { userprofileServerApi } from '/imports/modules/userprofile/api/userProfileServerApi';
 import { ProductServerBase } from '/imports/api/productServerBase';
