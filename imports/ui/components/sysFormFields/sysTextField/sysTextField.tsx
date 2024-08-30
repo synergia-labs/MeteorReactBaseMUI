@@ -113,7 +113,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 
 	if (!visibleState) return null;
 
-	if (readOnly) return <SysViewField label={label} placeholder={valueState || '-'} />;
+	if (readOnly) return <SysViewField label={label} placeholder={valueState || '-'} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment}/>;
 
 	return (
 		<SysLabelView

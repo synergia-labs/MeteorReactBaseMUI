@@ -84,7 +84,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 
 	if (readOnly) {
 		const viewValue = optionsState && optionsState.find((option) => option.value === valueState);
-		return <SysViewField label={label} placeholder={viewValue?.label || '-'} />;
+		return <SysViewField label={label} placeholder={viewValue?.label || '-'} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
 	}
 
 	return (

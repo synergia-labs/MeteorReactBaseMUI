@@ -108,7 +108,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
       valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label)
       .join?.(', ') || '-'
 
-    } />;
+    } showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
 	}
 
 	return (

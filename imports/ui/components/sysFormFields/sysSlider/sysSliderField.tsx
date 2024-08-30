@@ -72,7 +72,7 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 	if (!visibleState) return null;
 
 	if (readOnly) {
-		return <SysViewField label={label} placeholder={valueState?.toString() || '-'} />;
+		return <SysViewField label={label} placeholder={valueState?.toString() || '-'} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
 	}
 
 	return (

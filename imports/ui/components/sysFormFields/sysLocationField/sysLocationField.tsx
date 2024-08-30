@@ -187,7 +187,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 				: valueState?.estado
 					? valueState?.estado
 					: '-';
-		return <SysViewField label={label} placeholder={str} />;
+		return <SysViewField label={label} placeholder={str} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
 	}
 
 	return (

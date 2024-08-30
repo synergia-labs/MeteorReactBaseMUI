@@ -12,7 +12,6 @@ import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxFie
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import {SysDatePickerField} from "/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField";
-import Box from "@mui/material/Box";
 
 const AniversarioDetailView = () => {
 	const controller = useContext(AniversarioDetailControllerContext);
@@ -38,7 +37,7 @@ const AniversarioDetailView = () => {
 					</IconButton>
 				)}
 				<Typography variant="h5" sx={{ flexGrow: 1 }}>
-					{isCreate ? 'Adicionar aniversário' : isEdit ? 'Editar aniversário' : controller.document.name}
+					{isCreate ? 'Adicionar aniversário' : isEdit ? 'Editar aniversário' : 'Detalhes do aniversário'}
 				</Typography>
 				<IconButton
 					onClick={!isView ? controller.closePage : () => controller.changeToEdit(controller.document._id || '')}>

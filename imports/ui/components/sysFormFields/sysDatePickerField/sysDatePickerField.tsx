@@ -116,7 +116,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	if (!visibleState) return null;
 
   if (readOnly)
-    return <SysViewField label={label} placeholder={dateValue instanceof Date ? formatDate(dateValue) : dateValue} />;
+    return <SysViewField label={label} placeholder={dateValue instanceof Date ? formatDate(dateValue) : dateValue} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
 
 	return (
 		<FormControl error={!!errorState}>

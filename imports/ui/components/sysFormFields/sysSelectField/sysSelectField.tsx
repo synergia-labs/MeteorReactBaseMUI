@@ -95,7 +95,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 
 	if (readOnly) {
 		const viewValue = optionsState && optionsState.find((option) => option.value === valueState);
-		return <SysViewField label={label} placeholder={viewValue?.label || '-'} />;
+		return <SysViewField label={label} placeholder={viewValue?.label || '-'} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment}/>;
 	}
 
 	return (
