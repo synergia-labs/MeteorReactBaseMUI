@@ -66,7 +66,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
 
-	const [selectedOptions, setSelectedOptions] = useState<string[]>([] || [...defaultValue]);
+	const [selectedOptions, setSelectedOptions] = useState<any[]>([] || [...defaultValue]);
 
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({
@@ -84,9 +84,11 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	//setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, event.target.name]);
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { checked } = event.target;
+    const value = optionsState?.find(item => item.label === event.target.name)?.value;
+    if (!hasValue(value)) return;
 		const updatedOptions = checked
-			? [...selectedOptions, event.target.name]
-			: selectedOptions.filter((option) => option !== event.target.name);
+			? [...selectedOptions, value]
+			: selectedOptions.filter((option) => option !== value);
 		setSelectedOptions(updatedOptions);
 		if (inSysFormContext)
 			controllerSysForm?.onChangeComponentValue?.({ refComponent: refObject!, value: updatedOptions });
@@ -125,7 +127,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 									{...otherProps}
 									onChange={handleCheckboxChange}
 									name={opt.label}
-									checked={selectedOptions.includes(opt.label)}
+									checked={selectedOptions.includes(opt.value)}
 									sx={sxMap?.checkbox}
 								/>
 							}

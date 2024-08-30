@@ -23,8 +23,6 @@ const AniversarioListView = () => {
     SearchContainer
   } = AniversarioListStyles;
 
-	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
-
 	return (
 		<Container>
 			<Typography variant="h5">Lista de Aniversários</Typography>

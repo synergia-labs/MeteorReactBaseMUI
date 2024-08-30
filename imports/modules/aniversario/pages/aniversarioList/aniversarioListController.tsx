@@ -38,8 +38,8 @@ const initialConfig = {
 const AniversarioListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 
-	const { title, type, typeMulti } = aniversarioApi.getSchema();
-	const aniversarioSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
+	const { name, birthday, remember } = aniversarioApi.getSchema();
+	const aniversarioSchReduzido = { birthday, name, remember };
 	const navigate = useNavigate();
 
 	const { sortProperties, filter } = config;

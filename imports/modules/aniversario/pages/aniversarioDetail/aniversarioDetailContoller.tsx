@@ -45,6 +45,7 @@ const AniversarioDetailController = () => {
 
 	const onSubmit = useCallback((doc: IAniversario) => {
 		const selectedAction = state === 'create' ? 'insert' : 'update';
+    console.log('aqui>>>', doc);
 		aniversarioApi[selectedAction](doc, (e: IMeteorError) => {
 			if (!e) {
 				closePage();

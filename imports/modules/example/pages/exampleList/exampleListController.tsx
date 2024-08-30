@@ -48,7 +48,7 @@ const ExampleListController = () => {
 	};
 
 	const { loading, examples } = useTracker(() => {
-		const subHandle = exampleApi.subscribe('aniversarioList', filter, {
+		const subHandle = exampleApi.subscribe('exampleList', filter, {
 			sort
 		});
 		const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : [];

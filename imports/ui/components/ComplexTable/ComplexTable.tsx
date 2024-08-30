@@ -287,7 +287,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	const columns: any = Object.keys(schema).map((key: string) => {
 		return {
 			field: key,
-			headerName: schema[key].label,
+			headerName: schema[key]?.label || '',
 			flex: 1,
 			align: 'left',
 			headerAlign: 'left',
