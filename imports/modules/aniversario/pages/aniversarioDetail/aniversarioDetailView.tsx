@@ -8,12 +8,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
-import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
-import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
-import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import {SysDatePickerField} from "/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField";
 
@@ -48,7 +44,7 @@ const AniversarioDetailView = () => {
 				</IconButton>
 			</Header>
 			<SysForm
-				mode={state as 'create' | 'view' | 'edit'}
+				mode={state}
 				schema={controller.schema}
 				doc={controller.document}
 				onSubmit={controller.onSubmit}

@@ -313,13 +313,12 @@ export const ComplexTable = (props: IComplexTableProps) => {
 								/>
 							);
 						} else {
-              console.log('params', params);
 							const paramsValue = !params.value || params.value === 'undefined - undefined' ? '-' : params.value;
 							const value = transformData(paramsValue, schema[key].type, schema[key].renderKey, schema[key]?.options?.(params.row));
 							const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
 							return (
 								<Tooltip title={value} arrow={true}>
-									<ComplexTableRowText variant="body2">{value}</ComplexTableRowText>
+									<ComplexTableRowText variant="body2" sx={{textAlign: 'left'}}>{value}</ComplexTableRowText>
 								</Tooltip>
 							);
 						}
