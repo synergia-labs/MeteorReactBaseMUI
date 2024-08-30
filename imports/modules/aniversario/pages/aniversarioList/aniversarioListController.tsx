@@ -73,7 +73,7 @@ const AniversarioListController = () => {
 		const delayedSearch = setTimeout(() => {
 			setConfig((prev) => ({
 				...prev,
-				filter: { ...prev.filter, title: { $regex: value.trim(), $options: 'i' } }
+				filter: { ...prev.filter, name: { $regex: value.trim(), $options: 'i' } }
 			}));
 		}, 1000);
 		return () => clearTimeout(delayedSearch);
