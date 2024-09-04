@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
 import { ExampleListControllerContext } from './exampleListController';
 import { useNavigate } from 'react-router-dom';
@@ -11,17 +13,23 @@ import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysT
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
+
 const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);
 	const sysLayoutContext = React.useContext(SysAppLayoutContext);
 	const navigate = useNavigate();
+  const {
+    Container,
+    LoadingContainer,
+    SearchContainer
+  } = ExampleListStyles;
 
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
 
 	return (
-		<ExampleListStyles.container>
+		<Container>
 			<Typography variant="h5">Lista de Itens</Typography>
-			<ExampleListStyles.searchContainer>
+			<SearchContainer>
 				<SysTextField
 					name="search"
 					placeholder="Pesquisar por nome"
@@ -35,12 +43,12 @@ const ExampleListView = () => {
 					placeholder="Selecionar"
 					onChange={controller.onChangeCategory}
 				/>
-			</ExampleListStyles.searchContainer>
+			</SearchContainer>
 			{controller.loading ? (
-				<ExampleListStyles.loadingContainer>
+				<LoadingContainer>
 					<CircularProgress />
 					<Typography variant="body1">Aguarde, carregando informações...</Typography>
-				</ExampleListStyles.loadingContainer>
+				</LoadingContainer>
 			) : (
 				<Box sx={{ width: '100%' }}>
 					<ComplexTable
@@ -74,7 +82,7 @@ const ExampleListView = () => {
 				fixed={true}
 				onClick={controller.onAddButtonClick}
 			/>
-		</ExampleListStyles.container>
+		</Container>
 	);
 };
 
