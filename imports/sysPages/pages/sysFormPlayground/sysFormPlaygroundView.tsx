@@ -1,23 +1,25 @@
 import React, { useContext } from 'react';
-import SysFormPlaygroundStyles from './sysFormPlaygroundStyles';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Tooltip from "@mui/material/Tooltip";
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import { schemaFormated } from './interface/sysFormSch';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import { SysFormPlaygroundContext } from './sysFormPlayground';
+import SysFormPlaygroundStyles from './sysFormPlaygroundStyles';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
+import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
-import { SysDatePickerField } from '/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
-import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import { schemaFormated } from './interface/sysFormSch';
+import { SysDatePickerField } from '/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
-import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-import Tooltip from "@mui/material/Tooltip";
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);
@@ -32,6 +34,12 @@ const SysFormPlaygroundView: React.FC = () => {
     RowElement,
     SchemaContainer,
   } = SysFormPlaygroundStyles;
+
+  const transparentTheme = {
+    ...solarizedlight,
+    'code[class*="language-"]': { ...solarizedlight['code[class*="language-"]'], background: 'transparent' },
+    'pre[class*="language-"]': { ...solarizedlight['pre[class*="language-"]'], background: 'transparent' },
+  };
 
 	return (
 		<Container>
@@ -92,7 +100,9 @@ const SysFormPlaygroundView: React.FC = () => {
 			<Box sx={{ display: 'flex', flexDirection: 'column', gap: sysSizing.spacingFixedLg }}>
 				<Typography variant="subtitle1">schema</Typography>
 				<SchemaContainer>
-					<pre>{schemaFormated}</pre>
+          <SyntaxHighlighter language="typescript" style={transparentTheme}>
+              {schemaFormated}
+            </SyntaxHighlighter>
 				</SchemaContainer>
 			</Box>
 
@@ -199,7 +209,9 @@ const SysFormPlaygroundView: React.FC = () => {
 
 					<Typography variant="subtitle1">Doc</Typography>
 					<DocContainer>
-						<pre>{JSON.stringify(controller.doc, null, 2)}</pre>
+            <SyntaxHighlighter language="typescript" style={transparentTheme}>
+						  {JSON.stringify(controller.doc, null, 2)}
+            </SyntaxHighlighter>
 						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Tooltip title={'Atualizar doc'}>
                 <IconButton onClick={controller.updateDoc}>
