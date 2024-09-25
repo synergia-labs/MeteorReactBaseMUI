@@ -1,19 +1,15 @@
 // region Imports
 import { Recurso } from '../config/recursos';
 import { aniversarioSch, IAniversario } from './aniversarioSch';
-import { userprofileServerApi } from '/imports/modules/userprofile/api/userProfileServerApi';
 import { ProductServerBase } from '/imports/api/productServerBase';
 
 // endregion
 
 class AniversarioServerApi extends ProductServerBase<IAniversario> {
 	constructor() {
-		super('aniversario', aniversarioSch, {
-			resources: Recurso
-			// saveImageToDisk: true,
-		});
+		super('aniversario', aniversarioSch, { resources: Recurso });
 
-		const self = this;
+    const self = this;
 
 		this.addPublication(
 			'aniversarioList',
@@ -33,6 +29,7 @@ class AniversarioServerApi extends ProductServerBase<IAniversario> {
 		this.addRestEndpoint(
 			'view',
 			(params, options) => {
+        //debug console.log
 				console.log('Params', params);
 				console.log('options.headers', options.headers);
 				return { status: 'ok' };
