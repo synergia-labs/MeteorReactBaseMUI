@@ -15,17 +15,13 @@ class AniversarioServerApi extends ProductServerBase<IAniversario> {
 
 		const self = this;
 
-		this.addTransformedPublication(
+		this.addPublication(
 			'aniversarioList',
 			(filter = {}) => {
 				return this.defaultListCollectionPublication(filter, {
 					projection: { name: 1, birthday: 1, phone: 1, remember: 1, delivery: 1 }
 				});
 			},
-			(doc: IAniversario & { nomeUsuario: string }) => {
-				const userProfileDoc = userprofileServerApi.getCollectionInstance().findOne({ _id: doc.createdby });
-				return { ...doc };
-			}
 		);
 
 		this.addPublication('aniversarioDetail', (filter = {}) => {
