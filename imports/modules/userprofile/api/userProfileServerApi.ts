@@ -1,8 +1,8 @@
 // region Imports
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { IUserProfile, userProfileSch } from './userProfileSch';
-import { getUser, userprofileData } from '../../../libs/getUser';
+import { IMeteorUser, IUserProfile, userProfileSch } from './userProfileSch';
+import { userprofileData } from '../../../libs/getUser';
 import settings from '../../../../settings.json';
 import { check } from 'meteor/check';
 import { IContext } from '../../../typings/IContext';
@@ -10,6 +10,7 @@ import { IDoc } from '../../../typings/IDoc';
 import { ProductServerBase } from '../../../api/productServerBase';
 import { EnumUserRoles } from './enumUser';
 import { nanoid } from 'nanoid';
+import User = Meteor.User;
 
 interface IUserProfileEstendido extends IUserProfile {
 	password?: string;
@@ -20,7 +21,7 @@ interface IUserProfileEstendido extends IUserProfile {
  * @return {Object} Logged User
  */
 export const getUserServer = async (connection?: { id: string } | null): IUserProfile => {
-	const user = await Meteor.user();
+	const user: (User & IMeteorUser) | null = await Meteor.user();
 
 	try {
 		const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
@@ -123,7 +124,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		});
 
 		this.addPublication('getLoggedUserProfile', async () => {
-			const user = await Meteor.user();
+			const user: IMeteorUser | null = await Meteor.user();
 
 			if (!user) {
 				return;
@@ -184,7 +185,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		let insertId = null;
 		try {
 			const { password } = dataObj;
-			dataObj = this._checkDataBySchema(dataObj);
+			dataObj = await this._checkDataBySchema(dataObj);
 			if (password) {
 				dataObj = Object.assign({}, dataObj, { password });
 			}
@@ -273,8 +274,8 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	 * @param  {String} action - Action the will be perform.
 	 * @param  {String} defaultUser - Value of default user
 	 */
-	_includeAuditData(doc: IDoc, action: string, defaultUser: string = 'Anonymous') {
-		const user = getUser();
+	async _includeAuditData(doc: IDoc, action: string, defaultUser: string = 'Anonymous') {
+		const user: IUserProfile = await getUserServer();
 		if (action === 'insert') {
 			doc.createdby = user ? user._id : defaultUser;
 			doc.createdat = new Date();
@@ -286,9 +287,9 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 	addPublicationMeteorUsers = () => {
 		if (Meteor.isServer) {
-			Meteor.publish('statusCadastroUserProfile', (userId) => {
+			Meteor.publish('statusCadastroUserProfile', async (userId) => {
 				check(userId, String);
-				const user = getUser();
+				const user = await getUserServer();
 
 				if (user && user.roles && user.roles.indexOf('Administrador') !== -1) {
 					return Meteor.users.find(
@@ -344,11 +345,11 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		}
 	};
 
-	beforeInsert(docObj: IUserProfile, context: IContext) {
+	async beforeInsert(docObj: IUserProfile, context: IContext) {
 		return super.beforeInsert(docObj, context);
 	}
 
-	afterInsert(doc: IUserProfileEstendido, _context: IContext) {
+	async afterInsert(doc: IUserProfileEstendido, _context: IContext) {
 		if (Meteor.isServer) {
 			if (doc.password) {
 				Accounts.sendVerificationEmail(doc._id!);
@@ -358,8 +359,8 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		}
 	}
 
-	beforeUpdate(docObj: IUserProfile, context: IContext) {
-		const user = getUser();
+	async beforeUpdate(docObj: IUserProfile, context: IContext) {
+		const user: IUserProfile = await getUserServer();
 		if (
 			!docObj._id ||
 			(user && user._id !== docObj._id && user && user.roles && user.roles.indexOf('Administrador') === -1)
@@ -372,10 +373,10 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			if (docObj && docObj.roles) delete docObj.roles;
 		}
 
-		return super.beforeUpdate(docObj, context);
+		return await super.beforeUpdate(docObj, context);
 	}
 
-	beforeRemove(docObj: IUserProfile, context: IContext) {
+	async beforeRemove(docObj: IUserProfile, context: IContext) {
 		super.beforeRemove(docObj, context);
 		Meteor.users.remove({ _id: docObj._id });
 		return true;

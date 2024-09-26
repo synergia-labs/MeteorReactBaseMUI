@@ -1,6 +1,7 @@
-import { validarEmail } from '/imports/libs/validaEmail';
-import { IDoc } from '/imports/typings/IDoc';
-import { ISchema } from '/imports/typings/ISchema';
+import { validarEmail } from '../../../libs/validaEmail';
+import { IDoc } from '../../../typings/IDoc';
+import { ISchema } from '../../../typings/ISchema';
+import User = Meteor.User;
 
 export const userProfileSch: ISchema<IUserProfile> = {
 	photo: {
@@ -76,4 +77,29 @@ export interface IUserProfile extends IDoc {
 	email: string;
 	roles?: string[];
 	status?: string;
+}
+
+export interface IMeteorUser extends User {
+	services?: {
+		password: {
+			bcrypt: string; // Senha criptografada (bcrypt hash)
+		};
+		resume: {
+			loginTokens: Array<{
+				// Array de tokens de login
+				when: Date;
+				hashedToken: string;
+			}>;
+		};
+		username: string; // Nome de usuário
+	};
+	emails: Array<{
+		// Array de emails associados ao usuário
+		address: string; // Endereço de email
+		verified: boolean; // Email verificado ou não
+	}>;
+	profile?: {
+		name: string; // Nome do perfil
+		email: string; // Email no perfil
+	};
 }

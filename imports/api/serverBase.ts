@@ -1362,7 +1362,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * (If we don't have _context, undefied will be set to this.)
 	 * @returns {Boolean} - Returns true for any action.
 	 */
-	beforeUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
+	async beforeUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_UPDATE`]) {
 			segurancaApi.validarAcessoRecursos(_context.user, [`${this.collectionName?.toUpperCase()}_UPDATE`]);
 		}
