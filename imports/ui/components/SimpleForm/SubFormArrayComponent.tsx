@@ -1,18 +1,16 @@
 import React from 'react';
 import Fab from '@mui/material/Fab';
 import { simpleFormStyle } from '/imports/ui/components/SimpleForm/SimpleFormStyle';
-import Add from '@mui/icons-material/Add';
 import _ from 'lodash';
 import { hasValue, isBoolean } from '/imports/libs/hasValue';
 import { nanoid } from 'nanoid';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { ReactSortable } from 'react-sortablejs';
 import IconButton from '@mui/material/IconButton';
-import Delete from '@mui/icons-material/Delete';
 import SimpleForm, { IElementProps } from '/imports/ui/components/SimpleForm/SimpleForm';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Tooltip from '@mui/material/Tooltip';
 import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISubFormArrayComponent {
 	reactElement: (React.ComponentType | React.ReactElement<any>) & {
@@ -46,7 +44,7 @@ function createAddElementSubArrayButtom(addElement: any, addSubForm: () => void,
 					...simpleFormStyle.buttonAddSubForm
 				}}
 				onClick={addSubForm}>
-				<Add />
+				<SysIcon name={'add'} />
 			</Fab>
 		);
 	}
@@ -257,7 +255,7 @@ export const SubFormArrayComponent = ({
 										<div style={iconButtonContainerStyle ? iconButtonContainerStyle : simpleFormStyle.buttonForm}>
 											<Tooltip title={'Remover'}>
 												<IconButton sx={removeIconButtonSx} onClick={onClickDelete(subForm.id || subForm._id)}>
-													{removeIcon || <Delete />}
+													{removeIcon || <SysIcon name={'delete'} />}
 												</IconButton>
 											</Tooltip>
 										</div>
@@ -266,7 +264,7 @@ export const SubFormArrayComponent = ({
 										<div className={'dragButton'} style={simpleFormStyle.buttonForm}>
 											<Tooltip title={'Clique e arraste para ordenar'}>
 												<IconButton>
-													<DragIndicatorIcon />
+													<SysIcon name={'dragIndicator'} />
 												</IconButton>
 											</Tooltip>
 										</div>

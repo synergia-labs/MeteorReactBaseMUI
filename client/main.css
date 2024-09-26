@@ -1,43 +1,25 @@
 :root {
-  --scrollbar-thumb-color: #3e6b01;
-  --scrollbar-track-color: #ccc;
+  --loading-color: #6768f2;
+  --loader-border: #6768f21a;
+  --loading-gap: 8px;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
 }
 
 html {
   height: 100%;
   overflow-y: hidden;
-  background-color: #eee;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   height: 100%;
   margin: 0;
-  /* Consider commenting on why user-select is none for accessibility purposes */
   user-select: none;
-}
-
-/* Scrollbar styles for Webkit browsers */
-*::-webkit-scrollbar {
-  width: 12px;
-}
-
-*::-webkit-scrollbar-track {
-  background: var(--scrollbar-track-color);
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb-color);
-  border-radius: 20px;
-  border: 3px solid var(--scrollbar-track-color);
 }
 
 .custom-list-item::before {
@@ -54,39 +36,36 @@ body {
   url('../fonts/poppins-v20-latin-regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-display: swap;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/poppins-v20-latin-600.woff2') format('woff2'),
+  url('../fonts/poppins-v20-latin-600.ttf') format('truetype');
+}
+
 /* Ensure that the max height respects the viewport height */
 .MuiModal-root .MuiBox-root {
   max-height: calc(100vh - (100vh - 100%));
 }
 
-/* Loading animations */
-.line {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  border-radius: 15px;
-  background-image: linear-gradient(to right, #6768f2, #00e280);
+.loadingText {
+  font-size: 16px;
+  color: var(--loading-color);
+  margin-top: var(--loading-gap);
 }
 
-.loading .line {
-  animation: loadingC 0.6s linear infinite;
+.loader {
+  width: 100px;
+  height: 100px;
+  border: 10px solid var(--loader-border);
+  border-radius: 50%;
+  border-top: 10px solid var(--loading-color);
+  animation: loading 1s linear infinite;
 }
 
-.loading .line:nth-last-child(1) {
-  animation-delay: 0.1s;
-}
-.loading .line:nth-last-child(2) {
-  animation-delay: 0.2s;
-}
-.loading .line:nth-last-child(3) {
-  animation-delay: 0.3s;
-}
-
-@keyframes loadingC {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(0, 15px);
-  }
+@keyframes loading {
+  from { transform: rotate(0deg)}
+  to { transform: rotate(360deg)}
 }

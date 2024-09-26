@@ -1,9 +1,16 @@
 import React, {MouseEventHandler} from 'react';
 import Typography from '@mui/material/Typography';
 import AccordionStyle from './sysAccordionStyles';
-import {SxProps, Theme} from '@mui/system';
+import {SxProps, Theme} from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Button from '@mui/material/Button';
+
+const {
+  Container,
+  Accordion,
+  AccordionSummary,
+  AccordionActions,
+} = AccordionStyle;
 
 /**
  * Props para o componente SysAccordion.
@@ -72,32 +79,32 @@ export const SysAccordion: React.FC<ISysAccordion> = ({
 	sxMap
 }) => {
 	return (
-		<AccordionStyle.container>
-			<AccordionStyle.accordion
+		<Container>
+			<Accordion
 				sx={sxMap?.acordion}
 				defaultExpanded={aberta}
 				disabled={disabled}
 				slotProps={{ transition: { unmountOnExit: true } }}>
-				<AccordionStyle.accordionSummary
+				<AccordionSummary
 					expandIcon={expandIcon}
 					posicaoIcone={posicaoIcone}
 					sx={sxMap?.acordionSumamry}>
 					<Typography variant="h6">{titulo}</Typography>
-				</AccordionStyle.accordionSummary>
+				</AccordionSummary>
 
 				<AccordionDetails sx={sxMap?.acordionDetail}>
 					<Typography variant="body1">{conteudo}</Typography>
 				</AccordionDetails>
 
-				<AccordionStyle.accordionActions sx={sxMap?.acordionActions}>
+				<AccordionActions sx={sxMap?.acordionActions}>
 					{actions.length > 0 &&
 						actions.map((acao, index) => (
 							<Button onClick={acao.acao} key={index} sx={acao.sxAction?.button}>
 								<Typography sx={acao.sxAction?.textButton}>{acao.tituloAcao}</Typography>
 							</Button>
 						))}
-				</AccordionStyle.accordionActions>
-			</AccordionStyle.accordion>
-		</AccordionStyle.container>
+				</AccordionActions>
+			</Accordion>
+		</Container>
 	);
 };

@@ -1,4 +1,6 @@
-import { Box, styled, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { sysSizing } from '../../../materialui/styles';
 
 interface IInfo {
@@ -7,13 +9,13 @@ interface IInfo {
 }
 
 export const SysViewFieldStyle = {
-	container: styled(Box)(({}) => ({
+	Container: styled(Box)(({}) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedXs
 	})),
 
-	info: styled(Typography)<IInfo>(({ theme, type, disabled }) => ({
+	Info: styled(Typography)<IInfo>(({ theme, type, disabled }) => ({
 		display: 'flex',
 		alignItems: 'center',
 		height: type === 'label' ? '21px' : '25px',

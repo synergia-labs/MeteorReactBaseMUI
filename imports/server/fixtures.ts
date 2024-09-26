@@ -1,6 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { userprofileServerApi } from '../modules/userprofile/api/UserProfileServerApi';
+import { userprofileServerApi } from '../modules/userprofile/api/userProfileServerApi';
 
 const rootPath = Meteor.rootPath;
 const absolutePath = Meteor.absolutePath;

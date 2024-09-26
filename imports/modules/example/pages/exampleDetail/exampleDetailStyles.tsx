@@ -1,38 +1,33 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box, { BoxProps } from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface IExampleDetailStyles {
-	container: ElementType<BoxProps>;
-	header: ElementType<BoxProps>;
-	body: ElementType<BoxProps>;
-	footer: ElementType<BoxProps>;
-	formColumn: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
+	Header: ElementType<BoxProps>;
+	Body: ElementType<BoxProps>;
+	Footer: ElementType<BoxProps>;
+	FormColumn: ElementType<BoxProps>;
 }
 
 const ExampleDetailStyles: IExampleDetailStyles = {
-	container: styled(Box)(({ theme }) => ({
+	Container: styled(SysSectionPaddingXY)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
-		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
-		paddingBottom: sysSizing.contentPb,
 		gap: sysSizing.spacingFixedMd,
-		transition: 'all 0.3s ease',
-		[theme.breakpoints.down('sm')]: {
-			paddingLeft: sysSizing.spacingFixedMd,
-			paddingRight: sysSizing.spacingFixedMd
-		}
 	})),
-	header: styled(Box)({
+	Header: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		width: '100%'
 	}),
-	body: styled(Box)(({ theme }) => ({
+	Body: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
@@ -44,7 +39,7 @@ const ExampleDetailStyles: IExampleDetailStyles = {
 			gap: sysSizing.spacingFixedMd
 		}
 	})),
-	footer: styled(Box)({
+	Footer: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
@@ -53,7 +48,7 @@ const ExampleDetailStyles: IExampleDetailStyles = {
 		gap: sysSizing.spacingRemMd,
 		marginTop: '40px'
 	}),
-	formColumn: styled(Box)({
+	FormColumn: styled(Box)({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',

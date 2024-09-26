@@ -3,36 +3,23 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import _ from 'lodash';
 import { attachmentsCollection } from '/imports/api/attachmentsCollection';
-
-import LibraryBooks from '@mui/icons-material/LibraryBooks';
-import LibraryMusic from '@mui/icons-material/LibraryMusic';
-import Image from '@mui/icons-material/Image';
-import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import Book from '@mui/icons-material/Book';
-import AttachFile from '@mui/icons-material/AttachFile';
 import { Meteor } from 'meteor/meteor';
-
 import Snackbar from '@mui/material/Snackbar';
-
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
-
 import LinearProgress from '@mui/material/LinearProgress';
-import Delete from '@mui/icons-material/Delete';
-import Download from '@mui/icons-material/GetApp';
-
 import { uploadImagesStyle } from './uploadImagesCollectionStyle';
-
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { retornarErrosUpload } from '/imports/libs/RetornarMensagemErro';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+
 
 const { grey100, grey500, grey700 } = ['#eeeeee', '#c9c9c9', '#a1a1a1'];
 
@@ -218,25 +205,25 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
 
 		switch (type.base) {
 			case 'text':
-				return <LibraryBooks />;
+				return <SysIcon name={'bookLibrary'} />;
 			case 'audio':
-				return <LibraryMusic />;
+				return <SysIcon name={'musicLibrary'}  />;
 			case 'image':
-				return <Image />;
+				return <SysIcon name={'image'}  />;
 			case 'video':
-				return <VideoLibrary />;
+				return <SysIcon name={'videoLibrary'}  />;
 
 			case 'application':
 				if (type.fileType === 'pdf') {
-					return <Book />;
+					return <SysIcon name={'book'} />;
 				}
 				if (type.fileType.indexOf('msword') !== -1) {
-					return <Book />;
+					return <SysIcon name={'book'} />;
 				}
-				return <AttachFile />;
+				return <SysIcon name={'attachFile'} />;
 
 			default:
-				return <AttachFile />;
+				return <SysIcon name={'attachFile'} />;
 		}
 	};
 
@@ -411,7 +398,7 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
 										e.preventDefault();
 										this.excluirArquivo(item.id);
 									}}>
-									<Delete fontSize="small" style={uploadImagesStyle.deleteIcon} />
+									<SysIcon name={'delete'} fontSize="small" style={uploadImagesStyle.deleteIcon} />
 								</IconButton>
 							)}
 						</div>
@@ -725,7 +712,7 @@ class UploadImage extends React.Component<IUploadFileProps & IUploadImagesCollec
 											e.preventDefault();
 											this.downloadURI(this.state.itemDialog.link, this.state.itemDialog.name);
 										}}>
-										<Download fontSize="small" style={uploadImagesStyle.deleteIcon} />
+										<SysIcon name={'download'} fontSize="small" style={uploadImagesStyle.deleteIcon} />
 									</IconButton>
 									{this.state.itemDialog.size / 1024 < 1000
 										? `${(this.state.itemDialog.size / 1024).toFixed(2)}KB`

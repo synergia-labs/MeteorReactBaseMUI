@@ -1,14 +1,14 @@
-import Home from '../pages/Home/Home';
-import { SignUp } from '../pages/SignUp/SignUp';
-import Signout from '../pages/SignOut/Signout';
-import { EmailVerify } from '../pages/EmailVerify/EmailVerify';
-import { ResetPassword } from '../pages/ResetPassword/ResetPassword';
-import { PasswordRecovery } from '../pages/RecoveryPassword/PasswordRecovery';
+import Home from '/imports/sysPages/pages/home/home';
+import { SignUp } from '/imports/sysPages/pages/signUp/signUp';
+import Signout from '/imports/sysPages/pages/signOut/signout';
+import { EmailVerify } from '/imports/sysPages/pages/emailVerify/emailVerify';
+import { ResetPassword } from '/imports/sysPages/pages/resetPassword/resetPassword';
+import { PasswordRecovery } from '/imports/sysPages/pages/recoveryPassword/passwordRecovery';
 import { IRoute } from '/imports/modules/modulesTypings';
-import { NoPermission } from '../pages/NoPermission/NoPermission';
+import { NoPermission } from '/imports/sysPages/pages/noPermission/noPermission';
 import SignInPage from '../pages/signIn/signIn';
 import { HomeResources, SysFormTestPageResources } from './resources';
-import SysFormPlayground from '../pages/SysFormPlayground/sysFormPlayground';
+import SysFormPlayground from '/imports/sysPages/pages/sysFormPlayground/sysFormPlayground';
 
 export const pagesRouterList: (IRoute | null)[] = [
 	{

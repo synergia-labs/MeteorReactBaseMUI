@@ -1,11 +1,7 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import AddIcon from '@mui/icons-material/Add';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { AttachFile, Book, Image, LibraryBooks, LibraryMusic, VideoLibrary } from '@mui/icons-material';
 import { FileWithPath, useDropzone } from 'react-dropzone';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import { attachmentsCollection } from '/imports/api/attachmentsCollection';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
@@ -19,6 +15,20 @@ import { SxProps, Theme } from '@mui/material';
 import { SysLoading } from '../../sysLoading/sysLoading';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+
+
+const {
+  BoxItem,
+  BoxIcon,
+  BoxIconsCard,
+  CardInfo,
+  TypographyInfo,
+  TypographyAdd,
+  ElipsesText,
+  Container,
+  Button,
+} = SysUploadFileStyle;
 
 interface IArquivo {
 	name: string;
@@ -30,8 +40,6 @@ interface IArquivo {
 }
 
 interface ISysUploadFile extends ISysFormComponent<any> {
-	startAdornment?: React.ReactNode;
-	endAdornment?: React.ReactNode;
 	validTypes?: ('text' | 'audio' | 'image' | 'video' | 'application' | string)[];
 	sxMap?: {
 		container?: SxProps<Theme>;
@@ -48,16 +56,21 @@ interface ISysUploadFile extends ISysFormComponent<any> {
 }
 
 export const SysUploadFile: React.FC<ISysUploadFile> = ({
-	name,
-	value,
-	label,
-	defaultValue,
-	readOnly,
-	disabled,
+  name,
+  label,
+  value,
+  defaultValue,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
 	sxMap,
-	loading,
 	btnTextDesc = 'Arraste o arquivo até aqui ou clique abaixo',
-	error,
 	validTypes = ['text', 'audio', 'image', 'video', 'application'] // Caso queira adicionar outras extensoes, adicione tambem ao arquivo attachment Collection.js
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
@@ -77,6 +90,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
+  showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
@@ -173,48 +187,56 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 
 	return (
 		<FormControl error={!!errorState}>
-			<SysLabelView label={label} disabled={disabled} sxMap={sxMap}>
-				<SysUploadFileStyle.container readOnly={readOnly} sx={sxMap?.container}>
+			<SysLabelView
+        label={label}
+        showLabelAdornment={showLabelAdornment}
+        labelAdornment={labelAdornment}
+        disabled={disabled}
+        showTooltip={showTooltip}
+        tooltipMessage={tooltipMessage}
+        tooltipPosition={tooltipPosition}
+      >
+				<Container readOnly={readOnly} sx={sxMap?.container}>
 					{!readOnly && (
-						<SysUploadFileStyle.button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
+						<Button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
 							<input {...getInputProps()} />
-							<SysUploadFileStyle.typographyInfo variant="caption">{btnTextDesc}</SysUploadFileStyle.typographyInfo>
-							<SysUploadFileStyle.typographyAdd variant="button2">
-								<AddIcon />
+							<TypographyInfo variant="caption">{btnTextDesc}</TypographyInfo>
+							<TypographyAdd variant="button2">
+                <SysIcon name={'add'}/>
 								Adicionar
-							</SysUploadFileStyle.typographyAdd>
-						</SysUploadFileStyle.button>
+							</TypographyAdd>
+						</Button>
 					)}
 
 					{loadingAttachments && <SysLoading />}
 					{attachments.length > 0 ? (
 						<SysUploadFileStyle.itenList sx={sxMap?.itenList}>
 							{attachments.map((item: IArquivo) => (
-								<SysUploadFileStyle.boxItem key={item._id} sx={sxMap?.boxItem}>
-									<SysUploadFileStyle.boxIcon sx={sxMap?.boxIcon}>{getIcon(item.type)}</SysUploadFileStyle.boxIcon>
+								<BoxItem key={item._id} sx={sxMap?.boxItem}>
+									<BoxIcon sx={sxMap?.boxIcon}>{getIcon(item.type)}</BoxIcon>
 
-									<SysUploadFileStyle.cardInfo sx={sxMap?.cardInfo}>
-										<SysUploadFileStyle.elipsesText variant="body2" sx={sxMap?.cardTitle}>
+									<CardInfo sx={sxMap?.cardInfo}>
+										<ElipsesText variant="body2" sx={sxMap?.cardTitle}>
 											{item.name}
-										</SysUploadFileStyle.elipsesText>
+										</ElipsesText>
 										<Typography variant="caption" sx={sxMap?.cardDesc}>
 											{item.size}Kb
 										</Typography>
-									</SysUploadFileStyle.cardInfo>
+									</CardInfo>
 
-									<SysUploadFileStyle.boxIconsCard sx={sxMap?.boxIconsCard}>
-										<DeleteIcon
+									<BoxIconsCard sx={sxMap?.boxIconsCard}>
+                    <SysIcon name={'delete'}
 											color="primary"
 											sx={{ cursor: 'pointer', display: readOnly ? 'none' : 'block' }}
 											onClick={() => deleteFile(item._id)}
 										/>
-										<SaveAltIcon
+										<SysIcon name={'download'}
 											color="primary"
 											onClick={() => downloadURI(item)}
 											sx={{ cursor: 'pointer', display: readOnly ? 'block' : 'none' }}
 										/>
-									</SysUploadFileStyle.boxIconsCard>
-								</SysUploadFileStyle.boxItem>
+									</BoxIconsCard>
+								</BoxItem>
 							))}
 						</SysUploadFileStyle.itenList>
 					) : (
@@ -222,9 +244,9 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 							Sem Arquivos
 						</Typography>
 					)}
-				</SysUploadFileStyle.container>
+				</Container>
 			</SysLabelView>
-			<FormHelperText>{errorState}</FormHelperText>
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };
@@ -233,16 +255,16 @@ function getIcon(mimeType: string) {
 	const type = mimeType.split('/')[0];
 	switch (type) {
 		case 'text':
-			return <LibraryBooks color="primary" />;
+			return <SysIcon name={'bookLibrary'} color="primary" />;
 		case 'audio':
-			return <LibraryMusic color="primary" />;
+			return <SysIcon name={'musicLibrary'} color="primary" />;
 		case 'image':
-			return <Image color="primary" />;
+			return <SysIcon name={'image'} color="primary" />;
 		case 'video':
-			return <VideoLibrary color="primary" />;
+			return <SysIcon name={'videoLibrary'} color="primary" />;
 		case 'application':
-			return <Book color="primary" />;
+			return <SysIcon name={'book'} color="primary" />;
 		default:
-			return <AttachFile color="primary" />;
+			return <SysIcon name={'attachFile'} color="primary" />;
 	}
 }

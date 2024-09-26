@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { App } from '/imports/app/App';
+import { App } from '/imports/app/app';
 import { createRoot } from 'react-dom/client';
 // import './serviceWorker';
 

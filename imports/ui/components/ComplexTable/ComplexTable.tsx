@@ -14,14 +14,14 @@ import {
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
-import Delete from '@mui/icons-material/Delete';
-import Edit from '@mui/icons-material/Edit';
 import { Variant } from '@mui/material/styles/createTypography';
 import { ComplexTableContainer, ComplexTableRenderImg, ComplexTableRowText } from './ComplexTableStyle';
 import { Toolbar } from './Toolbar';
 import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
 import { IconButton, Tooltip } from '@mui/material';
 import { ptBR } from '@mui/x-data-grid/locales';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import { hasValue } from '/imports/libs/hasValue';
 
 interface ISchema {
 	[key: string]: any;
@@ -244,8 +244,10 @@ export const ComplexTable = (props: IComplexTableProps) => {
 
 	locale.toolbarQuickFilterPlaceholder = searchPlaceholder ?? 'Pesquisar';
 
-	const transformData = (value: any, type: Function, renderKey?: string) => {
-		if (Array.isArray(value)) return value.join();
+	const transformData = (value: any, type: Function, renderKey?: string, arrayOptions?: Array<{label: string; value: any}>) => {
+    if(hasValue(arrayOptions) && Array.isArray(arrayOptions)) value = arrayOptions.find((option) => option.value === value)?.label;
+    if(!hasValue(value)) return '-';
+		else if (Array.isArray(value)) return value.join();
 		else if (type === Object) {
 			const data = Object.keys(value).reduce((prev: string, curr: string) => {
 				if (!!renderKey) return value[renderKey];
@@ -288,7 +290,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	const columns: any = Object.keys(schema).map((key: string) => {
 		return {
 			field: key,
-			headerName: schema[key].label,
+			headerName: schema[key]?.label || '',
 			flex: 1,
 			align: 'left',
 			headerAlign: 'left',
@@ -312,12 +314,14 @@ export const ComplexTable = (props: IComplexTableProps) => {
 							);
 						} else {
 							const paramsValue = !params.value || params.value === 'undefined - undefined' ? '-' : params.value;
-							const value = transformData(paramsValue, schema[key].type, schema[key].renderKey);
+							const value = transformData(paramsValue, schema[key].type, schema[key].renderKey, schema[key]?.options?.(params.row));
 							const variant = params.field === 'atividade' ? 'labelMedium' : 'bodyMedium';
 							return (
-								<Tooltip title={value} arrow={true}>
-									<ComplexTableRowText variant="body2">{value}</ComplexTableRowText>
-								</Tooltip>
+									<ComplexTableRowText variant="body2" sx={{textAlign: 'left'}}>
+								    <Tooltip title={value} arrow={true}>
+                      {value}
+                    </Tooltip>
+                  </ComplexTableRowText>
 							);
 						}
 					}
@@ -347,12 +351,12 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				const renderActions = !!actions ? [...actions] : [];
 				if (!!onDelete)
 					renderActions.unshift({
-						icon: <Delete />,
+						icon: <SysIcon name={'delete'}/>,
 						label: 'Deletar',
 						onClick: onDelete
 					});
 
-				if (!!onEdit) renderActions.unshift({ icon: <Edit />, label: 'Editar', onClick: onEdit });
+				if (!!onEdit) renderActions.unshift({ icon: <SysIcon name={'edit'} />, label: 'Editar', onClick: onEdit });
 
 				if (!!conditionalActions) {
 					conditionalActions.forEach((action: IConditionalAction) => {

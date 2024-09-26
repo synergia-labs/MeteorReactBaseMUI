@@ -19,7 +19,7 @@ import {
   ISysFormContext,
   ISysFormRef
 } from './typings';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SysFormMethods from './sysFormMethods';
 import { hasValue } from '/imports/libs/hasValue';
 import { IOption } from '../InterfaceBaseSimpleFormComponent';
@@ -140,7 +140,8 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
           hasValue(fieldsWithErrors.current[refComponent.current.name])
         )
           checkIfErrorExists(refComponent);
-        if (initialRequiredFields.includes(refComponent.current.name))
+
+        if(refButton.current?.current?.disabled !== !checkIfAllRequiredFieldsAreFilled())
           refButton.current?.current?.setDisabled?.(!checkIfAllRequiredFieldsAreFilled());
 
         checkIfNeedToUpdateOptions();

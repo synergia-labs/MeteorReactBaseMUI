@@ -3,17 +3,28 @@ import SysAppBarStyles from './sysAppBarStyles';
 import { SysAvatar } from '/imports/ui/components/sysAvatar/sysAvatar';
 import { IAppMenu } from '/imports/modules/modulesTypings';
 import { useNavigate } from 'react-router-dom';
-import { SysAppContext } from '/imports/app/AppContainer';
+import { SysAppContext } from '/imports/app/appContainer';
 import SysMenu, { SysMenuRef } from '/imports/ui/components/sysMenu/sysMenu';
 import { SysNavLink } from '/imports/ui/components/sysNavLink/sysNavLink';
 import SysRoutes from '/imports/app/routes';
-import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Meteor } from 'meteor/meteor';
 import { cleanUserCache } from '/imports/hooks/useUserAccount';
-import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import { hasValue } from '/imports/libs/hasValue';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import {sysSizing} from "/imports/ui/materialui/styles";
+
+
+const {
+  Container,
+  IconButton,
+  NavContainer,
+} = SysAppBarStyles;
 
 export interface ISysAppBarProps {
 	logo?: ReactNode;
@@ -35,14 +46,14 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 	const isSmallerThanLg = useMediaQuery(theme.breakpoints.down('lg'));
 
 	const options = menuOptions?.map((option, index) =>
-		!!!option || (!isLoggedIn && routes.checkIfRouteIsProtected(option.path || '')) ? null : (
+		!option || (!isLoggedIn && routes.checkIfRouteIsProtected(option.path || '')) ? null : (
 			<SysNavLink key={index} active={SysRoutes.checkIsActiveRoute(option.path)} sysOptions={option} />
 		)
 	);
 
 	const optionsMobile = menuOptions
 		?.map((option) =>
-			!!!option || (!isLoggedIn && routes.checkIfRouteIsProtected(option.path || ''))
+			!option || (!isLoggedIn && routes.checkIfRouteIsProtected(option.path || ''))
 				? null
 				: {
 						text: option.name || '',
@@ -61,16 +72,16 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 	const userLogin = () => navigate('/signin');
 
 	return (
-		<SysAppBarStyles.container>
+		<Container>
 			<Box sx={{ cursor: 'pointer' }} onClick={onLogoClick}>
 				{logo}
 			</Box>
-			<SysAppBarStyles.navContainer>
+			<NavContainer>
 				{isSmallerThanLg && hasValue(optionsMobile) ? (
 					<>
-						<SysAppBarStyles.iconButton onClick={openNavMenu}>
-							<MenuOutlinedIcon />
-						</SysAppBarStyles.iconButton>
+						<IconButton onClick={openNavMenu}>
+              <SysIcon name={'menu'} />
+						</IconButton>
 						<SysMenu
 							ref={menuNavRef}
 							// @ts-ignore
@@ -80,28 +91,31 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 				) : (
 					options
 				)}
-			</SysAppBarStyles.navContainer>
+			</NavContainer>
 			{isLoggedIn ? (
 				<>
 					<SysAvatar name={user?.username[0]} onClick={openMenu} />
 					<SysMenu
 						ref={menuRef}
-						accountMenu
-						title={user?.username || '-'}
+            header={
+              <Typography variant={'subtitle1'} color={'sysText.title'} sx={{px: sysSizing.spacingFixedLg}}>
+                {user?.username || 'Menu do usuário'}
+              </Typography>
+            }
 						options={[
 							{
 								text: 'Sair',
-								icon: <LogoutRoundedIcon />,
+								icon: <SysIcon name={'logout'} />,
 								onClick: userLogout
 							}
 						]}
 					/>
 				</>
 			) : (
-				<Button startIcon={<LoginRoundedIcon />} onClick={userLogin} size="small">
+				<Button startIcon={<SysIcon name={'logout'} />} onClick={userLogin} size="small">
 					Login
 				</Button>
 			)}
-		</SysAppBarStyles.container>
+		</Container>
 	);
 };

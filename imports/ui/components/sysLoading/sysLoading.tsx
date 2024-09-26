@@ -1,7 +1,10 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import LoadingStyle from './sysLoadingStyle';
-import {SxProps, Theme} from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
+
+
+const { Container, Loading } = LoadingStyle;
 
 /**
  * Props para o componente SysLoading.
@@ -30,13 +33,13 @@ interface ISysLoading {
  */
 export const SysLoading: React.FC<ISysLoading> = ({ label, size = 'medium', sxMap }) => {
 	return (
-		<LoadingStyle.container sx={sxMap?.container}>
-			<LoadingStyle.loading sx={sxMap?.loading} size={size} />
+		<Container sx={sxMap?.container}>
+			<Loading sx={sxMap?.loading} size={size} />
 			{label && (
-				<Typography variant="caption" color={(theme) => theme.palette.sysText?.primary}>
+				<Typography variant={size === 'small' ? 'caption' : 'body1'} color={(theme) => theme.palette.sysText?.primary}>
 					{label}
 				</Typography>
 			)}
-		</LoadingStyle.container>
+		</Container>
 	);
 };

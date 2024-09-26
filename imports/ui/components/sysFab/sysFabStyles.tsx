@@ -1,4 +1,6 @@
-import { Fab, FabProps, styled, Theme } from '@mui/material';
+import { Theme } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Fab, { FabProps } from '@mui/material/Fab';
 import { sysSizing } from '/imports/ui/materialui/styles';
 import React from 'react';
 
@@ -27,7 +29,14 @@ export const SysFabStyled = styled(({ fixed, ...otherProps }: ISysFabProps) => <
 	const fixedStyle = {
 		position: 'absolute',
 		right: '72px',
-		bottom: '56px'
+		bottom: '56px',
+    [theme.breakpoints.down('md')]: {
+      right: '40px',
+      bottom: '32px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      right: '24px',
+    }
 	};
 
 	if (fixed)

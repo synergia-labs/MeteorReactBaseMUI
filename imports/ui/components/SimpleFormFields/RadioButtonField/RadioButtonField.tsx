@@ -3,7 +3,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
-import Check from '@mui/icons-material/Check';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import { hasValue } from '/imports/libs/hasValue';
 import * as appStyle from '/imports/ui/materialui/styles';
@@ -76,7 +75,7 @@ export default ({
 									color: value !== itemCheck && value !== itemCheck.value ? '#999' : undefined,
 									display: 'flex'
 								}}>
-								{value === itemCheck || value === itemCheck.value ? <Check style={{ paddingRight: 10 }} /> : ''}
+								{value === itemCheck || value === itemCheck.value ? <SysIcon name={'check'} style={{ paddingRight: 10 }} /> : ''}
 								<Typography component={'p'}>{itemCheck.label || itemCheck}</Typography>
 							</div>
 						))}

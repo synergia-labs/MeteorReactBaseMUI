@@ -1,16 +1,11 @@
 import React, { useContext, useRef, useState } from 'react';
-import {
-	FormControl,
-	FormHelperText,
-	ListItemText,
-	MenuItem,
-	Select,
-	SelectChangeEvent,
-	SelectProps,
-	SxProps,
-	Theme,
-	Typography
-} from '@mui/material';
+import { Theme, SxProps } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
@@ -19,7 +14,8 @@ import SysLabelView from '../../sysLabelView/sysLabelView';
 import listEstados from './estados';
 import localidades from './localidades.json';
 import { SysViewField } from '../sysViewField/sysViewField';
-import SysLocationFieldStyle from './SysLocationFieldStyle';
+import SysLocationFieldStyle from './sysLocationFieldStyle';
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 
 interface ILocation {
 	estado?: string | null;
@@ -48,21 +44,23 @@ interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, 'variant
 	placeholder?: string;
 }
 
+const { AutoComplete, TextField } = SysLocationFieldStyle;
+
 export const SysLocationField: React.FC<ISysLocationField> = ({
-	name,
-	label,
-	value,
-	disabled,
-	loading,
-	onChange,
-	readOnly,
-	error,
-	tooltipMessage,
-	defaultValue,
-	showRequired,
-	positionTooltip,
-	helpIcon,
-	requiredIndicator,
+  name,
+  label,
+  value,
+  defaultValue,
+  onChange,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
 	onlyEstado = false,
 	placeholder = 'Selecione um estado',
 	sxMap,
@@ -81,7 +79,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 
 	disabled = disabled || controllerSysForm?.disabled;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
-	showRequired = showRequired || (!!schema && !schema?.optional);
+	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [valueState, setValueState] = useState<ILocation | null>(defaultValue || null);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current?.isVisible ?? true);
@@ -189,20 +187,20 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 				: valueState?.estado
 					? valueState?.estado
 					: '-';
-		return <SysViewField label={label} placeholder={str} />;
+		return <SysViewField label={label} placeholder={str} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
 	}
 
 	return (
-		<FormControl error={!!errorState}>
+		<FormControl error={!!errorState} sx={sxMap?.container}>
 			<SysLabelView
-				label={label}
-				tooltipMessage={tooltipMessage}
-				disabled={disabled}
-				placement={positionTooltip}
-				helpIcon={helpIcon}
-				showRequired={showRequired}
-				requiredIndicator={requiredIndicator}
-				sx={sxMap?.container}>
+        label={label}
+        showLabelAdornment={showLabelAdornment}
+        labelAdornment={labelAdornment}
+        disabled={disabled}
+        showTooltip={showTooltip}
+        tooltipMessage={tooltipMessage}
+        tooltipPosition={tooltipPosition}
+      >
 				<Select
 					{...otherProps}
 					name={'estado'}
@@ -211,6 +209,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					displayEmpty
 					error={!!errorState}
 					disabled={disabled || loading}
+          IconComponent={() => <SysIcon name={'arrowDropDown'} />}
 					renderValue={(options) => {
 						if (!hasValue(options)) {
 							return (
@@ -235,7 +234,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					))}
 				</Select>
 
-				<SysLocationFieldStyle.autoComplete
+				<AutoComplete
 					key={name + 'noValue'}
 					id={name}
 					value={selectedValue}
@@ -246,6 +245,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					blurOnSelect={true}
 					onlyEstado={onlyEstado}
 					onChange={handleOnChange}
+          popupIcon={<SysIcon name={'arrowDropDown'} />}
 					sx={sxMap?.autoComplete}
 					options={filteredLocalidades.map((l) => ({
 						value: JSON.stringify({
@@ -255,7 +255,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 						label: `${l.m}${l.d ? ' - ' + l.d : ''}`
 					}))}
 					renderInput={(params) => (
-						<SysLocationFieldStyle.textField
+						<TextField
 							error={!!errorState}
 							key={name + 'inputNoValue'}
 							{...params}
@@ -265,7 +265,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					)}
 				/>
 			</SysLabelView>
-			<FormHelperText>{errorState}</FormHelperText>
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

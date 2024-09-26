@@ -1,9 +1,7 @@
 import React from 'react';
 import { SysTabs } from './sysTabs';
 import { Meta, StoryObj } from '@storybook/react';
-import PhoneIcon from '@mui/icons-material/Phone';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const meta = {
 	title: 'ui/components/sysTabs',
@@ -99,9 +97,9 @@ export const Vertical: Story = {
 export const TabIcon: Story = {
 	args: {
 		abas: [
-			{ label: 'Item One', value: '1', icon: <PhoneIcon /> },
-			{ label: 'Item Two', value: '2', icon: <FavoriteIcon />, iconPosition: 'end' },
-			{ label: 'Item Three', value: '3', icon: <PersonPinIcon />, iconPosition: 'bottom' }
+			{ label: 'Item One', value: '1', icon: <SysIcon name={'phone'} /> },
+			{ label: 'Item Two', value: '2', icon: <SysIcon name={'favorite'} />, iconPosition: 'end' },
+			{ label: 'Item Three', value: '3', icon: <SysIcon name={'personPin'} />, iconPosition: 'bottom' }
 		]
 	}
 };

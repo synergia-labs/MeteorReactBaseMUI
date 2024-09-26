@@ -1,15 +1,11 @@
 import React from 'react';
 
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-
 import Fab from '@mui/material/Fab';
-import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
-import StopIcon from '@mui/icons-material/Stop';
-import DeleteIcon from '@mui/icons-material/Delete';
-
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import { audioRecorderStyle } from './AudioRecorderStyle';
-
 import { hasValue } from '/imports/libs/hasValue';
+
 
 export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFormComponent) => {
 	const [values, setValues] = React.useState({
@@ -156,7 +152,7 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 							id="record"
 							disabled={!values.recordButton}
 							style={audioRecorderStyle.buttonOptions}>
-							<KeyboardVoiceIcon />
+							<SysIcon name={'KeyboardVoice'} />
 						</Fab>
 
 						<Fab
@@ -167,7 +163,7 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 							value={values.stopButton}
 							disabled={!values.stopButton}
 							style={audioRecorderStyle.buttonOptions}>
-							<StopIcon />
+							<SysIcon name={'stop'} />
 						</Fab>
 
 						{values.recordButton ? (
@@ -195,7 +191,7 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 							className="delete"
 							style={audioRecorderStyle.buttonOptions}
 							onClick={deleteAudio}>
-							<DeleteIcon />
+							<SysIcon name={'delete'} />
 						</Fab>
 					</span>
 				)}

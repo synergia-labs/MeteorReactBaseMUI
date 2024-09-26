@@ -1,23 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import SysFormTestsStyles from './sysFormTestsStyles';
 import { sysFormTestsSch } from './sysFormTestsSch';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import CodeViewSysForm from './components/codeViewSysForm';
-import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
-import HourglassEmptyOutlinedIcon from '@mui/icons-material/HourglassEmptyOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import NotInterestedOutlinedIcon from '@mui/icons-material/NotInterestedOutlined';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
-import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import WrapTextField from './components/wrapTextField';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ErrorIcon from '@mui/icons-material/Error';
 import { hasValue } from '/imports/libs/hasValue';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
@@ -25,6 +18,7 @@ import { SysDatePickerField } from '/imports/ui/components/sysFormFields/sysDate
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
@@ -102,31 +96,31 @@ const SysFormTestsPage: React.FC = () => {
 			</Box>
 			<Typography variant="h5">Controladores</Typography>
 			<SysFormTestsStyles.controllersContainer>
-				<Button startIcon={<ManageSearchIcon />} onClick={() => validateForm()}>
+				<Button startIcon={<SysIcon name={'manageSearch'} /> } onClick={() => validateForm()}>
 					Validar
 				</Button>
-				<Button startIcon={<CleaningServicesIcon />} onClick={() => clear()}>
+				<Button startIcon={<SysIcon name={'cleaning'} /> } onClick={() => clear()}>
 					Limpar
 				</Button>
-				<Button startIcon={<SyncOutlinedIcon />} onClick={() => updateDoc()}>
+				<Button startIcon={<SysIcon name={'syncOutlined'} />} onClick={() => updateDoc()}>
 					Atualizar DocValues
 				</Button>
-				<Button startIcon={<HourglassEmptyOutlinedIcon />} onClick={() => setLoading(!loading)}>
+				<Button startIcon={<SysIcon name={'hourglassEmpty'}/> } onClick={() => setLoading(!loading)}>
 					{loading ? 'Desativar Loading' : 'Ativar Loading'}
 				</Button>
-				<Button onClick={() => forceSubmit()} startIcon={<SecurityOutlinedIcon />}>
+				<Button onClick={() => forceSubmit()} startIcon={<SysIcon name={'security'} />}>
 					Forçar Submit
 				</Button>
-				<Button onClick={() => setDisabled(!disabled)} startIcon={<NotInterestedOutlinedIcon />}>
+				<Button onClick={() => setDisabled(!disabled)} startIcon={<SysIcon name={'notInterested'} />}>
 					{!disabled ? 'Desativar Formulário' : 'Ativar Formulário'}
 				</Button>
-				<Button onClick={() => changeMode()} startIcon={<ManageSearchIcon />}>
+				<Button onClick={() => changeMode()} startIcon={<SysIcon name={'manageSearch'} /> }>
 					{mode === 'view' ? 'Mudar para modo: Create' : 'Mudar para modo: View'}
 				</Button>
-				<Button onClick={() => setOnChangeRealTime(!onChangeRealTime)} startIcon={<AccessTimeIcon />}>
+				<Button onClick={() => setOnChangeRealTime(!onChangeRealTime)} startIcon={<SysIcon name={'schedule'} />}>
 					{!onChangeRealTime ? 'Ativar atualização em tempo real' : 'Desativar atualização em tempo real'}
 				</Button>
-				<Button onClick={showErrorFields} startIcon={<ErrorIcon />}>
+				<Button onClick={showErrorFields} startIcon={<SysIcon name={'errorCircleFilled'} />}>
 					Ver campos com erro
 				</Button>
 			</SysFormTestsStyles.controllersContainer>
@@ -165,14 +159,14 @@ const SysFormTestsPage: React.FC = () => {
 					/>
 					<SysDatePickerField name="date" />
 					<SysSelectField name="entertainment" fullWidth />
-					<SysRadioButton name="entertainmentSpecific" alignment="row" />
-					<SysCheckBox name="rating" alignment="row" />
+					<SysRadioButton name="entertainmentSpecific" childrenAlignment="row" />
+					<SysCheckBox name="rating" childrenAlignment="row" />
 					<WrapTextField
 						name="contacts.cnpj"
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cnpj') ?? true}
 						onClick={() => sysFormRef.current?.validateIndividualField('contacts.cnpj')}
 					/>
-					<SysTextField name="contacts.novoSubSchema.email" endAdornment={<EmailOutlinedIcon />} />
+					<SysTextField name="contacts.novoSubSchema.email" endAdornment={<SysIcon name={'emailOutlined'}/>} />
 					<SysUploadFile name="arquivos" disabled />
 					<SysLocationField name="address" />
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>

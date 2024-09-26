@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-
 import _ from 'lodash';
 import Typography from '@mui/material/Typography';
-
 import { hasValue, isBoolean } from '../../../libs/hasValue';
-
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-
 import { simpleFormStyle } from './SimpleFormStyle';
 import { SubFormArrayComponent } from '/imports/ui/components/SimpleForm/SubFormArrayComponent';
 import { FieldComponent } from '/imports/ui/components/SimpleForm/FieldComponent';

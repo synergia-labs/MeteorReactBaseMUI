@@ -1,11 +1,11 @@
 import React from 'react';
 import { IAppMenu } from '/imports/modules/modulesTypings';
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 export const exampleMenuItemList: (IAppMenu | null)[] = [
 	{
 		path: '/example',
 		name: 'Exemplo',
-		icon: <DashboardOutlinedIcon />
+		icon: <SysIcon name={'dashboard'} />
 	}
 ];

@@ -1,19 +1,21 @@
 import React, { useContext, useState } from 'react';
-import { InputAdornment, TextField, Typography } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
 import { UserProfileListControllerContext } from './userProfileListController';
 import { SysCardUser } from '../../components/sysCardUser/sysCardUser';
 import UserProfileListViewStyled from './userProfileListStyles';
-import AddIcon from '@mui/icons-material/Add';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
-import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const UserProfileLisView = () => {
 	const context = useContext(UserProfileListControllerContext);
 	const { list, onSearch, onSetFilter, onAddButtonClick } = context;
 	const [selectedRole, setSelectedRole] = useState('');
 	const theme = useTheme();
+  const { Container, Filters, } = UserProfileListViewStyled;
 	const options = [
 		{
 			value: '',
@@ -30,9 +32,9 @@ const UserProfileLisView = () => {
 	];
 
 	return (
-		<UserProfileListViewStyled.Container>
+		<Container>
 			<Typography variant="h5">Lista de usuários</Typography>
-			<UserProfileListViewStyled.Filters>
+			<Filters>
 				<TextField
 					name="userSearch"
 					placeholder="Pesquisar por nome"
@@ -40,7 +42,7 @@ const UserProfileLisView = () => {
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
-								<SearchIcon sx={{ color: theme.palette.sysAction?.primaryIcon }} />
+								<SysIcon name={'search'} sx={{ color: theme.palette.sysAction?.primaryIcon }} />
 							</InputAdornment>
 						)
 					}}
@@ -56,7 +58,7 @@ const UserProfileLisView = () => {
 					}}
 					options={options}
 				/>
-			</UserProfileListViewStyled.Filters>
+			</Filters>
 			{list &&
 				list?.map((user) => {
 					return (
@@ -70,8 +72,8 @@ const UserProfileLisView = () => {
 						/>
 					);
 				})}
-			<SysFab variant="extended" text="Adicionar" startIcon={<AddIcon />} fixed={true} onClick={onAddButtonClick} />
-		</UserProfileListViewStyled.Container>
+			<SysFab variant="extended" text="Adicionar" startIcon={<SysIcon name={'add'} />} fixed={true} onClick={onAddButtonClick} />
+		</Container>
 	);
 };
 

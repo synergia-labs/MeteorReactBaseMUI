@@ -5,44 +5,44 @@ import { IOption, ISysFormComponent } from '../../InterfaceBaseSimpleFormCompone
 import { SysFormContext } from '../../sysForm/sysForm';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import SysLabelView from '../../sysLabelView/sysLabelView';
+import FormGroup from "@mui/material/FormGroup";
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import { hasValue } from '/imports/libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import { SysViewField } from '../sysViewField/sysViewField';
-import sysCheckBoxFieldStyle from './sysCheckBoxFieldStyle';
+import {sysSizing} from "/imports/ui/materialui/styles";
+
 
 interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
 		container?: SxProps<Theme>;
 		formGroup?: SxProps<Theme>;
-		formControllLabel?: SxProps<Theme>;
+		formControlLabel?: SxProps<Theme>;
 		checkbox?: SxProps<Theme>;
 	};
 	/** Posicionamento dos elementos */
-	alignment?: 'row' | 'column';
-	/** Posicionamento da Tooltip */
-	helpIcon?: boolean;
+	childrenAlignment?: 'row' | 'column';
 }
 
 export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	name,
 	label,
+  value,
+  defaultValue,
 	options,
-	value,
+  onChange,
 	disabled,
 	loading,
-	onChange,
 	readOnly,
 	error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
 	tooltipMessage,
-	defaultValue,
-	positionTooltip,
-	showRequired,
-	requiredIndicator,
-	helpIcon,
-	alignment = 'column',
+	tooltipPosition,
+  childrenAlignment = 'column',
 	sxMap,
 	...otherProps
 }) => {
@@ -59,14 +59,14 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	defaultValue = refObject?.current.value || schema?.defaultValue;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
 	options = options || refObject?.current?.options || ([] as any);
-	showRequired = showRequired || (!!schema && !schema?.optional);
+	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
-	const [valueState, setValueState] = useState<Array<string>>(defaultValue || '');
+	const [valueState, setValueState] = useState<Array<string>>(defaultValue || []);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
 
-	const [selectedOptions, setSelectedOptions] = useState<string[]>([] || [...defaultValue]);
+	const [selectedOptions, setSelectedOptions] = useState<any[]>([] || [...defaultValue]);
 
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({
@@ -84,9 +84,11 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	//setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, event.target.name]);
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { checked } = event.target;
+    const value = optionsState?.find(item => item.label === event.target.name)?.value;
+    if (!hasValue(value)) return;
 		const updatedOptions = checked
-			? [...selectedOptions, event.target.name]
-			: selectedOptions.filter((option) => option !== event.target.name);
+			? [...selectedOptions, value]
+			: selectedOptions.filter((option) => option !== value);
 		setSelectedOptions(updatedOptions);
 		if (inSysFormContext)
 			controllerSysForm?.onChangeComponentValue?.({ refComponent: refObject!, value: updatedOptions });
@@ -102,21 +104,25 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	if (!visibleState || optionsState?.length === 0) return null;
 
 	if (readOnly) {
-		return <SysViewField label={label} placeholder={valueState?.join?.(', ') || '-'} />;
+		return <SysViewField label={label} placeholder={
+      valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label)
+      .join?.(', ') || '-'
+
+    } showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
 	}
 
 	return (
-		<FormControl error={!!error}>
+		<FormControl error={!!error} sx={sxMap?.container}>
 			<SysLabelView
 				label={label}
+        showLabelAdornment={showLabelAdornment}
+        labelAdornment={labelAdornment}
+        disabled={disabled}
+        showTooltip={showTooltip}
 				tooltipMessage={tooltipMessage}
-				disabled={disabled}
-				placement={positionTooltip}
-				helpIcon={helpIcon}
-				showRequired={showRequired}
-				requiredIndicator={requiredIndicator}
-				sx={sxMap?.container}>
-				<sysCheckBoxFieldStyle.formGroup sx={sxMap?.formGroup} alignment={alignment}>
+        tooltipPosition={tooltipPosition}
+      >
+				<FormGroup sx={{ flexDirection: childrenAlignment, gap: sysSizing.spacingRemMd, ...sxMap?.formGroup }}>
 					{optionsState?.map((opt) => (
 						<FormControlLabel
 							key={opt.value}
@@ -125,18 +131,18 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 									{...otherProps}
 									onChange={handleCheckboxChange}
 									name={opt.label}
-									checked={selectedOptions.includes(opt.label)}
+									checked={selectedOptions.includes(opt.value)}
 									sx={sxMap?.checkbox}
 								/>
 							}
 							label={opt.label}
-							sx={sxMap?.formControllLabel}
+							sx={sxMap?.formControlLabel}
 							disabled={disabled || loading}
 						/>
 					))}
-				</sysCheckBoxFieldStyle.formGroup>
+				</FormGroup>
 			</SysLabelView>
-			<FormHelperText>{errorState}</FormHelperText>
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

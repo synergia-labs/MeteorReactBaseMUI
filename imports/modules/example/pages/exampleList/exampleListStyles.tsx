@@ -1,15 +1,17 @@
 import { ElementType } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import  Box,{ BoxProps } from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface IExampleListStyles {
-	container: ElementType<BoxProps>;
-	loadingContainer: ElementType<BoxProps>;
-	searchContainer: ElementType<BoxProps>;
+	Container: ElementType<BoxProps>;
+	LoadingContainer: ElementType<BoxProps>;
+	SearchContainer: ElementType<BoxProps>;
 }
 
 const ExampleListStyles: IExampleListStyles = {
-	container: styled(Box)(({ theme }) => ({
+	Container: styled(SysSectionPaddingXY)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
@@ -17,14 +19,10 @@ const ExampleListStyles: IExampleListStyles = {
 		width: '100%',
 		height: '100vh',
 		overflow: 'auto',
-		padding: `${sysSizing.contentPt} ${sysSizing.contentPx}`,
 		gap: sysSizing.spacingFixedMd,
-		transition: 'all 0.3s ease',
-		[theme.breakpoints.down('sm')]: {
-			padding: `${sysSizing.contentPt} ${sysSizing.spacingFixedMd}`
-		}
+    marginBottom: sysSizing.contentFabDistance
 	})),
-	loadingContainer: styled(Box)(({ theme }) => ({
+	LoadingContainer: styled(Box)(({ theme }) => ({
 		width: '100%',
 		display: 'flex',
 		flexGrow: 1,
@@ -33,7 +31,7 @@ const ExampleListStyles: IExampleListStyles = {
 		flexDirection: 'column',
 		gap: theme.spacing(2)
 	})),
-	searchContainer: styled(Box)(({ theme }) => ({
+	SearchContainer: styled(Box)(({ theme }) => ({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'row',

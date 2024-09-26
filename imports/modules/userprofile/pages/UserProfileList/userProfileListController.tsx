@@ -1,11 +1,11 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { nanoid } from 'nanoid';
 import UserProfileListView from './userProfileListView';
-import { IUserProfile } from '../../api/UserProfileSch';
+import { IUserProfile } from '../../api/userProfileSch';
 import { useTracker } from 'meteor/react-meteor-data';
-import { userprofileApi } from '../../api/UserProfileApi';
+import { userprofileApi } from '../../api/userProfileApi';
 import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import UserProfileDetailController from '../UserProfileDetail/userProfileDetailController';
 import { sysSizing } from '/imports/ui/materialui/styles';
 

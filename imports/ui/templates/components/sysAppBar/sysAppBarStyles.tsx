@@ -1,15 +1,16 @@
 import { ElementType } from 'react';
 import { Box, BoxProps, IconButton, IconButtonProps, styled } from '@mui/material';
 import { sysSizing } from '/imports/ui/materialui/styles';
+import {SysSectionPaddingX} from "/imports/ui/layoutComponents/sysLayoutComponents";
 
 interface ISysAppBarStyles {
-	container: ElementType<BoxProps>;
-	navContainer: ElementType<BoxProps>;
-	iconButton: ElementType<IconButtonProps>;
+	Container: ElementType<BoxProps>;
+	NavContainer: ElementType<BoxProps>;
+	IconButton: ElementType<IconButtonProps>;
 }
 
 const SysAppBarStyles: ISysAppBarStyles = {
-	container: styled(Box)(({ theme }) => ({
+	Container: styled(SysSectionPaddingX)(({ theme }) => ({
 		width: '100%',
 		height: '56px',
 		overflow: 'hidden',
@@ -20,14 +21,11 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		flexShrink: 0,
-		transition: 'all 0.3s ease',
-		padding: `${sysSizing.spacingFixedSm} ${sysSizing.spacingFixedMd}`,
-		gap: sysSizing.spacingFixedMd,
-		[theme.breakpoints.up('sm')]: {
-			padding: `${sysSizing.spacingFixedSm} ${sysSizing.contentPx}`
-		}
+		paddingTop: sysSizing.spacingFixedSm,
+		paddingBottom: sysSizing.spacingFixedSm,
+		gap: sysSizing.spacingFixedMd
 	})),
-	navContainer: styled(Box)({
+	NavContainer: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		gap: sysSizing.spacingFixedMd,
@@ -37,7 +35,7 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		alignItems: 'center',
 		height: '100%'
 	}),
-	iconButton: styled(IconButton)(({ theme }) => ({
+	IconButton: styled(IconButton)(({ theme }) => ({
 		color: theme.palette.primary.contrastText,
 		'&:focus': {
 			color: 'white'

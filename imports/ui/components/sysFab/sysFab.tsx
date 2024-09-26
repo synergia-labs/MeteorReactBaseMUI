@@ -1,5 +1,6 @@
 import React from 'react';
-import { FabProps, Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { FabProps } from '@mui/material/Fab';
 import { SysFabStyled } from './sysFabStyles';
 
 interface ISysFabProps extends FabProps {

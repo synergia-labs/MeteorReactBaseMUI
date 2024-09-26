@@ -1,10 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import SignInStyles from './signInStyles';
 import { Meteor } from 'meteor/meteor';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import { useNavigate } from 'react-router-dom';
-import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import { SysAppContext } from '/imports/app/AppContainer';
+import { SysAppContext } from '/imports/app/appContainer';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
@@ -12,11 +11,18 @@ import { signInSchema } from './signinsch';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 const SignInPage: React.FC = () => {
   const { showNotification } = useContext(SysAppLayoutContext);
   const { user } = useContext(SysAppContext);
   const navigate = useNavigate();
+  const {
+    Container,
+    Content,
+    FormContainer,
+    FormWrapper,
+  } = SignInStyles;
 
   const handleSubmit = ({ email, password }: { email: string; password: string }) =>
     Meteor.loginWithPassword(email, password, (err) => {
@@ -43,8 +49,8 @@ const SignInPage: React.FC = () => {
   }, [user]);
 
   return (
-    <SignInStyles.container>
-      <SignInStyles.content>
+    <Container>
+      <Content>
         <Typography variant="h1" display={'inline-flex'} gap={1}>
           <Typography variant="inherit" color={(theme) => theme.palette.sysText?.tertiary}>
             {'{'}
@@ -55,26 +61,26 @@ const SignInPage: React.FC = () => {
           </Typography>
         </Typography>
 
-        <SignInStyles.formContainer>
+        <FormContainer>
           <Typography variant="h5">Acesse o sistema</Typography>
           <SysForm schema={signInSchema} onSubmit={handleSubmit} debugAlerts={false}>
-            <SignInStyles.formWrapper>
+            <FormWrapper>
               <SysTextField name="email" label="Email" fullWidth placeholder="Digite seu email" />
               <SysTextField label="Senha" fullWidth name="password" placeholder="Digite sua senha" type="password" />
               <Button variant="text" sx={{ alignSelf: 'flex-end' }} onClick={handleForgotPassword}>
                 <Typography variant="link">Esqueci minha senha</Typography>
               </Button>
               <Box />
-              <SysFormButton variant="contained" color="primary" endIcon={<ArrowForwardRoundedIcon />}>
+              <SysFormButton variant="contained" color="primary" endIcon={<SysIcon name={'arrowForward'} />}>
                 Entrar
               </SysFormButton>
-            </SignInStyles.formWrapper>
+            </FormWrapper>
           </SysForm>
-        </SignInStyles.formContainer>
+        </FormContainer>
 
         <Box component="img" src="/images/wireframe/synergia-logo.svg" sx={{ width: '100%', maxWidth: '400px' }} />
-      </SignInStyles.content>
-    </SignInStyles.container>
+      </Content>
+    </Container>
   );
 };
 

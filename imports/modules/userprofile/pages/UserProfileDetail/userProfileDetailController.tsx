@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useState } from 'react';
 import UserProfileDetailView from './userProfileDetailView';
-import { SysAppLayoutContext } from '/imports/app/AppLayout';
+import { SysAppLayoutContext } from '/imports/app/appLayout';
 import { useTracker } from 'meteor/react-meteor-data';
-import { userprofileApi } from '../../api/UserProfileApi';
-import { IUserProfile } from '../../api/UserProfileSch';
+import { userprofileApi } from '../../api/userProfileApi';
+import { IUserProfile } from '../../api/userProfileSch';
 import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
 import { ISchema } from '/imports/typings/ISchema';
 

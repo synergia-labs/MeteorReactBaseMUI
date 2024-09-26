@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import {SysViewFieldStyle} from './sysViewFieldStyles';
-import {SxProps, Theme} from '@mui/system';
+import {SxProps, Theme} from '@mui/material';
 
 /**
  * Propriedades aceitas pelo componente SysViewField.
@@ -15,6 +15,16 @@ interface ISysViewField {
 	 * Rótulo do campo de visualização.
 	 */
 	label: string | undefined;
+  /**
+   * Indica se vai ser exibido algum complemento para o rótulo.
+   * @default false
+   */
+  showLabelAdornment?: boolean;
+  /**
+   * Define o complemento para o rótulo.
+   * @default '(opcional)'
+   */
+  labelAdornment?: string;
 	/**
 	 * Texto de espaço reservado para o campo de visualização.
 	 */
@@ -46,22 +56,25 @@ interface ISysViewField {
 /**
  * O componente SysViewField exibe um campo de visualização com um rótulo e um espaço reservado.
  * @param label Rótulo do campo de visualização.
+ * @param showLabelAdornment Indica se vai ser exibido algum complemento para o rótulo.
+ * @param labelAdornment Define o complemento para o rótulo.
  * @param placeholder Texto de espaço reservado para o campo de visualização.
  * @param disabled Indica se o campo de visualização está desabilitado.
  * @param sxMap Um objeto que contém estilos personalizados para o container, o rótulo e o espaço reservado.
  * @returns Um componente de campo de visualização.
  */
-export const SysViewField: React.FC<ISysViewField> = ({ label, placeholder, disabled, sxMap }) => {
-	return (
-		<SysViewFieldStyle.container sx={sxMap?.container}>
+export const SysViewField: React.FC<ISysViewField> = ({ label, showLabelAdornment = false, labelAdornment = '(opcional)', placeholder, disabled, sxMap }) => {
+  const { Container, Info } = SysViewFieldStyle;
+  return (
+		<Container sx={sxMap?.container}>
 			{/* Exibe o rótulo */}
-			<SysViewFieldStyle.info variant="body2" sx={sxMap?.label} type={'label'} disabled={disabled || false}>
-				{label}
-			</SysViewFieldStyle.info>
+			<Info variant="body2" sx={sxMap?.label} type={'label'} disabled={disabled || false}>
+        {`${label} ${showLabelAdornment ? labelAdornment : ''}`}
+			</Info>
 			{/* Exibe o espaço reservado */}
-			<SysViewFieldStyle.info variant="body1" sx={sxMap?.placeholder} type={'placeholder'} disabled={disabled || false}>
+			<Info variant="body1" sx={sxMap?.placeholder} type={'placeholder'} disabled={disabled || false}>
 				{placeholder}
-			</SysViewFieldStyle.info>
-		</SysViewFieldStyle.container>
+			</Info>
+		</Container>
 	);
 };

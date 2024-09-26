@@ -1,12 +1,14 @@
 import React from 'react';
-import { Box, FabProps, SxProps, Theme, Typography, useTheme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import SysCardUserStyled from './sysCardUserStyles';
 import { UserProfileListControllerContext } from '/imports/modules/userprofile/pages/UserProfileList/userProfileListController';
-import DoNotDisturbOnOutlinedIcon from '@mui/icons-material/DoNotDisturbOnOutlined';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
-interface ISysCardUserProps extends FabProps {
+interface ISysCardUserProps {
 	username: string;
 	roles?: string[];
 	email: string;
@@ -18,48 +20,50 @@ interface ISysCardUserProps extends FabProps {
 export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardUserProps) => {
 	const context = React.useContext(UserProfileListControllerContext);
 	const { translateStatus, onChangeStatusClick, onEdit } = context;
-	const theme = useTheme();
 	const { username, roles, email, status, userId, sx } = props;
-	const colorPrimary = theme.palette.sysText?.primary;
-	const colorDisabled = theme.palette.sysText?.disabled;
+
+  const {Container, ActionBox, Status} = SysCardUserStyled;
 
 	return (
-		<SysCardUserStyled.Container sx={sx} key={userId}>
-			<SysCardUserStyled.TitleBox>
-				<Typography className="title" variant="subtitle1">
-					{username}
-				</Typography>
-			</SysCardUserStyled.TitleBox>
-			<SysCardUserStyled.InfoBox>
-				<Box className="roles">
-					{roles?.map((role) => {
-						return (
-							<Typography key={role} variant="body1">
-								{role}
-							</Typography>
-						);
-					})}
-				</Box>
-				<Typography className="email" variant="body1">
-					{email}
-				</Typography>
-				<Typography className="status" color={status === 'active' ? colorPrimary : colorDisabled} variant="body1">
-					{translateStatus(status)}
-				</Typography>
-			</SysCardUserStyled.InfoBox>
-			<SysCardUserStyled.ActionBox>
+		<Container sx={sx} key={userId}>
+      <Typography sx={{ gridArea: 'name' }} variant="subtitle1">
+        {username}
+      </Typography>
+      <Box sx={{ gridArea: 'roles' }}>
+        {roles?.map((role) => {
+          return (
+            <Typography key={role} variant="body1">
+              {role}
+            </Typography>
+          );
+        })}
+      </Box>
+      <Typography variant="body1" sx={{ gridArea: 'email' }}>{email}</Typography>
+      <Status color={status === 'active' ? 'primary.main' : 'sysText.disabled'} variant="body1">
+        {translateStatus(status)}
+      </Status>
+			<ActionBox>
 				{status === 'active' ? (
 					<>
-						<DoNotDisturbOnOutlinedIcon onClick={() => onChangeStatusClick(userId!)} />
-						<EditOutlinedIcon onClick={() => onEdit(userId)} />
+            <Tooltip title={'Destivar'}>
+              <IconButton onClick={() => onChangeStatusClick(userId!)}>
+                <SysIcon name={'doNotDisturbOn'}/>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={'Editar'}>
+              <IconButton onClick={() => onEdit(userId)}>
+                <SysIcon name={'edit'}/>
+              </IconButton>
+            </Tooltip>
 					</>
 				) : (
-					<>
-						<Box sx={{ width: '24px', height: '24px' }} />
-						<CheckCircleOutlinedIcon onClick={() => onChangeStatusClick(userId!)} />
-					</>
+          <Tooltip title={'Ativar'}>
+            <IconButton onClick={() => onChangeStatusClick(userId!)}>
+              <SysIcon name={'checkCircle'}  />
+            </IconButton>
+          </Tooltip>
 				)}
-			</SysCardUserStyled.ActionBox>
-		</SysCardUserStyled.Container>
+			</ActionBox>
+		</Container>
 	);
 };

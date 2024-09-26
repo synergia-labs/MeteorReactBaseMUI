@@ -1,7 +1,10 @@
 import React from 'react';
 import { IShowNotificationProps } from '../showNotification';
-import { Avatar, Box, IconButton, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface IShowNotificationChatProps {
 	// Métodos obrigatórios para toda notificação personalizada
@@ -53,7 +56,7 @@ function ShowNotificationChat({
 					sx={{
 						alignSelf: 'flex-start'
 					}}>
-					<CloseIcon />
+					<SysIcon name={'close'} />
 				</IconButton>
 			</Box>
 		)

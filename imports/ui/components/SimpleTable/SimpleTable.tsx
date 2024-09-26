@@ -5,8 +5,6 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import TableSortLabel from '@mui/material/TableSortLabel';
@@ -16,6 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import { simpleTableStyle } from './SimpleTableStyle';
 import './simpletableCSS.css';
 import { useTheme } from '@mui/material/styles';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISimpleTable {
 	schema: ISchema;
@@ -294,7 +293,7 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 				</div>
 			);
 		} else if (type === 'boolean')
-			return data ? <CheckIcon style={{ width: '15px' }} /> : <CloseIcon style={{ width: '15px' }} />;
+			return data ? <SysIcon name={'check'} style={{ width: '15px' }} /> : <SysIcon name={'close'} style={{ width: '15px' }} />;
 		else if (type === 'html') {
 			return Array.isArray(data) ? (
 				data.map((d, idx) => <div key={'dgrs' + idx} dangerouslySetInnerHTML={{ __html: d }} />)

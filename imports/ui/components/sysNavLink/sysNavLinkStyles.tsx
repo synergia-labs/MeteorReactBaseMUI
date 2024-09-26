@@ -3,30 +3,31 @@ import { Box, BoxProps, styled } from '@mui/material';
 import { sysSizing } from '../../materialui/styles';
 
 interface ISysNavLinkStyles {
-	container: React.ElementType<BoxProps & IContainer>;
+	Container: React.ElementType<BoxProps & IContainer>;
 }
 
 interface IContainer {
 	active: boolean;
+  disabled: boolean;
 }
 
 const SysNavLinkStyles: ISysNavLinkStyles = {
-	container: styled(({ active, ...otherProps }: IContainer) => <Box {...otherProps} />)<IContainer>(
-		({ theme, active }) => ({
+	Container: styled(({ active, disabled, ...otherProps }: IContainer) => <Box {...otherProps} />)<IContainer>(
+		({ theme, active, disabled }) => ({
 			padding: `${sysSizing.spacingRemXs} ${sysSizing.spacingRemMd}`,
 			borderRadius: sysSizing.radiusInfinite,
 			display: 'flex',
-			flexDirection: 'row',
 			alignItems: 'center',
 			justifyContent: 'center',
-			gap: theme.spacing(1),
-			cursor: 'pointer',
-			backgroundColor: active ? theme.palette.sysAction?.primaryHover : undefined,
-			transition: 'all 0.3s ease',
-
-			'&:hover': {
-				backgroundColor: theme.palette.sysAction?.primaryHover,
-				boxShadow: active ? theme.shadows[1] : undefined
+			gap: sysSizing.spacingRemSm,
+			cursor: disabled ? 'default' : 'pointer',
+			backgroundColor: active ? theme.palette.sysAction?.primaryHover : 'transparent',
+      color: disabled ? theme.palette.primary.light : theme.palette.sysAction?.primaryContrastText,
+      transition: 'all 150ms linear',
+			'&:hover': !active && !disabled && {
+				backgroundColor: theme.palette.sysAction?.primaryContrastBg,
+        color: theme.palette.sysAction?.primaryContrastText,
+        transition: 'all 150ms linear'
 			}
 		})
 	)

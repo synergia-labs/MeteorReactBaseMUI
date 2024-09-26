@@ -1,15 +1,17 @@
 import React from 'react';
-import { Box, Paper, styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface IShowNotificationStyles {
-	container: React.ElementType;
-	header: React.ElementType;
-	body: React.ElementType;
+	Container: React.ElementType;
+	Header: React.ElementType;
+	Body: React.ElementType;
 }
 
 const ShowNotificationStyles: IShowNotificationStyles = {
-	container: styled(Paper)<IContainer>(({ theme, type }) => ({
+	Container: styled(Paper)<IContainer>(({ theme, type }) => ({
 		minWidth: '440px',
 		minHeight: '80px',
 		borderRadius: sysSizing.radiusSm,
@@ -55,10 +57,10 @@ const ShowNotificationStyles: IShowNotificationStyles = {
 			}
 		})
 	})),
-	header: styled(Box)(() => ({
+	Header: styled(Box)(() => ({
 		padding: `${sysSizing.spacingFixedXs} ${sysSizing.spacingFixedSm}`
 	})),
-	body: styled(Box)(({ theme }) => ({
+	Body: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',

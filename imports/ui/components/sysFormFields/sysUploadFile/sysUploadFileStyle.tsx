@@ -7,7 +7,7 @@ interface IContainer {
 }
 
 const SysUploadFileStyle = {
-	container: styled(Box)<IContainer>(({ theme, readOnly }) => ({
+	Container: styled(Box)<IContainer>(({ theme, readOnly }) => ({
 		width: '100%',
 		maxWidth: '485px',
 		minWidth: '279px',
@@ -22,7 +22,7 @@ const SysUploadFileStyle = {
 		}
 	})),
 
-	button: styled(Button)(({ theme }) => ({
+	Button: styled(Button)(({ theme }) => ({
 		width: '100%',
 		height: '96px',
 		display: 'flex',
@@ -40,18 +40,18 @@ const SysUploadFileStyle = {
 		background: '#fff'
 	})),
 
-	typographyInfo: styled(Typography)(({ theme }) => ({
+	TypographyInfo: styled(Typography)(({ theme }) => ({
 		color: theme.palette.sysText?.auxiliary
 	})),
 
-	typographyAdd: styled(Typography)(({ theme }) => ({
+	TypographyAdd: styled(Typography)(({ theme }) => ({
 		color: theme.palette.sysAction?.primary,
 		display: 'flex',
 		alignItems: 'center',
 		gap: sysSizing.componentsButtonGap
 	})),
 
-	itenList: styled(Box)(({ theme }) => ({
+	itenList: styled(Box)(() => ({
 		width: '100%',
 		height: 'auto',
 		display: 'flex',
@@ -59,7 +59,7 @@ const SysUploadFileStyle = {
 		gap: sysSizing.spacingFixedSm
 	})),
 
-	boxItem: styled(Box)(({ theme }) => ({
+	BoxItem: styled(Box)(({ theme }) => ({
 		width: '100%',
 		height: '80px',
 		display: 'flex',
@@ -71,7 +71,7 @@ const SysUploadFileStyle = {
 		borderRadius: sysSizing.radiusSm
 	})),
 
-	boxIcon: styled(Box)(({ theme }) => ({
+	BoxIcon: styled(Box)(({ theme }) => ({
 		minWidth: '48px',
 		minHeight: '48px',
 		display: 'flex',
@@ -81,7 +81,7 @@ const SysUploadFileStyle = {
 		background: theme.palette.sysAction?.primaryBgHover
 	})),
 
-	cardInfo: styled(Box)(({ theme }) => ({
+	CardInfo: styled(Box)(() => ({
 		width: '60%',
 		maxWidth: '286px',
 		minWidth: '150px',
@@ -92,14 +92,14 @@ const SysUploadFileStyle = {
 		gap: sysSizing.spacingRemXs
 	})),
 
-	elipsesText: styled(Typography)(({ theme }) => ({
+	ElipsesText: styled(Typography)(() => ({
 		maxWidth: '95%',
 		textOverflow: 'ellipsis',
 		whiteSpace: 'nowrap',
 		overflow: 'hidden'
 	})),
 
-	boxIconsCard: styled(Box)(({ theme }) => ({
+	BoxIconsCard: styled(Box)(() => ({
 		width: '60px',
 		display: 'flex',
 		justifyContent: 'space-between'

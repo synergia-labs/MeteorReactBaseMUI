@@ -11,31 +11,28 @@ import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SysViewField } from '../sysViewField/sysViewField';
 
 interface ISysSliderProps extends ISysFormComponent<SliderProps> {
-	/** Componente que será exibido no início do campo.*/
-	startAdornment?: React.ReactNode;
-	/** Componente que será exibido no final do campo.*/
-	endAdornment?: React.ReactNode;
 	/** Estilo do componente.*/
 	sxMap?: {
 		container?: SxProps<Theme>;
 		slider?: SxProps<Theme>;
 	};
-	placeholder?: string;
 }
 
 const SysSlider: React.FC<ISysSliderProps> = ({
-	name,
-	label,
-	value,
-	disabled,
-	loading,
-	onChange,
-	readOnly,
-	error,
-	tooltipMessage,
-	defaultValue,
-	startAdornment,
-	endAdornment,
+  name,
+  label,
+  value,
+  defaultValue,
+  onChange,
+  disabled,
+  loading,
+  readOnly,
+  error,
+  showLabelAdornment,
+  labelAdornment,
+  showTooltip,
+  tooltipMessage,
+  tooltipPosition,
 	sxMap,
 	...otherProps
 }) => {
@@ -51,6 +48,7 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
+  showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [valueState, setValueState] = useState<number>(defaultValue || 0);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
@@ -74,12 +72,20 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 	if (!visibleState) return null;
 
 	if (readOnly) {
-		return <SysViewField label={label} placeholder={valueState?.toString() || '-'} />;
+		return <SysViewField label={label} placeholder={valueState?.toString() || '-'} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
 	}
 
 	return (
-		<FormControl error={!!errorState}>
-			<SysLabelView label={label} disabled={disabled} sxMap={sxMap}>
+		<FormControl error={!!errorState} sx={sxMap?.container}>
+			<SysLabelView
+        label={label}
+        showLabelAdornment={showLabelAdornment}
+        labelAdornment={labelAdornment}
+        disabled={disabled}
+        showTooltip={showTooltip}
+        tooltipMessage={tooltipMessage}
+        tooltipPosition={tooltipPosition}
+      >
 				<Slider
 					aria-label={'slider'}
 					value={valueState || 0}
@@ -89,7 +95,7 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 					{...otherProps}
 				/>
 			</SysLabelView>
-			<FormHelperText>{errorState}</FormHelperText>
+      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

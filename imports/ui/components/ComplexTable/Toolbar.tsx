@@ -9,10 +9,11 @@ import {
 	GridToolbarQuickFilter
 } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import FilterAlt from '@mui/icons-material/FilterAlt';
-import { IconButton, useMediaQuery } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import IconButton from '@mui/material/IconButton';
 import { toolbarStyle } from './ToolbarStyle';
 import { IToolbarOptions } from './ComplexTable';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface IToolbarProps {
 	buttonVariant?: 'text' | 'outlined' | 'contained';
@@ -62,7 +63,7 @@ export const Toolbar = (props: IToolbarProps) => {
 						<GridToolbarQuickFilter variant="filled" sx={toolbarStyle.searchFilter} />
 						{!hideFilterIcon && !!openFilterModal ? (
 							<IconButton sx={{ ml: '0.3em' }} onClick={openFilterModal}>
-								<FilterAlt />
+								<SysIcon name={'filterAltFilled'}/>
 							</IconButton>
 						) : null}
 					</Box>

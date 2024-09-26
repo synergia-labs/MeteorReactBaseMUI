@@ -4,10 +4,11 @@ import { hasValue } from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import AddIcon from '@mui/icons-material/Add';
 import { styles } from './ChipInputStyle';
 import _ from 'lodash';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+
 
 export default ({ name, label, value, onChange, readOnly, error, ...otherProps }: IBaseSimpleFormComponent) => {
 	const [chipText, setChipText] = useState('');
@@ -86,7 +87,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 						}}
 					/>
 					<IconButton onClick={() => handleInsert(chipText)}>
-						<AddIcon style={{ fontSize: '2rem' }} color={'primary'} />
+						<SysIcon name={'add'} style={{ fontSize: '2rem' }} color={'primary'} />
 					</IconButton>
 				</div>
 			) : null}

@@ -1,11 +1,12 @@
-import React from 'react';
-import { Box, styled } from '@mui/material';
+import { ElementType } from 'react';
+import Box, { BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles'
 import { sysSizing } from '/imports/ui/materialui/styles';
 
 interface IUserProfileDetailStyles {
-	Container: React.ElementType;
-	FieldsForm: React.ElementType;
-	Actions: React.ElementType;
+	Container: ElementType<BoxProps>;
+	FieldsForm: ElementType<BoxProps>;
+	Actions: ElementType<BoxProps>;
 }
 
 const UserProfileDetailStyles: IUserProfileDetailStyles = {

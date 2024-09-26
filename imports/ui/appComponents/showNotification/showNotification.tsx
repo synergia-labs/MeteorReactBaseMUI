@@ -1,13 +1,20 @@
 import React from 'react';
-import { Button, IconButton, Snackbar, SxProps, Theme, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { Theme, SxProps } from '@mui/material';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar'
 import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
 import { hasValue } from '/imports/libs/hasValue';
 import ShowNotificationStyles from './showNotificationStyles';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+
+
+const {
+  Body,
+  Container,
+  Header
+} = ShowNotificationStyles;
 
 export interface IShowNotificationProps extends ISysGeneralComponentsCommon {
 	onOpen?: () => void;
@@ -98,10 +105,10 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 	children
 }) => {
 	const icons = {
-		success: <CheckRoundedIcon />,
-		error: <ErrorOutlineRoundedIcon />,
-		warning: <WarningAmberRoundedIcon />,
-		default: <NotificationsNoneRoundedIcon />
+		success: <SysIcon name={'check'} />,
+		error: <SysIcon name={'errorCircle'} />,
+		warning: <SysIcon name={'warningAmber'} />,
+		default: <SysIcon name={'notification'} />
 	};
 
 	return (
@@ -116,11 +123,11 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 			{hasValue(children) ? (
 				children
 			) : (
-				<ShowNotificationStyles.container type={type} sx={sxMap?.container}>
-					<ShowNotificationStyles.header sx={sxMap?.header}>
+				<Container type={type} sx={sxMap?.container}>
+					<Header sx={sxMap?.header}>
 						<Typography variant="subtitle1">{title}</Typography>
-					</ShowNotificationStyles.header>
-					<ShowNotificationStyles.body sx={sxMap?.body}>
+					</Header>
+					<Body sx={sxMap?.body}>
 						{showStartIcon && (hasValue(icon) ? icon : icons[type])}
 						<Typography variant="body1" color="textPrimary" sx={{ flexGrow: 1 }}>
 							{message}
@@ -146,11 +153,11 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 								)}
 						{showCloseButton && (
 							<IconButton onClick={close}>
-								<CloseRoundedIcon />
+								<SysIcon name={'close'} />
 							</IconButton>
 						)}
-					</ShowNotificationStyles.body>
-				</ShowNotificationStyles.container>
+					</Body>
+				</Container>
 			)}
 		</Snackbar>
 	);

@@ -10,18 +10,18 @@ export interface IBaseSimpleFormComponent {
 	name: string;
 	label?: string | undefined;
 	value?: any;
+  defaultValue?: any;
+  options?: Array<IOption>;
+  onChange?: (e: any) => void;
 	disabled?: boolean;
 	loading?: boolean;
-	onChange?: (e: any) => void;
 	readOnly?: boolean;
 	error?: string | undefined;
-	tooltipMessage?: string;
-	defaultValue?: any;
-	options?: Array<IOption>;
-	helpIcon?: boolean;
-	showRequired?: boolean;
-	requiredIndicator?: string;
-	positionTooltip?:
+  showLabelAdornment?: boolean;
+  labelAdornment?: string;
+  showTooltip?: boolean;
+  tooltipMessage?: string;
+	tooltipPosition?:
 		| 'bottom-end'
 		| 'bottom-start'
 		| 'bottom'
@@ -39,7 +39,7 @@ export interface IBaseSimpleFormComponent {
 
 export type ISysFormComponent<T> = Omit<
 	T,
-	'name' | 'label' | 'onChange' | 'loading' | 'value' | 'defaultValue' | 'error' | 'positionTooltip'
+	'name' | 'label' | 'onChange' | 'loading' | 'value' | 'defaultValue' | 'error' | 'tooltipPosition'
 > &
 	IBaseSimpleFormComponent;
 export type { IOption };

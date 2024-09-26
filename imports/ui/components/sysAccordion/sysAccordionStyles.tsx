@@ -2,14 +2,15 @@ import { ElementType } from 'react';
 import Accordion, { AccordionProps } from '@mui/material/Accordion';
 import AccordionActions, { AccordionActionsProps } from '@mui/material/AccordionActions';
 import AccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
-import { Box, BoxProps, styled } from '@mui/material';
+import Box, { BoxProps } from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 import { sysSizing } from '../../materialui/styles';
 
 interface ISysAccordion {
-	container: ElementType<BoxProps>;
-	accordion: ElementType<AccordionProps>;
-	accordionSummary: ElementType<ISummaryProps>;
-	accordionActions: ElementType<AccordionActionsProps>;
+	Container: ElementType<BoxProps>;
+	Accordion: ElementType<AccordionProps>;
+	AccordionSummary: ElementType<ISummaryProps>;
+	AccordionActions: ElementType<AccordionActionsProps>;
 }
 
 interface ISummaryProps extends AccordionSummaryProps {
@@ -17,24 +18,24 @@ interface ISummaryProps extends AccordionSummaryProps {
 }
 
 const AccordionStyle: ISysAccordion = {
-	container: styled(Box)(() => ({
+	Container: styled(Box)(() => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '100%'
 	})),
 
-	accordion: styled(Accordion)(() => ({
+	Accordion: styled(Accordion)(() => ({
 		width: '100%',
 		borderRadius: `${sysSizing.spacingFixedXs} !important`
 	})),
 
-	accordionSummary: styled(AccordionSummary)<ISummaryProps>(({ posicaoIcone }) => ({
+	AccordionSummary: styled(AccordionSummary)<ISummaryProps>(({ posicaoIcone }) => ({
 		flexDirection: posicaoIcone === 'inicio' ? 'row-reverse' : 'row',
 		gap: sysSizing.spacingFixedSm
 	})),
 
-	accordionActions: styled(AccordionActions)(() => ({
+	AccordionActions: styled(AccordionActions)(() => ({
 		display: 'flex'
 	}))
 };
