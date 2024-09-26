@@ -1,4 +1,4 @@
-import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
+import { ISxStyleObject } from '../../../typings/ISxStyleObject';
 
 export const toolbarStyle: ISxStyleObject = {
 	container: {

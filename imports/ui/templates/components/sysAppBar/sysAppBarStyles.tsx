@@ -1,7 +1,7 @@
 import { ElementType } from 'react';
 import { Box, BoxProps, IconButton, IconButtonProps, styled } from '@mui/material';
-import { sysSizing } from '/imports/ui/materialui/styles';
-import {SysSectionPaddingX} from "/imports/ui/layoutComponents/sysLayoutComponents";
+import { sysSizing } from '../../../materialui/styles';
+import { SysSectionPaddingX } from '../../../layoutComponents/sysLayoutComponents';
 
 interface ISysAppBarStyles {
 	Container: ElementType<BoxProps>;

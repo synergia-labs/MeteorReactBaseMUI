@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { FileWithPath, useDropzone } from 'react-dropzone';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
-import { attachmentsCollection } from '/imports/api/attachmentsCollection';
+import { SysAppLayoutContext } from '../../../../app/appLayout';
+import { attachmentsCollection } from '../../../../api/attachmentsCollection';
 import { SysFormContext } from '../../sysForm/sysForm';
-import { hasValue } from '/imports/libs/hasValue';
+import { hasValue } from '../../../../libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import { Meteor } from 'meteor/meteor';
@@ -15,20 +15,10 @@ import { SxProps, Theme } from '@mui/material';
 import { SysLoading } from '../../sysLoading/sysLoading';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 
-
-const {
-  BoxItem,
-  BoxIcon,
-  BoxIconsCard,
-  CardInfo,
-  TypographyInfo,
-  TypographyAdd,
-  ElipsesText,
-  Container,
-  Button,
-} = SysUploadFileStyle;
+const { BoxItem, BoxIcon, BoxIconsCard, CardInfo, TypographyInfo, TypographyAdd, ElipsesText, Container, Button } =
+	SysUploadFileStyle;
 
 interface IArquivo {
 	name: string;
@@ -56,19 +46,19 @@ interface ISysUploadFile extends ISysFormComponent<any> {
 }
 
 export const SysUploadFile: React.FC<ISysUploadFile> = ({
-  name,
-  label,
-  value,
-  defaultValue,
-  disabled,
-  loading,
-  readOnly,
-  error,
-  showLabelAdornment,
-  labelAdornment,
-  showTooltip,
-  tooltipMessage,
-  tooltipPosition,
+	name,
+	label,
+	value,
+	defaultValue,
+	disabled,
+	loading,
+	readOnly,
+	error,
+	showLabelAdornment,
+	labelAdornment,
+	showTooltip,
+	tooltipMessage,
+	tooltipPosition,
 	sxMap,
 	btnTextDesc = 'Arraste o arquivo até aqui ou clique abaixo',
 	validTypes = ['text', 'audio', 'image', 'video', 'application'] // Caso queira adicionar outras extensoes, adicione tambem ao arquivo attachment Collection.js
@@ -90,7 +80,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
-  showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
+	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
@@ -188,21 +178,20 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	return (
 		<FormControl error={!!errorState}>
 			<SysLabelView
-        label={label}
-        showLabelAdornment={showLabelAdornment}
-        labelAdornment={labelAdornment}
-        disabled={disabled}
-        showTooltip={showTooltip}
-        tooltipMessage={tooltipMessage}
-        tooltipPosition={tooltipPosition}
-      >
+				label={label}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+				disabled={disabled}
+				showTooltip={showTooltip}
+				tooltipMessage={tooltipMessage}
+				tooltipPosition={tooltipPosition}>
 				<Container readOnly={readOnly} sx={sxMap?.container}>
 					{!readOnly && (
 						<Button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
 							<input {...getInputProps()} />
 							<TypographyInfo variant="caption">{btnTextDesc}</TypographyInfo>
 							<TypographyAdd variant="button2">
-                <SysIcon name={'add'}/>
+								<SysIcon name={'add'} />
 								Adicionar
 							</TypographyAdd>
 						</Button>
@@ -225,12 +214,14 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 									</CardInfo>
 
 									<BoxIconsCard sx={sxMap?.boxIconsCard}>
-                    <SysIcon name={'delete'}
+										<SysIcon
+											name={'delete'}
 											color="primary"
 											sx={{ cursor: 'pointer', display: readOnly ? 'none' : 'block' }}
 											onClick={() => deleteFile(item._id)}
 										/>
-										<SysIcon name={'download'}
+										<SysIcon
+											name={'download'}
 											color="primary"
 											onClick={() => downloadURI(item)}
 											sx={{ cursor: 'pointer', display: readOnly ? 'block' : 'none' }}
@@ -246,7 +237,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 					)}
 				</Container>
 			</SysLabelView>
-      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
+			{!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

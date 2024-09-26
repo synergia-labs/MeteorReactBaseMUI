@@ -3,18 +3,13 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { Theme, SxProps } from '@mui/material';
 import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar'
-import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
-import { hasValue } from '/imports/libs/hasValue';
+import Snackbar from '@mui/material/Snackbar';
+import { ISysGeneralComponentsCommon } from '../../../typings/BoilerplateDefaultTypings';
+import { hasValue } from '../../../libs/hasValue';
 import ShowNotificationStyles from './showNotificationStyles';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import SysIcon from '../../../ui/components/sysIcon/sysIcon';
 
-
-const {
-  Body,
-  Container,
-  Header
-} = ShowNotificationStyles;
+const { Body, Container, Header } = ShowNotificationStyles;
 
 export interface IShowNotificationProps extends ISysGeneralComponentsCommon {
 	onOpen?: () => void;

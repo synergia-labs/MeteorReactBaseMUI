@@ -2,9 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import SysForm from '/imports/ui/components/sysForm/sysForm';
-import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import SysFormTestsStyles from './sysFormTestsStyles';
+import SysForm from '../../../ui/components/sysForm/sysForm';
+import SysFormButton from '../../../ui/components/sysFormFields/sysFormButton/sysFormButton';
 import { sysFormTestsSch } from './sysFormTestsSch';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 import CodeViewSysForm from './components/codeViewSysForm';
@@ -96,16 +95,16 @@ const SysFormTestsPage: React.FC = () => {
 			</Box>
 			<Typography variant="h5">Controladores</Typography>
 			<SysFormTestsStyles.controllersContainer>
-				<Button startIcon={<SysIcon name={'manageSearch'} /> } onClick={() => validateForm()}>
+				<Button startIcon={<SysIcon name={'manageSearch'} />} onClick={() => validateForm()}>
 					Validar
 				</Button>
-				<Button startIcon={<SysIcon name={'cleaning'} /> } onClick={() => clear()}>
+				<Button startIcon={<SysIcon name={'cleaning'} />} onClick={() => clear()}>
 					Limpar
 				</Button>
 				<Button startIcon={<SysIcon name={'syncOutlined'} />} onClick={() => updateDoc()}>
 					Atualizar DocValues
 				</Button>
-				<Button startIcon={<SysIcon name={'hourglassEmpty'}/> } onClick={() => setLoading(!loading)}>
+				<Button startIcon={<SysIcon name={'hourglassEmpty'} />} onClick={() => setLoading(!loading)}>
 					{loading ? 'Desativar Loading' : 'Ativar Loading'}
 				</Button>
 				<Button onClick={() => forceSubmit()} startIcon={<SysIcon name={'security'} />}>
@@ -114,7 +113,7 @@ const SysFormTestsPage: React.FC = () => {
 				<Button onClick={() => setDisabled(!disabled)} startIcon={<SysIcon name={'notInterested'} />}>
 					{!disabled ? 'Desativar Formulário' : 'Ativar Formulário'}
 				</Button>
-				<Button onClick={() => changeMode()} startIcon={<SysIcon name={'manageSearch'} /> }>
+				<Button onClick={() => changeMode()} startIcon={<SysIcon name={'manageSearch'} />}>
 					{mode === 'view' ? 'Mudar para modo: Create' : 'Mudar para modo: View'}
 				</Button>
 				<Button onClick={() => setOnChangeRealTime(!onChangeRealTime)} startIcon={<SysIcon name={'schedule'} />}>
@@ -166,7 +165,7 @@ const SysFormTestsPage: React.FC = () => {
 						isVisibled={sysFormRef.current?.checkVisibilityField('contacts.cnpj') ?? true}
 						onClick={() => sysFormRef.current?.validateIndividualField('contacts.cnpj')}
 					/>
-					<SysTextField name="contacts.novoSubSchema.email" endAdornment={<SysIcon name={'emailOutlined'}/>} />
+					<SysTextField name="contacts.novoSubSchema.email" endAdornment={<SysIcon name={'emailOutlined'} />} />
 					<SysUploadFile name="arquivos" disabled />
 					<SysLocationField name="address" />
 					<SysFormButton sx={{ alignSelf: 'flex-end' }}>Submit</SysFormButton>

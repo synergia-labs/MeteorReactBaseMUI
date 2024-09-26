@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Chip from '@mui/material/Chip';
-import { hasValue } from '/imports/libs/hasValue';
+import { hasValue } from '../imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
@@ -8,7 +8,6 @@ import { styles } from './ChipInputStyle';
 import _ from 'lodash';
 import { IBaseSimpleFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-
 
 export default ({ name, label, value, onChange, readOnly, error, ...otherProps }: IBaseSimpleFormComponent) => {
 	const [chipText, setChipText] = useState('');

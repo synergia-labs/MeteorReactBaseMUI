@@ -6,10 +6,10 @@ import Typography from '@mui/material/Typography';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { ISysFormComponentRef } from '../../sysForm/typings';
-import { generalMask } from '/imports/libs/MaskFunctions';
-import { hasValue } from '/imports/libs/hasValue';
+import { generalMask } from '../../../../libs/MaskFunctions';
+import { hasValue } from '../../../../libs/hasValue';
 import SysLabelView from '../../sysLabelView/sysLabelView';
-import { removerFormatacoes } from '/imports/libs/normalizarTexto';
+import { removerFormatacoes } from '../../../../libs/normalizarTexto';
 import { SysViewField } from '../sysViewField/sysViewField';
 
 interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
@@ -32,20 +32,20 @@ interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 }
 
 const SysTextField: React.FC<ISysTextFieldProps> = ({
-  name,
-  label,
-  value,
-  defaultValue,
-  onChange,
-  disabled,
-  loading,
-  readOnly,
-  error,
-  showLabelAdornment,
-  labelAdornment,
-  showTooltip,
-  tooltipMessage,
-  tooltipPosition,
+	name,
+	label,
+	value,
+	defaultValue,
+	onChange,
+	disabled,
+	loading,
+	readOnly,
+	error,
+	showLabelAdornment,
+	labelAdornment,
+	showTooltip,
+	tooltipMessage,
+	tooltipPosition,
 	mask,
 	startAdornment,
 	endAdornment,
@@ -113,18 +113,25 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 
 	if (!visibleState) return null;
 
-	if (readOnly) return <SysViewField label={label} placeholder={valueState || '-'} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment}/>;
+	if (readOnly)
+		return (
+			<SysViewField
+				label={label}
+				placeholder={valueState || '-'}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+			/>
+		);
 
 	return (
 		<SysLabelView
-      label={label}
-      showLabelAdornment={showLabelAdornment}
-      labelAdornment={labelAdornment}
-      disabled={disabled}
-      showTooltip={showTooltip}
-      tooltipMessage={tooltipMessage}
-      tooltipPosition={tooltipPosition}
-    >
+			label={label}
+			showLabelAdornment={showLabelAdornment}
+			labelAdornment={labelAdornment}
+			disabled={disabled}
+			showTooltip={showTooltip}
+			tooltipMessage={tooltipMessage}
+			tooltipPosition={tooltipPosition}>
 			<TextField
 				{...otherProps}
 				name={name}

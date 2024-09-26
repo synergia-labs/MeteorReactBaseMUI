@@ -2,13 +2,12 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import { SysFormContext } from '../../sysForm/sysForm';
-import { hasValue } from '/imports/libs/hasValue';
+import { hasValue } from '../../../../libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SxProps, Theme } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
-
 
 interface ISysSwitchProps extends ISysFormComponent<SwitchProps> {
 	/** Estilo do componente.*/
@@ -20,23 +19,23 @@ interface ISysSwitchProps extends ISysFormComponent<SwitchProps> {
 }
 
 const SysSwitch: React.FC<ISysSwitchProps> = ({
-  name,
-  label,
-  value,
-  defaultValue,
-  onChange,
-  disabled,
-  loading,
-  readOnly,
-  error,
-  showLabelAdornment,
-  labelAdornment,
-  showTooltip,
-  tooltipMessage,
-  tooltipPosition,
-  labelPosition = 'end',
-  valueLabel,
-  sxMap,
+	name,
+	label,
+	value,
+	defaultValue,
+	onChange,
+	disabled,
+	loading,
+	readOnly,
+	error,
+	showLabelAdornment,
+	labelAdornment,
+	showTooltip,
+	tooltipMessage,
+	tooltipPosition,
+	labelPosition = 'end',
+	valueLabel,
+	sxMap,
 	...otherProps
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
@@ -79,14 +78,13 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 
 	return (
 		<SysLabelView
-      label={label}
-      showLabelAdornment={showLabelAdornment}
-      labelAdornment={labelAdornment}
-      disabled={disabled}
-      showTooltip={showTooltip}
-      tooltipMessage={tooltipMessage}
-      tooltipPosition={tooltipPosition}
-    >
+			label={label}
+			showLabelAdornment={showLabelAdornment}
+			labelAdornment={labelAdornment}
+			disabled={disabled}
+			showTooltip={showTooltip}
+			tooltipMessage={tooltipMessage}
+			tooltipPosition={tooltipPosition}>
 			<FormControlLabel
 				value={labelPosition}
 				label={valueLabel ?? (valueState ? 'Sim' : 'Não')}
@@ -104,7 +102,7 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 					/>
 				}
 			/>
-      {!!errorState && <FormHelperText sx={{ color: 'error.main' }}> {errorState} </FormHelperText>}
+			{!!errorState && <FormHelperText sx={{ color: 'error.main' }}> {errorState} </FormHelperText>}
 		</SysLabelView>
 	);
 };

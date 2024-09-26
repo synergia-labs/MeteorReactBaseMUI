@@ -1,16 +1,10 @@
 import { IModuleHub } from './modulesTypings';
 import Example from './example/config';
-import Aniversario from "/imports/modules/aniversario/config";
+import Aniversario from './aniversario/config';
 
-const pages = [
-  ...Example.pagesRouterList,
-  ...Aniversario.pagesRouterList
-];
+const pages = [...Example.pagesRouterList, ...Aniversario.pagesRouterList];
 
-const menuItens = [
-  ...Example.pagesMenuItemList,
-  ...Aniversario.pagesMenuItemList
-];
+const menuItens = [...Example.pagesMenuItemList, ...Aniversario.pagesMenuItemList];
 
 const Modules: IModuleHub = {
 	pagesMenuItemList: menuItens,

@@ -2,9 +2,9 @@ import { Theme } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
 import { Location, NavigateFunction } from 'react-router-dom';
-import { IShowNotificationProps } from '/imports/ui/appComponents/showNotification/showNotification';
-import { IShowDialogProps } from '/imports/ui/appComponents/showDialog/showDialog';
-import { IShowDrawerProps } from '/imports/ui/appComponents/showDrawer/showDrawer';
+import { IShowNotificationProps } from '../ui/appComponents/showNotification/showNotification';
+import { IShowDialogProps } from '../ui/appComponents/showDialog/showDialog';
+import { IShowDrawerProps } from '../ui/appComponents/showDrawer/showDrawer';
 import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 
 export interface ISysAppContext {

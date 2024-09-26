@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { IDefField, ISchema } from '/imports/typings/ISchema';
+import { IDefField, ISchema } from '../../../typings/ISchema';
 import { IOption } from '../InterfaceBaseSimpleFormComponent';
 
 interface IDocValues {

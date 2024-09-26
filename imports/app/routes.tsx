@@ -1,7 +1,7 @@
 import Modules from '../modules';
 import Pages from '../sysPages/config';
 import UserProfile from '../modules/userprofile/config';
-import { IAppMenu, IRoute } from '/imports/modules/modulesTypings';
+import { IAppMenu, IRoute } from '../modules/modulesTypings';
 import { useLocation } from 'react-router-dom';
 
 class SysRoutes {

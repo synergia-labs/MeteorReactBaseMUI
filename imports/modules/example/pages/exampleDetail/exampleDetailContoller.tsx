@@ -5,9 +5,9 @@ import { ExampleModuleContext } from '../../exampleContainer';
 import { useTracker } from 'meteor/react-meteor-data';
 import { exampleApi } from '../../api/exampleApi';
 import { IExample } from '../../api/exampleSch';
-import { ISchema } from '/imports/typings/ISchema';
-import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
+import { ISchema } from '../../../../typings/ISchema';
+import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
+import { SysAppLayoutContext } from '../../../../app/appLayout';
 
 interface IExampleDetailContollerContext {
 	closePage: () => void;

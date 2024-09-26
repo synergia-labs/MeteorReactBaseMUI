@@ -1,6 +1,6 @@
 import ExampleContainer from '../exampleContainer';
 import { Recurso } from './recursos';
-import { IRoute } from '/imports/modules/modulesTypings';
+import { IRoute } from '../../../modules/modulesTypings';
 
 export const exampleRouterList: (IRoute | null)[] = [
 	{

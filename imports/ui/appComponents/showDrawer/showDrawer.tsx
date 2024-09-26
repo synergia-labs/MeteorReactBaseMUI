@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from 'react';
-import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
+import { ISysGeneralComponentsCommon } from '../../../typings/BoilerplateDefaultTypings';
 import { SxProps, Theme } from '@mui/material';
 import Drawer, { DrawerProps } from '@mui/material/Drawer';
 

@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import { SysFormContext } from '../../sysForm/sysForm';
-import { hasValue } from '/imports/libs/hasValue';
+import { hasValue } from '../../../../libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
 import SysLabelView from '../../sysLabelView/sysLabelView';
@@ -15,7 +15,7 @@ import listEstados from './estados';
 import localidades from './localidades.json';
 import { SysViewField } from '../sysViewField/sysViewField';
 import SysLocationFieldStyle from './sysLocationFieldStyle';
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 
 interface ILocation {
 	estado?: string | null;
@@ -47,20 +47,20 @@ interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, 'variant
 const { AutoComplete, TextField } = SysLocationFieldStyle;
 
 export const SysLocationField: React.FC<ISysLocationField> = ({
-  name,
-  label,
-  value,
-  defaultValue,
-  onChange,
-  disabled,
-  loading,
-  readOnly,
-  error,
-  showLabelAdornment,
-  labelAdornment,
-  showTooltip,
-  tooltipMessage,
-  tooltipPosition,
+	name,
+	label,
+	value,
+	defaultValue,
+	onChange,
+	disabled,
+	loading,
+	readOnly,
+	error,
+	showLabelAdornment,
+	labelAdornment,
+	showTooltip,
+	tooltipMessage,
+	tooltipPosition,
 	onlyEstado = false,
 	placeholder = 'Selecione um estado',
 	sxMap,
@@ -187,20 +187,26 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 				: valueState?.estado
 					? valueState?.estado
 					: '-';
-		return <SysViewField label={label} placeholder={str} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
+		return (
+			<SysViewField
+				label={label}
+				placeholder={str}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+			/>
+		);
 	}
 
 	return (
 		<FormControl error={!!errorState} sx={sxMap?.container}>
 			<SysLabelView
-        label={label}
-        showLabelAdornment={showLabelAdornment}
-        labelAdornment={labelAdornment}
-        disabled={disabled}
-        showTooltip={showTooltip}
-        tooltipMessage={tooltipMessage}
-        tooltipPosition={tooltipPosition}
-      >
+				label={label}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+				disabled={disabled}
+				showTooltip={showTooltip}
+				tooltipMessage={tooltipMessage}
+				tooltipPosition={tooltipPosition}>
 				<Select
 					{...otherProps}
 					name={'estado'}
@@ -209,7 +215,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					displayEmpty
 					error={!!errorState}
 					disabled={disabled || loading}
-          IconComponent={() => <SysIcon name={'arrowDropDown'} />}
+					IconComponent={() => <SysIcon name={'arrowDropDown'} />}
 					renderValue={(options) => {
 						if (!hasValue(options)) {
 							return (
@@ -245,7 +251,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					blurOnSelect={true}
 					onlyEstado={onlyEstado}
 					onChange={handleOnChange}
-          popupIcon={<SysIcon name={'arrowDropDown'} />}
+					popupIcon={<SysIcon name={'arrowDropDown'} />}
 					sx={sxMap?.autoComplete}
 					options={filteredLocalidades.map((l) => ({
 						value: JSON.stringify({
@@ -265,7 +271,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 					)}
 				/>
 			</SysLabelView>
-      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
+			{!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

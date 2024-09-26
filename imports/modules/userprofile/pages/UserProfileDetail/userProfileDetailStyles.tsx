@@ -1,7 +1,7 @@
 import { ElementType } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
-import { styled } from '@mui/material/styles'
-import { sysSizing } from '/imports/ui/materialui/styles';
+import { styled } from '@mui/material/styles';
+import { sysSizing } from '../../../../ui/materialui/styles';
 
 interface IUserProfileDetailStyles {
 	Container: ElementType<BoxProps>;

@@ -1,5 +1,5 @@
 import UserProfileContainer from '../userProfileContainer';
-import { IRoute } from '/imports/modules/modulesTypings';
+import { IRoute } from '../../../modules/modulesTypings';
 import { Recurso } from './recurso';
 
 export const userProfileRouterList: (IRoute | null)[] = [

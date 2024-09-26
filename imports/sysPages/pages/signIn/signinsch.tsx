@@ -1,6 +1,6 @@
-import { validarEmail } from '/imports/libs/validaEmail';
-import { IDoc } from '/imports/typings/IDoc';
-import { ISchema } from '/imports/typings/ISchema';
+import { validarEmail } from '../../../libs/validaEmail';
+import { IDoc } from '../../../typings/IDoc';
+import { ISchema } from '../../../typings/ISchema';
 
 export const signInSchema: ISchema<ISignIn> = {
 	email: {

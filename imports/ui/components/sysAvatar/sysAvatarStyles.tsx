@@ -1,6 +1,6 @@
 import React, { ElementType } from 'react';
 import { Avatar, AvatarProps, Box, BoxProps, styled, Theme } from '@mui/material';
-import { sysSizing } from '/imports/ui/materialui/styles';
+import { sysSizing } from '../../materialui/styles';
 
 interface ISysAvatarStyles {
 	Container: ElementType<BoxProps & IContainer>;
@@ -33,17 +33,17 @@ const SysAvatarStyles: ISysAvatarStyles = {
 		width: sysSizing.contentPt,
 		height: sysSizing.contentPt,
 		backgroundColor: theme?.palette.primary.dark,
-    transition: 'all 150ms linear',
+		transition: 'all 150ms linear',
 		'&:hover': {
 			backgroundColor: theme?.palette.sysAction?.primaryContrastText,
 			color: theme.palette.sysAction?.primaryHover,
-      transition: 'all 150ms linear'
+			transition: 'all 150ms linear'
 		},
 		'&:focus': {
 			backgroundColor: theme?.palette.sysAction?.primaryContrastText,
 			color: theme?.palette.sysAction?.primaryHover,
 			outline: 'none',
-      transition: 'all 150ms linear'
+			transition: 'all 150ms linear'
 		}
 	}))
 };

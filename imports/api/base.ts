@@ -1,10 +1,10 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
-import { countsCollection } from '/imports/api/countCollection';
-import { IBaseOptions } from '/imports/typings/IBaseOptions';
-import { ISchema } from '/imports/typings/ISchema';
-import { IMeteorError } from '/imports/typings/IMeteorError';
-import { IDoc } from '/imports/typings/IDoc';
+import { countsCollection } from '../api/countCollection';
+import { IBaseOptions } from '../typings/IBaseOptions';
+import { ISchema } from '../typings/ISchema';
+import { IMeteorError } from '../typings/IMeteorError';
+import { IDoc } from '../typings/IDoc';
 import Selector = Mongo.Selector;
 
 const defaultOptions = {

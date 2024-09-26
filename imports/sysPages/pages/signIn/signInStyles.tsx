@@ -2,7 +2,7 @@ import React from 'react';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { sysSizing } from '/imports/ui/materialui/styles';
+import { sysSizing } from '../../../ui/materialui/styles';
 
 interface ISignInStyles {
 	Container: React.ElementType;

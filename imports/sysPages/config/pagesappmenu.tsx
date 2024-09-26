@@ -1,6 +1,6 @@
 import React from 'react';
-import { IAppMenu } from '/imports/modules/modulesTypings';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import { IAppMenu } from '../../modules/modulesTypings';
+import SysIcon from '../../ui/components/sysIcon/sysIcon';
 
 export const pagesMenuItemList: (IAppMenu | null)[] = [
 	{

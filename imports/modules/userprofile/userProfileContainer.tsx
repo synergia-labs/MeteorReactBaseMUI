@@ -1,8 +1,8 @@
 import React from 'react';
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
+import { IDefaultContainerProps } from '../../typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
-import UserProfileListController from '/imports/modules/userprofile/pages/UserProfileList/userProfileListController';
-import { SysAppContext } from '/imports/app/appContainer';
+import UserProfileListController from '../../modules/userprofile/pages/UserProfileList/userProfileListController';
+import { SysAppContext } from '../../app/appContainer';
 import ExampleDetailController from '../example/pages/exampleDetail/exampleDetailContoller';
 
 export interface IUserProfileModuleContext {

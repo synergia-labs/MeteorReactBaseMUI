@@ -3,7 +3,7 @@ import ExampleListView from './exampleListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
-import { ISchema } from '/imports/typings/ISchema';
+import { ISchema } from '../../../../typings/ISchema';
 import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
 

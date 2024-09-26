@@ -4,10 +4,10 @@ import UserProfileListView from './userProfileListView';
 import { IUserProfile } from '../../api/userProfileSch';
 import { useTracker } from 'meteor/react-meteor-data';
 import { userprofileApi } from '../../api/userProfileApi';
-import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
+import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
+import { SysAppLayoutContext } from '../../../../app/appLayout';
 import UserProfileDetailController from '../UserProfileDetail/userProfileDetailController';
-import { sysSizing } from '/imports/ui/materialui/styles';
+import { sysSizing } from '../../../../ui/materialui/styles';
 
 interface IInitialConfig {
 	pageProperties: {

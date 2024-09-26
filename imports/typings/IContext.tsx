@@ -1,7 +1,7 @@
-import { IUserProfile } from '../userprofile/api/UserProfileSch';
+import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 import { IConnection } from './IConnection';
 import { ISchema } from './ISchema';
-import { Validador } from '/imports/libs/Validador';
+import { Validador } from '../libs/Validador';
 
 export interface IContext {
 	docId?: string;

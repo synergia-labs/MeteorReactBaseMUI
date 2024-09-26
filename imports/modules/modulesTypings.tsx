@@ -1,5 +1,5 @@
 import React from 'react';
-import { SysTemplateOptions } from '/imports/ui/templates/getTemplate';
+import { SysTemplateOptions } from '../ui/templates/getTemplate';
 
 interface IAppMenu {
 	path?: string;

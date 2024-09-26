@@ -5,17 +5,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { UserProfileListControllerContext } from './userProfileListController';
 import { SysCardUser } from '../../components/sysCardUser/sysCardUser';
 import UserProfileListViewStyled from './userProfileListStyles';
-import { SysFab } from '/imports/ui/components/sysFab/sysFab';
-import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
+import { SysFab } from '../../../../ui/components/sysFab/sysFab';
+import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { useTheme } from '@mui/material/styles';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 
 const UserProfileLisView = () => {
 	const context = useContext(UserProfileListControllerContext);
 	const { list, onSearch, onSetFilter, onAddButtonClick } = context;
 	const [selectedRole, setSelectedRole] = useState('');
 	const theme = useTheme();
-  const { Container, Filters, } = UserProfileListViewStyled;
+	const { Container, Filters } = UserProfileListViewStyled;
 	const options = [
 		{
 			value: '',
@@ -72,7 +72,13 @@ const UserProfileLisView = () => {
 						/>
 					);
 				})}
-			<SysFab variant="extended" text="Adicionar" startIcon={<SysIcon name={'add'} />} fixed={true} onClick={onAddButtonClick} />
+			<SysFab
+				variant="extended"
+				text="Adicionar"
+				startIcon={<SysIcon name={'add'} />}
+				fixed={true}
+				onClick={onAddButtonClick}
+			/>
 		</Container>
 	);
 };

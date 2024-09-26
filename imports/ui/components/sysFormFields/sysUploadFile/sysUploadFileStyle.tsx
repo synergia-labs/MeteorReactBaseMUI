@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 import { Box, Button, styled } from '@mui/material';
-import { sysSizing } from '/imports/ui/materialui/styles';
+import { sysSizing } from '../../../../ui/materialui/styles';
 
 interface IContainer {
 	readOnly: boolean | undefined;

@@ -1,9 +1,8 @@
 import React from 'react';
-import { IAppMenu } from '/imports/modules/modulesTypings';
+import { IAppMenu } from '../../../modules/modulesTypings';
 import { BoxProps, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SysNavLinkStyles from './sysNavLinkStyles';
-
 
 const { Container } = SysNavLinkStyles;
 
@@ -14,7 +13,7 @@ interface ISysNavLink extends BoxProps {
 	icon?: React.ReactNode;
 	path?: string;
 	children?: React.ReactNode;
-  disabled?: boolean;
+	disabled?: boolean;
 }
 
 export const SysNavLink: React.FC<ISysNavLink> = ({
@@ -24,7 +23,7 @@ export const SysNavLink: React.FC<ISysNavLink> = ({
 	icon,
 	path,
 	children,
-  disabled = false,
+	disabled = false,
 	...props
 }) => {
 	const navigate = useNavigate();

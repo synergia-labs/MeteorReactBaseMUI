@@ -5,14 +5,14 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
-import Select,{ SelectChangeEvent, SelectProps,} from '@mui/material/Select';
+import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
 import { Collapse, SxProps, Theme } from '@mui/material';
 import { SysFormContext } from '../../sysForm/sysForm';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import { SysViewField } from '../sysViewField/sysViewField';
-import { hasValue } from '/imports/libs/hasValue';
+import { hasValue } from '../../../../libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 
 interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, 'variant'>> {
 	defaultValue?: string;
@@ -27,24 +27,24 @@ interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, 'vari
 }
 
 export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
-  name,
-  label,
-  value,
-  defaultValue,
-  options,
-  onChange,
-  disabled,
-  loading,
-  readOnly,
-  error,
-  showLabelAdornment,
-  labelAdornment,
-  showTooltip,
-  tooltipMessage,
-  tooltipPosition,
-  description,
-  menuNone,
-  menuNotSelected,
+	name,
+	label,
+	value,
+	defaultValue,
+	options,
+	onChange,
+	disabled,
+	loading,
+	readOnly,
+	error,
+	showLabelAdornment,
+	labelAdornment,
+	showTooltip,
+	tooltipMessage,
+	tooltipPosition,
+	description,
+	menuNone,
+	menuNotSelected,
 	multiple,
 	renderValue,
 	placeholder,
@@ -85,8 +85,8 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 
 	const handleChange = (e: SelectChangeEvent) => {
 		const newValue = e.target.value;
-    const selectedOption = optionsState?.find((option) => option.value === newValue);
-    setValueState(selectedOption?.label || '');
+		const selectedOption = optionsState?.find((option) => option.value === newValue);
+		setValueState(selectedOption?.label || '');
 		if (inSysFormContext) {
 			controllerSysForm?.onChangeComponentValue({ refComponent: refObject!, value: newValue });
 		}
@@ -95,60 +95,62 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 
 	if (readOnly) {
 		const viewValue = optionsState && optionsState.find((option) => option.value === valueState);
-		return <SysViewField label={label} placeholder={viewValue?.label || '-'} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment}/>;
+		return (
+			<SysViewField
+				label={label}
+				placeholder={viewValue?.label || '-'}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+			/>
+		);
 	}
 
 	return (
-    <Collapse
-      in={!!visibleState && options?.length !== 0}
-      unmountOnExit
-      sx={{ width: '100%' }}
-    >
-      <FormControl error={!!errorState} sx={sxMap?.container}>
-        <SysLabelView
-          label={label}
-          showLabelAdornment={showLabelAdornment}
-          labelAdornment={labelAdornment}
-          disabled={disabled}
-          showTooltip={showTooltip}
-          tooltipMessage={tooltipMessage}
-          tooltipPosition={tooltipPosition}
-        >
-          <Select
-            {...otherProps}
-            labelId={`${label}${name}`}
-            id={name}
-            value={valueState || ''}
-            onChange={handleChange}
-            displayEmpty
-            disabled={disabled || loading}
-            multiple={multiple}
-            IconComponent={() => <SysIcon name={'arrowDropDown'} />}
-            renderValue={(options) => {
-              if (!hasValue(options)) {
-                return (
-                  <Typography variant="body1" color={'text.disabled'}>
-                    {placeholder}
-                  </Typography>
-                );
-              }
-              return options;
-            }}>
-            {options?.length === 0 ? (
-              <MenuItem id={'NoValues'} disabled value="">
-                <ListItemText primary="Nenhuma opção para selecionar" />
-              </MenuItem>
-            ) : (
-              options?.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))
-            )}
-          </Select>
-        </SysLabelView>
-        {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
-      </FormControl>
-    </Collapse>
+		<Collapse in={!!visibleState && options?.length !== 0} unmountOnExit sx={{ width: '100%' }}>
+			<FormControl error={!!errorState} sx={sxMap?.container}>
+				<SysLabelView
+					label={label}
+					showLabelAdornment={showLabelAdornment}
+					labelAdornment={labelAdornment}
+					disabled={disabled}
+					showTooltip={showTooltip}
+					tooltipMessage={tooltipMessage}
+					tooltipPosition={tooltipPosition}>
+					<Select
+						{...otherProps}
+						labelId={`${label}${name}`}
+						id={name}
+						value={valueState || ''}
+						onChange={handleChange}
+						displayEmpty
+						disabled={disabled || loading}
+						multiple={multiple}
+						IconComponent={() => <SysIcon name={'arrowDropDown'} />}
+						renderValue={(options) => {
+							if (!hasValue(options)) {
+								return (
+									<Typography variant="body1" color={'text.disabled'}>
+										{placeholder}
+									</Typography>
+								);
+							}
+							return options;
+						}}>
+						{options?.length === 0 ? (
+							<MenuItem id={'NoValues'} disabled value="">
+								<ListItemText primary="Nenhuma opção para selecionar" />
+							</MenuItem>
+						) : (
+							options?.map((option) => (
+								<MenuItem key={option.value} value={option.value}>
+									{option.label}
+								</MenuItem>
+							))
+						)}
+					</Select>
+				</SysLabelView>
+				{!!errorState && <FormHelperText>{errorState}</FormHelperText>}
+			</FormControl>
+		</Collapse>
 	);
 };

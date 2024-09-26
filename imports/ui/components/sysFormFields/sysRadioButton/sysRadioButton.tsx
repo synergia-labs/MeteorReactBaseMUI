@@ -9,9 +9,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import SysLabelView from '../../sysLabelView/sysLabelView';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import { hasValue } from '/imports/libs/hasValue';
+import { hasValue } from '../../../../libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
-import {sysSizing} from "/imports/ui/materialui/styles";
+import { sysSizing } from '../../../../ui/materialui/styles';
 
 interface ISysRadioProps extends ISysFormComponent<RadioProps> {
 	/** Estilo do componente.*/
@@ -24,23 +24,23 @@ interface ISysRadioProps extends ISysFormComponent<RadioProps> {
 }
 
 export const SysRadioButton: React.FC<ISysRadioProps> = ({
-  name,
-  label,
-  value,
-  defaultValue,
-  options,
-  onChange,
-  disabled,
-  loading,
-  readOnly,
-  error,
-  showLabelAdornment,
-  labelAdornment,
-  showTooltip,
-  tooltipMessage,
-  tooltipPosition,
-  childrenAlignment = 'column',
-  sxMap,
+	name,
+	label,
+	value,
+	defaultValue,
+	options,
+	onChange,
+	disabled,
+	loading,
+	readOnly,
+	error,
+	showLabelAdornment,
+	labelAdornment,
+	showTooltip,
+	tooltipMessage,
+	tooltipPosition,
+	childrenAlignment = 'column',
+	sxMap,
 	...otherProps
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
@@ -84,20 +84,26 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 
 	if (readOnly) {
 		const viewValue = optionsState && optionsState.find((option) => option.value === valueState);
-		return <SysViewField label={label} placeholder={viewValue?.label || '-'} showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
+		return (
+			<SysViewField
+				label={label}
+				placeholder={viewValue?.label || '-'}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+			/>
+		);
 	}
 
 	return (
 		<FormControl error={!!errorState} sx={sxMap?.container}>
 			<SysLabelView
-        label={label}
-        showLabelAdornment={showLabelAdornment}
-        labelAdornment={labelAdornment}
-        disabled={disabled}
-        showTooltip={showTooltip}
-        tooltipMessage={tooltipMessage}
-        tooltipPosition={tooltipPosition}
-      >
+				label={label}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+				disabled={disabled}
+				showTooltip={showTooltip}
+				tooltipMessage={tooltipMessage}
+				tooltipPosition={tooltipPosition}>
 				<RadioGroup
 					value={valueState || ''}
 					name="controlled-radio-buttons-group"
@@ -106,7 +112,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 						{
 							flexDirection: childrenAlignment,
 							flexWrap: 'wrap',
-              gap: sysSizing.spacingRemMd
+							gap: sysSizing.spacingRemMd
 						},
 						...(Array.isArray(sxMap?.radioGroup) ? sxMap?.radioGroup : [sxMap?.radioGroup])
 					]}>
@@ -122,7 +128,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 						))}
 				</RadioGroup>
 			</SysLabelView>
-      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
+			{!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };

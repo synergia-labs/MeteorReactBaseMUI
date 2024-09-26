@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useState } from 'react';
 import UserProfileDetailView from './userProfileDetailView';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
+import { SysAppLayoutContext } from '../../../../app/appLayout';
 import { useTracker } from 'meteor/react-meteor-data';
 import { userprofileApi } from '../../api/userProfileApi';
 import { IUserProfile } from '../../api/userProfileSch';
-import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { ISchema } from '/imports/typings/ISchema';
+import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
+import { ISchema } from '../../../../typings/ISchema';
 
 interface IUserProfileDetailControllerContext {
 	user: IUserProfile;

@@ -1,6 +1,6 @@
 import { pagesRouterList } from './pagesrouters';
 import { pagesMenuItemList } from './pagesappmenu';
-import { IModuleHub } from '/imports/modules/modulesTypings';
+import { IModuleHub } from '../../modules/modulesTypings';
 
 const Pages: IModuleHub = {
 	pagesRouterList,

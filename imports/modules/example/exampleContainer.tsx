@@ -1,8 +1,8 @@
 import React from 'react';
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
+import { IDefaultContainerProps } from '../../typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
-import ExampleListController from '/imports/modules/example/pages/exampleList/exampleListController';
-import ExampleDetailController from '/imports/modules/example/pages/exampleDetail/exampleDetailContoller';
+import ExampleListController from '../../modules/example/pages/exampleList/exampleListController';
+import ExampleDetailController from '../../modules/example/pages/exampleDetail/exampleDetailContoller';
 
 export interface IExampleModuleContext {
 	state?: string;

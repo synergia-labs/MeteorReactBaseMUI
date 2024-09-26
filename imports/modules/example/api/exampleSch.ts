@@ -1,5 +1,5 @@
-import { IDoc } from '/imports/typings/IDoc';
-import { ISchema } from '/imports/typings/ISchema';
+import { IDoc } from '../../../typings/IDoc';
+import { ISchema } from '../../../typings/ISchema';
 
 export const exampleSch: ISchema<IExample> = {
 	image: {

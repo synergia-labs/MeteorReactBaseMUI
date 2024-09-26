@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 
 interface IShowNotificationChatProps {
 	// Métodos obrigatórios para toda notificação personalizada

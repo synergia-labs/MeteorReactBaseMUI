@@ -1,8 +1,8 @@
-import { validarCPF } from '/imports/libs/validaCPF';
-import { validarEmail } from '/imports/libs/validaEmail';
-import { validarCNPJ } from '/imports/libs/validarCNPJ';
-import { IDoc } from '/imports/typings/IDoc';
-import { ISchema } from '/imports/typings/ISchema';
+import { validarCPF } from '../../../libs/validaCPF';
+import { validarEmail } from '../../../libs/validaEmail';
+import { validarCNPJ } from '../../../libs/validarCNPJ';
+import { IDoc } from '../../../typings/IDoc';
+import { ISchema } from '../../../typings/ISchema';
 
 export const sysFormTestsSch: ISchema<ISysFormTestsSch> = {
 	title: {
