@@ -21,7 +21,7 @@ interface IUserProfileEstendido extends IUserProfile {
  * @return {Object} Logged User
  */
 export const getUserServer = async (connection?: { id: string } | null): IUserProfile => {
-	const user: (User & IMeteorUser) | null = await Meteor.user();
+	const user: (User & IMeteorUser) | null = await Meteor.userAsync();
 
 	try {
 		const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
@@ -124,7 +124,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		});
 
 		this.addPublication('getLoggedUserProfile', async () => {
-			const user: IMeteorUser | null = await Meteor.user();
+			const user: IMeteorUser | null = await Meteor.userAsync();
 
 			if (!user) {
 				return;
