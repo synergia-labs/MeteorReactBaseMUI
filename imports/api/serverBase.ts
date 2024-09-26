@@ -6,9 +6,9 @@ import { ClientSession, MongoClient } from 'mongodb';
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import sharp from 'sharp';
-import { countsCollection } from '/imports/api/countCollection';
-import { Validador } from '/imports/libs/Validador';
-import { segurancaApi } from '/imports/security/api/segurancaApi';
+import { countsCollection } from '../api/countCollection';
+import { Validador } from '../libs/Validador';
+import { segurancaApi } from '../security/api/segurancaApi';
 import { WebApp } from 'meteor/webapp';
 // @ts-ignore
 import bodyParser from 'body-parser';
@@ -23,7 +23,7 @@ import { IBaseOptions } from '../typings/IBaseOptions';
 import { IConnection } from '../typings/IConnection';
 import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 import Selector = Mongo.Selector;
-import { getUserServer } from '../modules/userprofile/api/UserProfileServerApi';
+import { getUserServer } from '../modules/userprofile/api/userProfileServerApi';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));

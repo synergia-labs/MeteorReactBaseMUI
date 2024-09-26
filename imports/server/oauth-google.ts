@@ -108,11 +108,9 @@ const handleAuthFromAccessToken = (accessToken, expiresAt) => {
 	};
 };
 
-const registerGoogleMobileLoginHandler = () => {
-	Accounts.registerLoginHandler('google', (serviceData) => {
+const registerGoogleMobileLoginHandler = async () => {
+	await Accounts.registerLoginHandler('google', async (serviceData) => {
 		const loginRequest = serviceData.google;
-
-		console.log('>>>serviceData:', serviceData);
 
 		if (!loginRequest) {
 			return undefined;
@@ -181,7 +179,7 @@ const registerGoogleMobileLoginHandler = () => {
 		user.name = `${serviceData.name}`;
 		user.email = serviceData.email;
 
-		const userProfile = userprofileServerApi.collectionInstance.findOne({
+		const userProfile = await userprofileServerApi.collectionInstance.findOneAsync({
 			email: user.email
 		});
 
@@ -195,7 +193,7 @@ const registerGoogleMobileLoginHandler = () => {
 			delete user.otheraccounts;
 
 			// /const existingUser = Meteor.users.findOne({ 'services.google.id': validToken.sub });
-			user._id = Meteor.users.insert({
+			user._id = await Meteor.users.insertAsync({
 				services: {
 					google: serviceData
 				},
@@ -208,7 +206,7 @@ const registerGoogleMobileLoginHandler = () => {
 		} else {
 			console.log('Já cadastrado');
 
-			const existingUser = Meteor.users.findOne({
+			const existingUser = await Meteor.users.findOneAsync({
 				'services.google.id': validToken.sub
 			});
 
@@ -225,7 +223,7 @@ const registerGoogleMobileLoginHandler = () => {
 				});
 			} else {
 				user._id = existingUser._id;
-				Meteor.users.update(
+				await Meteor.users.updateAsync(
 					{ _id: existingUser._id },
 					{
 						$set: {
@@ -238,7 +236,7 @@ const registerGoogleMobileLoginHandler = () => {
 					}
 				);
 
-				userprofileServerApi.collectionInstance.update(
+				await userprofileServerApi.collectionInstance.updateAsync(
 					{ _id: userProfile._id },
 					{
 						$addToSet: {

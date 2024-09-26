@@ -29,10 +29,10 @@ function getBase64FromURLImage(
 function updateUserProfileImageFromURL(userId: string | Mongo.ObjectID | Mongo.Selector<any>, urlImage: string) {
 	getBase64FromURLImage(
 		urlImage,
-		Meteor.bindEnvironment((err: any, res: any) => {
+		Meteor.bindEnvironment(async (err: any, res: any) => {
 			// Everything is good now
 			if (!err) {
-				userprofileServerApi.getCollectionInstance().update(userId, {
+				await userprofileServerApi.getCollectionInstance().updateAsync(userId, {
 					$set: { photo: res, lastupdate: new Date() }
 				});
 			}
@@ -40,7 +40,7 @@ function updateUserProfileImageFromURL(userId: string | Mongo.ObjectID | Mongo.S
 	);
 }
 
-function validateSocialLoginAndUpdateProfile(
+async function validateSocialLoginAndUpdateProfile(
 	userProfile: {
 		_id: string | Mongo.ObjectID | Mongo.Selector<any>;
 		photo: any;
@@ -54,9 +54,9 @@ function validateSocialLoginAndUpdateProfile(
 		user.otheraccounts = [{ _id: user._id, service: serviceName }];
 		user.createdat = new Date();
 		user.lastupdate = new Date();
-		const userProfileID = userprofileServerApi.getCollectionInstance().insert(user);
+		const userProfileID = await userprofileServerApi.getCollectionInstance().insertAsync(user);
 		delete user.otheraccounts;
-		Meteor.users.update(
+		await Meteor.users.updateAsync(
 			{ _id: user._id },
 			{
 				$set: user
@@ -68,7 +68,7 @@ function validateSocialLoginAndUpdateProfile(
 		}
 	} else {
 		console.log('Usuário já cadastrado:', user.username);
-		Meteor.users.update(
+		await Meteor.users.updateAsync(
 			{ _id: user._id },
 			{
 				$set: {
@@ -77,7 +77,7 @@ function validateSocialLoginAndUpdateProfile(
 				}
 			}
 		);
-		userprofileServerApi.getCollectionInstance().update(
+		await userprofileServerApi.getCollectionInstance().updateAsync(
 			{ _id: userProfile._id },
 			{
 				$addToSet: { otheraccounts: { _id: user._id, service: serviceName } }
@@ -94,25 +94,25 @@ function validateSocialLoginAndUpdateProfile(
 	return true;
 }
 
-function validateLoginGoogle(user: Meteor.User & { name?: string; email?: string }) {
+async function validateLoginGoogle(user: Meteor.User & { name?: string; email?: string }) {
 	console.log('Login com Google');
 	user.username = `${user.services.google.name}`;
 	user.name = `${user.services.google.name}`;
 	user.email = user.services.google.email;
 	const serviceName = 'google';
-	const userProfile = userprofileServerApi.getCollectionInstance().findOne({
+	const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
 		email: user.email
 	});
 
 	return validateSocialLoginAndUpdateProfile(userProfile, user, serviceName);
 }
 
-function validateLoginFacebook(user: Meteor.User & { name?: string; email?: string }) {
+async function validateLoginFacebook(user: Meteor.User & { name?: string; email?: string }): Promise<Boolean> {
 	const serviceName = 'facebook';
 	user.username = `${user.services.facebook.name}_facebook`;
 	user.name = `${user.services.facebook.name}`;
 	user.email = user.services.facebook.email;
-	const userProfile = userprofileServerApi.getCollectionInstance().findOne({
+	const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
 		email: user.email
 	});
 
@@ -187,16 +187,16 @@ Meteor.startup(() => {
 		return getHTMLEmailTemplate('Alteração da senha atual', email, footer);
 	};
 
-	Accounts.onLogin((params: { user: Meteor.User; connection: { onClose: (arg0: () => void) => void } }) => {
+	Accounts.onLogin(async (params: { user: Meteor.User; connection: { onClose: (arg0: () => void) => void } }) => {
 		//@ts-ignore
 		const userProfile = params.user
 			? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0]
 			: undefined;
 
 		if (userProfile)
-			userprofileServerApi
+			await userprofileServerApi
 				.getCollectionInstance()
-				.update({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: true } });
+				.updateAsync({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: true } });
 
 		params.connection.onClose(
 			Meteor.bindEnvironment(() => {
@@ -208,15 +208,15 @@ Meteor.startup(() => {
 		);
 	});
 
-	Accounts.onLogout((params) => {
+	Accounts.onLogout(async (params) => {
 		//@ts-ignore
 		const userProfile = params.user
 			? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0]
 			: undefined;
 		if (userProfile)
-			userprofileServerApi
+			await userprofileServerApi
 				.getCollectionInstance()
-				.update({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: false } });
+				.updateAsync({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: false } });
 	});
 
 	Accounts.config({

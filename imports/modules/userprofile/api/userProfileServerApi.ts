@@ -8,7 +8,8 @@ import { check } from 'meteor/check';
 import { IContext } from '../../../typings/IContext';
 import { IDoc } from '../../../typings/IDoc';
 import { ProductServerBase } from '../../../api/productServerBase';
-import { EnumUserRoles } from './EnumUser';
+import { EnumUserRoles } from './enumUser';
+import { nanoid } from 'nanoid';
 
 interface IUserProfileEstendido extends IUserProfile {
 	password?: string;
@@ -68,13 +69,13 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 		this.afterInsert = this.afterInsert.bind(this);
 
-		this.registerMethod('sendVerificationEmail', (userData: IUserProfile) => {
+		this.registerMethod('sendVerificationEmail', async (userData: IUserProfile) => {
 			check(userData, Object);
 			if (Meteor.isServer && userData) {
 				if (userData._id) {
 					Accounts.sendVerificationEmail(userData._id);
 				} else if (userData.email) {
-					const user = Meteor.users.findOne({
+					const user = await Meteor.users.findOneAsync({
 						'emails.address': userData.email
 					});
 					Accounts.sendVerificationEmail(user?._id ?? '');
@@ -82,13 +83,13 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			}
 		});
 
-		this.registerMethod('sendResetPasswordEmail', (userData: IUserProfile) => {
+		this.registerMethod('sendResetPasswordEmail', async (userData: IUserProfile) => {
 			check(userData, Object);
 			if (Meteor.isServer && userData) {
 				if (userData._id) {
 					Accounts.sendResetPasswordEmail(userData._id);
 				} else if (userData.email) {
-					const user = Meteor.users.findOne({
+					const user = await Meteor.users.findOneAsync({
 						'emails.address': userData.email
 					});
 					if (user) {
@@ -136,16 +137,16 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		userprofileData.collectionInstance = this.collectionInstance;
 	}
 
-	registrarUserProfileNoMeteor = (userprofile: IUserProfileEstendido) => {
+	registrarUserProfileNoMeteor = async (userprofile: IUserProfileEstendido) => {
 		if (Meteor.isServer) {
 			if (userprofile.password) {
-				userprofile._id = Accounts.createUser({
+				userprofile._id = await Accounts.createUser({
 					username: userprofile.email,
 					password: userprofile.password,
 					email: userprofile.email
 				});
 			} else {
-				userprofile._id = Accounts.createUser({
+				userprofile._id = await Accounts.createUser({
 					username: userprofile.email,
 					email: userprofile.email
 				});
@@ -153,8 +154,8 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		}
 	};
 
-	changeUserStatus = (userId: string) => {
-		const user = this.collectionInstance.findOne({ _id: userId });
+	changeUserStatus = async (userId: string) => {
+		const user = await this.collectionInstance.findOneAsync({ _id: userId });
 		let newStatus = '';
 		try {
 			if (user) {
@@ -163,7 +164,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 				} else {
 					newStatus = 'disabled';
 				}
-				this.collectionInstance.update(
+				await this.collectionInstance.updateAsync(
 					{ _id: userId },
 					{
 						$set: {
@@ -179,7 +180,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		}
 	};
 
-	serverInsert(dataObj: IUserProfileEstendido & { otheraccounts: any }, context: IContext) {
+	async serverInsert(dataObj: IUserProfileEstendido & { otheraccounts: any }, context: IContext) {
 		let insertId = null;
 		try {
 			const { password } = dataObj;
@@ -189,8 +190,8 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			}
 
 			this._includeAuditData(dataObj, 'insert');
-			if (this.beforeInsert(dataObj, context)) {
-				this.registrarUserProfileNoMeteor(dataObj);
+			if (await this.beforeInsert(dataObj, context)) {
+				await this.registrarUserProfileNoMeteor(dataObj);
 				delete dataObj.password;
 				if (!dataObj.roles) {
 					dataObj.roles = ['Usuario'];
@@ -198,7 +199,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 					dataObj.roles.push('Usuario');
 				}
 
-				const userProfile = this.collectionInstance.findOne({
+				const userProfile = await this.collectionInstance.findOneAsync({
 					email: dataObj.email
 				});
 				if (!userProfile) {
@@ -209,10 +210,10 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 						}
 					];
 
-					insertId = this.collectionInstance.insert(dataObj);
+					insertId = await this.collectionInstance.insertAsync(dataObj);
 
 					delete dataObj.otheraccounts;
-					Meteor.users.update(
+					await Meteor.users.updateAsync(
 						{ _id: dataObj._id || insertId },
 						{
 							$set: {
@@ -226,7 +227,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 				} else {
 					insertId = userProfile._id;
 
-					Meteor.users.update(
+					await Meteor.users.updateAsync(
 						{ _id: dataObj._id },
 						{
 							$set: {
@@ -238,7 +239,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 							}
 						}
 					);
-					this.collectionInstance.update(
+					await this.collectionInstance.updateAsync(
 						{ _id: userProfile._id },
 						{
 							$addToSet: {

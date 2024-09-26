@@ -5,14 +5,13 @@ import { IOption, ISysFormComponent } from '../../InterfaceBaseSimpleFormCompone
 import { SysFormContext } from '../../sysForm/sysForm';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import SysLabelView from '../../sysLabelView/sysLabelView';
-import FormGroup from "@mui/material/FormGroup";
+import FormGroup from '@mui/material/FormGroup';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import { hasValue } from '/imports/libs/hasValue';
+import { hasValue } from '../../../../libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import { SysViewField } from '../sysViewField/sysViewField';
-import {sysSizing} from "/imports/ui/materialui/styles";
-
+import { sysSizing } from '../../../../ui/materialui/styles';
 
 interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
 	/** Estilo do componente.*/
@@ -29,20 +28,20 @@ interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
 export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	name,
 	label,
-  value,
-  defaultValue,
+	value,
+	defaultValue,
 	options,
-  onChange,
+	onChange,
 	disabled,
 	loading,
 	readOnly,
 	error,
-  showLabelAdornment,
-  labelAdornment,
-  showTooltip,
+	showLabelAdornment,
+	labelAdornment,
+	showTooltip,
 	tooltipMessage,
 	tooltipPosition,
-  childrenAlignment = 'column',
+	childrenAlignment = 'column',
 	sxMap,
 	...otherProps
 }) => {
@@ -84,11 +83,9 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	//setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, event.target.name]);
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { checked } = event.target;
-    const value = optionsState?.find(item => item.label === event.target.name)?.value;
-    if (!hasValue(value)) return;
-		const updatedOptions = checked
-			? [...selectedOptions, value]
-			: selectedOptions.filter((option) => option !== value);
+		const value = optionsState?.find((item) => item.label === event.target.name)?.value;
+		if (!hasValue(value)) return;
+		const updatedOptions = checked ? [...selectedOptions, value] : selectedOptions.filter((option) => option !== value);
 		setSelectedOptions(updatedOptions);
 		if (inSysFormContext)
 			controllerSysForm?.onChangeComponentValue?.({ refComponent: refObject!, value: updatedOptions });
@@ -104,24 +101,30 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	if (!visibleState || optionsState?.length === 0) return null;
 
 	if (readOnly) {
-		return <SysViewField label={label} placeholder={
-      valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label)
-      .join?.(', ') || '-'
-
-    } showLabelAdornment={showLabelAdornment} labelAdornment={labelAdornment} />;
+		return (
+			<SysViewField
+				label={label}
+				placeholder={
+					valueState && valueState?.map
+						? valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label).join?.(', ') || '-'
+						: undefined
+				}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+			/>
+		);
 	}
 
 	return (
 		<FormControl error={!!error} sx={sxMap?.container}>
 			<SysLabelView
 				label={label}
-        showLabelAdornment={showLabelAdornment}
-        labelAdornment={labelAdornment}
-        disabled={disabled}
-        showTooltip={showTooltip}
+				showLabelAdornment={showLabelAdornment}
+				labelAdornment={labelAdornment}
+				disabled={disabled}
+				showTooltip={showTooltip}
 				tooltipMessage={tooltipMessage}
-        tooltipPosition={tooltipPosition}
-      >
+				tooltipPosition={tooltipPosition}>
 				<FormGroup sx={{ flexDirection: childrenAlignment, gap: sysSizing.spacingRemMd, ...sxMap?.formGroup }}>
 					{optionsState?.map((opt) => (
 						<FormControlLabel
@@ -142,7 +145,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 					))}
 				</FormGroup>
 			</SysLabelView>
-      {!!errorState && <FormHelperText>{errorState}</FormHelperText>}
+			{!!errorState && <FormHelperText>{errorState}</FormHelperText>}
 		</FormControl>
 	);
 };
