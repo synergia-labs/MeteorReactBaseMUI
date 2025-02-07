@@ -13,15 +13,15 @@ interface IRoute {
 	component: React.ReactNode | React.Component | React.FunctionComponent<any> | React.ComponentType<any>;
 	isProtected?: boolean;
 	exact?: string | boolean | undefined;
-	resources?: string[];
+	resources?: Array<string>;
 	templateVariant?: SysTemplateOptions | keyof typeof SysTemplateOptions;
-	templateMenuOptions?: (IAppMenu | null)[];
+	templateMenuOptions?: Array<IAppMenu | null>;
 	templateProps?: any;
 }
 
 interface IModuleHub {
-	pagesRouterList: (IRoute | null)[];
-	pagesMenuItemList: (IAppMenu | null)[];
+	pagesRouterList: Array<IRoute | null>;
+	pagesMenuItemList: Array<IAppMenu | null>;
 }
 
 export { IAppMenu, IRoute, IModuleHub };

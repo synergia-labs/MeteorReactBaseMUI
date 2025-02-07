@@ -1,133 +1,46 @@
-import React, { useContext } from 'react';
-import { Location, Route, Routes, useLocation, useParams } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Routes, Route, useLocation, useParams } from 'react-router-dom';
 import { NotFound } from '/imports/sysPages/pages/notFound/notFound';
 import { getUser } from '/imports/libs/getUser';
 import { segurancaApi } from '/imports/security/api/segurancaApi';
-import { IAppMenu, IRoute } from '/imports/modules/modulesTypings';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
+import { IRoute } from '/imports/modules/modulesTypings';
 import { subjectRouter } from '/imports/analytics/analyticsSubscriber';
-import { ISysTemplate, SysTemplate, SysTemplateOptions } from '/imports/ui/templates/getTemplate';
-import { NoPermission } from '/imports/sysPages/pages/noPermission/noPermission';
 import AuthContext, { IAuthContext } from '../authProvider/authContext';
-import AppLayoutContext, { IAppLayoutContext } from '../appLayoutProvider/appLayoutContext';
 import sysRoutes from './routes';
 import SignInPage from '/imports/sysPages/pages/signIn/signIn';
 import { SysLoading } from '/imports/ui/components/sysLoading/sysLoading';
-
-interface IWrapComponentProps {
-	component: React.ElementType;
-	location?: Location;
-	user?: IUserProfile | null;
-	templateVariant?: SysTemplateOptions | keyof typeof SysTemplateOptions;
-	templateMenuOptions?: (IAppMenu | null)[];
-	templateProps?: any;
-	defaultTemplate: ISysTemplate;
-}
-
-const WrapComponent: React.FC<IWrapComponentProps> = ({
-	component: Component,
-	location,
-	user,
-	templateVariant,
-	templateMenuOptions,
-	templateProps,
-	defaultTemplate
-}) => {
-	const params = useParams();
-	subjectRouter.next({ pathname: location?.pathname, params, user });
-
-	return (
-		<SysTemplate
-			variant={templateVariant ?? defaultTemplate.variant}
-			props={templateProps ?? defaultTemplate.props}
-			menuOptions={templateMenuOptions ?? defaultTemplate.menuOptions}>
-			<Component />
-		</SysTemplate>
-	);
-};
-
+import ScreenRouteRender from './screenRouteRender';
 
 export const AppRouterSwitch: React.FC = React.memo(() => {
+	const { isLoggedIn, userLoading, user } = useContext<IAuthContext>(AuthContext);
 	const location = useLocation();
-	const { isLoggedIn, userLoading } = useContext<IAuthContext>(AuthContext);
-	const { defaultTemplate } = useContext<IAppLayoutContext>(AppLayoutContext);
+	const params = useParams();
 
-  if (userLoading) return <SysLoading size={'large'} label={'Carregando...'} />;
+	useEffect(() => {
+		subjectRouter.next({ pathname: location.pathname, params, user });
+	}, [location, params, user]);
+	
+	const getProtectedRouteElement = (route: IRoute) => {
+		if(!route.isProtected) return <ScreenRouteRender {...route} />;
+		if (!isLoggedIn) return <ScreenRouteRender component={SignInPage} templateVariant="None" />;
+		
+		const hasAccess = segurancaApi.podeAcessarRecurso(getUser(), ...(route.resources || []));
+		return hasAccess ? <ScreenRouteRender {...route} /> : <ScreenRouteRender component={SignInPage} templateVariant="None" />;
+	};
+	
+	if (!sysRoutes.checkIfRouteExists(location.pathname)) return <NotFound />;	
 
+	if (userLoading) return <SysLoading size="large" label="Carregando..." />;
+	
 	return (
-		<Routes location={location}>
-			{!sysRoutes.checkIfRouteExists(location.pathname) ? (
-				<Route path="*" element={ <NotFound/> } />
-			) : (
-				sysRoutes.getRoutes().map((route: IRoute | null) => {
-					if (route?.isProtected) {
-						return isLoggedIn ? (
-							segurancaApi.podeAcessarRecurso(getUser(), ...(route?.resources || [])) ? (
-								<Route
-									key={route?.path}
-									path={route?.path as string}
-									element={
-										<WrapComponent
-											component={route?.component as React.ElementType}
-											location={location}
-											templateVariant={route?.templateVariant}
-											templateProps={route?.templateProps}
-											templateMenuOptions={route?.templateMenuOptions}
-											defaultTemplate={defaultTemplate}
-										/>
-									}
-								/>
-							) : (
-								<Route
-									key={route?.path}
-									path={route?.path as string}
-									element={
-										<WrapComponent
-											component={NoPermission}
-											location={location}
-											templateVariant={'None'}
-											templateProps={undefined}
-											templateMenuOptions={undefined}
-											defaultTemplate={defaultTemplate}
-										/>
-									}
-								/>
-							)
-						) : (
-							<Route
-								key={route?.path}
-								path={route?.path as string}
-								element={
-									<WrapComponent
-										component={SignInPage}
-										location={location}
-										templateVariant={'None'}
-										templateProps={undefined}
-										templateMenuOptions={undefined}
-										defaultTemplate={defaultTemplate}
-									/>
-								}
-							/>
-						);
-					} else
-						return (
-							<Route
-								key={route?.path}
-								path={route?.path as string}
-								element={
-									<WrapComponent
-										component={route?.component as React.ElementType}
-										location={location}
-										templateVariant={route?.templateVariant}
-										templateProps={route?.templateProps}
-										templateMenuOptions={route?.templateMenuOptions}
-										defaultTemplate={defaultTemplate}
-									/>
-								}
-							/>
-						);
-				})
-			)}
+		<Routes>
+			{sysRoutes.getRoutes().map((route) => (
+				<Route
+					key={route.path}
+					path={route.path as string}
+					element={getProtectedRouteElement(route)}
+				/>
+			))}
 		</Routes>
 	);
 });

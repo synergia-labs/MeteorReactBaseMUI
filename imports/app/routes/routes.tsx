@@ -1,18 +1,17 @@
 import Modules from '../../modules';
 import Pages from '../../sysPages/config';
-import UserProfile from '../../modules/userprofile/config';
 import { IAppMenu, IRoute } from '../../modules/modulesTypings';
 import { useLocation } from 'react-router-dom';
 
 class SysRoutes {
-	private routes: (IRoute | null)[];
-	private menuItens: (IAppMenu | null)[];
-	public getRoutes = () => this.routes;
+	private routes: Array<IRoute | null>;
+	private menuItens: Array<IAppMenu | null>;
+	public getRoutes = (): Array<IRoute>  => this.routes.filter((route) => route !== null) as Array<IRoute>;
 	public getMenuItens = () => this.menuItens;
 
 	constructor() {
-		this.routes = [...Modules.pagesRouterList, ...Pages.pagesRouterList, ...UserProfile.pagesRouterList];
-		this.menuItens = [...Pages.pagesMenuItemList, ...Modules.pagesMenuItemList, ...UserProfile.pagesMenuItemList];
+		this.routes = [...Modules.pagesRouterList, ...Pages.pagesRouterList ];
+		this.menuItens = [...Pages.pagesMenuItemList, ...Modules.pagesMenuItemList];
 	}
 
 	public checkIfRouteExists = (path: string) =>
