@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IDefaultContainerProps } from '../../typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
 import UserProfileListController from '../../modules/userprofile/pages/UserProfileList/userProfileListController';
-import { SysAppContext } from '../../app/appContainer';
 import ExampleDetailController from '../example/pages/exampleDetail/exampleDetailContoller';
+import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
 
 export interface IUserProfileModuleContext {
 	state?: string;
@@ -13,7 +13,7 @@ export interface IUserProfileModuleContext {
 export const UserProfileModuleContext = React.createContext<IUserProfileModuleContext>({});
 
 export default (props: IDefaultContainerProps) => {
-	const { user } = React.useContext(SysAppContext);
+	const { user } = useContext<IAuthContext>(AuthContext);
 	let { screenState, userprofileId } = useParams();
 
 	const state = screenState ? screenState : props.screenState;

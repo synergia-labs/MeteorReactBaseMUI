@@ -2,7 +2,6 @@ import React, { ReactNode, useContext, useRef } from 'react';
 import SysAppBarStyles from './sysAppBarStyles';
 import { SysAvatar } from '../../../../ui/components/sysAvatar/sysAvatar';
 import { IAppMenu } from '../../../../modules/modulesTypings';
-import { SysAppContext } from '../../../../app/appContainer';
 import SysMenu, { SysMenuRef } from '../../../../ui/components/sysMenu/sysMenu';
 import { SysNavLink } from '../../../../ui/components/sysNavLink/sysNavLink';
 import SysRoutes from '../../../../app/routes';
@@ -18,6 +17,7 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { sysSizing } from '../../../../ui/materialui/styles';
 import { useNavigate } from 'react-router-dom';
+import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
 
 const { Container, IconButton, NavContainer } = SysAppBarStyles;
 
@@ -27,7 +27,7 @@ export interface ISysAppBarProps {
 }
 
 export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISysAppBarProps) => {
-	const { user, isLoggedIn } = useContext(SysAppContext);
+	const { user, isLoggedIn } = useContext<IAuthContext>(AuthContext);
 	const navigate = useNavigate();
 	const onLogoClick = () => navigate('/');
 	const routes = new SysRoutes();

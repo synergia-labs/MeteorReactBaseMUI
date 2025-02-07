@@ -4,7 +4,6 @@ import { NotFound } from '/imports/sysPages/pages/notFound/notFound';
 import { getUser } from '/imports/libs/getUser';
 import { segurancaApi } from '/imports/security/api/segurancaApi';
 import { IAppMenu, IRoute } from '/imports/modules/modulesTypings';
-import { SysAppContext } from './appContainer';
 import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { subjectRouter } from '/imports/analytics/analyticsSubscriber';
 import SysRoutes from './routes';
@@ -12,6 +11,7 @@ import { ISysTemplate, SysTemplate, SysTemplateOptions } from '/imports/ui/templ
 import { NoPermission } from '/imports/sysPages/pages/noPermission/noPermission';
 import SignInPage from '../sysPages/pages/signIn/signIn';
 import { SysLoading } from '../ui/components/sysLoading/sysLoading';
+import AuthContext, { IAuthContext } from './authProvider/authContext';
 
 const routes = new SysRoutes();
 
@@ -53,7 +53,7 @@ interface IAppRouterSwitchProps {
 
 export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ defaultTemplate }) => {
 	const location = useLocation();
-	const { isLoggedIn, userLoading } = useContext(SysAppContext);
+	const { isLoggedIn, userLoading } = useContext<IAuthContext>(AuthContext);
 
   if (userLoading) return <SysLoading size={'large'} label={'Carregando...'} />;
 

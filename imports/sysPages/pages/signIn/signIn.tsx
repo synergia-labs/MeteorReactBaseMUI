@@ -3,7 +3,6 @@ import SignInStyles from './signInStyles';
 import { Meteor } from 'meteor/meteor';
 import { SysAppLayoutContext } from '../../../app/appLayout';
 import { useNavigate } from 'react-router-dom';
-import { SysAppContext } from '../../../app/appContainer';
 import SysTextField from '../../../ui/components/sysFormFields/sysTextField/sysTextField';
 import SysForm from '../../../ui/components/sysForm/sysForm';
 import SysFormButton from '../../../ui/components/sysFormFields/sysFormButton/sysFormButton';
@@ -12,10 +11,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import SysIcon from '../../../ui/components/sysIcon/sysIcon';
+import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
 
 const SignInPage: React.FC = () => {
 	const { showNotification } = useContext(SysAppLayoutContext);
-	const { user } = useContext(SysAppContext);
+	const { user } = useContext<IAuthContext>(AuthContext);
 	const navigate = useNavigate();
 	const { Container, Content, FormContainer, FormWrapper } = SignInStyles;
 

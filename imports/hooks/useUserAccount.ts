@@ -2,10 +2,11 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { createStore, del, get, set } from 'idb-keyval';
 import { parse, stringify } from 'zipson';
-import settings from '/settings.json';
+import settings from '../../settings.json';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { userprofileApi } from '../modules/userprofile/api/userProfileApi';
 import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
+import { hasValue } from '../libs/hasValue';
 
 const accountStore = createStore(`${settings.name}_UserAccount`, 'store');
 const cachedUser = new ReactiveVar(null);
@@ -16,41 +17,29 @@ export const useUserAccount = () =>
   useTracker(() => {
     const isConnected = Meteor.status().connected;
 
-    if (!isConnected) {
-      return {
-        user: undefined,
-        userId: undefined,
-        userLoading: true,
-        isLoggedIn: false,
-        connected: false
-      };
-    }
+    if (!isConnected) return { userLoading: true};
 
     let meteorUser = Meteor.user();
     let userId = Meteor.userId();
 
-    const getStoredUser = () =>
-      get('userId', accountStore).then((result) => {
-        cachedUser.set(result ? parse(result) : null);
-      });
+    const getStoredUser = () => 
+      get( 'userId', accountStore).then((result) => cachedUser.set(result ? parse(result) : null));
 
-    if (userId) set('userId', stringify(meteorUser), accountStore);
-    else if (Meteor.status().status === 'waiting') {
-      meteorUser = cachedUser.get();
-      //@ts-ignore
-      userId = meteorUser?._id;
+    if (hasValue(userId)) {
+      set('userId', stringify(meteorUser), accountStore);
+    } else if (Meteor.status().status === 'waiting') {
+      meteorUser = cachedUser.get() as Meteor.User | null;
+      userId = meteorUser?._id || null;
       !userId && getStoredUser();
-    } else del('userId', accountStore);
+    } else { 
+      del('userId', accountStore);
+    }
 
     const subHandle = userprofileApi.subscribe('getLoggedUserProfile');
 
-
     const user: IUserProfile | null =
-      (subHandle.ready() && meteorUser)
-        ? userprofileApi.findOne({
-          //@ts-ignore
-          email: meteorUser?.profile?.email
-        })
+      (subHandle?.ready() && meteorUser)
+        ? userprofileApi.findOne({ email: (meteorUser?.profile as any).email })
         : null;
 
     return {

@@ -7,12 +7,6 @@ import { IShowDialogProps } from '../ui/appComponents/showDialog/showDialog';
 import { IShowDrawerProps } from '../ui/appComponents/showDrawer/showDrawer';
 import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 
-export interface ISysAppContext {
-	isLoggedIn: boolean;
-	user?: IUserProfile | undefined | null;
-	userLoading: boolean;
-}
-
 export interface ISysThemeOptions {
 	darkMode: boolean;
 	fontScale: number;
