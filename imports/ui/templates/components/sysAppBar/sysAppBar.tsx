@@ -10,10 +10,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Meteor } from 'meteor/meteor';
-import { cleanUserCache } from '../../../../hooks/useUserAccount';
 import { hasValue } from '../../../../libs/hasValue';
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { sysSizing } from '../../../../ui/materialui/styles';
 import { useNavigate } from 'react-router-dom';
@@ -60,7 +58,7 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 
 	const userLogout = async () => {
 		Meteor.logout();
-		await cleanUserCache();
+		// await cleanUserCache();
 		navigate('/');
 	};
 
