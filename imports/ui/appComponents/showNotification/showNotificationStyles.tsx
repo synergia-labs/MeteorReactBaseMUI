@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+import Paper, { PaperProps } from '@mui/material/Paper';
 import { sysSizing } from '../../../ui/materialui/styles';
 
 interface IShowNotificationStyles {
@@ -10,8 +10,14 @@ interface IShowNotificationStyles {
 	Body: React.ElementType;
 }
 
+interface IContainer extends PaperProps {
+	type: 'success' | 'error' | 'warning' | 'default';
+}
+
 const ShowNotificationStyles: IShowNotificationStyles = {
-	Container: styled(Paper)<IContainer>(({ theme, type }) => ({
+	Container: styled(Paper, {
+		shouldForwardProp: (prop) => prop !== 'type'
+	})<IContainer>(({ theme, type }) => ({
 		minWidth: '440px',
 		minHeight: '80px',
 		borderRadius: sysSizing.radiusSm,
@@ -73,8 +79,5 @@ const ShowNotificationStyles: IShowNotificationStyles = {
 	}))
 };
 
-interface IContainer {
-	type: 'success' | 'error' | 'warning' | 'default';
-}
 
 export default ShowNotificationStyles;

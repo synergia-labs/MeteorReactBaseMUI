@@ -6,14 +6,13 @@ import { segurancaApi } from '/imports/security/api/segurancaApi';
 import { IAppMenu, IRoute } from '/imports/modules/modulesTypings';
 import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { subjectRouter } from '/imports/analytics/analyticsSubscriber';
-import SysRoutes from './routes';
 import { ISysTemplate, SysTemplate, SysTemplateOptions } from '/imports/ui/templates/getTemplate';
 import { NoPermission } from '/imports/sysPages/pages/noPermission/noPermission';
-import SignInPage from '../sysPages/pages/signIn/signIn';
-import { SysLoading } from '../ui/components/sysLoading/sysLoading';
-import AuthContext, { IAuthContext } from './authProvider/authContext';
-
-const routes = new SysRoutes();
+import AuthContext, { IAuthContext } from '../authProvider/authContext';
+import AppLayoutContext, { IAppLayoutContext } from '../appLayoutProvider/appLayoutContext';
+import sysRoutes from './routes';
+import SignInPage from '/imports/sysPages/pages/signIn/signIn';
+import { SysLoading } from '/imports/ui/components/sysLoading/sysLoading';
 
 interface IWrapComponentProps {
 	component: React.ElementType;
@@ -47,22 +46,20 @@ const WrapComponent: React.FC<IWrapComponentProps> = ({
 	);
 };
 
-interface IAppRouterSwitchProps {
-	defaultTemplate: ISysTemplate;
-}
 
-export const AppRouterSwitch: React.FC<IAppRouterSwitchProps> = React.memo(({ defaultTemplate }) => {
+export const AppRouterSwitch: React.FC = React.memo(() => {
 	const location = useLocation();
 	const { isLoggedIn, userLoading } = useContext<IAuthContext>(AuthContext);
+	const { defaultTemplate } = useContext<IAppLayoutContext>(AppLayoutContext);
 
   if (userLoading) return <SysLoading size={'large'} label={'Carregando...'} />;
 
 	return (
 		<Routes location={location}>
-			{!routes.checkIfRouteExists(location.pathname) ? (
+			{!sysRoutes.checkIfRouteExists(location.pathname) ? (
 				<Route path="*" element={ <NotFound/> } />
 			) : (
-				routes.getRoutes().map((route: IRoute | null) => {
+				sysRoutes.getRoutes().map((route: IRoute | null) => {
 					if (route?.isProtected) {
 						return isLoggedIn ? (
 							segurancaApi.podeAcessarRecurso(getUser(), ...(route?.resources || [])) ? (

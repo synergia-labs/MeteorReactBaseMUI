@@ -1,7 +1,7 @@
-import Modules from '../modules';
-import Pages from '../sysPages/config';
-import UserProfile from '../modules/userprofile/config';
-import { IAppMenu, IRoute } from '../modules/modulesTypings';
+import Modules from '../../modules';
+import Pages from '../../sysPages/config';
+import UserProfile from '../../modules/userprofile/config';
+import { IAppMenu, IRoute } from '../../modules/modulesTypings';
 import { useLocation } from 'react-router-dom';
 
 class SysRoutes {
@@ -30,7 +30,7 @@ class SysRoutes {
 		return false;
 	};
 
-	public static checkIsActiveRoute = (routePath?: string) => {
+	public checkIsActiveRoute = (routePath?: string) => {
 		const location = useLocation().pathname;
 		if (!routePath) return false;
 		if (routePath === '/') return location === '/';
@@ -41,4 +41,5 @@ class SysRoutes {
 	};
 }
 
-export default SysRoutes;
+const sysRoutes = new SysRoutes();
+export default sysRoutes;

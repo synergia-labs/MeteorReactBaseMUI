@@ -7,7 +7,7 @@ import { aniversarioApi } from '../../api/aniversarioApi';
 import { IAniversario } from '../../api/aniversarioSch';
 import { ISchema } from '/imports/typings/ISchema';
 import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
+import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 interface IAniversarioDetailContollerContext {
 	closePage: () => void;
@@ -25,7 +25,7 @@ export const AniversarioDetailControllerContext = createContext<IAniversarioDeta
 const AniversarioDetailController = () => {
 	const navigate = useNavigate();
 	const { id, state } = useContext(AniversarioModuleContext);
-	const { showNotification } = useContext(SysAppLayoutContext);
+	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
 	const { document, loading } = useTracker(() => {
 		const subHandle = !!id ? aniversarioApi.subscribe('aniversarioDetail', { _id: id }) : null;

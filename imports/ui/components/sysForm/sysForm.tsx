@@ -19,11 +19,11 @@ import {
 	ISysFormContext,
 	ISysFormRef
 } from './typings';
-import { SysAppLayoutContext } from '../../../app/appLayout';
 import SysFormMethods from './sysFormMethods';
 import { hasValue } from '../../../libs/hasValue';
 import { IOption } from '../InterfaceBaseSimpleFormComponent';
 import compareArrays from '../../../libs/compareArrays';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 const SysFormContext = createContext<ISysFormContext>({} as ISysFormContext);
 
@@ -43,7 +43,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 	},
 	ref
 ) => {
-	const { showNotification } = useContext(SysAppLayoutContext);
+	const { showNotification } = useContext(AppLayoutContext);
 	const refComponents = useRef<IDocRef>({});
 	const refButton = useRef<MutableRefObject<ISysFormButtonRef>>();
 	const fieldsWithErrors = useRef<{ [key: string]: string }>({});

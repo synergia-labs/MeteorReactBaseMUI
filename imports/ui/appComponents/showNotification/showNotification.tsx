@@ -6,16 +6,10 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import { ISysGeneralComponentsCommon } from '../../../typings/BoilerplateDefaultTypings';
 import { hasValue } from '../../../libs/hasValue';
-import ShowNotificationStyles from './showNotificationStyles';
+import Styles from './showNotificationStyles';
 import SysIcon from '../../../ui/components/sysIcon/sysIcon';
 
-const { Body, Container, Header } = ShowNotificationStyles;
-
 export interface IShowNotificationProps extends ISysGeneralComponentsCommon {
-	onOpen?: () => void;
-	close?: () => void;
-	onClose?: (event?: React.SyntheticEvent | Event, reason?: string) => void;
-	duration?: number;
 	/**Exibe um botão para fechar a notificação.*/
 	showCloseButton?: boolean;
 	/**Exibe um ícone no início do corpo notificação.*/
@@ -118,11 +112,11 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 			{hasValue(children) ? (
 				children
 			) : (
-				<Container type={type} sx={sxMap?.container}>
-					<Header sx={sxMap?.header}>
+				<Styles.Container type={type} sx={sxMap?.container}>
+					<Styles.Header sx={sxMap?.header}>
 						<Typography variant="subtitle1">{title}</Typography>
-					</Header>
-					<Body sx={sxMap?.body}>
+					</Styles.Header>
+					<Styles.Body sx={sxMap?.body}>
 						{showStartIcon && (hasValue(icon) ? icon : icons[type])}
 						<Typography variant="body1" color="textPrimary" sx={{ flexGrow: 1 }}>
 							{message}
@@ -151,8 +145,8 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 								<SysIcon name={'close'} />
 							</IconButton>
 						)}
-					</Body>
-				</Container>
+					</Styles.Body>
+				</Styles.Container>
 			)}
 		</Snackbar>
 	);

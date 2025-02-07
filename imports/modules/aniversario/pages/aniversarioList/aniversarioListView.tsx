@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -7,15 +7,15 @@ import { AniversarioListControllerContext } from './aniversarioListController';
 import { useNavigate } from 'react-router-dom';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
 import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
 import AniversarioListStyles from './aniversarioListStyles';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 
 const AniversarioListView = () => {
-	const controller = React.useContext(AniversarioListControllerContext);
-	const sysLayoutContext = React.useContext(SysAppLayoutContext);
+	const controller = useContext(AniversarioListControllerContext);
+	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
 	const navigate = useNavigate();
   const {
     Container,

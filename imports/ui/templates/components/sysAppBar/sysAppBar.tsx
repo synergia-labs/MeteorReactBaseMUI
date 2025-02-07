@@ -4,7 +4,6 @@ import { SysAvatar } from '../../../../ui/components/sysAvatar/sysAvatar';
 import { IAppMenu } from '../../../../modules/modulesTypings';
 import SysMenu, { SysMenuRef } from '../../../../ui/components/sysMenu/sysMenu';
 import { SysNavLink } from '../../../../ui/components/sysNavLink/sysNavLink';
-import SysRoutes from '../../../../app/routes';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -16,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import { sysSizing } from '../../../../ui/materialui/styles';
 import { useNavigate } from 'react-router-dom';
 import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
+import sysRoutes from '../../../../app/routes/routes';
 
 const { Container, IconButton, NavContainer } = SysAppBarStyles;
 
@@ -28,7 +28,6 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 	const { user, isLoggedIn } = useContext<IAuthContext>(AuthContext);
 	const navigate = useNavigate();
 	const onLogoClick = () => navigate('/');
-	const routes = new SysRoutes();
 
 	const menuRef = useRef<SysMenuRef>(null);
 	const menuNavRef = useRef<SysMenuRef>(null);
@@ -39,14 +38,14 @@ export const SysAppBar: React.FC<ISysAppBarProps> = ({ logo, menuOptions }: ISys
 	const isSmallerThanLg = useMediaQuery(theme.breakpoints.down('lg'));
 
 	const options = menuOptions?.map((option, index) =>
-		!option || (!isLoggedIn && routes.checkIfRouteIsProtected(option.path || '')) ? null : (
-			<SysNavLink key={index} active={SysRoutes.checkIsActiveRoute(option.path)} sysOptions={option} />
+		!option || (!isLoggedIn && sysRoutes.checkIfRouteIsProtected(option.path || '')) ? null : (
+			<SysNavLink key={index} active={sysRoutes.checkIsActiveRoute(option.path)} sysOptions={option} />
 		)
 	);
 
 	const optionsMobile = menuOptions
 		?.map((option) =>
-			!option || (!isLoggedIn && routes.checkIfRouteIsProtected(option.path || ''))
+			!option || (!isLoggedIn && sysRoutes.checkIfRouteIsProtected(option.path || ''))
 				? null
 				: {
 						text: option.name || '',

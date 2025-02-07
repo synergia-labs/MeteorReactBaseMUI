@@ -6,12 +6,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 
 const HomeSectionNotificacoes: React.FC = () => {
-	const sysLayoutContext = useContext(SysAppLayoutContext);
+	const sysLayoutContext = useContext(AppLayoutContext);
   const { RowButtons, } = HomeStyles;
 
 	return (

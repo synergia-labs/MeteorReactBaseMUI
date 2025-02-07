@@ -2,51 +2,7 @@ import { Theme } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import { ISortProperties } from './IFilterProperties';
 import { Location, NavigateFunction } from 'react-router-dom';
-import { IShowNotificationProps } from '../ui/appComponents/showNotification/showNotification';
-import { IShowDialogProps } from '../ui/appComponents/showDialog/showDialog';
-import { IShowDrawerProps } from '../ui/appComponents/showDrawer/showDrawer';
 import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
-
-export interface ISysThemeOptions {
-	darkMode: boolean;
-	fontScale: number;
-	deviceType: 'mobile' | 'tablet' | 'desktop';
-	setDarkThemeMode: (value: boolean) => void;
-	setFontScale: (fontScale: number) => void;
-}
-
-export interface ISysAppLayoutContext extends ISysThemeOptions {
-	showNotification: (options?: IShowNotificationProps) => void;
-	closeNotification: (
-		event?: React.SyntheticEvent | Event,
-		reason?: string,
-		callBack?: (event?: React.SyntheticEvent | Event, reason?: string) => void
-	) => void;
-	showDialog: (options?: IShowDialogProps) => void;
-	closeDialog: (
-		event?: {},
-		reason?: 'backdropClick' | 'escapeKeyDown',
-		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
-	) => void;
-	showDrawer: (options?: IShowDrawerProps) => void;
-	closeDrawer: (
-		event?: {},
-		reason?: 'backdropClick' | 'escapeKeyDown',
-		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
-	) => void;
-	showModal: (options?: IShowDialogProps) => void;
-	closeModal: (
-		event?: {},
-		reason?: 'backdropClick' | 'escapeKeyDown',
-		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
-	) => void;
-	showWindow: (options?: IShowDialogProps) => void;
-	closeWindow: (
-		event?: {},
-		reason?: 'backdropClick' | 'escapeKeyDown',
-		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
-	) => void;
-}
 
 export interface ISysGeneralComponentsCommon {
 	/**

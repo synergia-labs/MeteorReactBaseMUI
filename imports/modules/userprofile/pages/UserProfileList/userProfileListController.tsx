@@ -5,9 +5,9 @@ import { IUserProfile } from '../../api/userProfileSch';
 import { useTracker } from 'meteor/react-meteor-data';
 import { userprofileApi } from '../../api/userProfileApi';
 import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
-import { SysAppLayoutContext } from '../../../../app/appLayout';
 import UserProfileDetailController from '../UserProfileDetail/userProfileDetailController';
 import { sysSizing } from '../../../../ui/materialui/styles';
+import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 interface IInitialConfig {
 	pageProperties: {
@@ -46,7 +46,7 @@ const initialConfig = {
 
 const UserProfileListController = () => {
 	const [config, setConfig] = useState<IInitialConfig>(initialConfig);
-	const { showNotification, showDialog } = useContext(SysAppLayoutContext);
+	const { showNotification, showDialog } = useContext<IAppLayoutContext>(AppLayoutContext);
 
 	const { sortProperties, filter, pageProperties } = config;
 	const sort = {

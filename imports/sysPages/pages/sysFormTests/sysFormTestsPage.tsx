@@ -7,7 +7,6 @@ import SysFormButton from '../../../ui/components/sysFormFields/sysFormButton/sy
 import { sysFormTestsSch } from './sysFormTestsSch';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 import CodeViewSysForm from './components/codeViewSysForm';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import WrapTextField from './components/wrapTextField';
 import { hasValue } from '/imports/libs/hasValue';
@@ -18,6 +17,7 @@ import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxFie
 import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});
@@ -27,7 +27,7 @@ const SysFormTestsPage: React.FC = () => {
 	const [onChangeRealTime, setOnChangeRealTime] = useState<boolean>(false);
 	const sysFormRef = useRef<ISysFormRef>(null);
 
-	const { showNotification, showDialog } = useContext(SysAppLayoutContext);
+	const { showNotification, showDialog } = useContext(AppLayoutContext);
 
 	const changeMode = () => {
 		setMode(mode === 'view' ? 'create' : 'view');

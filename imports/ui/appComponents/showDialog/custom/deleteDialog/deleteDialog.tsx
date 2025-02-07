@@ -4,15 +4,11 @@ import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteDialogStyles } from './deleteDialogStyles';
+import { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 interface IDeleteDialogProps extends IShowDialogProps {
-	showDialog: (options?: IShowDialogProps) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
-	closeDialog: (
-		event?: {},
-		reason?: 'backdropClick' | 'escapeKeyDown',
-		callBack?: (event?: {}, reason?: 'backdropClick' | 'escapeKeyDown') => void
-	) => void; // Esse método é obrigatório para todo componente customizado de diálogo.
-	// Adicione aqui os demais métodos e propriedades que o componente de diálogo precisa.
+	showDialog: IAppLayoutContext['showDialog']
+	closeDialog: IAppLayoutContext['closeDialog']
 	onDeleteConfirm?: () => void;
 }
 

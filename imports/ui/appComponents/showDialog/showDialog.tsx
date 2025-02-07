@@ -10,8 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import { DialogContentStyled, DialogTitleStyled } from './showDialogStyles';
 import { DialogTransitions } from '../transitions';
 import { MemoryRouter } from 'react-router-dom';
-import { AppRouterSwitch } from '../../../app/appRouterSwitch';
-import { defaultTemplate } from '../../../app/appLayout';
+import { AppRouterSwitch } from '/imports/app/routes/appRouterSwitch';
 
 export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, 'open'> {
 	open?: boolean;
@@ -128,7 +127,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 			{urlPath ? (
 				<DialogContentStyled>
 					<MemoryRouter initialEntries={[urlPath]} initialIndex={0}>
-						<AppRouterSwitch defaultTemplate={defaultTemplate} />
+						<AppRouterSwitch />
 					</MemoryRouter>
 				</DialogContentStyled>
 			) : (

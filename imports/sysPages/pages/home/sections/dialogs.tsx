@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import HomeSection from '../components/section';
 import { Button } from '@mui/material';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
 import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import ConfirmDialog from '/imports/ui/appComponents/showDialog/custom/confirmDialog/confirmDialog';
 import HomeStyles from '../homeStyle';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 const HomeSectionDialogs: React.FC = () => {
-	const sysLayoutContext = useContext(SysAppLayoutContext);
-  const { RowButtons, } = HomeStyles;
+	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
+  	const { RowButtons, } = HomeStyles;
 
 	return (
 		<HomeSection
@@ -36,18 +36,18 @@ const HomeSectionDialogs: React.FC = () => {
 				</>
 			}>
 			<RowButtons>
-				<Button color="secondary" startIcon={<SysIcon name={'highlightOff'} />} onClick={sysLayoutContext.closeDialog}>
+				<Button color="secondary" startIcon={<SysIcon name={'highlightOff'} />} onClick={() => sysLayoutContext.closeDialog()}>
 					Fechar Dialog
 				</Button>
 
-				<Button color="secondary" startIcon={<SysIcon name={'highlightOff'} />} onClick={sysLayoutContext.closeModal}>
+				<Button color="secondary" startIcon={<SysIcon name={'highlightOff'} />} onClick={() => sysLayoutContext.closeModal()}>
 					Fechar Modal
 				</Button>
 
 				<Button
 					color="secondary"
 					startIcon={<SysIcon name={'highlightOff'} />}
-					onClick={sysLayoutContext.closeWindow}
+					onClick={() => sysLayoutContext.closeWindow()}
 					sx={{ mr: '1.5rem' }}>
 					Fechar window
 				</Button>

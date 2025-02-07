@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useState } from 'react';
 import UserProfileDetailView from './userProfileDetailView';
-import { SysAppLayoutContext } from '../../../../app/appLayout';
 import { useTracker } from 'meteor/react-meteor-data';
 import { userprofileApi } from '../../api/userProfileApi';
 import { IUserProfile } from '../../api/userProfileSch';
 import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
 import { ISchema } from '../../../../typings/ISchema';
+import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 interface IUserProfileDetailControllerContext {
 	user: IUserProfile;
@@ -26,12 +26,12 @@ export const UserProfileDetailControllerContext = React.createContext<IUserProfi
 );
 
 const UserProfileDetailController = ({ id, mode }: IUserProfileDetailController) => {
-	const { showNotification, closeDialog } = useContext(SysAppLayoutContext);
+	const { showNotification, closeDialog } = useContext<IAppLayoutContext>(AppLayoutContext);
 	const [loading, setLoading] = useState(false);
 
 	const { user, trackerLoading } = useTracker(() => {
 		const subHandle = userprofileApi.subscribe('userProfileDetail', { _id: id });
-		const user = subHandle.ready() ? userprofileApi.findOne({ _id: id }) : {};
+		const user = subHandle?.ready() ? userprofileApi.findOne({ _id: id }) : {};
 		return {
 			user: user as IUserProfile,
 			trackerLoading: !!subHandle && !subHandle.ready()

@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { FileWithPath, useDropzone } from 'react-dropzone';
-import { SysAppLayoutContext } from '../../../../app/appLayout';
 import { attachmentsCollection } from '../../../../api/attachmentsCollection';
 import { SysFormContext } from '../../sysForm/sysForm';
 import { hasValue } from '../../../../libs/hasValue';
@@ -16,6 +15,7 @@ import { SysLoading } from '../../sysLoading/sysLoading';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
+import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 const { BoxItem, BoxIcon, BoxIconsCard, CardInfo, TypographyInfo, TypographyAdd, ElipsesText, Container, Button } =
 	SysUploadFileStyle;
@@ -67,7 +67,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	const inSysFormContext = hasValue(controllerSysForm);
 
 	const [files, setFiles] = useState<IArquivo[]>(value || defaultValue || []);
-	const { showNotification } = useContext(SysAppLayoutContext);
+	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
 	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
 	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);

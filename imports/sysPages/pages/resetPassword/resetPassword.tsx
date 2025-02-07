@@ -10,12 +10,12 @@ import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypin
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 export const ResetPassword = (props: IDefaultContainerProps) => {
-	const { showNotification } = useContext(SysAppLayoutContext);
+	const { showNotification } = useContext(AppLayoutContext);
 	const navigate = useNavigate();
 	const [loading, setLoading] = React.useState<boolean>(false);
 

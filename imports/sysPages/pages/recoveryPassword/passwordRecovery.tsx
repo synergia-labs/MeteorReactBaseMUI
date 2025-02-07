@@ -13,19 +13,18 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import { SysAppLayoutContext } from '/imports/app/appLayout';
 import SignInStyles from '../signIn/signInStyles';
 import { useNavigate } from 'react-router-dom';
 import { sysSizing } from '/imports/ui/materialui/styles';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 
 export const PasswordRecovery = (props: IDefaultContainerProps) => {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [msg, setMsg] = React.useState<boolean>(false);
 
-	const { showNotification } = useContext(SysAppLayoutContext);
-	console.log('AQUI >>>> ', useContext(SysAppLayoutContext));
+	const { showNotification } = useContext(AppLayoutContext);
 	const navigate = useNavigate();
   const {
     Container,

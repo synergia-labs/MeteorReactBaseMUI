@@ -3,8 +3,8 @@ import { ISysFormPlaygroundContext } from './interface/types';
 import SysFormPlaygroundView from './sysFormPlaygroundView';
 import { ISysFormPlaygroundSch, sysFormPlaygroundSch } from './interface/sysFormSch';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
 import FieldsWithErrorsDialog from './components/fieldsWithErrorDialog/fieldWithErroDialog';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 const SysFormPlaygroundContext = createContext<ISysFormPlaygroundContext>({} as ISysFormPlaygroundContext);
 
@@ -17,7 +17,7 @@ const SysFormPlayground: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [realTimeValidation, setRealTimeValidation] = useState<boolean>(false);
 
-	const { showDialog, closeDialog, showNotification } = useContext(SysAppLayoutContext);
+	const { showDialog, closeDialog, showNotification } = useContext(AppLayoutContext);
 
 	const validateIndividualField = useCallback((name: string) => {
 		if (!formRef.current) return;

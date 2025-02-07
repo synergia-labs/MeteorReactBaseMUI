@@ -7,7 +7,7 @@ import { exampleApi } from '../../api/exampleApi';
 import { IExample } from '../../api/exampleSch';
 import { ISchema } from '../../../../typings/ISchema';
 import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
-import { SysAppLayoutContext } from '../../../../app/appLayout';
+import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 interface IExampleDetailContollerContext {
 	closePage: () => void;
@@ -25,7 +25,7 @@ export const ExampleDetailControllerContext = createContext<IExampleDetailContol
 const ExampleDetailController = () => {
 	const navigate = useNavigate();
 	const { id, state } = useContext(ExampleModuleContext);
-	const { showNotification } = useContext(SysAppLayoutContext);
+	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
 	const { document, loading } = useTracker(() => {
 		const subHandle = !!id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
