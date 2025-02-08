@@ -1,11 +1,12 @@
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import sysSizes from '/imports/ui/materialui/sysSizes';
+import { sysSizing } from '../materialui/styles';
 
 
 
 const SysSectionPaddingXY = styled(Box)(({theme}) => ({
-  padding: `${sysSizes.contentPt} 10vw ${sysSizes.contentPb}`,
+  padding: `${sysSizes.contentPt} ${sysSizing.contentPx}`,
   [theme.breakpoints.down('md')]: {
     padding: `${sysSizes.contentPt} 5vw ${sysSizes.contentPb}`
   },
