@@ -5,11 +5,11 @@ import SysAppBarView from './sysAppBarView';
 import AuthContext from '/imports/app/authProvider/authContext';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import { ISysMenuItem, ISysMenuRef } from '/imports/ui/components/sysMenu/sysMenuProvider';
-import { SysAvatar } from '/imports/ui/components/sysAvatar/sysAvatar';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import sysRoutes from '/imports/app/routes/routes';
 import { hasValue } from '/imports/libs/hasValue';
 import { IAppMenu } from '/imports/modules/modulesTypings';
+import SysAvatar from '/imports/ui/components/sysAvatar/sysAvatar';
 
 interface ISysAppBarController {
     logo?: ReactNode;

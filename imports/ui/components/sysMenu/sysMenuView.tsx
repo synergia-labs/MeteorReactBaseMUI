@@ -3,6 +3,7 @@ import Context, { ISysMenuContext } from './sysMenuContext';
 import { MenuProps } from '@mui/material/Menu';
 import Styles from './sysMenuStyles';
 import SysMenuItemDefault from './components/sysMenuItemDefault';
+import RenderWithPermission from '/imports/security/ui/components/renderWithPermission';
 
 const SysMenuView: React.FC<Omit<MenuProps, 'open' | 'anchorEl' | 'onClose'>> = ({ 
   children,
@@ -24,7 +25,9 @@ const SysMenuView: React.FC<Omit<MenuProps, 'open' | 'anchorEl' | 'onClose'>> = 
             const Component: ElementType =  option?.component || context?.menuItemDedaultComponent || SysMenuItemDefault;
             
             return (
+              <RenderWithPermission key={option?.key} resources={option?.resources}>
                 <Component onClick={option.onClick} {...option?.otherProps} />
+              </RenderWithPermission>
             )
           })}
         </ContentContainer>
