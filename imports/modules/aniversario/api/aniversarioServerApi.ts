@@ -26,36 +26,36 @@ class AniversarioServerApi extends ProductServerBase<IAniversario> {
 			});
 		});
 
-		this.addRestEndpoint(
-			'view',
-			(params, options) => {
-        //debug console.log
-				console.log('Params', params);
-				console.log('options.headers', options.headers);
-				return { status: 'ok' };
-			},
-			['post']
-		);
+		// this.addRestEndpoint(
+		// 	'view',
+		// 	(params, options) => {
+        // //debug console.log
+		// 		console.log('Params', params);
+		// 		console.log('options.headers', options.headers);
+		// 		return { status: 'ok' };
+		// 	},
+		// 	['post']
+		// );
 
-		this.addRestEndpoint(
-			'view/:aniversarioId',
-			(params, _options) => {
-				console.log('Rest', params);
-				if (params.aniversarioId) {
-					return self
-						.defaultCollectionPublication(
-							{
-								_id: params.aniversarioId
-							},
-							{}
-						)
-						.fetch();
-				} else {
-					return { ...params };
-				}
-			},
-			['get']
-		);
+		// this.addRestEndpoint(
+		// 	'view/:aniversarioId',
+		// 	(params, _options) => {
+		// 		console.log('Rest', params);
+		// 		if (params.aniversarioId) {
+		// 			return self
+		// 				.defaultCollectionPublication(
+		// 					{
+		// 						_id: params.aniversarioId
+		// 					},
+		// 					{}
+		// 				)
+		// 				.fetch();
+		// 		} else {
+		// 			return { ...params };
+		// 		}
+		// 	},
+		// 	['get']
+		// );
 	}
 }
 

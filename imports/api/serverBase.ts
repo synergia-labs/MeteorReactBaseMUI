@@ -164,9 +164,10 @@ export class ServerApiBase<Doc extends IDoc> {
 		this.initApiRest();
 		this.registerPublications(options);
 		this.registerAllMethods();
-		this.createAPIRESTForAudioFields();
-		this.createAPIRESTForIMGFields();
-		this.createAPIRESTThumbnailForIMGFields(sharp);
+		
+		// this.createAPIRESTForAudioFields();
+		// this.createAPIRESTForIMGFields();
+		// this.createAPIRESTThumbnailForIMGFields(sharp);
 	}
 
 	initCollection(apiName: string) {
@@ -420,7 +421,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		userProfile?: IUserProfile,
 		validadorArg?: Validador,
 		session?: MongoInternals.MongoConnection
-	): IContext {
+	): Promise<IContext> {
 		const user: IUserProfile = userProfile || (await getUserServer(connection));
 
 		const validador = validadorArg || new Validador(schema);
@@ -1087,7 +1088,7 @@ export class ServerApiBase<Doc extends IDoc> {
 
 		const method = {
 			async [methodFullName](...param: any[]) {
-				console.log('CALL Method:', name, param ? param.length : '-');
+				console.info('CALL Method:', name, param ? param.length : '-');
 				// Prevent unauthorized access
 
 				try {
@@ -1105,7 +1106,7 @@ export class ServerApiBase<Doc extends IDoc> {
 					meteorContext.validador.lancarErroSeHouver();
 					return functionResult;
 				} catch (error) {
-					console.log('Error on CALL Method:', name, 'error:', JSON.stringify(error));
+					console.error('Error on CALL Method:', name, 'error:', JSON.stringify(error));
 					throw error;
 				}
 			}
@@ -1115,7 +1116,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		}
 	};
 
-	registerTransactionMethod = (name: string, func: Function) => {
+	registerTransactionMethod = async (name: string, func: Function) => {
 		const self = this;
 		const action = name;
 		const collection = this.collectionName || '';
@@ -1133,9 +1134,9 @@ export class ServerApiBase<Doc extends IDoc> {
 				connection = selfMeteor.connection;
 
 				// @ts-ignore
-				self._executarTransacao((session: MongoInternals.MongoConnection) => {
+				await self._executarTransacao(async (session: MongoInternals.MongoConnection) => {
 					try {
-						const meteorContext = self._createContext(
+						const meteorContext = await self._createContext(
 							schema,
 							collection,
 							action,
@@ -1326,7 +1327,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		try {
 			check(_docObj._id, String);
 			const id = _docObj._id;
-			if (this.beforeUpdate(_docObj, _context)) {
+			if (await this.beforeUpdate(_docObj, _context)) {
 				_docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
 				await this._includeAuditData(_docObj, 'update');
 				const oldData = (await this.getCollectionInstance().findOneAsync({ _id: id })) || {};
@@ -1492,7 +1493,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} query - Params to query a document.
 	 * @param  {Object} projection - Params to define which fiedls will return.
 	 */
-	async findOne(query: Selector<Doc> | string = {}, projection = {}): Partial<Doc> {
+	async findOne(query: Selector<Doc> | string = {}, projection = {}): Promise<Partial<Doc>> {
 		return await this.getCollectionInstance().findOneAsync(query, projection);
 	}
 }
