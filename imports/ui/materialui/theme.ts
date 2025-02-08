@@ -86,8 +86,8 @@ declare module '@mui/material/Typography' {
 const getLightThemeBase = (props: { fontScale: number }): ThemeOptions => {
 	const fontScale = props.fontScale;
 	return {
-		palette: { ...sysLightPalette },
-		typography: { ...SysFonts.getTypography(fontScale) },
+		palette: sysLightPalette,
+		typography: SysFonts.getTypography(fontScale),
 		spacing: 8,
 	};
 };

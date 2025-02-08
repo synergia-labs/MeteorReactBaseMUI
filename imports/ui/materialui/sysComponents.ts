@@ -1,5 +1,5 @@
-import {Theme} from "@mui/material"
-import {sysSizing, sysShadows} from "./styles"
+import { Theme } from "@mui/material"
+import { sysSizing, sysShadows } from "./styles"
 
 const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
   return {
@@ -159,7 +159,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
           }
         }
       },
-//
+      //
       MuiDataGrid: {
         styleOverrides: {
           root: {
@@ -671,7 +671,16 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
             button2: 'p'
           }
         }
-      }
+      },
+
+      MuiDialog: {
+        styleOverrides: {
+          paper: {
+            maxWidth: '100%',
+            maxHeight: '100%',
+          }
+        }
+      },
     }
   }
 }
