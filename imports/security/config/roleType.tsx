@@ -6,9 +6,7 @@ export enum RoleType {
 	PUBLICO = 'Publico'
 }
 
-type IRolesDicionario = {
-	[key: string]: string;
-};
+type IRolesDicionario = Record<RoleType, string>;
 
 export const rolesDicionario: IRolesDicionario = {
 	[RoleType.ADMINISTRADOR]: 'Administrador',
@@ -16,9 +14,8 @@ export const rolesDicionario: IRolesDicionario = {
 	[RoleType.PUBLICO]: 'Público'
 };
 
-export function obterListaRoles(): LabelValue[] {
-	// @ts-ignore
-	return Object.keys(rolesDicionario)
+export function obterListaRoles(): Array<LabelValue> {
+	return (Object.keys(rolesDicionario) as RoleType[])
 		.filter((chave) => !!rolesDicionario[chave])
 		.map((chave) => ({
 			value: chave,

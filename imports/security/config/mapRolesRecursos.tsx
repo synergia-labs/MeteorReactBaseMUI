@@ -4,35 +4,25 @@ import { Recurso as Usuarios } from '/imports/modules/userprofile/config/recurso
 import { RoleType } from '/imports/security/config/roleType';
 import { HomeResources, SysFormTestPageResources } from '/imports/sysPages/config/resources';
 
-type MapRolesRecursos = {
-	[key: string]: string[];
+const _getAllValues = (obj: any) => Object.keys(obj).map(key => obj[key]);
+
+type MapRolesRecursos = Record<RoleType, Array<string>>; 
+
+const _mapRolesRecursos: MapRolesRecursos = {
+	[RoleType.PUBLICO]: [],
+	[RoleType.USUARIO]: [
+		..._getAllValues(Exemplo),
+		..._getAllValues(HomeResources),
+		..._getAllValues(SysFormTestPageResources),
+		..._getAllValues(Aniversario),
+		Usuarios.USUARIO_UPDATE,
+		Usuarios.USUARIO_VIEW,	
+	],
+	[RoleType.ADMINISTRADOR]: [
+		Usuarios.USUARIO_CREATE,
+		Usuarios.USUARIO_REMOVE,
+	],
 };
-
-const publicRoles: string[] = [];
-
-const usuarioRoles: string[] = [
-	...publicRoles,
-	Exemplo.EXAMPLE_VIEW,
-	Exemplo.EXAMPLE_CREATE,
-	Exemplo.EXAMPLE_UPDATE,
-	Exemplo.EXAMPLE_REMOVE,
-	HomeResources.HOME_VIEW,
-	HomeResources.HOME_CREATE,
-	HomeResources.HOME_UPDATE,
-	HomeResources.HOME_REMOVE,
-	SysFormTestPageResources.SYSFORMTESTS_VIEW,
-	SysFormTestPageResources.SYSFORMTESTS_CREATE,
-	SysFormTestPageResources.SYSFORMTESTS_UPDATE,
-	SysFormTestPageResources.SYSFORMTESTS_REMOVE,
-	Usuarios.USUARIO_UPDATE,
-	Usuarios.USUARIO_VIEW,
-  Aniversario.ANIVERSARIO_VIEW,
-  Aniversario.ANIVERSARIO_CREATE,
-  Aniversario.ANIVERSARIO_UPDATE,
-  Aniversario.ANIVERSARIO_REMOVE,
-];
-
-const adminstradorRoles: string[] = [...usuarioRoles, Usuarios.USUARIO_CREATE, Usuarios.USUARIO_REMOVE];
 
 /**
  * Mapeamento entre as roles (perfil de usuário) e os recursos.
@@ -41,12 +31,18 @@ const adminstradorRoles: string[] = [...usuarioRoles, Usuarios.USUARIO_CREATE, U
  *
  *
  * O nome do recurso deve ser prefixado com nome do módulo.
- *
- * Favor manter a ordem alfabética no nome dos módulos.
- *
  */
 export const mapRolesRecursos: MapRolesRecursos = {
-	[RoleType.ADMINISTRADOR]: adminstradorRoles,
-	[RoleType.USUARIO]: usuarioRoles,
-	[RoleType.PUBLICO]: publicRoles
+	[RoleType.PUBLICO]: [
+		..._mapRolesRecursos[RoleType.PUBLICO],
+	],
+	[RoleType.USUARIO]: [
+		..._mapRolesRecursos[RoleType.PUBLICO],
+		..._mapRolesRecursos[RoleType.USUARIO],
+	],
+	[RoleType.ADMINISTRADOR]: [
+		..._mapRolesRecursos[RoleType.PUBLICO],
+		..._mapRolesRecursos[RoleType.USUARIO],
+		..._mapRolesRecursos[RoleType.ADMINISTRADOR],
+	],
 };
