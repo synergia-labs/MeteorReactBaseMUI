@@ -176,7 +176,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 				return true;
 			}
 		} catch (error) {
-			console.log('error :>> ', error);
+			console.error('error :>> ', error);
 			throw new Meteor.Error('Acesso negado', `Vocẽ não tem permissão para alterar esses dados`);
 		}
 	};

@@ -172,7 +172,7 @@ export class ApiBase<Doc extends IDoc> {
 		if (Meteor.status().connected) {
 			Meteor.call(`${this.collectionName}.${name}`, ...params);
 		} else {
-			console.log('Sem Conexão com o Servidor');
+			console.error('Sem Conexão com o Servidor');
 		}
 	}
 

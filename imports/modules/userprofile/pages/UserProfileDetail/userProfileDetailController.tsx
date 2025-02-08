@@ -49,7 +49,7 @@ const UserProfileDetailController = ({ id, mode }: IUserProfileDetailController)
 						message: `Usuario ${mode === 'create' ? 'criado' : 'atualizado'} com sucesso`
 					});
 				} else {
-					console.log('Error:', e);
+					console.error('Error:', e);
 					showNotification({
 						type: 'warning',
 						title: 'Operação não realizada!',

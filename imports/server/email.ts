@@ -14,7 +14,6 @@ export const getHTMLEmailTemplate = (title = settings.name, text = 'Message', fo
 		text,
 		footer
 	});
-	console.log(email);
 	return email;
 };
 

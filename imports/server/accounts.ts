@@ -49,7 +49,6 @@ async function validateSocialLoginAndUpdateProfile(
 	serviceName: string
 ) {
 	if (!userProfile) {
-		console.log('##Novo Usuário## >>>>>>>', user.profile, null, user.services);
 		user.roles = ['Usuario'];
 		user.otheraccounts = [{ _id: user._id, service: serviceName }];
 		user.createdat = new Date();
@@ -67,7 +66,6 @@ async function validateSocialLoginAndUpdateProfile(
 			updateUserProfileImageFromURL(userProfileID, user.services.google.picture);
 		}
 	} else {
-		console.log('Usuário já cadastrado:', user.username);
 		await Meteor.users.updateAsync(
 			{ _id: user._id },
 			{
@@ -95,7 +93,6 @@ async function validateSocialLoginAndUpdateProfile(
 }
 
 async function validateLoginGoogle(user: Meteor.User & { name?: string; email?: string }) {
-	console.log('Login com Google');
 	user.username = `${user.services.google.name}`;
 	user.name = `${user.services.google.name}`;
 	user.email = user.services.google.email;
@@ -225,10 +222,7 @@ Meteor.startup(() => {
 	});
 
 	Accounts.validateLoginAttempt(({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {
-		if (!allowed) {
-			console.log('Acesso não autorizado');
-			return allowed;
-		}
+		if (!allowed) return allowed;
 
 		// ################################ FACEBOOK ################################################
 		if (user.services.facebook) {
@@ -248,7 +242,6 @@ Meteor.startup(() => {
 		if (!user || !user.emails || !user.emails[0].verified) {
 			throw new Meteor.Error('Email ñao verificado', `Este email ainda não foi verificado!`);
 		}
-		console.log('Acesso autorizado');
 		return true;
 	});
 });

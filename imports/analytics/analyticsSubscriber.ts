@@ -10,25 +10,25 @@ export const subjectComponents = new Subject();
 if (Meteor.isClient) {
 	//LoggedUser
 	subjectRouter.pipe(filter((event: any) => !!event && !!event.user)).subscribe((event) => {
-		console.log('Router-LoggedUser>', event);
+		console.info('Router-LoggedUser>', event);
 	});
 
 	//NoLoggedUser
 	subjectRouter.pipe(filter((event: any) => !!event && !event.user)).subscribe((event) => {
-		console.log('Router-UnLoggedUser>', event);
+		console.info('Router-UnLoggedUser>', event);
 	});
 
 	//LoggedUser
 	subjectCallMethod.pipe(filter((event: any) => !!event && !!event.user)).subscribe((event) => {
-		console.log('CallMethod-LoggedUser>', event);
+		console.info('CallMethod-LoggedUser>', event);
 	});
 
 	//LoggedUser
 	subjectSubscribe.pipe(filter((event: any) => !!event && !!event.user)).subscribe((event) => {
-		console.log('subjectSubscribe-LoggedUser>', event);
+		console.info('subjectSubscribe-LoggedUser>', event);
 	});
 
 	subjectComponents.pipe(filter((event) => !!event)).subscribe((event) => {
-		console.log('subjectComponent', event);
+		console.info('subjectComponent', event);
 	});
 }

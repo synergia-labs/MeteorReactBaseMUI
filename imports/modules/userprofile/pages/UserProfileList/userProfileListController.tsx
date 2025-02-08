@@ -102,7 +102,7 @@ const UserProfileListController = () => {
 					message: `Status alterado com sucesso`
 				});
 			} else {
-				console.log('Error:', e);
+				console.error('Error:', e);
 				showNotification({
 					type: 'warning',
 					title: 'Operação não realizada!',

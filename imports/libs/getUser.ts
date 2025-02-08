@@ -74,12 +74,6 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 	}
 };
 
-if (Meteor.isServer) {
-	console.log('###############################################################################');
-	console.log('############ ERROR - getUser sendo chamado no lado do servidor ################');
-	console.log('###############################################################################');
-}
-
 const SYSTEM_USER: Readonly<{
 	createdat: Date;
 	blocked: boolean;

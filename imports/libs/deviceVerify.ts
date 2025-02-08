@@ -10,7 +10,7 @@ export const setUserAgent = (window, userAgent) => {
 	try {
 		Object.defineProperty(window.navigator, 'userAgent', userAgentProp);
 	} catch (e) {
-		console.log('#>ERROR>>:', e);
+		console.error('#>ERROR>>:', e);
 		window.navigator = Object.create(navigator, {
 			userAgent: userAgentProp
 		});
