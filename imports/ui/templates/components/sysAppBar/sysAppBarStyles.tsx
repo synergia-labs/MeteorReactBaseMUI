@@ -34,8 +34,9 @@ const SysAppBarStyles: ISysAppBarStyles = {
     flex: 1,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     gap: sysSizing.spacingRemMd,
+    paddingRight: sysSizing.spacingFixedMd,
     [theme.breakpoints.down('md')]: { display: 'none' },
   })),
   navContainerMobile: styled(Box)(({ theme }) => ({
