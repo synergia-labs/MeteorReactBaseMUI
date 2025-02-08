@@ -8,12 +8,12 @@ class SysRoutes {
 	private menuItens: Array<IAppMenu | null>;
 	public getRoutes = (): Array<IRoute>  => this.routes.filter((route) => route !== null) as Array<IRoute>;
 	public getMenuItens = () => {
-		this.menuItens.map((item) => {
+		return this.menuItens.map((item) => {
 			if(!item?.path) return undefined;
 			const routeResources = this.routes.filter((route) => route?.path === item.path).map((route) => route?.resources);
 			return {
 				...item,
-				resources: routeResources
+				resources: routeResources.length > 0 ? routeResources[0] : undefined
 			}
 		});
 	};
