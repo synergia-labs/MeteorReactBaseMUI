@@ -20,7 +20,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({
     logo,
     menuOptions = []
 }) => {
-    const {user, isLoggedIn } = useContext(AuthContext);
+    const { user, isLoggedIn, logout } = useContext(AuthContext);
     const { showModal } = useContext(AppLayoutContext);
 
     const navigate = useNavigate();
@@ -30,8 +30,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({
     const onClickLogo = useCallback((): void => navigate('/'), [navigate]);
     
     const onLogout = useCallback(async (): Promise<void> => { 
-        // await userActions?.logout(); 
-        // navigate('/'); 
+        logout(() => navigate('/'));
     }, [navigate]);
     
     const abrirMenuPerfil = useCallback((event: React.MouseEvent<HTMLElement>): void => { 

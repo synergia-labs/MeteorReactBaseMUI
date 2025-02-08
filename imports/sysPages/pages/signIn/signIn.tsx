@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import SignInStyles from './signInStyles';
-import { Meteor } from 'meteor/meteor';
 import { useNavigate } from 'react-router-dom';
 import SysTextField from '../../../ui/components/sysFormFields/sysTextField/sysTextField';
 import SysForm from '../../../ui/components/sysForm/sysForm';
@@ -15,25 +14,20 @@ import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 const SignInPage: React.FC = () => {
 	const { showNotification } = useContext(AppLayoutContext);
-	const { user } = useContext<IAuthContext>(AuthContext);
+	const { user, signIn } = useContext<IAuthContext>(AuthContext);
 	const navigate = useNavigate();
 	const { Container, Content, FormContainer, FormWrapper } = SignInStyles;
 
-	const handleSubmit = ({ email, password }: { email: string; password: string }) =>
-		Meteor.loginWithPassword(email, password, (err) => {
-			if (!err) return navigate('/');
-			if ((err as Meteor.Error).reason === 'User not found')
-				return showNotification({
-					type: 'error',
-					title: 'Não foi possível realizar o login',
-					message: 'Este email não está cadastrado em nossa base de dados.'
-				});
+	const handleSubmit = ({ email, password }: { email: string; password: string }) => {
+		signIn(email, password, (err) => {
+			if (!err) navigate('/');
 			showNotification({
 				type: 'error',
-				title: 'Não foi possível realizar o login',
-				message: (err as Meteor.Error).reason || (err as Meteor.Error).message || 'Erro desconhecido'
+				title: 'Erro ao tentar logar',
+				message: 'Email ou senha inválidos',
 			});
 		});
+;	};
 
 	const handleForgotPassword = () => navigate('/password-recovery');
 

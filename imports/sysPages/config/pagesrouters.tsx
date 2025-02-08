@@ -1,6 +1,5 @@
 import Home from '../../sysPages/pages/home/home';
 import { SignUp } from '../../sysPages/pages/signUp/signUp';
-import Signout from '../../sysPages/pages/signOut/signout';
 import { EmailVerify } from '../../sysPages/pages/emailVerify/emailVerify';
 import { ResetPassword } from '../../sysPages/pages/resetPassword/resetPassword';
 import { PasswordRecovery } from '../../sysPages/pages/recoveryPassword/passwordRecovery';
@@ -34,12 +33,6 @@ export const pagesRouterList: (IRoute | null)[] = [
 		path: '/signup',
 		component: SignUp,
 		isProtected: false,
-		templateVariant: 'None'
-	},
-	{
-		path: '/signout',
-		component: Signout,
-		isProtected: true,
 		templateVariant: 'None'
 	},
 	{
