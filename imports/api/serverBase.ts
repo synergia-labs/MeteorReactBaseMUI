@@ -40,8 +40,8 @@ const defaultOptions = {
 	disableDefaultPublications: true
 };
 
-interface IMongoOptions<T> extends Mongo.Options<T> {
-	projection: any;
+export interface IMongoOptions<T> extends Mongo.Options<T> {
+	projection: Mongo.FieldSpecifier;
 }
 
 interface IApiRestImage {
@@ -790,7 +790,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {String} publication - Name of the publication.
 	 * @param  {Function} newPublicationsFunction - Function the handle the publication of the data
 	 */
-	addPublication = (publication: string, newPublicationsFunction: any) => {
+	addPublication = (publication: string, newPublicationsFunction: ( filter?: Mongo.ObjectID | Mongo.Selector<any>, optionsPub?: Partial<IMongoOptions<any>> ) => Promise<Mongo.Cursor<any>>  ) => {
 		const self = this;
 
 		if (Meteor.isServer) {
@@ -874,36 +874,37 @@ export class ServerApiBase<Doc extends IDoc> {
 	};
 
 	//**DEFAULT PUBLICATIONS**
-	async defaultCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
+	async defaultCollectionPublication<T>(filter: Mongo.Selector<T> | Mongo.ObjectID | string = {}, optionsPub?: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<T>> {
+
 		if (!optionsPub) {
 			optionsPub = { limit: 999999, skip: 0 };
 		}
 
-		if (optionsPub.skip! < 0) {
+		if (!!optionsPub.skip && (optionsPub.skip < 0)) {
 			optionsPub.skip = 0;
 		}
 
-		if (optionsPub.limit! < 0) {
+		if (optionsPub.limit && (optionsPub.limit < 0)) {
 			optionsPub.limit = 999999;
 		}
 
-		if (!optionsPub.projection && !!optionsPub.fields) {
+		if (!!!optionsPub.projection && !!optionsPub.fields) {
 			optionsPub.projection = optionsPub.fields;
 		}
 
-		if (!optionsPub.projection) optionsPub.projection = {};
+		if (!!!optionsPub.projection) optionsPub.projection = {};
 		const hasExceptionProjection = optionsPub && Object.values(optionsPub.projection).find((v) => v === 0 || v === -1);
 		const hasRestrictionProjection = optionsPub && Object.values(optionsPub.projection).find((v) => v === 1);
 
 		// Use the default subschema if no one was defined.
-		const tempProjection: { [key: string]: number } = { ...(optionsPub.projection || {}) };
+		const tempProjection: Mongo.FieldSpecifier = { ...(optionsPub.projection || {}) };
 		Object.keys(this.schema)
 			.concat(['_id'])
 			.concat(this.auditFields)
 			.forEach((key) => {
 				if (
-					(hasExceptionProjection && (optionsPub.projection[key] === 0 || optionsPub.projection[key] === -1)) ||
-					(hasRestrictionProjection && optionsPub.projection[key] !== 1)
+					(hasExceptionProjection && (optionsPub.projection?.[key] === 0 || optionsPub.projection?.[key] === -1)) ||
+					(hasRestrictionProjection && optionsPub.projection?.[key] !== 1)
 				) {
 					delete tempProjection[key];
 				} else {
@@ -918,7 +919,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		Object.keys(this.schema).forEach((field) => {
 			if (this.schema[field].isImage) {
 				imgFields['has' + field] = { $or: '$' + field };
-				delete optionsPub.projection[field];
+				delete optionsPub.projection?.[field];
 				imgFields[field] = {
 					$cond: [
 						{ $ifNull: ['$' + field, false] },
@@ -949,7 +950,7 @@ export class ServerApiBase<Doc extends IDoc> {
 				};
 			} else if (this.schema[field].isAudio) {
 				imgFields['has' + field] = { $or: '$' + field };
-				delete optionsPub.projection[field];
+				delete optionsPub.projection?.[field];
 				imgFields[field] = {
 					$cond: [
 						{ $ifNull: ['$' + field, false] },
@@ -978,7 +979,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			queryOptions.sort = optionsPub.sort;
 		}
 
-		return this.getCollectionInstance().find({ ...filter }, queryOptions);
+		return this.getCollectionInstance().find(filter, queryOptions) as Mongo.Cursor<T>;
 	}
 
 	defaultCounterCollectionPublication = (collection: any, publishName: string) =>
@@ -1016,9 +1017,9 @@ export class ServerApiBase<Doc extends IDoc> {
 							nonMutatingCallbacks: true
 						}
 					);
-					count = handlePub.countAsync(false);
+					count = await handlePub.countAsync(false);
 					// @ts-ignore
-					this.added('counts', `${publishName}Total`, { count });
+					this.added('counts', `${publishName}Total`, { count: count });
 					loaded = true;
 					// @ts-ignore
 					this.ready();
@@ -1033,7 +1034,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		};
 
-	async defaultListCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
+	async defaultListCollectionPublication<T>(filter: Mongo.Selector<T> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<T>> {
 		const user = await getUserServer();
 
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
@@ -1054,7 +1055,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		return this.defaultCollectionPublication(filter, defaultListOptions);
 	}
 
-	async defaultDetailCollectionPublication(filter: Partial<IDoc>, optionsPub: Partial<IMongoOptions<Doc>>) {
+	async defaultDetailCollectionPublication<T>(filter: Mongo.Selector<T> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<T>> {
 		const user = await getUserServer();
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
 			if (!segurancaApi.podeAcessarRecurso(user, this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`])) {
@@ -1066,8 +1067,8 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		}
 
-		const defaultDetailFilter = { ...(filter || {}) };
-		if (!filter || !filter._id) {
+		const defaultDetailFilter = typeof filter === 'object' && filter !== null ? { ...filter } : {};
+		if (!filter || (typeof filter === 'object' && !('_id' in filter))) {
 			return this.getCollectionInstance().find({ _id: 'ERROR' });
 		}
 		return this.defaultCollectionPublication(defaultDetailFilter, optionsPub);

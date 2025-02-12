@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { IDefaultContainerProps } from '../../typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
 import UserProfileListController from '../../modules/userprofile/pages/UserProfileList/userProfileListController';
 import ExampleDetailController from '../example/pages/exampleDetail/exampleDetailContoller';
@@ -12,11 +11,11 @@ export interface IUserProfileModuleContext {
 
 export const UserProfileModuleContext = React.createContext<IUserProfileModuleContext>({});
 
-export default (props: IDefaultContainerProps) => {
+export default () => {
 	const { user } = useContext<IAuthContext>(AuthContext);
 	let { screenState, userprofileId } = useParams();
 
-	const state = screenState ? screenState : props.screenState;
+	const state = screenState;
 	const id = userprofileId ?? user?._id;
 
 	const validState = ['view', 'edit', 'create'];

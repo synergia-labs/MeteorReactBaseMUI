@@ -158,20 +158,29 @@ export const exampleSch: ISchema<IExample> = {
 };
 
 export interface IExample extends IDoc {
-	image: string;
+	image?: string;
 	title: string;
-	description: string;
-	check: Array<string>;
+	description?: string;
+	check?: Array<String>;
 	type: string;
 	typeMulti: string;
-	date: Date;
-	files: object[];
-	chip: string[];
-	contacts: object;
-	tasks: object[];
-	audio: string;
-	address: object;
-	slider: number;
-	statusRadio: string;
-	statusToggle: boolean;
+	date?: Date;
+	files?: Array<any>;
+	chip?: Array<string>;
+	contacts?: {
+		phone?: string;
+		cpf?: string;
+	};
+	tasks?: Array<{
+		name: string;
+		description?: string;
+	}>;
+	audio?: string;
+	address?: {
+		latitude: number;
+		longitude: number;
+	};
+	slider?: number;
+	statusRadio?: string;
+	statusToggle?: boolean;
 }

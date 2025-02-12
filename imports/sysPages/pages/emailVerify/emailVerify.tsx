@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Accounts } from 'meteor/accounts-base';
-import { useParams } from 'react-router-dom';
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
+import { useNavigate, useParams } from 'react-router-dom';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 let emailVerified = false;
 
-export const EmailVerify = (props: IDefaultContainerProps) => {
+export const EmailVerify = () => {
 	const { token } = useParams();
-
-	const { showNotification, navigate } = props;
+	const navigate = useNavigate();
+	const { showNotification } = useContext(AppLayoutContext);
 
 	Accounts.verifyEmail(token!, (err: any) => {
 		if (err) {
 			if (!emailVerified) {
-				props.showNotification({
+				showNotification({
 					type: 'warning',
 					title: 'Problema com o Token!',
-					description: 'Email não verificado. Solicite um novo token!'
+					message: 'Email não verificado. Solicite um novo token!'
 				});
 				navigate('/');
 			}
@@ -25,7 +25,7 @@ export const EmailVerify = (props: IDefaultContainerProps) => {
 			showNotification({
 				type: 'success',
 				title: 'Email Verificado',
-				description: 'Seu e-mail foi verificado com sucesso, seja bem vindo!'
+				message: 'Seu e-mail foi verificado com sucesso, seja bem vindo!'
 			});
 			navigate('/');
 		}

@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
 import AniversarioListController from '/imports/modules/aniversario/pages/aniversarioList/aniversarioListController';
 import AniversarioDetailController from '/imports/modules/aniversario/pages/aniversarioDetail/aniversarioDetailContoller';
@@ -12,10 +11,10 @@ export interface IAniversarioModuleContext {
 
 export const AniversarioModuleContext = React.createContext<IAniversarioModuleContext>({});
 
-export default (props: IDefaultContainerProps) => {
+export default () => {
 	let { screenState, aniversarioId } = useParams();
-	const state = screenState ?? props.screenState;
-	const id = aniversarioId ?? props.id;
+	const state = screenState;
+	const id = aniversarioId;
 
 	const validState = ['view', 'edit', 'create'];
   const isValideState = hasValue(state) && validState.includes(state!);

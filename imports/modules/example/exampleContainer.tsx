@@ -1,31 +1,33 @@
-import React from 'react';
-import { IDefaultContainerProps } from '../../typings/BoilerplateDefaultTypings';
+import React, { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import ExampleListController from '../../modules/example/pages/exampleList/exampleListController';
 import ExampleDetailController from '../../modules/example/pages/exampleDetail/exampleDetailContoller';
+import { hasValue } from '/imports/libs/hasValue';
+import ModuleContext, { IExampleModuleContext } from './exampleContext';
+import EnumExampleScreenState, { exampleScreenStateValidState } from './config/enumExampleScreenState';
+import ExampleListProvider from './pages/exampleList/exampleListProvider';
 
-export interface IExampleModuleContext {
-	state?: string;
-	id?: string;
-}
+export default () => {
+	const { screenState, exampleId } = useParams();
 
-export const ExampleModuleContext = React.createContext<IExampleModuleContext>({});
+	const id = hasValue(exampleId) ? exampleId : undefined;
+	const state: EnumExampleScreenState | undefined = 
+		(hasValue(screenState) && exampleScreenStateValidState.includes(screenState!)) 
+		? screenState as EnumExampleScreenState
+		: undefined;
 
-export default (props: IDefaultContainerProps) => {
-	let { screenState, exampleId } = useParams();
-	const state = screenState ?? props.screenState;
-	const id = exampleId ?? props.id;
-
-	const validState = ['view', 'edit', 'create'];
-
-	const renderPage = () => {
-		if (!state || !validState.includes(state)) return <ExampleListController />;
+	const renderPage = useCallback(() => {	
+		if (!hasValue(state)) return <ExampleListProvider />;
 		return <ExampleDetailController />;
+	},[state]); 
+
+	const contextValues: IExampleModuleContext = {
+		state: state,
+		id: id
 	};
 
-	const providerValue = {
-		state,
-		id
-	};
-	return <ExampleModuleContext.Provider value={providerValue}>{renderPage()}</ExampleModuleContext.Provider>;
+
+	return (
+		<ModuleContext.Provider value={contextValues}>
+			{renderPage()}
+		</ModuleContext.Provider>);
 };

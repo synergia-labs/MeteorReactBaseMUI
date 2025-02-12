@@ -472,16 +472,10 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
           root: {
             padding: 0,
             width: '100%',
-            '& .MuiSvgIcon-root': {
-              position: 'absolute',
-              top: 'calc(100% -0.5em)',
-              right: sysSizing.spacingRemSm
-            },
           },
           select: {
             width: '100%',
             padding: `${sysSizing.componentsInputPy} ${sysSizing.componentsInputPx}`,
-            paddingRight: `calc(${sysSizing.componentsInputPx} + ${sysSizing.componentsInputGap} + ${sysSizing.componentsIconSize}) !important`,
             height: sysSizing.componentsIconSize,
             transition: 'all 150ms linear',
             '&:focus': {

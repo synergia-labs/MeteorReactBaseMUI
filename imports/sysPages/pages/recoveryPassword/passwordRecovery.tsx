@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
 
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -20,7 +19,7 @@ import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 
-export const PasswordRecovery = (props: IDefaultContainerProps) => {
+export const PasswordRecovery = () => {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [msg, setMsg] = React.useState<boolean>(false);
 

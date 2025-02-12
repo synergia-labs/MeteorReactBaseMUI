@@ -28,6 +28,9 @@ interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
 		textField?: SxProps<Theme>;
+		container?: SxProps<Theme>;
+		header?: SxProps<Theme>;
+		helpIcon?: SxProps<Theme>;
 	};
 }
 
@@ -131,7 +134,13 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 			disabled={disabled}
 			showTooltip={showTooltip}
 			tooltipMessage={tooltipMessage}
-			tooltipPosition={tooltipPosition}>
+			tooltipPosition={tooltipPosition}
+			sxMap={{
+				container: sxMap?.container,
+				header: sxMap?.header,
+				helpIcon: sxMap?.helpIcon
+			}}
+		>
 			<TextField
 				{...otherProps}
 				name={name}

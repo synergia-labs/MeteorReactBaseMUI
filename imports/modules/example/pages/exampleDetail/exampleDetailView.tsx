@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { ExampleDetailControllerContext } from './exampleDetailContoller';
-import { ExampleModuleContext } from '../../exampleContainer';
 import ExampleDetailStyles from './exampleDetailStyles';
 import SysForm from '../../../../ui/components/sysForm/sysForm';
 import SysTextField from '../../../../ui/components/sysFormFields/sysTextField/sysTextField';
@@ -15,6 +14,7 @@ import { SysUploadFile } from '../../../../ui/components/sysFormFields/sysUpload
 import SysSlider from '../../../../ui/components/sysFormFields/sysSlider/sysSliderField';
 import { SysLocationField } from '../../../../ui/components/sysFormFields/sysLocationField/sysLocationField';
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
+import ExampleModuleContext from '../../exampleContext';
 
 const ExampleDetailView = () => {
 	const controller = useContext(ExampleDetailControllerContext);

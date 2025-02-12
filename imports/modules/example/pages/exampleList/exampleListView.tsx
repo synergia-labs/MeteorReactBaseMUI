@@ -1,83 +1,71 @@
 import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import { ExampleListControllerContext } from './exampleListController';
-import { useNavigate } from 'react-router-dom';
-import { ComplexTable } from '../../../../ui/components/ComplexTable/ComplexTable';
-import DeleteDialog from '../../../../ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
-import ExampleListStyles from './exampleListStyles';
-import SysTextField from '../../../../ui/components/sysFormFields/sysTextField/sysTextField';
-import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelectField/sysSelectField';
-import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
-import { SysFab } from '../../../../ui/components/sysFab/sysFab';
+import Styles from './exampleListStyles';
+import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
+import Context, { IExampleListContext } from './exampleListContext';
+import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
+import EnumExampleScreenState from '../../config/enumExampleScreenState';
+import { IExample } from '../../api/exampleSch';
+import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import ToolTip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
-const ExampleListView = () => {
-	const controller = React.useContext(ExampleListControllerContext);
-	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
-	const navigate = useNavigate();
-	const { Container, LoadingContainer, SearchContainer } = ExampleListStyles;
+const ExampleListView: React.FC = () => {
+	const { showDialog, closeDialog } = useContext<IAppLayoutContext>(AppLayoutContext);
+	const context = useContext<IExampleListContext>(Context);
 
-	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
+	const { title, type, typeMulti } = context.schema;
+	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
+
 
 	return (
-		<Container>
-			<Typography variant="h5">Lista de Itens</Typography>
-			<SearchContainer>
-				<SysTextField
-					name="search"
+		<Styles.container>
+			<Typography variant="h5">Lista de itens</Typography>
+			<Styles.filterContainer>
+				<SysTextField 
+					name='filterTaskName'
 					placeholder="Pesquisar por nome"
-					onChange={controller.onChangeTextField}
 					startAdornment={<SysIcon name={'search'} />}
+					sxMap={{ container: { width: '300px' }}}
+					onChange={(e) => context.onChangeTextField(e.target.value)}
 				/>
-				<SysSelectField
+				<SysSelectField 
 					name="Category"
-					label="Categoria"
-					options={options}
+					label="Filtrar por categoria"
+					options={type?.options?.()}
 					placeholder="Selecionar"
-					onChange={controller.onChangeCategory}
+					sxMap={{ container: { width: '300px' } }}
+					onChange={(e) => context.onChangeCategory(e.target.value)}
 				/>
-			</SearchContainer>
-			{controller.loading ? (
-				<LoadingContainer>
-					<CircularProgress />
-					<Typography variant="body1">Aguarde, carregando informações...</Typography>
-				</LoadingContainer>
-			) : (
-				<Box sx={{ width: '100%' }}>
-					<ComplexTable
-						data={controller.todoList}
-						schema={controller.schema}
-						onRowClick={(row) => navigate('/example/view/' + row.id)}
-						searchPlaceholder={'Pesquisar exemplo'}
-						onEdit={(row) => navigate('/example/edit/' + row._id)}
-						onDelete={(row) => {
-							DeleteDialog({
-								showDialog: sysLayoutContext.showDialog,
-								closeDialog: sysLayoutContext.closeDialog,
-								title: `Excluir dado ${row.title}`,
-								message: `Tem certeza que deseja excluir o arquivo ${row.title}?`,
-								onDeleteConfirm: () => {
-									controller.onDeleteButtonClick(row);
-									sysLayoutContext.showNotification({
-										message: 'Excluído com sucesso!'
-									});
-								}
-							});
-						}}
-					/>
-				</Box>
-			)}
-
-			<SysFab
-				variant="extended"
-				text="Adicionar"
-				startIcon={<SysIcon name={'add'} />}
-				fixed={true}
-				onClick={controller.onAddButtonClick}
+				<ToolTip title="Adicionar dados de exemplo" placement='right'>
+					<IconButton sx={{ mb: 1 }}  onClick= {context.fillWithFakeData}>
+						<SysIcon name="contract" />
+					</IconButton>
+				</ToolTip>
+			</Styles.filterContainer>
+			<ComplexTable
+				data={context.todoList}
+				schema={exampleSchReduzido}
+				loading={context.loading}
+				onRowClick={(row) => context.navigateToDetail(EnumExampleScreenState.VIEW, row?.id as string)}
+				onEdit={(row: IExample ) => context.navigateToDetail(EnumExampleScreenState.EDIT, row?._id)}
+				onDelete={(row: IExample) => {
+					DeleteDialog({
+						showDialog: showDialog,
+						closeDialog: closeDialog,
+						title: `Excluir dado ${row.title}`,
+						message: `Tem certeza que deseja excluir o arquivo ${row.title}?`,
+						onDeleteConfirm: () => context.deleteTask(row._id)
+					});
+				}}
+				onPaginationModelChange={context.setPaginationProps}
+				paginationModel={context.paginationProps}
+				rowCount={context.totalDocuments}
 			/>
-		</Container>
+		</Styles.container>
 	);
 };
 

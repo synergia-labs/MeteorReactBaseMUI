@@ -1,6 +1,7 @@
 import React from 'react';
 import {
 	DataGrid,
+	DataGridProps,
 	GRID_CHECKBOX_SELECTION_COL_DEF,
 	GridActionsCellItem,
 	GridColumnGroupHeaderParams,
@@ -13,7 +14,6 @@ import {
 	MuiEvent
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
-import Checkbox from '@mui/material/Checkbox';
 import { Variant } from '@mui/material/styles/createTypography';
 import { ComplexTableContainer, ComplexTableRenderImg, ComplexTableRowText } from './ComplexTableStyle';
 import { Toolbar } from './Toolbar';
@@ -60,7 +60,7 @@ export interface IToolbarOptions {
 	};
 }
 
-interface IComplexTableProps {
+interface IComplexTableProps extends Omit<DataGridProps , 'columns'> {
 	/**
 	 * Dados que compõem as linhas da tabela.
 	 */
@@ -239,7 +239,8 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		disableSorting,
 		disableCheckboxSelection = true,
 		fieldsMinWidthColumnModified,
-		fieldsMaxWidthColumnModified
+		fieldsMaxWidthColumnModified, 
+		...otherProps
 	} = props;
 
 	locale.toolbarQuickFilterPlaceholder = searchPlaceholder ?? 'Pesquisar';
@@ -418,14 +419,15 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	return (
 		<ComplexTableContainer>
 			<DataGrid
+				{...otherProps}
 				rows={data}
 				columns={columns}
-				rowCount={data?.length}
+				rowCount={otherProps.rowCount || data?.length}
 				paginationMode={'server'}
 				autoHeight={autoHeight ?? true}
 				localeText={locale}
 				getRowId={!!getId ? getId : (row) => row._id}
-				onRowSelectionModelChange={(newSelection) => setSelection(newSelection)}
+				onRowSelectionModelChange={(newSelection) => setSelection([...newSelection])}
 				rowSelectionModel={selection}
 				onRowClick={
 					!!onRowClick
@@ -437,8 +439,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				}
 				getRowHeight={() => 'auto'}
 				slots={{
-					toolbar: Toolbar,
-					baseSwitch: Checkbox
+					toolbar: (props) => <Toolbar {...props} />,
 				}}
 				slotProps={{
 					toolbar: {

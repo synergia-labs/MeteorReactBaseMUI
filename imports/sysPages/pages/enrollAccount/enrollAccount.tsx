@@ -2,12 +2,12 @@ import React from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import Box from '@mui/material/Box';
 import { enrollAccountStyle } from './enrollAccountStyle';
-import { useParams } from 'react-router-dom';
-import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
+import { useNavigate, useParams } from 'react-router-dom';
 
 let emailVerified = false;
-export const EnrollAccount = (props: IDefaultContainerProps) => {
+export const EnrollAccount = () => {
 	const [status, setStatus] = React.useState<string | null>(null);
+	const navigate = useNavigate();
 
 	const { token } = useParams();
 
@@ -21,7 +21,7 @@ export const EnrollAccount = (props: IDefaultContainerProps) => {
 				}
 			} else {
 				setTimeout(() => {
-					props.navigate('/');
+					navigate('/');
 				}, 2000);
 				setStatus('Email verificado com sucesso! Redirecionando, aguarde....');
 			}

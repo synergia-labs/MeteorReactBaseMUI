@@ -34,7 +34,8 @@ const TemplateAppBarStyles: ITemplateAppBarStyles = {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     flex: 1,
-    maxWidth: sysSizing.maxDisplayWidth
+    maxWidth: sysSizing.maxDisplayWidth,
+    position: 'relative',
   })
 };
 

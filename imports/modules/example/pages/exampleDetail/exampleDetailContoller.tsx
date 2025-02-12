@@ -1,13 +1,13 @@
 import React, { createContext, useCallback, useContext } from 'react';
 import ExampleDetailView from './exampleDetailView';
 import { useNavigate } from 'react-router-dom';
-import { ExampleModuleContext } from '../../exampleContainer';
 import { useTracker } from 'meteor/react-meteor-data';
 import { exampleApi } from '../../api/exampleApi';
 import { IExample } from '../../api/exampleSch';
 import { ISchema } from '../../../../typings/ISchema';
 import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import ExampleModuleContext from '../../exampleContext';
 
 interface IExampleDetailContollerContext {
 	closePage: () => void;

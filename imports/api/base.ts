@@ -301,7 +301,7 @@ export class ApiBase<Doc extends IDoc> {
 	 * @param  {Object} query - Params to query a document.
 	 * @param  {Object} projection - Params to define which fields will return.
 	 */
-	find(query: Selector<Doc>, projection = {}) {
+	find<T>(query: string | Mongo.ObjectID | Mongo.Selector<T> | undefined, projection = {}): Mongo.Cursor<T> {
 		return this.getCollectionInstance().find(query, projection);
 	}
 
@@ -337,7 +337,7 @@ export class ApiBase<Doc extends IDoc> {
 			const countResult = subHandleCounter.ready() ? self.counts.findOne({ _id: api + 'Total' }) : null;
 			const count = countResult ? countResult.count : 0;
 
-			if (subHandleCounter && subHandleCounter.ready) {
+			if (subHandleCounter && subHandleCounter.ready() && subsHandle && subsHandle.ready()) {
 				return {
 					...subsHandle,
 					total: subHandleCounter.ready() ? count : 0,
@@ -345,7 +345,7 @@ export class ApiBase<Doc extends IDoc> {
 				};
 			}
 
-			return { ...subsHandle, total: 0 };
+			return { ...subsHandle, total: 0, ready: () => false };
 		}
 		return null;
 	}
