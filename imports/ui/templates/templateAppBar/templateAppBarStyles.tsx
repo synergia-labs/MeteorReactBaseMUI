@@ -26,6 +26,7 @@ const TemplateAppBarStyles: ITemplateAppBarStyles = {
     alignItems: 'center',
     flex: 1,
     overflow: 'auto',
+    position: 'relative',
   }),
   contentContainer: styled(Box)({
     display: 'flex',
@@ -35,7 +36,6 @@ const TemplateAppBarStyles: ITemplateAppBarStyles = {
     alignItems: 'flex-start',
     flex: 1,
     maxWidth: sysSizing.maxDisplayWidth,
-    position: 'relative',
   })
 };
 

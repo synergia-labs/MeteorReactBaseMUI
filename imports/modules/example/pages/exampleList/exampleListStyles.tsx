@@ -16,7 +16,8 @@ const ExampleListStyles: IExampleListStyles = {
         alignItems: 'stretch',
         justifyContent: 'flex-start',
         width: '100%',
-        gap: sysSizing.spacingFixedMd
+        gap: sysSizing.spacingFixedMd,
+        marginBottom: '60px'
     }),
     filterContainer: styled(Box)({
         display: 'flex',

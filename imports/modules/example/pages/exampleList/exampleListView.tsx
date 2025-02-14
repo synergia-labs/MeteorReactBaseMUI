@@ -12,6 +12,7 @@ import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDial
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import ToolTip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import { SysFab } from '/imports/ui/components/sysFab/sysFab';
 
 const ExampleListView: React.FC = () => {
 	const { showDialog, closeDialog } = useContext<IAppLayoutContext>(AppLayoutContext);
@@ -64,6 +65,13 @@ const ExampleListView: React.FC = () => {
 				onPaginationModelChange={context.setPaginationProps}
 				paginationModel={context.paginationProps}
 				rowCount={context.totalDocuments}
+			/>
+			<SysFab
+				variant="extended"
+				text="Adicionar"
+				startIcon={<SysIcon name={'add'} />}
+				fixed={true}
+				onClick={() => context.navigateToDetail(EnumExampleScreenState.CREATE)}
 			/>
 		</Styles.container>
 	);

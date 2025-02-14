@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import EnumExampleScreenState from '../../config/enumExampleScreenState';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import { GridPaginationModel } from '@mui/x-data-grid';
+import { nanoid } from 'nanoid';
 
 const ExampleListProvider: React.FC = () => {
     const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
@@ -43,17 +44,7 @@ const ExampleListProvider: React.FC = () => {
                 message: 'O id do item não foi informado'
             });
 
-        switch(state){
-            case EnumExampleScreenState.EDIT:
-                navigate(`/example/edit/${id}`);
-                break;
-            case EnumExampleScreenState.VIEW:
-                navigate(`/example/view/${id}`);
-                break;
-            case EnumExampleScreenState.CREATE:
-                navigate('/example/add');
-                break;
-        }
+        navigate(`/example/${state}/${id ?? nanoid()}`);
     }, [navigate]);
 
     const handleDeleteTask = useCallback((id?: string) => {

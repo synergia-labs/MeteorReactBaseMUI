@@ -23,26 +23,27 @@ export const SysFabStyled = styled(({ fixed, ...otherProps }: ISysFabProps) => <
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: sysSizing.componentsButtonGap
+		gap: sysSizing.componentsButtonGap,
+		transition: 'all 0.3s ease',
 	};
 
 	const fixedStyle = {
-		position: 'absolute',
+		position: 'fixed',
 		right: '72px',
 		bottom: '56px',
-		// [theme.breakpoints.down('md')]: {
-		// 	right: '40px',
-		// 	bottom: '32px'
-		// },
-		// [theme.breakpoints.down('sm')]: {
-		// 	right: '24px'
-		// }
+		[theme.breakpoints.down('md')]: {
+			right: '40px',
+			bottom: '32px'
+		},
+		[theme.breakpoints.down('sm')]: {
+			right: '24px'
+		}
 	};
 
 	if (fixed)
 		return {
 			...defaultStyle,
-			...fixedStyle
+			...fixedStyle,
 		};
 	return defaultStyle;
 });
