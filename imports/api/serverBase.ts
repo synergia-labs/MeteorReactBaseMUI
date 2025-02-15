@@ -874,7 +874,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	};
 
 	//**DEFAULT PUBLICATIONS**
-	async defaultCollectionPublication<T>(filter: Mongo.Selector<T> | Mongo.ObjectID | string = {}, optionsPub?: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<T>> {
+	async defaultCollectionPublication<Doc>(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub?: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
 
 		if (!optionsPub) {
 			optionsPub = { limit: 999999, skip: 0 };
@@ -979,7 +979,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			queryOptions.sort = optionsPub.sort;
 		}
 
-		return this.getCollectionInstance().find(filter, queryOptions) as Mongo.Cursor<T>;
+		return this.getCollectionInstance().find(filter, queryOptions) as Mongo.Cursor<Doc>;
 	}
 
 	defaultCounterCollectionPublication = (collection: any, publishName: string) =>
@@ -1034,7 +1034,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		};
 
-	async defaultListCollectionPublication<T>(filter: Mongo.Selector<T> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<T>> {
+	async defaultListCollectionPublication(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
 		const user = await getUserServer();
 
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
@@ -1055,7 +1055,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		return this.defaultCollectionPublication(filter, defaultListOptions);
 	}
 
-	async defaultDetailCollectionPublication<T>(filter: Mongo.Selector<T> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<T>> {
+	async defaultDetailCollectionPublication<Doc>(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
 		const user = await getUserServer();
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
 			if (!segurancaApi.podeAcessarRecurso(user, this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`])) {

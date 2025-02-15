@@ -301,7 +301,7 @@ export class ApiBase<Doc extends IDoc> {
 	 * @param  {Object} query - Params to query a document.
 	 * @param  {Object} projection - Params to define which fields will return.
 	 */
-	find<T>(query: string | Mongo.ObjectID | Mongo.Selector<T> | undefined, projection = {}): Mongo.Cursor<T> {
+	find(query: string | Mongo.ObjectID | Mongo.Selector<Doc> | undefined, projection = {}): Mongo.Cursor<Doc> {
 		return this.getCollectionInstance().find(query, projection);
 	}
 

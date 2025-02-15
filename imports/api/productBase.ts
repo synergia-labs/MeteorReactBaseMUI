@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { IDoc } from '../typings/IDoc';
 import { ISchema } from '../typings/ISchema';
 
-export class ProductBase<Doc extends IDoc> extends ApiBase<any> {
+export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 	private enableCallMethodObserver: boolean | undefined;
 	private enableSubscribeObserver: boolean | undefined;
 	private _tmpLastSubscribeRegister: string | undefined;
