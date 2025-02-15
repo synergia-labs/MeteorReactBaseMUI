@@ -4,14 +4,13 @@ import { ProductServerBase } from '../../../api/productServerBase';
 import { exmpleListPublication } from './publications/exampleList.publication';
 import { fillDatabaseWithFakeData } from './callMethods/fillDatabaseWithFakeData.callMethod';
 import { exampleDetailPublication } from './publications/exampleDetail.publication';
-import { IContext } from '/imports/typings/IContext';
 
 class ExampleServerApi extends ProductServerBase<IExample> {
 	constructor() {
 		super('example', exampleSch, { resources: Recurso });
 
 		this.addPublication('exampleList', this.exmpleListPublication );
-		this.addPublication('exampleDetail', exampleDetailPublication);
+		this.addPublication('exampleDetail', this.exampleDetailPublication);
 
 		this.registerMethod('fillDatabaseWithFakeData', this.fillDatabaseWithFakeData);
 	};
