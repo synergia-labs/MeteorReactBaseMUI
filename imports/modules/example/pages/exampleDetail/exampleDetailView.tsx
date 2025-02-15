@@ -1,53 +1,55 @@
 import React, { useContext } from 'react';
-import { ExampleDetailControllerContext } from './exampleDetailContoller';
-import ExampleDetailStyles from './exampleDetailStyles';
-import SysForm from '../../../../ui/components/sysForm/sysForm';
-import SysTextField from '../../../../ui/components/sysFormFields/sysTextField/sysTextField';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import Styles from './exampleDetailStyles';
+import Context, { IExampleDetailContext } from './exampleDetailContext';
+import ModuleContext, { IExampleModuleContext } from '../../exampleContext';
+import EnumExampleScreenState from '../../config/enumExampleScreenState';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import IconButton from '@mui/material/IconButton';
-import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelectField/sysSelectField';
-import { SysRadioButton } from '../../../../ui/components/sysFormFields/sysRadioButton/sysRadioButton';
-import { SysCheckBox } from '../../../../ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
-import SysFormButton from '../../../../ui/components/sysFormFields/sysFormButton/sysFormButton';
-import { SysUploadFile } from '../../../../ui/components/sysFormFields/sysUploadFile/sysUploadFile';
-import SysSlider from '../../../../ui/components/sysFormFields/sysSlider/sysSliderField';
-import { SysLocationField } from '../../../../ui/components/sysFormFields/sysLocationField/sysLocationField';
-import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
-import ExampleModuleContext from '../../exampleContext';
+import Typography from '@mui/material/Typography';
+import SysForm from '/imports/ui/components/sysForm/sysForm';
+import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
+import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
+import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
+import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
+import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
+import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
+import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
+import Button from '@mui/material/Button';
+import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 
-const ExampleDetailView = () => {
-	const controller = useContext(ExampleDetailControllerContext);
-	const { state } = useContext(ExampleModuleContext);
-	const isView = state === 'view';
-	const isEdit = state === 'edit';
-	const isCreate = state === 'create';
-	const { Container, Body, Header, Footer, FormColumn } = ExampleDetailStyles;
+const ExampleDetailView: React.FC = () => {
+	const context = useContext<IExampleDetailContext>(Context);
+	const { state } = useContext<IExampleModuleContext>(ModuleContext);
+
+	const isView = state == EnumExampleScreenState.VIEW;
+	const isEdit = state == EnumExampleScreenState.EDIT;
+	const isCreate = state == EnumExampleScreenState.CREATE;
 
 	return (
-		<Container>
-			<Header>
+		<Styles.container>
+			<Styles.header>
 				{isView && (
-					<IconButton onClick={controller.closePage}>
+					<IconButton onClick={context.closePage}>
 						<SysIcon name={'arrowBack'} />
 					</IconButton>
 				)}
 				<Typography variant="h5" sx={{ flexGrow: 1 }}>
-					{isCreate ? 'Adicionar Item' : isEdit ? 'Editar Item' : controller.document.title}
+					{isCreate ? 'Adicionar Item' : isEdit ? 'Editar Item' : context.document.title}
 				</Typography>
 				<IconButton
-					onClick={!isView ? controller.closePage : () => controller.changeToEdit(controller.document._id || '')}>
+					onClick={!isView ? context.closePage : () => context.changeToEdit(context.document?._id || '')}>
 					{!isView ? <SysIcon name={'close'} /> : <SysIcon name={'edit'} />}
 				</IconButton>
-			</Header>
+			</Styles.header>
 			<SysForm
-				mode={state as 'create' | 'view' | 'edit'}
-				schema={controller.schema}
-				doc={controller.document}
-				onSubmit={controller.onSubmit}
-				loading={controller.loading}>
-				<Body>
-					<FormColumn>
+				mode={state}
+				schema={context.schema}
+				doc={context.document}
+				onSubmit={context.onSubmit}
+				loading={context.loading}
+			>
+				<Styles.body>
+					<Styles.formColumn>
 						<SysTextField name="title" placeholder="Ex.: Item XX" />
 						<SysSelectField name="type" placeholder="Selecionar" />
 						<SysRadioButton name="typeMulti" childrenAlignment="row" size="small" />
@@ -62,21 +64,23 @@ const ExampleDetailView = () => {
 						<SysUploadFile name="files" />
 						<SysSlider name="slider" />
 						<SysLocationField name="address" />
-					</FormColumn>
-					<FormColumn>
+					</Styles.formColumn>
+					<Styles.formColumn>
 						<SysCheckBox name="check" childrenAlignment="row" />
-					</FormColumn>
-				</Body>
-				<Footer>
+					</Styles.formColumn>
+				</Styles.body>
+				<Styles.footer>
 					{!isView && (
-						<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={controller.closePage}>
+						<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={context.closePage}>
 							Cancelar
 						</Button>
 					)}
-					<SysFormButton>Salvar</SysFormButton>
-				</Footer>
+					<SysFormButton>
+						Salvar
+					</SysFormButton>
+				</Styles.footer>
 			</SysForm>
-		</Container>
+		</Styles.container>
 	);
 };
 

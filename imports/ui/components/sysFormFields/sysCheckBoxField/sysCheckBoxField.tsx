@@ -65,7 +65,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
 
-	const [selectedOptions, setSelectedOptions] = useState<any[]>([] || [...defaultValue]);
+	const [selectedOptions, setSelectedOptions] = useState<any[]>(defaultValue ? [...defaultValue] : []);
 
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({
@@ -107,7 +107,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				placeholder={
 					valueState && valueState?.map
 						? valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label).join?.(', ') || '-'
-						: undefined
+						: '-'
 				}
 				showLabelAdornment={showLabelAdornment}
 				labelAdornment={labelAdornment}

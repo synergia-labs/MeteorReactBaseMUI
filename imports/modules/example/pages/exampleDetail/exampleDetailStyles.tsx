@@ -5,29 +5,30 @@ import { sysSizing } from '../../../../ui/materialui/styles';
 import { SysSectionPaddingXY } from '../../../../ui/layoutComponents/sysLayoutComponents';
 
 interface IExampleDetailStyles {
-	Container: ElementType<BoxProps>;
-	Header: ElementType<BoxProps>;
-	Body: ElementType<BoxProps>;
-	Footer: ElementType<BoxProps>;
-	FormColumn: ElementType<BoxProps>;
+	container: ElementType<BoxProps>;
+	header: ElementType<BoxProps>;
+	body: ElementType<BoxProps>;
+	footer: ElementType<BoxProps>;
+	formColumn: ElementType<BoxProps>;
 }
 
 const ExampleDetailStyles: IExampleDetailStyles = {
-	Container: styled(SysSectionPaddingXY)(() => ({
+	container: styled(SysSectionPaddingXY)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
-		alignItems: 'flex-start',
-		gap: sysSizing.spacingFixedMd
+		alignItems: 'stretch',
+		gap: sysSizing.spacingFixedMd,
+		width: '100%'
 	})),
-	Header: styled(Box)({
+	header: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		width: '100%'
 	}),
-	Body: styled(Box)(({ theme }) => ({
+	body: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
@@ -39,7 +40,7 @@ const ExampleDetailStyles: IExampleDetailStyles = {
 			gap: sysSizing.spacingFixedMd
 		}
 	})),
-	Footer: styled(Box)({
+	footer: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
@@ -48,7 +49,7 @@ const ExampleDetailStyles: IExampleDetailStyles = {
 		gap: sysSizing.spacingRemMd,
 		marginTop: '40px'
 	}),
-	FormColumn: styled(Box)({
+	formColumn: styled(Box)({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',

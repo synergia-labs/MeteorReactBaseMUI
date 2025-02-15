@@ -4,14 +4,14 @@ import Box from '@mui/material/Box';
 import { sysSizing } from '../materialui/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 
-export interface ITextOverflow extends Omit<TypographyProps, 'ref'> {
+export interface ISysTextOverflow extends Omit<TypographyProps, 'ref'> {
   maxLines?: string;
 }
 
-export const TextOverflow: ElementType<ITextOverflow> =
+export const SysTextOverflow: ElementType<ISysTextOverflow> =
     styled(Typography, {
         shouldForwardProp: (prop) => prop !== 'maxLines'
-    })<ITextOverflow>(({ maxLines }) => ({
+    })<ISysTextOverflow>(({ maxLines }) => ({
         ...(!!maxLines && {
             display: '-webkit-box',
             WebkitLineClamp: parseInt(maxLines),
@@ -47,7 +47,7 @@ export const SysSectionPaddingX = styled(Box) (({theme}) => ({
   }
 }));
 
-export const SysSectionPaddingY = styled(Box) (({}) => ({
+export const SysSectionPaddingY = styled(Box) (({
   paddingTop: `${sysSizing.contentPt}`,
   paddingBottom: `${sysSizing.contentPb}`,
 }));

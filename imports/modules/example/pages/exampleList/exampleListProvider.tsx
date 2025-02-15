@@ -93,7 +93,7 @@ const ExampleListProvider: React.FC = () => {
         setLoading(true);
         const handleSubscribe = exampleApi.subscribe('exampleList', filter, options);
         if(!hasValue(handleSubscribe) || !handleSubscribe?.ready()) return;
-        const todoList = exampleApi.find<IExample>(filter).fetch();
+        const todoList = exampleApi.find(filter).fetch();
         setLoading(false);
         setTotalDocuments(handleSubscribe.total);
         setTodoList(todoList);

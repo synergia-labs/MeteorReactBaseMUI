@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import UserProfileListController from '../../modules/userprofile/pages/UserProfileList/userProfileListController';
-import ExampleDetailController from '../example/pages/exampleDetail/exampleDetailContoller';
 import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
 
 export interface IUserProfileModuleContext {
@@ -22,7 +21,6 @@ export default () => {
 
 	const renderPage = () => {
 		if (!!!state || !validState.includes(state)) return <UserProfileListController />;
-		return <ExampleDetailController />;
 	};
 
 	const providerValue = {
