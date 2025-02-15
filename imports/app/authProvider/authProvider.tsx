@@ -8,6 +8,8 @@ import { userprofileApi } from '/imports/modules/userprofile/api/userProfileApi'
 import { hasValue } from '/imports/libs/hasValue';
 import { parse, stringify } from 'zipson';
 import { IMeteorError } from '/imports/typings/IMeteorError';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { Meteor } from 'meteor/meteor';
 
 const accountStore = createStore(`${settings.name}_UserAccount`, 'store');
 const cachedUser = new ReactiveVar(null);
