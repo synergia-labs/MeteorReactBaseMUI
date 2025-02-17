@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { Meteor } from 'meteor/meteor';
 import { get, set, Store } from 'idb-keyval';
 import { parse, stringify } from 'zipson';
-import { EnumUserRoles } from '../modules/userprofile/api/enumUser';
+import { EnumUserRoles } from '../modules/userprofile/config/enumUser';
 import settings from '../../settings.json';
 import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 
@@ -60,7 +60,7 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 			email: '',
 			username: '',
 			_id: id,
-			roles: [EnumUserRoles.PUBLICO]
+			roles: [EnumUserRoles.PUBLIC]
 		};
 	} catch (e) {
 		const d = new Date();
@@ -69,7 +69,7 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 		return {
 			id,
 			_id: id,
-			roles: [EnumUserRoles.PUBLICO]
+			roles: [EnumUserRoles.PUBLIC]
 		};
 	}
 };

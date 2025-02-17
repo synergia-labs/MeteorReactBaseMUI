@@ -1,7 +1,10 @@
 import { validarEmail } from '../../../libs/validaEmail';
 import { IDoc } from '../../../typings/IDoc';
 import { ISchema } from '../../../typings/ISchema';
+import { Meteor } from 'meteor/meteor';
+
 import User = Meteor.User;
+import { EnumUserRoles, getUserRoleTranslated } from '../config/enumUser';
 
 export const userProfileSch: ISchema<IUserProfile> = {
 	photo: {
@@ -41,19 +44,10 @@ export const userProfileSch: ISchema<IUserProfile> = {
 		label: 'Perfil de acesso',
 		defaultValue: [],
 		optional: true,
-		options: () => [
-			{
-				value: ['Administrador'],
-				label: 'Admnistrador'
-			},
-			{
-				value: ['Usuario'],
-				label: 'Usuário'
-			}
-		]
+		options: () => Object.values(EnumUserRoles).map((key) => ({ value: key, label: getUserRoleTranslated(key) }))
 	},
 	status: {
-		type: [String],
+		type: String,
 		label: 'Status',
 		defaultValue: 'disabled',
 		optional: true,
@@ -75,7 +69,7 @@ export interface IUserProfile extends IDoc {
 	phone?: string;
 	username: string;
 	email: string;
-	roles?: string[];
+	roles?: Array<EnumUserRoles>;
 	status?: string;
 }
 

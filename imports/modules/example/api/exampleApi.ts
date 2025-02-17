@@ -11,8 +11,8 @@ class ExampleApi extends ProductBase<IExample> {
 		});
 	}
 
-	fillDatabaseWithFakeData = (callback?: (e: IMeteorError, r: boolean) => void) =>
-		this.callMethod('fillDatabaseWithFakeData', {}, callback);
+	fillDatabaseWithFakeData = (callback?: (e: IMeteorError) => void) => this.callMethod('fillDatabaseWithFakeData', {}, callback);
+
 }
 
 export const exampleApi = new ExampleApi();

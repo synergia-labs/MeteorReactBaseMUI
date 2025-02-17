@@ -137,7 +137,6 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 									sx={{ padding: 0, margin: 0, zIndex: 10000 }}
 									onClick={(e) => { 
 										e.stopPropagation(); 
-										console.log('click');
 										handleChange({ target: { value: '' } } as any);
 									}}
 									onMouseDown={(e) => e.stopPropagation()}

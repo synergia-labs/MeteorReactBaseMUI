@@ -8,7 +8,7 @@ import { check } from 'meteor/check';
 import { IContext } from '../../../typings/IContext';
 import { IDoc } from '../../../typings/IDoc';
 import { ProductServerBase } from '../../../api/productServerBase';
-import { EnumUserRoles } from './enumUser';
+import { EnumUserRoles } from '../config/enumUser';
 import { nanoid } from 'nanoid';
 import User = Meteor.User;
 
@@ -39,7 +39,7 @@ export const getUserServer = async (connection?: { id: string } | null): IUserPr
 			email: '',
 			username: '',
 			_id: id,
-			roles: [EnumUserRoles.PUBLICO]
+			roles: [EnumUserRoles.PUBLIC]
 		};
 	} catch (e) {
 		const d = new Date();
@@ -48,7 +48,7 @@ export const getUserServer = async (connection?: { id: string } | null): IUserPr
 		return {
 			id,
 			_id: id,
-			roles: [EnumUserRoles.PUBLICO]
+			roles: [EnumUserRoles.PUBLIC]
 		};
 	}
 };

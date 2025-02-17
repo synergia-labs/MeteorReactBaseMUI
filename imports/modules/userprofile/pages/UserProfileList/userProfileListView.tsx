@@ -9,6 +9,7 @@ import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { useTheme } from '@mui/material/styles';
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
+import { EnumUserRoles, getUserRoleTranslated } from '../../config/enumUser';
 
 const UserProfileLisView = () => {
 	const context = useContext(UserProfileListControllerContext);
@@ -16,20 +17,7 @@ const UserProfileLisView = () => {
 	const [selectedRole, setSelectedRole] = useState('');
 	const theme = useTheme();
 	const { Container, Filters } = UserProfileListViewStyled;
-	const options = [
-		{
-			value: '',
-			label: 'Nenhum'
-		},
-		{
-			value: 'Administrador',
-			label: 'Admnistrador'
-		},
-		{
-			value: 'Usuario',
-			label: 'Usuário'
-		}
-	];
+	const options = Object.values(EnumUserRoles).map((key) => ({ value: key,  label: getUserRoleTranslated(key) }));
 
 	return (
 		<Container>

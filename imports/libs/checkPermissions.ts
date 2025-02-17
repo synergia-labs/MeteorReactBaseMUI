@@ -1,36 +1,20 @@
 import { getUser } from '../libs/getUser';
-import { EnumUserRoles } from '../modules/userprofile/api/EnumUser';
+import { EnumUserRoles } from '../modules/userprofile/config/enumUser';
 
-const checkPermissionSuperAdmin = (id) => {
-	const userLogged = getUser();
-	return userLogged.roles && userLogged.roles.indexOf(EnumUserRoles.SUPERADMINISTRADOR) !== -1;
-};
 
-const checkPermissionAdmin = (instituicao) => {
+const checkPermissionAdmin = () => {
 	const userLogged = getUser();
-	if (checkPermissionSuperAdmin()) {
-		return true;
-	}
-	return (
-		userLogged &&
-		userLogged.roles &&
-		userLogged.roles.indexOf(EnumUserRoles.ADMINISTRADOR) !== -1 &&
-		instituicao &&
-		userLogged.instituicaoId === instituicao._id
-	);
+	return userLogged?.roles?.includes(EnumUserRoles.ADM);
 };
 
 const checkPermissionPublic = () => {
 	const userLogged = getUser();
-	return userLogged.roles && userLogged.roles.indexOf(EnumUserRoles.PUBLICO) !== -1;
+	return userLogged?.roles?.includes(EnumUserRoles.PUBLIC);
 };
 
 const checkPermissionUsuario = () => {
 	const userLogged = getUser();
-	if (checkPermissionSuperAdmin()) {
-		return true;
-	}
-	return userLogged.roles && userLogged.roles.indexOf(EnumUserRoles.USUARIO) !== -1;
+	return userLogged?.roles?.includes(EnumUserRoles.USER);
 };
 
-export { checkPermissionAdmin, checkPermissionSuperAdmin, checkPermissionPublic, checkPermissionUsuario };
+export { checkPermissionAdmin, checkPermissionPublic, checkPermissionUsuario };

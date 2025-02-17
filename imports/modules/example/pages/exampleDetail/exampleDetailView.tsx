@@ -62,11 +62,11 @@ const ExampleDetailView: React.FC = () => {
 							max={200}
 						/>
 						<SysUploadFile name="files" />
-						<SysSlider name="slider" />
-						<SysLocationField name="address" />
 					</Styles.formColumn>
 					<Styles.formColumn>
 						<SysCheckBox name="check" childrenAlignment="row" />
+						<SysSlider name="slider" />
+						<SysLocationField name="address" />
 					</Styles.formColumn>
 				</Styles.body>
 				<Styles.footer>

@@ -7,6 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import SysCardUserStyled from './sysCardUserStyles';
 import { UserProfileListControllerContext } from '../../pages/UserProfileList/userProfileListController';
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
+import { getUserRoleTranslated } from '../../config/enumUser';
 
 interface ISysCardUserProps {
 	username: string;
@@ -33,7 +34,7 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 				{roles?.map((role) => {
 					return (
 						<Typography key={role} variant="body1">
-							{role}
+							{getUserRoleTranslated(role)}
 						</Typography>
 					);
 				})}
