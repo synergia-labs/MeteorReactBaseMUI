@@ -2,22 +2,41 @@ import { Recurso } from '../config/recursos';
 import { exampleSch, IExample } from './exampleSch';
 import { ProductServerBase } from '../../../api/productServerBase';
 import { exmpleListPublication } from './publications/exampleList.publication';
-import { fillDatabaseWithFakeData } from './callMethods/fillDatabaseWithFakeData.callMethod';
+import { fillDatabaseWithFakeData, fillDatabaseWithFakeDataCallMethod, fillDatabaseWithFakeDataCallMethod2 } from './callMethods/fillDatabaseWithFakeData.callMethod';
 import { exampleDetailPublication } from './publications/exampleDetail.publication';
 
 class ExampleServerApi extends ProductServerBase<IExample> {
+	numero: number;
+	
 	constructor() {
 		super('example', exampleSch, { resources: Recurso });
+		this.numero = 0;
+
+		fillDatabaseWithFakeDataCallMethod.setServerBaseInstance(this);
+		fillDatabaseWithFakeDataCallMethod2.setServerBaseInstance(this);
 
 		this.addPublication('exampleList', this.exmpleListPublication );
 		this.addPublication('exampleDetail', this.exampleDetailPublication);
 
-		this.registerMethod('fillDatabaseWithFakeData', this.fillDatabaseWithFakeData);
+		this.registerMethod('fillDatabaseWithFakeData', this.fillDatabase2);
 	};
 
 	exmpleListPublication = exmpleListPublication.bind(this);
 	exampleDetailPublication = exampleDetailPublication.bind(this);
-	fillDatabaseWithFakeData = fillDatabaseWithFakeData.bind(this);
+	fillDatabase = (...param: any) => fillDatabaseWithFakeDataCallMethod.execute(param);
+	fillDatabase2 = (...param: any) => fillDatabaseWithFakeDataCallMethod2.execute(param);
+
+
+	setNumero(numero: number){
+		this.numero = numero;
+	}
+
+	getNumero(){
+		return this.numero;
+	}
+
+	teste(){ console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>teste'); }
+
 	
 }
 
