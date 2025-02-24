@@ -5,12 +5,12 @@ import { Validador } from '../libs/Validador';
 
 export interface IContext {
 	docId?: string;
-	collection: string;
+	apiName: string;
 	action: string;
 	user: IUserProfile;
 	rest?: any;
 	connection?: IConnection;
-	validador: Validador;
-	schema: ISchema<any>;
 	session: any;
+	headers?: any;
+	response?: any;
 }
