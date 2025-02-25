@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { userProfileSch } from './userProfileSch';
 import { userprofileData } from '/imports/libs/getUser';
 import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { OfflineBaseApi } from '/imports/api/offlinebase';
+import { OfflineBaseApi } from '../../../api/offlinebase';
 
 // endregion
 

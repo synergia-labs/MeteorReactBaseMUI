@@ -1,4 +1,6 @@
 import { nanoid } from "nanoid";
+import { IExample } from "../api/exampleSch";
+import { exampleApi } from "../api/exampleApi";
 import { IMeteorError } from "/imports/typings/IMeteorError";
 
 const taskPrefixes = [
@@ -33,7 +35,7 @@ const tasksNames: Array<string> = Array.from({ length: 100 }, () => {
     return `${prefix} ${subject}`;
 });
 
-const fakeTasks: Array<any> = tasksNames.map((name) => ({
+const fakeTasks: Array<IExample> = tasksNames.map((name) => ({
     _id: nanoid(),
     title: name,
     type: ['Categoria A', 'Categoria B', 'Categoria C'][Math.floor(Math.random() * 3)],

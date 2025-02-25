@@ -68,6 +68,8 @@
     "@storybook/react": "^8.2.7",
     "@storybook/react-webpack5": "^8.2.7",
     "@storybook/test": "^8.2.7",
+    "@types/connect-route": "^0.1.0",
+    "@types/cors": "^2.8.17",
     "@types/lodash": "^4.17.7",
     "@types/meteor": "^2.9.8",
     "@types/mocha": "^10.0.7",

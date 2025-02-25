@@ -44,6 +44,8 @@ export class ExampleServer extends ServerBase {
 	// #region defineMethods
 	createUserF = async (...props: any) => createUser.execute(props);
 	// #endregion
+
+
 }
 
 export const exampleServer = new ExampleServer();

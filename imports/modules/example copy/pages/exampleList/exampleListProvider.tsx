@@ -3,6 +3,7 @@ import Context, { IExampleListContext } from './exampleListContext';
 import ExampleListView from './exampleListView';
 import { useTracker } from 'meteor/react-meteor-data';
 import { hasValue } from '/imports/libs/hasValue';
+import { IExample } from '../../api/exampleSch';
 import { debounce } from 'lodash';
 import { IFilterPublication, IOptionsPublication } from '/imports/typings/IFilterProperties';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +20,7 @@ const ExampleListProvider: React.FC = () => {
     const [ paginationProps, setPaginationProps ] = useState<GridPaginationModel>({ page: 0, pageSize: 15 });
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ totalDocuments, setTotalDocuments ] = useState<number>(0);
-    const [ todoList, setTodoList ] = useState<Array<any>>([]);
+    const [ todoList, setTodoList ] = useState<Array<IExample>>([]);
 
     const navigate = useNavigate();
 
@@ -78,12 +79,12 @@ const ExampleListProvider: React.FC = () => {
     }, []);
 
     useTracker(() => {
-        const filter: IFilterPublication<any> = {
+        const filter: IFilterPublication<IExample> = {
             ...( hasValue(filterByNameValue) && { title: { $regex: filterByNameValue, $options: 'i' } }),
             ...( hasValue(filterByCategoryValue) && { type: filterByCategoryValue })
         };
 
-        const options: IOptionsPublication<any> = {
+        const options: IOptionsPublication<IExample> = {
             skip: paginationProps.page * paginationProps.pageSize,
             limit: paginationProps.pageSize 
         };

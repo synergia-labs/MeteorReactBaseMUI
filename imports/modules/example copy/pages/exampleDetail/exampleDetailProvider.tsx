@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ModuleContext, { IExampleModuleContext } from '../../exampleContext';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import { useTracker } from 'meteor/react-meteor-data';
+import { IExample } from '../../api/exampleSch';
 import EnumExampleScreenState from '../../config/enumExampleScreenState';
 import { IMeteorError } from '/imports/typings/IMeteorError';
 
@@ -14,7 +15,7 @@ const ExampleDetailProvider: React.FC = () => {
 	const { id, state } = useContext<IExampleModuleContext>(ModuleContext);
 	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
-    const [ document, setDocument ] = useState<Partial<any>>();
+    const [ document, setDocument ] = useState<Partial<IExample>>();
     const [ loading, setLoading ] = useState<boolean>(false);
 
     useTracker(() => {
@@ -35,7 +36,7 @@ const ExampleDetailProvider: React.FC = () => {
     
     const changeToEdit = useCallback((id: string) => navigate(`/example/${EnumExampleScreenState.EDIT}/${id}`), [navigate]);
 
-    const onSubmit = useCallback((doc: any) => {
+    const onSubmit = useCallback((doc: IExample) => {
         const action = state === EnumExampleScreenState.CREATE ? 'insert' : 'update';    
         // exampleApi[action](doc, (error: IMeteorError) => {
         //     if(error) return showNotification({

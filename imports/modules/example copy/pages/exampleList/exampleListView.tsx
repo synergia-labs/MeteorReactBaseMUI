@@ -7,13 +7,12 @@ import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectFi
 import Context, { IExampleListContext } from './exampleListContext';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
 import EnumExampleScreenState from '../../config/enumExampleScreenState';
+import { IExample } from '../../api/exampleSch';
 import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import ToolTip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
-import exampleApi from '/imports/modules/example/services/example.api';
-
 
 const ExampleListView: React.FC = () => {
 	const { showDialog, closeDialog } = useContext<IAppLayoutContext>(AppLayoutContext);
@@ -43,7 +42,7 @@ const ExampleListView: React.FC = () => {
 					onChange={(e) => context.onChangeCategory(e.target.value)}
 				/>
 				<ToolTip title="Adicionar dados de exemplo" placement='right'>
-					<IconButton sx={{ mb: 1 }}  onClick= {() => exampleApi.fillDatabaseWithFakeData(() => { console.log('Dados de exemplo adicionados') })}>
+					<IconButton sx={{ mb: 1 }}  onClick= {context.fillWithFakeData}>
 						<SysIcon name="contract" />
 					</IconButton>
 				</ToolTip>
@@ -53,8 +52,8 @@ const ExampleListView: React.FC = () => {
 				schema={exampleSchReduzido}
 				loading={context.loading}
 				onRowClick={(row) => context.navigateToDetail(EnumExampleScreenState.VIEW, row?.id as string)}
-				onEdit={(row: any ) => context.navigateToDetail(EnumExampleScreenState.EDIT, row?._id)}
-				onDelete={(row: any) => {
+				onEdit={(row: IExample ) => context.navigateToDetail(EnumExampleScreenState.EDIT, row?._id)}
+				onDelete={(row: IExample) => {
 					DeleteDialog({
 						showDialog: showDialog,
 						closeDialog: closeDialog,

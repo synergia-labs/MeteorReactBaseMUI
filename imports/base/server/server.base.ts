@@ -2,17 +2,17 @@ import { Meteor } from 'meteor/meteor';
 import { IDoc } from '/imports/typings/IDoc';
 import { MongoInternals } from 'meteor/mongo';
 import { WebApp } from 'meteor/webapp';
-
-//@ts-ignore
 import connectRoute from 'connect-route';
 import { IContext } from '/imports/typings/IContext';
 import { IConnection } from '/imports/typings/IConnection';
 import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
+import { MethodBase } from './methods/method.base';
 
 export type ServerActions = 'create' | 'update' | 'delete';
 export type EndpointType = 'get' | 'post';
-export type MethodType = (params?: any, _context?: IContext) => any;
+export type MethodType<Param, Return> = (params?: Param, _context?: IContext) => Return;
+export type MethodTypeAsync<Param, Return> = (params?: Param, _context?: IContext) => Promise<Return>;
 
 export class ServerBase {
 	apiName: string;
@@ -25,14 +25,16 @@ export class ServerBase {
 
 		this.registerMethods = this.registerMethods.bind(this);
 		this.registerPublications = this.registerPublications.bind(this);
+		this.addRestEndpoint = this.addRestEndpoint.bind(this);
 
 		this._createContext = this._createContext.bind(this);
 		this._includeAuditFilds = this._includeAuditFilds.bind(this);
+		this._autoRegisterMethods = this._autoRegisterMethods.bind(this);
 	}
 	// #endregion
 
 	// #region _includeAuditFilds
-	async _includeAuditFilds(doc: any & Partial<IDoc>, action: ServerActions) {
+	protected async _includeAuditFilds(doc: any & Partial<IDoc>, action: ServerActions) {
 		const userId = Meteor.userId();
 		if (!userId) throw new Meteor.Error('Usuário não autenticado');
 
@@ -49,9 +51,9 @@ export class ServerBase {
 	// #endregion
 
 	// #region registerMethods
-	async registerMethods(methods: { [action: string]: { method: MethodType; endpointType?: EndpointType } }) {
+ 	protected async registerMethods(methods: { [action: string]: { method: MethodTypeAsync<any, any>; endpointType?: EndpointType } }) {
 		// Cria o objeto com os métodos diretamente
-		const methodsObject: { [action: string]: MethodType } = {};
+		const methodsObject: { [action: string]: MethodTypeAsync<any, any> } = {};
 		const self = this;
 
 		Object.entries(methods).forEach(([action, { method, endpointType }]) => {
@@ -59,7 +61,7 @@ export class ServerBase {
 				this.addRestEndpoint(action, method, endpointType);
 			}
 
-			methodsObject[`${this.apiName}.${action}`] = async (param: any[]) => {
+			methodsObject[`${this.apiName}.${action}`] = async (...param: any) => {
 				console.info(`Call Method: ${this.apiName}.${action}`);
 
 				let connection: IConnection;
@@ -67,7 +69,7 @@ export class ServerBase {
 				connection = this.connection;
 				const meteorContext = await self._createContext(action, connection);
 
-				const functionResult = method(...param, meteorContext);
+				const functionResult = await method(...param, meteorContext);
 				return functionResult;
 			};
 		});
@@ -78,9 +80,9 @@ export class ServerBase {
 	// #endregion
 
 	// #region registerPublications
-	async registerPublications(publications: { [action: string]: { method: MethodType; endpointType?: EndpointType } }) {
+	protected async registerPublications(publications: { [action: string]: { method: MethodType<any, any>; endpointType?: EndpointType } }) {
 		// Cria o objeto com as publicações diretamente
-		const publicationsObject: { [action: string]: MethodType } = {};
+		const publicationsObject: { [action: string]: MethodType<any, any> } = {};
 		const self = this;
 
 		Object.entries(publications).forEach(([action, { method, endpointType }]) => {
@@ -93,7 +95,6 @@ export class ServerBase {
 				let connection: IConnection;
 				// @ts-ignore
 				connection = this.connection;
-				console.log('connection', connection);
 				const meteorContext = await self._createContext(action, connection);
 
 				return method(...args, meteorContext);
@@ -127,7 +128,7 @@ export class ServerBase {
 	// #endregion
 
 	// #region addRestEndpoint
-	addRestEndpoint(action: string, func: MethodType, type: EndpointType) {
+	protected addRestEndpoint(action: string, func: MethodType<any, any>, type: EndpointType) {
 		if (Meteor.isServer) {
 			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
@@ -170,7 +171,7 @@ export class ServerBase {
 					res.end(); // Must call this immediately before return!
 					return;
 				} catch (e) {
-					console.log(`API ERROR:${this.apiName}|${action} - `, e);
+					console.info(`API ERROR:${this.apiName}|${action} - `, e);
 					res.writeHead(403, {
 						'Content-Type': 'application/json'
 					});
@@ -181,7 +182,7 @@ export class ServerBase {
 			};
 
 			if (type) {
-				console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
+				console.info(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
 				WebApp.connectHandlers.use(
 					connectRoute((router: any) => {
 						router[type](endpoinUrl, handleFunc(type));
@@ -191,4 +192,23 @@ export class ServerBase {
 		}
 	}
 	// #endregion
+
+	//region AutoRegisterMethods
+	protected _autoRegisterMethods<Base extends ServerBase, Param extends unknown[], Return>(
+		methodInstances: Array<MethodBase<Base, Param, Return>>, 
+		classInstance: Base
+	) {
+		methodInstances.forEach(method  => {
+			method.setServerInstance(classInstance);
+			(classInstance as any)[method.getMethodName()] = async (...args: Parameters<typeof method.execute>) => 
+				await method.execute(...args);
+			this.registerMethods({ 
+				[method.getMethodName()]: { 
+					method: (classInstance as any)[method.getMethodName()],
+					...(!method.getEndpointType() ? {} : { endpointType: method.getEndpointType() })
+				}
+			});
+		});
+	};
+	//endregion
 }
