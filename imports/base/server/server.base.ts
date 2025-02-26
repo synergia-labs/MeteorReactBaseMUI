@@ -29,7 +29,6 @@ export class ServerBase {
 
 		this._createContext = this._createContext.bind(this);
 		this._includeAuditFilds = this._includeAuditFilds.bind(this);
-		this._autoRegisterMethods = this._autoRegisterMethods.bind(this);
 	}
 	// #endregion
 
@@ -50,42 +49,61 @@ export class ServerBase {
 	}
 	// #endregion
 
-	// #region registerMethods
- 	protected async registerMethods(methods: { [action: string]: { method: MethodTypeAsync<any, any>; endpointType?: EndpointType } }) {
-		// Cria o objeto com os métodos diretamente
-		const methodsObject: { [action: string]: MethodTypeAsync<any, any> } = {};
+
+	protected async registerMethods<Base extends ServerBase, Param extends unknown[], Return>(
+		methodInstances: Array<MethodBase<Base, Param, Return>>, 
+		classInstance: Base
+	){
+		if(Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
+		if(methodInstances?.length == 0 || !!!classInstance) return;
+
+		const methodsObject:  Record<string, MethodTypeAsync<any, any>> = {};
 		const self = this;
 
-		Object.entries(methods).forEach(([action, { method, endpointType }]) => {
-			if (endpointType) {
-				this.addRestEndpoint(action, method, endpointType);
-			}
-
-			methodsObject[`${this.apiName}.${action}`] = async (...param: any) => {
-				console.info(`Call Method: ${this.apiName}.${action}`);
+		methodInstances.forEach(method => {
+			const methodName = method.getMethodName();
+			const endpointType = method.getEndpointType();
+			const methodFunction = async (...param: [any]) => {
+				console.info(`Call Method: ${this.apiName}.${methodName}`);
 
 				let connection: IConnection;
 				// @ts-ignore
 				connection = this.connection;
-				const meteorContext = await self._createContext(action, connection);
+				const meteorContext = await self._createContext(methodName, connection);
 
-				const functionResult = await method(...param, meteorContext);
+				const functionResult = await method.execute(...param, meteorContext);
 				return functionResult;
 			};
+
+			method.setServerInstance(classInstance);
+			(classInstance as any)[methodName] = methodFunction;
+
+
+			if(!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
+			methodsObject[`${this.apiName}.${methodName}`] = methodFunction;
 		});
 
-		// Registra todos os métodos de uma vez só
 		Meteor.methods(methodsObject);
-	}
-	// #endregion
+	};
+
+
+
 
 	// #region registerPublications
-	protected async registerPublications(publications: { [action: string]: { method: MethodType<any, any>; endpointType?: EndpointType } }) {
+	protected async registerPublications(
+		publications: { 
+			[action: string]: { 
+				method: MethodType<any, any>; 
+				endpointType?: EndpointType;
+				enableCountPublication?: boolean; 
+			} 
+		}
+	) {
 		// Cria o objeto com as publicações diretamente
 		const publicationsObject: { [action: string]: MethodType<any, any> } = {};
 		const self = this;
 
-		Object.entries(publications).forEach(([action, { method, endpointType }]) => {
+		Object.entries(publications).forEach(([action, { method, endpointType, enableCountPublication }]) => {
 			
 			if (endpointType)  this.addRestEndpoint(action, method, endpointType);
 
@@ -193,22 +211,23 @@ export class ServerBase {
 	}
 	// #endregion
 
-	//region AutoRegisterMethods
-	protected _autoRegisterMethods<Base extends ServerBase, Param extends unknown[], Return>(
-		methodInstances: Array<MethodBase<Base, Param, Return>>, 
+
+
+	protected _autoRegisterPublications<Base extends ServerBase, Param extends unknown[], Return>(
+		publicationInstances: Array<MethodBase<Base, Param, Return>>,
 		classInstance: Base
 	) {
-		methodInstances.forEach(method  => {
-			method.setServerInstance(classInstance);
-			(classInstance as any)[method.getMethodName()] = async (...args: Parameters<typeof method.execute>) => 
-				await method.execute(...args);
-			this.registerMethods({ 
-				[method.getMethodName()]: { 
-					method: (classInstance as any)[method.getMethodName()],
-					...(!method.getEndpointType() ? {} : { endpointType: method.getEndpointType() })
+		publicationInstances.forEach(publication => {
+			console.log('publication', publication);
+			publication.setServerInstance(classInstance);
+			(classInstance as any)[publication.getMethodName()] = async (...args: Parameters<typeof publication.execute>) =>
+				await publication.execute(...args);
+			this.registerPublications({
+				[publication.getMethodName()]: {
+					method: (classInstance as any)[publication.getMethodName()],
+					...(!publication.getEndpointType() ? {} : { endpointType: publication.getEndpointType() })
 				}
 			});
 		});
-	};
-	//endregion
+	}
 }

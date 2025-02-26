@@ -1,4 +1,4 @@
-import { IBaseApiCallMehodProps } from '../../api/api.base';
+import { Meteor } from 'meteor/meteor';
 import { EndpointType, ServerBase } from '../server.base';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';
@@ -47,7 +47,6 @@ export abstract class MethodBase<
 	protected beforeCall(param: Param, _context?: IContext): void {
 		// Validando parâmetros de entrada
 		if (this.paramSch) {
-			console.log('param', param);
 			this.paramSch.parse(param);
 		}
 
@@ -67,6 +66,7 @@ export abstract class MethodBase<
 
 	public async execute(param: Param, context?: IContext): Promise<Return> {
 		try {
+			if(Meteor.isClient) throw new Meteor.Error( '500', 'Método não pode ser chamado no client');
 			this.beforeCall(param, context);
 			const result = await this.call(param, context);
 			this.afterCall(param, result, context);

@@ -26,7 +26,12 @@ const ExampleListView: React.FC = () => {
 	return (
 		<Styles.container>
 			<Typography variant="h5">Lista de itens</Typography>
-			<Styles.filterContainer>
+			<ToolTip title="Adicionar dados de exemplos" placement='right'>
+				<IconButton sx={{ mb: 1 }}  onClick= {() => exampleApi.fillDatabaseWithFakeData(() => { console.log('Dados de exemplo adicionados') })}>
+					<SysIcon name="contract" />
+				</IconButton>
+			</ToolTip>
+			{/* <Styles.filterContainer>
 				<SysTextField 
 					name='filterTaskName'
 					placeholder="Pesquisar por nome"
@@ -42,11 +47,7 @@ const ExampleListView: React.FC = () => {
 					sxMap={{ container: { width: '300px' } }}
 					onChange={(e) => context.onChangeCategory(e.target.value)}
 				/>
-				<ToolTip title="Adicionar dados de exemplo" placement='right'>
-					<IconButton sx={{ mb: 1 }}  onClick= {() => exampleApi.fillDatabaseWithFakeData(() => { console.log('Dados de exemplo adicionados') })}>
-						<SysIcon name="contract" />
-					</IconButton>
-				</ToolTip>
+				
 			</Styles.filterContainer>
 			<ComplexTable
 				data={context.todoList}
@@ -66,7 +67,7 @@ const ExampleListView: React.FC = () => {
 				onPaginationModelChange={context.setPaginationProps}
 				paginationModel={context.paginationProps}
 				rowCount={context.totalDocuments}
-			/>
+			/> */}
 			<SysFab
 				variant="extended"
 				text="Adicionar"

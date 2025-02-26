@@ -10,6 +10,7 @@ import EnumExampleScreenState from '../../config/enumExampleScreenState';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { nanoid } from 'nanoid';
+import exampleApi from '../../services/example.api';
 
 const ExampleListProvider: React.FC = () => {
     const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
@@ -89,9 +90,11 @@ const ExampleListProvider: React.FC = () => {
         };
 
         setLoading(true);
-        // const handleSubscribe = exampleApi.subscribe('exampleList', filter, options);
+        const handleSubscribe = exampleApi.subscribe('exampleList', {}, {});
+        console.log(handleSubscribe);
         // if(!hasValue(handleSubscribe) || !handleSubscribe?.ready()) return;
-        // const todoList = exampleApi.find(filter).fetch();
+        const todoList = exampleApi.find({}).fetch();
+        console.log(todoList);
         setLoading(false);
         setTotalDocuments(0);
         setTodoList(todoList);

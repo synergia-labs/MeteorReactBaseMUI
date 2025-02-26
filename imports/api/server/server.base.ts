@@ -85,7 +85,7 @@ export class ServerBase {
 
 		Object.entries(publications).forEach(([action, { method, endpointType }]) => {
 			
-			if (endpointType)  this.addRestEndpoint(action, method, endpointType);
+			if (endpointType) this.addRestEndpoint(action, method, endpointType);
 
 			publicationsObject[`${this.apiName}.${action}`] = async (...args: any[]) => {
 				console.info(`Call Publication: ${this.apiName}.${action}`);
@@ -93,7 +93,6 @@ export class ServerBase {
 				let connection: IConnection;
 				// @ts-ignore
 				connection = this.connection;
-				console.log('connection', connection);
 				const meteorContext = await self._createContext(action, connection);
 
 				return method(...args, meteorContext);
