@@ -7,18 +7,20 @@ import { IContext } from '/imports/typings/IContext';
 import { IConnection } from '/imports/typings/IConnection';
 import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
-import { MethodBase } from './methods/method.base';
+import MethodBase from './methods/method.base';
+import PublicationBase from './publication/publication.base';
 
-export type ServerActions = 'create' | 'update' | 'delete';
+
 export type EndpointType = 'get' | 'post';
+export type ServerActions = 'create' | 'update' | 'delete';
 export type MethodType<Param, Return> = (params?: Param, _context?: IContext) => Return;
 export type MethodTypeAsync<Param, Return> = (params?: Param, _context?: IContext) => Promise<Return>;
 
-export class ServerBase {
+class ServerBase {
 	apiName: string;
 	apiOptions: { apiVersion?: number };
 
-	// #region Constructor
+	//region Constructor
 	constructor(apiName: string, apiOptions?: { apiVersion?: number }) {
 		this.apiName = apiName;
 		this.apiOptions = apiOptions || { apiVersion: 1 };
@@ -30,9 +32,9 @@ export class ServerBase {
 		this._createContext = this._createContext.bind(this);
 		this._includeAuditFilds = this._includeAuditFilds.bind(this);
 	}
-	// #endregion
+	//endregion
 
-	// #region _includeAuditFilds
+	//region _includeAuditFilds
 	protected async _includeAuditFilds(doc: any & Partial<IDoc>, action: ServerActions) {
 		const userId = Meteor.userId();
 		if (!userId) throw new Meteor.Error('Usuário não autenticado');
@@ -47,56 +49,101 @@ export class ServerBase {
 			doc.updatedby = userId;
 		}
 	}
-	// #endregion
+	//endregion
 
-
+	//region registerMethods
 	protected async registerMethods<Base extends ServerBase, Param extends unknown[], Return>(
-		methodInstances: Array<MethodBase<Base, Param, Return>>, 
+		methodInstances: Array<MethodBase<Base, Param, Return>>,
 		classInstance: Base
-	){
-		if(Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
-		if(methodInstances?.length == 0 || !!!classInstance) return;
+	) {
+		try {
+			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
+			if (methodInstances?.length == 0 || !!!classInstance) return;
 
-		const methodsObject:  Record<string, MethodTypeAsync<any, any>> = {};
-		const self = this;
+			const methodsObject: Record<string, MethodTypeAsync<any, any>> = {};
+			const self = this;
 
-		methodInstances.forEach(method => {
-			const methodName = method.getMethodName();
-			const endpointType = method.getEndpointType();
-			const methodFunction = async (...param: [any]) => {
-				console.info(`Call Method: ${this.apiName}.${methodName}`);
+			methodInstances.forEach(method => {
+				const methodName = method.getName();
+				const endpointType = method.getEndpointType();
+				const methodFunction = async (...param: [any]) => {
+					console.info(`Call Method: ${this.apiName}.${methodName}`);
 
-				let connection: IConnection;
-				// @ts-ignore
-				connection = this.connection;
-				const meteorContext = await self._createContext(methodName, connection);
+					let connection: IConnection;
+					// @ts-ignore
+					connection = this.connection;
+					const meteorContext = await self._createContext(methodName, connection);
 
-				const functionResult = await method.execute(...param, meteorContext);
-				return functionResult;
-			};
+					return await method.execute(...param, meteorContext);
+				};
 
-			method.setServerInstance(classInstance);
-			(classInstance as any)[methodName] = methodFunction;
+				method.setServerInstance(classInstance);
+				(classInstance as any)[methodName] = methodFunction;
 
 
-			if(!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
-			methodsObject[`${this.apiName}.${methodName}`] = methodFunction;
-		});
+				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
+				methodsObject[`${this.apiName}.${methodName}`] = methodFunction;
+			});
 
-		Meteor.methods(methodsObject);
+			Meteor.methods(methodsObject);
+		} catch (error) {
+			console.error(`Falha ao registrar os métodos: ${error}`);
+			throw error;
+		}
 	};
+	//endregion
+
+	protected registerPublicationsBom<Base extends ServerBase, Param extends unknown[], Return>(
+		publicationInstances: Array<PublicationBase<Base, Param, Return>>,
+		classInstance: Base
+	) {
+		try {
+			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
+			if (publicationInstances?.length == 0 || !!!classInstance) return;
+			const self = this;
 
 
+			publicationInstances.forEach(publication => {
+				const publicationName = publication.getName();
+
+				const publicationFunction = async (...param: [any]) => {
+					console.info(`Call Publication: ${this.apiName}.${publicationName}`);
+
+					let connection: IConnection
+					// @ts-ignore
+					connection = this.connection;
+					const meteorContext = await this._createContext(publicationName, connection);
+
+					return publication.execute(param, meteorContext);
+				};
+
+				// const transformedFunction =
+				// 	!publication.isTransformedPublication()
+				// 		? undefined
+				// 		: async (...param: [any]) => publication.transformPublication(...param);
+
+				publication.setServerInstance(classInstance);
+				(classInstance as any)[publicationName] = publicationFunction;
+
+				Meteor.publish(`${this.apiName}.${publicationName}`, publicationFunction);
+			});
+
+
+		} catch (error) {
+			console.error(`Falha ao registrar as publicações: ${error}`);
+			throw error;
+		}
+	};
 
 
 	// #region registerPublications
 	protected async registerPublications(
-		publications: { 
-			[action: string]: { 
-				method: MethodType<any, any>; 
+		publications: {
+			[action: string]: {
+				method: MethodType<any, any>;
 				endpointType?: EndpointType;
-				enableCountPublication?: boolean; 
-			} 
+				enableCountPublication?: boolean;
+			}
 		}
 	) {
 		// Cria o objeto com as publicações diretamente
@@ -104,8 +151,8 @@ export class ServerBase {
 		const self = this;
 
 		Object.entries(publications).forEach(([action, { method, endpointType, enableCountPublication }]) => {
-			
-			if (endpointType)  this.addRestEndpoint(action, method, endpointType);
+
+			if (endpointType) this.addRestEndpoint(action, method, endpointType);
 
 			publicationsObject[`${this.apiName}.${action}`] = async (...args: any[]) => {
 				console.info(`Call Publication: ${this.apiName}.${action}`);
@@ -217,17 +264,19 @@ export class ServerBase {
 		publicationInstances: Array<MethodBase<Base, Param, Return>>,
 		classInstance: Base
 	) {
-		publicationInstances.forEach(publication => {
-			console.log('publication', publication);
-			publication.setServerInstance(classInstance);
-			(classInstance as any)[publication.getMethodName()] = async (...args: Parameters<typeof publication.execute>) =>
-				await publication.execute(...args);
-			this.registerPublications({
-				[publication.getMethodName()]: {
-					method: (classInstance as any)[publication.getMethodName()],
-					...(!publication.getEndpointType() ? {} : { endpointType: publication.getEndpointType() })
-				}
-			});
-		});
+		// publicationInstances.forEach(publication => {
+		// 	console.log('publication', publication);
+		// 	publication.setServerInstance(classInstance);
+		// 	(classInstance as any)[publication.getName()] = async (...args: Parameters<typeof publication.execute>) =>
+		// 		await publication.execute(...args);
+		// 	this.registerPublications({
+		// 		[publication.getName()]: {
+		// 			method: (classInstance as any)[publication.getName()],
+		// 			...(!publication.getEndpointType() ? {} : { endpointType: publication.getEndpointType() })
+		// 		}
+		// 	});
+		// });
 	}
 }
+
+export default ServerBase;

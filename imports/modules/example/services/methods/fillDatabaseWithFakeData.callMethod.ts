@@ -1,5 +1,5 @@
 import { ExampleServer } from "../example.server";
-import { MethodBase } from "/imports/base/server/methods/method.base";
+import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
 
 class FillDatabaseWithFakeData extends MethodBase<ExampleServer, void, void> {
@@ -7,7 +7,7 @@ class FillDatabaseWithFakeData extends MethodBase<ExampleServer, void, void> {
         super({ name: 'fillDatabaseWithFakeData', endpointType: 'post' });
     }
 
-    public async call(prop: void, context: IContext): Promise<void> {
+    public async action(prop: void, context: IContext): Promise<void> {
         console.log('fillDatabaseWithFakeData');
         console.log('prop', prop);
         console.log('context', context);

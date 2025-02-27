@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
-import { ServerBase } from "./server.base";
+import ServerBase from "./server.base";
 
-class ProductServerBase extends ServerBase{
+class ProductServerBase extends ServerBase {
 	constructor(apiName: string, apiOptions?: { apiVersion?: number }){
         super(apiName, apiOptions);
     }
