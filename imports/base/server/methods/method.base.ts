@@ -1,5 +1,6 @@
 import ServerBase from '../server.base';
 import ActionsBase, { IActionsBase } from '../actions.base';
+import { IContext } from '/imports/typings/IContext';
 
 interface IMethodBase extends IActionsBase {}
 
@@ -7,6 +8,13 @@ abstract class MethodBase< Server extends ServerBase, Param = unknown, Return = 
 	extends ActionsBase<Server, Param, Return> 
 {
 	constructor(props: IMethodBase) { super({ ...props, actionType: 'method' }); }
+
+
+	abstract action(_param: Param, _context: IContext): Promise<Return>;
+
+	public actionBaseMethod(_param: Param, _context: IContext): Promise<Return> {
+		return this.action(_param, _context);
+	}
 }
 
 export default MethodBase;

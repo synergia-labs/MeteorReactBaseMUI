@@ -90,10 +90,10 @@ const ExampleListProvider: React.FC = () => {
         };
 
         setLoading(true);
-        const handleSubscribe = exampleApi.subscribe('exampleList', {}, {});
+        const handleSubscribe = exampleApi.subscribe('exampleList', {}, {limit: 10});
         console.log(handleSubscribe);
         // if(!hasValue(handleSubscribe) || !handleSubscribe?.ready()) return;
-        const todoList = exampleApi.find({}).fetch();
+        const todoList = exampleApi.find({}, {}).fetch();
         console.log(todoList);
         setLoading(false);
         setTotalDocuments(0);
