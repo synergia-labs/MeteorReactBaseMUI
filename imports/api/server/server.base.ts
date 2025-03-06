@@ -31,6 +31,25 @@ export class ServerBase {
 	}
 	// #endregion
 
+	// #region _createContext
+	protected async _createContext(
+		action: string,
+		connection?: IConnection,
+		userProfile?: IUserProfile,
+		session?: MongoInternals.MongoConnection
+	): Promise<IContext> {
+		const user: IUserProfile = userProfile || (await getUserServer(connection));
+
+		return {
+			apiName: this.apiName,
+			action,
+			user,
+			connection,
+			session
+		};
+	}
+	// #endregion
+
 	// #region _includeAuditFilds
 	async _includeAuditFilds(doc: any & Partial<IDoc>, action: ServerActions) {
 		const userId = Meteor.userId();
@@ -106,25 +125,6 @@ export class ServerBase {
 	}
 	// #endregion
 
-	// #region _createContext
-	protected async _createContext(
-		action: string,
-		connection?: IConnection,
-		userProfile?: IUserProfile,
-		session?: MongoInternals.MongoConnection
-	): Promise<IContext> {
-		const user: IUserProfile = userProfile || (await getUserServer(connection));
-
-		return {
-			apiName: this.apiName,
-			action,
-			user,
-			connection,
-			session
-		};
-	}
-	// #endregion
-
 	// #region addRestEndpoint
 	addRestEndpoint(action: string, func: MethodType, type: EndpointType) {
 		if (Meteor.isServer) {
@@ -136,7 +136,8 @@ export class ServerBase {
 					queryParams: req.query,
 					bodyParams: req.body,
 					request: req,
-					response: res
+					response: res,
+					connection: req.connection // 🔥 AQUI você acessa a conexão do usuário
 				};
 
 				const params = Object.assign(
@@ -155,7 +156,8 @@ export class ServerBase {
 					},
 					session: endpointContext.request,
 					headers: req.headers,
-					response: endpointContext.response
+					response: endpointContext.response,
+					connection: endpointContext.connection // 🔥 Adicionando conexão no contexto
 				};
 
 				try {
@@ -166,7 +168,7 @@ export class ServerBase {
 					const result = func({ params }, _context);
 
 					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
-					res.end(); // Must call this immediately before return!
+					res.end();
 					return;
 				} catch (e) {
 					console.log(`API ERROR:${this.apiName}|${action} - `, e);
@@ -189,5 +191,6 @@ export class ServerBase {
 			}
 		}
 	}
+
 	// #endregion
 }
