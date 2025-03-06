@@ -10,7 +10,6 @@ import { getUserServer } from '/imports/modules/userprofile/api/userProfileServe
 import MethodBase from './methods/method.base';
 import PublicationBase from './publication/publication.base';
 
-
 export type EndpointType = 'get' | 'post';
 export type ServerActions = 'create' | 'update' | 'delete';
 export type MethodType<Param, Return> = (params?: Param, _context?: IContext) => Return;
@@ -63,7 +62,7 @@ class ServerBase {
 			const methodsObject: Record<string, MethodTypeAsync<any, any>> = {};
 			const self = this;
 
-			methodInstances.forEach(method => {
+			methodInstances.forEach((method) => {
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
 				const methodFunction = async (...param: [any]) => {
@@ -80,7 +79,6 @@ class ServerBase {
 				method.setServerInstance(classInstance);
 				(classInstance as any)[methodName] = methodFunction;
 
-
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
 				methodsObject[`${this.apiName}.${methodName}`] = methodFunction;
 			});
@@ -90,7 +88,7 @@ class ServerBase {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
 		}
-	};
+	}
 	//endregion
 
 	protected registerPublicationsBom<Base extends ServerBase, Param extends unknown[], Return>(
@@ -102,14 +100,13 @@ class ServerBase {
 			if (publicationInstances?.length == 0 || !!!classInstance) return;
 			const self = this;
 
-
-			publicationInstances.forEach(publication => {
+			publicationInstances.forEach((publication) => {
 				const publicationName = publication.getName();
 
 				const publicationFunction = async (...param: [any]) => {
 					console.info(`Call Publication: ${this.apiName}.${publicationName}`);
 
-					let connection: IConnection
+					let connection: IConnection;
 					// @ts-ignore
 					connection = this.connection;
 					const meteorContext = await this._createContext(publicationName, connection);
@@ -127,31 +124,25 @@ class ServerBase {
 
 				Meteor.publish(`${this.apiName}.${publicationName}`, publicationFunction);
 			});
-
-
 		} catch (error) {
 			console.error(`Falha ao registrar as publicações: ${error}`);
 			throw error;
 		}
-	};
-
+	}
 
 	// #region registerPublications
-	protected async registerPublications(
-		publications: {
-			[action: string]: {
-				method: MethodType<any, any>;
-				endpointType?: EndpointType;
-				enableCountPublication?: boolean;
-			}
-		}
-	) {
+	protected async registerPublications(publications: {
+		[action: string]: {
+			method: MethodType<any, any>;
+			endpointType?: EndpointType;
+			enableCountPublication?: boolean;
+		};
+	}) {
 		// Cria o objeto com as publicações diretamente
 		const publicationsObject: { [action: string]: MethodType<any, any> } = {};
 		const self = this;
 
 		Object.entries(publications).forEach(([action, { method, endpointType, enableCountPublication }]) => {
-
 			if (endpointType) this.addRestEndpoint(action, method, endpointType);
 
 			publicationsObject[`${this.apiName}.${action}`] = async (...args: any[]) => {
@@ -174,13 +165,13 @@ class ServerBase {
 	// #endregion
 
 	// #region _createContext
-	protected async _createContext(
+	protected _createContext(
 		action: string,
 		connection?: IConnection,
 		userProfile?: IUserProfile,
 		session?: MongoInternals.MongoConnection
-	): Promise<IContext> {
-		const user: IUserProfile = userProfile || (await getUserServer(connection));
+	): IContext {
+		const user: IUserProfile = userProfile || getUserServer(connection);
 
 		return {
 			apiName: this.apiName,
@@ -193,7 +184,7 @@ class ServerBase {
 	// #endregion
 
 	// #region addRestEndpoint
-	protected addRestEndpoint(action: string, func: MethodType<any, any>, type: EndpointType) {
+	addRestEndpoint(action: string, func: MethodType, type: EndpointType) {
 		if (Meteor.isServer) {
 			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
@@ -203,7 +194,8 @@ class ServerBase {
 					queryParams: req.query,
 					bodyParams: req.body,
 					request: req,
-					response: res
+					response: res,
+					connection: req.connection // 🔥 AQUI você acessa a conexão do usuário
 				};
 
 				const params = Object.assign(
@@ -212,18 +204,7 @@ class ServerBase {
 					endpointContext.bodyParams || {}
 				);
 
-				const _context: IContext = {
-					apiName: this.apiName,
-					action,
-					user: {
-						username: `By ${type} api endpoint`,
-						email: 'api.endpoint@api.com',
-						roles: params.role ? [params.role] : []
-					},
-					session: endpointContext.request,
-					headers: req.headers,
-					response: endpointContext.response
-				};
+				const _context: IContext = this._createContext(action, endpointContext.connection);
 
 				try {
 					res.writeHead(200, {
@@ -233,10 +214,10 @@ class ServerBase {
 					const result = func({ params }, _context);
 
 					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
-					res.end(); // Must call this immediately before return!
+					res.end();
 					return;
 				} catch (e) {
-					console.info(`API ERROR:${this.apiName}|${action} - `, e);
+					console.log(`API ERROR:${this.apiName}|${action} - `, e);
 					res.writeHead(403, {
 						'Content-Type': 'application/json'
 					});
@@ -247,7 +228,7 @@ class ServerBase {
 			};
 
 			if (type) {
-				console.info(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
+				console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
 				WebApp.connectHandlers.use(
 					connectRoute((router: any) => {
 						router[type](endpoinUrl, handleFunc(type));
@@ -256,9 +237,8 @@ class ServerBase {
 			}
 		}
 	}
+
 	// #endregion
-
-
 
 	protected _autoRegisterPublications<Base extends ServerBase, Param extends unknown[], Return>(
 		publicationInstances: Array<MethodBase<Base, Param, Return>>,
