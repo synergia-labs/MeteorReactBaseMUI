@@ -62,12 +62,11 @@ class ServerBase {
 			const methodsObject: Record<string, MethodTypeAsync<any, any>> = {};
 			const self = this;
 
-			methodInstances.forEach(method => {
-				method.setServerInstance(classInstance);
+			methodInstances.forEach((method) => {
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
 				const methodFunction = async (...param: [any]) => {
-					console.info(`Call Method: ${methodName}`);
+					console.info(`Call Method: ${this.apiName}.${methodName}`);
 
 					let connection: IConnection;
 					// @ts-ignore
@@ -77,11 +76,11 @@ class ServerBase {
 					return await method.execute(...param, meteorContext);
 				};
 
+				method.setServerInstance(classInstance);
 				(classInstance as any)[methodName] = methodFunction;
 
-
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
-				methodsObject[methodName] = methodFunction;
+				methodsObject[`${this.apiName}.${methodName}`] = methodFunction;
 			});
 
 			Meteor.methods(methodsObject);
@@ -89,11 +88,10 @@ class ServerBase {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
 		}
-	};
+	}
 	//endregion
 
-	//region registerPublications
-	protected registerPublications<Base extends ServerBase, Param extends unknown[], Return>(
+	protected registerPublicationsBom<Base extends ServerBase, Param extends unknown[], Return>(
 		publicationInstances: Array<PublicationBase<Base, Param, Return>>,
 		classInstance: Base
 	) {
@@ -102,14 +100,13 @@ class ServerBase {
 			if (publicationInstances?.length == 0 || !!!classInstance) return;
 			const self = this;
 
-			publicationInstances.forEach(publication => {
-				publication.setServerInstance(classInstance);
+			publicationInstances.forEach((publication) => {
 				const publicationName = publication.getName();
 
-				const publicationFunction = async (...param: any) => {
-					console.info(`Call Publication: ${publicationName}`);
+				const publicationFunction = async (...param: [any]) => {
+					console.info(`Call Publication: ${this.apiName}.${publicationName}`);
 
-					let connection: IConnection
+					let connection: IConnection;
 					// @ts-ignore
 					connection = this.connection;
 					const meteorContext = await this._createContext(publicationName, connection);
@@ -117,54 +114,64 @@ class ServerBase {
 					return publication.execute(param, meteorContext);
 				};
 
-				const transformedFunction =
-					!publication.isTransformedPublication()
-						? undefined
-						: async (...param: [any]): Promise<any> => {
-							let connection: IConnection;
-							// @ts-ignore
-							connection = this.connection;
-							const meteorContext = await self._createContext(publicationName, connection);
-							return publication.transformPublication(...param, meteorContext);
-						};
+				// const transformedFunction =
+				// 	!publication.isTransformedPublication()
+				// 		? undefined
+				// 		: async (...param: [any]) => publication.transformPublication(...param);
 
-				if(!transformedFunction) Meteor.publish(publicationName, publicationFunction);
-				else Meteor.publish(publicationName, async function (query, options) {
-					const subHandle = await (
-						await publicationFunction(query, options)
-					)?.observe({
-						added: async (document: Return) => {
-							this.added(self.apiName, (document as any)._id, await transformedFunction(document));
-						},
-						changed: async (newDocument: Return) => {
-							this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
-						},
-						removed: (oldDocument: Return) => {
-							this.removed(self.apiName, (oldDocument as any)._id);
-						}
-					});
-					this.ready();
-					this.onStop(() => {
-						subHandle && subHandle.stop();
-					});
-				});
+				publication.setServerInstance(classInstance);
+				(classInstance as any)[publicationName] = publicationFunction;
 
+				Meteor.publish(`${this.apiName}.${publicationName}`, publicationFunction);
 			});
 		} catch (error) {
 			console.error(`Falha ao registrar as publicações: ${error}`);
 			throw error;
 		}
-	};
-	//endregion
+	}
+
+	// #region registerPublications
+	protected async registerPublications(publications: {
+		[action: string]: {
+			method: MethodType<any, any>;
+			endpointType?: EndpointType;
+			enableCountPublication?: boolean;
+		};
+	}) {
+		// Cria o objeto com as publicações diretamente
+		const publicationsObject: { [action: string]: MethodType<any, any> } = {};
+		const self = this;
+
+		Object.entries(publications).forEach(([action, { method, endpointType, enableCountPublication }]) => {
+			if (endpointType) this.addRestEndpoint(action, method, endpointType);
+
+			publicationsObject[`${this.apiName}.${action}`] = async (...args: any[]) => {
+				console.info(`Call Publication: ${this.apiName}.${action}`);
+
+				let connection: IConnection;
+				// @ts-ignore
+				connection = this.connection;
+				const meteorContext = await self._createContext(action, connection);
+
+				return method(...args, meteorContext);
+			};
+		});
+
+		// Registra todas as publicações de uma vez só
+		Object.entries(publicationsObject).forEach(([name, publication]) => {
+			Meteor.publish(name, publication);
+		});
+	}
+	// #endregion
 
 	// #region _createContext
-	protected async _createContext(
+	protected _createContext(
 		action: string,
 		connection?: IConnection,
 		userProfile?: IUserProfile,
 		session?: MongoInternals.MongoConnection
-	): Promise<IContext> {
-		const user: IUserProfile = userProfile || (await getUserServer(connection));
+	): IContext {
+		const user: IUserProfile = userProfile || getUserServer(connection);
 
 		return {
 			apiName: this.apiName,
@@ -177,7 +184,7 @@ class ServerBase {
 	// #endregion
 
 	// #region addRestEndpoint
-	protected addRestEndpoint(action: string, func: MethodType<any, any>, type: EndpointType) {
+	addRestEndpoint(action: string, func: MethodType, type: EndpointType) {
 		if (Meteor.isServer) {
 			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
@@ -187,7 +194,8 @@ class ServerBase {
 					queryParams: req.query,
 					bodyParams: req.body,
 					request: req,
-					response: res
+					response: res,
+					connection: req.connection // 🔥 AQUI você acessa a conexão do usuário
 				};
 
 				const params = Object.assign(
@@ -196,18 +204,7 @@ class ServerBase {
 					endpointContext.bodyParams || {}
 				);
 
-				const _context: IContext = {
-					apiName: this.apiName,
-					action,
-					user: {
-						username: `By ${type} api endpoint`,
-						email: 'api.endpoint@api.com',
-						roles: params.role ? [params.role] : []
-					},
-					session: endpointContext.request,
-					headers: req.headers,
-					response: endpointContext.response
-				};
+				const _context: IContext = this._createContext(action, endpointContext.connection);
 
 				try {
 					res.writeHead(200, {
@@ -217,10 +214,10 @@ class ServerBase {
 					const result = func({ params }, _context);
 
 					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
-					res.end(); // Must call this immediately before return!
+					res.end();
 					return;
 				} catch (e) {
-					console.info(`API ERROR:${this.apiName}|${action} - `, e);
+					console.log(`API ERROR:${this.apiName}|${action} - `, e);
 					res.writeHead(403, {
 						'Content-Type': 'application/json'
 					});
@@ -231,7 +228,7 @@ class ServerBase {
 			};
 
 			if (type) {
-				console.info(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
+				console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
 				WebApp.connectHandlers.use(
 					connectRoute((router: any) => {
 						router[type](endpoinUrl, handleFunc(type));
@@ -240,8 +237,26 @@ class ServerBase {
 			}
 		}
 	}
+
 	// #endregion
 
+	protected _autoRegisterPublications<Base extends ServerBase, Param extends unknown[], Return>(
+		publicationInstances: Array<MethodBase<Base, Param, Return>>,
+		classInstance: Base
+	) {
+		// publicationInstances.forEach(publication => {
+		// 	console.log('publication', publication);
+		// 	publication.setServerInstance(classInstance);
+		// 	(classInstance as any)[publication.getName()] = async (...args: Parameters<typeof publication.execute>) =>
+		// 		await publication.execute(...args);
+		// 	this.registerPublications({
+		// 		[publication.getName()]: {
+		// 			method: (classInstance as any)[publication.getName()],
+		// 			...(!publication.getEndpointType() ? {} : { endpointType: publication.getEndpointType() })
+		// 		}
+		// 	});
+		// });
+	}
 }
 
 export default ServerBase;
