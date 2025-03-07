@@ -22,7 +22,7 @@ class GetFile extends MethodBase<StorageService, ParamGetArchiveType, ReturnGetA
 	action(param: ParamGetArchiveType, _context: IContext): ReturnGetArchiveType {
 		console.log('Passou aqui: ', param);
 
-		return { id: '123' };
+		return { url: 'teste' };
 	}
 }
 export const getFile = new GetFile();

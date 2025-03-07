@@ -37,7 +37,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 	//endregion
 
-	abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
+	protected abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return> | Return;
 
 	//region seters and getters
 	public setServerInstance(server: Server): void {

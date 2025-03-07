@@ -8,7 +8,9 @@ export const paramGetArchiveSch = z.object({
 	_id: z.string(),
 	resolution: ResolutionEnum.optional()
 });
-export const returnGetArchiveSch = z.object({});
+export const returnGetArchiveSch = z.object({
+	url: z.string()
+});
 
 export const paramRemoveArchiveSch = z.object({});
 export const returnRemoveArchiveSch = z.object({});
