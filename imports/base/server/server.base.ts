@@ -184,11 +184,11 @@ class ServerBase {
 	// #endregion
 
 	// #region addRestEndpoint
-	addRestEndpoint(action: string, func: MethodType, type: EndpointType) {
+	addRestEndpoint(action: string, func: MethodType<any, any>, type: EndpointType, baseUrl?: string) {
 		if (Meteor.isServer) {
-			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
+			const endpoinUrl = baseUrl ?? `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
-			const handleFunc = (type: string) => (req: any, res: any) => {
+			const handleFunc = (req: any, res: any) => {
 				const endpointContext = {
 					urlParams: req.params,
 					queryParams: req.query,
@@ -231,7 +231,7 @@ class ServerBase {
 				console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
 				WebApp.connectHandlers.use(
 					connectRoute((router: any) => {
-						router[type](endpoinUrl, handleFunc(type));
+						router[type](endpoinUrl, handleFunc);
 					})
 				);
 			}
