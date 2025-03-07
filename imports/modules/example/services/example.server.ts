@@ -31,8 +31,9 @@ class ExampleServer extends ProductServerBase {
 		this.mongoInstance = new MongoBase<{}>('example', {});
 
 		this.registerMethods(_methodInstances, this);
-		this.registerPublicationsBom(_publicationInstances, this);
+		this.registerPublications(_publicationInstances, this);
 	}
+
 }
 
 const exampleServer = new ExampleServer();

@@ -37,14 +37,16 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 	//endregion
 
-	abstract action(_param: Param, _context: IContext): Promise<Return> | Return;
+	abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
 
 	//region seters and getters
 	public setServerInstance(server: Server): void {
+		if (!!this.server) throw new Meteor.Error('500', 'Server já definido');
 		this.server = server;
 	}
 	public getName(): string {
-		return this.name;
+		if (!this.server) throw new Meteor.Error('500', 'Server não definido');
+		return `${this.server.apiName}.${this.name}`;
 	}
 	public getActionType(): 'method' | 'publication' {
 		return this.actionType;
@@ -102,7 +104,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 			if (Meteor.isClient)
 				throw new Meteor.Error('500', `[${this.name}]: ${this.actionType} não pode ser chamado no client`);
 			this.beforeAction(_param, _context);
-			const result = await this.action(_param, _context);
+			const result = await this.actionBaseMethod(_param, _context);
 			this.afterAction(_param, result, _context);
 			return result;
 		} catch (error) {
