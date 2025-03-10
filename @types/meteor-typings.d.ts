@@ -8,5 +8,6 @@ declare module 'meteor/ostrio:files' {
 		remove(selector: any): void;
 		find(selector?: any, options?: any): Mongo.Cursor<any>;
 		findOne(selector?: any, options?: any): any;
+		write(buffer: Buffer, options: any, callback?: Function): any;
 	}
 }

@@ -1,14 +1,10 @@
-export enum StorageConfigEnum {
-	defaultDirectory = '../uploads',
-	baseUrl = '/storage/getFile',
-	apiName = 'StorageService'
-}
+import { enumStorageConfig } from './config.enum';
 
 function getName(name: string) {
-	return `${StorageConfigEnum.apiName}.${name}`;
+	return `${enumStorageConfig.apiName}.${name}`;
 }
 
-export const StorageMethods = {
+export const enumStorageMethods = {
 	getFile: getName('getFile'),
 	getAudio: getName('getAudio'),
 	getVideo: getName('getVideo'),

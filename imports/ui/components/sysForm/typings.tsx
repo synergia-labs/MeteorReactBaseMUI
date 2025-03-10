@@ -66,7 +66,8 @@ interface ISysFormContext {
 		setValueMethod,
 		changeVisibilityMethod,
 		setErrorMethod,
-		setOptionsMethod
+		setOptionsMethod,
+		mapperSysForm
 	}: {
 		componentRef: MutableRefObject<ISysFormComponentRef>;
 		clearMethod: () => void;
@@ -74,6 +75,7 @@ interface ISysFormContext {
 		changeVisibilityMethod: (visible: boolean) => void;
 		setErrorMethod: (error: string | undefined) => void;
 		setOptionsMethod?: (options: Array<IOption>) => void;
+		mapperSysForm?: (value: any) => any;
 	}) => void;
 }
 
@@ -89,6 +91,7 @@ interface ISysFormComponentRef {
 	setVisible?: (visible: boolean) => void;
 	setError?: (error: string | undefined) => void;
 	setOptions?: (options: Array<IOption>) => void;
+	mapperSysForm?: (value: any) => any;
 }
 
 interface ISysFormButtonRef {

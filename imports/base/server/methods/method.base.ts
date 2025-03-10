@@ -2,7 +2,7 @@ import ServerBase from '../server.base';
 import ActionsBase, { IActionsBase } from '../actions.base';
 import { IContext } from '/imports/typings/IContext';
 
-interface IMethodBase extends IActionsBase {}
+export interface IMethodBase extends IActionsBase {}
 
 abstract class MethodBase<Server extends ServerBase, Param = unknown, Return = unknown> extends ActionsBase<
 	Server,

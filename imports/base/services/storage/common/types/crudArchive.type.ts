@@ -1,8 +1,15 @@
 import { z } from 'zod';
 import { ResolutionEnum } from './resolution.type';
+import { ArchiveSch } from '/imports/base/types/archive';
+import { Buffer } from 'buffer';
 
-export const paramUploadArchiveSch = z.object({});
-export const returnUploadArchiveSch = z.object({});
+export const paramUploadArchiveSch = z.object({
+	archive: ArchiveSch,
+	isRestricted: z.boolean().optional()
+});
+export const returnUploadArchiveSch = z.object({
+	_id: z.string()
+});
 
 export const paramGetArchiveSch = z.object({
 	_id: z.string(),

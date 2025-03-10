@@ -1,27 +1,42 @@
-import { StorageMethods } from '../common/storage.enum';
-import { StorageService } from '../storage.service';
 import {
 	paramUploadArchiveSch,
 	ParamUploadArchiveType,
 	returnUploadArchiveSch,
 	ReturnUploadArchiveType
-} from '../types/crudArchive.type';
+} from '../common/types/crudArchive.type';
 import MethodBase from '/imports/base/server/methods/method.base';
 import { IContext } from '/imports/typings/IContext';
+import { enumStorageMethods } from '../common/enums/methods.enum';
+import { StorageServer } from '../storage.server';
+import { UploadStorageBase } from './bases/upload';
+import { Buffer } from 'buffer';
 
-class UploadImage extends MethodBase<StorageService, ParamUploadArchiveType, ReturnUploadArchiveType> {
+class UploadImage extends UploadStorageBase {
 	constructor() {
 		super({
-			name: StorageMethods.uploadImage,
+			name: enumStorageMethods.uploadImage,
 			roles: [],
 			paramSch: paramUploadArchiveSch,
 			returnSch: returnUploadArchiveSch
 		});
 	}
 
-	action(param: ParamUploadArchiveType, _context: IContext): ReturnUploadArchiveType {
-		console.log('Passou aqui: ', param);
+	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
+		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== 'archive'));
 
-		return {};
+		const objec = await StorageServer.imageCollection.write(param.archive.content as Buffer, {
+			meta: partialDoc,
+			name: param.archive.name,
+			type: param.archive.type,
+			size: param.archive.size
+		});
+
+		if (!objec) {
+			throw new Error('Failed to upload image');
+		}
+
+		return { _id: objec._id };
 	}
 }
+
+export const uploadImage = new UploadImage();

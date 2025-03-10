@@ -12,16 +12,11 @@ import PublicationBase from './publication/publication.base';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import { EndpointType, ServerActions } from '../types/serverParams';
+import { MethodType } from '../types/method';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
-
-export type EndpointType = 'get' | 'post';
-export type ServerActions = 'create' | 'update' | 'delete';
-export type MethodType<MethodBase extends { execute: (...args: any) => any }> = (
-	params?: Parameters<MethodBase['execute']>[0],
-	_context?: IContext
-) => ReturnType<MethodBase['execute']>;
 
 class ServerBase {
 	apiName: string;
@@ -210,9 +205,14 @@ class ServerBase {
 	 * @param func 		- Função que será executada pelo endpoint.
 	 * @param type 		- Tipo de requisição que o endpoint aceitará.
 	 */
-	protected addRestEndpoint(action: string, func: MethodType<MethodBase<any, any, any>>, type: EndpointType) {
+	protected addRestEndpoint(
+		action: string,
+		func: MethodType<MethodBase<any, any, any>>,
+		type: EndpointType,
+		baseUrl?: string
+	) {
 		if (Meteor.isServer) {
-			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
+			const endpoinUrl = baseUrl ?? `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
 			const handleFunc = (req: any, res: any) => {
 				const endpointContext = {

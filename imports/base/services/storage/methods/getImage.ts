@@ -1,11 +1,11 @@
-import { StorageMethods } from '../common/storage.enum';
-import { StorageService } from '../storage.service';
+import { StorageMethods } from '../common/enums/methods.enum';
+import { StorageService } from '../storage.server';
 import {
 	paramGetArchiveSch,
 	ParamGetArchiveType,
 	returnGetArchiveSch,
 	ReturnGetArchiveType
-} from '../types/crudArchive.type';
+} from '../common/types/crudArchive.type';
 import MethodBase from '/imports/base/server/methods/method.base';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';

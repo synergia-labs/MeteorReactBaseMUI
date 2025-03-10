@@ -90,7 +90,8 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 			setValueMethod,
 			changeVisibilityMethod,
 			setErrorMethod,
-			setOptionsMethod
+			setOptionsMethod,
+			mapperSysForm
 		}: {
 			componentRef: MutableRefObject<ISysFormComponentRef>;
 			clearMethod: () => void;
@@ -98,6 +99,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 			changeVisibilityMethod: (visible: boolean) => void;
 			setErrorMethod: (error: string | undefined) => void;
 			setOptionsMethod?: (options: Array<IOption>) => void;
+			mapperSysForm?: (value: any) => any;
 		}) => {
 			try {
 				componentRef.current = {
@@ -106,7 +108,8 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 					setValue: setValueMethod,
 					setVisible: changeVisibilityMethod,
 					setError: setErrorMethod,
-					setOptions: setOptionsMethod
+					setOptions: setOptionsMethod,
+					mapperSysForm: mapperSysForm
 				};
 			} catch (error: any) {
 				__onFailure(error);
