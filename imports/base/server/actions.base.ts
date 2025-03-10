@@ -45,10 +45,7 @@ abstract class ActionsBase< Server extends ServerBase, Param = unknown, Return =
         if(!!this.server) throw new Meteor.Error('500', 'Server já definido');
         this.server = server; 
     };
-    public getName(): string { 
-        if(!this.server) throw new Meteor.Error('500', 'Server não definido');
-        return `${this.server.apiName}.${this.name}`;
-     };
+    public getName(): string { return this.name; };
     public getActionType(): 'method' | 'publication' { return this.actionType; };
     public getServerInstance(): Server | undefined { return this.server; };
     public getRoles(): Array<EnumUserRoles> | undefined { return this.roles; };
@@ -59,7 +56,7 @@ abstract class ActionsBase< Server extends ServerBase, Param = unknown, Return =
 
     //region Auxiliar methods
     protected _checkPermissions(_context: IContext): void {
-        if (!this.roles || this.roles.length === 0) return;
+        if (!this.roles || this.roles.length == 0) return;
     
         const user = _context.user || getUserServer();
         if (!user) throw new Meteor.Error('401', 'Usuário não autenticado ou não encontrado');
@@ -88,7 +85,7 @@ abstract class ActionsBase< Server extends ServerBase, Param = unknown, Return =
     };
     //endregion
 
-    public async execute(_param: Param, _context: IContext): Promise<Return>{
+    public async execute(_param: Param, _context: IContext): Promise<Return> {
         try {
 			if(Meteor.isClient) throw new Meteor.Error( '500', `[${this.name}]: ${this.actionType} não pode ser chamado no client`);
 			this.beforeAction(_param, _context);
@@ -97,7 +94,7 @@ abstract class ActionsBase< Server extends ServerBase, Param = unknown, Return =
 			return result;
 		} catch (error) {
 			console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${error}`);
-			throw error;
+            throw error;
 		}
     }
 }

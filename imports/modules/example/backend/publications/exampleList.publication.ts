@@ -1,12 +1,13 @@
 import { Mongo } from "meteor/mongo";
-import { ExampleServer } from "../example.server";
 import PublicationBase from "/imports/base/server/publication/publication.base";
 import { IContext } from "/imports/typings/IContext";
+import { ExampleServer } from "../server";
+import enumExampleRegisterPublications from "../../common/enums/enumRegisterPublications";
 
 class ExampleListPublication extends PublicationBase<ExampleServer, undefined, undefined>{
     constructor() {
         super({ 
-            name: 'exampleList', 
+            name: enumExampleRegisterPublications.exampleList, 
             enableCountPublication: true,
             transformedPublication: true,
         });

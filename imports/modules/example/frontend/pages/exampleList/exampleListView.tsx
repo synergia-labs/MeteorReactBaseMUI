@@ -6,13 +6,13 @@ import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import Context, { IExampleListContext } from './exampleListContext';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
-import EnumExampleScreenState from '../../config/enumExampleScreenState';
+import EnumExampleScreenState from '../../../common/enums/enumScreenState';
 import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import ToolTip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
-import exampleApi from '/imports/modules/example/services/example.api';
+import exampleApi from '../../api/api';
 
 
 const ExampleListView: React.FC = () => {
@@ -27,7 +27,10 @@ const ExampleListView: React.FC = () => {
 		<Styles.container>
 			<Typography variant="h5">Lista de itens</Typography>
 			<ToolTip title="Adicionar dados de exemplos" placement='right'>
-				<IconButton sx={{ mb: 1 }}  onClick= {() => exampleApi.fillDatabaseWithFakeData(() => { console.log('Dados de exemplo adicionados') })}>
+				<IconButton sx={{ mb: 1 }}  onClick= {() => exampleApi.fillDatabaseWithFakeData(undefined, (error, result) => {
+					console.log('error', error);
+					console.log('result', result);
+				})}>
 					<SysIcon name="contract" />
 				</IconButton>
 			</ToolTip>

@@ -2,16 +2,16 @@ import React, { useCallback, useContext, useState } from 'react';
 import Context, { IExampleDetailContext } from './exampleDetailContext';
 import ExampleDetailView from './exampleDetailView';
 import { useNavigate } from 'react-router-dom';
-import ModuleContext, { IExampleModuleContext } from '../../exampleContext';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import { useTracker } from 'meteor/react-meteor-data';
-import EnumExampleScreenState from '../../config/enumExampleScreenState';
+import EnumExampleScreenState from '../../../common/enums/enumScreenState';
 import { IMeteorError } from '/imports/typings/IMeteorError';
+import ExampleModuleContext, { IExampleModuleContext } from '../../exampleContext';
 
 const ExampleDetailProvider: React.FC = () => {
 
     const navigate = useNavigate();
-	const { id, state } = useContext<IExampleModuleContext>(ModuleContext);
+	const { id, state } = useContext<IExampleModuleContext>(ExampleModuleContext);
 	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
     const [ document, setDocument ] = useState<Partial<any>>();

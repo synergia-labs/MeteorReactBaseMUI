@@ -12,8 +12,7 @@ import PublicationBase from './publication/publication.base';
 
 export type EndpointType = 'get' | 'post';
 export type ServerActions = 'create' | 'update' | 'delete';
-export type MethodType<Param, Return> = (params?: Param, _context?: IContext) => Return;
-export type MethodTypeAsync<Param, Return> = (params?: Param, _context?: IContext) => Promise<Return>;
+export type MethodType<MethodBase extends { execute: (...args: any) => any }> = (params?: Parameters<MethodBase["execute"]>[0], _context?: IContext) => ReturnType<MethodBase["execute"]>;
 
 class ServerBase {
 	apiName: string;
@@ -59,7 +58,7 @@ class ServerBase {
 			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
 			if (methodInstances?.length == 0 || !!!classInstance) return;
 
-			const methodsObject: Record<string, MethodTypeAsync<any, any>> = {};
+			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
 			methodInstances.forEach(method => {
@@ -77,8 +76,9 @@ class ServerBase {
 					return await method.execute(...param, meteorContext);
 				};
 
-				(classInstance as any)[methodName] = methodFunction;
-
+				const rawName = methodName.split('.')[1];
+				if(!rawName) throw new Meteor.Error('500', 'Nome do método inválido');
+				(classInstance as any)[rawName] = methodFunction;
 
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
 				methodsObject[methodName] = methodFunction;
@@ -177,7 +177,7 @@ class ServerBase {
 	// #endregion
 
 	// #region addRestEndpoint
-	protected addRestEndpoint(action: string, func: MethodType<any, any>, type: EndpointType) {
+	protected addRestEndpoint(action: string, func: MethodType<MethodBase<any, any, any>>, type: EndpointType) {
 		if (Meteor.isServer) {
 			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
@@ -214,7 +214,7 @@ class ServerBase {
 						'Content-Type': 'application/json'
 					});
 
-					const result = func({ params }, _context);
+					const result: any = func({ params }, _context);
 
 					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
 					res.end(); // Must call this immediately before return!

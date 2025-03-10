@@ -20,9 +20,9 @@ interface IRoute {
 	templateProps?: any;
 }
 
-interface IModuleHub {
+interface IModuleRoutes {
 	pagesRouterList: Array<IRoute | null>;
 	pagesMenuItemList: Array<IAppMenu | null>;
 }
 
-export { IAppMenu, IRoute, IModuleHub };
+export { IAppMenu, IRoute, IModuleRoutes };
