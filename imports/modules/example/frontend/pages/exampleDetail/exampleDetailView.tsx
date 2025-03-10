@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import Styles from './exampleDetailStyles';
 import Context, { IExampleDetailContext } from './exampleDetailContext';
-import ModuleContext, { IExampleModuleContext } from '../../exampleContext';
-import EnumExampleScreenState from '../../config/enumExampleScreenState';
+import EnumExampleScreenState from '../../../common/enums/enumScreenState';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -16,10 +15,11 @@ import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocati
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 import Button from '@mui/material/Button';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
+import ExampleModuleContext, { IExampleModuleContext } from '../../exampleContext';
 
 const ExampleDetailView: React.FC = () => {
 	const context = useContext<IExampleDetailContext>(Context);
-	const { state } = useContext<IExampleModuleContext>(ModuleContext);
+	const { state } = useContext<IExampleModuleContext>(ExampleModuleContext);
 
 	const isView = state == EnumExampleScreenState.VIEW;
 	const isEdit = state == EnumExampleScreenState.EDIT;

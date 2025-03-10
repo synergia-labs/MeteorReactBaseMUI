@@ -37,7 +37,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 	//endregion
 
-	protected abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return> | Return;
+	abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
 
 	//region seters and getters
 	public setServerInstance(server: Server): void {
@@ -45,8 +45,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 		this.server = server;
 	}
 	public getName(): string {
-		// if (!this.server) throw new Meteor.Error('500', 'Server não definido');
-		// return `${this.server.apiName}.${this.name}`;
+		return this.name;
 	}
 	public getActionType(): 'method' | 'publication' {
 		return this.actionType;
@@ -70,7 +69,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 
 	//region Auxiliar methods
 	protected _checkPermissions(_context: IContext): void {
-		if (!this.roles || this.roles.length === 0) return;
+		if (!this.roles || this.roles.length == 0) return;
 
 		const user = _context.user || getUserServer();
 		if (!user) throw new Meteor.Error('401', 'Usuário não autenticado ou não encontrado');
@@ -100,7 +99,6 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	//endregion
 
 	public async execute(_param: Param, _context: IContext): Promise<Return> {
-		console.log('Chamou execute');
 		try {
 			if (Meteor.isClient)
 				throw new Meteor.Error('500', `[${this.name}]: ${this.actionType} não pode ser chamado no client`);
@@ -110,7 +108,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 			return result;
 		} catch (error) {
 			console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${error}`);
-			//throw error;
+			throw error;
 		}
 	}
 }

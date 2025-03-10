@@ -6,11 +6,12 @@ import { hasValue } from '/imports/libs/hasValue';
 import { debounce } from 'lodash';
 import { IFilterPublication, IOptionsPublication } from '/imports/typings/IFilterProperties';
 import { useNavigate } from 'react-router-dom';
-import EnumExampleScreenState from '../../config/enumExampleScreenState';
+import EnumExampleScreenState from '../../../common/enums/enumScreenState';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { nanoid } from 'nanoid';
-import exampleApi from '../../services/example.api';
+import exampleApi from '../../api/api';
+import enumExampleRegisterPublications from '../../../common/enums/enumRegisterPublications';
 
 const ExampleListProvider: React.FC = () => {
     const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
@@ -90,10 +91,8 @@ const ExampleListProvider: React.FC = () => {
         };
 
         setLoading(true);
-        const handleSubscribe = exampleApi.subscribe('exampleList', {}, {limit: 10});
-        console.log(handleSubscribe);
-        // if(!hasValue(handleSubscribe) || !handleSubscribe?.ready()) return;
-        const todoList = exampleApi.find({}, {}).fetch();
+        const handleSubscribe = exampleApi.subscribe(enumExampleRegisterPublications.exampleList, {}, {limit: 10});
+        const todoList = exampleApi.mongoInstance.find().fetch();
         console.log(todoList);
         setLoading(false);
         setTotalDocuments(0);

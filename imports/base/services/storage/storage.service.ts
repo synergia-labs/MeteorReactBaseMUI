@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import ServerBase from '../../server/server.base';
+import ServerBase, { MethodType } from '../../server/server.base';
 import { FilesCollection } from 'meteor/ostrio:files';
 import { getFileUrlSch, GetFileUrlType } from './types/getFileUrl.type';
-import { StorageConfigEnum } from './storage.enum';
+import { StorageConfigEnum } from './common/storage.enum';
 import { FileTypeEnum } from './types/file.type';
 import { getFile } from './methods/getFile';
 
@@ -35,20 +35,23 @@ export class StorageService extends ServerBase {
 		super(StorageConfigEnum.apiName);
 		this.addRestEndpoint(
 			'getStorageFile',
-			getFile.execute.bind(getFile),
+			getFile.execute.bind(getFile) as MethodType<any, any>,
 			'get',
 			`${StorageConfigEnum.baseUrl}/${FileTypeEnum.Enum.file}`
 		);
 	}
 
-	static getFileUrl(params: GetFileUrlType): string | null {
+	static getUrl(params: GetFileUrlType): string | null {
 		getFileUrlSch.parse(params);
 		const { _id, type, resolution } = params;
 
 		let url = `${StorageConfigEnum.baseUrl}/${type}?_id=${_id}`;
-		if (resolution) {
-			url += `&resolution=${resolution}`;
-		}
+
+		const access = Meteor.userId();
+
+		if (resolution) url += `&resolution=${resolution}`;
+		if (access) url += `&access=${access}`;
+
 		return url;
 	}
 }

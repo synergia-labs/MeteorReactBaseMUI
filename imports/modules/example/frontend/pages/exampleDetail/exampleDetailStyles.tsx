@@ -1,8 +1,8 @@
 import { ElementType } from 'react';
 import { styled } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
-import { sysSizing } from '../../../../ui/materialui/styles';
-import { SysSectionPaddingXY } from '../../../../ui/layoutComponents/sysLayoutComponents';
+import { sysSizing } from '../../../../../ui/materialui/styles';
+import { SysSectionPaddingXY } from '../../../../../ui/layoutComponents/sysLayoutComponents';
 
 interface IExampleDetailStyles {
 	container: ElementType<BoxProps>;
