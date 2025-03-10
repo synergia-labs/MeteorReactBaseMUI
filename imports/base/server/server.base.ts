@@ -33,6 +33,13 @@ class ServerBase {
 	//endregion
 
 	//region _includeAuditFilds
+	/**
+	 * Método para incluir os campos de auditoria em um documento.
+	 * @param doc 		- Documento que receberá os campos de auditoria.
+	 * @param action 	- Ação que está sendo realizada. (create, update)
+	 * 
+	 * @returns 		- A alteração do documento ocorre por referência, ou seja, o documento do parâmetro é alterado.
+	*/
 	protected async _includeAuditFilds(doc: any & Partial<IDoc>, action: ServerActions) {
 		const userId = Meteor.userId();
 		if (!userId) throw new Meteor.Error('Usuário não autenticado');
@@ -50,6 +57,11 @@ class ServerBase {
 	//endregion
 
 	//region registerMethods
+	/**
+	 * Método para registrar os métodos de uma classe.
+	 * @param methodInstances 	- Array de instâncias de métodos.
+	 * @param classInstance 	- Instância da classe que contém os métodos.
+	*/
 	protected async registerMethods<Base extends ServerBase, Param extends unknown[], Return>(
 		methodInstances: Array<MethodBase<Base, Param, Return>>,
 		classInstance: Base
@@ -93,6 +105,11 @@ class ServerBase {
 	//endregion
 
 	//region registerPublications
+	/**
+	 * Método para registrar as publicações de uma classe.
+	 * @param publicationInstances 	- Array de instâncias de publicações.
+	 * @param classInstance 		- Instância da classe que contém as publicações.
+	*/
 	protected registerPublications<Base extends ServerBase, Param extends unknown[], Return>(
 		publicationInstances: Array<PublicationBase<Base, Param, Return>>,
 		classInstance: Base
@@ -158,6 +175,15 @@ class ServerBase {
 	//endregion
 
 	// #region _createContext
+	/**
+	 * Método para criar o contexto de execução de um método ou publicação.
+	 * @param action 		- Ação que está sendo realizada.
+	 * @param connection 	- Conexão com o banco de dados.
+	 * @param userProfile 	- Perfil do usuário que está realizando a ação.
+	 * @param session 		- Sessão do usuário.
+	 * 
+	 * @returns {IContext}	- O contexto de execução.
+	*/
 	protected async _createContext(
 		action: string,
 		connection?: IConnection,
@@ -165,18 +191,17 @@ class ServerBase {
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
 		const user: IUserProfile = userProfile || (await getUserServer(connection));
-
-		return {
-			apiName: this.apiName,
-			action,
-			user,
-			connection,
-			session
-		};
+		return { apiName: this.apiName, action, user, connection, session};
 	}
 	// #endregion
 
 	// #region addRestEndpoint
+	/**
+	 * Método para adicionar um endpoint REST a uma API.
+	 * @param action 	- Ação que será realizada pelo endpoint.
+	 * @param func 		- Função que será executada pelo endpoint.
+	 * @param type 		- Tipo de requisição que o endpoint aceitará.
+	*/
 	protected addRestEndpoint(action: string, func: MethodType<MethodBase<any, any, any>>, type: EndpointType) {
 		if (Meteor.isServer) {
 			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
