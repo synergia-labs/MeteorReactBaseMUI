@@ -9,6 +9,12 @@ import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
 import MethodBase from './methods/method.base';
 import PublicationBase from './publication/publication.base';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+
+
+WebApp.connectHandlers.use(cors());
+WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
 
 export type EndpointType = 'get' | 'post';
 export type ServerActions = 'create' | 'update' | 'delete';

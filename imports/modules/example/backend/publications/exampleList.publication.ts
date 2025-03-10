@@ -13,15 +13,13 @@ class ExampleListPublication extends PublicationBase<ExampleServer, undefined, u
         });
     }
     
-    public async action(_filter: Mongo.Selector<undefined>, _options: Mongo.Options<undefined>, _context: IContext): Promise<Mongo.Cursor<any>> {
+    async action(_filter: Mongo.Selector<undefined>, _options: Mongo.Options<undefined>, _context: IContext): Promise<Mongo.Cursor<any>> {
         return this.getServerInstance()?.mongoInstance?.getCollectionInstance().find(_filter, _options) as Mongo.Cursor<any>;
     }
 
-    public async transformPublication(_doc: any, _context: IContext): Promise<any> {
+    async transformPublication(_doc: any, _context: IContext): Promise<any> {
         return {..._doc, teste: 'teste'};
     }
-
-
 }
 
 const exampleListPublicationInstance = new ExampleListPublication();
