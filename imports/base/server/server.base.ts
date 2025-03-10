@@ -9,11 +9,12 @@ import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
 import MethodBase from './methods/method.base';
 import PublicationBase from './publication/publication.base';
+import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 
 export type EndpointType = 'get' | 'post';
 export type ServerActions = 'create' | 'update' | 'delete';
-export type MethodType<Param, Return> = (params?: Param, _context?: IContext) => Return;
-export type MethodTypeAsync<Param, Return> = (params?: Param, _context?: IContext) => Promise<Return>;
+export type MethodType<Param, Return> = (params: Param, _context: IContext) => Return;
+export type MethodTypeAsync<Param, Return> = (params: Param, _context: IContext) => Promise<Return>;
 
 class ServerBase {
 	apiName: string;
@@ -184,11 +185,16 @@ class ServerBase {
 	// #endregion
 
 	// #region addRestEndpoint
-	addRestEndpoint(action: string, func: MethodType<any, any>, type: EndpointType, baseUrl?: string) {
+	addRestEndpoint(
+		action: string,
+		func: MethodType<any, any> | MethodTypeAsync<any, any>,
+		type: EndpointType,
+		baseUrl?: string
+	) {
 		if (Meteor.isServer) {
 			const endpoinUrl = baseUrl ?? `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
-			const handleFunc = (req: any, res: any) => {
+			const handleFunc = async (req: any, res: any) => {
 				const endpointContext = {
 					urlParams: req.params,
 					queryParams: req.query,
@@ -198,20 +204,32 @@ class ServerBase {
 					connection: req.connection // 🔥 AQUI você acessa a conexão do usuário
 				};
 
+				console.log('Headers at: ', req.headers);
 				const params = Object.assign(
 					endpointContext.queryParams || {},
 					endpointContext.urlParams || {},
 					endpointContext.bodyParams || {}
 				);
 
-				const _context: IContext = this._createContext(action, endpointContext.connection);
+				const _context: IContext = {
+					apiName: this.apiName,
+					action,
+					user: {
+						username: `By ${type} api endpoint`,
+						email: 'api.endpoint@api.com',
+						roles: params.role ? [params.role] : [EnumUserRoles.PUBLIC]
+					},
+					session: endpointContext.request,
+					headers: req.headers,
+					response: endpointContext.response
+				};
 
 				try {
 					res.writeHead(200, {
 						'Content-Type': 'application/json'
 					});
 
-					const result = func({ params }, _context);
+					const result = await func(params, _context);
 
 					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
 					res.end();

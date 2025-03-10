@@ -12,8 +12,8 @@ import { IContext } from '/imports/typings/IContext';
 class GetFile extends MethodBase<StorageService, ParamGetArchiveType, ReturnGetArchiveType> {
 	constructor() {
 		super({
-			name: 'createUser',
-			roles: [EnumUserRoles.ADM, EnumUserRoles.USER],
+			name: 'getFile',
+			roles: [EnumUserRoles.PUBLIC],
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetArchiveSch
 		});

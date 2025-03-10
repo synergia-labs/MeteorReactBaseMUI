@@ -4,6 +4,7 @@ import { FilesCollection } from 'meteor/ostrio:files';
 import { getFileUrlSch, GetFileUrlType } from './types/getFileUrl.type';
 import { StorageConfigEnum } from './storage.enum';
 import { FileTypeEnum } from './types/file.type';
+import { getFile } from './methods/getFile';
 
 export class StorageService extends ServerBase {
 	static videoCollection = new FilesCollection({
@@ -32,7 +33,12 @@ export class StorageService extends ServerBase {
 
 	constructor() {
 		super(StorageConfigEnum.apiName);
-		this.addRestEndpoint('getStorageFile', () => {}, 'get', StorageConfigEnum.baseUrl);
+		this.addRestEndpoint(
+			'getStorageFile',
+			getFile.execute.bind(getFile),
+			'get',
+			`${StorageConfigEnum.baseUrl}/${FileTypeEnum.Enum.file}`
+		);
 	}
 
 	static getFileUrl(params: GetFileUrlType): string | null {
@@ -46,3 +52,6 @@ export class StorageService extends ServerBase {
 		return url;
 	}
 }
+
+const storageService = new StorageService();
+export default storageService;

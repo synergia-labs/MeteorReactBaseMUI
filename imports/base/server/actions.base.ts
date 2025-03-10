@@ -45,8 +45,8 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 		this.server = server;
 	}
 	public getName(): string {
-		if (!this.server) throw new Meteor.Error('500', 'Server não definido');
-		return `${this.server.apiName}.${this.name}`;
+		// if (!this.server) throw new Meteor.Error('500', 'Server não definido');
+		// return `${this.server.apiName}.${this.name}`;
 	}
 	public getActionType(): 'method' | 'publication' {
 		return this.actionType;
@@ -100,6 +100,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	//endregion
 
 	public async execute(_param: Param, _context: IContext): Promise<Return> {
+		console.log('Chamou execute');
 		try {
 			if (Meteor.isClient)
 				throw new Meteor.Error('500', `[${this.name}]: ${this.actionType} não pode ser chamado no client`);
@@ -109,7 +110,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 			return result;
 		} catch (error) {
 			console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${error}`);
-			throw error;
+			//throw error;
 		}
 	}
 }

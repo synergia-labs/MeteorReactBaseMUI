@@ -1,5 +1,5 @@
 export enum StorageConfigEnum {
-	defaultDirectory = '/uploads',
+	defaultDirectory = '../uploads',
 	baseUrl = '/storage/getFile',
 	apiName = 'StorageService'
 }
