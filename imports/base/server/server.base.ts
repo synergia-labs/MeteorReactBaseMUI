@@ -11,15 +11,17 @@ import MethodBase from './methods/method.base';
 import PublicationBase from './publication/publication.base';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 
 export type EndpointType = 'get' | 'post';
 export type ServerActions = 'create' | 'update' | 'delete';
-export type MethodType<Param, Return> = (params?: Param, _context?: IContext) => Return;
-export type MethodTypeAsync<Param, Return> = (params?: Param, _context?: IContext) => Promise<Return>;
+export type MethodType<MethodBase extends { execute: (...args: any) => any }> = (
+	params?: Parameters<MethodBase['execute']>[0],
+	_context?: IContext
+) => ReturnType<MethodBase['execute']>;
 
 class ServerBase {
 	apiName: string;
@@ -77,7 +79,7 @@ class ServerBase {
 			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
 			if (methodInstances?.length == 0 || !!!classInstance) return;
 
-			const methodsObject: Record<string, MethodType<any, any>> = {};
+			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
 			methodInstances.forEach((method) => {
@@ -208,11 +210,11 @@ class ServerBase {
 	 * @param func 		- Função que será executada pelo endpoint.
 	 * @param type 		- Tipo de requisição que o endpoint aceitará.
 	 */
-	protected addRestEndpoint(action: string, func: MethodType<any, any>, type: EndpointType, baseUrl?: string) {
+	protected addRestEndpoint(action: string, func: MethodType<MethodBase<any, any, any>>, type: EndpointType) {
 		if (Meteor.isServer) {
-			const endpoinUrl = baseUrl ?? `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
+			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
-			const handleFunc = async (req: any, res: any) => {
+			const handleFunc = (req: any, res: any) => {
 				const endpointContext = {
 					urlParams: req.params,
 					queryParams: req.query,
@@ -245,7 +247,7 @@ class ServerBase {
 						'Content-Type': 'application/json'
 					});
 
-					const result = await func(params, _context);
+					const result: any = func({ params }, _context);
 
 					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
 					res.end(); // Must call this immediately before return!
