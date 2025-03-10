@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { hasValue } from '/imports/libs/hasValue';
-import ModuleContext, { IExampleModuleContext } from './exampleContext';
-import EnumExampleScreenState, { exampleScreenStateValidState } from './config/enumExampleScreenState';
+import EnumExampleScreenState, { exampleScreenStateValidState } from '../common/enums/enumScreenState';
 import ExampleListProvider from './pages/exampleList/exampleListProvider';
 import ExampleDetailProvider from './pages/exampleDetail/exampleDetailProvider';
+import ExampleModuleContext, { IExampleModuleContext } from './exampleContext';
 
 export default () => {
 	const { screenState, exampleId } = useParams();
@@ -27,7 +27,7 @@ export default () => {
 
 
 	return (
-		<ModuleContext.Provider value={contextValues}>
+		<ExampleModuleContext.Provider value={contextValues}>
 			{renderPage()}
-		</ModuleContext.Provider>);
+		</ExampleModuleContext.Provider>);
 };

@@ -1,4 +1,4 @@
-import { ProductBase } from "/imports/base/api/api.product";
+import { ProductBase } from "../../../../base/api-backup/api.product";
 import { IMeteorError } from "/imports/typings/IMeteorError";
 
 class ExampleApi extends ProductBase<any> {
