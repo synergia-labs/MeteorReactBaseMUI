@@ -73,11 +73,12 @@ class ServerBase {
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
-			methodInstances.forEach((method) => {
+			methodInstances.forEach(method => {
+				method.setServerInstance(classInstance);
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
 				const methodFunction = async (...param: [any]) => {
-					console.info(`Call Method: ${this.apiName}.${methodName}`);
+					console.info(`Call Method: ${methodName}`);
 
 					let connection: IConnection;
 					// @ts-ignore
@@ -87,17 +88,12 @@ class ServerBase {
 					return await method.execute(...param, meteorContext);
 				};
 
-<<<<<<< HEAD
-				method.setServerInstance(classInstance);
-				(classInstance as any)[methodName] = methodFunction;
-=======
 				const rawName = methodName.split('.')[1];
 				if(!rawName) throw new Meteor.Error('500', 'Nome do método inválido');
 				(classInstance as any)[rawName] = methodFunction;
->>>>>>> Gustavo
 
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
-				methodsObject[`${this.apiName}.${methodName}`] = methodFunction;
+				methodsObject[methodName] = methodFunction;
 			});
 
 			Meteor.methods(methodsObject);
@@ -105,12 +101,9 @@ class ServerBase {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
 		}
-	}
+	};
 	//endregion
 
-<<<<<<< HEAD
-	protected registerPublicationsBom<Base extends ServerBase, Param extends unknown[], Return>(
-=======
 	//region registerPublications
 	/**
 	 * Método para registrar as publicações de uma classe.
@@ -118,7 +111,6 @@ class ServerBase {
 	 * @param classInstance 		- Instância da classe que contém as publicações.
 	*/
 	protected registerPublications<Base extends ServerBase, Param extends unknown[], Return>(
->>>>>>> Gustavo
 		publicationInstances: Array<PublicationBase<Base, Param, Return>>,
 		classInstance: Base
 	) {
@@ -127,13 +119,14 @@ class ServerBase {
 			if (publicationInstances?.length == 0 || !!!classInstance) return;
 			const self = this;
 
-			publicationInstances.forEach((publication) => {
+			publicationInstances.forEach(publication => {
+				publication.setServerInstance(classInstance);
 				const publicationName = publication.getName();
 
-				const publicationFunction = async (...param: [any]) => {
-					console.info(`Call Publication: ${this.apiName}.${publicationName}`);
+				const publicationFunction = async (...param: any) => {
+					console.info(`Call Publication: ${publicationName}`);
 
-					let connection: IConnection;
+					let connection: IConnection
 					// @ts-ignore
 					connection = this.connection;
 					const meteorContext = await this._createContext(publicationName, connection);
@@ -141,60 +134,47 @@ class ServerBase {
 					return publication.execute(param, meteorContext);
 				};
 
-				// const transformedFunction =
-				// 	!publication.isTransformedPublication()
-				// 		? undefined
-				// 		: async (...param: [any]) => publication.transformPublication(...param);
+				const transformedFunction =
+					!publication.isTransformedPublication()
+						? undefined
+						: async (...param: [any]): Promise<any> => {
+							let connection: IConnection;
+							// @ts-ignore
+							connection = this.connection;
+							const meteorContext = await self._createContext(publicationName, connection);
+							return publication.transformPublication(...param, meteorContext);
+						};
 
-				publication.setServerInstance(classInstance);
-				(classInstance as any)[publicationName] = publicationFunction;
+				if(!transformedFunction) Meteor.publish(publicationName, publicationFunction);
+				else Meteor.publish(publicationName, async function (query, options) {
+					const subHandle = await (
+						await publicationFunction(query, options)
+					)?.observe({
+						added: async (document: Return) => {
+							this.added(self.apiName, (document as any)._id, await transformedFunction(document));
+						},
+						changed: async (newDocument: Return) => {
+							this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
+						},
+						removed: (oldDocument: Return) => {
+							this.removed(self.apiName, (oldDocument as any)._id);
+						}
+					});
+					this.ready();
+					this.onStop(() => {
+						subHandle && subHandle.stop();
+					});
+				});
 
-				Meteor.publish(`${this.apiName}.${publicationName}`, publicationFunction);
 			});
 		} catch (error) {
 			console.error(`Falha ao registrar as publicações: ${error}`);
 			throw error;
 		}
-	}
-
-	// #region registerPublications
-	protected async registerPublications(publications: {
-		[action: string]: {
-			method: MethodType<any, any>;
-			endpointType?: EndpointType;
-			enableCountPublication?: boolean;
-		};
-	}) {
-		// Cria o objeto com as publicações diretamente
-		const publicationsObject: { [action: string]: MethodType<any, any> } = {};
-		const self = this;
-
-		Object.entries(publications).forEach(([action, { method, endpointType, enableCountPublication }]) => {
-			if (endpointType) this.addRestEndpoint(action, method, endpointType);
-
-			publicationsObject[`${this.apiName}.${action}`] = async (...args: any[]) => {
-				console.info(`Call Publication: ${this.apiName}.${action}`);
-
-				let connection: IConnection;
-				// @ts-ignore
-				connection = this.connection;
-				const meteorContext = await self._createContext(action, connection);
-
-				return method(...args, meteorContext);
-			};
-		});
-
-		// Registra todas as publicações de uma vez só
-		Object.entries(publicationsObject).forEach(([name, publication]) => {
-			Meteor.publish(name, publication);
-		});
-	}
-	// #endregion
+	};
+	//endregion
 
 	// #region _createContext
-<<<<<<< HEAD
-	protected _createContext(
-=======
 	/**
 	 * Método para criar o contexto de execução de um método ou publicação.
 	 * @param action 		- Ação que está sendo realizada.
@@ -205,34 +185,17 @@ class ServerBase {
 	 * @returns {IContext}	- O contexto de execução.
 	*/
 	protected async _createContext(
->>>>>>> Gustavo
 		action: string,
 		connection?: IConnection,
 		userProfile?: IUserProfile,
 		session?: MongoInternals.MongoConnection
-<<<<<<< HEAD
-	): IContext {
-		const user: IUserProfile = userProfile || getUserServer(connection);
-
-		return {
-			apiName: this.apiName,
-			action,
-			user,
-			connection,
-			session
-		};
-=======
 	): Promise<IContext> {
 		const user: IUserProfile = userProfile || (await getUserServer(connection));
 		return { apiName: this.apiName, action, user, connection, session};
->>>>>>> Gustavo
 	}
 	// #endregion
 
 	// #region addRestEndpoint
-<<<<<<< HEAD
-	addRestEndpoint(action: string, func: MethodType<any, any>, type: EndpointType, baseUrl?: string) {
-=======
 	/**
 	 * Método para adicionar um endpoint REST a uma API.
 	 * @param action 	- Ação que será realizada pelo endpoint.
@@ -240,18 +203,16 @@ class ServerBase {
 	 * @param type 		- Tipo de requisição que o endpoint aceitará.
 	*/
 	protected addRestEndpoint(action: string, func: MethodType<MethodBase<any, any, any>>, type: EndpointType) {
->>>>>>> Gustavo
 		if (Meteor.isServer) {
-			const endpoinUrl = baseUrl ?? `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
+			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
 
-			const handleFunc = (req: any, res: any) => {
+			const handleFunc = (type: string) => (req: any, res: any) => {
 				const endpointContext = {
 					urlParams: req.params,
 					queryParams: req.query,
 					bodyParams: req.body,
 					request: req,
-					response: res,
-					connection: req.connection // 🔥 AQUI você acessa a conexão do usuário
+					response: res
 				};
 
 				const params = Object.assign(
@@ -260,7 +221,18 @@ class ServerBase {
 					endpointContext.bodyParams || {}
 				);
 
-				const _context: IContext = this._createContext(action, endpointContext.connection);
+				const _context: IContext = {
+					apiName: this.apiName,
+					action,
+					user: {
+						username: `By ${type} api endpoint`,
+						email: 'api.endpoint@api.com',
+						roles: params.role ? [params.role] : []
+					},
+					session: endpointContext.request,
+					headers: req.headers,
+					response: endpointContext.response
+				};
 
 				try {
 					res.writeHead(200, {
@@ -270,10 +242,10 @@ class ServerBase {
 					const result: any = func({ params }, _context);
 
 					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
-					res.end();
+					res.end(); // Must call this immediately before return!
 					return;
 				} catch (e) {
-					console.log(`API ERROR:${this.apiName}|${action} - `, e);
+					console.info(`API ERROR:${this.apiName}|${action} - `, e);
 					res.writeHead(403, {
 						'Content-Type': 'application/json'
 					});
@@ -284,35 +256,17 @@ class ServerBase {
 			};
 
 			if (type) {
-				console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
+				console.info(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
 				WebApp.connectHandlers.use(
 					connectRoute((router: any) => {
-						router[type](endpoinUrl, handleFunc);
+						router[type](endpoinUrl, handleFunc(type));
 					})
 				);
 			}
 		}
 	}
-
 	// #endregion
 
-	protected _autoRegisterPublications<Base extends ServerBase, Param extends unknown[], Return>(
-		publicationInstances: Array<MethodBase<Base, Param, Return>>,
-		classInstance: Base
-	) {
-		// publicationInstances.forEach(publication => {
-		// 	console.log('publication', publication);
-		// 	publication.setServerInstance(classInstance);
-		// 	(classInstance as any)[publication.getName()] = async (...args: Parameters<typeof publication.execute>) =>
-		// 		await publication.execute(...args);
-		// 	this.registerPublications({
-		// 		[publication.getName()]: {
-		// 			method: (classInstance as any)[publication.getName()],
-		// 			...(!publication.getEndpointType() ? {} : { endpointType: publication.getEndpointType() })
-		// 		}
-		// 	});
-		// });
-	}
 }
 
 export default ServerBase;
