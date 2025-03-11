@@ -102,8 +102,13 @@ class SysFormMethods {
 			if (!doc) return docValues;
 			for (const key in schema) {
 				const { subSchema } = schema[key];
-				if (!subSchema) docValues[key] = (doc[key] as MutableRefObject<ISysFormComponentRef>)?.current?.value;
-				else docValues[key] = SysFormMethods.getDocValues(doc[key] as IDocRef, subSchema);
+				if (!subSchema) {
+					if (doc[key] && (doc[key] as MutableRefObject<ISysFormComponentRef>)?.current?.mapperSysForm) {
+						docValues[key] = (doc[key] as MutableRefObject<ISysFormComponentRef>).current.mapperSysForm!(
+							(doc[key] as MutableRefObject<ISysFormComponentRef>)?.current?.value
+						);
+					} else docValues[key] = (doc[key] as MutableRefObject<ISysFormComponentRef>)?.current?.value;
+				} else docValues[key] = SysFormMethods.getDocValues(doc[key] as IDocRef, subSchema);
 			}
 
 			return Object.fromEntries(Object.entries(docValues)); //.filter(([_, value]) => hasValue(value))); //ToDo Removido porque estava gerando erro durante o update. Avaliar se vale a pena mantê-lo durante a criação.

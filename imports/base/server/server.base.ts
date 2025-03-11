@@ -9,10 +9,14 @@ import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
 import MethodBase from './methods/method.base';
 import PublicationBase from './publication/publication.base';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import { EndpointType, ServerActions } from '../types/serverParams';
+import { MethodType } from '../types/method';
 
-export type EndpointType = 'get' | 'post';
-export type ServerActions = 'create' | 'update' | 'delete';
-export type MethodType<MethodBase extends { execute: (...args: any) => any }> = (params?: Parameters<MethodBase["execute"]>[0], _context?: IContext) => ReturnType<MethodBase["execute"]>;
+WebApp.connectHandlers.use(cors());
+WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
 
 class ServerBase {
 	apiName: string;
@@ -37,9 +41,9 @@ class ServerBase {
 	 * Método para incluir os campos de auditoria em um documento.
 	 * @param doc 		- Documento que receberá os campos de auditoria.
 	 * @param action 	- Ação que está sendo realizada. (create, update)
-	 * 
+	 *
 	 * @returns 		- A alteração do documento ocorre por referência, ou seja, o documento do parâmetro é alterado.
-	*/
+	 */
 	protected async _includeAuditFilds(doc: any & Partial<IDoc>, action: ServerActions) {
 		const userId = Meteor.userId();
 		if (!userId) throw new Meteor.Error('Usuário não autenticado');
@@ -56,12 +60,23 @@ class ServerBase {
 	}
 	//endregion
 
+	// region getMainUrl
+	/**
+	 * Método para obter a URL principal da API.
+	 * @param sufix 	- Sufixo da URL.
+	 * @returns {string} - A URL principal da API.
+	 */
+	protected getMainUrl(sufix?: string, withPrefix = true): string {
+		const baseUrl = `api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${sufix || ''}`;
+		return withPrefix ? Meteor.absoluteUrl(baseUrl) : baseUrl;
+	}
+
 	//region registerMethods
 	/**
 	 * Método para registrar os métodos de uma classe.
 	 * @param methodInstances 	- Array de instâncias de métodos.
 	 * @param classInstance 	- Instância da classe que contém os métodos.
-	*/
+	 */
 	protected async registerMethods<Base extends ServerBase, Param extends unknown[], Return>(
 		methodInstances: Array<MethodBase<Base, Param, Return>>,
 		classInstance: Base
@@ -73,7 +88,7 @@ class ServerBase {
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
-			methodInstances.forEach(method => {
+			methodInstances.forEach((method) => {
 				method.setServerInstance(classInstance);
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
@@ -89,7 +104,7 @@ class ServerBase {
 				};
 
 				const rawName = methodName.split('.')[1];
-				if(!rawName) throw new Meteor.Error('500', 'Nome do método inválido');
+				if (!rawName) throw new Meteor.Error('500', 'Nome do método inválido');
 				(classInstance as any)[rawName] = methodFunction;
 
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
@@ -101,7 +116,7 @@ class ServerBase {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
 		}
-	};
+	}
 	//endregion
 
 	//region registerPublications
@@ -109,7 +124,7 @@ class ServerBase {
 	 * Método para registrar as publicações de uma classe.
 	 * @param publicationInstances 	- Array de instâncias de publicações.
 	 * @param classInstance 		- Instância da classe que contém as publicações.
-	*/
+	 */
 	protected registerPublications<Base extends ServerBase, Param extends unknown[], Return>(
 		publicationInstances: Array<PublicationBase<Base, Param, Return>>,
 		classInstance: Base
@@ -119,14 +134,14 @@ class ServerBase {
 			if (publicationInstances?.length == 0 || !!!classInstance) return;
 			const self = this;
 
-			publicationInstances.forEach(publication => {
+			publicationInstances.forEach((publication) => {
 				publication.setServerInstance(classInstance);
 				const publicationName = publication.getName();
 
 				const publicationFunction = async (...param: any) => {
 					console.info(`Call Publication: ${publicationName}`);
 
-					let connection: IConnection
+					let connection: IConnection;
 					// @ts-ignore
 					connection = this.connection;
 					const meteorContext = await this._createContext(publicationName, connection);
@@ -134,10 +149,9 @@ class ServerBase {
 					return publication.execute(param, meteorContext);
 				};
 
-				const transformedFunction =
-					!publication.isTransformedPublication()
-						? undefined
-						: async (...param: [any]): Promise<any> => {
+				const transformedFunction = !publication.isTransformedPublication()
+					? undefined
+					: async (...param: [any]): Promise<any> => {
 							let connection: IConnection;
 							// @ts-ignore
 							connection = this.connection;
@@ -145,33 +159,33 @@ class ServerBase {
 							return publication.transformPublication(...param, meteorContext);
 						};
 
-				if(!transformedFunction) Meteor.publish(publicationName, publicationFunction);
-				else Meteor.publish(publicationName, async function (query, options) {
-					const subHandle = await (
-						await publicationFunction(query, options)
-					)?.observe({
-						added: async (document: Return) => {
-							this.added(self.apiName, (document as any)._id, await transformedFunction(document));
-						},
-						changed: async (newDocument: Return) => {
-							this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
-						},
-						removed: (oldDocument: Return) => {
-							this.removed(self.apiName, (oldDocument as any)._id);
-						}
+				if (!transformedFunction) Meteor.publish(publicationName, publicationFunction);
+				else
+					Meteor.publish(publicationName, async function (query, options) {
+						const subHandle = await (
+							await publicationFunction(query, options)
+						)?.observe({
+							added: async (document: Return) => {
+								this.added(self.apiName, (document as any)._id, await transformedFunction(document));
+							},
+							changed: async (newDocument: Return) => {
+								this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
+							},
+							removed: (oldDocument: Return) => {
+								this.removed(self.apiName, (oldDocument as any)._id);
+							}
+						});
+						this.ready();
+						this.onStop(() => {
+							subHandle && subHandle.stop();
+						});
 					});
-					this.ready();
-					this.onStop(() => {
-						subHandle && subHandle.stop();
-					});
-				});
-
 			});
 		} catch (error) {
 			console.error(`Falha ao registrar as publicações: ${error}`);
 			throw error;
 		}
-	};
+	}
 	//endregion
 
 	// #region _createContext
@@ -181,9 +195,9 @@ class ServerBase {
 	 * @param connection 	- Conexão com o banco de dados.
 	 * @param userProfile 	- Perfil do usuário que está realizando a ação.
 	 * @param session 		- Sessão do usuário.
-	 * 
+	 *
 	 * @returns {IContext}	- O contexto de execução.
-	*/
+	 */
 	protected async _createContext(
 		action: string,
 		connection?: IConnection,
@@ -191,9 +205,22 @@ class ServerBase {
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
 		const user: IUserProfile = userProfile || (await getUserServer(connection));
-		return { apiName: this.apiName, action, user, connection, session};
+		return { apiName: this.apiName, action, user, connection, session };
 	}
 	// #endregion
+
+	private _convertToInt(value: any) {
+		if (typeof value === 'object') {
+			for (const key in value) {
+				value[key] = this._convertToInt(value[key]);
+			}
+		} else if (typeof value === 'string') {
+			if (!isNaN(Number(value))) {
+				return Number(value);
+			}
+		}
+		return value;
+	}
 
 	// #region addRestEndpoint
 	/**
@@ -201,12 +228,12 @@ class ServerBase {
 	 * @param action 	- Ação que será realizada pelo endpoint.
 	 * @param func 		- Função que será executada pelo endpoint.
 	 * @param type 		- Tipo de requisição que o endpoint aceitará.
-	*/
+	 */
 	protected addRestEndpoint(action: string, func: MethodType<MethodBase<any, any, any>>, type: EndpointType) {
 		if (Meteor.isServer) {
-			const endpoinUrl = `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
+			const endpoinUrl = this.getMainUrl(action, false);
 
-			const handleFunc = (type: string) => (req: any, res: any) => {
+			const handleFunc = async (req: any, res: any) => {
 				const endpointContext = {
 					urlParams: req.params,
 					queryParams: req.query,
@@ -215,10 +242,12 @@ class ServerBase {
 					response: res
 				};
 
-				const params = Object.assign(
-					endpointContext.queryParams || {},
-					endpointContext.urlParams || {},
-					endpointContext.bodyParams || {}
+				const params = this._convertToInt(
+					Object.assign(
+						endpointContext.queryParams || {},
+						endpointContext.urlParams || {},
+						endpointContext.bodyParams || {}
+					)
 				);
 
 				const _context: IContext = {
@@ -227,29 +256,28 @@ class ServerBase {
 					user: {
 						username: `By ${type} api endpoint`,
 						email: 'api.endpoint@api.com',
-						roles: params.role ? [params.role] : []
+						roles: params.role ? [params.role] : [EnumUserRoles.PUBLIC]
 					},
 					session: endpointContext.request,
-					headers: req.headers,
-					response: endpointContext.response
+					request: req,
+					response: res
 				};
 
 				try {
-					res.writeHead(200, {
-						'Content-Type': 'application/json'
-					});
+					const result: any = await func(params, _context);
 
-					const result: any = func({ params }, _context);
-
-					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
-					res.end(); // Must call this immediately before return!
+					if (!res.headersSent) {
+						res.writeHead(200, {
+							'Content-Type': 'application/json'
+						});
+						res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
+						res.end(); // Must call this immediately before return!
+					}
 					return;
 				} catch (e) {
-					console.info(`API ERROR:${this.apiName}|${action} - `, e);
 					res.writeHead(403, {
 						'Content-Type': 'application/json'
 					});
-					res.write('Error');
 					res.end();
 					return;
 				}
@@ -259,7 +287,7 @@ class ServerBase {
 				console.info(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
 				WebApp.connectHandlers.use(
 					connectRoute((router: any) => {
-						router[type](endpoinUrl, handleFunc(type));
+						router[type](endpoinUrl, handleFunc);
 					})
 				);
 			}
@@ -267,6 +295,18 @@ class ServerBase {
 	}
 	// #endregion
 
+	// #region addRestEndpoints
+	/**
+	 * Método para adicionar endpoints REST a uma API.
+	 * @param endpoints 	- Array de endpoints [[action, func, ]].
+	 */
+	protected addRestEndpoints(
+		endpoints: Array<[type: string, func: MethodType<MethodBase<any, any, any>>, sufix: string]>
+	) {
+		endpoints.forEach(([type, func, sufix]) => {
+			this.addRestEndpoint(sufix, func, type as EndpointType);
+		});
+	}
 }
 
 export default ServerBase;

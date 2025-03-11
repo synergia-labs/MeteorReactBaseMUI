@@ -8,7 +8,7 @@ class FillDatabaseWithFakeData extends MethodBase<ExampleServer, void, number> {
         super({ name: exampleRegisterActions.fillDatabaseWithFakeData, endpointType: 'post' });
     }
 
-    public async action(_prop: void, _context: IContext): Promise<number> {
+    async action(_prop: void, _context: IContext): Promise<number> {
         const totalOfDocuments = await this.getServerInstance()?.mongoInstance?.getCollectionInstance().find().countAsync();
         console.log('totalOfDocuments', totalOfDocuments);
 

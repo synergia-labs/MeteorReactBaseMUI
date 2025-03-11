@@ -35,11 +35,11 @@ abstract class ApiBase {
         subscribeName: string,
         filter?: Mongo.ObjectID | Mongo.Selector<Param>, 
         options?: Mongo.Options<Param>
-    ): void {
+    ): Meteor.SubscriptionHandle | undefined {
         try{
             if(!this.subscribeList.includes(subscribeName)) 
                 throw new Meteor.Error( '404', `Não foi possível encontrar a publicação: ${subscribeName}`);
-            Meteor.subscribe(subscribeName, filter, options);
+            return Meteor.subscribe(subscribeName, filter || {}, options || {});
         }catch(e){
             console.error(e);
         }        

@@ -1,28 +1,39 @@
-import Typography from '@mui/material/Typography';
-import { Box, Button, styled } from '@mui/material';
-import { sysSizing } from '../../../../ui/materialui/styles';
+import React from 'react';
 
-interface IContainer {
-	readOnly: boolean | undefined;
+import styled from '@mui/material/styles/styled';
+import Box, { BoxProps } from '@mui/material/Box';
+import Button, { ButtonProps } from '@mui/material/Button';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import { sysSizing } from '/imports/ui/materialui/styles';
+
+interface ISysUploadFileStyle {
+	container: React.ComponentType<BoxProps>;
+	button: React.ComponentType<ButtonProps>;
+	typographyInfo: React.ComponentType<TypographyProps>;
+	typographyAdd: React.ComponentType<TypographyProps>;
+	loadingContainer: React.ComponentType<BoxProps>;
 }
 
-const SysUploadFileStyle = {
-	Container: styled(Box)<IContainer>(({ theme, readOnly }) => ({
-		width: '100%',
-		maxWidth: '485px',
-		minWidth: '279px',
-		padding: readOnly ? '0' : sysSizing.spacingRemMd,
-		background: theme.palette.sysBackground?.default,
+const SysUploadFileStyle: ISysUploadFileStyle = {
+	container: styled(Box)(({}) => ({
 		display: 'flex',
 		flexDirection: 'column',
-		gap: sysSizing.spacingFixedSm,
-
-		[theme.breakpoints.only('xs')]: {
-			padding: 0
-		}
+		width: '100%',
+		minWidth: '279px',
+		padding: sysSizing.spacingRemMd,
+		gap: sysSizing.spacingFixedSm
 	})),
-
-	Button: styled(Button)(({ theme }) => ({
+	loadingContainer: styled(Box)(({}) => ({
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		zIndex: 999,
+		backgroundColor: 'rgba(255,255,255,0.4)'
+	})),
+	button: styled(Button)(({ theme }) => ({
 		width: '100%',
 		height: '96px',
 		display: 'flex',
@@ -37,72 +48,18 @@ const SysUploadFileStyle = {
 			background: theme.palette.sysBackground?.bg1,
 			border: `1px dashed ${theme.palette.divider}`
 		},
-		background: '#fff'
+		background: theme.palette.common.white
 	})),
 
-	TypographyInfo: styled(Typography)(({ theme }) => ({
+	typographyInfo: styled(Typography)(({ theme }) => ({
 		color: theme.palette.sysText?.auxiliary
 	})),
 
-	TypographyAdd: styled(Typography)(({ theme }) => ({
-		color: theme.palette.sysAction?.primary,
+	typographyAdd: styled(Typography)(({ theme }) => ({
+		color: theme.palette.primary.dark,
 		display: 'flex',
 		alignItems: 'center',
 		gap: sysSizing.componentsButtonGap
-	})),
-
-	itenList: styled(Box)(() => ({
-		width: '100%',
-		height: 'auto',
-		display: 'flex',
-		flexDirection: 'column',
-		gap: sysSizing.spacingFixedSm
-	})),
-
-	BoxItem: styled(Box)(({ theme }) => ({
-		width: '100%',
-		height: '80px',
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		gap: sysSizing.spacingRemMd,
-		padding: sysSizing.spacingRemMd,
-		border: `1px solid ${theme.palette.divider}`,
-		borderRadius: sysSizing.radiusSm
-	})),
-
-	BoxIcon: styled(Box)(({ theme }) => ({
-		minWidth: '48px',
-		minHeight: '48px',
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: '50%',
-		background: theme.palette.sysAction?.primaryBgHover
-	})),
-
-	CardInfo: styled(Box)(() => ({
-		width: '60%',
-		maxWidth: '286px',
-		minWidth: '150px',
-		height: '43px',
-		display: 'flex',
-		flexDirection: 'column',
-		flexShrink: 0,
-		gap: sysSizing.spacingRemXs
-	})),
-
-	ElipsesText: styled(Typography)(() => ({
-		maxWidth: '95%',
-		textOverflow: 'ellipsis',
-		whiteSpace: 'nowrap',
-		overflow: 'hidden'
-	})),
-
-	BoxIconsCard: styled(Box)(() => ({
-		width: '60px',
-		display: 'flex',
-		justifyContent: 'space-between'
 	}))
 };
 
