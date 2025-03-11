@@ -53,7 +53,7 @@ const HomeSectionComponents: React.FC = () => {
 	async function handleUploadFile(data: any) {
 		const doc: ParamUploadArchiveType = {
 			archive: await data.file,
-			isRestricted: false
+			isRestricted: true
 		};
 		storageApi.uploadImage(doc, (error, result) => {
 			if (error) console.log('error', error);

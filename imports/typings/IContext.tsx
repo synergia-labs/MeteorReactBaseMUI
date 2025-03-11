@@ -4,13 +4,13 @@ import { ISchema } from './ISchema';
 import { Validador } from '../libs/Validador';
 
 export interface IContext {
-	docId?: string;
+	user: IUserProfile;
 	apiName: string;
 	action: string;
-	user: IUserProfile;
+	session: any;
+	docId?: string;
 	rest?: any;
 	connection?: IConnection;
-	session: any;
-	headers?: any;
+	request?: any;
 	response?: any;
 }

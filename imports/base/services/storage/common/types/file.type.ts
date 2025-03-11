@@ -4,7 +4,7 @@ enum FileTypes {
 	VIDEO = 'videos',
 	AUDIO = 'audios',
 	IMAGE = 'images',
-	FILE = 'files'
+	DOCUMENT = 'documents'
 }
 
 export const FileTypeEnum = z.nativeEnum(FileTypes);

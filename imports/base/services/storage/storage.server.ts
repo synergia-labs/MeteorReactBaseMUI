@@ -10,32 +10,37 @@ import { uploadImage } from './methods/uploadImage';
 import MethodBase from '/imports/base/server/methods/method.base';
 import { EndpointTypeEnum } from '../../types/serverParams';
 import { getImage } from './methods/getImage';
+import { generateFileCollection } from './utils/fileCollection';
 
 const _methodInstances: Array<MethodBase<any, any, any>> = [uploadImage] as const;
 
 export class StorageServer extends ServerBase {
-	static videoCollection = new FilesCollection({
+	static videoCollection = generateFileCollection({
 		collectionName: FileTypeEnum.enum.VIDEO,
-		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.VIDEO}`
+		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.VIDEO}`,
+		limitSize: 1024 * 1024 * 100,
+		allowedExtensions: ['mp4', 'webm', 'ogg', 'gif']
 	});
 
-	static audioCollection = new FilesCollection({
+	static documentCollection = generateFileCollection({
+		collectionName: FileTypeEnum.enum.DOCUMENT,
+		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.DOCUMENT}`,
+		limitSize: 1024 * 1024 * 10,
+		allowedExtensions: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']
+	});
+
+	static audioCollection = generateFileCollection({
 		collectionName: FileTypeEnum.enum.AUDIO,
-		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.AUDIO}`
+		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.AUDIO}`,
+		limitSize: 1024 * 1024 * 10,
+		allowedExtensions: ['mp3', 'wav', 'ogg']
 	});
 
-	static imageCollection = new FilesCollection({
+	static imageCollection = generateFileCollection({
 		collectionName: FileTypeEnum.enum.IMAGE,
-		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.IMAGE}`
-	});
-
-	static fileCollection = new FilesCollection({
-		collectionName: FileTypeEnum.enum.FILE,
-		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.FILE}`
+		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.IMAGE}`,
+		limitSize: 1024 * 1024 * 5,
+		allowedExtensions: ['png', 'jpg', 'jpeg']
 	});
 
 	constructor() {
@@ -43,8 +48,11 @@ export class StorageServer extends ServerBase {
 		this.registerMethods(_methodInstances, this);
 
 		this.addRestEndpoints([
-			[EndpointTypeEnum.enum.GET, getFile.execute.bind(getFile) as MethodType<typeof getFile>, FileTypeEnum.enum.FILE],
-			[EndpointTypeEnum.enum.GET, getImage.execute.bind(getFile) as MethodType<typeof getFile>, FileTypeEnum.enum.IMAGE]
+			[
+				EndpointTypeEnum.enum.GET,
+				getImage.execute.bind(getImage) as MethodType<typeof getFile>,
+				FileTypeEnum.enum.IMAGE
+			]
 		]);
 	}
 

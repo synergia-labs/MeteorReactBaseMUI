@@ -51,7 +51,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-transition-group": "^4.4.5",
     "request": "^2.88.2",
-    "sharp": "^0.33.4",
+    "sharp": "^0.33.5",
     "sortablejs": "^1.15.2",
     "unidecode": "^1.1.0",
     "webpack": "^5.93.0",

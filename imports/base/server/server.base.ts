@@ -209,6 +209,19 @@ class ServerBase {
 	}
 	// #endregion
 
+	private _convertToInt(value: any) {
+		if (typeof value === 'object') {
+			for (const key in value) {
+				value[key] = this._convertToInt(value[key]);
+			}
+		} else if (typeof value === 'string') {
+			if (!isNaN(Number(value))) {
+				return Number(value);
+			}
+		}
+		return value;
+	}
+
 	// #region addRestEndpoint
 	/**
 	 * Método para adicionar um endpoint REST a uma API.
@@ -220,7 +233,7 @@ class ServerBase {
 		if (Meteor.isServer) {
 			const endpoinUrl = this.getMainUrl(action, false);
 
-			const handleFunc = (req: any, res: any) => {
+			const handleFunc = async (req: any, res: any) => {
 				const endpointContext = {
 					urlParams: req.params,
 					queryParams: req.query,
@@ -229,10 +242,12 @@ class ServerBase {
 					response: res
 				};
 
-				const params = Object.assign(
-					endpointContext.queryParams || {},
-					endpointContext.urlParams || {},
-					endpointContext.bodyParams || {}
+				const params = this._convertToInt(
+					Object.assign(
+						endpointContext.queryParams || {},
+						endpointContext.urlParams || {},
+						endpointContext.bodyParams || {}
+					)
 				);
 
 				const _context: IContext = {
@@ -244,26 +259,25 @@ class ServerBase {
 						roles: params.role ? [params.role] : [EnumUserRoles.PUBLIC]
 					},
 					session: endpointContext.request,
-					headers: req.headers,
-					response: endpointContext.response
+					request: req,
+					response: res
 				};
 
 				try {
-					res.writeHead(200, {
-						'Content-Type': 'application/json'
-					});
+					const result: any = await func(params, _context);
 
-					const result: any = func({ params }, _context);
-
-					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
-					res.end(); // Must call this immediately before return!
+					if (!res.headersSent) {
+						res.writeHead(200, {
+							'Content-Type': 'application/json'
+						});
+						res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
+						res.end(); // Must call this immediately before return!
+					}
 					return;
 				} catch (e) {
-					console.info(`API ERROR:${this.apiName}|${action} - `, e);
 					res.writeHead(403, {
 						'Content-Type': 'application/json'
 					});
-					res.write('Error');
 					res.end();
 					return;
 				}

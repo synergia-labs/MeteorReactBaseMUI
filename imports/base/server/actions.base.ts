@@ -100,7 +100,9 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	//endregion
 
 	//region OnError
-	protected onError(_param: Param, _context: IContext, _error: Error): void {}
+	protected onError(_param: Param, _context: IContext, _error: Error): Return | void {
+		throw new Meteor.Error('500', `[${this.name}]: Erro interno - ${_error}`);
+	}
 
 	public async execute(_param: Param, _context: IContext): Promise<Return> {
 		try {
@@ -112,8 +114,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 			return result;
 		} catch (error) {
 			console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${error}`);
-			this.onError(_param, _context, error as Error);
-			throw new Meteor.Error('500', `[${this.name}]: Erro interno - ${error}`);
+			return this.onError(_param, _context, error as Error) as Return;
 		}
 	}
 }

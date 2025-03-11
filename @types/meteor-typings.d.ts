@@ -4,10 +4,11 @@ declare module 'meteor/ostrio:files' {
 
 	export class FilesCollection {
 		constructor(options?: any);
+		collection: Mongo.Collection<any>;
 		insert(doc: any, callback?: Function): string;
 		remove(selector: any): void;
 		find(selector?: any, options?: any): Mongo.Cursor<any>;
-		findOne(selector?: any, options?: any): any;
+		findOneAsync(selector?: any, options?: any): Promise<IArchive>;
 		write(buffer: Buffer, options: any, callback?: Function): any;
 	}
 }

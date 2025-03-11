@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { ResolutionEnum } from './resolution.type';
+
 import { ArchiveSch } from '/imports/base/types/archive';
-import { Buffer } from 'buffer';
+import { enumResolution } from './resolution.type';
 
 export const paramUploadArchiveSch = z.object({
 	archive: ArchiveSch,
@@ -14,10 +14,10 @@ export const returnUploadArchiveSch = z.object({
 export const paramGetArchiveSch = z.object({
 	_id: z.string(),
 	userId: z.string().optional(),
-	resolution: ResolutionEnum.optional()
+	resolution: enumResolution.optional()
 });
 export const returnGetArchiveSch = z.object({
-	url: z.string()
+	url: z.string().optional()
 });
 
 export const paramDeleteArchiveSch = z.object({});
