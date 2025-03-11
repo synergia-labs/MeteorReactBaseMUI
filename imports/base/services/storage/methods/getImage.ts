@@ -1,22 +1,14 @@
-import { StorageMethods } from '../common/enums/methods.enum';
-import { StorageService } from '../storage.server';
-import {
-	paramGetArchiveSch,
-	ParamGetArchiveType,
-	returnGetArchiveSch,
-	ReturnGetArchiveType
-} from '../common/types/crudArchive.type';
-import MethodBase from '/imports/base/server/methods/method.base';
+import { ParamGetArchiveType, ReturnGetArchiveType } from '../common/types/crudArchive.type';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';
+import { GetStorageBase } from './bases/get';
+import { enumStorageMethods } from '../common/enums/methods.enum';
 
-class GetImage extends MethodBase<StorageService, ParamGetArchiveType, ReturnGetArchiveType> {
+class GetImage extends GetStorageBase {
 	constructor() {
 		super({
-			name: StorageMethods.getImage,
-			roles: [EnumUserRoles.PUBLIC],
-			paramSch: paramGetArchiveSch,
-			returnSch: returnGetArchiveSch
+			name: enumStorageMethods.getImage,
+			roles: [EnumUserRoles.PUBLIC]
 		});
 	}
 
@@ -26,4 +18,4 @@ class GetImage extends MethodBase<StorageService, ParamGetArchiveType, ReturnGet
 		return { url: 'teste' };
 	}
 }
-export const getFile = new GetImage();
+export const getImage = new GetImage();

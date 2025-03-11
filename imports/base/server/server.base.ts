@@ -60,6 +60,17 @@ class ServerBase {
 	}
 	//endregion
 
+	// region getMainUrl
+	/**
+	 * Método para obter a URL principal da API.
+	 * @param sufix 	- Sufixo da URL.
+	 * @returns {string} - A URL principal da API.
+	 */
+	protected getMainUrl(sufix?: string, withPrefix = true): string {
+		const baseUrl = `api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${sufix || ''}`;
+		return withPrefix ? Meteor.absoluteUrl(baseUrl) : baseUrl;
+	}
+
 	//region registerMethods
 	/**
 	 * Método para registrar os métodos de uma classe.
@@ -205,14 +216,9 @@ class ServerBase {
 	 * @param func 		- Função que será executada pelo endpoint.
 	 * @param type 		- Tipo de requisição que o endpoint aceitará.
 	 */
-	protected addRestEndpoint(
-		action: string,
-		func: MethodType<MethodBase<any, any, any>>,
-		type: EndpointType,
-		baseUrl?: string
-	) {
+	protected addRestEndpoint(action: string, func: MethodType<MethodBase<any, any, any>>, type: EndpointType) {
 		if (Meteor.isServer) {
-			const endpoinUrl = baseUrl ?? `/api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${action}`;
+			const endpoinUrl = this.getMainUrl(action, false);
 
 			const handleFunc = (req: any, res: any) => {
 				const endpointContext = {
@@ -274,6 +280,19 @@ class ServerBase {
 		}
 	}
 	// #endregion
+
+	// #region addRestEndpoints
+	/**
+	 * Método para adicionar endpoints REST a uma API.
+	 * @param endpoints 	- Array de endpoints [[action, func, ]].
+	 */
+	protected addRestEndpoints(
+		endpoints: Array<[type: string, func: MethodType<MethodBase<any, any, any>>, sufix: string]>
+	) {
+		endpoints.forEach(([type, func, sufix]) => {
+			this.addRestEndpoint(sufix, func, type as EndpointType);
+		});
+	}
 }
 
 export default ServerBase;

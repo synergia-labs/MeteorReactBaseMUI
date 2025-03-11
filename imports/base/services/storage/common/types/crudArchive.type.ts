@@ -13,14 +13,15 @@ export const returnUploadArchiveSch = z.object({
 
 export const paramGetArchiveSch = z.object({
 	_id: z.string(),
+	userId: z.string().optional(),
 	resolution: ResolutionEnum.optional()
 });
 export const returnGetArchiveSch = z.object({
 	url: z.string()
 });
 
-export const paramRemoveArchiveSch = z.object({});
-export const returnRemoveArchiveSch = z.object({});
+export const paramDeleteArchiveSch = z.object({});
+export const returnDeleteArchiveSch = z.object({});
 
 export type ParamUploadArchiveType = z.infer<typeof paramUploadArchiveSch>;
 export type ReturnUploadArchiveType = z.infer<typeof returnUploadArchiveSch>;
@@ -28,5 +29,5 @@ export type ReturnUploadArchiveType = z.infer<typeof returnUploadArchiveSch>;
 export type ParamGetArchiveType = z.infer<typeof paramGetArchiveSch>;
 export type ReturnGetArchiveType = z.infer<typeof returnGetArchiveSch>;
 
-export type ParamRemoveArchiveType = z.infer<typeof paramRemoveArchiveSch>;
-export type ReturnRemoveArchiveType = z.infer<typeof returnRemoveArchiveSch>;
+export type ParamDeleteArchiveType = z.infer<typeof paramDeleteArchiveSch>;
+export type ReturnDeleteArchiveType = z.infer<typeof returnDeleteArchiveSch>;

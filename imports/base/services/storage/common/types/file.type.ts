@@ -1,4 +1,11 @@
 import { z } from 'zod';
 
-export const FileTypeEnum = z.enum(['video', 'audio', 'image', 'file']);
+enum FileTypes {
+	VIDEO = 'videos',
+	AUDIO = 'audios',
+	IMAGE = 'images',
+	FILE = 'files'
+}
+
+export const FileTypeEnum = z.nativeEnum(FileTypes);
 export type FileType = z.infer<typeof FileTypeEnum>;

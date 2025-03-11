@@ -1,7 +1,19 @@
 import { z } from 'zod';
 
-export const ServerActionsSch = z.enum(['get', 'create', 'update', 'delete']);
-export type ServerActions = z.infer<typeof ServerActionsSch>;
+enum ActionsEnum {
+	GET = 'get',
+	CREATE = 'create',
+	UPDATE = 'update',
+	DELETE = 'delete'
+}
 
-export const EndpointTypeSch = z.enum(['get', 'post']);
-export type EndpointType = z.infer<typeof EndpointTypeSch>;
+enum EndpointTypesEnum {
+	GET = 'get',
+	POST = 'post'
+}
+
+export const ServerActionsEnum = z.nativeEnum(ActionsEnum);
+export type ServerActions = z.infer<typeof ServerActionsEnum>;
+
+export const EndpointTypeEnum = z.nativeEnum(EndpointTypesEnum);
+export type EndpointType = z.infer<typeof EndpointTypeEnum>;

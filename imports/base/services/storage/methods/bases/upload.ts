@@ -7,8 +7,8 @@ import {
 import { StorageServer } from '../../storage.server';
 import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
 import { IMethodBase } from '/imports/base/server/methods/method.base';
-import { ArchiveType } from '/imports/base/types/archive';
 import { AuditType } from '/imports/base/types/audit';
+import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';
 import { Buffer } from 'buffer';
 
@@ -17,11 +17,12 @@ export abstract class UploadStorageBase extends CreateMethodBase<
 	ParamUploadArchiveType,
 	ReturnUploadArchiveType
 > {
-	constructor(props: IMethodBase) {
+	constructor(props: Omit<IMethodBase, 'paramSch' | 'returnSch'>) {
 		super({
-			...props,
 			paramSch: paramUploadArchiveSch,
-			returnSch: returnUploadArchiveSch
+			returnSch: returnUploadArchiveSch,
+			roles: [EnumUserRoles.ADM],
+			...props
 		});
 	}
 
