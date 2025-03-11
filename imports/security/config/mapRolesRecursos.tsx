@@ -1,8 +1,8 @@
 import { Recurso as Exemplo } from '/imports/modules/example/config/recursos';
 import { Recurso as Aniversario } from '/imports/modules/aniversario/config/recursos';
-import { Recurso as Usuarios } from '/imports/modules/userprofile/config/recurso';
+import { Recurso as Usuarios } from '/imports/modules/userprofile_/config/recurso';
 import { HomeResources, SysFormTestPageResources } from '/imports/sysPages/config/resources';
-import { EnumUserRoles } from '../../modules/userprofile/config/enumUser';
+import { EnumUserRoles } from '../../modules/userprofile_/config/enumUser';
 
 const _getAllValues = (obj: any) => Object.keys(obj).map(key => obj[key]);
 
