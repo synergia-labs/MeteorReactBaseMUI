@@ -10,14 +10,13 @@ import { enumStorageMethods } from '../common/enums/methods.enum';
 import { StorageServer } from '../storage.server';
 import { UploadStorageBase } from './bases/upload';
 import { Buffer } from 'buffer';
+import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 
 class UploadImage extends UploadStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.uploadImage,
-			roles: [],
-			paramSch: paramUploadArchiveSch,
-			returnSch: returnUploadArchiveSch
+			roles: [EnumUserRoles.ADM, EnumUserRoles.USER]
 		});
 	}
 

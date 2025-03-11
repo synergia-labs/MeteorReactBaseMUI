@@ -8,63 +8,57 @@ import { enumStorageConfig } from './common/enums/config.enum';
 import { MethodType } from '../../types/method';
 import { uploadImage } from './methods/uploadImage';
 import MethodBase from '/imports/base/server/methods/method.base';
+import { EndpointTypeEnum } from '../../types/serverParams';
+import { getImage } from './methods/getImage';
 
 const _methodInstances: Array<MethodBase<any, any, any>> = [uploadImage] as const;
 
 export class StorageServer extends ServerBase {
 	static videoCollection = new FilesCollection({
-		collectionName: FileTypeEnum.Enum.video,
+		collectionName: FileTypeEnum.enum.VIDEO,
 		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.Enum.video}`
+		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.VIDEO}`
 	});
 
 	static audioCollection = new FilesCollection({
-		collectionName: FileTypeEnum.Enum.audio,
+		collectionName: FileTypeEnum.enum.AUDIO,
 		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.Enum.audio}`
+		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.AUDIO}`
 	});
 
 	static imageCollection = new FilesCollection({
-		collectionName: FileTypeEnum.Enum.image,
+		collectionName: FileTypeEnum.enum.IMAGE,
 		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.Enum.image}`
+		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.IMAGE}`
 	});
 
 	static fileCollection = new FilesCollection({
-		collectionName: FileTypeEnum.Enum.file,
+		collectionName: FileTypeEnum.enum.FILE,
 		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.Enum.file}`
+		storagePath: `${enumStorageConfig.defaultDirectory}/${FileTypeEnum.enum.FILE}`
 	});
 
 	constructor() {
 		super(enumStorageConfig.apiName);
 		this.registerMethods(_methodInstances, this);
 
-		this.addRestEndpoint(
-			'getStorageFile',
-			getFile.execute.bind(getFile) as MethodType<typeof getFile>,
-			'get',
-			`${enumStorageConfig.baseUrl}/${FileTypeEnum.Enum.file}`
-		);
-
-		// this.addRestEndpoint(
-		// 	'getStorageImage',
-		// 	getImage.execute.bind(getFile) as MethodType<typeof getImage>,
-		// 	'get',
-		// 	`${enumStorageConfig.baseUrl}/${FileTypeEnum.Enum.image}`
-		// );
+		this.addRestEndpoints([
+			[EndpointTypeEnum.enum.GET, getFile.execute.bind(getFile) as MethodType<typeof getFile>, FileTypeEnum.enum.FILE],
+			[EndpointTypeEnum.enum.GET, getImage.execute.bind(getFile) as MethodType<typeof getFile>, FileTypeEnum.enum.IMAGE]
+		]);
 	}
 
-	static getUrl(params: GetFileUrlType): string | null {
+	protected getUrl(params: GetFileUrlType): string | null {
 		getFileUrlSch.parse(params);
-		const { _id, type, resolution } = params;
+		const { _id, type, resolution, isDownload } = params;
 
-		let url = `${enumStorageConfig.baseUrl}/${type}?_id=${_id}`;
+		let url = this.getMainUrl(type);
+		url += `?_id=${_id}`;
 
 		const access = Meteor.userId();
-
 		if (resolution) url += `&resolution=${resolution}`;
 		if (access) url += `&access=${access}`;
+		if (isDownload) url += `&dl=1`;
 
 		return url;
 	}
