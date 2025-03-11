@@ -32,7 +32,7 @@
     "types": ["node", "mocha", "meteor"],
     "esModuleInterop": true,
     "preserveSymlinks": true,
-    "typeRoots": ["./node_modules/@types", "./src"]
+    "typeRoots": ["./node_modules/@types", "./src", "./@type"]
   },
   "exclude": ["./.meteor/**", "./packages/**"]
 }

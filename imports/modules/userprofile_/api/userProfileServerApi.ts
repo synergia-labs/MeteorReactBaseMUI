@@ -84,7 +84,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			}
 		});
 
-		this.registerMethod('sendResetPasswordEmail', async (userData: IUserProfile) => {
+		this.registerMethod('sendResetPasswordEmail', async (userData: IUserProfile) => { 
 			check(userData, Object);
 			if (Meteor.isServer && userData) {
 				if (userData._id) {

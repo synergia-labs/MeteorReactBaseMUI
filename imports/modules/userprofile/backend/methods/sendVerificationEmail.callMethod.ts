@@ -9,7 +9,6 @@ class FillDatabaseWithFakeData extends MethodBase<UserProfileServer, void, void>
     }
 
     async action(_prop: void, _context: IContext): Promise<void> {
-        
     }
 } 
 

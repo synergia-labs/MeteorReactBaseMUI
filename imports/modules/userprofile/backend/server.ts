@@ -29,6 +29,6 @@ class UserProfileServer extends ProductServerBase {
 
 type interfaceWithMethods = UserProfileServerMethods & UserProfileServer;
 
-const exampleServer = new UserProfileServer() as interfaceWithMethods;
-export default exampleServer;
+const userProfileServer = new UserProfileServer() as interfaceWithMethods;
+export default userProfileServer;
 export type { interfaceWithMethods as UserProfileServer };
