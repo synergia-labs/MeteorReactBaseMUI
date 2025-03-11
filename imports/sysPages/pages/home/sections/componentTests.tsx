@@ -25,6 +25,8 @@ import { ParamUploadArchiveType } from '/imports/base/services/storage/common/ty
 
 const HomeSectionComponents: React.FC = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+	const [imageId, setImageId] = React.useState<string | null>(null);
+
 	const open = Boolean(anchorEl);
 	const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -56,10 +58,20 @@ const HomeSectionComponents: React.FC = () => {
 			isRestricted: true
 		};
 		storageApi.uploadImage(doc, (error, result) => {
-			if (error) console.log('error', error);
+			if (error) return;
 			else console.log('result', result);
+
+			setImageId(result._id);
 		});
 		console.log('Send data: ', data, doc);
+	}
+
+	async function handleDeleteImage() {
+		storageApi.deleteImage({ _id: imageId as string }, (error, result) => {
+			if (error) return;
+			else console.log('result', result);
+			setImageId(null);
+		});
 	}
 
 	return (
@@ -211,6 +223,9 @@ const HomeSectionComponents: React.FC = () => {
 					<SysUploadFile label={'Upload file'} name="file" acceptTypes={['image/jpeg', 'image/png', 'image/webp']} />
 					<SysFormButton>Submit</SysFormButton>
 				</SysForm>
+				<SysButton disabled={!imageId} onClick={handleDeleteImage}>
+					Delete
+				</SysButton>
 			</ElementRow>
 		</HomeSection>
 	);

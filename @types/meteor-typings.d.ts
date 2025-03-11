@@ -9,6 +9,7 @@ declare module 'meteor/ostrio:files' {
 		remove(selector: any): void;
 		find(selector?: any, options?: any): Mongo.Cursor<any>;
 		findOneAsync(selector?: any, options?: any): Promise<IArchive>;
+		removeAsync(selector: any): Promise<void>;
 		write(buffer: Buffer, options: any, callback?: Function): any;
 	}
 }

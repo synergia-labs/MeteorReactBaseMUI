@@ -15,8 +15,8 @@ export const enumStorageMethods = {
 	uploadVideo: getName('uploadVideo'),
 	uploadImage: getName('uploadImage'),
 
-	removeFile: getName('removeFile'),
-	removeAudio: getName('removeAudio'),
-	removeVideo: getName('removeVideo'),
-	removeImage: getName('removeImage')
+	deleteFile: getName('deleteFile'),
+	deleteAudio: getName('deleteAudio'),
+	deleteVideo: getName('deleteVideo'),
+	deleteImage: getName('deleteImage')
 };

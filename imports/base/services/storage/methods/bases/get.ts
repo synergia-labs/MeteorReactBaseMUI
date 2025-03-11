@@ -20,7 +20,9 @@ export abstract class GetStorageBase extends MethodBase<StorageServer, ParamGetA
 	}
 
 	protected beforeAction(_param: ParamGetArchiveType, _context: IContext): void {
-		console.log('Params Get Archive: ', _param);
+		if (_param.access) {
+			_context.user._id = _param.access;
+		}
 		super.beforeAction(_param, _context);
 	}
 }

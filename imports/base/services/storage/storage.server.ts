@@ -1,9 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import ServerBase from '../../server/server.base';
-import { FilesCollection } from 'meteor/ostrio:files';
 import { getFileUrlSch, GetFileUrlType } from './common/types/getFileUrl.type';
 import { FileTypeEnum } from './common/types/file.type';
-import { getFile } from './methods/getFile';
 import { enumStorageConfig } from './common/enums/config.enum';
 import { MethodType } from '../../types/method';
 import { uploadImage } from './methods/uploadImage';
@@ -11,8 +9,9 @@ import MethodBase from '/imports/base/server/methods/method.base';
 import { EndpointTypeEnum } from '../../types/serverParams';
 import { getImage } from './methods/getImage';
 import { generateFileCollection } from './utils/fileCollection';
+import { deleteImage } from './methods/deleteImage';
 
-const _methodInstances: Array<MethodBase<any, any, any>> = [uploadImage] as const;
+const _methodInstances: Array<MethodBase<any, any, any>> = [uploadImage, deleteImage] as const;
 
 export class StorageServer extends ServerBase {
 	static videoCollection = generateFileCollection({
@@ -50,7 +49,7 @@ export class StorageServer extends ServerBase {
 		this.addRestEndpoints([
 			[
 				EndpointTypeEnum.enum.GET,
-				getImage.execute.bind(getImage) as MethodType<typeof getFile>,
+				getImage.execute.bind(getImage) as MethodType<typeof getImage>,
 				FileTypeEnum.enum.IMAGE
 			]
 		]);

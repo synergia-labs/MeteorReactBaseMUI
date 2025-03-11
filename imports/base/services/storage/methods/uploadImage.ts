@@ -1,10 +1,4 @@
-import {
-	paramUploadArchiveSch,
-	ParamUploadArchiveType,
-	returnUploadArchiveSch,
-	ReturnUploadArchiveType
-} from '../common/types/crudArchive.type';
-import MethodBase from '/imports/base/server/methods/method.base';
+import { ParamUploadArchiveType, ReturnUploadArchiveType } from '../common/types/crudArchive.type';
 import { IContext } from '/imports/typings/IContext';
 import { enumStorageMethods } from '../common/enums/methods.enum';
 import { StorageServer } from '../storage.server';
