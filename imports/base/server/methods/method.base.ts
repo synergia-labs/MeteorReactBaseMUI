@@ -15,8 +15,8 @@ abstract class MethodBase<Server extends ServerBase, Param = unknown, Return = u
 
 	abstract action(_param: Param, _context: IContext): Promise<Return> | Return;
 
-	actionBaseMethod(_param: Param, _context: IContext): Promise<Return> | Return {
-		return this.action(_param, _context);
+	async actionBaseMethod(_param: Param, _context: IContext): Promise<Return> {
+		return await this.action(_param, _context);
 	}
 }
 

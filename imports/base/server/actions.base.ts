@@ -1,9 +1,10 @@
 import { ZodTypeAny } from 'zod';
-import ServerBase, { EndpointType } from './server.base';
+import ServerBase from './server.base';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';
 import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
 import { Meteor } from 'meteor/meteor';
+import { EndpointType } from '../types/serverParams';
 
 interface IActionsBase {
 	roles?: Array<EnumUserRoles>;
@@ -37,7 +38,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 	//endregion
 
-	abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
+	protected abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
 
 	//region seters and getters
 	public setServerInstance(server: Server): void {
@@ -98,6 +99,9 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 	//endregion
 
+	//region OnError
+	protected onError(_param: Param, _context: IContext, _error: Error): void {}
+
 	public async execute(_param: Param, _context: IContext): Promise<Return> {
 		try {
 			if (Meteor.isClient)
@@ -108,7 +112,8 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 			return result;
 		} catch (error) {
 			console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${error}`);
-			throw error;
+			this.onError(_param, _context, error as Error);
+			throw new Meteor.Error('500', `[${this.name}]: Erro interno - ${error}`);
 		}
 	}
 }
