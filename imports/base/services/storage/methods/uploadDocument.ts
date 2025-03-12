@@ -32,11 +32,9 @@ class UploadDocument extends UploadStorageBase {
 
 		const path = storageServer.getUrl({
 			_id: objec._id,
-
 			type: enumFileType.enum.DOCUMENT
 		});
 
-		console.log('Path: ', path);
 		return { _id: objec._id, path: path };
 	}
 }
