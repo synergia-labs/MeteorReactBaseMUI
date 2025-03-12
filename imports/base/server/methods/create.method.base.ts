@@ -8,7 +8,7 @@ export abstract class CreateMethodBase<S extends ServerBase, P, R> extends Metho
 		super(props);
 	}
 
-	protected beforeAction(param: P & AuditType, _context: IContext): void {
+	protected async beforeAction(param: P & AuditType, _context: IContext): Promise<void> {
 		super.beforeAction(param, _context);
 		param.createdAt = new Date();
 		param.createdBy = (_context.user._id ?? Meteor.userId()) as string;

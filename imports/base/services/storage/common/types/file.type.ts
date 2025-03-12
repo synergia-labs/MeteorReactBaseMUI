@@ -7,5 +7,5 @@ enum FileTypes {
 	DOCUMENT = 'documents'
 }
 
-export const FileTypeEnum = z.nativeEnum(FileTypes);
-export type FileType = z.infer<typeof FileTypeEnum>;
+export const enumFileType = z.nativeEnum(FileTypes);
+export type FileType = z.infer<typeof enumFileType>;

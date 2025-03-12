@@ -266,7 +266,7 @@ class ServerBase {
 				try {
 					const result: any = await func(params, _context);
 
-					if (!res.headersSent) {
+					if (!res.headersSent && res.writable) {
 						res.writeHead(200, {
 							'Content-Type': 'application/json'
 						});
@@ -275,10 +275,12 @@ class ServerBase {
 					}
 					return;
 				} catch (e) {
-					res.writeHead(403, {
-						'Content-Type': 'application/json'
-					});
-					res.end();
+					if (!res.headersSent && res.writable) {
+						res.writeHead(403, {
+							'Content-Type': 'application/json'
+						});
+						res.end();
+					}
 					return;
 				}
 			};

@@ -26,7 +26,7 @@ export abstract class UploadStorageBase extends CreateMethodBase<
 		});
 	}
 
-	protected beforeAction(_param: ParamUploadArchiveType, _context: IContext): void {
+	protected async beforeAction(_param: ParamUploadArchiveType, _context: IContext): Promise<void> {
 		super.beforeAction(_param as ParamUploadArchiveType & AuditType, _context);
 		_param.archive.content = Buffer.from(_param.archive.content as string, 'base64');
 	}

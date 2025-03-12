@@ -1,11 +1,13 @@
-interface IArchive {
+import { AuditType } from '/imports/base/types/audit';
+
+export interface IArchive {
 	_id: string;
 	name: string;
 	type: string; // Exemplo: "image/png"
 	size: number;
 	path: string;
 	extension: string;
-	meta?: Record<string, any>;
+	meta?: AuditType;
 	isVideo?: boolean;
 	isAudio?: boolean;
 	isImage?: boolean;

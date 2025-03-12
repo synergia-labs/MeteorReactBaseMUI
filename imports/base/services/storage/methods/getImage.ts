@@ -12,14 +12,14 @@ class GetImage extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getImage,
-			roles: [EnumUserRoles.PUBLIC]
+			roles: [EnumUserRoles.PUBLIC, EnumUserRoles.ADM]
 		});
 	}
 
 	async action(param: ParamGetArchiveType, _context: IContext): Promise<ReturnGetArchiveType> {
 		const file = await StorageServer.imageCollection.findOneAsync({ _id: param._id });
 
-		if (!file) {
+		if (!file || !fs.existsSync(file.path)) {
 			throw new Error('File not found');
 		}
 
@@ -31,7 +31,7 @@ class GetImage extends GetStorageBase {
 
 		// Configurar o cabeçalho correto para exibir a imagem no navegador
 		_context.response.setHeader('Content-Type', file.type);
-		_context.response.setHeader('Content-Disposition', 'inline'); // Garante que a imagem seja exibida diretamente
+		_context.response.setHeader('Content-Disposition', param.dl && param.dl == 1 ? 'attachment' : 'inline');
 
 		// Ler e enviar o arquivo como resposta
 		let fileBuffer = fs.readFileSync(file.path);
@@ -44,9 +44,7 @@ class GetImage extends GetStorageBase {
 
 		_context.response.send(fileBuffer);
 
-		return {
-			url: 'sdf'
-		};
+		return {} as ReturnGetArchiveType;
 	}
 }
 export const getImage = new GetImage();

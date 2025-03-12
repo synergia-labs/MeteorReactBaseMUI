@@ -1,22 +1,17 @@
 import { FilesCollection } from 'meteor/ostrio:files';
+import { enumStorageConfig } from '../common/enums/config.enum';
 
 interface IGenerateFileCollection {
 	collectionName: string;
-	storagePath: string;
 	limitSize?: number;
 	allowedExtensions?: string[];
 }
 
-export function generateFileCollection({
-	collectionName,
-	storagePath,
-	limitSize,
-	allowedExtensions
-}: IGenerateFileCollection) {
+export function generateFileCollection({ collectionName, limitSize, allowedExtensions }: IGenerateFileCollection) {
 	return new FilesCollection({
 		collectionName,
 		allowClientCode: false,
-		storagePath,
+		storagePath: `${enumStorageConfig.defaultDirectory}/${collectionName}`,
 		protected: true,
 		onBeforeUpload(archive: IArchive) {
 			if (limitSize && archive.size > limitSize) {

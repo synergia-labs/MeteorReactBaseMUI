@@ -9,7 +9,7 @@ class DeleteImage extends DeleteStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.deleteImage,
-			roles: [EnumUserRoles.ADM]
+			roles: [EnumUserRoles.ADM, EnumUserRoles.USER]
 		});
 	}
 

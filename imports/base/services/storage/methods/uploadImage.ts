@@ -1,10 +1,12 @@
 import { ParamUploadArchiveType, ReturnUploadArchiveType } from '../common/types/crudArchive.type';
 import { IContext } from '/imports/typings/IContext';
 import { enumStorageMethods } from '../common/enums/methods.enum';
-import { StorageServer } from '../storage.server';
+import storageService, { StorageServer } from '../storage.server';
 import { UploadStorageBase } from './bases/upload';
 import { Buffer } from 'buffer';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import storageServer from '../storage.server';
+import { enumFileType } from '../common/types/file.type';
 
 class UploadImage extends UploadStorageBase {
 	constructor() {
@@ -28,7 +30,12 @@ class UploadImage extends UploadStorageBase {
 			throw new Error('Failed to upload image');
 		}
 
-		return { _id: objec._id };
+		const path = storageServer.getUrl({
+			_id: objec._id,
+			type: enumFileType.enum.IMAGE
+		});
+
+		return { _id: objec._id, path: path };
 	}
 }
 
