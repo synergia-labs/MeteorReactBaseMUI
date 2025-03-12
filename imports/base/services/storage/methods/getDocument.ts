@@ -5,8 +5,6 @@ import { GetStorageBase } from './bases/get';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';
 import fs from 'fs';
-import path from 'path';
-import { parse } from 'csv-parse';
 import { previewCsv } from '../utils/previewCsvFiles';
 import { previewTextFile } from '../utils/previewTextFiles';
 import { previewWord } from '../utils/previewWordFile';

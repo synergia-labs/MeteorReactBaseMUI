@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { IArchive } from '../common/types/archive.type';
 
-export function previewTextFile(file: IArchive, res: any, _: any) {
+export async function previewTextFile(file: IArchive, res: any, _: any) {
 	const content = fs.readFileSync(file.path, 'utf8');
 	let formattedContent = content;
 
