@@ -19,6 +19,6 @@ export const exampleRouterList: (IRoute | null)[] = [
 		path: '/example',
 		component: ExampleContainer,
 		isProtected: true,
-		resources: [Recurso.EXAMPLE_VIEW]
+		resources: [Recurso.EXAMPLE_VIEW],
 	}
 ];

@@ -7,6 +7,7 @@ import { SysNavLink } from '/imports/ui/components/sysNavLink/sysNavLink';
 import SysMenu from '/imports/ui/components/sysMenu/sysMenuProvider';
 import SysAvatar from '/imports/ui/components/sysAvatar/sysAvatar';
 import RenderWithPermission from '/imports/security/ui/components/renderWithPermission';
+import { Box } from '@mui/material';
 
 interface ISysAppBar{
   logo?: ReactNode;
@@ -18,7 +19,9 @@ const SysAppBarView: React.FC<ISysAppBar> = ({logo}) => {
   return (
     <Styles.wrapper>
       <Styles.container>
-        {logo}
+        <Box onClick={controller.onClickLogo} sx={{ cursor: 'pointer' }}>
+          {logo}
+        </Box>
         <Styles.navContainerDesktop>
           {controller.menuOptions.map(option => (
             <RenderWithPermission key={option?.name} resources={option?.resources}>

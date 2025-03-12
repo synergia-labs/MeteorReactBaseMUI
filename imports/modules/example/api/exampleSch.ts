@@ -17,7 +17,7 @@ export const exampleSch: ISchema<IExample> = {
 		type: String,
 		label: 'Nome',
 		defaultValue: '',
-		optional: false
+		optional: false,
 	},
 	description: {
 		type: String,
@@ -29,7 +29,7 @@ export const exampleSch: ISchema<IExample> = {
 	check: {
 		type: Array<String>,
 		label: 'Grupos associados',
-		defaultValue: {},
+		defaultValue: [],
 		optional: true,
 		options: () => [
 			{ value: 'Grupo 1', label: 'Grupo 1' },
@@ -46,7 +46,7 @@ export const exampleSch: ISchema<IExample> = {
 			{ value: 'Categoria A', label: 'Categoria A' },
 			{ value: 'Categoria B', label: 'Categoria B' },
 			{ value: 'Categoria C', label: 'Categoria C' }
-		]
+		],
 	},
 	typeMulti: {
 		type: String,

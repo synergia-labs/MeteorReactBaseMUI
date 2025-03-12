@@ -2,7 +2,8 @@ import React from 'react';
 import { IDefaultContainerProps } from '../../typings/BoilerplateDefaultTypings';
 import { useParams } from 'react-router-dom';
 import ExampleListController from '../../modules/example/pages/exampleList/exampleListController';
-import ExampleDetailController from '../../modules/example/pages/exampleDetail/exampleDetailContoller';
+import ExmapleDetailController from './pages/exampleDetail/exampleDetailContoller';
+
 
 export interface IExampleModuleContext {
 	state?: string;
@@ -20,7 +21,7 @@ export default (props: IDefaultContainerProps) => {
 
 	const renderPage = () => {
 		if (!state || !validState.includes(state)) return <ExampleListController />;
-		return <ExampleDetailController />;
+		return <ExmapleDetailController />;
 	};
 
 	const providerValue = {

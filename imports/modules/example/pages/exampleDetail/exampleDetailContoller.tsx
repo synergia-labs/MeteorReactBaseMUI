@@ -1,81 +1,67 @@
-import React, { createContext, useCallback, useContext } from 'react';
-import ExampleDetailView from './exampleDetailView';
-import { useNavigate } from 'react-router-dom';
-import { ExampleModuleContext } from '../../exampleContainer';
-import { useTracker } from 'meteor/react-meteor-data';
-import { exampleApi } from '../../api/exampleApi';
-import { IExample } from '../../api/exampleSch';
-import { ISchema } from '../../../../typings/ISchema';
-import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
-import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import React, { useContext } from "react";
+import ExampleDetailView from "./exampleDetailView";
+import Context, { IExampleDetailContext } from "./exampleDetailContext";
+import { useNavigate } from "react-router-dom";
+import { ExampleModuleContext, IExampleModuleContext } from "../../exampleContainer";
+import { useTracker } from "meteor/react-meteor-data";
+import { exampleApi } from "../../api/exampleApi";
+import { IExample } from "../../api/exampleSch";
+import { IMeteorError } from "/imports/typings/IMeteorError";
+import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
+import { Box } from "@mui/material";
 
-interface IExampleDetailContollerContext {
-	closePage: () => void;
-	document: IExample;
-	loading: boolean;
-	schema: ISchema<IExample>;
-	onSubmit: (doc: IExample) => void;
-	changeToEdit: (id: string) => void;
-}
 
-export const ExampleDetailControllerContext = createContext<IExampleDetailContollerContext>(
-	{} as IExampleDetailContollerContext
-);
+const ExmapleDetailController: React.FC = () => {
+	const { id, state } = useContext<IExampleModuleContext>(ExampleModuleContext);
+	const { showNotification } = useContext(AppLayoutContext);
 
-const ExampleDetailController = () => {
 	const navigate = useNavigate();
-	const { id, state } = useContext(ExampleModuleContext);
-	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
+
+	const closePage = () => navigate(-1);
+	const navigateToEdit = () => navigate(`/example/edit/${id}`);
+	const onSubmit = (doc: Partial<IExample>) => {
+		exampleApi[ state == 'create' ? 'insert' : 'update'](doc, ( error: IMeteorError ) => {
+			if(error) return showNotification({
+				type: 'error',
+				title: "Não foi possível registrar sua solicitação",
+				message: error.reason,
+			})
+		});
+		showNotification({
+			type: 'success',
+			title: 'Solicitação registrada',
+			message: 'Sua solicitação foi registrada com sucesso'
+		});
+		closePage();
+	}
+
 
 	const { document, loading } = useTracker(() => {
-		const subHandle = !!id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
-		const document = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {};
-		return {
-			document: (document as IExample) ?? ({ _id: id } as IExample),
-			loading: !!subHandle && !subHandle?.ready()
-		};
-	}, [id]);
+		if(!!!id) closePage();
 
-	const closePage = useCallback(() => {
-		navigate(-1);
-	}, []);
-	const changeToEdit = useCallback((id: string) => {
-		navigate(`/example/edit/${id}`);
-	}, []);
+		const handleSubscribe = exampleApi.subscribe("exampleDetail", { _id: id });
+		const document = exampleApi.findOne({ _id: id });
 
-	const onSubmit = useCallback((doc: IExample) => {
-		const selectedAction = state === 'create' ? 'insert' : 'update';
-		exampleApi[selectedAction](doc, (e: IMeteorError) => {
-			if (!e) {
-				closePage();
-				showNotification({
-					type: 'success',
-					title: 'Operação realizada!',
-					message: `O exemplo foi ${selectedAction === 'update' ? 'atualizado' : 'cadastrado'} com sucesso!`
-				});
-			} else {
-				showNotification({
-					type: 'error',
-					title: 'Operação não realizada!',
-					message: `Erro ao realizar a operação: ${e.reason}`
-				});
-			}
-		});
-	}, []);
+		return { 
+			document,
+			loading: !!handleSubscribe && !handleSubscribe?.ready()
+		}
+	}, [ id ]);
 
+	
+	const contextValues: IExampleDetailContext = {
+		document: document,
+		loading: loading,
+		onSubmit: onSubmit,
+		closePage: closePage,
+		navigateToEdit: navigateToEdit
+	};
+	
 	return (
-		<ExampleDetailControllerContext.Provider
-			value={{
-				closePage,
-				document: { ...document, _id: id },
-				loading,
-				schema: exampleApi.getSchema(),
-				onSubmit,
-				changeToEdit
-			}}>
-			{<ExampleDetailView />}
-		</ExampleDetailControllerContext.Provider>
-	);
+		<Context.Provider value={contextValues}>
+			<ExampleDetailView />
+		</Context.Provider>
+	)
 };
 
-export default ExampleDetailController;
+export default ExmapleDetailController;
