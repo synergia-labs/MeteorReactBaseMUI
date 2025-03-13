@@ -75,10 +75,12 @@ class ServerBase {
 	 * Método para registrar os métodos de uma classe.
 	 * @param methodInstances 	- Array de instâncias de métodos.
 	 * @param classInstance 	- Instância da classe que contém os métodos.
+	 * @param withCall 	- Indica se os métodos devem ser registrados no Meteor para Call.
 	 */
 	protected async registerMethods<Base extends ServerBase, Param extends unknown[], Return>(
 		methodInstances: Array<MethodBase<Base, Param, Return>>,
-		classInstance: Base
+		classInstance: Base,
+		withCall = true
 	) {
 		try {
 			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
@@ -110,7 +112,7 @@ class ServerBase {
 				methodsObject[methodName] = methodFunction;
 			});
 
-			Meteor.methods(methodsObject);
+			if (withCall) Meteor.methods(methodsObject);
 		} catch (error) {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
@@ -269,7 +271,7 @@ class ServerBase {
 				try {
 					const result: any = await func(params, _context);
 
-					if (!res.headersSent) {
+					if (!res.headersSent && res.writable) {
 						res.writeHead(200, {
 							'Content-Type': 'application/json'
 						});
@@ -278,10 +280,12 @@ class ServerBase {
 					}
 					return;
 				} catch (e) {
-					res.writeHead(403, {
-						'Content-Type': 'application/json'
-					});
-					res.end();
+					if (!res.headersSent && res.writable) {
+						res.writeHead(403, {
+							'Content-Type': 'application/json'
+						});
+						res.end();
+					}
 					return;
 				}
 			};

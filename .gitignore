@@ -1,6 +1,7 @@
 .idea
 .idea/*
 .meteor/local
+.meteor/uploads
 node_modules
 .vscode
-*.cypress/cucumber-json  
+*.cypress/cucumber-json

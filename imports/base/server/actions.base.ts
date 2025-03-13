@@ -85,14 +85,14 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	//endregion
 
 	//region Before action
-	protected beforeAction(_param: Param, _context: IContext): void {
+	protected async beforeAction(_param: Param, _context: IContext): Promise<void> {
 		if (this.paramSch) this.paramSch.parse(_param);
 		this._checkPermissions(_context);
 	}
 	//endregion
 
 	//region After action
-	protected afterAction(_param: Param, _result: Return, _context: IContext): void {
+	protected async afterAction(_param: Param, _result: Return, _context: IContext): Promise<void> {
 		if (this.returnSch) this.returnSch.parse(_result);
 		this._registerActionLogs(_param, _context);
 	}
@@ -107,9 +107,9 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 		try {
 			if (Meteor.isClient)
 				throw new Meteor.Error('500', `[${this.name}]: ${this.actionType} não pode ser chamado no client`);
-			this.beforeAction(_param, _context);
+			await this.beforeAction(_param, _context);
 			const result = await this.actionBaseMethod(_param, _context);
-			this.afterAction(_param, result, _context);
+			await this.afterAction(_param, result, _context);
 			return result;
 		} catch (error) {
 			console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${error}`);

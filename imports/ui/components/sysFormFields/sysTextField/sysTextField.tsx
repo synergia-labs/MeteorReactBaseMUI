@@ -9,7 +9,7 @@ import { ISysFormComponentRef } from '../../sysForm/typings';
 import { generalMask } from '../../../../libs/MaskFunctions';
 import { hasValue } from '../../../../libs/hasValue';
 import SysLabelView from '../../sysLabelView/sysLabelView';
-import { removerFormatacoes } from '../../../../libs/normalizarTexto';
+import { textNoFormatting } from '../../../../libs/textUtilities';
 import { SysViewField } from '../sysViewField/sysViewField';
 
 interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
@@ -94,7 +94,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 		if (!!max && newValue.length > max) return;
 		if (mask) {
 			const inputValue = generalMask(newValue, mask);
-			const transformedValue = removerFormatacoes(inputValue);
+			const transformedValue = textNoFormatting(inputValue);
 			setValueState(inputValue);
 			if (inSysFormContext)
 				controllerSysForm.onChangeComponentValue({ refComponent: refObject!, value: transformedValue });
@@ -139,8 +139,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 				container: sxMap?.container,
 				header: sxMap?.header,
 				helpIcon: sxMap?.helpIcon
-			}}
-		>
+			}}>
 			<TextField
 				{...otherProps}
 				name={name}

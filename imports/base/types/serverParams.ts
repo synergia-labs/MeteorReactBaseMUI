@@ -12,8 +12,8 @@ enum EndpointTypesEnum {
 	POST = 'post'
 }
 
-export const ServerActionsEnum = z.nativeEnum(ActionsEnum);
-export type ServerActions = z.infer<typeof ServerActionsEnum>;
+export const enumServerActions = z.nativeEnum(ActionsEnum);
+export type ServerActions = z.infer<typeof enumServerActions>;
 
-export const EndpointTypeEnum = z.nativeEnum(EndpointTypesEnum);
-export type EndpointType = z.infer<typeof EndpointTypeEnum>;
+export const enumEndpointType = z.nativeEnum(EndpointTypesEnum);
+export type EndpointType = z.infer<typeof enumEndpointType>;

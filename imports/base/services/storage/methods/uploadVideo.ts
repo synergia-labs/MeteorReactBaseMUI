@@ -1,26 +1,26 @@
 import { IContext } from '/imports/typings/IContext';
 import { enumStorageMethods } from '../common/enums/methods.enum';
-import storageService, { StorageServer } from '../storage.server';
+import storageServer, { StorageServer } from '../storage.server';
 import { UploadStorageBase } from './bases/upload';
 import { Buffer } from 'buffer';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
-import storageServer from '../storage.server';
+import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { enumFileType } from '../common/types/file.type';
 import { ParamUploadArchiveType, ReturnUploadArchiveType } from '../common/types/uploadArchive';
 
-class UploadImage extends UploadStorageBase {
+class UploadVideo extends UploadStorageBase {
 	constructor() {
 		super({
-			name: enumStorageMethods.uploadImage,
-			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
+			name: enumStorageMethods.uploadVideo,
+			roles: [EnumUserRoles.ADM, EnumUserRoles.USER]
 		});
 	}
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
-		const imageCollection = this.getServerInstance()?.getImageCollection();
 		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== 'archive'));
+		const videoCollection = this.getServerInstance()?.getVideoCollection();
 
-		const objec = await imageCollection?.write(param.archive.content as Buffer, {
+		// Faz o upload do arquivo na coleção de vídeos
+		const objec = await videoCollection?.write(param.archive.content as Buffer, {
 			meta: partialDoc,
 			name: param.archive.name,
 			type: param.archive.type,
@@ -28,16 +28,16 @@ class UploadImage extends UploadStorageBase {
 		});
 
 		if (!objec) {
-			throw new Error('Failed to upload image');
+			throw new Error('Failed to upload video');
 		}
 
 		const path = storageServer.getUrl({
 			_id: objec._id,
-			type: enumFileType.enum.IMAGE
+			type: enumFileType.enum.VIDEO
 		});
 
 		return { _id: objec._id, path: path };
 	}
 }
 
-export const uploadImage = new UploadImage();
+export const uploadVideo = new UploadVideo();

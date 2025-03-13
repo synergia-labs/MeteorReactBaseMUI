@@ -22,10 +22,15 @@ import { SysButton } from '/imports/ui/components/SimpleFormFields/SysButton/Sys
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import storageApi from '/imports/base/services/storage/storage.api';
 import { ParamUploadArchiveType } from '/imports/base/services/storage/common/types/crudArchive.type';
+import { enumFileType } from '/imports/base/services/storage/common/types/file.type';
+import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 
+type storageType = 'Image' | 'Audio' | 'Video' | 'Document';
 const HomeSectionComponents: React.FC = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	const [imageId, setImageId] = React.useState<string | null>(null);
+	const [imageId, setImageId] = React.useState<string>();
+	const [fileUrl, setFileUrl] = React.useState<string>();
+	const [fileOptions, setFileOptions] = React.useState<storageType>('Image');
 
 	const open = Boolean(anchorEl);
 	const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -50,27 +55,35 @@ const HomeSectionComponents: React.FC = () => {
 			required: true,
 			accept: ['image/*', 'application/pdf']
 		}
-	} as const;
+	};
+	const selectField = {
+		options: [
+			{ value: 'Image', label: 'Imagem' },
+			{ value: 'Audio', label: 'Áudio' },
+			{ value: 'Video', label: 'Vídeo' },
+			{ value: 'Document', label: 'Documento' }
+		]
+	};
 
 	async function handleUploadFile(data: any) {
 		const doc: ParamUploadArchiveType = {
 			archive: await data.file,
 			isRestricted: true
 		};
-		storageApi.uploadImage(doc, (error, result) => {
+		storageApi[`upload${fileOptions}`](doc, (error, result) => {
 			if (error) return;
-			else console.log('result', result);
-
+			console.log('result: ', result);
 			setImageId(result._id);
+			setFileUrl(result.path);
+			// window.open(result.path, '_blank');
 		});
-		console.log('Send data: ', data, doc);
 	}
 
 	async function handleDeleteImage() {
-		storageApi.deleteImage({ _id: imageId as string }, (error, result) => {
+		storageApi[`delete${fileOptions}`]({ _id: imageId as string }, (error, result) => {
 			if (error) return;
 			else console.log('result', result);
-			setImageId(null);
+			setImageId(undefined);
 		});
 	}
 
@@ -219,13 +232,31 @@ const HomeSectionComponents: React.FC = () => {
 				<SysLoading label="Carregando..." size={'large'} />
 			</ElementRow>
 			<ElementRow>
+				<SysSelectField
+					name="storage"
+					options={selectField.options}
+					value={fileOptions}
+					onChange={(e) => setFileOptions(e.target.value as storageType)}
+					placeholder="Selecione o tipo de arquivo que será enviado"
+					label="Tipo de arquivo"
+				/>
 				<SysForm schema={uploadSchema} onSubmit={handleUploadFile}>
-					<SysUploadFile label={'Upload file'} name="file" acceptTypes={['image/jpeg', 'image/png', 'image/webp']} />
+					<SysUploadFile name="file" />
 					<SysFormButton>Submit</SysFormButton>
+					<SysButton disabled={!imageId} onClick={handleDeleteImage}>
+						Delete
+					</SysButton>
 				</SysForm>
-				<SysButton disabled={!imageId} onClick={handleDeleteImage}>
-					Delete
-				</SysButton>
+
+				{fileUrl?.includes(enumFileType.enum.IMAGE) ? (
+					<img src={fileUrl ?? ''} alt="Uploaded file" style={{ maxWidth: '80%' }} />
+				) : fileUrl?.includes(enumFileType.enum.AUDIO) ? (
+					<audio src={fileUrl ?? ''} controls />
+				) : fileUrl?.includes(enumFileType.enum.VIDEO) ? (
+					<video src={fileUrl ?? ''} controls />
+				) : fileUrl?.includes(enumFileType.enum.DOCUMENT) ? (
+					<iframe src={fileUrl ?? ''} style={{ width: '100%', height: '500px' }} />
+				) : null}
 			</ElementRow>
 		</HomeSection>
 	);

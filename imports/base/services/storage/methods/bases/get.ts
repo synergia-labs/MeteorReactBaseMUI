@@ -3,7 +3,7 @@ import {
 	ParamGetArchiveType,
 	returnGetArchiveSch,
 	ReturnGetArchiveType
-} from '../../common/types/crudArchive.type';
+} from '../../common/types/getArchive';
 import { StorageServer } from '../../storage.server';
 import MethodBase, { IMethodBase } from '/imports/base/server/methods/method.base';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
@@ -19,8 +19,12 @@ export abstract class GetStorageBase extends MethodBase<StorageServer, ParamGetA
 		});
 	}
 
-	protected beforeAction(_param: ParamGetArchiveType, _context: IContext): void {
+	protected async beforeAction(_param: ParamGetArchiveType, _context: IContext): Promise<void> {
 		if (_param.access) {
+			//TODO GABRIEL: Rever esse código
+			// const user = (await userprofileServerApi.findOne({ _id: _param.access })) as IUserProfile;
+			// if (user) _context.user = user;
+
 			_context.user._id = _param.access;
 		}
 		super.beforeAction(_param, _context);

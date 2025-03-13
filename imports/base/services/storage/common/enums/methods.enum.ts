@@ -5,17 +5,17 @@ function getName(name: string) {
 }
 
 export const enumStorageMethods = {
-	getFile: getName('getFile'),
+	getDocument: getName('getDocument'),
 	getAudio: getName('getAudio'),
 	getVideo: getName('getVideo'),
 	getImage: getName('getImage'),
 
-	uploadFile: getName('uploadFile'),
+	uploadDocument: getName('uploadDocument'),
 	uploadAudio: getName('uploadAudio'),
 	uploadVideo: getName('uploadVideo'),
 	uploadImage: getName('uploadImage'),
 
-	deleteFile: getName('deleteFile'),
+	deleteDocument: getName('deleteDocument'),
 	deleteAudio: getName('deleteAudio'),
 	deleteVideo: getName('deleteVideo'),
 	deleteImage: getName('deleteImage')
