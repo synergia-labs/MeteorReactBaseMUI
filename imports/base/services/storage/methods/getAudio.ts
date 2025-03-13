@@ -15,7 +15,8 @@ class GetAudio extends GetStorageBase {
 	}
 
 	async action(param: ParamGetArchiveType, _context: IContext): Promise<ReturnGetArchiveType> {
-		const file = await StorageServer.audioCollection.findOneAsync({ _id: param._id });
+		const audioCollection = this.getServerInstance()?.getAudioCollection();
+		const file = await audioCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
 			throw new Error('Audio file not found');
@@ -33,7 +34,7 @@ class GetAudio extends GetStorageBase {
 		// Configurar cabeçalhos para streaming de áudio
 		_context.response.writeHead(200, {
 			'Content-Type': file.type,
-			'Content-Disposition': param.dl && param.dl == 1 ? 'attachment' : 'inline',
+			'Content-Disposition': param.dl && param.dl == 1 ? `attachment; filename="${file.name}` : 'inline',
 			'Content-Length': stat.size // Melhora performance
 		});
 

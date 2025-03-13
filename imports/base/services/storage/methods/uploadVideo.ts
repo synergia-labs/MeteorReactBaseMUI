@@ -17,9 +17,10 @@ class UploadVideo extends UploadStorageBase {
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
 		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== 'archive'));
+		const videoCollection = this.getServerInstance()?.getVideoCollection();
 
 		// Faz o upload do arquivo na coleção de vídeos
-		const objec = await StorageServer.videoCollection.write(param.archive.content as Buffer, {
+		const objec = await videoCollection?.write(param.archive.content as Buffer, {
 			meta: partialDoc,
 			name: param.archive.name,
 			type: param.archive.type,

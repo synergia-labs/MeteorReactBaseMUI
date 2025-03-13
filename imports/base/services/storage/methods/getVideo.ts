@@ -15,7 +15,8 @@ class GetVideo extends GetStorageBase {
 	}
 
 	async action(param: ParamGetArchiveType, _context: IContext): Promise<ReturnGetArchiveType> {
-		const file = await StorageServer.videoCollection.findOneAsync({ _id: param._id });
+		const videoCollection = this.getServerInstance()?.getVideoCollection();
+		const file = await videoCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
 			throw new Error('Video file not found');
@@ -52,7 +53,7 @@ class GetVideo extends GetStorageBase {
 			'Content-Range': `bytes ${start}-${end}/${stat.size}`,
 			'Accept-Ranges': 'bytes',
 			'Content-Length': contentLength,
-			'Content-Disposition': param.dl && param.dl == 1 ? 'attachment' : 'inline',
+			'Content-Disposition': param.dl && param.dl == 1 ? `attachment; filename="${file.name}` : 'inline',
 			'Content-Type': file.type
 		});
 

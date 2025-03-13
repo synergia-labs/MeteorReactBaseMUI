@@ -60,8 +60,9 @@ class GetDocument extends GetStorageBase {
 
 	async action(param: ParamGetArchiveType, _context: IContext): Promise<ReturnGetArchiveType> {
 		const { response: res, request: req } = _context;
+		const documentCollection = this.getServerInstance()?.getDocumentCollection();
 
-		const file = await StorageServer.documentCollection.findOneAsync({ _id: param._id });
+		const file = await documentCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
 			throw new Error('Documento não encontrado');

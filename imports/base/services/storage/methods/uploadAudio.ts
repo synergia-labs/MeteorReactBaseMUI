@@ -17,9 +17,10 @@ class UploadAudio extends UploadStorageBase {
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
 		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== 'archive'));
+		const audioCollection = this.getServerInstance()?.getAudioCollection();
 
 		// Faz o upload do arquivo na coleção de áudios
-		const objec = await StorageServer.audioCollection.write(param.archive.content as Buffer, {
+		const objec = await audioCollection?.write(param.archive.content as Buffer, {
 			meta: partialDoc,
 			name: param.archive.name,
 			type: param.archive.type,

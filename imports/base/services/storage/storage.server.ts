@@ -35,6 +35,8 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	deleteDocument
 ] as const;
 
+const _methodInstancesGet: Array<MethodBase<any, any, any>> = [getImage, getAudio, getVideo, getDocument] as const;
+
 /**
  * Classe responsável por gerenciar o armazenamento de arquivos no servidor.
  * Suporta imagens, vídeos, áudios e documentos.
@@ -44,7 +46,7 @@ export class StorageServer extends ServerBase {
 	 * Coleção para armazenar vídeos.
 	 * Permite arquivos `.mp4`, `.webm`, `.ogg` e `.gif` com limite de 100MB.
 	 */
-	static videoCollection = generateFileCollection({
+	private videoCollection = generateFileCollection({
 		collectionName: enumFileType.enum.VIDEO,
 		limitSize: 1024 * 1024 * 100, // 100MB
 		allowedExtensions: ['mp4', 'webm', 'ogg', 'gif']
@@ -54,7 +56,7 @@ export class StorageServer extends ServerBase {
 	 * Coleção para armazenar documentos.
 	 * Permite arquivos `.pdf`, `.doc`, `.xls`, `.ppt` e variantes com limite de 10MB.
 	 */
-	static documentCollection = generateFileCollection({
+	private documentCollection = generateFileCollection({
 		collectionName: enumFileType.enum.DOCUMENT,
 		limitSize: 1024 * 1024 * 10, // 10MB
 		allowedExtensions: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']
@@ -64,7 +66,7 @@ export class StorageServer extends ServerBase {
 	 * Coleção para armazenar áudios.
 	 * Permite arquivos `.mp3`, `.wav` e `.ogg` com limite de 10MB.
 	 */
-	static audioCollection = generateFileCollection({
+	private audioCollection = generateFileCollection({
 		collectionName: enumFileType.enum.AUDIO,
 		limitSize: 1024 * 1024 * 10, // 10MB
 		allowedExtensions: ['mp3', 'wav', 'ogg']
@@ -74,7 +76,7 @@ export class StorageServer extends ServerBase {
 	 * Coleção para armazenar imagens.
 	 * Permite arquivos `.png`, `.jpg`, `.jpeg` com limite de 5MB.
 	 */
-	static imageCollection = generateFileCollection({
+	private imageCollection = generateFileCollection({
 		collectionName: enumFileType.enum.IMAGE,
 		limitSize: 1024 * 1024 * 5, // 5MB
 		allowedExtensions: ['png', 'jpg', 'jpeg']
@@ -87,6 +89,7 @@ export class StorageServer extends ServerBase {
 	constructor() {
 		super(enumStorageConfig.apiName);
 		this.registerMethods(_methodInstances, this);
+		this.registerMethods(_methodInstancesGet, this, false);
 
 		// Registra os endpoints REST para obtenção de arquivos.
 		this.addRestEndpoints([
@@ -112,6 +115,11 @@ export class StorageServer extends ServerBase {
 			]
 		]);
 	}
+
+	getVideoCollection = () => this.videoCollection;
+	getDocumentCollection = () => this.documentCollection;
+	getAudioCollection = () => this.audioCollection;
+	getImageCollection = () => this.imageCollection;
 
 	/**
 	 * Gera a URL do arquivo com base nos parâmetros fornecidos.

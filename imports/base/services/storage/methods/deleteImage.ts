@@ -14,13 +14,14 @@ class DeleteImage extends DeleteStorageBase {
 	}
 
 	async action(_param: ParamDeleteArchiveType, _context: IContext): Promise<ReturnDeleteArchiveType> {
-		const file = await StorageServer.imageCollection.findOneAsync({ _id: _param._id });
+		const imageCollection = this.getServerInstance()?.getImageCollection();
+		const file = await imageCollection?.findOneAsync({ _id: _param._id });
 
 		if (!file) throw new Error('Imagem não encontrada');
 		if (file.meta?.isRestricted && file.meta?.createdBy != _context.user._id)
 			throw new Error('Você não tem permissão para deletar essa imagem');
 
-		await StorageServer.imageCollection.removeAsync({ _id: _param._id });
+		await imageCollection?.removeAsync({ _id: _param._id });
 
 		return { message: 'Imagem deletada com sucesso' };
 	}

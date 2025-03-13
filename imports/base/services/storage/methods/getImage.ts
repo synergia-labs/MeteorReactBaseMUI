@@ -17,7 +17,8 @@ class GetImage extends GetStorageBase {
 	}
 
 	async action(param: ParamGetArchiveType, _context: IContext): Promise<ReturnGetArchiveType> {
-		const file = await StorageServer.imageCollection.findOneAsync({ _id: param._id });
+		const imageCollection = this.getServerInstance()?.getImageCollection();
+		const file = await imageCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
 			throw new Error('File not found');
@@ -27,11 +28,13 @@ class GetImage extends GetStorageBase {
 			if (!_context.user._id) throw new Error('User not authenticated');
 			if (_context.user._id != file.meta.createdBy) throw new Error('User not authorized');
 		}
-		console.log('file', file.meta);
 
 		// Configurar o cabeçalho correto para exibir a imagem no navegador
 		_context.response.setHeader('Content-Type', file.type);
-		_context.response.setHeader('Content-Disposition', param.dl && param.dl == 1 ? 'attachment' : 'inline');
+		_context.response.setHeader(
+			'Content-Disposition',
+			param.dl && param.dl == 1 ? `attachment; filename="${file.name}` : 'inline'
+		);
 
 		// Ler e enviar o arquivo como resposta
 		let fileBuffer = fs.readFileSync(file.path);

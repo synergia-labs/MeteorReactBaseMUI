@@ -17,9 +17,10 @@ class UploadImage extends UploadStorageBase {
 	}
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
+		const imageCollection = this.getServerInstance()?.getImageCollection();
 		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== 'archive'));
 
-		const objec = await StorageServer.imageCollection.write(param.archive.content as Buffer, {
+		const objec = await imageCollection?.write(param.archive.content as Buffer, {
 			meta: partialDoc,
 			name: param.archive.name,
 			type: param.archive.type,

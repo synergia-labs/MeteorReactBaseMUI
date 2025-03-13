@@ -17,9 +17,10 @@ class UploadDocument extends UploadStorageBase {
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
 		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== 'archive'));
+		const documentCollection = this.getServerInstance()?.getDocumentCollection();
 
 		// Faz o upload do arquivo na coleção de documentos
-		const objec = await StorageServer.documentCollection.write(param.archive.content as Buffer, {
+		const objec = await documentCollection?.write(param.archive.content as Buffer, {
 			meta: partialDoc,
 			name: param.archive.name,
 			type: param.archive.type,
