@@ -15,7 +15,7 @@ import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { EndpointType, ServerActions } from '../types/serverParams';
 import { MethodType } from '../types/method';
 import securityServer from '../services/security/security.server';
-import { getDefaultAdminContext } from './utils/defaultContexts';
+import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
 import { roleSafeInsert } from '../services/security/methods/roleSafeInsert';
 import { methodSafeInsert } from '../services/security/methods/methodSafeInsert';
 
@@ -273,18 +273,13 @@ class ServerBase {
 					)
 				);
 
-				const _context: IContext = {
-					apiName: this.apiName,
+				const _context: IContext = getDefaultPublicContext({
 					action,
-					user: {
-						username: `By ${type} api endpoint`,
-						email: 'api.endpoint@api.com',
-						roles: params.role ? [params.role] : [EnumUserRoles.PUBLIC]
-					},
-					session: endpointContext.request,
 					request: req,
-					response: res
-				};
+					response: res,
+					apiName: this.apiName,
+					session: endpointContext.request
+				});
 
 				try {
 					const result: any = await func(params, _context);
