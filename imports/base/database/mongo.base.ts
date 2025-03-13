@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 
 export class MongoBase extends Mongo.Collection<any> {
 	private collectionName: string;
-	// private collectionInstance: Mongo.Collection<any>;
 
 	constructor(collectionName: string) {
 		super(collectionName);

@@ -101,6 +101,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 
 	//region OnError
 	protected onError(_param: Param, _context: IContext, _error: Error): Return | void {
+		console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${_error}`);
 		throw new Meteor.Error('500', `[${this.name}]: Erro interno - ${_error}`);
 	}
 
@@ -113,7 +114,6 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 			await this.afterAction(_param, result, _context);
 			return result;
 		} catch (error) {
-			console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${error}`);
 			return this.onError(_param, _context, error as Error) as Return;
 		}
 	}

@@ -14,6 +14,10 @@ import cors from 'cors';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { EndpointType, ServerActions } from '../types/serverParams';
 import { MethodType } from '../types/method';
+import securityServer from '../services/security/security.server';
+import { getDefaultAdminContext } from './utils/defaultContexts';
+import { roleSafeInsert } from '../services/security/methods/roleSafeInsert';
+import { methodSafeInsert } from '../services/security/methods/methodSafeInsert';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -90,10 +94,25 @@ class ServerBase {
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
-			methodInstances.forEach((method) => {
+			methodInstances.forEach(async (method) => {
 				method.setServerInstance(classInstance);
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
+
+				if (withCall) {
+					try {
+						const context = getDefaultAdminContext({ apiName: this.apiName, action: 'registerMethods' });
+						await methodSafeInsert.execute(
+							{
+								name: methodName,
+								referred: this.apiName,
+								roles: method.getRoles() ?? [EnumUserRoles.PUBLIC]
+							},
+							context
+						);
+					} catch (__) {}
+				}
+
 				const methodFunction = async (...param: [any]) => {
 					console.info(`Call Method: ${methodName}`);
 
@@ -113,7 +132,9 @@ class ServerBase {
 				methodsObject[methodName] = methodFunction;
 			});
 
-			if (withCall) Meteor.methods(methodsObject);
+			if (withCall) {
+				Meteor.methods(methodsObject);
+			}
 		} catch (error) {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;

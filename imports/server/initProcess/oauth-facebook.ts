@@ -5,7 +5,7 @@ import { OAuth } from 'meteor/oauth';
 import { HTTP } from 'meteor/http';
 import crypto from 'crypto';
 import _ from 'lodash';
-import settings from '../../settings.json';
+import settings from '../../../settings.json';
 
 const whitelistedFields = ['id', 'email', 'name', 'first_name', 'last_name', 'link', 'gender', 'locale', 'age_range'];
 
