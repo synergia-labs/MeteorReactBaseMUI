@@ -15,12 +15,11 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 	const location = useLocation();
 
 	const getProtectedRouteElement = (route: IRoute) => {
-		return <ScreenRouteRender component={UserProfileContainer} templateVariant="None" />;
 		if(!route.isProtected) return <ScreenRouteRender {...route} />;
-		if (!hasValue(user)) return <ScreenRouteRender component={UserProfileContainer} templateVariant="None" />;
+		if (!hasValue(user)) return <ScreenRouteRender component={UserProfileContainer} templateVariant="Login" />;
 		
 		const hasAccess = segurancaApi.podeAcessarRecurso(getUser(), ...(route.resources || []));
-		return hasAccess ? <ScreenRouteRender {...route} /> : <ScreenRouteRender component={UserProfileContainer} templateVariant="None" />;
+		return hasAccess ? <ScreenRouteRender {...route} /> : <ScreenRouteRender component={UserProfileContainer} templateVariant="Login" />;
 	};
 	
 	if (!sysRoutes.checkIfRouteExists(location.pathname)) return <NotFound />;	

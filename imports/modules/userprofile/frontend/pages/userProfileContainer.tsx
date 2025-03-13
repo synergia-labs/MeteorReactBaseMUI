@@ -4,14 +4,22 @@ import userProfileApi from '../api/api';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import Context, { IUserProfileContext } from './userProfileContext';
 import { ICreateUser } from '../../common/types/ICreateUser';
-import { useTracker } from 'meteor/react-meteor-data';
 import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
 import SignInPage from './signIn/signIn';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfileContainer: React.FC = () => {
     const { showNotification } = useContext(AppLayoutContext);
     const { user } = useContext<IAuthContext>(AuthContext);
     const [ hasAdminUser, setHasAdminUser ] = useState<boolean>(true);
+
+    const navigate = useNavigate();
+
+    useEffect(() => { 
+        if (user) 
+            navigate('/');
+    }, [user]);
+
 
     useEffect(() => userProfileApi.checkIfHasAdminUser(undefined, (error, result) => {
         if(error) return showNotification({
