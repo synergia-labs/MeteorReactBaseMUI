@@ -19,14 +19,14 @@ export async function previewTextFile(file: IArchive, res: any, _: any) {
 	});
 
 	res.end(`
-      <style>
-          pre {
-              background: #f4f4f4;
-              padding: 1rem;
-              border-radius: 4px;
-              overflow-x: auto;
-          }
-      </style>
-      <pre>${formattedContent}</pre>
+    <style>
+      pre {
+        background: #f4f4f4;
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+    </style>
+    <pre>${formattedContent}</pre>
   `);
 }

@@ -1,5 +1,5 @@
 import { enumStorageMethods } from '../common/enums/methods.enum';
-import { ParamGetArchiveType, ReturnGetArchiveType } from '../common/types/crudArchive.type';
+import { ParamGetArchiveType, ReturnGetArchiveType } from '../common/types/getArchive';
 import { StorageServer } from '../storage.server';
 import { GetStorageBase } from './bases/get';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';

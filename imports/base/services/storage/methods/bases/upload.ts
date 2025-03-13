@@ -3,7 +3,7 @@ import {
 	ParamUploadArchiveType,
 	returnUploadArchiveSch,
 	ReturnUploadArchiveType
-} from '../../common/types/crudArchive.type';
+} from '../../common/types/uploadArchive';
 import { StorageServer } from '../../storage.server';
 import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
 import { IMethodBase } from '/imports/base/server/methods/method.base';

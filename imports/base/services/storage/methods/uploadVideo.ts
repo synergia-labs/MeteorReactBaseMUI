@@ -1,4 +1,3 @@
-import { ParamUploadArchiveType, ReturnUploadArchiveType } from '../common/types/crudArchive.type';
 import { IContext } from '/imports/typings/IContext';
 import { enumStorageMethods } from '../common/enums/methods.enum';
 import storageServer, { StorageServer } from '../storage.server';
@@ -6,6 +5,7 @@ import { UploadStorageBase } from './bases/upload';
 import { Buffer } from 'buffer';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { enumFileType } from '../common/types/file.type';
+import { ParamUploadArchiveType, ReturnUploadArchiveType } from '../common/types/uploadArchive';
 
 class UploadVideo extends UploadStorageBase {
 	constructor() {

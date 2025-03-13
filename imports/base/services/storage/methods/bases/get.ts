@@ -3,7 +3,7 @@ import {
 	ParamGetArchiveType,
 	returnGetArchiveSch,
 	ReturnGetArchiveType
-} from '../../common/types/crudArchive.type';
+} from '../../common/types/getArchive';
 import { StorageServer } from '../../storage.server';
 import MethodBase, { IMethodBase } from '/imports/base/server/methods/method.base';
 import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';

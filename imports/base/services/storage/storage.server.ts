@@ -20,6 +20,9 @@ import { getDocument } from './methods/getDocument';
 import { uploadDocument } from './methods/uploadDocument';
 import { deleteDocument } from './methods/deleteDocument';
 
+/**
+ * Lista de métodos disponíveis para manipulação de arquivos no servidor de armazenamento.
+ */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
 	uploadImage,
 	uploadAudio,
@@ -32,35 +35,60 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	deleteDocument
 ] as const;
 
+/**
+ * Classe responsável por gerenciar o armazenamento de arquivos no servidor.
+ * Suporta imagens, vídeos, áudios e documentos.
+ */
 export class StorageServer extends ServerBase {
+	/**
+	 * Coleção para armazenar vídeos.
+	 * Permite arquivos `.mp4`, `.webm`, `.ogg` e `.gif` com limite de 100MB.
+	 */
 	static videoCollection = generateFileCollection({
 		collectionName: enumFileType.enum.VIDEO,
-		limitSize: 1024 * 1024 * 100,
+		limitSize: 1024 * 1024 * 100, // 100MB
 		allowedExtensions: ['mp4', 'webm', 'ogg', 'gif']
 	});
 
+	/**
+	 * Coleção para armazenar documentos.
+	 * Permite arquivos `.pdf`, `.doc`, `.xls`, `.ppt` e variantes com limite de 10MB.
+	 */
 	static documentCollection = generateFileCollection({
 		collectionName: enumFileType.enum.DOCUMENT,
-		limitSize: 1024 * 1024 * 10,
+		limitSize: 1024 * 1024 * 10, // 10MB
 		allowedExtensions: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']
 	});
 
+	/**
+	 * Coleção para armazenar áudios.
+	 * Permite arquivos `.mp3`, `.wav` e `.ogg` com limite de 10MB.
+	 */
 	static audioCollection = generateFileCollection({
 		collectionName: enumFileType.enum.AUDIO,
-		limitSize: 1024 * 1024 * 10,
+		limitSize: 1024 * 1024 * 10, // 10MB
 		allowedExtensions: ['mp3', 'wav', 'ogg']
 	});
 
+	/**
+	 * Coleção para armazenar imagens.
+	 * Permite arquivos `.png`, `.jpg`, `.jpeg` com limite de 5MB.
+	 */
 	static imageCollection = generateFileCollection({
 		collectionName: enumFileType.enum.IMAGE,
-		limitSize: 1024 * 1024 * 5,
+		limitSize: 1024 * 1024 * 5, // 5MB
 		allowedExtensions: ['png', 'jpg', 'jpeg']
 	});
 
+	/**
+	 * Construtor da classe `StorageServer`.
+	 * Inicializa o servidor de armazenamento e registra os métodos disponíveis.
+	 */
 	constructor() {
 		super(enumStorageConfig.apiName);
 		this.registerMethods(_methodInstances, this);
 
+		// Registra os endpoints REST para obtenção de arquivos.
 		this.addRestEndpoints([
 			[
 				enumEndpointType.enum.GET,
@@ -85,13 +113,28 @@ export class StorageServer extends ServerBase {
 		]);
 	}
 
+	/**
+	 * Gera a URL do arquivo com base nos parâmetros fornecidos.
+	 *
+	 * @param params - Objeto contendo as configurações para a geração da URL.
+	 * @param params._id - ID único do arquivo.
+	 * @param params.type - Tipo do arquivo (imagem, vídeo, áudio, documento).
+	 * @param params.resolution - Resolução do arquivo (opcional).
+	 * @param params.isDownload - Indica se o arquivo deve ser baixado (opcional).
+	 * @param params.withPreview - Define se a URL incluirá uma pré-visualização (opcional).
+	 *
+	 * @returns A URL do arquivo como string.
+	 */
 	public getUrl(params: GetFileUrlType): string {
+		// Valida os parâmetros usando o esquema Zod.
 		params = getFileUrlSch.parse(params);
 		const { _id, type, resolution, isDownload, withPreview } = params;
 
+		// Constrói a URL base do arquivo.
 		let url = this.getMainUrl(type);
 		url += `?_id=${_id}`;
 
+		// Adiciona parâmetros opcionais.
 		const access = Meteor.userId();
 		if (resolution) url += `&resolution=${resolution}`;
 		if (access) url += `&access=${access}`;
@@ -102,5 +145,6 @@ export class StorageServer extends ServerBase {
 	}
 }
 
+/** Instância única do servidor de armazenamento. */
 const storageServer = new StorageServer();
 export default storageServer;

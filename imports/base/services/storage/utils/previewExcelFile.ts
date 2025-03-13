@@ -1,4 +1,3 @@
-import path from 'path';
 import { IArchive } from '../common/types/archive.type';
 import { previewDefaultFile } from './previewDefaultFile';
 

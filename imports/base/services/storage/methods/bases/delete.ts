@@ -3,7 +3,7 @@ import {
 	ParamDeleteArchiveType,
 	returnDeleteArchiveSch,
 	ReturnDeleteArchiveType
-} from '../../common/types/crudArchive.type';
+} from '../../common/types/deleteArchive';
 import { StorageServer } from '../../storage.server';
 import MethodBase, { IMethodBase } from '/imports/base/server/methods/method.base';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';

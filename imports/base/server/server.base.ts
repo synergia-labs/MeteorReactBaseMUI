@@ -76,6 +76,7 @@ class ServerBase {
 	 * Método para registrar os métodos de uma classe.
 	 * @param methodInstances 	- Array de instâncias de métodos.
 	 * @param classInstance 	- Instância da classe que contém os métodos.
+	 * @param withCall 	- Indica se os métodos devem ser registrados no Meteor para Call.
 	 */
 	protected async registerMethods<Base extends ServerBase, Param extends unknown[], Return>(
 		methodInstances: Array<MethodBase<Base, Param, Return>>,

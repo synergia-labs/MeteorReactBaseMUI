@@ -1,5 +1,4 @@
 import { enumStorageMethods } from '../common/enums/methods.enum';
-import { ParamGetArchiveType, ReturnGetArchiveType } from '../common/types/crudArchive.type';
 import { StorageServer } from '../storage.server';
 import { GetStorageBase } from './bases/get';
 import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
@@ -12,6 +11,7 @@ import { previewExcel } from '../utils/previewExcelFile';
 import { previewCss } from '../utils/previewCssFiles';
 import { IArchive } from '../common/types/archive.type';
 import { previewDefaultFile } from '../utils/previewDefaultFile';
+import { ParamGetArchiveType, ReturnGetArchiveType } from '../common/types/getArchive';
 
 class GetDocument extends GetStorageBase {
 	constructor() {
