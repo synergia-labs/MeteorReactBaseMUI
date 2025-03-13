@@ -79,7 +79,8 @@ class ServerBase {
 	 */
 	protected async registerMethods<Base extends ServerBase, Param extends unknown[], Return>(
 		methodInstances: Array<MethodBase<Base, Param, Return>>,
-		classInstance: Base
+		classInstance: Base,
+		withCall = true
 	) {
 		try {
 			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
@@ -111,7 +112,7 @@ class ServerBase {
 				methodsObject[methodName] = methodFunction;
 			});
 
-			Meteor.methods(methodsObject);
+			if (withCall) Meteor.methods(methodsObject);
 		} catch (error) {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
