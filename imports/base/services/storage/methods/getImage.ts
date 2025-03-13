@@ -12,7 +12,7 @@ class GetImage extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getImage,
-			roles: [EnumUserRoles.PUBLIC, EnumUserRoles.ADM]
+			roles: [EnumUserRoles.PUBLIC, EnumUserRoles.ADMIN]
 		});
 	}
 

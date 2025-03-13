@@ -217,8 +217,9 @@ Meteor.startup(() => {
 	});
 
 	Accounts.config({
-		sendVerificationEmail: true,
-		forbidClientAccountCreation: false // impede que um usuário seja criado pelo cliente
+		sendVerificationEmail: false, 
+		forbidClientAccountCreation: false, 	// impede que um usuário seja criado pelo cliente,
+		defaultFieldSelector: { services: 0 }	// Impede que o cliente veja os serviços de autenticação
 	});
 
 	Accounts.validateLoginAttempt(({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {

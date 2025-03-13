@@ -2,7 +2,7 @@ import { enumStorageMethods } from '../common/enums/methods.enum';
 import { ParamGetArchiveType, ReturnGetArchiveType } from '../common/types/getArchive';
 import { StorageServer } from '../storage.server';
 import { GetStorageBase } from './bases/get';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 import fs from 'fs';
 
@@ -10,7 +10,7 @@ class GetAudio extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getAudio,
-			roles: [EnumUserRoles.ADM, EnumUserRoles.USER]
+			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
 		});
 	}
 

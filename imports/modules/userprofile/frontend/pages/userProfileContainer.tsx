@@ -5,13 +5,15 @@ import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import Context, { IUserProfileContext } from './userProfileContext';
 import { ICreateUser } from '../../common/types/ICreateUser';
 import { useTracker } from 'meteor/react-meteor-data';
+import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
+import SignInPage from './signIn/signIn';
 
 const UserProfileContainer: React.FC = () => {
     const { showNotification } = useContext(AppLayoutContext);
+    const { user } = useContext<IAuthContext>(AuthContext);
     const [ hasAdminUser, setHasAdminUser ] = useState<boolean>(true);
 
     useEffect(() => userProfileApi.checkIfHasAdminUser(undefined, (error, result) => {
-        console.log(error, result);
         if(error) return showNotification({
             type: 'error',
             title: "Erro ao verificar existência de usuário administrador",
@@ -19,18 +21,13 @@ const UserProfileContainer: React.FC = () => {
         });
         setHasAdminUser(result);
     }), []);
-
-    const user = useTracker(() => Meteor.user(), []);
     
-
-
     const renderPage = () => {
         if(!hasAdminUser) return <CreateAdminUserPage />;
-        return <div>{JSON.stringify(user)}</div>;
+        return <SignInPage />;
     }
 
     const createUser = useCallback((doc: ICreateUser) => {
-        console.log(doc);
         userProfileApi.create(doc, (error) => {
             if(error) return showNotification({
                 type: 'error',
@@ -45,9 +42,31 @@ const UserProfileContainer: React.FC = () => {
         });
     }, []);
 
+    const callBackLogin = useCallback((error: any) => {
+        if(error) return showNotification({
+            type: 'error',
+            title: "Erro ao logar",
+            message: "Ocorreu um erro ao logar no sistema. Por favor, tente novamente."
+        });
+        showNotification({
+            type: 'success',
+            title: "Login bem-sucedido",
+            message: "Você foi logado com sucesso."
+        });
+    }, []);
+
+    const loginWithGithub = useCallback(() => 
+        Meteor.loginWithGithub( { requestPermissions: ["user"] }, callBackLogin ), []);
+    const loginWithGoogle = useCallback(() => 
+        Meteor.loginWithGoogle( {}, callBackLogin ), []);
+    const loginWithPassword = useCallback(({ email, password } : { email: string, password: string }) => 
+        Meteor.loginWithPassword(email, password, callBackLogin), []);
 
     const contextValues: IUserProfileContext = {
-        createUser: createUser
+        createUser: createUser,
+        loginWithGithub: loginWithGithub,
+        loginWithGoogle: loginWithGoogle,
+        loginWithPassword: loginWithPassword
     };
 
     return (

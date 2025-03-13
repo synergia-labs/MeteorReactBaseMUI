@@ -1,7 +1,6 @@
 import { enumStorageMethods } from '../common/enums/methods.enum';
 import { StorageServer } from '../storage.server';
 import { GetStorageBase } from './bases/get';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';
 import fs from 'fs';
 import { previewCsv } from '../utils/previewCsvFiles';
@@ -12,12 +11,13 @@ import { previewCss } from '../utils/previewCssFiles';
 import { IArchive } from '../common/types/archive.type';
 import { previewDefaultFile } from '../utils/previewDefaultFile';
 import { ParamGetArchiveType, ReturnGetArchiveType } from '../common/types/getArchive';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 
 class GetDocument extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getDocument,
-			roles: [EnumUserRoles.ADM, EnumUserRoles.USER]
+			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
 		});
 	}
 
