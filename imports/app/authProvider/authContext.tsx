@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 import { IMeteorError } from '/imports/typings/IMeteorError';
+import { IUserProfile } from '/imports/modules/userprofile/common/types/IUserProfile';
 
 interface IAuthContext {
     isLoggedIn: boolean;

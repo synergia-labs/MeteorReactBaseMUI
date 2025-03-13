@@ -1,7 +1,7 @@
 enum EnumUserRoles{
     ADMIN = 'admin',
     USER = 'user',
-    public = 'public'
+    PUBLIC = 'public'
 };
 
 export default EnumUserRoles;

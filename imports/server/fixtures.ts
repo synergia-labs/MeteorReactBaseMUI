@@ -1,8 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { userprofileServerApi } from '../modules/userprofile/api/userProfileServerApi';
-import { EnumUserRoles } from '../modules/userprofile/config/enumUser';
-import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 
 /** 
  * Função para criar um usuário padrão.
@@ -14,36 +11,36 @@ import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
  * 			- email: admin@mrb.com
  * 			- senha: admin@mrb.com
 */
-async function createDefautUser() {
-	try{
-		const registeredUsers = await Meteor.users.find({}).countAsync();
-		if (registeredUsers != 0) return; 
+// async function createDefautUser() {
+// 	try{
+// 		const registeredUsers = await Meteor.users.find({}).countAsync();
+// 		if (registeredUsers != 0) return; 
 	
-		const defaultUser: Partial<IUserProfile & { password: string }> = {
-			username: 'Administrador',
-			email: 'admin@mrb.com',
-			password: 'admin@mrb.com'
-		};
+// 		const defaultUser: Partial<IUserProfile & { password: string }> = {
+// 			username: 'Administrador',
+// 			email: 'admin@mrb.com',
+// 			password: 'admin@mrb.com'
+// 		};
 	
-		defaultUser._id = await Accounts.createUserAsync(defaultUser);
+// 		defaultUser._id = await Accounts.createUserAsync(defaultUser);
 	
-		await Meteor.users.upsertAsync({ _id: defaultUser._id }, {
-			$set: {
-				'emails.0.verified': true,
-				profile: {
-					name: defaultUser.username,
-					email: defaultUser.email,
-				}
-			}
-		});
+// 		await Meteor.users.upsertAsync({ _id: defaultUser._id }, {
+// 			$set: {
+// 				'emails.0.verified': true,
+// 				profile: {
+// 					name: defaultUser.username,
+// 					email: defaultUser.email,
+// 				}
+// 			}
+// 		});
 	
-		defaultUser.roles = [ EnumUserRoles.ADM ];
-		await userprofileServerApi.getCollectionInstance().insertAsync(defaultUser);
+// 		defaultUser.roles = [ EnumUserRoles.ADM ];
+// 		await userprofileServerApi.getCollectionInstance().insertAsync(defaultUser);
 	
-		console.info(`Usuário padrão criado com sucesso.`);
-	}catch(e){
-		console.error(`Erro ao criar usuário padrão: `, e);
-	};
-}
+// 		console.info(`Usuário padrão criado com sucesso.`);
+// 	}catch(e){
+// 		console.error(`Erro ao criar usuário padrão: `, e);
+// 	};
+// }
 
-Meteor.startup(async () => await createDefautUser());
+// Meteor.startup(async () => await createDefautUser());

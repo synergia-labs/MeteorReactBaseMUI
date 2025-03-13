@@ -1,10 +1,9 @@
 import { ZodTypeAny } from 'zod';
 import ServerBase from './server.base';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';
-import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
 import { Meteor } from 'meteor/meteor';
 import { EndpointType } from '../types/serverParams';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 
 interface IActionsBase {
 	roles?: Array<EnumUserRoles>;
@@ -72,7 +71,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	protected _checkPermissions(_context: IContext): void {
 		if (!this.roles || this.roles.length == 0) return;
 
-		const user = _context.user || getUserServer();
+		const user = _context.user || {};
 		if (!user) throw new Meteor.Error('401', 'Usuário não autenticado ou não encontrado');
 		if (!user.roles) throw new Meteor.Error('403', 'Usuário não possui roles');
 

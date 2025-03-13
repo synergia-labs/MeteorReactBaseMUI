@@ -5,15 +5,14 @@ import { WebApp } from 'meteor/webapp';
 import connectRoute from 'connect-route';
 import { IContext } from '/imports/typings/IContext';
 import { IConnection } from '/imports/typings/IConnection';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
-import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
 import MethodBase from './methods/method.base';
 import PublicationBase from './publication/publication.base';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { EndpointType, ServerActions } from '../types/serverParams';
 import { MethodType } from '../types/method';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import { IUserProfile } from '/imports/modules/userprofile/common/types/IUserProfile';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -204,7 +203,11 @@ class ServerBase {
 		userProfile?: IUserProfile,
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
-		const user: IUserProfile = userProfile || (await getUserServer(connection));
+		const user: IUserProfile = userProfile || {
+			username: `By api endpoint`,
+			email: 'api.endpoint@api.com',
+			roles: EnumUserRoles.PUBLIC
+		};
 		return { apiName: this.apiName, action, user, connection, session };
 	}
 	// #endregion

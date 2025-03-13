@@ -1,13 +1,12 @@
 import { Mongo } from 'meteor/mongo';
-import { Meteor } from 'meteor/meteor';
 
 export class MongoBase {
 	private collectionName: string;
 	private collectionInstance: Mongo.Collection<any>;
 
-	constructor(collectionName: string) {
+	constructor(collectionName: string, collectionInstance?: Mongo.Collection<any>) {
 		this.collectionName = collectionName;
-		this.collectionInstance =  collectionName == 'users' ? Meteor.users : new Mongo.Collection(this.collectionName);
+		this.collectionInstance = collectionInstance ?? new Mongo.Collection(this.collectionName);
 		this.initCollection();
 	}
 
@@ -33,6 +32,6 @@ export class MongoBase {
 	public find = (filter?: Mongo.ObjectID | Mongo.Selector<any> | string, options?: Mongo.Options<any>) => 
 		this.collectionInstance.find(filter || {}, options || {});
 
-	public findOne = (filter?: Mongo.ObjectID | Mongo.Selector<any> | string, options?: Omit<Mongo.Options<any>, 'limt'>) =>
-		this.collectionInstance.findOne(filter, options);
+	public findOne = async (filter?: Mongo.ObjectID | Mongo.Selector<any> | string, options?: Omit<Mongo.Options<any>, 'limt'>) =>
+		await this.collectionInstance.findOneAsync(filter, options);
 };

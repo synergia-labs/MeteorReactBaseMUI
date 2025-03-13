@@ -8,17 +8,15 @@ import { Link, NavigateFunction } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 import Button from '@mui/material/Button';
-import { userprofileApi } from '../../../modules/userprofile/api/userProfileApi';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
 import { signUpStyle } from './signUpStyle';
 import Box from '@mui/material/Box';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
 
 interface ISignUp {
 	showNotification: (options?: Object) => void;
 	navigate: NavigateFunction;
-	user: IUserProfile;
+	user: any;
 }
 
 export const SignUp = (props: ISignUp) => {
@@ -27,24 +25,24 @@ export const SignUp = (props: ISignUp) => {
 	const handleSubmit = (doc: { email: string; password: string }) => {
 		const { email, password } = doc;
 
-		userprofileApi.insertNewUser({ email, username: email, password }, (err, r) => {
-			if (err) {
-				console.log('Login err', err);
-				showNotification &&
-					showNotification({
-						type: 'warning',
-						title: 'Problema na criação do usuário!',
-						description: 'Erro ao fazer registro em nossa base de dados!'
-					});
-			} else {
-				showNotification &&
-					showNotification({
-						type: 'sucess',
-						title: 'Cadastrado com sucesso!',
-						description: 'Registro de usuário realizado em nossa base de dados!'
-					});
-			}
-		});
+		// userprofileApi.insertNewUser({ email, username: email, password }, (err, r) => {
+		// 	if (err) {
+		// 		console.log('Login err', err);
+		// 		showNotification &&
+		// 			showNotification({
+		// 				type: 'warning',
+		// 				title: 'Problema na criação do usuário!',
+		// 				description: 'Erro ao fazer registro em nossa base de dados!'
+		// 			});
+		// 	} else {
+		// 		showNotification &&
+		// 			showNotification({
+		// 				type: 'sucess',
+		// 				title: 'Cadastrado com sucesso!',
+		// 				description: 'Registro de usuário realizado em nossa base de dados!'
+		// 			});
+		// 	}
+		// });
 	};
 
 	return (

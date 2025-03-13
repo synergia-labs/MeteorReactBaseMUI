@@ -1,4 +1,5 @@
 // src/meteor-typings.d.ts
+
 declare module 'meteor/ostrio:files' {
 	import { Mongo } from 'meteor/mongo';
 
@@ -13,12 +14,3 @@ declare module 'meteor/ostrio:files' {
 		write(buffer: Buffer, options: any, callback?: Function): any;
 	}
 }
-
-declare module 'meteor/meteor' {
-	namespace Meteor {
-		interface UserProfile {
-			email: string;
-		}
-	}
-}
-

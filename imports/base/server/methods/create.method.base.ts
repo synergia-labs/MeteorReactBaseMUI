@@ -8,10 +8,14 @@ export abstract class CreateMethodBase<S extends ServerBase, P, R> extends Metho
 		super(props);
 	}
 
-	protected beforeAction(param: P & AuditType, _context: IContext): void {
-		super.beforeAction(param, _context);
+	protected insertAuditData(param: P & AuditType, _context: IContext): void {
 		param.createdAt = new Date();
 		param.createdBy = (_context.user._id ?? Meteor.userId()) as string;
+	}
+
+	protected beforeAction(param: P & AuditType, _context: IContext): void {
+		super.beforeAction(param, _context);
+		this.insertAuditData(param, _context);
 
 		if (!param.createdBy) {
 			throw new Meteor.Error('500', 'Usuário não encontrado - Para realizar esta ação é necessário estar logado');

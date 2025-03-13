@@ -5,10 +5,11 @@ import { IContext } from "/imports/typings/IContext";
 
 class FillDatabaseWithFakeData extends MethodBase<UserProfileServer, void, void> {
     constructor() {
-        super({ name: enumUserProfileRegisterMethods.sendVerificationEmail, endpointType: 'post' });
+        super({ name: enumUserProfileRegisterMethods.sendVerificationEmail });
     }
 
     async action(_prop: void, _context: IContext): Promise<void> {
+        
     }
 } 
 

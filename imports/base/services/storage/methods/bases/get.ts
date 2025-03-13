@@ -6,7 +6,7 @@ import {
 } from '../../common/types/crudArchive.type';
 import { StorageServer } from '../../storage.server';
 import MethodBase, { IMethodBase } from '/imports/base/server/methods/method.base';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 
 export abstract class GetStorageBase extends MethodBase<StorageServer, ParamGetArchiveType, ReturnGetArchiveType> {
@@ -14,7 +14,7 @@ export abstract class GetStorageBase extends MethodBase<StorageServer, ParamGetA
 		super({
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetArchiveSch,
-			roles: [EnumUserRoles.ADM],
+			roles: [EnumUserRoles.ADMIN],
 			...props
 		});
 	}

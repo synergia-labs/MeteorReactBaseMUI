@@ -3,13 +3,12 @@ import AuthContext, { IAuthContext } from './authContext';
 import settings from '../../../settings.json';
 import { createStore, del, get, set } from 'idb-keyval';
 import { useTracker } from 'meteor/react-meteor-data';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
-import { userprofileApi } from '/imports/modules/userprofile/api/userProfileApi';
 import { hasValue } from '/imports/libs/hasValue';
 import { parse, stringify } from 'zipson';
 import { IMeteorError } from '/imports/typings/IMeteorError';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Meteor } from 'meteor/meteor';
+import userProfileApi from '/imports/modules/userprofile/frontend/api/api';
 
 const accountStore = createStore(`${settings.name}_UserAccount`, 'store');
 const cachedUser = new ReactiveVar(null);
@@ -37,12 +36,20 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       del('userId', accountStore);
     }
 
-    const subHandle = userprofileApi.subscribe('getLoggedUserProfile');
 
-    const user: IUserProfile | undefined =
-      (subHandle?.ready() && meteorUser)
-        ? userprofileApi.findOne({ email: (meteorUser?.profile as any).email })
-        : null;
+    userProfileApi.checkIfHasAdminUser(undefined, (error, result) => {
+      console.log("Error", error);
+      console.log("Result", result);
+    });
+
+    // const subHandle = userprofileApi.subscribe('getLoggedUserProfile');
+
+    // const user: IUserProfile | undefined =
+    //   (subHandle?.ready() && meteorUser)
+    //     ? userprofileApi.findOne({ email: (meteorUser?.profile as any).email })
+    //     : null;
+
+    const user = undefined;
 
     return {
       user,

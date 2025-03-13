@@ -7,9 +7,9 @@ import { IRoute } from '/imports/modules/modulesTypings';
 import { subjectRouter } from '/imports/analytics/analyticsSubscriber';
 import AuthContext, { IAuthContext } from '../authProvider/authContext';
 import sysRoutes from './routes';
-import SignInPage from '/imports/sysPages/pages/signIn/signIn';
 import { SysLoading } from '/imports/ui/components/sysLoading/sysLoading';
 import ScreenRouteRender from './screenRouteRender';
+import UserProfileContainer from '/imports/modules/userprofile/frontend/pages/userProfileContainer';
 
 export const AppRouterSwitch: React.FC = React.memo(() => {
 	const { isLoggedIn, userLoading, user } = useContext<IAuthContext>(AuthContext);
@@ -21,16 +21,17 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 	}, [location, params, user]);
 	
 	const getProtectedRouteElement = (route: IRoute) => {
+		return <ScreenRouteRender component={UserProfileContainer} templateVariant="None" />;
 		if(!route.isProtected) return <ScreenRouteRender {...route} />;
-		if (!isLoggedIn) return <ScreenRouteRender component={SignInPage} templateVariant="None" />;
+		if (!isLoggedIn) return <ScreenRouteRender component={UserProfileContainer} templateVariant="None" />;
 		
 		const hasAccess = segurancaApi.podeAcessarRecurso(getUser(), ...(route.resources || []));
-		return hasAccess ? <ScreenRouteRender {...route} /> : <ScreenRouteRender component={SignInPage} templateVariant="None" />;
+		return hasAccess ? <ScreenRouteRender {...route} /> : <ScreenRouteRender component={UserProfileContainer} templateVariant="None" />;
 	};
 	
 	if (!sysRoutes.checkIfRouteExists(location.pathname)) return <NotFound />;	
 
-	if (userLoading) return <SysLoading size="large" label="Carregando..." />;
+	// if (userLoading) return <SysLoading size="large" label="Carregando..." />;
 	
 	return (
 		<Routes>
