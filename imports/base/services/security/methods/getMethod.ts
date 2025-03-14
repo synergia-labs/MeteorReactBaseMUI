@@ -4,7 +4,7 @@ import { enumSecurityMethods } from '../common/enums/methods.enum';
 import { ParamGetType, returnGetMethodSch, ReturnGetMethodType } from '../common/types/get';
 import { SecurityServer } from '../security.server';
 import MethodBase from '/imports/base/server/methods/method.base';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 
 class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethodType> {
 	constructor() {
@@ -12,7 +12,7 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 			name: enumSecurityMethods.getMethod,
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetMethodSch,
-			roles: [EnumUserRoles.ADM]
+			roles: [EnumUserRoles.ADMIN]
 		});
 	}
 

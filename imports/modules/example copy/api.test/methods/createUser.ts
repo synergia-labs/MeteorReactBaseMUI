@@ -6,13 +6,13 @@ import {
 	returnCreateUserSch
 } from '../types/create_user.type';
 import { MethodBase } from '../../../../api/server/methods/method.base';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 
 class CreateUser extends MethodBase<ExampleServer, ParamCreateUserType, ReturnCreateUserType> {
 	constructor() {
 		super({
 			name: 'createUser',
-			roles: [EnumUserRoles.ADM, EnumUserRoles.USER],
+			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER],
 			paramSch: paramCreateUserSch,
 			returnSch: returnCreateUserSch
 		});
