@@ -18,6 +18,7 @@ import securityServer from '../services/security/security.server';
 import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
 import { roleSafeInsert } from '../services/security/methods/roleSafeInsert';
 import { methodSafeInsert } from '../services/security/methods/methodSafeInsert';
+import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -105,7 +106,7 @@ class ServerBase {
 						await methodSafeInsert.execute(
 							{
 								name: methodName,
-								referred: this.apiName,
+								referred: enumSecurityConfig.apiName,
 								roles: method.getRoles() ?? [EnumUserRoles.PUBLIC]
 							},
 							context
@@ -157,9 +158,21 @@ class ServerBase {
 			if (publicationInstances?.length == 0 || !!!classInstance) return;
 			const self = this;
 
-			publicationInstances.forEach((publication) => {
+			publicationInstances.forEach(async (publication) => {
 				publication.setServerInstance(classInstance);
 				const publicationName = publication.getName();
+
+				try {
+					const context = getDefaultAdminContext({ apiName: this.apiName, action: 'registerMethods' });
+					await methodSafeInsert.execute(
+						{
+							name: publicationName,
+							referred: enumSecurityConfig.apiName,
+							roles: publication.getRoles() ?? [EnumUserRoles.PUBLIC]
+						},
+						context
+					);
+				} catch (__) {}
 
 				const publicationFunction = async (...param: any) => {
 					console.info(`Call Publication: ${publicationName}`);
