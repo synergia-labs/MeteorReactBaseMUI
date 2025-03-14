@@ -1,5 +1,6 @@
 import { MongoBase } from '../../database/mongo.base';
 import MethodBase from '../../server/methods/method.base';
+import PublicationBase from '../../server/publication/publication.base';
 import ServerBase from '../../server/server.base';
 import { enumSecurityConfig } from './common/enums/config.enum';
 import { SecurityServerMethods } from './common/interfaces/methods';
@@ -7,6 +8,7 @@ import { getMethod } from './methods/getMethod';
 import { getRole } from './methods/getRole';
 import { methodSafeInsert } from './methods/methodSafeInsert';
 import { roleSafeInsert } from './methods/roleSafeInsert';
+import { getAllMethodsPublication } from './publications/getAllMethods';
 
 const _methodInstances: Array<MethodBase<any, any, any>> = [
 	roleSafeInsert,
@@ -15,6 +17,8 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	getMethod
 ] as const;
 
+const _publicationInstances: Array<PublicationBase<any, any, any>> = [getAllMethodsPublication];
+
 export class SecurityServer extends ServerBase {
 	private mongoRole = new MongoBase(enumSecurityConfig.roleCollectionName);
 	private mongoMethod = new MongoBase(enumSecurityConfig.methodCollectionName);
@@ -22,6 +26,7 @@ export class SecurityServer extends ServerBase {
 	constructor() {
 		super(enumSecurityConfig.apiName);
 		this.registerMethods(_methodInstances, this);
+		this.registerPublications(_publicationInstances, this);
 	}
 
 	getRoleCollection = () => this.mongoRole;

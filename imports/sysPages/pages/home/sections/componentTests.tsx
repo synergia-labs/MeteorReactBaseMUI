@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HomeSection from '../components/section';
 import { Button, Menu, TextField } from '@mui/material';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
@@ -21,9 +21,12 @@ import SysUploadFile from '/imports/ui/components/sysFormFields/sysUploadFile/sy
 import { SysButton } from '/imports/ui/components/SimpleFormFields/SysButton/SysButton';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import storageApi from '/imports/base/services/storage/storage.api';
-import { ParamUploadArchiveType } from '/imports/base/services/storage/common/types/crudArchive.type';
 import { enumFileType } from '/imports/base/services/storage/common/types/file.type';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
+import securityApi from '/imports/base/services/security/security.api';
+import { enumSecurityConfig } from '/imports/base/services/security/common/enums/config.enum';
+import { ParamUploadArchiveType } from '/imports/base/services/storage/common/types/uploadArchive';
+import { useTracker } from 'meteor/react-meteor-data';
 
 type storageType = 'Image' | 'Audio' | 'Video' | 'Document';
 const HomeSectionComponents: React.FC = () => {
@@ -31,6 +34,18 @@ const HomeSectionComponents: React.FC = () => {
 	const [imageId, setImageId] = React.useState<string>();
 	const [fileUrl, setFileUrl] = React.useState<string>();
 	const [fileOptions, setFileOptions] = React.useState<storageType>('Image');
+
+	const { tasks, isLoading } = useTracker(() => {
+		const methodshandle = securityApi.getAllMethodsPublication({
+			referred: enumSecurityConfig.apiName
+		});
+		const documents = methodshandle.ready() ? securityApi.mongoMethod.find().fetch() : [];
+		console.log('documents: ', documents);
+		return {
+			tasks: documents,
+			isLoading: false
+		};
+	});
 
 	const open = Boolean(anchorEl);
 	const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {

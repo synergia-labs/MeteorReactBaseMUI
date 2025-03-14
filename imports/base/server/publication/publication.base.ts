@@ -4,8 +4,6 @@ import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { IContext } from '/imports/typings/IContext';
 import { z } from 'zod';
-import { MongoOptionsType } from '../../types/mongoOptions';
-import e from 'cors';
 
 interface IPublicationBase extends IActionsBase {
 	enableCountPublication?: boolean;

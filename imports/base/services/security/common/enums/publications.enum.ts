@@ -1,10 +1,10 @@
 import { enumSecurityConfig } from './config.enum';
 
 function getName(name: string) {
-	return `${enumSecurityConfig.apiName}.${name}`;
+	return `${enumSecurityConfig.apiName}.${name}.publication`;
 }
 
 export const enumSecurityPublications = {
-	getRoles: getName('getRoles'),
-	getMethods: getName('getMethods')
+	getAllRolesPublication: getName('getAllRoles'),
+	getAllMethodsPublication: getName('getAllMethods')
 };
