@@ -2,8 +2,11 @@ import { MongoBase } from '../../database/mongo.base';
 import MethodBase from '../../server/methods/method.base';
 import ServerBase from '../../server/server.base';
 import { enumSecurityConfig } from './common/enums/config.enum';
+import { SecurityServerMethods } from './common/interfaces/methods';
+import { methodSafeInsert } from './methods/methodSafeInsert';
+import { roleSafeInsert } from './methods/roleSafeInsert';
 
-const _methodInstances: Array<MethodBase<any, any, any>> = [] as const;
+const _methodInstances: Array<MethodBase<any, any, any>> = [roleSafeInsert, methodSafeInsert] as const;
 
 export class SecurityServer extends ServerBase {
 	private mongoRole = new MongoBase(enumSecurityConfig.roleCollectionName);
@@ -14,13 +17,9 @@ export class SecurityServer extends ServerBase {
 		this.registerMethods(_methodInstances, this);
 	}
 
-	getRoleCollection() {
-		return this.mongoRole;
-	}
-	getMethodCollection() {
-		return this.mongoMethod;
-	}
+	getRoleCollection = () => this.mongoRole;
+	getMethodCollection = () => this.mongoMethod;
 }
 
-const securityServer = new SecurityServer();
+const securityServer = new SecurityServer() as SecurityServer & SecurityServerMethods;
 export default securityServer;

@@ -13,6 +13,11 @@ import { EndpointType, ServerActions } from '../types/serverParams';
 import { MethodType } from '../types/method';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { IUserProfile } from '/imports/modules/userprofile/common/types/IUserProfile';
+import securityServer from '../services/security/security.server';
+import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
+import { roleSafeInsert } from '../services/security/methods/roleSafeInsert';
+import { methodSafeInsert } from '../services/security/methods/methodSafeInsert';
+import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -89,10 +94,25 @@ class ServerBase {
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
-			methodInstances.forEach((method) => {
+			methodInstances.forEach(async (method) => {
 				method.setServerInstance(classInstance);
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
+
+				if (withCall) {
+					try {
+						const context = getDefaultAdminContext({ apiName: this.apiName, action: 'registerMethods' });
+						await methodSafeInsert.execute(
+							{
+								name: methodName,
+								referred: enumSecurityConfig.apiName,
+								roles: method.getRoles() ?? [EnumUserRoles.PUBLIC]
+							},
+							context
+						);
+					} catch (__) {}
+				}
+
 				const methodFunction = async (...param: [any]) => {
 					console.info(`Call Method: ${methodName}`);
 
@@ -112,7 +132,9 @@ class ServerBase {
 				methodsObject[methodName] = methodFunction;
 			});
 
-			if (withCall) Meteor.methods(methodsObject);
+			if (withCall) {
+				Meteor.methods(methodsObject);
+			}
 		} catch (error) {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
@@ -135,9 +157,21 @@ class ServerBase {
 			if (publicationInstances?.length == 0 || !!!classInstance) return;
 			const self = this;
 
-			publicationInstances.forEach((publication) => {
+			publicationInstances.forEach(async (publication) => {
 				publication.setServerInstance(classInstance);
 				const publicationName = publication.getName();
+
+				try {
+					const context = getDefaultAdminContext({ apiName: this.apiName, action: 'registerMethods' });
+					await methodSafeInsert.execute(
+						{
+							name: publicationName,
+							referred: enumSecurityConfig.apiName,
+							roles: publication.getRoles() ?? [EnumUserRoles.PUBLIC]
+						},
+						context
+					);
+				} catch (__) {}
 
 				const publicationFunction = async (...param: any) => {
 					console.info(`Call Publication: ${publicationName}`);
@@ -206,7 +240,7 @@ class ServerBase {
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
 		const user: IUserProfile = userProfile || {
-			username: `By api endpoint`,
+			name: `By api endpoint`,
 			email: 'api.endpoint@api.com',
 			roles: EnumUserRoles.PUBLIC
 		};
@@ -255,18 +289,13 @@ class ServerBase {
 					)
 				);
 
-				const _context: IContext = {
-					apiName: this.apiName,
+				const _context: IContext = getDefaultPublicContext({
 					action,
-					user: {
-						username: `By ${type} api endpoint`,
-						email: 'api.endpoint@api.com',
-						roles: params.role ? [params.role] : [EnumUserRoles.PUBLIC]
-					},
-					session: endpointContext.request,
 					request: req,
-					response: res
-				};
+					response: res,
+					apiName: this.apiName,
+					session: endpointContext.request
+				});
 
 				try {
 					const result: any = await func(params, _context);

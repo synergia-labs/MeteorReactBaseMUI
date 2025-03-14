@@ -5,8 +5,13 @@ import { Meteor } from 'meteor/meteor';
 import { OAuth } from 'meteor/oauth';
 import { HTTP } from 'meteor/http';
 import _ from 'lodash';
+<<<<<<< HEAD:imports/server/oauth-google.ts
 // import { userprofileServerApi } from '../modules/userprofile/api/userProfileServerApi';
 import settings from '../../settings.json';
+=======
+import { userprofileServerApi } from '../../modules/userprofile/api/userProfileServerApi';
+import settings from '../../../settings.json';
+>>>>>>> backendRefactor:imports/server/initProcess/oauth-google.ts
 
 const whitelistedFields = [
 	'id',
