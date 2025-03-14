@@ -6,6 +6,8 @@ function getName(name: string) {
 
 export const enumSecurityMethods = {
 	roleSafeInsert: getName('roleSafeInsert'),
+	getRole: getName('getRole'),
 
-	methodSafeInsert: getName('methodSafeInsert')
+	methodSafeInsert: getName('methodSafeInsert'),
+	getMethod: getName('getMethod')
 };

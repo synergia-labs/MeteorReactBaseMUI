@@ -9,6 +9,7 @@ import { SecurityServer } from '../security.server';
 import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
 import { AuditType } from '/imports/base/types/audit';
 import { textNormalize } from '/imports/libs/textUtilities';
+import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { IContext } from '/imports/typings/IContext';
 
 class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeInsertType, ReturnMethodSafeInsertType> {
@@ -17,7 +18,7 @@ class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeI
 			name: enumSecurityMethods.methodSafeInsert,
 			paramSch: paramMethodSafeInsertSch,
 			returnSch: returnMethodSafeInsertSch,
-			roles: []
+			roles: [EnumUserRoles.ADM]
 		});
 	}
 
