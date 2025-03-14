@@ -1,20 +1,26 @@
 {
 	"name": "MeteorReactBase-MUI",
 	"short_name": "MRB",
-	"mail_no_reply": "no-reply@meteorreactbase.com",
-	"mail_system": "contact@@meteorreactbase.com",
-	"mail_url_smtp": "smtp://mail.smtpbucket.com:8025",
 	"service": "MeteorReactBase-MUI",
-	"settingsGoogle": {
-		"client_secret": "<client_secret>",
-		"client_id": "<client_id>",
-		"validClientIds": ["<client_id>"]
+	"email": {
+		"no_replay_sender": "no-reply@meteorreactbase.com",
+		"system_sender": "contact@meteorreactbase.com",
+		"url": "smtp://mail.smtpbucket.com:8025"
 	},
-	"settingsFacebook": {
-		"appId": "<appId>",
-		"secret": "<secret>"
+	"auth":{
+		"google": {
+			"clientId": "",
+			"secret": ""
+		},
+		"github": {
+			"clientId": "",
+			"secret": ""
+		}
 	},
 	"maps": {
 		"api": ""
+	},
+	"public": {
+		"appName": "MeteorReactBase-MUI"
 	}
 }
