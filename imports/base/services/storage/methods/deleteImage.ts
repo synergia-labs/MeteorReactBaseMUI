@@ -1,15 +1,14 @@
 import { enumStorageMethods } from '../common/enums/methods.enum';
 import { ParamDeleteArchiveType, ReturnDeleteArchiveType } from '../common/types/deleteArchive';
-import { StorageServer } from '../storage.server';
 import { DeleteStorageBase } from './bases/delete';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 
 class DeleteImage extends DeleteStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.deleteImage,
-			roles: [EnumUserRoles.ADM, EnumUserRoles.USER]
+			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
 		});
 	}
 

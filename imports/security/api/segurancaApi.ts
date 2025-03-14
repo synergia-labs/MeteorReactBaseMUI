@@ -1,7 +1,7 @@
 import { mapRolesRecursos } from '/imports/security/config/mapRolesRecursos';
 import { Meteor } from 'meteor/meteor';
 import { getSystemUserProfile } from '/imports/libs/getUser';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 
 type Recurso = string;
 
@@ -9,17 +9,11 @@ type Recurso = string;
  * Fornece acesso a informações de permissão de acesso do usuário a determinado recursos.
  */
 class SegurancaApi {
-	_getRecursosUsuario(user: IUserProfile | (Meteor.User & { roles?: string[] | undefined }) | undefined): Set<Recurso> {
-		let roles = user && user.roles;
-		if (!roles) roles = ['Public'];
+	_getRecursosUsuario(user: Meteor.User | undefined): Set<Recurso> {
+		const role = user?.profile?.role || EnumUserRoles.PUBLIC;
 		const resources = new Set<string>();
 
-		roles.forEach((role) => {
-			let recursosRole = mapRolesRecursos[role];
-			if (recursosRole) {
-				recursosRole.forEach((x) => resources.add(x));
-			}
-		});
+		mapRolesRecursos[role].forEach((x) => resources.add(x));
 		return resources;
 	}
 
@@ -29,7 +23,7 @@ class SegurancaApi {
 	 * @param recursosTestados
 	 */
 	podeAcessarRecurso(
-		user: IUserProfile | (Meteor.User & { roles?: string[] | undefined }) | undefined,
+		user: Meteor.User | undefined,	
 		...recursosTestados: string[]
 	): boolean {
 		if (!!user && getSystemUserProfile() === user) return true;
@@ -47,7 +41,7 @@ class SegurancaApi {
 	 * @param msgErro
 	 */
 	validarAcessoRecursos(
-		user: IUserProfile,
+		user: Meteor.User | undefined,
 		recursos: string[],
 		msgErro: string = 'Você não tem permissao para realizar essa operação'
 	): void {

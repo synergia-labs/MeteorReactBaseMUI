@@ -1,13 +1,8 @@
 import React, { createContext } from 'react';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
-import { IMeteorError } from '/imports/typings/IMeteorError';
-
+import { Meteor } from 'meteor/meteor';
 interface IAuthContext {
-    isLoggedIn: boolean;
-    user?: IUserProfile;
-    userLoading: boolean;
+    user: Meteor.User | null;
     logout: (callback: () => void) => void;
-    signIn: (email: string, password: string, callback: (err?: IMeteorError) => void) => void;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);

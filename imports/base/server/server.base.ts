@@ -5,15 +5,14 @@ import { WebApp } from 'meteor/webapp';
 import connectRoute from 'connect-route';
 import { IContext } from '/imports/typings/IContext';
 import { IConnection } from '/imports/typings/IConnection';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
-import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
 import MethodBase from './methods/method.base';
 import PublicationBase from './publication/publication.base';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
 import { EndpointType, ServerActions } from '../types/serverParams';
 import { MethodType } from '../types/method';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import { IUserProfile } from '/imports/modules/userprofile/common/types/IUserProfile';
 import securityServer from '../services/security/security.server';
 import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
 import { roleSafeInsert } from '../services/security/methods/roleSafeInsert';
@@ -95,7 +94,7 @@ class ServerBase {
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
-			methodInstances.forEach(async (method) => {
+			for(const method of methodInstances) {
 				method.setServerInstance(classInstance);
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
@@ -131,7 +130,7 @@ class ServerBase {
 
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
 				methodsObject[methodName] = methodFunction;
-			});
+			};
 
 			if (withCall) {
 				Meteor.methods(methodsObject);
@@ -237,10 +236,10 @@ class ServerBase {
 	protected async _createContext(
 		action: string,
 		connection?: IConnection,
-		userProfile?: IUserProfile,
+		userProfile?: Meteor.User,
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
-		const user: IUserProfile = userProfile || (await getUserServer(connection));
+		const user = userProfile ?? await Meteor.userAsync();
 		return { apiName: this.apiName, action, user, connection, session };
 	}
 	// #endregion

@@ -3,17 +3,20 @@ import { TemplateAppBar } from './templateAppBar/templateAppBar';
 import TemplateNone from './templateNone/templateNone';
 import { IAppMenu } from '../../modules/modulesTypings';
 import { NavigateFunction } from 'react-router-dom';
+import TemplateLogin from './templateLogin/templateLogin';
 
 //important: A definição do template default da aplicação é feita no aquivo /imports/app/appLayout.tsx
 
 export enum SysTemplateOptions {
 	AppBar = 'AppBar',
-	None = 'None'
+	None = 'None',
+	Login = 'Login'
 }
 
 const templates = {
 	[SysTemplateOptions.AppBar]: TemplateAppBar,
-	[SysTemplateOptions.None]: TemplateNone
+	[SysTemplateOptions.None]: TemplateNone,
+	[SysTemplateOptions.Login]: TemplateLogin
 };
 
 export interface ISysTemplate {

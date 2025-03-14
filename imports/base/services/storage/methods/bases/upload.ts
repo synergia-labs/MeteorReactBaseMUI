@@ -8,7 +8,7 @@ import { StorageServer } from '../../storage.server';
 import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
 import { IMethodBase } from '/imports/base/server/methods/method.base';
 import { AuditType } from '/imports/base/types/audit';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 import { Buffer } from 'buffer';
 
@@ -21,7 +21,7 @@ export abstract class UploadStorageBase extends CreateMethodBase<
 		super({
 			paramSch: paramUploadArchiveSch,
 			returnSch: returnUploadArchiveSch,
-			roles: [EnumUserRoles.ADM],
+			roles: [EnumUserRoles.ADMIN],
 			...props
 		});
 	}

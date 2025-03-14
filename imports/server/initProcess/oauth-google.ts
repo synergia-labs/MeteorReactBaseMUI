@@ -5,8 +5,8 @@ import { Meteor } from 'meteor/meteor';
 import { OAuth } from 'meteor/oauth';
 import { HTTP } from 'meteor/http';
 import _ from 'lodash';
-import { userprofileServerApi } from '../../modules/userprofile/api/userProfileServerApi';
-import settings from '../../../settings.json';
+// import { userprofileServerApi } from '../modules/userprofile/api/userProfileServerApi';
+import settings from '../../settings.json';
 
 const whitelistedFields = [
 	'id',

@@ -1,4 +1,5 @@
 // src/meteor-typings.d.ts
+
 declare module 'meteor/ostrio:files' {
 	import { Mongo } from 'meteor/mongo';
 

@@ -3,7 +3,7 @@ import { enumStorageMethods } from '../common/enums/methods.enum';
 import storageService, { StorageServer } from '../storage.server';
 import { UploadStorageBase } from './bases/upload';
 import { Buffer } from 'buffer';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import storageServer from '../storage.server';
 import { enumFileType } from '../common/types/file.type';
 import { ParamUploadArchiveType, ReturnUploadArchiveType } from '../common/types/uploadArchive';
@@ -12,7 +12,7 @@ class UploadImage extends UploadStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.uploadImage,
-			roles: [EnumUserRoles.ADM, EnumUserRoles.USER]
+			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
 		});
 	}
 

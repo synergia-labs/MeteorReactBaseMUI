@@ -1,8 +1,9 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { userprofileServerApi } from '../modules/userprofile/api/userProfileServerApi';
+import { userprofileServerApi } from '../modules/userprofile_/api/userProfileServerApi';
 import { getHTMLEmailTemplate } from './email';
 import req from 'request';
+
 
 // @ts-ignore
 import settings from '/settings';
@@ -206,7 +207,6 @@ Meteor.startup(() => {
 	});
 
 	Accounts.onLogout(async (params) => {
-		//@ts-ignore
 		const userProfile = params.user
 			? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0]
 			: undefined;
@@ -217,8 +217,9 @@ Meteor.startup(() => {
 	});
 
 	Accounts.config({
-		sendVerificationEmail: true,
-		forbidClientAccountCreation: false // impede que um usuário seja criado pelo cliente
+		sendVerificationEmail: false, 
+		forbidClientAccountCreation: false, 	// impede que um usuário seja criado pelo cliente,
+		defaultFieldSelector: { services: 0 }	// Impede que o cliente veja os serviços de autenticação
 	});
 
 	Accounts.validateLoginAttempt(({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {

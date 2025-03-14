@@ -30,3 +30,6 @@ accounts-base@3.0.2
 jquery
 http
 promise@1.0.0
+accounts-github
+service-configuration
+zodern:types

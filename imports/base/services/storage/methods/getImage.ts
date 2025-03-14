@@ -3,7 +3,7 @@ import { ParamGetArchiveType, ReturnGetArchiveType } from '../common/types/getAr
 import { enumResolution } from '../common/types/resolution.type';
 import { StorageServer } from '../storage.server';
 import { GetStorageBase } from './bases/get';
-import { EnumUserRoles } from '/imports/modules/userprofile/config/enumUser';
+import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 import fs from 'fs';
 import sharp from 'sharp';
@@ -12,7 +12,7 @@ class GetImage extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getImage,
-			roles: [EnumUserRoles.PUBLIC, EnumUserRoles.ADM]
+			roles: [EnumUserRoles.PUBLIC, EnumUserRoles.ADMIN]
 		});
 	}
 

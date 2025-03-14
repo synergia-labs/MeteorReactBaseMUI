@@ -21,9 +21,9 @@ import { IContext } from '../typings/IContext';
 import { IDoc } from '../typings/IDoc';
 import { IBaseOptions } from '../typings/IBaseOptions';
 import { IConnection } from '../typings/IConnection';
-import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 import Selector = Mongo.Selector;
-import { getUserServer } from '../modules/userprofile/api/userProfileServerApi';
+import { nanoid } from 'nanoid';
+import EnumUserRoles from '../modules/userprofile/common/enums/enumUserRoles';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -370,7 +370,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param defaultUser
 	 */
 	async _includeAuditData(doc: Doc | Partial<Doc>, action: string, defaultUser: string = 'Anonymous') {
-		const userId = (await getUserServer()) ? await getUserServer()?._id : defaultUser;
+		const userId = nanoid();
 		if (action === 'insert') {
 			doc.createdby = userId;
 			doc.createdat = new Date();
@@ -418,11 +418,15 @@ export class ServerApiBase<Doc extends IDoc> {
 		collection: string,
 		action: string,
 		connection?: IConnection,
-		userProfile?: IUserProfile,
+		userProfile?: Meteor.UserProfile,
 		validadorArg?: Validador,
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
-		const user: IUserProfile = userProfile || (await getUserServer(connection));
+		const user: Meteor.UserProfile = userProfile || {
+			username: `Teste`,
+			email: 'api.endpoint@api.com',
+			roles: [EnumUserRoles.PUBLIC]
+		};
 
 		const validador = validadorArg || new Validador(schema);
 		return {
