@@ -8,7 +8,6 @@ import { exampleApi } from "../../api/exampleApi";
 import { IExample } from "../../api/exampleSch";
 import { IMeteorError } from "/imports/typings/IMeteorError";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
-import { Box } from "@mui/material";
 
 
 const ExmapleDetailController: React.FC = () => {
@@ -20,6 +19,7 @@ const ExmapleDetailController: React.FC = () => {
 	const closePage = () => navigate(-1);
 	const navigateToEdit = () => navigate(`/example/edit/${id}`);
 	const onSubmit = (doc: Partial<IExample>) => {
+
 		exampleApi[ state == 'create' ? 'insert' : 'update'](doc, ( error: IMeteorError ) => {
 			if(error) return showNotification({
 				type: 'error',

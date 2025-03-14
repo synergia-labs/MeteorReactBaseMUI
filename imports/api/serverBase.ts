@@ -370,7 +370,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param defaultUser
 	 */
 	async _includeAuditData(doc: Doc | Partial<Doc>, action: string, defaultUser: string = 'Anonymous') {
-		const userId = (await getUserServer()) ? await getUserServer()?._id : defaultUser;
+		const userId = await Meteor.userAsync().then((user) => user?._id || defaultUser);
 		if (action === 'insert') {
 			doc.createdby = userId;
 			doc.createdat = new Date();

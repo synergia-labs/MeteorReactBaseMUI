@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import ExampleListView from './exampleListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { ISchema } from '../../../../typings/ISchema';
 import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
+import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean };
@@ -22,6 +23,8 @@ interface IExampleListContollerContext {
 	loading: boolean;
 	onChangeTextField: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	onChangeCategory: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	onAddItemClick: () => void;
+	onEditTasksClick: () => void;
 }
 
 export const ExampleListControllerContext = React.createContext<IExampleListContollerContext>(
@@ -29,7 +32,7 @@ export const ExampleListControllerContext = React.createContext<IExampleListCont
 );
 
 const initialConfig = {
-	sortProperties: { field: 'createdat', sortAscending: true },
+	sortProperties: { field: 'title', sortAscending: true },
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false
@@ -37,6 +40,7 @@ const initialConfig = {
 
 const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
+	const { showNotification } = useContext(AppLayoutContext);
 
 	const { title, type, typeMulti } = exampleApi.getSchema();
 	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
@@ -95,6 +99,36 @@ const ExampleListController = () => {
 		setConfig((prev) => ({ ...prev, filter: { ...prev.filter, type: value } }));
 	}, []);
 
+	const onAddItemClick = () => {
+		exampleApi.fillDatabae(10, (error, result) => {
+			if(error) return showNotification({
+				type: 'error',
+				title: "Não foi possível adicionar os itens",
+				message: `Erro: ${error}` 
+			});
+			showNotification({
+				type: 'success',
+				title: "Itens adicionados com sucesso",
+				message: `Foram adicionados os seguintes itens: ${result.map(item => item).join(', ')}`
+			})
+		});
+	};
+
+	const onEditTasksClick = () => {
+		exampleApi.editTasks("Teste", (error) => {
+			if(error) return showNotification({
+				type: 'error',
+				title: "Não foi possível editar as tarefas",
+				message: `Erro: ${error}`
+			});
+			showNotification({
+				type: 'success',
+				title: "Tarefas editadas com sucesso",
+				message: "Todas as tarefas foram editadas com sucesso"
+			})
+		})
+	};
+
 	const providerValues: IExampleListContollerContext = useMemo(
 		() => ({
 			onAddButtonClick,
@@ -103,7 +137,9 @@ const ExampleListController = () => {
 			schema: exampleSchReduzido,
 			loading,
 			onChangeTextField,
-			onChangeCategory: onSelectedCategory
+			onChangeCategory: onSelectedCategory,
+			onAddItemClick,
+			onEditTasksClick
 		}),
 		[examples, loading]
 	);

@@ -12,6 +12,7 @@ import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelec
 import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
 import { SysFab } from '../../../../ui/components/sysFab/sysFab';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import { IconButton } from '@mui/material';
 
 const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);
@@ -38,6 +39,16 @@ const ExampleListView = () => {
 					placeholder="Selecionar"
 					onChange={controller.onChangeCategory}
 				/>
+				<IconButton
+					onClick={controller.onAddItemClick}
+				>
+					<SysIcon name={'add'} />
+				</IconButton>
+				<IconButton
+					onClick={controller.onEditTasksClick}
+				>
+					<SysIcon name={'edit'} />
+				</IconButton>
 			</SearchContainer>
 			{controller.loading ? (
 				<LoadingContainer>

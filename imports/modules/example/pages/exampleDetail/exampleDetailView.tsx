@@ -74,6 +74,8 @@ const ExampleDetailView: React.FC = () => {
 					</SysFormButton>
 				</Styles.footer>
 			</SysForm>
+
+			{JSON.stringify(context.document)}
 		</Styles.container>
 	);
 }
