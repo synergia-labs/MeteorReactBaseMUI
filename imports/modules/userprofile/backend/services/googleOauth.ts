@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import OAuthBase from "/imports/base/services/auth/oAuth.base";
 
-interface IServiceData {
+export interface IServiceGoogleData {
     accessToken: string;
     idToken: string;
     scope: Array<string>;
@@ -20,7 +20,7 @@ class GoogleOAuth extends OAuthBase {
         super("google", Meteor.settings.auth.google.clientId, Meteor.settings.auth.google.secret);
     }
 
-    public async onUserMatched(serviceData: IServiceData): Promise<Meteor.User | null> {
+    public async onUserMatched(serviceData: IServiceGoogleData): Promise<Meteor.User | null> {
         const user = await Accounts.findUserByEmail(serviceData.email) as Meteor.User;
         return user ?? null;
     }

@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import OAuthBase from "/imports/base/services/auth/oAuth.base";
 
-interface IServiceData {
+export interface IServiceGithubData {
     accessToken: string;
     avatar: string;
     bio: string;
@@ -19,7 +19,7 @@ class GithubOAuth extends OAuthBase {
         super("github", Meteor.settings.auth.github.clientId, Meteor.settings.auth.github.secret);
     }
 
-    public async onUserMatched(serviceData: IServiceData): Promise<Meteor.User | null> {
+    public async onUserMatched(serviceData: IServiceGithubData ): Promise<Meteor.User | null> {
         const user = await Accounts.findUserByEmail(serviceData.email) as Meteor.User;
         return user ?? null;
     }

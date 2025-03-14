@@ -20,7 +20,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({
     logo,
     menuOptions = []
 }) => {
-    const { user, isLoggedIn, logout } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
     const { showModal } = useContext(AppLayoutContext);
 
     const navigate = useNavigate();
@@ -44,8 +44,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({
     const getOpcoesMenuDeUsuario = useCallback((): Array<ISysMenuItem> => ([
         {
             key: 'perfil',
-            // onClick: () => showUserProfileDetailControllerModal(showModal, {}),
-            otherProps: {  label: user?.username || '-',  startIcon: (<SysAvatar name={user?.username}/>)},
+            otherProps: {  label: user?.profile?.name || '-',  startIcon: (<SysAvatar name={user?.profile?.name}/>)},
         },
         {
             key: 'sair',
@@ -55,7 +54,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({
     ]), [user, showModal, onLogout]);
 
     const getOpcoesMenuMobile = useCallback((): Array<ISysMenuItem> => menuOptions.map((option) => {
-        const verificaUsuarioLogadoERotaProtegida = !isLoggedIn && sysRoutes.checkIfRouteIsProtected(option?.path || '');
+        const verificaUsuarioLogadoERotaProtegida = !user && sysRoutes.checkIfRouteIsProtected(option?.path || '');
         if(!hasValue(option) || verificaUsuarioLogadoERotaProtegida) return null;
         return {
             key: 'menu-' + option?.name,
@@ -66,10 +65,10 @@ const SysAppBar: React.FC<ISysAppBarController> = ({
                 startIcon: option?.icon,
             }
         };
-    }).filter((option) => option !== null), [menuOptions, navigate, isLoggedIn]);
+    }).filter((option) => option !== null), [menuOptions, navigate, user]);
 
     const providerValue: ISysAppBarContext = {
-        userName: user?.username || '-',
+        userName: user?.profile?.name || '-',
         menuOptions,
         menuPerfilRef,
         menuMobileRef,

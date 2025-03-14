@@ -4,8 +4,21 @@ import { Meteor } from 'meteor/meteor';
 Meteor.startup(() => {
     //region Configurações de contas
     Accounts.config({
-        sendVerificationEmail: false, 
+        sendVerificationEmail: true, 
         forbidClientAccountCreation: false,
         defaultFieldSelector: { services: 0 }
     });
+
+    Accounts.emailTemplates.siteName = Meteor.settings.public.appName;
+    Accounts.emailTemplates.from = Meteor.settings.email.system_sender;
+    process.env.MAIL_URL = Meteor.settings.email.url;
+
+    Accounts.emailTemplates.verifyEmail = {
+        subject() {
+            return 'Confirme seu endereço de e-mail';
+        },
+        text(user, url) {
+            return `Olá!\n\nPara confirmar seu endereço de e-mail, clique no link a seguir:\n\n${url}\n\nObrigado!`;
+        }
+    };    
 });

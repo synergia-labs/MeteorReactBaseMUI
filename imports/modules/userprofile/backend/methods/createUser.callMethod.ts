@@ -28,7 +28,6 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, ICreateUs
     };
 
     protected async beforeAction(prop: ICreateUser, context: IContext): Promise<void> {
-        console.log('beforeAction', prop, context);
         super.beforeAction(prop, context);
 
         if(prop.role !== EnumUserRoles.ADMIN) return;
@@ -48,7 +47,12 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, ICreateUs
             password: _prop.password,
             profile: profile
         });
-    }
+    };
+
+    protected async afterAction(_prop: ICreateUser, _result: string, _context: IContext): Promise<void> {
+        super.afterAction(_prop, _result, _context);
+        await Accounts.sendVerificationEmail(_result);
+    };
 } 
 
 const createUserCallMethodInstance = new CreateUserCallMethod();
