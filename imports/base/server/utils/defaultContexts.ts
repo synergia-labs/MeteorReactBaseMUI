@@ -21,10 +21,13 @@ export function getDefaultPublicContext(context: Partial<IContext>): IContext {
 			}
 		},
 		user: {
-			_id: EnumUserRoles.PUBLIC,
-			roles: [EnumUserRoles.PUBLIC],
-			username: EnumUserRoles.PUBLIC,
-			email: EnumUserRoles.PUBLIC
+			_id: EnumUserRoles.ADMIN,
+			username: EnumUserRoles.ADMIN,
+			emails: [{ address: EnumUserRoles.ADMIN, verified: true }],
+			profile: {
+				roles: [EnumUserRoles.ADMIN],
+				name: EnumUserRoles.ADMIN
+			}
 		},
 		...context
 	};
@@ -53,9 +56,12 @@ export function getDefaultAdminContext(context?: Partial<IContext>): IContext {
 		},
 		user: {
 			_id: EnumUserRoles.ADMIN,
-			roles: [EnumUserRoles.ADMIN],
 			username: EnumUserRoles.ADMIN,
-			email: EnumUserRoles.ADMIN
+			emails: [{ address: EnumUserRoles.ADMIN, verified: true }],
+			profile: {
+				roles: [EnumUserRoles.ADMIN],
+				name: EnumUserRoles.ADMIN
+			}
 		},
 		...context
 	};

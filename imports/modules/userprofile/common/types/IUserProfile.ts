@@ -6,7 +6,7 @@ export const UserProfileSchema = AuditSch.extend({
   photo: z.string().optional(),
   phone: z.string().optional(),
   name: z.string(),
-  role: z.nativeEnum(EnumUserRoles),
+  roles: z.array(z.string()).default([EnumUserRoles.USER]),
   status: z.string().optional(),
 });
 

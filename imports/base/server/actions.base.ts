@@ -73,9 +73,9 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 
 		const user = _context.user || {};
 		if (!user) throw new Meteor.Error('401', 'Usuário não autenticado ou não encontrado');
-		if (!user.roles) throw new Meteor.Error('403', 'Usuário não possui roles');
+		if (!user?.profile?.roles) throw new Meteor.Error('403', 'Usuário não possui roles');
 
-		const hasPermission = this.roles.some((role) => user.roles!.includes(role));
+		const hasPermission = this.roles.some((role) => user?.profile?.roles!.includes(role));
 		if (!hasPermission) throw new Meteor.Error('403', 'Usuário não possui permissão para essa ação');
 	}
 

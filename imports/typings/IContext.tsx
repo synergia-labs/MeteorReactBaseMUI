@@ -1,10 +1,8 @@
-import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 import { IConnection } from './IConnection';
-import { ISchema } from './ISchema';
-import { Validador } from '../libs/Validador';
+import { Meteor } from 'meteor/meteor';
 
 export interface IContext {
-	user: IUserProfile;
+	user: Meteor.User;
 	apiName: string;
 	action: string;
 	session: any;

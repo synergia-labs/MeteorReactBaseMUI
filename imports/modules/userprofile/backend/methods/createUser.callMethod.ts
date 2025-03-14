@@ -24,14 +24,14 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, ICreateUs
 
     protected insertAuditData(param: ICreateUser, _context: IContext): void {
         param.createdAt = new Date();
-        param.createdBy = (_context.user._id ?? Meteor.userId() ?? 'System') as string;
+        param.createdBy = (Meteor.userId() ?? 'System') as string;
     };
 
     protected async beforeAction(prop: ICreateUser, context: IContext): Promise<void> {
         super.beforeAction(prop, context);
 
-        if(prop.role !== EnumUserRoles.ADMIN) return;
-        if(context.user?.role === EnumUserRoles.ADMIN) return;
+        if(prop.roles.includes(EnumUserRoles.ADMIN)) return;
+        if(context.user?.profile?.roles?.includes(EnumUserRoles.ADMIN)) return;
         if(await this.getServerInstance()?.checkIfHasAdminUser())
             throw new Meteor.Error('500', 'Apenas usuários administradores podem criar usuários administradores');
 

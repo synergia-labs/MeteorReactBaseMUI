@@ -22,7 +22,7 @@ const CreateAdminUserPage: React.FC = () => {
             <SysForm
                 schema={createUserSchema}
                 onSubmit={context.createUser}
-                doc={{ role: EnumUserRoles.ADMIN }}
+                doc={{ roles: [EnumUserRoles.ADMIN] }}
             >
                 <Styles.formContainer>
                     <SysTextField name="name" label="Nome" fullWidth placeholder="Digite seu email" />

@@ -10,10 +10,18 @@ type Recurso = string;
  */
 class SegurancaApi {
 	_getRecursosUsuario(user: Meteor.User | undefined): Set<Recurso> {
-		const role = user?.profile?.role || EnumUserRoles.PUBLIC;
+		const roles = user?.profile?.roles || EnumUserRoles.PUBLIC;
 		const resources = new Set<string>();
 
-		mapRolesRecursos[role].forEach((x) => resources.add(x));
+		for (const role of roles) {
+			const roleResources = (mapRolesRecursos as any)[role];
+			if (!roleResources) continue;
+			for (const resource of roleResources) {
+				resources.add(resource);
+			}
+		}
+
+
 		return resources;
 	}
 

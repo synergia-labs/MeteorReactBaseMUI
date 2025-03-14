@@ -12,10 +12,7 @@ import cors from 'cors';
 import { EndpointType, ServerActions } from '../types/serverParams';
 import { MethodType } from '../types/method';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
-import { IUserProfile } from '/imports/modules/userprofile/common/types/IUserProfile';
-import securityServer from '../services/security/security.server';
 import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
-import { roleSafeInsert } from '../services/security/methods/roleSafeInsert';
 import { methodSafeInsert } from '../services/security/methods/methodSafeInsert';
 import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
 
@@ -239,7 +236,7 @@ class ServerBase {
 		userProfile?: Meteor.User,
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
-		const user = userProfile ?? await Meteor.userAsync();
+		const user = userProfile ?? await Meteor.userAsync() ?? { profile: { roles: [EnumUserRoles.PUBLIC] } } as Meteor.User;
 		return { apiName: this.apiName, action, user, connection, session };
 	}
 	// #endregion
