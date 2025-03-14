@@ -17,7 +17,7 @@ class CheckIfHasAdminUserCallMethod extends MethodBase<UserProfileServer, void, 
     }
 
     async action(_prop: void, _context: IContext): Promise<boolean> {
-        const adminUser = await this.getServerInstance()?.mongoInstance.findOneAsync({  "profile.role": EnumUserRoles.ADMIN });
+        const adminUser = await this.getServerInstance()?.mongoInstance.findOneAsync({ "profile.role": EnumUserRoles.ADMIN });
         return !!adminUser;
     }
 } 

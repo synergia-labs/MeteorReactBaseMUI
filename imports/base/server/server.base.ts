@@ -94,7 +94,7 @@ class ServerBase {
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
-			methodInstances.forEach(async (method) => {
+			for(const method of methodInstances) {
 				method.setServerInstance(classInstance);
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
@@ -130,7 +130,7 @@ class ServerBase {
 
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
 				methodsObject[methodName] = methodFunction;
-			});
+			};
 
 			if (withCall) {
 				Meteor.methods(methodsObject);
@@ -236,14 +236,10 @@ class ServerBase {
 	protected async _createContext(
 		action: string,
 		connection?: IConnection,
-		userProfile?: IUserProfile,
+		userProfile?: Meteor.User,
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
-		const user: IUserProfile = userProfile || {
-			name: `By api endpoint`,
-			email: 'api.endpoint@api.com',
-			roles: EnumUserRoles.PUBLIC
-		};
+		const user = userProfile ?? await Meteor.userAsync();
 		return { apiName: this.apiName, action, user, connection, session };
 	}
 	// #endregion

@@ -25,7 +25,7 @@ const UserProfileContainer: React.FC = () => {
         if(error) return showNotification({
             type: 'error',
             title: "Erro ao verificar existência de usuário administrador",
-            message: "Ocorreu um erro ao verificar se existe um usuário administrador cadastrado no sistema. Por favor, tente novamente."
+            message: `Erro: ${error}`
         });
         setHasAdminUser(result);
     }), []);
