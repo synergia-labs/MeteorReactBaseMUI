@@ -5,4 +5,3 @@
 node_modules
 .vscode
 *.cypress/cucumber-json
-settings.json

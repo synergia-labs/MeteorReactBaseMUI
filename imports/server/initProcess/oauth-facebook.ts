@@ -1,20 +1,11 @@
 // // server/imports/oauth-facebook.js
 
-<<<<<<< HEAD:imports/server/oauth-facebook.ts
 // import { ServiceConfiguration } from 'meteor/service-configuration';
 // import { OAuth } from 'meteor/oauth';
 // import { HTTP } from 'meteor/http';
 // import crypto from 'crypto';
 // import _ from 'lodash';
 // import settings from '../../settings.json';
-=======
-import { ServiceConfiguration } from 'meteor/service-configuration';
-import { OAuth } from 'meteor/oauth';
-import { HTTP } from 'meteor/http';
-import crypto from 'crypto';
-import _ from 'lodash';
-import settings from '../../../settings.json';
->>>>>>> backendRefactor:imports/server/initProcess/oauth-facebook.ts
 
 // const whitelistedFields = ['id', 'email', 'name', 'first_name', 'last_name', 'link', 'gender', 'locale', 'age_range'];
 
