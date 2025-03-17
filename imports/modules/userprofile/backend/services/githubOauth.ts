@@ -16,11 +16,13 @@ export interface IServiceGithubData {
 
 class GithubOAuth extends OAuthBase {
 	constructor() {
-		super('github', process.env.GITHUB_CLIENT_ID || '', process.env.GITHUB_SECRET || '');
+		super('github', Meteor.settings.auth?.github?.clientId, Meteor.settings.auth?.github?.secret);
 	}
 
 	public async onUserMatched(serviceData: IServiceGithubData): Promise<Meteor.User | null> {
 		const user = (await Accounts.findUserByEmail(serviceData.email)) as Meteor.User;
+		if(user && serviceData.avatar)
+			await Meteor.users.updateAsync({ _id: user._id }, { $set: { 'profile.photo': serviceData.avatar } });
 		return user ?? null;
 	}
 }

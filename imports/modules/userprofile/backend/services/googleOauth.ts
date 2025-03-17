@@ -17,11 +17,13 @@ export interface IServiceGoogleData {
 
 class GoogleOAuth extends OAuthBase {
 	constructor() {
-		super('google', process.env.GOOGLE_CLIENT_ID || '', process.env.GOOGLE_SECRET || '');
+		super('google', Meteor.settings.auth?.google?.clientId, Meteor.settings.auth?.google?.secret);
 	}
 
 	public async onUserMatched(serviceData: IServiceGoogleData): Promise<Meteor.User | null> {
 		const user = (await Accounts.findUserByEmail(serviceData.email)) as Meteor.User;
+		if(user && serviceData.picture)
+			await Meteor.users.updateAsync({ _id: user._id }, { $set: { 'profile.photo': serviceData.picture } });
 		return user ?? null;
 	}
 }

@@ -4,6 +4,7 @@ import { ISysMenuItem, ISysMenuRef } from '/imports/ui/components/sysMenu/sysMen
 
 interface ISysAppBarContext {
     userName: string;
+    userPhoto?: string;
     menuOptions: Array<(IAppMenu | null)>;
     menuPerfilRef: RefObject<ISysMenuRef>;
     menuMobileRef: RefObject<ISysMenuRef>;

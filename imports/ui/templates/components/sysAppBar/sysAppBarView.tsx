@@ -46,6 +46,7 @@ const SysAppBarView: React.FC<ISysAppBar> = ({logo}) => {
         </Styles.navContainerMobile>
         <Fragment>
           <SysAvatar 
+            src={ controller.userPhoto }
             name={ controller.userName } 
             activateOutline
             onClick={controller.abrirMenuPerfil}

@@ -44,7 +44,14 @@ const SysAppBar: React.FC<ISysAppBarController> = ({
     const getOpcoesMenuDeUsuario = useCallback((): Array<ISysMenuItem> => ([
         {
             key: 'perfil',
-            otherProps: {  label: user?.profile?.name || '-',  startIcon: (<SysAvatar name={user?.profile?.name}/>)},
+            otherProps: {  
+                label: user?.profile?.name || '-',  
+                startIcon: (
+                    <SysAvatar 
+                        name={user?.profile?.name} 
+                        src={user?.profile?.photo}
+                    />
+                )},
         },
         {
             key: 'sair',
@@ -69,6 +76,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({
 
     const providerValue: ISysAppBarContext = {
         userName: user?.profile?.name || '-',
+        userPhoto: user?.profile?.photo,
         menuOptions,
         menuPerfilRef,
         menuMobileRef,
