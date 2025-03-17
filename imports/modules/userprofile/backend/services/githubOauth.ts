@@ -16,7 +16,7 @@ export interface IServiceGithubData {
 
 class GithubOAuth extends OAuthBase {
 	constructor() {
-		super('github', Meteor.settings.auth?.github?.clientId, Meteor.settings.auth?.github?.secret);
+		super('github', process.env.GITHUB_CLIENT_ID || '', process.env.GITHUB_SECRET || '');
 	}
 
 	public async onUserMatched(serviceData: IServiceGithubData): Promise<Meteor.User | null> {

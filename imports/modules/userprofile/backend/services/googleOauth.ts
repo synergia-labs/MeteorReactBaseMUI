@@ -17,7 +17,7 @@ export interface IServiceGoogleData {
 
 class GoogleOAuth extends OAuthBase {
 	constructor() {
-		super('google', Meteor.settings.auth?.google?.clientId, Meteor.settings.auth?.google?.secret);
+		super('google', process.env.GOOGLE_CLIENT_ID || '', process.env.GOOGLE_SECRET || '');
 	}
 
 	public async onUserMatched(serviceData: IServiceGoogleData): Promise<Meteor.User | null> {

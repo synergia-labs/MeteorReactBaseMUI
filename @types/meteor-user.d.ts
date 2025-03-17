@@ -5,5 +5,12 @@ declare module 'meteor/meteor' {
     namespace Meteor { 
         interface UserProfile extends IUserProfile{}
         interface UserServices extends IUserServices {}
+        interface IConnection {
+            id: string;
+            close: Function;
+            onClose: Function;
+            clientAddress: string;
+            httpHeaders: any;
+        }
     }
 }

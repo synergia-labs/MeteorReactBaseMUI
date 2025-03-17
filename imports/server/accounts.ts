@@ -185,7 +185,7 @@ Meteor.startup(() => {
 		return getHTMLEmailTemplate('Alteração da senha atual', email, footer);
 	};
 
-	Accounts.onLogin(async (params: { user: Meteor.User; connection: { onClose: (arg0: () => void) => void } }) => {
+	Accounts.onLogin(async (params: { user: Meteor.User; connection: { onClose: Function } }) => {
 		//@ts-ignore
 		const userProfile = params.user
 			? userprofileServerApi.find({ email: params.user?.profile?.email }).fetch()[0]

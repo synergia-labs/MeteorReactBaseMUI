@@ -7,7 +7,8 @@ export const UserProfileSchema = AuditSch.extend({
   phone: z.string().optional(),
   name: z.string(),
   roles: z.array(z.string()).default([EnumUserRoles.USER]),
-  status: z.string().optional(),
+  connected: z.boolean().default(false),
+  lastAccess: z.date().optional(),
 });
 
 export type IUserProfile = z.infer<typeof UserProfileSchema>;
