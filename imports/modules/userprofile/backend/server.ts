@@ -30,6 +30,39 @@ class UserProfileServer extends ProductServerBase {
         this.registerMethods(_methodInstances, this);
         this.registerPublications(_publicationInstances, this);
     }
+
+    /**
+     * Método chamado quando um usuário faz login.
+     * 
+     * Este método é chamado automaticamente e configurado no Accounts do sistema.
+     * 
+     * @param { Meteor.User } user              - Usuário que fez login.
+     * @param { Meteor.IConnection } connection - Conexão do usuário. 
+     */    
+    public async onLogin({ user, connection } : { user: Meteor.User, connection: Meteor.IConnection }): Promise<void> {
+        await this.mongoInstance.updateAsync(
+			{ _id: user._id }, 
+			{ $set: { 'profile.connected': true, 'profile.lastAccess': new Date() }}
+		);
+		
+		connection.onClose(Meteor.bindEnvironment(this.onLogout.bind(this, { user })));
+	};
+
+    /**
+     * Método chamado quando um usuário faz logout.
+     * 
+     * Este método é chamado automaticamente e configurado no Accounts do sistema.
+     * 
+     * @param { Meteor.User } user - Usuário que fez logout.
+     */
+    public async onLogout({ user } : { user: Meteor.User }): Promise<void> {
+        await this.mongoInstance.updateAsync(
+			{ _id: user._id }, 
+			{ $set: { 'profile.connected': false, 'profile.lastAccess': new Date() }}
+		);
+    }
+
+
 }
 
 

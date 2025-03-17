@@ -3,6 +3,7 @@ import githubOAuth from './githubOauth';
 import googleOAuth from './googleOauth';
 import OAuthBase from '/imports/base/services/auth/oAuth.base';
 
+
 const oAuthInstances: Array<OAuthBase> = [
     githubOAuth,
     googleOAuth

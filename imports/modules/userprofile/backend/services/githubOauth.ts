@@ -21,6 +21,8 @@ class GithubOAuth extends OAuthBase {
 
 	public async onUserMatched(serviceData: IServiceGithubData): Promise<Meteor.User | null> {
 		const user = (await Accounts.findUserByEmail(serviceData.email)) as Meteor.User;
+		if(user && serviceData.avatar)
+			await Meteor.users.updateAsync({ _id: user._id }, { $set: { 'profile.photo': serviceData.avatar } });
 		return user ?? null;
 	}
 }
