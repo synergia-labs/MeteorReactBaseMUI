@@ -3,7 +3,7 @@ import CreateAdminUserPage from './createAdminUser/createAdminUser.view';
 import userProfileApi from '../api/api';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import Context, { IUserProfileContext } from './userProfileContext';
-import { ICreateUser } from '../../common/types/ICreateUser';
+import { CreateUserType } from '../../common/types/createUser';
 import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
 import SignInPage from './signIn/signIn';
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +34,7 @@ const UserProfileContainer: React.FC = () => {
         return <SignInPage />;
     }
 
-    const createUser = useCallback((doc: ICreateUser) => {
+    const createUser = useCallback((doc: CreateUserType) => {
         userProfileApi.create(doc, (error) => {
             if(error) return showNotification({
                 type: 'error',

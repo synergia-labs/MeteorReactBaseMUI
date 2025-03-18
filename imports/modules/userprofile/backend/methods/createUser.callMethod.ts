@@ -1,10 +1,10 @@
+import { z } from "zod";
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
 import EnumUserRoles from "../../common/enums/enumUserRoles";
-import { ICreateUser } from "../../common/types/ICreateUser";
+import { createUserSchema, CreateUserType } from "../../common/types/createUser";
 import { UserProfileServer } from "../server";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
 import { IContext } from "/imports/typings/IContext";
-
 
 /**
  * Método de criação de usuário
@@ -13,21 +13,25 @@ import { IContext } from "/imports/typings/IContext";
  *   - Apenas usuários administradores podem criar usuários administradores.
  *   - Caso não exista nenhum usuário administrador, não há regras que restrinjam a criação de usuários administradores.
  * 
- * @param {ICreateUser} prop    - Dados do usuário a ser criado
+ * @param {CreateUserType} prop    - Dados do usuário a ser criado
  * @returns {string}            - ID do usuário criado
  */
 
-class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, ICreateUser, string> {
+class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUserType, string> {
     constructor() {
-        super({ name: enumUserProfileRegisterMethods.create });
+        super({ 
+            name: enumUserProfileRegisterMethods.create,
+            paramSch: createUserSchema,
+            returnSch: z.string().ulid().nonempty(),
+        });
     }
 
-    protected insertAuditData(param: ICreateUser, _context: IContext): void {
+    protected insertAuditData(param: CreateUserType, _context: IContext): void {
         param.createdAt = new Date();
         param.createdBy = (Meteor.userId() ?? 'System') as string;
     };
 
-    protected async beforeAction(prop: ICreateUser, context: IContext): Promise<void> {
+    protected async beforeAction(prop: CreateUserType, context: IContext): Promise<void> {
         super.beforeAction(prop, context);
 
         if(prop.roles.includes(EnumUserRoles.ADMIN)) return;
@@ -37,8 +41,8 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, ICreateUs
 
     }
 
-    async action(_prop: ICreateUser, _context: IContext): Promise<string> {
-        const profile: Partial<ICreateUser> = {..._prop};
+    async action(_prop: CreateUserType, _context: IContext): Promise<string> {
+        const profile: Partial<CreateUserType> = {..._prop};
         delete profile.email;
         delete profile.password;
         
@@ -49,7 +53,7 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, ICreateUs
         });
     };
 
-    protected async afterAction(_prop: ICreateUser, _result: string, _context: IContext): Promise<void> {
+    protected async afterAction(_prop: CreateUserType, _result: string, _context: IContext): Promise<void> {
         super.afterAction(_prop, _result, _context);
         await Accounts.sendVerificationEmail(_result);
     };

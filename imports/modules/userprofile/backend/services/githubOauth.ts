@@ -1,25 +1,17 @@
 import { Meteor } from 'meteor/meteor';
 import OAuthBase from '/imports/base/services/auth/oAuth.base';
-
-export interface IServiceGithubData {
-	accessToken: string;
-	avatar: string;
-	bio: string;
-	blog: string;
-	company: string;
-	email: string;
-	emails: Array<{ email: string; verified: boolean; primary: boolean; visibility: string }>;
-	id: number;
-	location: string;
-	username: string;
-}
-
-class GithubOAuth extends OAuthBase {
+import { githubServiceDataSchema, ServiceGithubDataType } from '../../common/types/serviceGithubData';
+class GithubOAuth extends OAuthBase<ServiceGithubDataType> {
 	constructor() {
-		super('github', Meteor.settings.auth?.github?.clientId, Meteor.settings.auth?.github?.secret);
+		super({
+			serviceName: 'github', 
+			clientId: Meteor.settings.auth?.github?.clientId, 
+			secret: Meteor.settings.auth?.github?.secret,
+			schema: githubServiceDataSchema,
+		});
 	}
 
-	public async onUserMatched(serviceData: IServiceGithubData): Promise<Meteor.User | null> {
+	public async onUserMatched(serviceData: ServiceGithubDataType): Promise<Meteor.User | null> {
 		const user = (await Accounts.findUserByEmail(serviceData.email)) as Meteor.User;
 		if(user && serviceData.avatar)
 			await Meteor.users.updateAsync({ _id: user._id }, { $set: { 'profile.photo': serviceData.avatar } });

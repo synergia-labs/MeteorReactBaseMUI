@@ -1,18 +1,24 @@
+import { Meteor } from "meteor/meteor";
 import MethodBase from "/imports/base/server/methods/method.base";
 import ProductServerBase from "/imports/base/server/server.product";
 import EnumUserProfileSettings from "../common";
 import { UserProfileServerMethods } from "../common/interfaces/methods";
-import { Meteor } from "meteor/meteor";
 import checkIfHasAdminUserCallMethodInstance from "./methods/checkIfHasAdminUser.callMethod";
 import createUserCallMethodInstance from "./methods/createUser.callMethod";
 import { Mongo } from "meteor/mongo";
-import { Accounts } from 'meteor/accounts-base';
+import onLoginInstance from "./methods/onLogin";
+import onLogoutInstance from "./methods/onLogout";
 
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
     checkIfHasAdminUserCallMethodInstance,
     createUserCallMethodInstance
+] as const;
+
+const _serverSideMethods: Array<MethodBase<any, any, any>> = [
+    onLoginInstance,
+    onLogoutInstance
 ] as const;
 
 /**Array com as instâncias de todas as classes de publicação do módulo */
@@ -28,43 +34,10 @@ class UserProfileServer extends ProductServerBase {
         this.mongoInstance = Meteor.users;
 
         this.registerMethods(_methodInstances, this);
+        this.registerMethods(_serverSideMethods, this, false);
         this.registerPublications(_publicationInstances, this);
     }
-
-    /**
-     * Método chamado quando um usuário faz login.
-     * 
-     * Este método é chamado automaticamente e configurado no Accounts do sistema.
-     * 
-     * @param { Meteor.User } user              - Usuário que fez login.
-     * @param { Meteor.IConnection } connection - Conexão do usuário. 
-     */    
-    public async onLogin({ user, connection } : { user: Meteor.User, connection: Meteor.IConnection }): Promise<void> {
-        await this.mongoInstance.updateAsync(
-			{ _id: user._id }, 
-			{ $set: { 'profile.connected': true, 'profile.lastAccess': new Date() }}
-		);
-		
-		connection.onClose(Meteor.bindEnvironment(this.onLogout.bind(this, { user })));
-	};
-
-    /**
-     * Método chamado quando um usuário faz logout.
-     * 
-     * Este método é chamado automaticamente e configurado no Accounts do sistema.
-     * 
-     * @param { Meteor.User } user - Usuário que fez logout.
-     */
-    public async onLogout({ user } : { user: Meteor.User }): Promise<void> {
-        await this.mongoInstance.updateAsync(
-			{ _id: user._id }, 
-			{ $set: { 'profile.connected': false, 'profile.lastAccess': new Date() }}
-		);
-    }
-
-
 }
-
 
 type interfaceWithMethods = UserProfileServerMethods & UserProfileServer;
 

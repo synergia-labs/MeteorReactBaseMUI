@@ -1,9 +1,9 @@
 import { Password } from "@mui/icons-material";
-import { ICreateUser } from "../../common/types/ICreateUser";
+import { CreateUserType } from "../../common/types/createUser";
 import { SchemaType } from "/imports/base/types/schema";
 import emailValidator from "/imports/libs/validators/email";
 
-const createUserSchema: SchemaType<ICreateUser> = {
+const createUserSchema: SchemaType<CreateUserType> = {
     name: {
         type: String,
         label: "Nome",

@@ -1,17 +1,28 @@
 import { ServiceConfiguration } from "meteor/service-configuration";
 import { hasValue } from "/imports/libs/hasValue";
+import { ZodTypeAny } from "zod";
 
-abstract class OAuthBase {
+interface IOauthBase {
+    clientId: string;
+    secret: string;
+    loginStyle?: 'popup' | 'redirect';
+    serviceName: string;
+    schema: ZodTypeAny;
+}
+
+abstract class OAuthBase<T> {
     private cliendId: string;
     private secret: string;
     private loginStyle: 'popup' | 'redirect';
     private serviceName: string;
+    private schema: ZodTypeAny;
 
-    constructor(serviceName: string, clientId: string, secret: string, loginStyle?: 'popup' | 'redirect') {
+    constructor({serviceName, clientId, secret, loginStyle, schema}: IOauthBase) {
         this.serviceName = serviceName;
         this.cliendId = clientId;
         this.secret = secret;
         this.loginStyle = loginStyle ?? 'popup';
+        this.schema = schema;
     }
 
     public getServiceName = (): string => this.serviceName;
@@ -51,10 +62,12 @@ abstract class OAuthBase {
      * o serviço de autenticação a ele. Caso seja retornado undefined, o sistema irá criar um novo usuário e associar. 
      * 
      */
-    public async onUserMatched(_serviceData: any): Promise<Meteor.User | null> {
-        return null;
-    }
+    protected abstract onUserMatched(_serviceData: T): Promise<Meteor.User | null>;
 
+    public async additionalFindUserOnExternalLogin(_serviceData: T): Promise<Meteor.User | null> {
+        this.schema.parse(_serviceData);
+        return await this.onUserMatched(_serviceData);
+    }
 };
 
 export default OAuthBase;

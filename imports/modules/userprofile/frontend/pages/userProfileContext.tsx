@@ -1,8 +1,8 @@
 import React, { createContext } from 'react';
-import { ICreateUser } from '../../common/types/ICreateUser';
+import { CreateUserType } from '../../common/types/createUser';
 
 interface IUserProfileContext {
-    createUser: (doc: ICreateUser) => void;
+    createUser: (doc: CreateUserType) => void;
     loginWithGithub: () => void;
     loginWithGoogle: () => void;
     loginWithPassword: ({ email, password } : { email: string, password: string }) => void;
