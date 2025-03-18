@@ -1,8 +1,10 @@
 import { z } from 'zod';
+import { enumMethodTypes } from '../enums/methodTypes';
 
 export const paramMethodSafeInsertSch = z.object({
 	referred: z.string(),
 	name: z.string(),
+	type: enumMethodTypes,
 	description: z.string().optional(),
 	roles: z.array(z.string()).default([])
 });

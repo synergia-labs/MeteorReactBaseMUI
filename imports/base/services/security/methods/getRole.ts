@@ -12,7 +12,8 @@ class GetRole extends MethodBase<SecurityServer, ParamGetType, ReturnGetRoleType
 			name: enumSecurityMethods.getRole,
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetRoleSch,
-			roles: [EnumUserRoles.ADMIN]
+			roles: [EnumUserRoles.ADMIN],
+			description: 'Get role by name and referred'
 		});
 	}
 

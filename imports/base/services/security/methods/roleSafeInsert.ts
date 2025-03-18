@@ -18,7 +18,8 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 			name: enumSecurityMethods.roleSafeInsert,
 			paramSch: paramRoleSafeInsertSch,
 			returnSch: returnRoleSafeInsertSch,
-			roles: [EnumUserRoles.ADMIN]
+			roles: [EnumUserRoles.ADMIN],
+			description: 'Insert a new role to a specific referred'
 		});
 	}
 

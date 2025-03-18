@@ -18,7 +18,8 @@ class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeI
 			name: enumSecurityMethods.methodSafeInsert,
 			paramSch: paramMethodSafeInsertSch,
 			returnSch: returnMethodSafeInsertSch,
-			roles: [EnumUserRoles.ADMIN]
+			roles: [EnumUserRoles.ADMIN],
+			description: 'Insert a new method to a specific referred'
 		});
 	}
 

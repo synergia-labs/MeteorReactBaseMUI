@@ -1,4 +1,5 @@
 import { StorageServerMethods } from '../../../storage/common/interfaces/methods';
+import { checkMethodPermission } from '../../methods/checkMethodPermission';
 import { getMethod } from '../../methods/getMethod';
 import { getRole } from '../../methods/getRole';
 import { methodSafeInsert } from '../../methods/methodSafeInsert';
@@ -11,6 +12,7 @@ interface SecurityServerMethods extends Record<string, (...args: any) => any> {
 	methodSafeInsert: MethodType<typeof methodSafeInsert>;
 	getMethod: MethodType<typeof getMethod>;
 	getRole: MethodType<typeof getRole>;
+	checkMethodPermission: MethodType<typeof checkMethodPermission>;
 }
 
 type SecurityApiMethods = TransformServerToApiMethods<StorageServerMethods>;

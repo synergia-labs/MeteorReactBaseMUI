@@ -1,3 +1,4 @@
+import { enumSecurityConfig } from '../common/enums/config.enum';
 import { enumSecurityPublications } from '../common/enums/publications.enum';
 import { paramGetAllSch, ParamGetAllType, returnGetMethodSch, ReturnGetMethodType } from '../common/types/get';
 import { SecurityServer } from '../security.server';
@@ -23,10 +24,21 @@ class GetAllMethodsPublication extends PublicationBase<SecurityServer, ParamGetA
 		_options: Mongo.Options<ReturnGetMethodType>,
 		_context: IContext
 	): Promise<any> {
-		console.log('getAllMethodsPublication.action: ', _params, _options, _context);
+		const server = this.getServerInstance()?.getMethodCollection();
+		if (!server) throw new Error('Server instance not found');
 
-		const filter = { referred: _params.referred };
-		return this.getServerInstance()?.getMethodCollection().find(filter, _options);
+		const alreadyFound: Array<string> = [];
+
+		const referredVarCursor = await server.find({ referred: _params.referred }).fetch();
+		referredVarCursor.forEach((doc) => {
+			alreadyFound.push(doc.name);
+		});
+
+		const cursor = server.find({
+			$or: [{ referred: _params.referred }, { referred: enumSecurityConfig.apiName, name: { $nin: alreadyFound } }]
+		});
+
+		return cursor;
 	}
 }
 
