@@ -1,5 +1,4 @@
 import { enumSecurityConfig } from '../../common/enums/config.enum';
-// import { SecurityServer } from '../security.server';
 import { hasValue } from '/imports/libs/hasValue';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
@@ -33,7 +32,7 @@ export async function _checkPermission(name: string, referred: string, _context:
 			method.roles.some((role: string) => user.profile!.roles.includes(role))
 		);
 	} catch (error) {
-		console.log('Failed to check permission', error);
+		console.error('Failed to check permission', error);
 		return false;
 	}
 }
