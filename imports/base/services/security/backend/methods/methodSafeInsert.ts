@@ -1,10 +1,10 @@
-import { enumSecurityMethods } from '../common/enums/methods.enum';
+import { enumSecurityMethods } from '../../common/enums/methods.enum';
 import {
 	paramMethodSafeInsertSch,
 	ParamMethodSafeInsertType,
 	returnMethodSafeInsertSch,
 	ReturnMethodSafeInsertType
-} from '../common/types/methodSafeInsert';
+} from '../../common/types/methodSafeInsert';
 import { SecurityServer } from '../security.server';
 import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
 import { AuditType } from '/imports/base/types/audit';
@@ -18,7 +18,8 @@ class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeI
 			name: enumSecurityMethods.methodSafeInsert,
 			paramSch: paramMethodSafeInsertSch,
 			returnSch: returnMethodSafeInsertSch,
-			roles: [EnumUserRoles.ADMIN]
+			roles: [EnumUserRoles.ADMIN],
+			description: 'Insert a new method to a specific referred'
 		});
 	}
 
@@ -33,7 +34,7 @@ class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeI
 		const _id = `${_param.referred}.${textNormalize(_param.name)}`;
 		const method = await methodCollection.findOneAsync({ _id });
 		if (method) throw new Error('Method already exists');
-
+		_param.isProtected = _param.isProtected ?? false;
 		const result = await methodCollection.insertAsync({ _id, ..._param });
 		return { _id: result };
 	}

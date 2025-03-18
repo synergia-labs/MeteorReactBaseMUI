@@ -1,10 +1,11 @@
-import { paramGetArchiveSch } from '../../storage/common/types/getArchive';
-import { enumSecurityConfig } from '../common/enums/config.enum';
-import { enumSecurityMethods } from '../common/enums/methods.enum';
-import { ParamGetType, returnGetMethodSch, ReturnGetMethodType } from '../common/types/get';
+import { paramGetArchiveSch } from '../../../storage/common/types/getArchive';
+import { enumSecurityConfig } from '../../common/enums/config.enum';
+import { enumSecurityMethods } from '../../common/enums/methods.enum';
+import { ParamGetType, returnGetMethodSch, ReturnGetMethodType } from '../../common/types/get';
 import { SecurityServer } from '../security.server';
 import MethodBase from '/imports/base/server/methods/method.base';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import { IContext } from '/imports/typings/IContext';
 
 class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethodType> {
 	constructor() {
@@ -12,7 +13,8 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 			name: enumSecurityMethods.getMethod,
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetMethodSch,
-			roles: [EnumUserRoles.ADMIN]
+			roles: [EnumUserRoles.ADMIN],
+			description: 'Get method by name and referred'
 		});
 	}
 
@@ -20,13 +22,16 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 		throw new Meteor.Error('500', _error.message);
 	}
 
-	async action(_param: ParamGetType, _context: any): Promise<ReturnGetMethodType> {
+	async action(_param: ParamGetType, _context: IContext): Promise<ReturnGetMethodType> {
 		const methodCollection = this.getServerInstance()?.getMethodCollection();
 		if (!methodCollection) throw new Error('Method collection not found');
 
 		const _id = `${_param.referred ?? enumSecurityConfig.apiName}.${_param.name}`;
 		const method = await methodCollection.findOneAsync({ _id });
 		if (!method) throw new Error('Method not found');
+
+		if (method.isProtected && !_context.user.profile?.roles.includes(EnumUserRoles.ADMIN))
+			throw new Error('Unauthorized');
 
 		return method;
 	}

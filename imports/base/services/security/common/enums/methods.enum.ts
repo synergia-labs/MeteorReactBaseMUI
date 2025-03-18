@@ -9,5 +9,7 @@ export const enumSecurityMethods = {
 	getRole: getName('getRole'),
 
 	methodSafeInsert: getName('methodSafeInsert'),
-	getMethod: getName('getMethod')
+	getMethod: getName('getMethod'),
+
+	checkMethodPermission: getName('checkMethodPermission')
 };

@@ -4,14 +4,19 @@ import { IContext } from '/imports/typings/IContext';
 import { Meteor } from 'meteor/meteor';
 import { EndpointType } from '../types/serverParams';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
+import { _checkPermission } from '../services/security/backend/utils/checkPermission';
 
 interface IActionsBase {
 	roles?: Array<EnumUserRoles>;
 	paramSch?: ZodTypeAny;
 	returnSch?: ZodTypeAny;
 	endpointType?: EndpointType;
+	description?: string;
 	name: string;
 	actionType: 'method' | 'publication';
+	isProtected?: boolean;
+	referred?: string;
 }
 
 /**Clase base para criação das classes base de método e publicação */
@@ -24,16 +29,32 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	private paramSch?: ZodTypeAny;
 	private returnSch?: ZodTypeAny;
 	private endpointType?: EndpointType;
+	private isProtected: boolean;
+	private description?: string;
+	private referred?: string;
 	//endregion
 
 	//region Constructor
-	constructor({ name, roles, paramSch, returnSch, endpointType, actionType }: IActionsBase) {
+	constructor({
+		name,
+		roles,
+		paramSch,
+		returnSch,
+		endpointType,
+		actionType,
+		description,
+		isProtected,
+		referred
+	}: IActionsBase) {
 		this.name = name;
 		this.roles = roles;
 		this.paramSch = paramSch;
 		this.returnSch = returnSch;
 		this.endpointType = endpointType;
 		this.actionType = actionType;
+		this.description = description;
+		this.isProtected = isProtected ?? false;
+		this.referred = referred;
 	}
 	//endregion
 
@@ -65,36 +86,26 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	public getEndpointType(): EndpointType | undefined {
 		return this.endpointType;
 	}
-	//endregion
-
-	//region Auxiliar methods
-	protected _checkPermissions(_context: IContext): void {
-		if (!this.roles || this.roles.length == 0) return;
-
-		const user = _context.user || {};
-		if (!user) throw new Meteor.Error('401', 'Usuário não autenticado ou não encontrado');
-		if (!user?.profile?.roles) throw new Meteor.Error('403', 'Usuário não possui roles');
-
-		const hasPermission = this.roles.some((role) => user?.profile?.roles!.includes(role));
-		if (!hasPermission) throw new Meteor.Error('403', 'Usuário não possui permissão para essa ação');
+	public getDescription(): string {
+		return this.description ?? '';
 	}
-
-	protected _registerActionLogs(_param: Param, _context: IContext): void {
-		//TODO: Implementar registro de logs
+	public getIsProtected(): boolean {
+		return this.isProtected;
 	}
 	//endregion
 
 	//region Before action
 	protected async beforeAction(_param: Param, _context: IContext): Promise<void> {
-		if (this.paramSch) this.paramSch.parse(_param);
-		this._checkPermissions(_context);
+		if (this.paramSch) _param = this.paramSch.parse(_param);
+
+		const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
+		if (!permission) throw new Meteor.Error('403', 'Usuário não tem permissão para executar este método');
 	}
 	//endregion
 
 	//region After action
 	protected async afterAction(_param: Param, _result: Return, _context: IContext): Promise<void> {
-		if (this.returnSch) this.returnSch.parse(_result);
-		this._registerActionLogs(_param, _context);
+		if (this.returnSch) _result = this.returnSch.parse(_result);
 	}
 	//endregion
 

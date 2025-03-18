@@ -1,10 +1,10 @@
-import { enumSecurityMethods } from '../common/enums/methods.enum';
+import { enumSecurityMethods } from '../../common/enums/methods.enum';
 import {
 	paramRoleSafeInsertSch,
 	ParamRoleSafeInsertType,
 	returnRoleSafeInsertSch,
 	ReturnRoleSafeInsertType
-} from '../common/types/roleSafeInsert';
+} from '../../common/types/roleSafeInsert';
 import { SecurityServer } from '../security.server';
 import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
 import { AuditType } from '/imports/base/types/audit';
@@ -18,7 +18,8 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 			name: enumSecurityMethods.roleSafeInsert,
 			paramSch: paramRoleSafeInsertSch,
 			returnSch: returnRoleSafeInsertSch,
-			roles: [EnumUserRoles.ADMIN]
+			roles: [EnumUserRoles.ADMIN],
+			description: 'Insert a new role to a specific referred'
 		});
 	}
 

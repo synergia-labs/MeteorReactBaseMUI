@@ -5,6 +5,6 @@ function getName(name: string) {
 }
 
 export const enumSecurityPublications = {
-	getRoles: getName('getRoles'),
-	getMethods: getName('getMethods')
+	getAllRolesPublication: getName('getAllRoles'),
+	getAllMethodsPublication: getName('getAllMethods')
 };

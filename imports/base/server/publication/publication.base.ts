@@ -4,8 +4,6 @@ import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { IContext } from '/imports/typings/IContext';
 import { z } from 'zod';
-import { MongoOptionsType } from '../../types/mongoOptions';
-import e from 'cors';
 
 interface IPublicationBase extends IActionsBase {
 	enableCountPublication?: boolean;
@@ -81,7 +79,7 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		return this.action(_param[0], _param[1], _context);
 	}
 
-	protected async transformPublication(_doc: Return, _context: IContext): Promise<Return> {
+	async transformPublication(_doc: Return, _context: IContext): Promise<Return> {
 		throw new Meteor.Error('500', 'O método transformPublication deve ser implementado');
 	}
 }
