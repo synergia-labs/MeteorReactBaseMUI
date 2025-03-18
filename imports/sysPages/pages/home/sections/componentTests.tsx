@@ -27,7 +27,6 @@ import securityApi from '/imports/base/services/security/security.api';
 import { enumSecurityConfig } from '/imports/base/services/security/common/enums/config.enum';
 import { ParamUploadArchiveType } from '/imports/base/services/storage/common/types/uploadArchive';
 import { useTracker } from 'meteor/react-meteor-data';
-import { set } from 'lodash';
 
 type storageType = 'Image' | 'Audio' | 'Video' | 'Document';
 const HomeSectionComponents: React.FC = () => {
@@ -36,17 +35,17 @@ const HomeSectionComponents: React.FC = () => {
 	const [fileUrl, setFileUrl] = React.useState<string>();
 	const [fileOptions, setFileOptions] = React.useState<storageType>('Image');
 
-	// const { tasks, isLoading } = useTracker(() => {
-	// 	const methodshandle = securityApi.getAllMethodsPublication({
-	// 		referred: enumSecurityConfig.apiName
-	// 	});
-	// 	const documents = methodshandle.ready() ? securityApi.mongoMethod.find().fetch() : [];
-	// 	console.log('documents: ', documents);
-	// 	return {
-	// 		tasks: documents,
-	// 		isLoading: false
-	// 	};
-	// });
+	const { tasks, isLoading } = useTracker(() => {
+		const methodshandle = securityApi.getAllRolesPublication({
+			referred: 'SecurityService2'
+		});
+		const documents = methodshandle.ready() ? securityApi.mongoRole.find().fetch() : [];
+		console.log('documents: ', documents);
+		return {
+			tasks: documents,
+			isLoading: false
+		};
+	});
 
 	const open = Boolean(anchorEl);
 	const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {

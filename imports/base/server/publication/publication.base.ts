@@ -79,7 +79,7 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		return this.action(_param[0], _param[1], _context);
 	}
 
-	protected async transformPublication(_doc: Return, _context: IContext): Promise<Return> {
+	async transformPublication(_doc: Return, _context: IContext): Promise<Return> {
 		throw new Meteor.Error('500', 'O método transformPublication deve ser implementado');
 	}
 }

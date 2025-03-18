@@ -75,13 +75,13 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 
 	//region Before action
 	protected async beforeAction(_param: Param, _context: IContext): Promise<void> {
-		if (this.paramSch) this.paramSch.parse(_param);
+		if (this.paramSch) _param = this.paramSch.parse(_param);
 	}
 	//endregion
 
 	//region After action
 	protected async afterAction(_param: Param, _result: Return, _context: IContext): Promise<void> {
-		if (this.returnSch) this.returnSch.parse(_result);
+		if (this.returnSch) _result = this.returnSch.parse(_result);
 	}
 	//endregion
 

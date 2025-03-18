@@ -9,6 +9,7 @@ import { getRole } from './methods/getRole';
 import { methodSafeInsert } from './methods/methodSafeInsert';
 import { roleSafeInsert } from './methods/roleSafeInsert';
 import { getAllMethodsPublication } from './publications/getAllMethods';
+import { getAllRolesPublication } from './publications/getAllRoles';
 
 const _methodInstances: Array<MethodBase<any, any, any>> = [
 	roleSafeInsert,
@@ -17,7 +18,10 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	getMethod
 ] as const;
 
-const _publicationInstances: Array<PublicationBase<any, any, any>> = [getAllMethodsPublication];
+const _publicationInstances: Array<PublicationBase<any, any, any>> = [
+	getAllMethodsPublication,
+	getAllRolesPublication
+] as const;
 
 export class SecurityServer extends ServerBase {
 	private mongoRole = new MongoBase(enumSecurityConfig.roleCollectionName);

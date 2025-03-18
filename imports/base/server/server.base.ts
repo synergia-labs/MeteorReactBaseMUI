@@ -9,12 +9,13 @@ import MethodBase from './methods/method.base';
 import PublicationBase from './publication/publication.base';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { EndpointType, ServerActions } from '../types/serverParams';
+import { EndpointType } from '../types/serverParams';
 import { MethodType } from '../types/method';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
 import { methodSafeInsert } from '../services/security/methods/methodSafeInsert';
 import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
+import { enumMethodTypes, MethodTypes } from '../services/security/common/enums/methodTypes';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -24,7 +25,7 @@ class ServerBase {
 	apiOptions: { apiVersion?: number };
 
 	//region Constructor
-	constructor(apiName: string, apiOptions?: { apiVersion?: number }) {
+	constructor(apiName: string, roles?: Array<string>, apiOptions?: { apiVersion?: number }) {
 		this.apiName = apiName;
 		this.apiOptions = apiOptions || { apiVersion: 1 };
 
@@ -33,33 +34,26 @@ class ServerBase {
 		this.addRestEndpoint = this.addRestEndpoint.bind(this);
 
 		this._createContext = this._createContext.bind(this);
-		this._includeAuditFilds = this._includeAuditFilds.bind(this);
+		this._registerSecurity(apiName, enumMethodTypes.enum.MODULE, roles);
 	}
 	//endregion
 
-	//region _includeAuditFilds
-	/**
-	 * Método para incluir os campos de auditoria em um documento.
-	 * @param doc 		- Documento que receberá os campos de auditoria.
-	 * @param action 	- Ação que está sendo realizada. (create, update)
-	 *
-	 * @returns 		- A alteração do documento ocorre por referência, ou seja, o documento do parâmetro é alterado.
-	 */
-	protected async _includeAuditFilds(doc: any & Partial<IDoc>, action: ServerActions) {
-		const userId = Meteor.userId();
-		if (!userId) throw new Meteor.Error('Usuário não autenticado');
-
-		if (action === 'create') {
-			doc.createdby = userId;
-			doc.createdat = new Date();
-			doc.lastupdate = new Date();
-			doc.updatedby = userId;
-		} else if (action === 'update') {
-			doc.lastupdate = new Date();
-			doc.updatedby = userId;
-		}
+	private _registerSecurity(name: string, type: MethodTypes, roles?: Array<string>) {
+		setTimeout(async () => {
+			try {
+				const context = getDefaultAdminContext({ apiName: this.apiName, action: 'startApplication' });
+				await methodSafeInsert.execute(
+					{
+						name: name,
+						referred: enumSecurityConfig.apiName,
+						roles: roles ?? [EnumUserRoles.PUBLIC],
+						type: type
+					},
+					context
+				);
+			} catch (__) {}
+		}, 1000);
 	}
-	//endregion
 
 	// region getMainUrl
 	/**
@@ -91,24 +85,12 @@ class ServerBase {
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
 
-			for(const method of methodInstances) {
+			for (const method of methodInstances) {
 				method.setServerInstance(classInstance);
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
 
-				if (withCall) {
-					try {
-						const context = getDefaultAdminContext({ apiName: this.apiName, action: 'registerMethods' });
-						await methodSafeInsert.execute(
-							{
-								name: methodName,
-								referred: enumSecurityConfig.apiName,
-								roles: method.getRoles() ?? [EnumUserRoles.PUBLIC]
-							},
-							context
-						);
-					} catch (__) {}
-				}
+				if (withCall) this._registerSecurity(methodName, enumMethodTypes.enum.METHOD, method.getRoles());
 
 				const methodFunction = async (...param: [any]) => {
 					console.info(`Call Method: ${methodName}`);
@@ -127,7 +109,7 @@ class ServerBase {
 
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
 				methodsObject[methodName] = methodFunction;
-			};
+			}
 
 			if (withCall) {
 				Meteor.methods(methodsObject);
@@ -158,17 +140,7 @@ class ServerBase {
 				publication.setServerInstance(classInstance);
 				const publicationName = publication.getName();
 
-				try {
-					const context = getDefaultAdminContext({ apiName: this.apiName, action: 'registerMethods' });
-					await methodSafeInsert.execute(
-						{
-							name: publicationName,
-							referred: enumSecurityConfig.apiName,
-							roles: publication.getRoles() ?? [EnumUserRoles.PUBLIC]
-						},
-						context
-					);
-				} catch (__) {}
+				this._registerSecurity(publicationName, enumMethodTypes.enum.PUBLICATION, publication.getRoles());
 
 				const publicationFunction = async (...param: any) => {
 					console.info(`Call Publication: ${publicationName}`);
@@ -236,7 +208,8 @@ class ServerBase {
 		userProfile?: Meteor.User,
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
-		const user = userProfile ?? await Meteor.userAsync() ?? { profile: { roles: [EnumUserRoles.PUBLIC] } } as Meteor.User;
+		const user =
+			userProfile ?? (await Meteor.userAsync()) ?? ({ profile: { roles: [EnumUserRoles.PUBLIC] } } as Meteor.User);
 		return { apiName: this.apiName, action, user, connection, session };
 	}
 	// #endregion
