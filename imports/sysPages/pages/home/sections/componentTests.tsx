@@ -27,6 +27,9 @@ import securityApi from '/imports/base/services/security/security.api';
 import { enumSecurityConfig } from '/imports/base/services/security/common/enums/config.enum';
 import { ParamUploadArchiveType } from '/imports/base/services/storage/common/types/uploadArchive';
 import { useTracker } from 'meteor/react-meteor-data';
+import { enumStorageMethods } from '/imports/base/services/storage/common/enums/methods.enum';
+import { enumSecurityMethods } from '/imports/base/services/security/common/enums/methods.enum';
+import enumUserProfileRegisterMethods from '/imports/modules/userprofile/common/enums/enumRegisterMethods';
 
 type storageType = 'Image' | 'Audio' | 'Video' | 'Document';
 const HomeSectionComponents: React.FC = () => {
@@ -34,6 +37,32 @@ const HomeSectionComponents: React.FC = () => {
 	const [imageId, setImageId] = React.useState<string>();
 	const [fileUrl, setFileUrl] = React.useState<string>();
 	const [fileOptions, setFileOptions] = React.useState<storageType>('Image');
+
+	const methodsNames = [
+		enumStorageMethods.deleteAudio,
+		enumStorageMethods.deleteDocument,
+		enumStorageMethods.deleteImage,
+		enumStorageMethods.deleteVideo,
+		enumStorageMethods.uploadAudio,
+		enumStorageMethods.uploadDocument,
+		enumStorageMethods.uploadImage,
+		enumStorageMethods.uploadVideo,
+		enumSecurityMethods.checkMethodPermission,
+		enumSecurityMethods.getMethod,
+		enumSecurityMethods.getRole,
+		enumSecurityMethods.methodSafeInsert,
+		enumSecurityMethods.roleSafeInsert,
+		enumUserProfileRegisterMethods.checkIfHasAdminUser,
+		enumUserProfileRegisterMethods.sendVerificationEmail
+	];
+
+	useEffect(() => {
+		securityApi.checkMethodPermission({ names: methodsNames }, (error, result) => {
+			if (error) return;
+
+			console.log('result: ', result);
+		});
+	}, []);
 
 	const { tasks, isLoading } = useTracker(() => {
 		const methodshandle = securityApi.getAllRolesPublication({

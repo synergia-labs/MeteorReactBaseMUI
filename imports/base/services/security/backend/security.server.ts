@@ -1,9 +1,10 @@
-import { MongoBase } from '../../database/mongo.base';
-import MethodBase from '../../server/methods/method.base';
-import PublicationBase from '../../server/publication/publication.base';
-import ServerBase from '../../server/server.base';
-import { enumSecurityConfig } from './common/enums/config.enum';
-import { SecurityServerMethods } from './common/interfaces/methods';
+import { MongoBase } from '../../../database/mongo.base';
+import MethodBase from '../../../server/methods/method.base';
+import PublicationBase from '../../../server/publication/publication.base';
+import ServerBase from '../../../server/server.base';
+import { enumSecurityConfig } from '../common/enums/config.enum';
+import { SecurityServerMethods } from '../common/interfaces/methods';
+import { checkMethodPermission } from './methods/checkMethodPermission';
 import { getMethod } from './methods/getMethod';
 import { getRole } from './methods/getRole';
 import { methodSafeInsert } from './methods/methodSafeInsert';
@@ -15,7 +16,8 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	roleSafeInsert,
 	methodSafeInsert,
 	getRole,
-	getMethod
+	getMethod,
+	checkMethodPermission
 ] as const;
 
 const _publicationInstances: Array<PublicationBase<any, any, any>> = [
@@ -24,8 +26,8 @@ const _publicationInstances: Array<PublicationBase<any, any, any>> = [
 ] as const;
 
 export class SecurityServer extends ServerBase {
-	private mongoRole = new MongoBase(enumSecurityConfig.roleCollectionName);
-	private mongoMethod = new MongoBase(enumSecurityConfig.methodCollectionName);
+	static mongoRole = new MongoBase(enumSecurityConfig.roleCollectionName);
+	static mongoMethod = new MongoBase(enumSecurityConfig.methodCollectionName);
 
 	constructor() {
 		super(enumSecurityConfig.apiName);
@@ -33,8 +35,8 @@ export class SecurityServer extends ServerBase {
 		this.registerPublications(_publicationInstances, this);
 	}
 
-	getRoleCollection = () => this.mongoRole;
-	getMethodCollection = () => this.mongoMethod;
+	getRoleCollection = () => SecurityServer.mongoRole;
+	getMethodCollection = () => SecurityServer.mongoMethod;
 }
 
 const securityServer = new SecurityServer() as SecurityServer & SecurityServerMethods;

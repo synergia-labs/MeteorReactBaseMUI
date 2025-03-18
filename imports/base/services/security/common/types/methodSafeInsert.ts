@@ -6,6 +6,7 @@ export const paramMethodSafeInsertSch = z.object({
 	name: z.string(),
 	type: enumMethodTypes,
 	description: z.string().optional(),
+	isProtected: z.boolean().optional(),
 	roles: z.array(z.string()).default([])
 });
 

@@ -13,7 +13,7 @@ import { EndpointType } from '../types/serverParams';
 import { MethodType } from '../types/method';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
-import { methodSafeInsert } from '../services/security/methods/methodSafeInsert';
+import { methodSafeInsert } from '../services/security/backend/methods/methodSafeInsert';
 import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
 import { enumMethodTypes, MethodTypes } from '../services/security/common/enums/methodTypes';
 
@@ -25,7 +25,7 @@ class ServerBase {
 	apiOptions: { apiVersion?: number };
 
 	//region Constructor
-	constructor(apiName: string, roles?: Array<string>, apiOptions?: { apiVersion?: number }) {
+	constructor(apiName: string, roles?: Array<string>, isProtected?: boolean, apiOptions?: { apiVersion?: number }) {
 		this.apiName = apiName;
 		this.apiOptions = apiOptions || { apiVersion: 1 };
 
@@ -34,11 +34,11 @@ class ServerBase {
 		this.addRestEndpoint = this.addRestEndpoint.bind(this);
 
 		this._createContext = this._createContext.bind(this);
-		this._registerSecurity(apiName, enumMethodTypes.enum.MODULE, roles);
+		this._registerSecurity(apiName, enumMethodTypes.enum.MODULE, isProtected ?? false, roles);
 	}
 	//endregion
 
-	private _registerSecurity(name: string, type: MethodTypes, roles?: Array<string>) {
+	private _registerSecurity(name: string, type: MethodTypes, isProtected: boolean, roles?: Array<string>) {
 		setTimeout(async () => {
 			try {
 				const context = getDefaultAdminContext({ apiName: this.apiName, action: 'startApplication' });
@@ -47,12 +47,13 @@ class ServerBase {
 						name: name,
 						referred: enumSecurityConfig.apiName,
 						roles: roles ?? [EnumUserRoles.PUBLIC],
-						type: type
+						type: type,
+						isProtected: isProtected
 					},
 					context
 				);
 			} catch (__) {}
-		}, 1000);
+		}, 2000);
 	}
 
 	// region getMainUrl
@@ -90,7 +91,8 @@ class ServerBase {
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
 
-				if (withCall) this._registerSecurity(methodName, enumMethodTypes.enum.METHOD, method.getRoles());
+				if (withCall)
+					this._registerSecurity(methodName, enumMethodTypes.enum.METHOD, method.getIsProtected(), method.getRoles());
 
 				const methodFunction = async (...param: [any]) => {
 					console.info(`Call Method: ${methodName}`);
@@ -140,7 +142,12 @@ class ServerBase {
 				publication.setServerInstance(classInstance);
 				const publicationName = publication.getName();
 
-				this._registerSecurity(publicationName, enumMethodTypes.enum.PUBLICATION, publication.getRoles());
+				this._registerSecurity(
+					publicationName,
+					enumMethodTypes.enum.PUBLICATION,
+					publication.getIsProtected(),
+					publication.getRoles()
+				);
 
 				const publicationFunction = async (...param: any) => {
 					console.info(`Call Publication: ${publicationName}`);

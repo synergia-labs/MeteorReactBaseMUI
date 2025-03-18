@@ -4,6 +4,8 @@ import { IContext } from '/imports/typings/IContext';
 import { Meteor } from 'meteor/meteor';
 import { EndpointType } from '../types/serverParams';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
+import { _checkPermission } from '../services/security/backend/utils/checkPermission';
 
 interface IActionsBase {
 	roles?: Array<EnumUserRoles>;
@@ -13,6 +15,8 @@ interface IActionsBase {
 	description?: string;
 	name: string;
 	actionType: 'method' | 'publication';
+	isProtected?: boolean;
+	referred?: string;
 }
 
 /**Clase base para criação das classes base de método e publicação */
@@ -25,11 +29,23 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	private paramSch?: ZodTypeAny;
 	private returnSch?: ZodTypeAny;
 	private endpointType?: EndpointType;
+	private isProtected: boolean;
 	private description?: string;
+	private referred?: string;
 	//endregion
 
 	//region Constructor
-	constructor({ name, roles, paramSch, returnSch, endpointType, actionType, description }: IActionsBase) {
+	constructor({
+		name,
+		roles,
+		paramSch,
+		returnSch,
+		endpointType,
+		actionType,
+		description,
+		isProtected,
+		referred
+	}: IActionsBase) {
 		this.name = name;
 		this.roles = roles;
 		this.paramSch = paramSch;
@@ -37,6 +53,8 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 		this.endpointType = endpointType;
 		this.actionType = actionType;
 		this.description = description;
+		this.isProtected = isProtected ?? false;
+		this.referred = referred;
 	}
 	//endregion
 
@@ -68,14 +86,20 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	public getEndpointType(): EndpointType | undefined {
 		return this.endpointType;
 	}
-	public getDescription(): string | undefined {
-		return this.description;
+	public getDescription(): string {
+		return this.description ?? '';
+	}
+	public getIsProtected(): boolean {
+		return this.isProtected;
 	}
 	//endregion
 
 	//region Before action
 	protected async beforeAction(_param: Param, _context: IContext): Promise<void> {
 		if (this.paramSch) _param = this.paramSch.parse(_param);
+
+		const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
+		if (!permission) throw new Meteor.Error('403', 'Usuário não tem permissão para executar este método');
 	}
 	//endregion
 

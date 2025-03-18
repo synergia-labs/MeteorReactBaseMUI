@@ -1,7 +1,7 @@
-import { paramGetArchiveSch } from '../../storage/common/types/getArchive';
-import { enumSecurityConfig } from '../common/enums/config.enum';
-import { enumSecurityMethods } from '../common/enums/methods.enum';
-import { ParamGetType, returnGetRoleSch, ReturnGetRoleType } from '../common/types/get';
+import { paramGetArchiveSch } from '../../../storage/common/types/getArchive';
+import { enumSecurityConfig } from '../../common/enums/config.enum';
+import { enumSecurityMethods } from '../../common/enums/methods.enum';
+import { ParamGetType, returnGetRoleSch, ReturnGetRoleType } from '../../common/types/get';
 import { SecurityServer } from '../security.server';
 import MethodBase from '/imports/base/server/methods/method.base';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
