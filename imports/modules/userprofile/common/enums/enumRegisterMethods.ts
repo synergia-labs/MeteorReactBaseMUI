@@ -4,6 +4,7 @@ const getName = (name: string): string => `${EnumUserProfileSettings.MODULE_NAME
 
 const enumUserProfileRegisterMethods = {
     sendVerificationEmail: getName('sendVerificationEmail'),
+    sendResetPasswordEmail: getName('sendResetPasswordEmail'),
     checkIfHasAdminUser: getName('checkIfHasAdminUser'),
     create: getName('create'),
 } as const;

@@ -1,7 +1,7 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
-import userProfileApi from '../../api/api';
+import usersApi from '../../api/api';
 import { CreateUserType } from '../../../common/types/createUser';
 import Context, { INotLoggedInUserContext } from './notLoggedInUser.context';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
 
     useEffect(() => {
         if(user) return;
-        userProfileApi.checkIfHasAdminUser(undefined, (error, result) => {
+        usersApi.checkIfHasAdminUser(undefined, (error, result) => {
         if(error) return showNotification({
             type: 'error',
             title: "Erro ao verificar existência de usuário administrador",
@@ -31,7 +31,7 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
     })}, []);
 
     const createUser = useCallback((doc: CreateUserType) => {
-        userProfileApi.create(doc, (error) => {
+        usersApi.create(doc, (error) => {
             if(error) return showNotification({
                 type: 'error',
                 title: "Erro ao criar usuário",
@@ -52,12 +52,11 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
             title: "Erro ao logar",
             message: "Ocorreu um erro ao logar no sistema. Por favor, tente novamente."
         });
-        showNotification({
-            type: 'success',
-            title: "Login bem-sucedido",
-            message: "Você foi logado com sucesso."
-        });
         navigate('/');
+    }, []);
+
+    const sendResetPasswordEmail = useCallback((email: string, callback: (error: Meteor.Error) => void) => {
+        usersApi.sendResetPasswordEmail(email, callback);
     }, []);
 
     const loginWithGithub = useCallback(() => 
@@ -73,6 +72,7 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
         loginWithGithub: loginWithGithub,
         loginWithGoogle: loginWithGoogle,
         loginWithPassword: loginWithPassword,
+        sendResetPasswordEmail: sendResetPasswordEmail
     };
 
     return (

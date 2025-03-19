@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import renderHtmlServerSide from '/imports/base/services/email/utils/renderHtmlServerSide';
 import BaseUserEmails from '../baseUserEmails/baseUserEmials';
-import Styles from './sendEmailVerificationTempalteStyles';
+import Styles from './sendEmailResetPasswordTemplate.styles';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
@@ -18,14 +18,14 @@ const SendEmailVerification: React.FC<ISendEmailVerificationProps> = ({
     return (
         <BaseUserEmails title={ `Olá, ${ user.profile?.name || user?.emails?.[0]?.address }` } >
             <Typography>
-                Seja bem vindo ao <strong> {Meteor.settings.public.appName} </strong>
+                Sua senha de acesso ao <strong>{Meteor.settings.public.appName}</strong> será alterada.
             </Typography>
             <Typography>
-                Para confirmar seu endereço de e-mail, clique no botão abaixo:
+                Clique no link abaixo e informe uma nova senha:
             </Typography>
             <Link href={url}>
                 <Styles.buttonContainer>
-                    Confirmar e-mail
+                    Alterar senha
                 </Styles.buttonContainer>
             </Link>
             <Typography variant='caption' color={ theme => theme.palette.sysText?.auxiliary }>
@@ -33,13 +33,14 @@ const SendEmailVerification: React.FC<ISendEmailVerificationProps> = ({
                 Esta é uma mensagem gerada automaticamente. Por favor, não responda a este e-mail.
             </Typography>
         </BaseUserEmails>
+        
     )
 };
 
 
-const verificationEmailTemplate = (): EmailFields => ({
+const resetPasswordEmailTemplate = (): EmailFields => ({
     subject() {
-        return `${Meteor.settings.public.appName} - Confirme seu endereço de e-mail`;
+        return `${Meteor.settings.public.appName} - Redefinição de senha`;
     },
     html(user, url) {
         return renderHtmlServerSide(
@@ -51,4 +52,4 @@ const verificationEmailTemplate = (): EmailFields => ({
     }
 }); 
 
-export default verificationEmailTemplate;
+export default resetPasswordEmailTemplate;

@@ -2,10 +2,10 @@ import ApiBase from "../../../../base/api/api.base";
 import { Mongo } from "meteor/mongo";
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
 import enumUserProfileRegisterPublications from "../../common/enums/enumRegisterPublications";
-import { UserProfileApiMethods } from "../../common/interfaces/methods";
 import { Meteor } from "meteor/meteor";
+import { UsersApiMethods } from "../../common/interfaces/methods";
 
-class UserProfileApi extends ApiBase {
+class UsersApi extends ApiBase {
     public mongoInstance: Mongo.Collection<Meteor.User>;
 
     constructor() {
@@ -15,8 +15,8 @@ class UserProfileApi extends ApiBase {
 }
 
 
-type interfaceWithMethods = UserProfileApiMethods & UserProfileApi;
+type interfaceWithMethods = UsersApiMethods & UsersApi;
 
-const userProfileApi = new UserProfileApi() as interfaceWithMethods;
-export default userProfileApi;
+const usersApi = new UsersApi() as interfaceWithMethods;
+export default usersApi;
 export type { interfaceWithMethods as ExampleApi  };

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import Styles from './signInStyles';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
@@ -11,13 +11,18 @@ import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import signInSchema from '../../../schemas/signinsch';
 import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
-
+import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 
 const SignInPage: React.FC = () => {
 	const context = useContext<INotLoggedInUserContext>(Context);
+	const sysFormRef = useRef<ISysFormRef>(null);
 
 	const navigate = useNavigate();
-	const handleForgotPassword = () => navigate('/password-recovery');
+	const handleForgotPassword = () => {
+		const email = sysFormRef.current?.getDocValues()?.email;
+		if(email) navigate(`/guest/forgot-password/${email}`);
+		else navigate('/guest/forgot-password');
+	};
 	useEffect(() => {
 		if(context.hasAdminUser) return;
 		navigate('/guest/create-admin-user');
@@ -26,7 +31,7 @@ const SignInPage: React.FC = () => {
 	return (
 		<Styles.container>
 			<Typography variant="h5">Acesse o sistema</Typography>
-			<SysForm schema={signInSchema} onSubmit={context.loginWithPassword} debugAlerts={false}>
+			<SysForm schema={signInSchema} onSubmit={context.loginWithPassword} debugAlerts={false} ref={sysFormRef}>
 				<Styles.formContainer>
 					<SysTextField name="email" label="Email" fullWidth placeholder="Digite seu email" />
 					<SysTextField label="Senha" fullWidth name="password" placeholder="Digite sua senha" type="password" />

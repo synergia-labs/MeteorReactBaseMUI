@@ -9,12 +9,14 @@ import onLoginInstance from "./methods/onLogin";
 import onLogoutInstance from "./methods/onLogout";
 import sendVerificationEmailInstance from "./methods/sendVerificationEmail.callMethod";
 import ServerBase from "/imports/base/server/server.base";
+import sendResetPasswordInstance from "./methods/sendResetPasswordEmail";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
     checkIfHasAdminUserCallMethodInstance,
     createUserCallMethodInstance,
     sendVerificationEmailInstance,
+    sendResetPasswordInstance,
     onLoginInstance,
     onLogoutInstance
 ] as const;
