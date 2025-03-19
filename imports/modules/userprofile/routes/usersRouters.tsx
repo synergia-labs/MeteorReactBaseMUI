@@ -6,32 +6,32 @@ import LoggedInUserContainer from "../frontend/pages/loggedInUser/loggedInUser.c
 import UsersListProvider from "../frontend/pages/loggedInUser/usersList/usersList.provider";
 import CreateAdminUserPage from "../frontend/pages/notLoggedInUser/createAdminUser/createAdminUser.view";
 
-const UserNotLoggedInContext = (component: ReactNode) => (
-	<NotLoggedInUserContainer>
-		{component}
-	</NotLoggedInUserContainer>
-);
-
-const UserLoggedInContext = (component: ReactNode) => (
-	<LoggedInUserContainer>
-		{component}
-	</LoggedInUserContainer>
-)
-
 const exampleRouterList: Array<(IRoute | null)> = [
 	{
-		path: '/users',
-		component: () => (UserLoggedInContext(<UsersListProvider />)),
-	} as const,
+		path: 'users',
+		element: LoggedInUserContainer,
+		children: [
+			{
+				path: 'list',
+				element: UsersListProvider,
+			}
+		]
+	},
 	{
-		path: '/sign-in',
-		component: () => (UserNotLoggedInContext(<SignInPage />)),
-		templateVariant: 'Login'
-	} as const,
-	{
-		path: '/create-admin-user',
-		component: () => (UserNotLoggedInContext(<CreateAdminUserPage />)),
-		templateVariant: 'Login'
+		path: 'guest',
+		element: NotLoggedInUserContainer,
+		templateVariant: 'Login',
+		index: false,
+		children: [
+			{
+				path: 'sign-in',
+				element: SignInPage,
+			},
+			{
+				path: 'create-admin-user',
+				element: CreateAdminUserPage,
+			}
+		] 
 	}
 ] as const;
 

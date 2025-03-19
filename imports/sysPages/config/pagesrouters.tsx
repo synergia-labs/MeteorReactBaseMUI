@@ -1,3 +1,4 @@
+import React from 'react';
 import Home from '../../sysPages/pages/home/home';
 import { SignUp } from '../../sysPages/pages/signUp/signUp';
 import { EmailVerify } from '../../sysPages/pages/emailVerify/emailVerify';
@@ -12,52 +13,66 @@ import SysFormPlayground from '../../sysPages/pages/sysFormPlayground/sysFormPla
 export const pagesRouterList: (IRoute | null)[] = [
 	{
 		path: '/',
-		exact: true,
-		component: Home,
-		isProtected: true,
-		resources: [HomeResources.HOME_VIEW]
+		element: Home,
+		isProtected: true,	
+		index: true,
 	},
 	{
 		path: '/sysFormTests',
-		component: SysFormPlayground,
+		element: SysFormPlayground,
 		isProtected: true,
-		resources: [SysFormTestPageResources.SYSFORMTESTS_VIEW]
-	},
-	{
-		path: '/signin',
-		component: SignInPage,
-		isProtected: false,
-		templateVariant: 'None'
-	},
-	{
-		path: '/signup',
-		component: SignUp,
-		isProtected: false,
-		templateVariant: 'None'
-	},
-	{
-		path: '/no-permission',
-		component: NoPermission,
-		isProtected: true
-	},
-	{
-		path: '/password-recovery',
-		component: PasswordRecovery,
-		templateVariant: 'None'
-	},
-	{
-		path: '/reset-password/:token',
-		component: ResetPassword,
-		templateVariant: 'None'
-	},
-	{
-		path: '/enroll-account/:token',
-		component: ResetPassword,
-		templateVariant: 'None'
-	},
-	{
-		path: '/verify-email/:token',
-		component: EmailVerify,
-		templateVariant: 'None'
 	}
+	
+	
+	
+	// {
+	// 	path: '/',
+	// 	exact: true,
+	// 	component: Home,
+	// 	isProtected: true,
+	// 	resources: [HomeResources.HOME_VIEW]
+	// },
+	// {
+	// 	path: '/sysFormTests',
+	// 	component: SysFormPlayground,
+	// 	isProtected: true,
+	// 	resources: [SysFormTestPageResources.SYSFORMTESTS_VIEW]
+	// },
+	// {
+	// 	path: '/signin',
+	// 	component: SignInPage,
+	// 	isProtected: false,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/signup',
+	// 	component: SignUp,
+	// 	isProtected: false,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/no-permission',
+	// 	component: NoPermission,
+	// 	isProtected: true
+	// },
+	// {
+	// 	path: '/password-recovery',
+	// 	component: PasswordRecovery,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/reset-password/:token',
+	// 	component: ResetPassword,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/enroll-account/:token',
+	// 	component: ResetPassword,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/verify-email/:token',
+	// 	component: EmailVerify,
+	// 	templateVariant: 'None'
+	// }
 ];

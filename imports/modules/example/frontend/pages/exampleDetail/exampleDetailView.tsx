@@ -9,13 +9,13 @@ import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
-import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
 import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
 import Button from '@mui/material/Button';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import ExampleModuleContext, { IExampleModuleContext } from '../../exampleContext';
+import SysUploadFile from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
 
 const ExampleDetailView: React.FC = () => {
 	const context = useContext<IExampleDetailContext>(Context);
@@ -43,7 +43,7 @@ const ExampleDetailView: React.FC = () => {
 			</Styles.header>
 			<SysForm
 				mode={state}
-				schema={context.schema}
+				schema={{}}
 				doc={context.document}
 				onSubmit={context.onSubmit}
 				loading={context.loading}

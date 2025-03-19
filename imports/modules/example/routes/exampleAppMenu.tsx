@@ -4,7 +4,7 @@ import { IAppMenu } from '/imports/modules/modulesTypings';
 
 const exampleMenuItemList: Array<(IAppMenu | null)> = [
 	{
-		path: '/example',
+		path: '/example/list',
 		name: 'Exemplo',
 		icon: <SysIcon name={'dashboard'} />
 	} as const

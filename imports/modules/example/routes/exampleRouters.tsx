@@ -1,26 +1,31 @@
-import { Recurso } from "../config/recursos";
-import exampleContainer from "../frontend/exampleContainer";
+import ExampleContainer from "../frontend/exampleContainer";
+import ExampleDetailProvider from "../frontend/pages/exampleDetail/exampleDetailProvider";
+import ExampleListProvider from "../frontend/pages/exampleList/exampleListProvider";
 import { IRoute } from "/imports/modules/modulesTypings";
 
 const exampleRouterList: Array<(IRoute | null)> = [
 	{
-		path: '/example/:screenState/:exampleId',
-		component: exampleContainer,
-		isProtected: true,
-		resources: [Recurso.EXAMPLE_VIEW]
-	} as const,
-	{
-		path: '/example/:screenState',
-		component: exampleContainer,
-		isProtected: true,
-		resources: [Recurso.EXAMPLE_CREATE]
-	} as const,
-	{
-		path: '/example',
-		component: exampleContainer,
-		isProtected: true,
-		resources: [Recurso.EXAMPLE_VIEW]
-	} as const
+		path: 'example',
+		element: ExampleContainer,
+		templateVariant: 'AppBar',
+		children: [
+			{
+				path: ':screenState/:exampleId',
+				element: ExampleDetailProvider,
+				isProtected: true,
+			},
+			{
+				path: ':screenState',
+				element: ExampleDetailProvider,
+				isProtected: true,
+			},
+			{
+				path: 'list',
+				element: ExampleListProvider,
+				isProtected: true,
+			}
+		]
+	}
 ] as const;
 
 export default exampleRouterList;

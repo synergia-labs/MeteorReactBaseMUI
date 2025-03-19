@@ -20,11 +20,12 @@ const SignInPage: React.FC = () => {
 	const handleForgotPassword = () => navigate('/password-recovery');
 	useEffect(() => {
 		if(context.hasAdminUser) return;
-		navigate('/create-admin-user');
+		navigate('/guest/create-admin-user');
 	}, [context.hasAdminUser]);
 
 	return (
 		<Styles.container>
+			<Typography variant="caption">{` Valor de teste no contexto: ${context.teste} `}</Typography>
 			<Typography variant="h5">Acesse o sistema</Typography>
 			<SysForm schema={signInSchema} onSubmit={context.loginWithPassword} debugAlerts={false}>
 				<Styles.formContainer>

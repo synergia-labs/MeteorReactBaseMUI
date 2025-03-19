@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import Context, { ILoggedInUserContext } from './loggedInUser.context';
 
 interface ILoggedInUserContainerProps {
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 const LoggedInUserContainer: React.FC<ILoggedInUserContainerProps> = ({

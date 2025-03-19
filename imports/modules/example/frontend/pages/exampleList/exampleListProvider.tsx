@@ -79,25 +79,25 @@ const ExampleListProvider: React.FC = () => {
         // });
     }, []);
 
-    useTracker(() => {
-        const filter: IFilterPublication<any> = {
-            ...( hasValue(filterByNameValue) && { title: { $regex: filterByNameValue, $options: 'i' } }),
-            ...( hasValue(filterByCategoryValue) && { type: filterByCategoryValue })
-        };
+    // useTracker(() => {
+    //     const filter: IFilterPublication<any> = {
+    //         ...( hasValue(filterByNameValue) && { title: { $regex: filterByNameValue, $options: 'i' } }),
+    //         ...( hasValue(filterByCategoryValue) && { type: filterByCategoryValue })
+    //     };
 
-        const options: IOptionsPublication<any> = {
-            skip: paginationProps.page * paginationProps.pageSize,
-            limit: paginationProps.pageSize 
-        };
+    //     const options: IOptionsPublication<any> = {
+    //         skip: paginationProps.page * paginationProps.pageSize,
+    //         limit: paginationProps.pageSize 
+    //     };
 
-        setLoading(true);
-        const handleSubscribe = exampleApi.subscribe(enumExampleRegisterPublications.exampleList, {}, {limit: 10});
-        const todoList = exampleApi.mongoInstance.find().fetch();
-        console.log(todoList);
-        setLoading(false);
-        setTotalDocuments(0);
-        setTodoList(todoList);
-    }, [filterByNameValue, filterByCategoryValue, paginationProps]);
+    //     setLoading(true);
+    //     const handleSubscribe = exampleApi.subscribe(enumExampleRegisterPublications.exampleList, {}, {limit: 10});
+    //     const todoList = exampleApi.mongoInstance.find().fetch();
+    //     console.log(todoList);
+    //     setLoading(false);
+    //     setTotalDocuments(0);
+    //     setTodoList(todoList);
+    // }, [filterByNameValue, filterByCategoryValue, paginationProps]);
 
 
     const contextValues: IExampleListContext = {

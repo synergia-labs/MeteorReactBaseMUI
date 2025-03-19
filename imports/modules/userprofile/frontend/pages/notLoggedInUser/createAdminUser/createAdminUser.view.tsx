@@ -8,12 +8,22 @@ import Typography from '@mui/material/Typography';
 import createUserSchema from '../../../schemas/createUser.sch';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const CreateAdminUserPage: React.FC = () => {
     const context = useContext<INotLoggedInUserContext>(Context);
+    const navigate = useNavigate();
 
     return (
         <Styles.container>
+            <Button
+                onClick={() => {
+                    context.setTeste('Teste');
+                    navigate('/guest/sign-in');
+                }}
+            >Teste</Button>
+
             <Typography variant="h5" textAlign={'center'}>Registro de usuário administrador</Typography>
             <Typography variant="caption" color={theme => theme.palette.sysAction?.auxiliary} >
                 Não foi encontrado nenhum usuário administrador cadastrado no sistema.

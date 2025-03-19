@@ -4,7 +4,7 @@ import { IAppMenu } from '/imports/modules/modulesTypings';
 
 const usersMenuItemList: Array<(IAppMenu | null)> = [
 	{
-		path: '/users',
+		path: '/users/list',
 		name: 'Usuários',
 		icon: <SysIcon name={'group'} />
 	} as const

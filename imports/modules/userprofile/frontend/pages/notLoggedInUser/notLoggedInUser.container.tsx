@@ -7,7 +7,7 @@ import Context, { INotLoggedInUserContext } from './notLoggedInUser.context';
 import { useNavigate } from 'react-router-dom';
 
 interface INotLoggedInUserContainerProps {
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
@@ -16,7 +16,9 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
     const { showNotification } = useContext(AppLayoutContext);
     const { user } = useContext<IAuthContext>(AuthContext);
     const [ hasAdminUser, setHasAdminUser ] = useState<boolean>(true);
+    const [ teste, setTeste ] = useState<string>('');
     const navigate = useNavigate();
+
 
     useEffect(() => {
         if(user) return;
@@ -41,6 +43,7 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
                 title: "Usuário criado",
                 message: `O usuário ${doc.name} foi criado com sucesso.`
             });
+            navigate('/guest/sign-in');
         });
     }, []);
 
@@ -70,7 +73,10 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
         createUser: createUser,
         loginWithGithub: loginWithGithub,
         loginWithGoogle: loginWithGoogle,
-        loginWithPassword: loginWithPassword
+        loginWithPassword: loginWithPassword,
+
+        teste: teste,
+        setTeste: setTeste
     };
 
     return (
