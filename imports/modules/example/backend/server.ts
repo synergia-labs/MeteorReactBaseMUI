@@ -2,9 +2,9 @@ import fillDatabaseWithFakeDataInstance from "./methods/fillDatabaseWithFakeData
 import exampleListPublicationInstance from "./publications/exampleList.publication";
 import { MongoBase } from "/imports/base/database/mongo.base";
 import MethodBase from "/imports/base/server/methods/method.base";
-import ProductServerBase from "/imports/base/server/server.product";
 import { ExampleServerMethods } from "../common/interfaces/methods";
 import EnumExampleSettings from "../common";
+import ServerBase from "/imports/base/server/server.base";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
@@ -16,7 +16,7 @@ const _publicationInstances: Array<any> = [
     exampleListPublicationInstance,
 ] as const;
 
-class ExampleServer extends ProductServerBase {
+class ExampleServer extends ServerBase {
     public mongoInstance: MongoBase;
     public storageInstance?: any;
 

@@ -16,7 +16,6 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
     const { showNotification } = useContext(AppLayoutContext);
     const { user } = useContext<IAuthContext>(AuthContext);
     const [ hasAdminUser, setHasAdminUser ] = useState<boolean>(true);
-    const [ teste, setTeste ] = useState<string>('');
     const navigate = useNavigate();
 
 
@@ -74,9 +73,6 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
         loginWithGithub: loginWithGithub,
         loginWithGoogle: loginWithGoogle,
         loginWithPassword: loginWithPassword,
-
-        teste: teste,
-        setTeste: setTeste
     };
 
     return (

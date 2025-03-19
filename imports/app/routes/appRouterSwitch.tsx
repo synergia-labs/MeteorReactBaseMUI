@@ -15,7 +15,7 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 
     const getProtectedRouteElement = (route: IRoute) => {
         if (!route.isProtected) return <ScreenRouteRender {...route} />;
-        return hasValue(user) ? <ScreenRouteRender {...route} /> : <Navigate to="/sign-in" replace />;
+        return hasValue(user) ? <ScreenRouteRender {...route} /> : <Navigate to="/guest/sign-in" replace />;
     };
 
     const getRecursiveRoutes = (routes: IRoute[], parentPath = '', parentTemplateProps?: ITemplateRouteProps): JSX.Element[] => {

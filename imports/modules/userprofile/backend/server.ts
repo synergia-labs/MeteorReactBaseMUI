@@ -1,6 +1,5 @@
 import { Meteor } from "meteor/meteor";
 import MethodBase from "/imports/base/server/methods/method.base";
-import ProductServerBase from "/imports/base/server/server.product";
 import EnumUserProfileSettings from "../common";
 import { UserProfileServerMethods } from "../common/interfaces/methods";
 import checkIfHasAdminUserCallMethodInstance from "./methods/checkIfHasAdminUser.callMethod";
@@ -9,15 +8,13 @@ import { Mongo } from "meteor/mongo";
 import onLoginInstance from "./methods/onLogin";
 import onLogoutInstance from "./methods/onLogout";
 import sendVerificationEmailInstance from "./methods/sendVerificationEmail.callMethod";
+import ServerBase from "/imports/base/server/server.base";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
     checkIfHasAdminUserCallMethodInstance,
     createUserCallMethodInstance,
-    sendVerificationEmailInstance
-] as const;
-
-const _serverSideMethods: Array<MethodBase<any, any, any>> = [
+    sendVerificationEmailInstance,
     onLoginInstance,
     onLogoutInstance
 ] as const;
@@ -26,7 +23,7 @@ const _serverSideMethods: Array<MethodBase<any, any, any>> = [
 const _publicationInstances: Array<any> = [
 ] as const;
 
-class UserProfileServer extends ProductServerBase {
+class UserProfileServer extends ServerBase {
     public mongoInstance: Mongo.Collection<Meteor.User>;
     public storageInstance?: any;
 
@@ -35,7 +32,6 @@ class UserProfileServer extends ProductServerBase {
         this.mongoInstance = Meteor.users;
 
         this.registerMethods(_methodInstances, this);
-        this.registerMethods(_serverSideMethods, this, false);
         this.registerPublications(_publicationInstances, this);
     }
 }

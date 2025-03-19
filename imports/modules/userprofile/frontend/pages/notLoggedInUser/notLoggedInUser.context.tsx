@@ -7,9 +7,6 @@ interface INotLoggedInUserContext {
     loginWithGithub: () => void;
     loginWithGoogle: () => void;
     loginWithPassword: ({ email, password } : { email: string, password: string }) => void;
-
-    teste: string;
-    setTeste: (value: string) => void;
 }
 
 const notLoggedInUserContext = createContext<INotLoggedInUserContext>({} as INotLoggedInUserContext);
