@@ -148,7 +148,7 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 
     const defaultTemplate: ISysTemplate = {
         variant: SysTemplateOptions.AppBar,
-        menuOptions: sysRoutes.getMenuItens(),
+        menuOptions: sysRoutes.getMenuItens() as any,
         props: undefined
     } as const;
 
@@ -174,10 +174,10 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
             <AppLayoutContext.Provider value={contextValues}>
                 {children}
                 <ShowNotification {...showNotification} />
-                <ShowDrawer {...showDrawer} />
-                <ShowDialog {...showDialog} />
-                <ShowDialog {...showModal} />
-                <ShowDialog {...showWindow} />
+                <ShowDrawer onClose={ handleCloseDrawer } {...showDrawer} />
+                <ShowDialog onClose={ handleCloseDialog } {...showDialog} />
+                <ShowDialog onClose={ handleCloseModal } {...showModal} />
+                <ShowDialog onClose={ handleCloseWindow } {...showWindow} />
             </AppLayoutContext.Provider>
         </ThemeProvider>
     );

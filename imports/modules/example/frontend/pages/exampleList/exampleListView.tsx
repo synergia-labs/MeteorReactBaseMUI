@@ -7,7 +7,6 @@ import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectFi
 import Context, { IExampleListContext } from './exampleListContext';
 import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
 import EnumExampleScreenState from '../../../common/enums/enumScreenState';
-import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 import ToolTip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';

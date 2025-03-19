@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import HomeSection from '../components/section';
 import { Button } from '@mui/material';
-import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
-import ConfirmDialog from '/imports/ui/appComponents/showDialog/custom/confirmDialog/confirmDialog';
 import HomeStyles from '../homeStyle';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
 
 const HomeSectionDialogs: React.FC = () => {
-	const sysLayoutContext = useContext<IAppLayoutContext>(AppLayoutContext);
+	const { showDialog, ...sysLayoutContext } = useContext<IAppLayoutContext>(AppLayoutContext);
   	const { RowButtons, } = HomeStyles;
 
 	return (
@@ -56,17 +54,24 @@ const HomeSectionDialogs: React.FC = () => {
 					color="primary"
 					startIcon={<SysIcon name={'thumbUpAlt'} />}
 					onClick={() => {
-						ConfirmDialog({
-							showDialog: sysLayoutContext.showDialog,
-							closeDialog: sysLayoutContext.closeDialog,
+						showDialog({
 							title: 'Confirmar cadastro',
 							message: 'Tem certeza que deseja confirmar o cadastro dos dados preenchidos?',
-							onConfirm: () => {
-								sysLayoutContext.showNotification({
-									message: 'Dados salvos!'
-								});
+							confirmButtonLabel: "Confirmar",
+							cancelButtonLabel: "Cancelar",
+							cancelButtonProps: {
+								startIcon: <SysIcon name={'close'} />,
+							},
+							confirmButtonProps: {
+								startIcon: <SysIcon name={'check'} />,
+								onClick: () => {
+									sysLayoutContext.showNotification({
+										message: 'Dados salvos!'
+									});
+								}
 							}
-						});
+							
+						})
 					}}>
 					Dialog de confirmação
 				</Button>
@@ -75,17 +80,24 @@ const HomeSectionDialogs: React.FC = () => {
 					color="primary"
 					startIcon={<SysIcon name={'warningAmber'} />}
 					onClick={() => {
-						DeleteDialog({
-							showDialog: sysLayoutContext.showDialog,
-							closeDialog: sysLayoutContext.closeDialog,
+						showDialog({
 							title: 'Excluir arquivo',
 							message: 'Tem certeza que deseja excluir o arquivo xx.csv?',
-							onDeleteConfirm: () => {
-								sysLayoutContext.showNotification({
-									message: 'Excluído com sucesso!'
-								});
+							confirmButtonLabel: "Excluir",
+							cancelButtonLabel: "Cancelar",
+							cancelButtonProps: {
+								startIcon: <SysIcon name={'close'} />,
+							},
+							confirmButtonProps: {
+								startIcon: <SysIcon name={'delete'} />,
+								onClick: () => {
+									sysLayoutContext.showNotification({
+										message: 'Excluído com sucesso!'
+									});
+								}
 							}
 						});
+
 					}}>
 					Dialog de deleção
 				</Button>
