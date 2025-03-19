@@ -106,11 +106,13 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	//endregion
 
 	//region Before action
-	protected async beforeAction(_param: Param, _context: IContext): Promise<void> {
+	protected async beforeAction(_param: Param, _context: IContext, securityValidation: boolean = true): Promise<void> {
 		if (this.paramSch) _param = this.paramSch.parse(_param);
 
-		const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
-		if (!permission) this.generateError({ _message: 'Sem permissão', _code: '403', _context });
+		if (securityValidation) {
+			const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
+			if (!permission) this.generateError({ _message: 'Sem permissão', _code: '403', _context });
+		}
 	}
 	//endregion
 
