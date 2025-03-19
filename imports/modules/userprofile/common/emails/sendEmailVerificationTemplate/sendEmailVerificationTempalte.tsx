@@ -36,7 +36,6 @@ const SendEmailVerification: React.FC<ISendEmailVerificationProps> = ({
     )
 };
 
-
 const verificationEmailTemplate = (): EmailFields => ({
     subject() {
         return `${Meteor.settings.public.appName} - Confirme seu endereço de e-mail`;
@@ -45,7 +44,7 @@ const verificationEmailTemplate = (): EmailFields => ({
         return renderHtmlServerSide(
             <SendEmailVerification 
                 user={user as Meteor.User}
-                url={url.replace('#/', '')}
+                url={url}
             />
         );
     }

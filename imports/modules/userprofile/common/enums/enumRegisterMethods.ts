@@ -7,6 +7,7 @@ const enumUserProfileRegisterMethods = {
     sendResetPasswordEmail: getName('sendResetPasswordEmail'),
     checkIfHasAdminUser: getName('checkIfHasAdminUser'),
     create: getName('create'),
+    resetUserPassword: getName('resetUserPassword'),
 } as const;
 
 const enumUserProfileRegisterPrivateMethods = {

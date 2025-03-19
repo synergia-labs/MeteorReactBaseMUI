@@ -13,7 +13,7 @@ interface INotLoggedInUserContainerProps {
 const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
     children
 }) => {
-    const { showNotification } = useContext(AppLayoutContext);
+    const { showNotification, showDialog } = useContext(AppLayoutContext);
     const { user } = useContext<IAuthContext>(AuthContext);
     const [ hasAdminUser, setHasAdminUser ] = useState<boolean>(true);
     const navigate = useNavigate();
@@ -59,6 +59,20 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
         usersApi.sendResetPasswordEmail(email, callback);
     }, []);
 
+    const resetUserPassword = useCallback((token: string, newPassword: string, callback: (error?: Error | Meteor.Error) => void) => {
+        usersApi.resetForgotPassword(token, newPassword, (error) => {
+            if(!error){
+                navigate('/guest/sign-in');
+                showDialog({
+                    title: "Senha redefinida",
+                    message: "Sua senha foi redefinida com sucesso. Por favor, faça login novamente."
+                    
+                });
+            }
+            callback(error);
+        });
+    }, []);
+
     const loginWithGithub = useCallback(() => 
         Meteor.loginWithGithub( { requestPermissions: ["user"] }, callBackLogin ), []);
     const loginWithGoogle = useCallback(() => 
@@ -72,7 +86,8 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
         loginWithGithub: loginWithGithub,
         loginWithGoogle: loginWithGoogle,
         loginWithPassword: loginWithPassword,
-        sendResetPasswordEmail: sendResetPasswordEmail
+        sendResetPasswordEmail: sendResetPasswordEmail,
+        resetUserPassword: resetUserPassword
     };
 
     return (

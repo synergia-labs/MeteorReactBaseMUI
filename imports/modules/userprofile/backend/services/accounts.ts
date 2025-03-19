@@ -18,6 +18,10 @@ Meteor.startup(() => {
 
 	Accounts.emailTemplates.verifyEmail = verificationEmailTemplate();
 	Accounts.emailTemplates.resetPassword = resetPasswordEmailTemplate();
+
+	Accounts.urls.resetPassword = (token: string) => Meteor.absoluteUrl(`guest/reset-password/${token}`);
+	Accounts.urls.verifyEmail = (token: string) => Meteor.absoluteUrl(`guest/verify-email/${token}`);
+
 	Accounts.onLogin(userProfileServer.onLogin.bind(userProfileServer));
 	Accounts.onLogout(userProfileServer.onLogout.bind(userProfileServer));
 });

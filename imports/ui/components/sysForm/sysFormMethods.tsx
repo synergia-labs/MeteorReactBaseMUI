@@ -216,7 +216,7 @@ class SysFormMethods {
 				if (isOptional && !hasValue(value)) continue;
 
 				const errorMessage =
-					schema[key].validationFunction?.(value) ??
+					schema[key].validationFunction?.(value, SysFormMethods.getDocValues(doc, schema)) ??
 					(!isOptional && !hasValue(value) ? 'Campo obrigatório.' : undefined);
 
 				ref.current.error = errorMessage;

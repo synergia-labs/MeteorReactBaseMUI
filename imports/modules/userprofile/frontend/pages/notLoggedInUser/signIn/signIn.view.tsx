@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import Styles from './signInStyles';
+import Styles from './signIn.styles';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';

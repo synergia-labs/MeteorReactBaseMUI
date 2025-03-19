@@ -10,6 +10,7 @@ import onLogoutInstance from "./methods/onLogout";
 import sendVerificationEmailInstance from "./methods/sendVerificationEmail.callMethod";
 import ServerBase from "/imports/base/server/server.base";
 import sendResetPasswordInstance from "./methods/sendResetPasswordEmail";
+import resetUserPasswordInstance from "./methods/resetUserPassword";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
@@ -18,7 +19,8 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
     sendVerificationEmailInstance,
     sendResetPasswordInstance,
     onLoginInstance,
-    onLogoutInstance
+    onLogoutInstance,
+    resetUserPasswordInstance
 ] as const;
 
 /**Array com as instâncias de todas as classes de publicação do módulo */

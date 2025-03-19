@@ -5,6 +5,7 @@ import createUserCallMethodInstance from "../../backend/methods/createUser.callM
 import onLoginInstance from "../../backend/methods/onLogin";
 import { TransformServerToApiMethods } from "/imports/base/types/serverApiMethods";
 import sendResetPasswordInstance from "../../backend/methods/sendResetPasswordEmail";
+import resetUserPasswordInstance from "../../backend/methods/resetUserPassword";
 
 /**Interface para utilização da classe módulo nos métodos.
  * IMPORTANTE: Adicionar apenas os métodos. Não adicionar publicações.
@@ -14,6 +15,7 @@ interface UserProfileServerMethods extends Record<string, (...args: any) => any>
     create: MethodType<typeof createUserCallMethodInstance>;
     onLogin: MethodType<typeof onLoginInstance>;
     sendResetPasswordEmail: MethodType<typeof sendResetPasswordInstance>;
+    resetUserPassword: MethodType<typeof resetUserPasswordInstance>;
 }
 
 

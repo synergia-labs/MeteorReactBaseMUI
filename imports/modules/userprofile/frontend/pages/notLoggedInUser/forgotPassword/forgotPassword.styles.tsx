@@ -10,7 +10,7 @@ interface IStyles {
 }
 
 
-const passwordRecoveryStyle: IStyles = {
+const forgotPasswordStyle: IStyles = {
 	container: styled(Box)(({
 		gap: sysSizing.spacingFixedXl,
 		display: 'flex',
@@ -33,4 +33,4 @@ const passwordRecoveryStyle: IStyles = {
 }
 
 
-export default passwordRecoveryStyle;
+export default forgotPasswordStyle;

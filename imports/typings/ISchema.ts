@@ -36,6 +36,6 @@ export interface IDefField<C> {
 	acceptTypes?: MimeType[];
 }
 
-export interface ISchema<T extends IDoc> {
+export interface ISchema<T> {
 	[key: string]: IDefField<T>;
 }

@@ -1,11 +1,12 @@
 import React, { ReactNode } from "react";
 import { IRoute } from "/imports/modules/modulesTypings";
 import NotLoggedInUserContainer from "../frontend/pages/notLoggedInUser/notLoggedInUser.container";
-import SignInPage from "../frontend/pages/notLoggedInUser/signIn/signIn";
+import SignInPage from "../frontend/pages/notLoggedInUser/signIn/signIn.view";
 import LoggedInUserContainer from "../frontend/pages/loggedInUser/loggedInUser.container";
 import UsersListProvider from "../frontend/pages/loggedInUser/usersList/usersList.provider";
 import CreateAdminUserPage from "../frontend/pages/notLoggedInUser/createAdminUser/createAdminUser.view";
-import PasswordRecoveryPage from "../frontend/pages/notLoggedInUser/recoveryPassword/passwordRecovery";
+import ForgotPasswordPage from "../frontend/pages/notLoggedInUser/forgotPassword/forgotPassword.view";
+import ResetPasswordPage from "../frontend/pages/notLoggedInUser/resetPassword/resetPassword.view";
 
 const exampleRouterList: Array<(IRoute | null)> = [
 	{
@@ -34,11 +35,15 @@ const exampleRouterList: Array<(IRoute | null)> = [
 			},
 			{
 				path: 'forgot-password',
-				element: PasswordRecoveryPage
+				element: ForgotPasswordPage
 			},
 			{
 				path: 'forgot-password/:email',
-				element: PasswordRecoveryPage
+				element: ForgotPasswordPage
+			},
+			{
+				path: 'reset-password/:token',
+				element: ResetPasswordPage
 			}
 		] 
 	}

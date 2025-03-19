@@ -46,7 +46,7 @@ const resetPasswordEmailTemplate = (): EmailFields => ({
         return renderHtmlServerSide(
             <SendEmailVerification 
                 user={user as Meteor.User}
-                url={url.replace('#/', '')}
+                url={url}
             />
         );
     }

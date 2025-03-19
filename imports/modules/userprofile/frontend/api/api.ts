@@ -12,6 +12,10 @@ class UsersApi extends ApiBase {
         super(enumUserProfileRegisterMethods, enumUserProfileRegisterPublications);
         this.mongoInstance = Meteor.users;
     }
+
+    resetForgotPassword = async (token: string, newPassword: string, callback: (error?: Error | Meteor.Error ) => void) => {
+        Accounts.resetPassword(token, newPassword, callback);
+    }
 }
 
 

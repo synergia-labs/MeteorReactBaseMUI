@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate, useParams } from 'react-router-dom';
-import Styles from './passwordRecoveryStyle';
+import Styles from './forgotPassword.styles';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
 import emailValidator from '/imports/libs/validators/email';
@@ -14,7 +14,7 @@ import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
 import Collapse from '@mui/material/Collapse';
 
 
-export const PasswordRecoveryPage: React.FC = () => {
+export const ForgotPasswordPage: React.FC = () => {
 	const { email } = useParams();
 	const context = useContext<INotLoggedInUserContext>(Context);
 	
@@ -99,4 +99,4 @@ export const PasswordRecoveryPage: React.FC = () => {
 	);
 };
 
-export default PasswordRecoveryPage;
+export default ForgotPasswordPage;
