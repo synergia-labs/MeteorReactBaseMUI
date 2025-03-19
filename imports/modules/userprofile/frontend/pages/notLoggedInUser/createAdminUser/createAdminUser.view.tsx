@@ -5,14 +5,12 @@ import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysT
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import Typography from '@mui/material/Typography';
-import createUserSchema from '../../../schemas/createUser.sch';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
-import { useNavigate } from 'react-router-dom';
+import createUserFrontSchema from './createAdminUser.schema';
 
 const CreateAdminUserPage: React.FC = () => {
     const context = useContext<INotLoggedInUserContext>(Context);
-    const navigate = useNavigate();
 
     return (
         <Styles.container>
@@ -22,7 +20,7 @@ const CreateAdminUserPage: React.FC = () => {
                 Por favor, registre um novo usuário administrador.
             </Typography>
             <SysForm
-                schema={createUserSchema}
+                schema={createUserFrontSchema}
                 onSubmit={context.createUser}
                 doc={{ roles: [EnumUserRoles.ADMIN] }}
             >

@@ -9,9 +9,9 @@ import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sy
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import signInSchema from '../../../schemas/signinsch';
 import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
 import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
+import signInFrontSchema from './signin.schema';
 
 const SignInPage: React.FC = () => {
 	const context = useContext<INotLoggedInUserContext>(Context);
@@ -31,7 +31,7 @@ const SignInPage: React.FC = () => {
 	return (
 		<Styles.container>
 			<Typography variant="h5">Acesse o sistema</Typography>
-			<SysForm schema={signInSchema} onSubmit={context.loginWithPassword} debugAlerts={false} ref={sysFormRef}>
+			<SysForm schema={signInFrontSchema} onSubmit={context.loginWithPassword} debugAlerts={false} ref={sysFormRef}>
 				<Styles.formContainer>
 					<SysTextField name="email" label="Email" fullWidth placeholder="Digite seu email" />
 					<SysTextField label="Senha" fullWidth name="password" placeholder="Digite sua senha" type="password" />

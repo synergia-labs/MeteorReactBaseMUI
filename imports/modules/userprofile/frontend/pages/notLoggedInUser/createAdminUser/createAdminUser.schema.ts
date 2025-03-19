@@ -1,9 +1,8 @@
-import { Password } from "@mui/icons-material";
-import { CreateUserType } from "../../common/types/createUser";
 import { SchemaType } from "/imports/base/types/schema";
 import emailValidator from "/imports/libs/validators/email";
+import { CreateUserType } from "/imports/modules/userprofile/common/types/createUser";
 
-const createUserSchema: SchemaType<CreateUserType> = {
+const createUserFrontSchema: SchemaType<CreateUserType> = {
     name: {
         type: String,
         label: "Nome",
@@ -29,4 +28,4 @@ const createUserSchema: SchemaType<CreateUserType> = {
     }
 } as const;
 
-export default createUserSchema;
+export default createUserFrontSchema;
