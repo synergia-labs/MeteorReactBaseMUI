@@ -18,6 +18,10 @@ const SignInPage: React.FC = () => {
 
 	const navigate = useNavigate();
 	const handleForgotPassword = () => navigate('/password-recovery');
+	useEffect(() => {
+		if(context.hasAdminUser) return;
+		navigate('/create-admin-user');
+	}, [context.hasAdminUser]);
 
 	return (
 		<Styles.container>

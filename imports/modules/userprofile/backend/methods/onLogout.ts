@@ -28,7 +28,7 @@ class OnLogout extends MethodBase<UserProfileServer, OnLogoutType, void> {
     }
 
     async action({ user }: OnLoginType, _context: IContext): Promise<void> {
-        if (!user._id) return;
+        if (!user?._id) return;
         await this.getServerInstance()?.mongoInstance.updateAsync(
             { _id: user?._id },
             { $set: { 'profile.connected': false, 'profile.lastAccess': new Date() } }

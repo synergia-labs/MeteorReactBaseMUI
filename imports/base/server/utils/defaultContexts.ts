@@ -5,21 +5,6 @@ export function getDefaultPublicContext(context: Partial<IContext>): IContext {
 	const newContext: IContext = {
 		apiName: '',
 		action: '',
-		session: {},
-		connection: {
-			id: '123',
-			close: () => {},
-			onClose: () => {},
-			clientAddress: '',
-			httpHeaders: {
-				'x-forwarded-for': '',
-				'x-forwarded-port': '',
-				'x-forwarded-proto': '',
-				host: '',
-				'user-agent': '',
-				'accept-language': ''
-			}
-		},
 		user: {
 			_id: EnumUserRoles.ADMIN,
 			username: EnumUserRoles.ADMIN,
@@ -39,21 +24,6 @@ export function getDefaultAdminContext(context?: Partial<IContext>): IContext {
 	const newContext: IContext = {
 		apiName: '',
 		action: '',
-		session: {},
-		connection: {
-			id: '123',
-			close: () => {},
-			onClose: () => {},
-			clientAddress: '',
-			httpHeaders: {
-				'x-forwarded-for': '',
-				'x-forwarded-port': '',
-				'x-forwarded-proto': '',
-				host: '',
-				'user-agent': '',
-				'accept-language': ''
-			}
-		},
 		user: {
 			_id: EnumUserRoles.ADMIN,
 			username: EnumUserRoles.ADMIN,

@@ -2,13 +2,10 @@ import { IConnection } from './IConnection';
 import { Meteor } from 'meteor/meteor';
 
 export interface IContext {
-	user: Meteor.User;
 	apiName: string;
+	user: Meteor.User;
 	action: string;
-	session: any;
-	docId?: string;
-	rest?: any;
-	connection?: IConnection;
+	meteorInstance?: Subscription | Meteor.MethodThisType;
 	request?: any;
 	response?: any;
 }

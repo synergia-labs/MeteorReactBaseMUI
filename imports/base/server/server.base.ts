@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { Meteor, Subscription } from 'meteor/meteor';
 import { IDoc } from '/imports/typings/IDoc';
 import { MongoInternals } from 'meteor/mongo';
 import { WebApp } from 'meteor/webapp';
@@ -16,6 +16,7 @@ import { getDefaultAdminContext, getDefaultPublicContext } from './utils/default
 import { methodSafeInsert } from '../services/security/backend/methods/methodSafeInsert';
 import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
 import { enumMethodTypes, MethodTypes } from '../services/security/common/enums/methodTypes';
+import { hasValue } from '/imports/libs/hasValue';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -94,16 +95,16 @@ class ServerBase {
 				if (withCall)
 					this._registerSecurity(methodName, enumMethodTypes.enum.METHOD, method.getIsProtected(), method.getRoles());
 
-				const methodFunction = async (...param: [any]) => {
+				async function methodFunction(...param: [any]) {
 					console.info(`Call Method: ${methodName}`);
 
 					let connection: IConnection;
 					// @ts-ignore
-					connection = this.connection;
-					const meteorContext = await self._createContext(methodName, connection);
+					const meteorInstance: Meteor.MethodThisType = this;
 
+					const meteorContext = await self._createContext({ action: methodName, meteorInstance: meteorInstance });
 					return await method.execute(...param, meteorContext);
-				};
+				}
 
 				const rawName = methodName.split('.')[1];
 				if (!rawName) throw new Meteor.Error('500', 'Nome do método inválido');
@@ -149,30 +150,38 @@ class ServerBase {
 					publication.getRoles()
 				);
 
-				const publicationFunction = async (...param: any) => {
+				async function publicationFunction(...param: any) {
 					console.info(`Call Publication: ${publicationName}`);
 
 					let connection: IConnection;
 					// @ts-ignore
-					connection = this.connection;
-					const meteorContext = await this._createContext(publicationName, connection);
+					const meteorInstance: Subscription = this;
+					const meteorContext = await self._createContext({
+						action: publicationName,
+						meteorInstance: meteorInstance
+					});
 
-					return publication.execute(param, meteorContext);
-				};
+					return await publication.execute(param, meteorContext);
+				}
 
 				const transformedFunction = !publication.isTransformedPublication()
 					? undefined
 					: async (...param: [any]): Promise<any> => {
 							let connection: IConnection;
 							// @ts-ignore
-							connection = this.connection;
-							const meteorContext = await self._createContext(publicationName, connection);
+							const meteorInstance: Subscription = this;
+							const meteorContext = await self._createContext({
+								action: publicationName,
+								meteorInstance: meteorInstance
+							});
 							return publication.transformPublication(...param, meteorContext);
 						};
 
 				if (!transformedFunction) Meteor.publish(publicationName, publicationFunction);
 				else
 					Meteor.publish(publicationName, async function (query, options) {
+						console.log('Enter in publish transform');
+
 						const subHandle = await (
 							await publicationFunction(query, options)
 						)?.observe({
@@ -209,15 +218,17 @@ class ServerBase {
 	 *
 	 * @returns {IContext}	- O contexto de execução.
 	 */
-	protected async _createContext(
-		action: string,
-		connection?: IConnection,
-		userProfile?: Meteor.User,
-		session?: MongoInternals.MongoConnection
-	): Promise<IContext> {
-		const user =
-			userProfile ?? (await Meteor.userAsync()) ?? ({ profile: { roles: [EnumUserRoles.PUBLIC] } } as Meteor.User);
-		return { apiName: this.apiName, action, user, connection, session };
+	protected async _createContext({
+		action,
+		user,
+		meteorInstance
+	}: {
+		action: string;
+		user?: Meteor.User;
+		meteorInstance?: Subscription | Meteor.MethodThisType;
+	}): Promise<IContext> {
+		user = user ?? ((await Meteor.userAsync()) || ({ profile: { roles: [EnumUserRoles.PUBLIC] } } as Meteor.User));
+		return { apiName: this.apiName, action, user, meteorInstance };
 	}
 	// #endregion
 
@@ -266,8 +277,7 @@ class ServerBase {
 					action,
 					request: req,
 					response: res,
-					apiName: this.apiName,
-					session: endpointContext.request
+					apiName: this.apiName
 				});
 
 				try {

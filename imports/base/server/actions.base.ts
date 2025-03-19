@@ -58,11 +58,22 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 	//endregion
 
+	protected generateError({
+		_message,
+		_code = '500'
+	}: {
+		_message: string;
+		_code?: string;
+		_context?: IContext;
+	}): void {
+		throw new Meteor.Error(_code, `[${this.name}]: ${_message}`);
+	}
+
 	protected abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
 
 	//region seters and getters
 	public setServerInstance(server: Server): void {
-		if (!!this.server) throw new Meteor.Error('500', 'Server já definido');
+		if (!!this.server) this.generateError({ _message: 'Server instance already set', _code: '500' });
 		this.server = server;
 	}
 	public getName(): string {
@@ -98,9 +109,8 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	protected async beforeAction(_param: Param, _context: IContext): Promise<void> {
 		if (this.paramSch) _param = this.paramSch.parse(_param);
 
-
 		const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
-		if (!permission) throw new Meteor.Error('403', `Usuário não tem permissão para executar este método: ${this.name}`);
+		if (!permission) this.generateError({ _message: 'Sem permissão', _code: '403', _context });
 	}
 	//endregion
 
@@ -113,19 +123,19 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	//region OnError
 	protected async onError(_param: Param, _context: IContext, _error: Meteor.Error): Promise<Return | void> {
 		console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${_error}`);
-		throw new Meteor.Error('500', `[${this.name}]: Erro interno - ${_error}`);
+		this.generateError({ _message: _error.message, _context });
 	}
 
 	public async execute(_param: Param, _context: IContext): Promise<Return> {
 		try {
 			if (Meteor.isClient)
-				throw new Meteor.Error('500', `[${this.name}]: ${this.actionType} não pode ser chamado no client`);
+				this.generateError({ _message: 'Método não pode ser executado no client', _code: '500', _context });
 			await this.beforeAction(_param, _context);
 			const result = await this.actionBaseMethod(_param, _context);
 			await this.afterAction(_param, result, _context);
 			return result;
 		} catch (error) {
-			return await this.onError(_param, _context, error as Meteor.Error) as Return;
+			return (await this.onError(_param, _context, error as Meteor.Error)) as Return;
 		}
 	}
 }

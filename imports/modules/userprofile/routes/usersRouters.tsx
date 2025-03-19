@@ -4,6 +4,7 @@ import NotLoggedInUserContainer from "../frontend/pages/notLoggedInUser/notLogge
 import SignInPage from "../frontend/pages/notLoggedInUser/signIn/signIn";
 import LoggedInUserContainer from "../frontend/pages/loggedInUser/loggedInUser.container";
 import UsersListProvider from "../frontend/pages/loggedInUser/usersList/usersList.provider";
+import CreateAdminUserPage from "../frontend/pages/notLoggedInUser/createAdminUser/createAdminUser.view";
 
 const UserNotLoggedInContext = (component: ReactNode) => (
 	<NotLoggedInUserContainer>
@@ -27,6 +28,11 @@ const exampleRouterList: Array<(IRoute | null)> = [
 		component: () => (UserNotLoggedInContext(<SignInPage />)),
 		templateVariant: 'Login'
 	} as const,
+	{
+		path: '/create-admin-user',
+		component: () => (UserNotLoggedInContext(<CreateAdminUserPage />)),
+		templateVariant: 'Login'
+	}
 ] as const;
 
 export default exampleRouterList;

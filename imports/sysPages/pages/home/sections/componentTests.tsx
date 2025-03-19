@@ -24,12 +24,9 @@ import storageApi from '/imports/base/services/storage/storage.api';
 import { enumFileType } from '/imports/base/services/storage/common/types/file.type';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import securityApi from '/imports/base/services/security/security.api';
-import { enumSecurityConfig } from '/imports/base/services/security/common/enums/config.enum';
 import { ParamUploadArchiveType } from '/imports/base/services/storage/common/types/uploadArchive';
 import { useTracker } from 'meteor/react-meteor-data';
 import { enumStorageMethods } from '/imports/base/services/storage/common/enums/methods.enum';
-import { enumSecurityMethods } from '/imports/base/services/security/common/enums/methods.enum';
-import enumUserProfileRegisterMethods from '../../../../modules/userprofile/common/enums/enumRegisterMethods';
 import { RenderWithPermission } from '/imports/base/services/security/frontend/components/renderWithPermission';
 
 type storageType = 'Image' | 'Audio' | 'Video' | 'Document';
@@ -40,9 +37,7 @@ const HomeSectionComponents: React.FC = () => {
 	const [fileOptions, setFileOptions] = React.useState<storageType>('Image');
 
 	const { tasks, isLoading } = useTracker(() => {
-		const methodshandle = securityApi.getAllRolesPublication({
-			referred: 'SecurityService2'
-		});
+		const methodshandle = securityApi.getAllRolesPublication({});
 		const documents = methodshandle.ready() ? securityApi.mongoRole.find().fetch() : [];
 		console.log('documents: ', documents);
 		return {
