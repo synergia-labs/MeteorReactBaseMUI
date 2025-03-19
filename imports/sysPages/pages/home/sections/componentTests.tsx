@@ -52,8 +52,7 @@ const HomeSectionComponents: React.FC = () => {
 		enumSecurityMethods.getRole,
 		enumSecurityMethods.methodSafeInsert,
 		enumSecurityMethods.roleSafeInsert,
-		enumUserProfileRegisterMethods.checkIfHasAdminUser,
-		enumUserProfileRegisterMethods.sendVerificationEmail
+		enumUserProfileRegisterMethods.checkIfHasAdminUser
 	];
 
 	useEffect(() => {
