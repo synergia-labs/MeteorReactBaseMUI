@@ -37,7 +37,7 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
         if(prop.roles.includes(EnumUserRoles.ADMIN)) return;
         if(context.user?.profile?.roles?.includes(EnumUserRoles.ADMIN)) return;
         if(await this.getServerInstance()?.checkIfHasAdminUser())
-            throw new Meteor.Error('500', 'Apenas usuários administradores podem criar usuários administradores');
+            this.generateError({ _message: 'Apenas usuários administradores podem criar usuários administradores' });
 
     }
 
@@ -61,7 +61,7 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
     protected async onError(_param: CreateUserType, _context: IContext, _error: Meteor.Error): Promise<string | void> {
         await this.getServerInstance()?.mongoInstance.removeAsync({ 'emails.address': _param.email });
         console.error(`[ERROR] Erro ao criar o usuário ${_param.email}: ${_error}`);
-        throw new Meteor.Error('500', `[${this.getName()}]: Erro interno - ${_error}`);
+        this.generateError({ _message: 'Erro ao criar o usuário' });
     }
 } 
 

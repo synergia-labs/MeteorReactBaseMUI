@@ -20,11 +20,8 @@ class OnLogout extends MethodBase<UserProfileServer, OnLogoutType, void> {
             name: 'server.onLogout',
             paramSch: onLogoutSchema,
             returnSch: z.void(),
+            canRegister: false,
         });
-    }
-
-    async beforeAction(_: OnLogoutType, _context: IContext): Promise<void> {
-        return;
     }
 
     async action({ user }: OnLoginType, _context: IContext): Promise<void> {

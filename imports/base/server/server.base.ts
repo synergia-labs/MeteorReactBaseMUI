@@ -1,6 +1,4 @@
 import { Meteor, Subscription } from 'meteor/meteor';
-import { IDoc } from '/imports/typings/IDoc';
-import { MongoInternals } from 'meteor/mongo';
 import { WebApp } from 'meteor/webapp';
 import connectRoute from 'connect-route';
 import { IContext } from '/imports/typings/IContext';
@@ -16,7 +14,6 @@ import { getDefaultAdminContext, getDefaultPublicContext } from './utils/default
 import { methodSafeInsert } from '../services/security/backend/methods/methodSafeInsert';
 import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
 import { enumMethodTypes, MethodTypes } from '../services/security/common/enums/methodTypes';
-import { hasValue } from '/imports/libs/hasValue';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));

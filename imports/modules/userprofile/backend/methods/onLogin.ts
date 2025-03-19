@@ -20,11 +20,8 @@ class OnLogin extends MethodBase<UserProfileServer, OnLoginType, void> {
             name: 'users.onLogin',
             paramSch: onLoginSchema,
             returnSch: z.void(),
+            canRegister: false,
         });
-    }
-
-    async beforeAction(_: OnLoginType, _context: IContext): Promise<void> {
-        return;
     }
 
     async action({ user, connection }: OnLoginType, _context: IContext): Promise<void> {
