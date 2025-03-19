@@ -12,7 +12,8 @@ class GetImage extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getImage,
-			roles: [EnumUserRoles.PUBLIC, EnumUserRoles.ADMIN]
+			roles: [EnumUserRoles.PUBLIC, EnumUserRoles.ADMIN],
+			canRegister: false
 		});
 	}
 
@@ -21,12 +22,12 @@ class GetImage extends GetStorageBase {
 		const file = await imageCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			throw new Error('File not found');
+			this.generateError({ _message: 'Imagem não encontrada', _context });
 		}
 
 		if (file?.meta?.isRestricted) {
-			if (!_context.user._id) throw new Error('User not authenticated');
-			if (_context.user._id != file.meta.createdBy) throw new Error('User not authorized');
+			if (!_context.user._id) this.generateError({ _message: 'User not authorized', _context });
+			if (_context.user._id != file.meta.createdBy) this.generateError({ _message: 'User not authorized', _context });
 		}
 
 		// Configurar o cabeçalho correto para exibir a imagem no navegador

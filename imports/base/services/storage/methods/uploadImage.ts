@@ -28,7 +28,10 @@ class UploadImage extends UploadStorageBase {
 		});
 
 		if (!objec) {
-			throw new Error('Failed to upload image');
+			this.generateError({
+				_message: 'Failed to upload image',
+				_context
+			});
 		}
 
 		const path = storageServer.getUrl({
