@@ -18,9 +18,6 @@ interface ISecurityProvider {
 export function SecurityProvider({ functionality, module, children }: ISecurityProvider) {
 	const [access, setAccess] = useState<Record<string, boolean>>({});
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [canAccess, setCanAccess] = useState<boolean>(false);
-
-	functionality.push(module);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -31,7 +28,6 @@ export function SecurityProvider({ functionality, module, children }: ISecurityP
 				return;
 			}
 			setAccess(result);
-			setCanAccess(result[module]);
 		});
 	}, []);
 

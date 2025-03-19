@@ -17,9 +17,9 @@ class DeleteVideo extends DeleteStorageBase {
 		const videoCollection = this.getServerInstance()?.getVideoCollection();
 		const file = await videoCollection?.findOneAsync({ _id: _param._id });
 
-		if (!file) throw new Error('Vídeo não encontrado');
+		if (!file) this.generateError({ _message: 'Vídeo não encontrado', _context });
 		if (file.meta?.isRestricted && file.meta?.createdBy !== _context.user._id)
-			throw new Error('Você não tem permissão para deletar este vídeo');
+			this.generateError({ _message: 'Você não tem permissão para deletar este vídeo', _context });
 
 		await videoCollection?.removeAsync({ _id: _param._id });
 

@@ -24,12 +24,10 @@ import storageApi from '/imports/base/services/storage/storage.api';
 import { enumFileType } from '/imports/base/services/storage/common/types/file.type';
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import securityApi from '/imports/base/services/security/security.api';
-import { enumSecurityConfig } from '/imports/base/services/security/common/enums/config.enum';
 import { ParamUploadArchiveType } from '/imports/base/services/storage/common/types/uploadArchive';
 import { useTracker } from 'meteor/react-meteor-data';
 import { enumStorageMethods } from '/imports/base/services/storage/common/enums/methods.enum';
-import { enumSecurityMethods } from '/imports/base/services/security/common/enums/methods.enum';
-import enumUserProfileRegisterMethods from '../../../../modules/userprofile/common/enums/enumRegisterMethods';
+import { RenderWithPermission } from '/imports/base/services/security/frontend/components/renderWithPermission';
 
 type storageType = 'Image' | 'Audio' | 'Video' | 'Document';
 const HomeSectionComponents: React.FC = () => {
@@ -37,32 +35,6 @@ const HomeSectionComponents: React.FC = () => {
 	const [imageId, setImageId] = React.useState<string>();
 	const [fileUrl, setFileUrl] = React.useState<string>();
 	const [fileOptions, setFileOptions] = React.useState<storageType>('Image');
-
-	const methodsNames = [
-		enumStorageMethods.deleteAudio,
-		enumStorageMethods.deleteDocument,
-		enumStorageMethods.deleteImage,
-		enumStorageMethods.deleteVideo,
-		enumStorageMethods.uploadAudio,
-		enumStorageMethods.uploadDocument,
-		enumStorageMethods.uploadImage,
-		enumStorageMethods.uploadVideo,
-		enumSecurityMethods.checkMethodPermission,
-		enumSecurityMethods.getMethod,
-		enumSecurityMethods.getRole,
-		enumSecurityMethods.methodSafeInsert,
-		enumSecurityMethods.roleSafeInsert,
-		enumUserProfileRegisterMethods.checkIfHasAdminUser,
-		enumUserProfileRegisterMethods.sendVerificationEmail
-	];
-
-	useEffect(() => {
-		securityApi.checkMethodPermission({ names: methodsNames }, (error, result) => {
-			if (error) return;
-
-			console.log('result: ', result);
-		});
-	}, []);
 
 	const { tasks, isLoading } = useTracker(() => {
 		const methodshandle = securityApi.getAllRolesPublication({});
@@ -283,23 +255,25 @@ const HomeSectionComponents: React.FC = () => {
 					placeholder="Selecione o tipo de arquivo que será enviado"
 					label="Tipo de arquivo"
 				/>
-				<SysForm schema={uploadSchema} onSubmit={handleUploadFile}>
-					<SysUploadFile name="file" />
-					<SysFormButton>Submit</SysFormButton>
-					<SysButton disabled={!imageId} onClick={handleDeleteImage}>
-						Delete
-					</SysButton>
-				</SysForm>
+				<RenderWithPermission functionalities={[enumStorageMethods.uploadImage, enumStorageMethods.deleteImage]}>
+					<SysForm schema={uploadSchema} onSubmit={handleUploadFile}>
+						<SysUploadFile name="file" />
+						<SysFormButton>Submit</SysFormButton>
+						<SysButton disabled={!imageId} onClick={handleDeleteImage}>
+							Delete
+						</SysButton>
+					</SysForm>
 
-				{fileUrl?.includes(enumFileType.enum.IMAGE) ? (
-					<img src={fileUrl ?? ''} alt="Uploaded file" style={{ maxWidth: '80%' }} />
-				) : fileUrl?.includes(enumFileType.enum.AUDIO) ? (
-					<audio src={fileUrl ?? ''} controls />
-				) : fileUrl?.includes(enumFileType.enum.VIDEO) ? (
-					<video src={fileUrl ?? ''} controls />
-				) : fileUrl?.includes(enumFileType.enum.DOCUMENT) ? (
-					<iframe src={fileUrl ?? ''} style={{ width: '100%', height: '500px' }} />
-				) : null}
+					{fileUrl?.includes(enumFileType.enum.IMAGE) ? (
+						<img src={fileUrl ?? ''} alt="Uploaded file" style={{ maxWidth: '80%' }} />
+					) : fileUrl?.includes(enumFileType.enum.AUDIO) ? (
+						<audio src={fileUrl ?? ''} controls />
+					) : fileUrl?.includes(enumFileType.enum.VIDEO) ? (
+						<video src={fileUrl ?? ''} controls />
+					) : fileUrl?.includes(enumFileType.enum.DOCUMENT) ? (
+						<iframe src={fileUrl ?? ''} style={{ width: '100%', height: '500px' }} />
+					) : null}
+				</RenderWithPermission>
 			</ElementRow>
 		</HomeSection>
 	);

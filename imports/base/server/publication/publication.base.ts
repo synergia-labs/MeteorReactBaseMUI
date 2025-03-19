@@ -1,7 +1,7 @@
 import ServerBase from '../server.base';
 import ActionsBase, { IActionsBase } from '../actions.base';
 import { Mongo } from 'meteor/mongo';
-import { Meteor } from 'meteor/meteor';
+import { Meteor, Subscription } from 'meteor/meteor';
 import { IContext } from '/imports/typings/IContext';
 import { z } from 'zod';
 
@@ -41,11 +41,31 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		return !!this.transformedPublication;
 	}
 
+	public async execute(
+		_param: [Param, Mongo.Options<Return>],
+		_context: IContext
+	): Promise<Mongo.Cursor<Return, Return>> {
+		// console.log('context on Publication', _context);
+		return await super.execute(_param, _context);
+	}
+
 	protected async beforeAction(_param: [Param, Mongo.Options<unknown>], _context: IContext) {
 		if (this.paramPubliSch) {
 			this.paramPubliSch.parse(_param[0]);
 		}
 		super.beforeAction(_param, _context);
+	}
+
+	protected generateError({
+		_message,
+		_code = '500',
+		_context
+	}: {
+		_message: string;
+		_code?: string;
+		_context?: IContext;
+	}): void {
+		(_context?.meteorInstance as Subscription)?.error(new Meteor.Error(_code, `[${this.getName()}]: ${_message}`));
 	}
 
 	abstract action(_params: Param, _options: Mongo.Options<Return>, _context: IContext): Promise<Mongo.Cursor<Return>>;

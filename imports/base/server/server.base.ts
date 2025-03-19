@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { Meteor, Subscription } from 'meteor/meteor';
 import { IDoc } from '/imports/typings/IDoc';
 import { MongoInternals } from 'meteor/mongo';
 import { WebApp } from 'meteor/webapp';
@@ -16,6 +16,7 @@ import { getDefaultAdminContext, getDefaultPublicContext } from './utils/default
 import { methodSafeInsert } from '../services/security/backend/methods/methodSafeInsert';
 import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
 import { enumMethodTypes, MethodTypes } from '../services/security/common/enums/methodTypes';
+import { hasValue } from '/imports/libs/hasValue';
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
@@ -76,8 +77,7 @@ class ServerBase {
 	 */
 	protected async registerMethods<Base extends ServerBase, Param extends unknown[], Return>(
 		methodInstances: Array<MethodBase<Base, Param, Return>>,
-		classInstance: Base,
-		withCall = true
+		classInstance: Base
 	) {
 		try {
 			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
@@ -91,31 +91,29 @@ class ServerBase {
 				const methodName = method.getName();
 				const endpointType = method.getEndpointType();
 
-				if (withCall)
-					this._registerSecurity(methodName, enumMethodTypes.enum.METHOD, method.getIsProtected(), method.getRoles());
-
-				const methodFunction = async (...param: [any]) => {
+				async function methodFunction(...param: [any]) {
 					console.info(`Call Method: ${methodName}`);
 
 					let connection: IConnection;
 					// @ts-ignore
-					connection = this.connection;
-					const meteorContext = await self._createContext(methodName, connection);
+					const meteorInstance: Meteor.MethodThisType = this;
 
+					const meteorContext = await self._createContext({ action: methodName, meteorInstance: meteorInstance });
 					return await method.execute(...param, meteorContext);
-				};
+				}
 
 				const rawName = methodName.split('.')[1];
 				if (!rawName) throw new Meteor.Error('500', 'Nome do método inválido');
 				(classInstance as any)[rawName] = methodFunction;
 
 				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
-				methodsObject[methodName] = methodFunction;
+				if (method.getCanRegister()) {
+					this._registerSecurity(methodName, enumMethodTypes.enum.METHOD, method.getIsProtected(), method.getRoles());
+					methodsObject[methodName] = methodFunction;
+				}
 			}
 
-			if (withCall) {
-				Meteor.methods(methodsObject);
-			}
+			Meteor.methods(methodsObject);
 		} catch (error) {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
@@ -149,60 +147,55 @@ class ServerBase {
 					publication.getRoles()
 				);
 
-				const publicationFunction = async (...param: any) => {
-					try{
-						console.info(`Call Publication: ${publicationName}`);
-	
-						let connection: IConnection;
-						// @ts-ignore
-						connection = this.connection;
-						const meteorContext = await this._createContext(publicationName, connection);
-	
-						return await publication.execute(param, meteorContext);
-					}catch(e){
-						console.error(`ERRO VINDO DO PUBLICATION: ${e}`);
-						//@ts-ignore
-						this.error( new Meteor.Error("ERRO VINDO DO PUBLICATION"));
-						return;
-					}
-				};
+				async function publicationFunction(...param: any) {
+					console.info(`Call Publication: ${publicationName}`);
+
+					let connection: IConnection;
+					// @ts-ignore
+					const meteorInstance: Subscription = this;
+					const meteorContext = await self._createContext({
+						action: publicationName,
+						meteorInstance: meteorInstance
+					});
+
+					return await publication.execute(param, meteorContext);
+				}
 
 				const transformedFunction = !publication.isTransformedPublication()
 					? undefined
 					: async (...param: [any]): Promise<any> => {
 							let connection: IConnection;
 							// @ts-ignore
-							connection = this.connection;
-							const meteorContext = await self._createContext(publicationName, connection);
+							const meteorInstance: Subscription = this;
+							const meteorContext = await self._createContext({
+								action: publicationName,
+								meteorInstance: meteorInstance
+							});
 							return publication.transformPublication(...param, meteorContext);
 						};
 
 				if (!transformedFunction) Meteor.publish(publicationName, publicationFunction);
 				else
 					Meteor.publish(publicationName, async function (query, options) {
-						try{
-							const subHandle = await (
-								await publicationFunction(query, options)
-							)?.observe({
-								added: async (document: Return) => {
-									this.added(self.apiName, (document as any)._id, await transformedFunction(document));
-								},
-								changed: async (newDocument: Return) => {
-									this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
-								},
-								removed: (oldDocument: Return) => {
-									this.removed(self.apiName, (oldDocument as any)._id);
-								}
-							});
-							this.ready();
-							this.onStop(() => {
-								subHandle && subHandle.stop();
-							});
-						}catch(e){
-							console.error(`ERRO VINDO DO PUBLICATION T: ${e}`);
-							//@ts-ignore
-							this.error( new Meteor.Error("ERRO VINDO DO PUBLICATION T"));
-						}
+						console.log('Enter in publish transform');
+
+						const subHandle = await (
+							await publicationFunction(query, options)
+						)?.observe({
+							added: async (document: Return) => {
+								this.added(self.apiName, (document as any)._id, await transformedFunction(document));
+							},
+							changed: async (newDocument: Return) => {
+								this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
+							},
+							removed: (oldDocument: Return) => {
+								this.removed(self.apiName, (oldDocument as any)._id);
+							}
+						});
+						this.ready();
+						this.onStop(() => {
+							subHandle && subHandle.stop();
+						});
 					});
 			});
 		} catch (error) {
@@ -222,15 +215,17 @@ class ServerBase {
 	 *
 	 * @returns {IContext}	- O contexto de execução.
 	 */
-	protected async _createContext(
-		action: string,
-		connection?: IConnection,
-		userProfile?: Meteor.User,
-		session?: MongoInternals.MongoConnection
-	): Promise<IContext> {
-		const user =
-			userProfile ?? (await Meteor.userAsync()) ?? ({ profile: { roles: [EnumUserRoles.PUBLIC] } } as Meteor.User);
-		return { apiName: this.apiName, action, user, connection, session };
+	protected async _createContext({
+		action,
+		user,
+		meteorInstance
+	}: {
+		action: string;
+		user?: Meteor.User;
+		meteorInstance?: Subscription | Meteor.MethodThisType;
+	}): Promise<IContext> {
+		user = user ?? ((await Meteor.userAsync()) || ({ profile: { roles: [EnumUserRoles.PUBLIC] } } as Meteor.User));
+		return { apiName: this.apiName, action, user, meteorInstance };
 	}
 	// #endregion
 
@@ -279,8 +274,7 @@ class ServerBase {
 					action,
 					request: req,
 					response: res,
-					apiName: this.apiName,
-					session: endpointContext.request
+					apiName: this.apiName
 				});
 
 				try {

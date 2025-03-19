@@ -32,10 +32,13 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	deleteImage,
 	deleteAudio,
 	deleteVideo,
-	deleteDocument
-] as const;
+	deleteDocument,
 
-const _methodInstancesGet: Array<MethodBase<any, any, any>> = [getImage, getAudio, getVideo, getDocument] as const;
+	getImage,
+	getAudio,
+	getVideo,
+	getDocument
+] as const;
 
 /**
  * Classe responsável por gerenciar o armazenamento de arquivos no servidor.
@@ -89,7 +92,6 @@ export class StorageServer extends ServerBase {
 	constructor() {
 		super(enumStorageConfig.apiName);
 		this.registerMethods(_methodInstances, this);
-		this.registerMethods(_methodInstancesGet, this, false);
 
 		// Registra os endpoints REST para obtenção de arquivos.
 		this.addRestEndpoints([

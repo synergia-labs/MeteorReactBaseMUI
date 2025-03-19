@@ -17,17 +17,13 @@ class GetRole extends MethodBase<SecurityServer, ParamGetType, ReturnGetRoleType
 		});
 	}
 
-	protected onError(_param: ParamGetType, _context: any, _error: Error): Promise<void> {
-		throw new Meteor.Error('500', _error.message);
-	}
-
 	async action(_param: ParamGetType, _context: any): Promise<ReturnGetRoleType> {
 		const roleCollection = this.getServerInstance()?.getRoleCollection();
-		if (!roleCollection) throw new Error('Role collection not found');
+		if (!roleCollection) this.generateError({ _message: 'Role collection not found', _context });
 
 		const _id = `${_param.referred ?? enumSecurityConfig.apiName}.${_param.name}`;
-		const role = await roleCollection.findOneAsync({ _id });
-		if (!role) throw new Error('Role not found');
+		const role = await roleCollection!.findOneAsync({ _id });
+		if (!role) this.generateError({ _message: 'Role not found', _context });
 
 		return role;
 	}

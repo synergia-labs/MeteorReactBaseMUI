@@ -10,7 +10,8 @@ class GetAudio extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getAudio,
-			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
+			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER],
+			canRegister: false
 		});
 	}
 
@@ -19,13 +20,14 @@ class GetAudio extends GetStorageBase {
 		const file = await audioCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			throw new Error('Audio file not found');
+			this.generateError({ _message: 'Áudio não encontrado', _context });
 		}
 
 		// Verifica se o áudio é restrito
 		if (file?.meta?.isRestricted) {
-			if (!_context.user._id) throw new Error('User not authenticated');
-			if (_context.user._id !== file.meta.createdBy) throw new Error('User not authorized');
+			if (!_context.user._id) this.generateError({ _message: 'Usuário não autenticado', _context });
+			if (_context.user._id !== file.meta.createdBy)
+				this.generateError({ _message: 'Você não tem permissão para acessar este áudio', _context });
 		}
 
 		// Obtém estatísticas do arquivo para Content-Length (opcional)

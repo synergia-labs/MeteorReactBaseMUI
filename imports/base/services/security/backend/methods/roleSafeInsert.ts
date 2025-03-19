@@ -23,20 +23,24 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 		});
 	}
 
-	protected onError(_param: ParamRoleSafeInsertType & AuditType, _context: IContext, _error: Error): Promise<void> {
-		throw new Meteor.Error('500', _error.message);
+	protected async onError(
+		_param: ParamRoleSafeInsertType & AuditType,
+		_context: IContext,
+		_error: Error
+	): Promise<void> {
+		this.generateError({ _message: _error.message, _context });
 	}
 
 	async action(_param: ParamRoleSafeInsertType & AuditType, _context: IContext): Promise<ReturnRoleSafeInsertType> {
 		const roleCollection = this.getServerInstance()?.getRoleCollection();
-		if (!roleCollection) throw new Error('Role collection not found');
+		if (!roleCollection) this.generateError({ _message: 'Role collection not found', _context });
 
 		const _id = `${_param.referred}.${textNormalize(_param.name)}`;
-		const role = await roleCollection.findOneAsync({ _id });
+		const role = await roleCollection!.findOneAsync({ _id });
 
-		if (role) throw new Error('Role already exists');
+		if (role) this.generateError({ _message: 'Role already exists', _context });
 
-		const result = await roleCollection.insertAsync({ _id, ..._param });
+		const result = await roleCollection!.insertAsync({ _id, ..._param });
 		return { _id: result };
 	}
 }

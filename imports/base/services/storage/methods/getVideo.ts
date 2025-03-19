@@ -9,7 +9,8 @@ class GetVideo extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getVideo,
-			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
+			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER],
+			canRegister: false
 		});
 	}
 
@@ -18,13 +19,14 @@ class GetVideo extends GetStorageBase {
 		const file = await videoCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			throw new Error('Video file not found');
+			this.generateError({ _message: 'Vídeo não encontrado', _context });
 		}
 
 		// Verifica se o vídeo é restrito
 		if (file?.meta?.isRestricted) {
-			if (!_context.user._id) throw new Error('User not authenticated');
-			if (_context.user._id !== file.meta.createdBy) throw new Error('User not authorized');
+			if (!_context.user._id) this.generateError({ _message: 'Usuário não autenticado', _context });
+			if (_context.user._id !== file.meta.createdBy)
+				this.generateError({ _message: 'Você não tem permissão para acessar este vídeo', _context });
 		}
 
 		const stat = fs.statSync(file.path);
