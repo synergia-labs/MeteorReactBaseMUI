@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { AuditType } from '../../types/audit';
 import ServerBase from '../server.base';
 import MethodBase, { IMethodBase } from './method.base';
@@ -9,6 +10,7 @@ export abstract class CreateMethodBase<S extends ServerBase, P, R> extends Metho
 	}
 
 	protected insertAuditData(param: P & AuditType, _context: IContext): void {
+		if(!param._id) param._id = nanoid();
 		param.createdAt = new Date();
 		param.createdBy = (_context.user._id ?? Meteor.userId()) as string;
 	}

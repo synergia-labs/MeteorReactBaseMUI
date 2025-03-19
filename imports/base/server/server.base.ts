@@ -11,7 +11,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import { EndpointType } from '../types/serverParams';
 import { MethodType } from '../types/method';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../modules/userprofile/common/enums/enumUserRoles';
 import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
 import { methodSafeInsert } from '../services/security/backend/methods/methodSafeInsert';
 import { enumSecurityConfig } from '../services/security/common/enums/config.enum';

@@ -1,4 +1,4 @@
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../../modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 
 export function getDefaultPublicContext(context: Partial<IContext>): IContext {

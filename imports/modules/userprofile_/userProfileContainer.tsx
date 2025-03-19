@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import UserProfileListController from '../../modules/userprofile/pages/UserProfileList/userProfileListController';
+import UserProfileListController from '../userprofile/pages/UserProfileList/userProfileListController';
 import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
 
 export interface IUserProfileModuleContext {

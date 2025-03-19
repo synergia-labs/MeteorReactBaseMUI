@@ -1,7 +1,7 @@
 import { mapRolesRecursos } from '/imports/security/config/mapRolesRecursos';
 import { Meteor } from 'meteor/meteor';
 import { getSystemUserProfile } from '/imports/libs/getUser';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../modules/userprofile/common/enums/enumUserRoles';
 
 type Recurso = string;
 

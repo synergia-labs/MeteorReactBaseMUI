@@ -3,7 +3,7 @@ import { enumSecurityPublications } from '../../common/enums/publications.enum';
 import { paramGetAllSch, ParamGetAllType, returnGetRoleSch, ReturnGetRoleType } from '../../common/types/get';
 import { SecurityServer } from '../security.server';
 import PublicationBase from '/imports/base/server/publication/publication.base';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 
 class GetAllRolesPublication extends PublicationBase<SecurityServer, ParamGetAllType, ReturnGetRoleType> {

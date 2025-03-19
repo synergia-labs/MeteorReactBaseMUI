@@ -1,5 +1,5 @@
 import { z } from "zod";
-import EnumUserRoles from "/imports/modules/userprofile/common/enums/enumUserRoles";
+import EnumUserRoles from "../enums/enumUserRoles";
 import { AuditSch } from "/imports/base/types/audit";
 import { githubServiceDataSchema } from "./serviceGithubData";
 import { googleServiceDataSchema } from "./serviceGoogleData";

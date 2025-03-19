@@ -23,6 +23,10 @@ class OnLogout extends MethodBase<UserProfileServer, OnLogoutType, void> {
         });
     }
 
+    async beforeAction(_: OnLogoutType, _context: IContext): Promise<void> {
+        return;
+    }
+
     async action({ user }: OnLoginType, _context: IContext): Promise<void> {
         if (!user._id) return;
         await this.getServerInstance()?.mongoInstance.updateAsync(

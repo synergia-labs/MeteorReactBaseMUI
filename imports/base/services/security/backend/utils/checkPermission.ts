@@ -1,6 +1,6 @@
 import { enumSecurityConfig } from '../../common/enums/config.enum';
 import { hasValue } from '/imports/libs/hasValue';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 
 export async function _checkPermission(name: string, referred: string, _context: IContext): Promise<boolean> {

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const AuditSch = z.object({
+	_id: z.string().optional(),
 	createdBy: z.string().optional(),
 	createdAt: z.date().optional(),
 

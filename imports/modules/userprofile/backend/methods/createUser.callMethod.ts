@@ -22,7 +22,7 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
         super({ 
             name: enumUserProfileRegisterMethods.create,
             paramSch: createUserSchema,
-            returnSch: z.string().ulid().nonempty(),
+            returnSch: z.string().nonempty(),
         });
     }
 
@@ -55,8 +55,14 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
 
     protected async afterAction(_prop: CreateUserType, _result: string, _context: IContext): Promise<void> {
         super.afterAction(_prop, _result, _context);
-        await Accounts.sendVerificationEmail(_result);
+        Accounts.sendVerificationEmail(_result);
     };
+
+    protected async onError(_param: CreateUserType, _context: IContext, _error: Meteor.Error): Promise<string | void> {
+        await this.getServerInstance()?.mongoInstance.removeAsync({ 'emails.address': _param.email });
+        console.error(`[ERROR] Erro ao criar o usuário ${_param.email}: ${_error}`);
+        throw new Meteor.Error('500', `[${this.getName()}]: Erro interno - ${_error}`);
+    }
 } 
 
 const createUserCallMethodInstance = new CreateUserCallMethod();

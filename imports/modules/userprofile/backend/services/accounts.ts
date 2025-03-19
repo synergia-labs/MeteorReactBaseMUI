@@ -1,8 +1,7 @@
-import React from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import userProfileServer from '../server';
-import getVerificationEmailTemplate from '../../frontend/email/emailVerification';
+import verificationEmailTemplate from '../../common/emails/sendEmailVerificationTemplate/sendEmailVerificationTempalte';
 
 Meteor.startup(() => {
 	//region Configurações de contas
@@ -16,7 +15,7 @@ Meteor.startup(() => {
 	Accounts.emailTemplates.from = Meteor.settings?.email?.system_sender;
 	process.env.MAIL_URL = Meteor.settings?.email?.url;
 
-	Accounts.emailTemplates.verifyEmail = getVerificationEmailTemplate();
+	Accounts.emailTemplates.verifyEmail = verificationEmailTemplate();
 	Accounts.onLogin(userProfileServer.onLogin.bind(userProfileServer));
 	Accounts.onLogout(userProfileServer.onLogout.bind(userProfileServer));
 });

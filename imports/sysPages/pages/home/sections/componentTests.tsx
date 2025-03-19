@@ -29,7 +29,7 @@ import { ParamUploadArchiveType } from '/imports/base/services/storage/common/ty
 import { useTracker } from 'meteor/react-meteor-data';
 import { enumStorageMethods } from '/imports/base/services/storage/common/enums/methods.enum';
 import { enumSecurityMethods } from '/imports/base/services/security/common/enums/methods.enum';
-import enumUserProfileRegisterMethods from '/imports/modules/userprofile/common/enums/enumRegisterMethods';
+import enumUserProfileRegisterMethods from '../../../../modules/userprofile/common/enums/enumRegisterMethods';
 
 type storageType = 'Image' | 'Audio' | 'Video' | 'Document';
 const HomeSectionComponents: React.FC = () => {

@@ -9,7 +9,7 @@ import { SecurityServer } from '../security.server';
 import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
 import { AuditType } from '/imports/base/types/audit';
 import { textNormalize } from '/imports/libs/textUtilities';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 
 class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeInsertType, ReturnMethodSafeInsertType> {

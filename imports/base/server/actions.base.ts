@@ -3,7 +3,7 @@ import ServerBase from './server.base';
 import { IContext } from '/imports/typings/IContext';
 import { Meteor } from 'meteor/meteor';
 import { EndpointType } from '../types/serverParams';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../modules/userprofile/common/enums/enumUserRoles';
 import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
 import { _checkPermission } from '../services/security/backend/utils/checkPermission';
 
@@ -98,8 +98,9 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	protected async beforeAction(_param: Param, _context: IContext): Promise<void> {
 		if (this.paramSch) _param = this.paramSch.parse(_param);
 
+
 		const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
-		if (!permission) throw new Meteor.Error('403', 'Usuário não tem permissão para executar este método');
+		if (!permission) throw new Meteor.Error('403', `Usuário não tem permissão para executar este método: ${this.name}`);
 	}
 	//endregion
 
@@ -110,7 +111,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	//endregion
 
 	//region OnError
-	protected onError(_param: Param, _context: IContext, _error: Error): Return | void {
+	protected async onError(_param: Param, _context: IContext, _error: Meteor.Error): Promise<Return | void> {
 		console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${_error}`);
 		throw new Meteor.Error('500', `[${this.name}]: Erro interno - ${_error}`);
 	}
@@ -124,7 +125,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 			await this.afterAction(_param, result, _context);
 			return result;
 		} catch (error) {
-			return this.onError(_param, _context, error as Error) as Return;
+			return await this.onError(_param, _context, error as Meteor.Error) as Return;
 		}
 	}
 }

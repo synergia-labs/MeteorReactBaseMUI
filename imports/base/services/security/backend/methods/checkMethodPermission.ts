@@ -9,7 +9,7 @@ import {
 import { SecurityServer } from '../security.server';
 import { _checkPermission } from '../utils/checkPermission';
 import MethodBase from '/imports/base/server/methods/method.base';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
 import { IContext } from '/imports/typings/IContext';
 
 class CheckMethodPermission extends MethodBase<SecurityServer, ParamCheckPermissionType, ReturnCheckPermissionType> {

@@ -8,12 +8,13 @@ import createUserCallMethodInstance from "./methods/createUser.callMethod";
 import { Mongo } from "meteor/mongo";
 import onLoginInstance from "./methods/onLogin";
 import onLogoutInstance from "./methods/onLogout";
-
+import sendVerificationEmailInstance from "./methods/sendVerificationEmail.callMethod";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
     checkIfHasAdminUserCallMethodInstance,
-    createUserCallMethodInstance
+    createUserCallMethodInstance,
+    sendVerificationEmailInstance
 ] as const;
 
 const _serverSideMethods: Array<MethodBase<any, any, any>> = [

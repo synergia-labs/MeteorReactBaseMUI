@@ -6,7 +6,7 @@ import {
 } from '../../common/types/deleteArchive';
 import { StorageServer } from '../../storage.server';
 import MethodBase, { IMethodBase } from '/imports/base/server/methods/method.base';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
+import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
 
 export abstract class DeleteStorageBase extends MethodBase<
 	StorageServer,
