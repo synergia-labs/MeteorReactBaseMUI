@@ -23,7 +23,7 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 		});
 	}
 
-	protected onError(_param: ParamRoleSafeInsertType & AuditType, _context: IContext, _error: Error): void {
+	protected onError(_param: ParamRoleSafeInsertType & AuditType, _context: IContext, _error: Error): Promise<void> {
 		throw new Meteor.Error('500', _error.message);
 	}
 

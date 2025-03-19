@@ -150,14 +150,21 @@ class ServerBase {
 				);
 
 				const publicationFunction = async (...param: any) => {
-					console.info(`Call Publication: ${publicationName}`);
-
-					let connection: IConnection;
-					// @ts-ignore
-					connection = this.connection;
-					const meteorContext = await this._createContext(publicationName, connection);
-
-					return publication.execute(param, meteorContext);
+					try{
+						console.info(`Call Publication: ${publicationName}`);
+	
+						let connection: IConnection;
+						// @ts-ignore
+						connection = this.connection;
+						const meteorContext = await this._createContext(publicationName, connection);
+	
+						return await publication.execute(param, meteorContext);
+					}catch(e){
+						console.error(`ERRO VINDO DO PUBLICATION: ${e}`);
+						//@ts-ignore
+						this.error( new Meteor.Error("ERRO VINDO DO PUBLICATION"));
+						return;
+					}
 				};
 
 				const transformedFunction = !publication.isTransformedPublication()
@@ -173,23 +180,29 @@ class ServerBase {
 				if (!transformedFunction) Meteor.publish(publicationName, publicationFunction);
 				else
 					Meteor.publish(publicationName, async function (query, options) {
-						const subHandle = await (
-							await publicationFunction(query, options)
-						)?.observe({
-							added: async (document: Return) => {
-								this.added(self.apiName, (document as any)._id, await transformedFunction(document));
-							},
-							changed: async (newDocument: Return) => {
-								this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
-							},
-							removed: (oldDocument: Return) => {
-								this.removed(self.apiName, (oldDocument as any)._id);
-							}
-						});
-						this.ready();
-						this.onStop(() => {
-							subHandle && subHandle.stop();
-						});
+						try{
+							const subHandle = await (
+								await publicationFunction(query, options)
+							)?.observe({
+								added: async (document: Return) => {
+									this.added(self.apiName, (document as any)._id, await transformedFunction(document));
+								},
+								changed: async (newDocument: Return) => {
+									this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
+								},
+								removed: (oldDocument: Return) => {
+									this.removed(self.apiName, (oldDocument as any)._id);
+								}
+							});
+							this.ready();
+							this.onStop(() => {
+								subHandle && subHandle.stop();
+							});
+						}catch(e){
+							console.error(`ERRO VINDO DO PUBLICATION T: ${e}`);
+							//@ts-ignore
+							this.error( new Meteor.Error("ERRO VINDO DO PUBLICATION T"));
+						}
 					});
 			});
 		} catch (error) {

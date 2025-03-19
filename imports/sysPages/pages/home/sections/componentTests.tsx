@@ -65,9 +65,7 @@ const HomeSectionComponents: React.FC = () => {
 	}, []);
 
 	const { tasks, isLoading } = useTracker(() => {
-		const methodshandle = securityApi.getAllRolesPublication({
-			referred: 'SecurityService2'
-		});
+		const methodshandle = securityApi.getAllRolesPublication({});
 		const documents = methodshandle.ready() ? securityApi.mongoRole.find().fetch() : [];
 		console.log('documents: ', documents);
 		return {

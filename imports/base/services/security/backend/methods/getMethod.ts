@@ -18,7 +18,7 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 		});
 	}
 
-	protected onError(_param: ParamGetType, _context: any, _error: Error): void {
+	protected onError(_param: ParamGetType, _context: any, _error: Error): Promise<void> {
 		throw new Meteor.Error('500', _error.message);
 	}
 

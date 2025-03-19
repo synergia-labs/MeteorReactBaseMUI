@@ -23,7 +23,7 @@ class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeI
 		});
 	}
 
-	protected onError(_param: ParamMethodSafeInsertType & AuditType, _context: IContext, _error: Error): void {
+	protected onError(_param: ParamMethodSafeInsertType & AuditType, _context: IContext, _error: Error): Promise<void> {
 		throw new Meteor.Error('500', _error.message);
 	}
 
