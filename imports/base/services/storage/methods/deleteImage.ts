@@ -1,8 +1,8 @@
-import { enumStorageMethods } from '../common/enums/methods.enum';
-import { ParamDeleteArchiveType, ReturnDeleteArchiveType } from '../common/types/deleteArchive';
-import { DeleteStorageBase } from './bases/delete';
-import EnumUserRoles from '../../../../modules/userprofile/common/enums/enumUserRoles';
-import { IContext } from '/imports/typings/IContext';
+import { enumStorageMethods } from "../common/enums/methods.enum";
+import { ParamDeleteArchiveType, ReturnDeleteArchiveType } from "../common/types/deleteArchive";
+import { DeleteStorageBase } from "./bases/delete";
+import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
+import { IContext } from "/imports/typings/IContext";
 
 class DeleteImage extends DeleteStorageBase {
 	constructor() {
@@ -16,13 +16,13 @@ class DeleteImage extends DeleteStorageBase {
 		const imageCollection = this.getServerInstance()?.getImageCollection();
 		const file = await imageCollection?.findOneAsync({ _id: _param._id });
 
-		if (!file) this.generateError({ _message: 'Imagem não encontrada' }, _context);
+		if (!file) this.generateError({ _message: "Imagem não encontrada" }, _context);
 		if (file.meta?.isRestricted && file.meta?.createdBy != _context.user._id)
-			this.generateError({ _message: 'Você não tem permissão para deletar esta imagem' }, _context);
+			this.generateError({ _message: "Você não tem permissão para deletar esta imagem" }, _context);
 
 		await imageCollection?.removeAsync({ _id: _param._id });
 
-		return { message: 'Imagem deletada com sucesso' };
+		return { message: "Imagem deletada com sucesso" };
 	}
 }
 

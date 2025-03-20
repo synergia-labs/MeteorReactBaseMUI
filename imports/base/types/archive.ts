@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { Buffer } from 'buffer';
+import { z } from "zod";
+import { Buffer } from "buffer";
 
 export const ArchiveSch = z.object({
 	alt: z.string(),

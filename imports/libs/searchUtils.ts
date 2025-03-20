@@ -1,6 +1,6 @@
-import { getMongoDBFilterSintaxe } from './getMongoSintaxe';
-import _ from 'lodash';
-import { ReactiveVar } from 'meteor/reactive-var';
+import { getMongoDBFilterSintaxe } from "./getMongoSintaxe";
+import _ from "lodash";
+import { ReactiveVar } from "meteor/reactive-var";
 
 export const initSearch = (api: any, subscribeConfigReactiveVar: ReactiveVar<any>, listOfFields: string[]) => {
 	const fields = !!listOfFields && Array.isArray(listOfFields) ? listOfFields : null;
@@ -38,8 +38,6 @@ export const initSearch = (api: any, subscribeConfigReactiveVar: ReactiveVar<any
 					return returnJson;
 				}
 				subscribeConfig.reactiveVarConfig.set(subscribeConfig.config);
-			} else {
-				console.log('SearchError: ReactiveVar Or Config is NOT Defined');
 			}
 
 			return;
@@ -50,17 +48,17 @@ export const initSearch = (api: any, subscribeConfigReactiveVar: ReactiveVar<any
 			if (datalistOfFieldsSchemaForSearch[field].type === String) {
 				filterBy.push(
 					{
-						[field]: getMongoDBFilterSintaxe('contains', textToSearch, 'string')
+						[field]: getMongoDBFilterSintaxe("contains", textToSearch, "string")
 					}
 					// {[field]: getMongoDBFilterSintaxe(textToSearch.length<4?'==':'initwith', textToSearch, 'string')}
 				);
 			} else if (datalistOfFieldsSchemaForSearch[field].type === Number) {
 				filterBy.push({
-					[field]: getMongoDBFilterSintaxe('==', textToSearch, 'number')
+					[field]: getMongoDBFilterSintaxe("==", textToSearch, "number")
 				});
 			} else if (Array.isArray(datalistOfFieldsSchemaForSearch[field].type)) {
 				filterBy.push({
-					[field]: getMongoDBFilterSintaxe('contains', textToSearch, 'string')
+					[field]: getMongoDBFilterSintaxe("contains", textToSearch, "string")
 				});
 			}
 		});
@@ -78,8 +76,6 @@ export const initSearch = (api: any, subscribeConfigReactiveVar: ReactiveVar<any
 				return returnJson;
 			}
 			subscribeConfig.reactiveVarConfig.set(subscribeConfig.config);
-		} else {
-			console.log('SearchError: ReactiveVar Or Config is NOT Defined');
 		}
 	};
 

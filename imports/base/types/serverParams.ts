@@ -1,15 +1,15 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 enum ActionsEnum {
-	GET = 'get',
-	CREATE = 'create',
-	UPDATE = 'update',
-	DELETE = 'delete'
+	GET = "get",
+	CREATE = "create",
+	UPDATE = "update",
+	DELETE = "delete"
 }
 
 enum EndpointTypesEnum {
-	GET = 'get',
-	POST = 'post'
+	GET = "get",
+	POST = "post"
 }
 
 export const enumServerActions = z.nativeEnum(ActionsEnum);

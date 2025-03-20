@@ -1,7 +1,6 @@
-import { Meteor } from 'meteor/meteor';
-import fillDatabaseWithFakeDataInstance from '../../backend/methods/fillDatabaseWithFakeData.callMethod';
-import { MethodType } from '/imports/base/types/method';
-import { TransformServerToApiMethods } from '/imports/base/types/serverApiMethods';
+import fillDatabaseWithFakeDataInstance from "../../backend/methods/fillDatabaseWithFakeData.callMethod";
+import { MethodType } from "/imports/base/types/method";
+import { TransformServerToApiMethods } from "/imports/base/types/serverApiMethods";
 
 /**Interface para utilização da classe módulo nos métodos.
  * IMPORTANTE: Adicionar apenas os métodos. Não adicionar publicações.

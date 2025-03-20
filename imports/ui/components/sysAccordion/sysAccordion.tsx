@@ -1,16 +1,11 @@
-import React, {MouseEventHandler} from 'react';
-import Typography from '@mui/material/Typography';
-import AccordionStyle from './sysAccordionStyles';
-import {SxProps, Theme} from '@mui/material';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Button from '@mui/material/Button';
+import React, { MouseEventHandler } from "react";
+import Typography from "@mui/material/Typography";
+import AccordionStyle from "./sysAccordionStyles";
+import { SxProps, Theme } from "@mui/material";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Button from "@mui/material/Button";
 
-const {
-  Container,
-  Accordion,
-  AccordionSummary,
-  AccordionActions,
-} = AccordionStyle;
+const { Container, Accordion, AccordionSummary, AccordionActions } = AccordionStyle;
 
 /**
  * Props para o componente SysAccordion.
@@ -29,7 +24,7 @@ interface ISysAccordion {
 	/** Indica se o painel está desabilitado. */
 	disabled?: boolean;
 	/** A posição do ícone no painel. */
-	posicaoIcone?: 'inicio' | 'fim';
+	posicaoIcone?: "inicio" | "fim";
 	/** Mapeamento de estilos personalizados para o componente e seus elementos filhos. */
 	sxMap?: {
 		/** Estilos personalizados para o acordion. */
@@ -75,7 +70,7 @@ export const SysAccordion: React.FC<ISysAccordion> = ({
 	aberta = false,
 	actions = [],
 	disabled = false,
-	posicaoIcone = 'fim',
+	posicaoIcone = "fim",
 	sxMap
 }) => {
 	return (
@@ -85,10 +80,7 @@ export const SysAccordion: React.FC<ISysAccordion> = ({
 				defaultExpanded={aberta}
 				disabled={disabled}
 				slotProps={{ transition: { unmountOnExit: true } }}>
-				<AccordionSummary
-					expandIcon={expandIcon}
-					posicaoIcone={posicaoIcone}
-					sx={sxMap?.acordionSumamry}>
+				<AccordionSummary expandIcon={expandIcon} posicaoIcone={posicaoIcone} sx={sxMap?.acordionSumamry}>
 					<Typography variant="h6">{titulo}</Typography>
 				</AccordionSummary>
 

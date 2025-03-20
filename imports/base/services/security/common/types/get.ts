@@ -1,7 +1,7 @@
-import { z } from 'zod';
-import { paramRoleSafeInsertSch } from './roleSafeInsert';
-import { AuditSch } from '/imports/base/types/audit';
-import { paramMethodSafeInsertSch } from './methodSafeInsert';
+import { z } from "zod";
+import { paramRoleSafeInsertSch } from "./roleSafeInsert";
+import { AuditSch } from "/imports/base/types/audit";
+import { paramMethodSafeInsertSch } from "./methodSafeInsert";
 
 export const paramGetSch = z.object({
 	referred: z.string().optional(),

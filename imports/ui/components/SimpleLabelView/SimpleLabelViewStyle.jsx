@@ -1,23 +1,23 @@
 const simpleLabelStyle = {
 	container: {
-		whiteSpace: 'nowrap',
-		textOverflow: 'ellipsis'
+		whiteSpace: "nowrap",
+		textOverflow: "ellipsis"
 	},
 	displayLabel: {
-		whiteSpace: 'break-spaces',
-		overflow: 'hidden',
-		textOverflow: 'ellipsis',
-		textAlign: 'left',
+		whiteSpace: "break-spaces",
+		overflow: "hidden",
+		textOverflow: "ellipsis",
+		textAlign: "left",
 		padding: 0
 	},
 	displayValue: {
-		padding: '0.5rem',
+		padding: "0.5rem",
 		paddingLeft: 0,
 		paddingTop: 0,
-		whiteSpace: 'break-spaces',
-		overflow: 'hidden',
-		textOverflow: 'ellipsis',
-		textAlign: 'left'
+		whiteSpace: "break-spaces",
+		overflow: "hidden",
+		textOverflow: "ellipsis",
+		textAlign: "left"
 	}
 };
 

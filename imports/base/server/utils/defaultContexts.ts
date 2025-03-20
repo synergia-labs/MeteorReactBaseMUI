@@ -1,10 +1,10 @@
-import EnumUserRoles from '../../../modules/userprofile/common/enums/enumUserRoles';
-import { IContext } from '/imports/typings/IContext';
+import EnumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
+import { IContext } from "/imports/typings/IContext";
 
 export function getDefaultPublicContext(context: Partial<IContext>): IContext {
 	const newContext: IContext = {
-		apiName: '',
-		action: '',
+		apiName: "",
+		action: "",
 		user: {
 			_id: EnumUserRoles.ADMIN,
 			username: EnumUserRoles.ADMIN,
@@ -22,8 +22,8 @@ export function getDefaultPublicContext(context: Partial<IContext>): IContext {
 
 export function getDefaultAdminContext(context?: Partial<IContext>): IContext {
 	const newContext: IContext = {
-		apiName: '',
-		action: '',
+		apiName: "",
+		action: "",
 		user: {
 			_id: EnumUserRoles.ADMIN,
 			username: EnumUserRoles.ADMIN,

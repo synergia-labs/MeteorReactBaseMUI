@@ -1,17 +1,68 @@
-import Home from '../../sysPages/pages/home/home';
-import { IRoute } from '../../modules/modulesTypings';
-import SysFormPlayground from '../../sysPages/pages/sysFormPlayground/sysFormPlayground';
+import Home from "../../sysPages/pages/home/home";
+import { IRoute } from "../../modules/modulesTypings";
+import SysFormPlayground from "../../sysPages/pages/sysFormPlayground/sysFormPlayground";
 
-export const pagesRouterList: Array<(IRoute | null)> = [
+export const pagesRouterList: Array<IRoute | null> = [
 	{
-		path: '/',
+		path: "/",
 		element: Home,
-		isProtected: true,	
-		index: true,
+		isProtected: true,
+		index: true
 	},
 	{
-		path: '/sysFormTests',
+		path: "/sysFormTests",
 		element: SysFormPlayground,
-		isProtected: true,
+		isProtected: true
 	}
+
+	// {
+	// 	path: '/',
+	// 	exact: true,
+	// 	component: Home,
+	// 	isProtected: true,
+	// 	resources: [HomeResources.HOME_VIEW]
+	// },
+	// {
+	// 	path: '/sysFormTests',
+	// 	component: SysFormPlayground,
+	// 	isProtected: true,
+	// 	resources: [SysFormTestPageResources.SYSFORMTESTS_VIEW]
+	// },
+	// {
+	// 	path: '/signin',
+	// 	component: SignInPage,
+	// 	isProtected: false,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/signup',
+	// 	component: SignUp,
+	// 	isProtected: false,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/no-permission',
+	// 	component: NoPermission,
+	// 	isProtected: true
+	// },
+	// {
+	// 	path: '/password-recovery',
+	// 	component: PasswordRecovery,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/reset-password/:token',
+	// 	component: ResetPassword,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/enroll-account/:token',
+	// 	component: ResetPassword,
+	// 	templateVariant: 'None'
+	// },
+	// {
+	// 	path: '/verify-email/:token',
+	// 	component: EmailVerify,
+	// 	templateVariant: 'None'
+	// }
 ];

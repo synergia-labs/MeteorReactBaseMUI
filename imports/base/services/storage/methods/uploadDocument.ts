@@ -1,11 +1,11 @@
-import { IContext } from '/imports/typings/IContext';
-import { enumStorageMethods } from '../common/enums/methods.enum';
-import storageServer, { StorageServer } from '../storage.server';
-import { UploadStorageBase } from './bases/upload';
-import { Buffer } from 'buffer';
-import { enumFileType } from '../common/types/file.type';
-import { ParamUploadArchiveType, ReturnUploadArchiveType } from '../common/types/uploadArchive';
-import EnumUserRoles from '../../../../modules/userprofile/common/enums/enumUserRoles';
+import { IContext } from "/imports/typings/IContext";
+import { enumStorageMethods } from "../common/enums/methods.enum";
+import storageServer from "../storage.server";
+import { UploadStorageBase } from "./bases/upload";
+import { Buffer } from "buffer";
+import { enumFileType } from "../common/types/file.type";
+import { ParamUploadArchiveType, ReturnUploadArchiveType } from "../common/types/uploadArchive";
+import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 
 class UploadDocument extends UploadStorageBase {
 	constructor() {
@@ -16,7 +16,7 @@ class UploadDocument extends UploadStorageBase {
 	}
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
-		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== 'archive'));
+		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== "archive"));
 		const documentCollection = this.getServerInstance()?.getDocumentCollection();
 
 		// Faz o upload do arquivo na coleção de documentos
@@ -28,7 +28,7 @@ class UploadDocument extends UploadStorageBase {
 		});
 
 		if (!objec) {
-			this.generateError({ _message: 'Failed to upload document' }, _context);
+			this.generateError({ _message: "Failed to upload document" }, _context);
 		}
 
 		const path = storageServer.getUrl({

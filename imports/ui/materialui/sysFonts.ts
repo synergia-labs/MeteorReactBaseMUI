@@ -1,119 +1,119 @@
-import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { TypographyOptions } from "@mui/material/styles/createTypography";
 
 class SysFonts {
-	public static readonly fontFamily = 'Poppins, sans-serif';
+	public static readonly fontFamily = "Poppins, sans-serif";
 
 	public static readonly h1 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${3 * _fontScale}rem`,
 		fontWeight: 600,
-    fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly h2 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${2 * _fontScale}rem`,
 		fontWeight: 600,
-    fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly h3 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.5 * _fontScale}rem`,
 		fontWeight: 600,
-    fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly h4 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.5 * _fontScale}rem`,
 		fontWeight: 400,
-    fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly h5 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.25 * _fontScale}rem`,
 		fontWeight: 600,
-    fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly h6 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.125 * _fontScale}rem`,
 		fontWeight: 400,
-    fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly subtitle1 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${_fontScale}rem`,
 		fontWeight: 600,
-		fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly subtitle2 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${0.875 * _fontScale}rem`,
 		fontWeight: 600,
-		fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly button = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${_fontScale}rem`,
 		fontWeight: 600,
-		fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly button2 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${0.875 * _fontScale}rem`,
 		fontWeight: 600,
-		fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly link = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${_fontScale}rem`,
 		fontWeight: 400,
-		fontStyle: 'normal',
-		lineHeight: 'normal',
-		textDecorationLine: 'underline'
+		fontStyle: "normal",
+		lineHeight: "normal",
+		textDecorationLine: "underline"
 	});
 
 	public static readonly body1 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${_fontScale}rem`,
-    fontWeight: 400,
-		fontStyle: 'normal',
-    lineHeight: 'normal'
+		fontWeight: 400,
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly body2 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${0.875 * _fontScale}rem`,
 		fontWeight: 400,
-		fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly caption = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${0.75 * _fontScale}rem`,
 		fontWeight: 400,
-		fontStyle: 'normal',
-		lineHeight: 'normal'
+		fontStyle: "normal",
+		lineHeight: "normal"
 	});
 
 	public static readonly getTypography = (_fontScale: number = 1): TypographyOptions => ({

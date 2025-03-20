@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import { Stepper } from './Stepper/Stepper';
+import React, { useCallback, useEffect } from "react";
+import Box from "@mui/material/Box";
+import { Stepper } from "./Stepper/Stepper";
 
 interface ICarrosselProps {
 	listaComponentes: JSX.Element[] | undefined;
 	posicaoStepper: {
-		horizontal: 'left' | 'center' | 'right';
+		horizontal: "left" | "center" | "right";
 		vertical: {
-			posicao: 'up' | 'down';
+			posicao: "up" | "down";
 			margem: string;
 		};
 	};
@@ -43,24 +43,24 @@ export const Carrossel = ({ listaComponentes, posicaoStepper }: ICarrosselProps)
 
 	return (
 		<Box sx={{ flex: 1 }}>
-			{posicaoStepper.vertical.posicao === 'up' && (
+			{posicaoStepper.vertical.posicao === "up" && (
 				<Box
 					sx={{
-						display: 'flex',
+						display: "flex",
 						justifyContent: posicaoStepper.horizontal,
 						marginBottom: posicaoStepper.vertical.margem
 					}}>
 					<Stepper onActiveStep={activeStep} listComponents={listaComponentes} onSetActiveStep={handleSetActiveStep} />
 				</Box>
 			)}
-			<Box key={activeStep} sx={{ flex: 1 }} className={'elementToFadeInAndOut'}>
+			<Box key={activeStep} sx={{ flex: 1 }} className={"elementToFadeInAndOut"}>
 				{listaComponentes && listaComponentes.length > 0 && listaComponentes[activeStep]}
 			</Box>
 
-			{posicaoStepper.vertical.posicao === 'down' && (
+			{posicaoStepper.vertical.posicao === "down" && (
 				<Box
 					sx={{
-						display: 'flex',
+						display: "flex",
 						justifyContent: posicaoStepper.horizontal,
 						marginTop: posicaoStepper.vertical.margem
 					}}>

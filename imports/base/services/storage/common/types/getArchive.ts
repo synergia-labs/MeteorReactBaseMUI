@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { enumResolution } from './resolution.type';
+import { z } from "zod";
+import { enumResolution } from "./resolution.type";
 
 /**
  * Esquema para os parâmetros necessários para obter um arquivo.

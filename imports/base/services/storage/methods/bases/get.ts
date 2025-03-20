@@ -3,14 +3,14 @@ import {
 	ParamGetArchiveType,
 	returnGetArchiveSch,
 	ReturnGetArchiveType
-} from '../../common/types/getArchive';
-import { StorageServer } from '../../storage.server';
-import MethodBase, { IMethodBase } from '/imports/base/server/methods/method.base';
-import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
-import { IContext } from '/imports/typings/IContext';
+} from "../../common/types/getArchive";
+import { StorageServer } from "../../storage.server";
+import MethodBase, { IMethodBase } from "/imports/base/server/methods/method.base";
+import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import { IContext } from "/imports/typings/IContext";
 
 export abstract class GetStorageBase extends MethodBase<StorageServer, ParamGetArchiveType, ReturnGetArchiveType> {
-	constructor(props: Omit<IMethodBase, 'paramSch' | 'returnSch'>) {
+	constructor(props: Omit<IMethodBase, "paramSch" | "returnSch">) {
 		super({
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetArchiveSch,

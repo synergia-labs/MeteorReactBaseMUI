@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Styles from './cardStyles';
-import { IFileCard } from './interfaces';
-import { Button } from '@mui/material';
-import { hasValue } from '/imports/libs/hasValue';
+import React, { useState } from "react";
+import Styles from "./cardStyles";
+import { IFileCard } from "./interfaces";
+import { Button } from "@mui/material";
+import { hasValue } from "/imports/libs/hasValue";
 
-export function ImageCard({ item, sxMap, viewType = 'row', canEdit = true, onRemove }: IFileCard) {
+export function ImageCard({ item, sxMap, viewType = "row", canEdit = true, onRemove }: IFileCard) {
 	const [imageSrc, setImageSrc] = useState<string>();
 
 	// Gerar URL da imagem

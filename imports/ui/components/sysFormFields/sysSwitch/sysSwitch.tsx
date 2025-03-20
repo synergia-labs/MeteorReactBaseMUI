@@ -1,20 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import Switch, { SwitchProps } from '@mui/material/Switch';
-import { SysFormContext } from '../../sysForm/sysForm';
-import { hasValue } from '../../../../libs/hasValue';
-import { ISysFormComponentRef } from '../../sysForm/typings';
-import SysLabelView from '../../sysLabelView/sysLabelView';
-import { SxProps, Theme } from '@mui/material';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import Switch, { SwitchProps } from "@mui/material/Switch";
+import { SysFormContext } from "../../sysForm/sysForm";
+import { hasValue } from "../../../../libs/hasValue";
+import { ISysFormComponentRef } from "../../sysForm/typings";
+import SysLabelView from "../../sysLabelView/sysLabelView";
+import { SxProps, Theme } from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 
 interface ISysSwitchProps extends ISysFormComponent<SwitchProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
 		switch?: SxProps<Theme>;
 	};
-	labelPosition?: 'top' | 'start' | 'bottom' | 'end';
+	labelPosition?: "top" | "start" | "bottom" | "end";
 	valueLabel?: string;
 }
 
@@ -33,7 +33,7 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 	showTooltip,
 	tooltipMessage,
 	tooltipPosition,
-	labelPosition = 'end',
+	labelPosition = "end",
 	valueLabel,
 	sxMap,
 	...otherProps
@@ -46,7 +46,7 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 	const schema = refObject?.current.schema;
 
 	label = label || schema?.label;
-	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
+	readOnly = readOnly || controllerSysForm.mode === "view" || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
@@ -87,7 +87,7 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 			tooltipPosition={tooltipPosition}>
 			<FormControlLabel
 				value={labelPosition}
-				label={valueLabel ?? (valueState ? 'Sim' : 'Não')}
+				label={valueLabel ?? (valueState ? "Sim" : "Não")}
 				control={
 					<Switch
 						{...otherProps}
@@ -102,7 +102,7 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 					/>
 				}
 			/>
-			{!!errorState && <FormHelperText sx={{ color: 'error.main' }}> {errorState} </FormHelperText>}
+			{!!errorState && <FormHelperText sx={{ color: "error.main" }}> {errorState} </FormHelperText>}
 		</SysLabelView>
 	);
 };

@@ -1,13 +1,13 @@
-import { SysViewField } from './sysViewField';
-import { Meta, StoryObj } from '@storybook/react';
+import { SysViewField } from "./sysViewField";
+import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-	title: 'ui/components/sysViewField',
+	title: "ui/components/sysViewField",
 	component: SysViewField,
-	tags: ['autodocs'],
+	tags: ["autodocs"],
 	args: {
-		label: 'Label',
-		placeholder: 'Placeholder',
+		label: "Label",
+		placeholder: "Placeholder",
 		disabled: false,
 		sxMap: {}
 	}
@@ -18,8 +18,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		label: 'Label',
-		placeholder: 'Placeholder',
+		label: "Label",
+		placeholder: "Placeholder",
 		disabled: false,
 		sxMap: {}
 	}
@@ -27,8 +27,8 @@ export const Default: Story = {
 
 export const Disabled: Story = {
 	args: {
-		label: 'Label',
-		placeholder: 'Placeholder',
+		label: "Label",
+		placeholder: "Placeholder",
 		disabled: true,
 		sxMap: {}
 	}

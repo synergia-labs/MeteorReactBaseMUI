@@ -1,9 +1,9 @@
-import { deleteAudio } from '../../methods/deleteAudio';
-import { deleteImage } from '../../methods/deleteImage';
-import { uploadAudio } from '../../methods/uploadAudio';
-import { uploadImage } from '../../methods/uploadImage';
-import { MethodType } from '/imports/base/types/method';
-import { TransformServerToApiMethods } from '/imports/base/types/serverApiMethods';
+import { deleteAudio } from "../../methods/deleteAudio";
+import { deleteImage } from "../../methods/deleteImage";
+import { uploadAudio } from "../../methods/uploadAudio";
+import { uploadImage } from "../../methods/uploadImage";
+import { MethodType } from "/imports/base/types/method";
+import { TransformServerToApiMethods } from "/imports/base/types/serverApiMethods";
 
 interface StorageServerMethods extends Record<string, (...args: any) => any> {
 	uploadImage: MethodType<typeof uploadImage>;

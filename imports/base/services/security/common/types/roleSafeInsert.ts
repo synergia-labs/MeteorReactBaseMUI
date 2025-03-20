@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const paramRoleSafeInsertSch = z.object({
 	referred: z.string(),

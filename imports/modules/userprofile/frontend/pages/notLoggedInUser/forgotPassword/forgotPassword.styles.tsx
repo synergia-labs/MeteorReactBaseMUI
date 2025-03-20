@@ -1,7 +1,7 @@
-import React, { ElementType } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
-import { sysSizing } from '/imports/ui/materialui/styles';
+import React, { ElementType } from "react";
+import Box, { BoxProps } from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
+import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -9,28 +9,26 @@ interface IStyles {
 	footer: ElementType<BoxProps>;
 }
 
-
 const forgotPasswordStyle: IStyles = {
-	container: styled(Box)(({
+	container: styled(Box)({
 		gap: sysSizing.spacingFixedXl,
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	})),
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center"
+	}),
 	body: styled(Box)(({ theme }) => ({
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		gap: theme.spacing(2),
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		gap: theme.spacing(2)
 	})),
-	footer: styled(Box)(({
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
+	footer: styled(Box)({
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
 		gap: sysSizing.spacingFixedMd,
-		justifyContent: 'space-between',
-	})),
-}
-
+		justifyContent: "space-between"
+	})
+};
 
 export default forgotPasswordStyle;

@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import UserListView from './usersList.view';
-import Context, { IUsersListContext } from './usersList.context';
-import usersApi from '../../../api/api';
-import securityApi from '/imports/base/services/security/security.api';
-import { IOption } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
-import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
-import { GetUsersListReturnType } from '/imports/modules/userprofile/common/types/getUsersList';
-import useSubscribe from '/imports/hooks/usePublication';
+import React, { useContext, useEffect, useState } from "react";
+import UserListView from "./usersList.view";
+import Context, { IUsersListContext } from "./usersList.context";
+import usersApi from "../../../api/api";
+import securityApi from "/imports/base/services/security/security.api";
+import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
+import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
+import { GetUsersListReturnType } from "/imports/modules/userprofile/common/types/getUsersList";
+import useSubscribe from "/imports/hooks/usePublication";
 
 
 const UsersListProvider: React.FC = () => {
@@ -16,8 +16,8 @@ const UsersListProvider: React.FC = () => {
     useEffect(() => {
         securityApi.getRolesListNames(undefined, (error, result) => {
             if(error) return showNotification({
-                type: 'error',
-                title: 'Erro ao buscar perfis de usuário',
+                type: "error",
+                title: "Erro ao buscar perfis de usuário",
                 message: `Um erro ocorreu ao buscar os perfis de usuário: ${error}`
             });
             const roles = result.map((role) => ({ label: role, value: role }));
@@ -31,8 +31,8 @@ const UsersListProvider: React.FC = () => {
     });
 
     if(error) showNotification({
-        type: 'error',
-        title: 'Erro ao buscar usuários',
+        type: "error",
+        title: "Erro ao buscar usuários",
         message: `Um erro ocorreu ao buscar os usuários: ${error.reason}`
     });
 

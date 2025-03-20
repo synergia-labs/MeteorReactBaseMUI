@@ -23,7 +23,7 @@ function compareArrays<T extends Record<string, any>>(array1: T[], array2: T[]):
 			}
 		}
 		// Se ambos os itens forem objetos, compara-os profundamente
-		else if (typeof item1 === 'object' && typeof item2 === 'object') {
+		else if (typeof item1 === "object" && typeof item2 === "object") {
 			const keys1 = Object.keys(item1);
 			const keys2 = Object.keys(item2);
 

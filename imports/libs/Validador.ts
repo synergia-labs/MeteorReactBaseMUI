@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from "meteor/meteor";
 
 export type ValidadorError = {
 	tipoErro: string | number;
@@ -21,7 +21,7 @@ export class Validador {
 		expressao: boolean,
 		tipoErro: string,
 		msgErro: string,
-		titulo = 'OPERAÇÃO NÃO REALIZADA!',
+		titulo = "OPERAÇÃO NÃO REALIZADA!",
 		dados?: any
 	): boolean {
 		if (!expressao) {
@@ -35,11 +35,11 @@ export class Validador {
 		return expressao;
 	}
 
-	validarCampo(expressao: boolean, campo: string, msgErro: string, titulo = 'Campo inválido', dados?: any) {
+	validarCampo(expressao: boolean, campo: string, msgErro: string, titulo = "Campo inválido", dados?: any) {
 		if (!expressao) {
 			this._errors.push({
 				campo,
-				tipoErro: 'campoInvalido',
+				tipoErro: "campoInvalido",
 				titulo,
 				mensagem: msgErro,
 				dados
@@ -48,22 +48,22 @@ export class Validador {
 		return expressao;
 	}
 
-	validarCampoObrigatorio(doc: IDoc, campo: string, msgErro?: string, titulo = 'Campo obrigatório'): boolean {
+	validarCampoObrigatorio(doc: IDoc, campo: string, msgErro?: string, titulo = "Campo obrigatório"): boolean {
 		// @ts-ignore
 		const expressao = !!doc[campo];
 		if (!expressao) {
 			if (!msgErro) {
-				if (!!this._schema) {
+				if (this._schema) {
 					// @ts-ignore
 					const label = (this._schema[campo] && this._schema[campo].label) || campo;
 					msgErro = `Campo ${label} obrigatório`;
 				} else {
-					msgErro = `Campo obrigatório`;
+					msgErro = "Campo obrigatório";
 				}
 			}
 			this._errors.push({
 				campo,
-				tipoErro: 'campoObrigatorio',
+				tipoErro: "campoObrigatorio",
 				titulo,
 				mensagem: msgErro
 			});
@@ -73,19 +73,19 @@ export class Validador {
 
 	lancarErroSeHouver = (): void => {
 		if (this._errors.length > 0) {
-			throw new Meteor.Error('errosValidacao', JSON.stringify(this._errors));
+			throw new Meteor.Error("errosValidacao", JSON.stringify(this._errors));
 		}
 	};
 
 	static recuperarErrosExcecao(excecao: Meteor.Error, tituloDemaisErros?: string): ValidadorError[] {
-		if (excecao.error === 'errosValidacao' && excecao.reason) {
+		if (excecao.error === "errosValidacao" && excecao.reason) {
 			return JSON.parse(excecao.reason);
 		}
 		return [
 			{
 				tipoErro: excecao.error,
-				titulo: tituloDemaisErros || excecao.error + '',
-				mensagem: (excecao.reason || excecao.details || excecao.error) + ''
+				titulo: tituloDemaisErros || excecao.error + "",
+				mensagem: (excecao.reason || excecao.details || excecao.error) + ""
 			}
 		];
 	}

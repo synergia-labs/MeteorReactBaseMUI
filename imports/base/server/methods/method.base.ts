@@ -1,6 +1,6 @@
-import ServerBase from '../server.base';
-import ActionsBase, { IActionsBase } from '../actions.base';
-import { IContext } from '/imports/typings/IContext';
+import ServerBase from "../server.base";
+import ActionsBase, { IActionsBase } from "../actions.base";
+import { IContext } from "/imports/typings/IContext";
 
 export interface IMethodBase extends IActionsBase {
 	canRegister?: boolean;
@@ -13,7 +13,7 @@ abstract class MethodBase<Server extends ServerBase, Param = unknown, Return = u
 > {
 	private canRegister: boolean;
 	constructor(props: IMethodBase) {
-		super({ ...props, actionType: 'method' });
+		super({ ...props, actionType: "method" });
 		this.canRegister = props.canRegister ?? true;
 	}
 

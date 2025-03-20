@@ -1,29 +1,29 @@
 // @ts-nocheck
-import neo4j from 'neo4j-driver';
-import { Meteor } from 'meteor/meteor';
-import { IConnection } from '../../typings/IConnection';
-import { Validador } from '../../libs/Validador';
-import { MongoInternals } from 'meteor/mongo';
-import { getRealUser, getUser } from '../../libs/getUser';
-import { ISchema } from '../../typings/ISchema';
-import { IDocNeo4j } from '../../typings/IDoc';
-import { IContext } from '../../typings/IContext';
-import { nanoid } from 'nanoid';
-import { hasValue } from '../../libs/hasValue';
-import { inspectSubCallsNeo4j } from './productNeo4jServerBase';
-import { prometheusMetrics } from './prometheusMetrics';
-import { performance } from 'perf_hooks';
-import { config } from './neo4j.settings';
-import { WebApp } from 'meteor/webapp';
-import connectRoute from 'connect-route';
-import { IUserProfile } from '../modules/userprofile/api/UserProfileSch';
-import { validarIdentificador } from '../libs/validarIdentificador';
-import { VersionNeo4jLabel } from '../modules/graph/api/models/nodes/VersionSch';
-import { SuperNodeLabel } from '../modules/graph/api/models/nodes/SuperNodesSch';
-import { ChildrenRelType } from '../modules/graph/api/models/relationships/ChildrenSch';
-import { VersionedNeo4jRelType } from '../modules/graph/api/models/relationships/VersionedSch';
-import { prodI18n } from '../translate/config';
-import { removeUndefinedProperties } from '../libs/undefinedThreats';
+import neo4j from "neo4j-driver";
+import { Meteor } from "meteor/meteor";
+import { IConnection } from "../../typings/IConnection";
+import { Validador } from "../../libs/Validador";
+import { MongoInternals } from "meteor/mongo";
+import { getRealUser, getUser } from "../../libs/getUser";
+import { ISchema } from "../../typings/ISchema";
+import { IDocNeo4j } from "../../typings/IDoc";
+import { IContext } from "../../typings/IContext";
+import { nanoid } from "nanoid";
+import { hasValue } from "../../libs/hasValue";
+import { inspectSubCallsNeo4j } from "./productNeo4jServerBase";
+import { prometheusMetrics } from "./prometheusMetrics";
+import { performance } from "perf_hooks";
+import { config } from "./neo4j.settings";
+import { WebApp } from "meteor/webapp";
+import connectRoute from "connect-route";
+import { IUserProfile } from "../modules/userprofile/api/UserProfileSch";
+import { validarIdentificador } from "../libs/validarIdentificador";
+import { VersionNeo4jLabel } from "../modules/graph/api/models/nodes/VersionSch";
+import { SuperNodeLabel } from "../modules/graph/api/models/nodes/SuperNodesSch";
+import { ChildrenRelType } from "../modules/graph/api/models/relationships/ChildrenSch";
+import { VersionedNeo4jRelType } from "../modules/graph/api/models/relationships/VersionedSch";
+import { prodI18n } from "../translate/config";
+import { removeUndefinedProperties } from "../libs/undefinedThreats";
 
 const sessionConfig = {
 	database: config.database
@@ -42,8 +42,8 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	protected relationshipType: string;
 
 	constructor(nodeLabel?: string, schema?: ISchema<IDocNeo4j>, relationshipType?: string) {
-		this.nodeLabel = nodeLabel || ':NodeLabel';
-		this.relationshipType = relationshipType || ':RELATIONSHIP_TYPE';
+		this.nodeLabel = nodeLabel || ":NodeLabel";
+		this.relationshipType = relationshipType || ":RELATIONSHIP_TYPE";
 
 		this.schema = schema || {};
 
@@ -51,8 +51,8 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 			maxConnectionPoolSize: 300, // O número máximo de conexões no pool.
 			connectionAcquisitionTimeout: 240000, // O tempo máximo em milissegundos para adquirir uma conexão.
 			connectionTimeout: 60000, // O tempo máximo em milissegundos para estabelecer uma conexão.
-			encrypted: 'ENCRYPTION_OFF',
-			trust: 'TRUST_SYSTEM_CA_SIGNED_CERTIFICATES',
+			encrypted: "ENCRYPTION_OFF",
+			trust: "TRUST_SYSTEM_CA_SIGNED_CERTIFICATES",
 			fetchSize: 1000 // O número de registros a buscar por vez durante a iteração sobre os resultados de uma consulta
 		});
 
@@ -73,25 +73,25 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		this._getQueryAuditCreateData = this._getQueryAuditCreateData.bind(this);
 		this._getQueryMatchNodeById = this._getQueryMatchNodeById.bind(this);
 
-		this.registerMethod('query', this.serverQuery.bind(this));
-		this.registerMethod('insert', this.serverInsert.bind(this));
-		this.registerMethod('find', this.serverFind.bind(this));
-		this.registerMethod('findWithFilter', this.serverFindWithFilter.bind(this));
-		this.registerMethod('update', this.serverUpdate.bind(this));
-		this.registerMethod('upsert', this.serverUpsert.bind(this));
-		this.registerMethod('remove', this.serverRemove.bind(this));
-		this.registerMethod('countRel', this.serverFindRelationships.bind(this));
-		this.registerMethod('insertRelationships', this.serverInsertRelationships.bind(this));
-		this.registerMethod('updateRelationships', this.serverUpdateRelationships.bind(this));
-		this.registerMethod('deleteRelationships', this.serverDeleteRelationships.bind(this));
-		this.registerMethod('FetchAllGraphData', this.serverFetchAllGraphData.bind(this));
+		this.registerMethod("query", this.serverQuery.bind(this));
+		this.registerMethod("insert", this.serverInsert.bind(this));
+		this.registerMethod("find", this.serverFind.bind(this));
+		this.registerMethod("findWithFilter", this.serverFindWithFilter.bind(this));
+		this.registerMethod("update", this.serverUpdate.bind(this));
+		this.registerMethod("upsert", this.serverUpsert.bind(this));
+		this.registerMethod("remove", this.serverRemove.bind(this));
+		this.registerMethod("countRel", this.serverFindRelationships.bind(this));
+		this.registerMethod("insertRelationships", this.serverInsertRelationships.bind(this));
+		this.registerMethod("updateRelationships", this.serverUpdateRelationships.bind(this));
+		this.registerMethod("deleteRelationships", this.serverDeleteRelationships.bind(this));
+		this.registerMethod("FetchAllGraphData", this.serverFetchAllGraphData.bind(this));
 	}
 
-	includeAuditData(doc: Doc, action: string, defaultUser: string = 'Anonymous') {
+	includeAuditData(doc: Doc, action: string, defaultUser: string = "Anonymous") {
 		const userData = getRealUser();
 		const userId = userData?._id || defaultUser;
 
-		if (action === 'insert') {
+		if (action === "insert") {
 			doc.createdby = userId;
 			doc.createdat = new Date().toISOString();
 			doc.lastupdate = new Date().toISOString();
@@ -106,19 +106,19 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	addRestEndpoint(
 		route: string,
 		func: (params: any, options: any) => any,
-		types: string[] = ['get', 'post'],
+		types: string[] = ["get", "post"],
 		apiOptions: {
 			apiVersion: number;
-			authFunction: (headers: any, params: any) => Boolean;
+			authFunction: (headers: any, params: any) => boolean;
 		} = {
 			apiVersion: 1,
 			authFunction: () => true
 		}
 	) {
 		if (Meteor.isServer) {
-			const routerName = (this.nodeLabel + '').toString().replace(':', '');
+			const routerName = (this.nodeLabel + "").toString().replace(":", "");
 			if (!route || !func || !types || !apiOptions) {
-				console.error('CREATE API ERRRO:', routerName, route);
+				console.error("CREATE API ERRRO:", routerName, route);
 				return;
 			}
 			const endpoinUrl = `/api/v${apiOptions.apiVersion || 1}/${routerName}/${route}`;
@@ -150,29 +150,29 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 				if (apiOptions.authFunction && !apiOptions.authFunction(req.headers, params)) {
 					res.writeHead(403, {
-						'Content-Type': 'application/json'
+						"Content-Type": "application/json"
 					});
-					res.write('Access denied');
+					res.write("Access denied");
 					res.end();
 					return;
 				}
 
 				try {
 					res.writeHead(200, {
-						'Content-Type': 'application/json'
+						"Content-Type": "application/json"
 					});
 
 					const result = await func(params, context);
 
-					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
+					res.write(typeof result === "object" ? JSON.stringify(result) : `${result ? result.toString() : "-"}`);
 					res.end(); // Must call this immediately before return!
 					return;
 				} catch (e) {
 					console.error(`API ERROR:${routerName}|${route} - `, e);
 					res.writeHead(403, {
-						'Content-Type': 'application/json'
+						"Content-Type": "application/json"
 					});
-					res.write('Error');
+					res.write("Error");
 					res.end();
 					return;
 				}
@@ -180,7 +180,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 			if (types) {
 				types.forEach((type) => {
-					console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
+					console.info(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
 					WebApp.connectHandlers.use(
 						connectRoute((router: any) => {
 							router[type](endpoinUrl, handleFunc(type));
@@ -191,8 +191,11 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		}
 	}
 
-	registerMethod = (name: string, func: Function) => {
-		const self = this;
+	registerMethod = (
+		name: string,
+		func: Function // eslint-disable-line
+	) => {
+		const self = this; // eslint-disable-line
 		const action = name;
 		const collection = this.nodeLabel;
 		const methodFullName = `${collection}.${name}`;
@@ -200,19 +203,18 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		const method = {
 			[methodFullName]: async (...param: any[]) => {
 				const start = performance.now();
-				inspectSubCallsNeo4j && console.log(`\nCALL Method [${name} ${param ? param.length : '-'}]`);
+				inspectSubCallsNeo4j && console.info(`\nCALL Method [${name} ${param ? param.length : "-"}]`);
 				InspectNeo4jCalls &&
 					console.time(
 						inspectSubCallsNeo4j
-							? `[${name} ${param ? param.length : '-'}] time`
-							: `CALL Method [${name} ${param ? param.length : '-'}] time`
+							? `[${name} ${param ? param.length : "-"}] time`
+							: `CALL Method [${name} ${param ? param.length : "-"}] time`
 					);
 
 				// Prevent unauthorized access
 				try {
-					let connection: IConnection;
 					// @ts-ignore
-					connection = this.connection;
+					const connection = this.connection;
 					// @ts-ignore
 					const meteorContext = self._createContext(this.schema, collection, action, connection);
 
@@ -223,27 +225,27 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 						functionResult = await functionResult;
 					}
 
-					if (action === 'insert') {
+					if (action === "insert") {
 						meteorContext.docId = functionResult;
 					}
 					meteorContext.validador.lancarErroSeHouver();
 					return functionResult;
 				} catch (error) {
-					console.error('Error on CALL Method:', name, 'error:', JSON.stringify(error));
+					console.error("Error on CALL Method:", name, "error:", JSON.stringify(error));
 					throw error;
 				} finally {
 					InspectNeo4jCalls &&
 						console.timeEnd(
 							inspectSubCallsNeo4j
-								? `[${name} ${param ? param.length : '-'}] time`
-								: `CALL Method [${name} ${param ? param.length : '-'}] time`
+								? `[${name} ${param ? param.length : "-"}] time`
+								: `CALL Method [${name} ${param ? param.length : "-"}] time`
 						);
 
 					prometheusMetrics.createHistogramMetric(
 						{
 							name: `${collection}_Calls_Server`,
 							help: `time of all call functions of ${collection} service by client in ms`,
-							labelNames: ['method'],
+							labelNames: ["method"],
 							buckets: [100, 300, 500, 1000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000]
 						},
 						{
@@ -258,7 +260,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		};
 		if (Meteor.isServer) {
 			self.addRestEndpoint(
-				Object.keys(method)[0].split('.')[1],
+				Object.keys(method)[0].split(".")[1],
 
 				async (params) => {
 					const param = [...Object.values(params)];
@@ -269,7 +271,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 						return null;
 					}
 				},
-				['post']
+				["post"]
 			);
 			Meteor.methods(method);
 		}
@@ -301,7 +303,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	// Formata os parâmetros para serem utilizados em uma query Cypher Passando propriedades
 
 	_formatParameters(parameters?: { [key: string]: any }) {
-		if (!parameters) return '';
+		if (!parameters) return "";
 		parameters = removeUndefinedProperties(parameters);
 		return `{${Object.keys(parameters)
 			.map((key) => {
@@ -311,7 +313,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 				return `${key}: $${key}`;
 			})
-			.join(', ')}}`;
+			.join(", ")}}`;
 	}
 
 	// Formata os parâmetros para serem utilizados em uma query Cypher SET
@@ -324,12 +326,12 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 				if (!validarIdentificador(key)) throw new Error(`_formatParametersWithNode: invalid identifier: ${key}`);
 				return `${node}.${key}=$${key}`;
 			})
-			.join(', ');
+			.join(", ");
 	}
 
 	// Obtém a query MATCH para um nó com um determinado elementId
 
-	_getQueryMatchNodeByElementId({ elementIdName, nodeName = 'node' }: { elementIdName: string; nodeName?: string }) {
+	_getQueryMatchNodeByElementId({ elementIdName, nodeName = "node" }: { elementIdName: string; nodeName?: string }) {
 		const queryMatch = `
          MATCH (${nodeName})
          WHERE elementId(${nodeName}) = $${elementIdName}
@@ -338,10 +340,10 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	}
 
 	_getQueryMatchNodeById({
-		idName = '_id',
-		nodeName = 'node',
-		companyIdName = 'companyId',
-		superNodeLabel = ''
+		idName = "_id",
+		nodeName = "node",
+		companyIdName = "companyId",
+		superNodeLabel = ""
 	}: {
 		idName?: string;
 		nodeName?: string;
@@ -350,7 +352,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	}) {
 		try {
 			const queryMatch = `
-            MATCH(versionNode${VersionNeo4jLabel})-[${VersionedNeo4jRelType}]->(${SuperNodeLabel}${superNodeLabel || ''})-[${ChildrenRelType}]->(${nodeName})
+            MATCH(versionNode${VersionNeo4jLabel})-[${VersionedNeo4jRelType}]->(${SuperNodeLabel}${superNodeLabel || ""})-[${ChildrenRelType}]->(${nodeName})
             WHERE ${nodeName}._id = $${idName} AND versionNode.clientId = $${companyIdName} AND versionNode.isCurrent = true
          `;
 
@@ -372,8 +374,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		nodeElementId?: string;
 	}): Promise<boolean> {
 		try {
-			if (!hasValue(nodeId) && !hasValue(nodeElementId))
-				throw prodI18n.error({ key: 'errors.checkAccess.notProvided' });
+			if (!hasValue(nodeId) && !hasValue(nodeElementId)) throw prodI18n.error({ key: "errors.checkAccess.notProvided" });
 
 			if (!hasValue(userId)) {
 				const user = getUser();
@@ -382,17 +383,17 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 			if (!hasValue(companyId)) companyId = getUser().companyId;
 
 			const query = `
-            ${this._getQueryMatchNodeById({ idName: 'userId', nodeName: 'userNode', companyIdName: 'companyId' })}
+            ${this._getQueryMatchNodeById({ idName: "userId", nodeName: "userNode", companyIdName: "companyId" })}
             ${
-							hasValue(nodeElementId)
-								? this._getQueryMatchNodeByElementId({ elementIdName: 'nodeElementId', nodeName: 'node' })
-								: this._getQueryMatchNodeById({ idName: 'nodeId', nodeName: 'node', companyIdName: 'companyId' })
-						}
+													hasValue(nodeElementId)
+														? this._getQueryMatchNodeByElementId({ elementIdName: "nodeElementId", nodeName: "node" })
+														: this._getQueryMatchNodeById({ idName: "nodeId", nodeName: "node", companyIdName: "companyId" })
+												}
             RETURN security.canAccess(userNode, node) as canAccess
          `;
 
 			return await this.serverQuery(query, { userId, companyId, nodeId, nodeElementId }).then(
-				(result) => !!result.records?.[0]?.get('canAccess')
+				(result) => !!result.records?.[0]?.get("canAccess")
 			);
 		} catch (error) {
 			throw error;
@@ -401,15 +402,15 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 	_getQueryAuditCreateData(nodeName: string, update?: boolean) {
 		const user = getRealUser();
-		return !!update
+		return update
 			? `
          ${nodeName}.updatedat = '${new Date().toISOString()}',
-         ${nodeName}.updatedby = '${user?._id || 'system'}'
+         ${nodeName}.updatedby = '${user?._id || "system"}'
       `
 			: `
          ${nodeName}._id = toString(timestamp()) + '-' + toString(rand()),
          ${nodeName}.createdat = '${new Date().toISOString()}',
-         ${nodeName}.createdby = '${user?._id || 'system'}'
+         ${nodeName}.createdby = '${user?._id || "system"}'
       `;
 	}
 
@@ -417,10 +418,10 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 	_getQueryMatchRelByElementId({
 		elementIdName,
-		relType = '',
-		relationshipName = 'rel',
-		parentName = 'parent',
-		childName = 'child'
+		relType = "",
+		relationshipName = "rel",
+		parentName = "parent",
+		childName = "child"
 	}: {
 		elementIdName: string;
 		relType?: string;
@@ -540,7 +541,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 		if (parentElementId) {
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId" })}
                 MERGE (node)-[rel${relType}${this._formatParameters(relationshipData)}]->(child${label}${this._formatParameters(parameters)})
                 RETURN node as PARENT, rel as RELATIONSHIP, child as NODE
             `;
@@ -596,8 +597,8 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		let query: string;
 		if (parentElementId) {
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 MATCH (parent)-[rel${relType}]->(child)
                 DELETE rel
                 MERGE (parent)-[prel${relTypeParent}${this._formatParameters(relationshipDataParent)}]->(node${label}${this._formatParameters(parameters)})-[crel${relTypeChild}${this._formatParameters(relationshipDataChild)}]->(child)
@@ -605,7 +606,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
             `;
 		} else {
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 MERGE (node${label}${this._formatParameters(parameters)})-[crel${relTypeChild}${this._formatParameters(relationshipDataChild)}]->(child)
                 RETURN node as NODE, crel as CHILD_RELATIONSHIP, child as CHILD
             `;
@@ -636,7 +637,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 		try {
 			const result = await this._find(query);
-			return result.map((record: any) => record.get('n').properties);
+			return result.map((record: any) => record.get("n").properties);
 		} catch (error) {
 			throw new Error(`"serverFind" no Neo4j: ${error}`);
 		}
@@ -667,7 +668,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 		if (props?.elementId) {
 			query = `
-            ${this._getQueryMatchNodeByElementId({ elementIdName: 'elementId' })}
+            ${this._getQueryMatchNodeByElementId({ elementIdName: "elementId" })}
             RETURN node as NODE
             `;
 		}
@@ -677,7 +678,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 				throw new Error(`ServerFindWithFilter: Invalid identifier: ${props.orderBy.prop}`);
 			query = `
              ${query}
-             ORDER BY NODE.${props.orderBy.prop} ${props.orderBy.desc ? 'DESC' : ''}
+             ORDER BY NODE.${props.orderBy.prop} ${props.orderBy.desc ? "DESC" : ""}
             `;
 		}
 
@@ -696,8 +697,8 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 	async serverUpdate({ elementId, ...updateProps }: { elementId: string; [key: string]: any }) {
 		const query = `
-         ${this._getQueryMatchNodeByElementId({ elementIdName: 'elementId' })}
-         SET ${this._formatParametersWithNode('node', updateProps)}
+         ${this._getQueryMatchNodeByElementId({ elementIdName: "elementId" })}
+         SET ${this._formatParametersWithNode("node", updateProps)}
          RETURN node as NODE
       `;
 
@@ -729,13 +730,13 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		relationshipType?: string;
 		[key: string]: any;
 	}) {
-		let query = '';
+		let query = "";
 		const parameters = { _id: nanoid(), ...props };
 		const label = hasValue(nodeLabel) ? nodeLabel : this.nodeLabel;
 
 		try {
 			const nodeExistsQuery = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'elementId' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "elementId" })}
                 RETURN node as NODE
             `;
 
@@ -752,8 +753,8 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 			}
 
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'elementId' })}
-                SET ${this._formatParametersWithNode('node', props)}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "elementId" })}
+                SET ${this._formatParametersWithNode("node", props)}
                 RETURN node as NODE
             `;
 
@@ -768,10 +769,9 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 	// Remove um nó e todas suas relações do banco de dados por meio do elementId
 
-	async serverRemove({ elementId, nodeLabel }: { elementId: string; nodeLabel?: string }) {
-		const label = hasValue(nodeLabel) ? nodeLabel : this.nodeLabel;
+	async serverRemove({ elementId, _nodeLabel }: { elementId: string; nodeLabel?: string }) {
 		const query = `
-            ${this._getQueryMatchNodeByElementId({ elementIdName: 'elementId' })}
+            ${this._getQueryMatchNodeByElementId({ elementIdName: "elementId" })}
             DETACH DELETE node
         `;
 		try {
@@ -785,13 +785,13 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	// Encotra relacionamentos entre nós no banco de dados
 
 	async serverFindRelationships({
-		parentLabel = '',
+		parentLabel = "",
 		parentElementId,
 		parentFilter,
-		childLabel = '',
+		childLabel = "",
 		childElementId,
 		childFilter,
-		relationshipType = '',
+		relationshipType = "",
 		relationshipElementId,
 		relationshipFilter
 	}: {
@@ -813,28 +813,28 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		if (relationshipElementId) {
 			// encontra relacionamento baseado no elementId da relação
 			query = `
-                ${this._getQueryMatchRelByElementId({ elementIdName: 'relationshipElementId', relType })}
+                ${this._getQueryMatchRelByElementId({ elementIdName: "relationshipElementId", relType })}
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else if (parentElementId && childElementId) {
 			// encontra relacionamento entre dois nós especificos
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 OPTIONAL MATCH (parent)-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child)
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else if (parentElementId && (childFilter || childLabel)) {
 			// encontra relacionamento entre um nó pai e vários nós filhos
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
                 OPTIONAL MATCH (parent)-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child${childLabel}${this._formatParameters(childFilter)})
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else if (childElementId && (parentFilter || parentLabel)) {
 			// encontra relacionamento entre vários nós pais e um nó filho
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 OPTIONAL MATCH (parent${parentLabel}${this._formatParameters(parentFilter)})-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child)
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
@@ -845,7 +845,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else {
-			throw new Error(`É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"`);
+			throw new Error('É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"');
 		}
 
 		try {
@@ -866,13 +866,13 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	// Insere relacionamentos entre nós no banco de dados
 
 	async serverInsertRelationships({
-		parentLabel = '',
+		parentLabel = "",
 		parentElementId,
 		parentFilter,
-		childLabel = '',
+		childLabel = "",
 		childElementId,
 		childFilter,
-		relationshipType = '',
+		relationshipType = "",
 		relationshipData
 	}: {
 		parentLabel?: string;
@@ -893,15 +893,15 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		if (parentElementId && childElementId) {
 			// Insere relacionamento entre dois nós especificos
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 MERGE (parent)-[rel${relType}${this._formatParameters(relationshipData)}]->(child)
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else if (parentElementId && (childFilter || childLabel)) {
 			// Insere relacionamento entre um nó pai e vários nós filhos
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
                 MATCH (child${childLabel}${this._formatParameters(childFilter)})
                 MERGE (parent)-[rel${relType}${this._formatParameters(relationshipData)}]->(child)
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
@@ -909,7 +909,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		} else if (childElementId && (parentFilter || parentLabel)) {
 			// Insere relacionamento entre vários nós pais e um nó filho
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 MATCH (parent${parentLabel}${this._formatParameters(parentFilter)})
                 MERGE (parent)-[rel${relType}${this._formatParameters(relationshipData)}]->(child)
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
@@ -923,7 +923,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else {
-			throw new Error(`É necessário um par de nós "serverInsertRelationships"`);
+			throw new Error('É necessário um par de nós "serverInsertRelationships"');
 		}
 
 		try {
@@ -943,13 +943,13 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	// Atualiza relacionamentos entre nós no banco de dados
 
 	async serverUpdateRelationships({
-		parentLabel = '',
+		parentLabel = "",
 		parentElementId,
 		parentFilter,
-		childLabel = '',
+		childLabel = "",
 		childElementId,
 		childFilter,
-		relationshipType = '',
+		relationshipType = "",
 		relationshipElementId,
 		relationshipFilter,
 		relationshipData
@@ -973,44 +973,44 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		if (relationshipElementId) {
 			// Atualiza relacionamento baseado no elementId da relação
 			query = `
-                ${this._getQueryMatchRelByElementId({ elementIdName: 'relationshipElementId', relType })}
-                SET ${this._formatParametersWithNode('rel', relationshipData)}
+                ${this._getQueryMatchRelByElementId({ elementIdName: "relationshipElementId", relType })}
+                SET ${this._formatParametersWithNode("rel", relationshipData)}
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else if (parentElementId && childElementId) {
 			// Atualiza relacionamento entre dois nós especificos
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 OPTIONAL MATCH (parent)-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child)
-                SET ${this._formatParametersWithNode('rel', relationshipData)}
+                SET ${this._formatParametersWithNode("rel", relationshipData)}
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else if (parentElementId && (childFilter || childLabel)) {
 			// Atualiza relacionamento entre um nó pai e vários nós filhos
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
                 OPTIONAL MATCH (parent)-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child${childLabel}${this._formatParameters(childFilter)})
-                SET ${this._formatParametersWithNode('rel', relationshipData)}
+                SET ${this._formatParametersWithNode("rel", relationshipData)}
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else if (childElementId && (parentFilter || parentLabel)) {
 			// Atualiza relacionamento entre vários nós pais e um nó filho
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 OPTIONAL MATCH (parent${parentLabel}${this._formatParameters(parentFilter)})-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child)
-                SET ${this._formatParametersWithNode('rel', relationshipData)}
+                SET ${this._formatParametersWithNode("rel", relationshipData)}
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else if (((parentFilter || parentLabel) && (childFilter || childLabel)) || relationshipFilter) {
 			// Atualiza relacionamento baseado apenas nos filtros da relação e dos nós de origem e destino
 			query = `
                 MATCH (parent${parentLabel}${this._formatParameters(parentFilter)})-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child${childLabel}${this._formatParameters(childFilter)})
-                SET ${this._formatParametersWithNode('rel', relationshipData)}
+                SET ${this._formatParametersWithNode("rel", relationshipData)}
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else {
-			throw new Error(`É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"`);
+			throw new Error('É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"');
 		}
 
 		try {
@@ -1032,13 +1032,13 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 	// Deleta relacionamentos entre nós no banco de dados
 
 	async serverDeleteRelationships({
-		parentLabel = '',
+		parentLabel = "",
 		parentElementId,
 		parentFilter,
-		childLabel = '',
+		childLabel = "",
 		childElementId,
 		childFilter,
-		relationshipType = '',
+		relationshipType = "",
 		relationshipElementId,
 		relationshipFilter
 	}: {
@@ -1060,28 +1060,28 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		if (relationshipElementId) {
 			// Deleta relacionamento baseado no elementId da relação
 			query = `
-                ${this._getQueryMatchRelByElementId({ elementIdName: 'relationshipElementId', relType })}
+                ${this._getQueryMatchRelByElementId({ elementIdName: "relationshipElementId", relType })}
                 DELETE rel
             `;
 		} else if (parentElementId && childElementId) {
 			// Deleta relacionamento entre dois nós especificos
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 OPTIONAL MATCH (parent)-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child)
                 DELETE rel
             `;
 		} else if (parentElementId && (childFilter || childLabel)) {
 			// Deleta relacionamento entre um nó pai e vários nós filhos
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'parentElementId', nodeName: 'parent' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "parentElementId", nodeName: "parent" })}
                 OPTIONAL MATCH (parent)-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child${childLabel}${this._formatParameters(childFilter)})
                 DELETE rel
             `;
 		} else if (childElementId && (parentFilter || parentLabel)) {
 			// Deleta relacionamento entre vários nós pais e um nó filho
 			query = `
-                ${this._getQueryMatchNodeByElementId({ elementIdName: 'childElementId', nodeName: 'child' })}
+                ${this._getQueryMatchNodeByElementId({ elementIdName: "childElementId", nodeName: "child" })}
                 OPTIONAL MATCH (parent${parentLabel}${this._formatParameters(parentFilter)})-[rel${relType}${this._formatParameters(relationshipFilter)}]->(child)
                 DELETE rel
             `;
@@ -1092,7 +1092,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
                 DELETE rel
             `;
 		} else {
-			throw new Error(`É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"`);
+			throw new Error('É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"');
 		}
 
 		try {
@@ -1151,7 +1151,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 			if (!node || visited.has(nodeId)) return;
 			visited.add(nodeId);
 
-			let childrenWidths: number[] = [];
+			const childrenWidths: number[] = [];
 			let totalWidth = 0;
 
 			// Calcula a largura total dos filhos
@@ -1197,7 +1197,6 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		const session = this.driver.session(sessionConfig);
 
 		const properties = propertiesProp || {};
-		const updatePosition = !!(properties && properties.updatePosition);
 		if (properties && properties.updatePosition) {
 			delete properties.updatePosition;
 		}
@@ -1211,24 +1210,24 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		}
 
 		// Construir partes da consulta com base nos rótulos e propriedades fornecidos
-		let labelsFilter = '';
+		let labelsFilter = "";
 		if (labels.length > 0) {
-			labelsFilter = `: ${labels.join('|')}`;
+			labelsFilter = `: ${labels.join("|")}`;
 		}
 
-		let propertiesFilter = '';
+		let propertiesFilter = "";
 
 		if (Object.keys(properties).length > 0) {
-			let where = '';
+			let where = "";
 			if (properties.elementId) {
-				where = 'elementId(n) = $elementId';
+				where = "elementId(n) = $elementId";
 			}
 
 			const propsFilter = Object.entries(properties)
 				.map(([key]) => {
 					if (!validarIdentificador(key)) throw new Error(`"serverFetchAllGraphData": Invalid identifier: ${key}`);
 
-					if (key === 'tags') {
+					if (key === "tags") {
 						// Para o campo tags, verifica se a searchString está contida em algum dos elementos do array
 						return `ANY(tag IN n.tags WHERE toLower(tag) CONTAINS toLower($${key}))`;
 					} else {
@@ -1236,9 +1235,9 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 						return `toLower(n.${key}) =~ '.*' + $${key} + '.*'`;
 					}
 				})
-				.join(' AND ');
+				.join(" AND ");
 
-			propertiesFilter = `WHERE ${where ? where + (propsFilter ? ' AND ' : '') : ''}${propsFilter}`;
+			propertiesFilter = `WHERE ${where ? where + (propsFilter ? " AND " : "") : ""}${propsFilter}`;
 		}
 
 		const query = `
@@ -1254,9 +1253,9 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
       `;
 
 		try {
-			console.time('Primary query');
+			console.time("Primary query");
 			const result = await session.run(query, properties);
-			console.timeEnd('Primary query');
+			console.timeEnd("Primary query");
 			const nodesMap = new Map();
 
 			const rootIds = new Set<string>();
@@ -1295,11 +1294,11 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 						await Promise.all(
 							resultRelated.records.map(async (record: any) => {
-								const nodeId = record.get('nodeId');
-								const nodeLabels = record.get('labels'); // Array de labels do nó
-								const nodeProps = record.get('node').properties;
+								const nodeId = record.get("nodeId");
+								const nodeLabels = record.get("labels"); // Array de labels do nó
+								const nodeProps = record.get("node").properties;
 
-								const outgoingRelationships = record.get('outgoingRelationships').map((rel: any) => ({
+								const outgoingRelationships = record.get("outgoingRelationships").map((rel: any) => ({
 									labels: rel.relatedNode ? rel.relatedNode.labels : null,
 									relationshipType: rel.relationship ? rel.relationship.type : null,
 									relationshipProperties: rel.relationship ? rel.relationship.properties : {},
@@ -1308,7 +1307,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 									relatedNodeElementId: rel.relatedNodeElementId
 								}));
 
-								const incomingRelationships = record.get('incomingRelationships').map((rel: any) => ({
+								const incomingRelationships = record.get("incomingRelationships").map((rel: any) => ({
 									labels: rel.relatedNode ? rel.relatedNode.labels : null,
 									relationshipType: rel.relationship ? rel.relationship.type : null,
 									relationshipProperties: rel.relationship ? rel.relationship.properties : {},
@@ -1366,11 +1365,11 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 						await Promise.all(
 							resultRelated.records.map(async (record: any) => {
-								const nodeId = record.get('nodeId');
-								const nodeLabels = record.get('labels'); // Array de labels do nó
-								const nodeProps = record.get('node').properties;
+								const nodeId = record.get("nodeId");
+								const nodeLabels = record.get("labels"); // Array de labels do nó
+								const nodeProps = record.get("node").properties;
 
-								const outgoingRelationships = record.get('outgoingRelationships').map((rel: any) => ({
+								const outgoingRelationships = record.get("outgoingRelationships").map((rel: any) => ({
 									labels: rel.relatedNode ? rel.relatedNode.labels : null,
 									relationshipType: rel.relationship ? rel.relationship.type : null,
 									relationshipProperties: rel.relationship ? rel.relationship.properties : {},
@@ -1379,7 +1378,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 									relatedNodeElementId: rel.relatedNodeElementId
 								}));
 
-								const incomingRelationships = record.get('incomingRelationships').map((rel: any) => ({
+								const incomingRelationships = record.get("incomingRelationships").map((rel: any) => ({
 									labels: rel.relatedNode ? rel.relatedNode.labels : null,
 									relationshipType: rel.relationship ? rel.relationship.type : null,
 									relationshipProperties: rel.relationship ? rel.relationship.properties : {},
@@ -1416,14 +1415,14 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 				}
 			};
 
-			console.time('Promise.all');
+			console.time("Promise.all");
 			await Promise.all(
 				result.records.map(async (record: any) => {
-					const nodeId = record.get('nodeId');
-					const nodeLabels = record.get('labels'); // Array de labels do nó
-					const nodeProps = record.get('node').properties;
+					const nodeId = record.get("nodeId");
+					const nodeLabels = record.get("labels"); // Array de labels do nó
+					const nodeProps = record.get("node").properties;
 
-					const outgoingRelationships = record.get('outgoingRelationships').map((rel: any) => ({
+					const outgoingRelationships = record.get("outgoingRelationships").map((rel: any) => ({
 						labels: rel.relatedNode ? rel.relatedNode.labels : null,
 						relationshipType: rel.relationship ? rel.relationship.type : null,
 						relationshipProperties: rel.relationship ? rel.relationship.properties : {},
@@ -1432,7 +1431,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 						relatedNodeElementId: rel.relatedNodeElementId
 					}));
 
-					const incomingRelationships = record.get('incomingRelationships').map((rel: any) => ({
+					const incomingRelationships = record.get("incomingRelationships").map((rel: any) => ({
 						labels: rel.relatedNode ? rel.relatedNode.labels : null,
 						relationshipType: rel.relationship ? rel.relationship.type : null,
 						relationshipProperties: rel.relationship ? rel.relationship.properties : {},
@@ -1466,29 +1465,27 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 					}
 				})
 			);
-			console.timeEnd('Promise.all');
+			console.timeEnd("Promise.all");
 
-			console.time('getNodeId');
+			console.time("getNodeId");
 			const nodeList = Array.from(nodesMap.values());
 			// Verifica se há nós cujo "pai" não está entre os nós retornados
 			nodeList.forEach((node) => {
 				if (
 					node.incomingRelationships.length > 0 &&
-					!node.incomingRelationships.find(
-						(rel: any) => !!nodeList.find((no) => no.elementId === rel.relatedNodeElementId)
-					)
+					!node.incomingRelationships.find((rel: any) => !!nodeList.find((no) => no.elementId === rel.relatedNodeElementId))
 				) {
 					rootIds.add(node.elementId);
 				}
 			});
-			console.timeEnd('getNodeId');
+			console.timeEnd("getNodeId");
 
 			// Calcula as posições posX e posY usando BFS ou outra estratégia
 			this.calculatePositions(nodesMap, Array.from(rootIds));
 
 			return nodeList.map((node) => ({
 				...node,
-				label: node.labels.join(', ') // Combina todos os labels em uma string, se necessário
+				label: node.labels.join(", ") // Combina todos os labels em uma string, se necessário
 			}));
 		} catch (error) {
 			console.error(`Erro ao buscar todo o grafo: ${error}`);

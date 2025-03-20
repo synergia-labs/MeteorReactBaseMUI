@@ -1,7 +1,7 @@
-const HTMLToCache = '/';
-const version = 'MSW V0.3';
+const HTMLToCache = "/";
+const version = "MSW V0.3";
 
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
 	event.waitUntil(
 		caches.open(version).then((cache) => {
 			cache.add(HTMLToCache).then(self.skipWaiting());
@@ -9,7 +9,7 @@ self.addEventListener('install', (event) => {
 	);
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
 	event.waitUntil(
 		caches
 			.keys()
@@ -24,13 +24,13 @@ self.addEventListener('activate', (event) => {
 	);
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
 	const requestToFetch = event.request.clone();
 	event.respondWith(
 		caches.match(event.request.clone()).then((cached) => {
 			// We don't return cached HTML (except if fetch failed)
 			if (cached) {
-				const resourceType = cached.headers.get('content-type');
+				const resourceType = cached.headers.get("content-type");
 				// We only return non css/js/html cached response e.g images
 				if (!hasHash(event.request.url) && !/text\/html/.test(resourceType)) {
 					return cached;
@@ -44,12 +44,12 @@ self.addEventListener('fetch', (event) => {
 			return fetch(requestToFetch)
 				.then((response) => {
 					const clonedResponse = response.clone();
-					const contentType = clonedResponse.headers.get('content-type');
+					const contentType = clonedResponse.headers.get("content-type");
 
 					if (
 						!clonedResponse ||
 						clonedResponse.status !== 200 ||
-						clonedResponse.type !== 'basic' ||
+						clonedResponse.type !== "basic" ||
 						/\/sockjs\//.test(event.request.url)
 					) {
 						return response;
@@ -80,10 +80,10 @@ self.addEventListener('fetch', (event) => {
 					// If the request URL hasn't been served from cache and isn't sockjs we suppose it's HTML
 					else if (!/\/sockjs\//.test(event.request.url)) return caches.match(HTMLToCache);
 					// Only for sockjs
-					return new Response('No connection to the server', {
+					return new Response("No connection to the server", {
 						status: 503,
-						statusText: 'No connection to the server',
-						headers: new Headers({ 'Content-Type': 'text/plain' })
+						statusText: "No connection to the server",
+						headers: new Headers({ "Content-Type": "text/plain" })
 					});
 				});
 		})
@@ -91,15 +91,15 @@ self.addEventListener('fetch', (event) => {
 });
 
 function removeHash(element) {
-	if (typeof element === 'string') return element.split('?hash=')[0];
+	if (typeof element === "string") return element.split("?hash=")[0];
 }
 
 function hasHash(element) {
-	if (typeof element === 'string') return /\?hash=.*/.test(element);
+	if (typeof element === "string") return /\?hash=.*/.test(element);
 }
 
 function hasSameHash(firstUrl, secondUrl) {
-	if (typeof firstUrl === 'string' && typeof secondUrl === 'string') {
+	if (typeof firstUrl === "string" && typeof secondUrl === "string") {
 		return /\?hash=(.*)/.exec(firstUrl)[1] === /\?hash=(.*)/.exec(secondUrl)[1];
 	}
 }

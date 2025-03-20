@@ -1,22 +1,22 @@
-import path from 'path';
-import { IArchive } from '../common/types/archive.type';
+import path from "path";
+import { IArchive } from "../common/types/archive.type";
 
 function formatFileSize(bytes: number): string {
-	if (bytes === 0) return '0 Bytes';
+	if (bytes === 0) return "0 Bytes";
 	const k = 1024;
-	const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+	const sizes = ["Bytes", "KB", "MB", "GB"];
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
-	return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+	return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 }
 
 function formatDate(date: Date | undefined): string {
-	return date ? new Date(date).toLocaleString() : 'Não disponível';
+	return date ? new Date(date).toLocaleString() : "Não disponível";
 }
 
 export async function previewDefaultFile(file: IArchive, res: any, req: any) {
 	res.writeHead(200, {
-		'Content-Type': 'text/html',
-		'Cache-Control': 'max-age=3600'
+		"Content-Type": "text/html",
+		"Cache-Control": "max-age=3600"
 	});
 	const html = `
     <!DOCTYPE html>
@@ -127,7 +127,7 @@ export async function previewDefaultFile(file: IArchive, res: any, req: any) {
             <div class="card">
                 <div class="file-header">
                     <div class="file-icon">
-                        ${path.extname(file.name).toUpperCase().replace('.', '')}
+                        ${path.extname(file.name).toUpperCase().replace(".", "")}
                     </div>
                     <h1 class="file-title">${file.name}</h1>
                 </div>
@@ -159,7 +159,7 @@ export async function previewDefaultFile(file: IArchive, res: any, req: any) {
                     <div class="info-grid">
                         <div class="info-item">
                             <div class="info-label">Criado por</div>
-                            <div class="info-value">${file.meta?.createdBy || 'N/A'}</div>
+                            <div class="info-value">${file.meta?.createdBy || "N/A"}</div>
                         </div>
 
                         <div class="info-item">
@@ -170,7 +170,7 @@ export async function previewDefaultFile(file: IArchive, res: any, req: any) {
                         <div class="info-item">
                             <div class="info-label">Status</div>
                             <div class="info-value">
-                                ${file.meta?.isDeleted ? 'Excluído' : 'Ativo'}
+                                ${file.meta?.isDeleted ? "Excluído" : "Ativo"}
                             </div>
                         </div>
                     </div>

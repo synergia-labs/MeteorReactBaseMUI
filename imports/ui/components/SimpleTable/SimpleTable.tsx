@@ -1,20 +1,19 @@
-import React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import Typography from '@mui/material/Typography';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import { simpleTableStyle } from './SimpleTableStyle';
-import './simpletableCSS.css';
-import { useTheme } from '@mui/material/styles';
-import SysIcon from '../sysIcon/sysIcon';
+import React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import { simpleTableStyle } from "./SimpleTableStyle";
+import "./simpletableCSS.css";
+import SysIcon from "../sysIcon/sysIcon";
 
 interface ISimpleTable {
 	schema: ISchema;
@@ -25,14 +24,14 @@ interface ISimpleTable {
 	initialOrder?: any;
 	disabledOrder?: boolean;
 	filterByField?: string;
-	sort?: any | Object[];
-	onSort?: (param: Object) => void;
-	styles?: Object;
+	sort?: any | object[];
+	onSort?: (param: object) => void;
+	styles?: object;
 }
 
 interface IEnhancedTableHead {
 	headCells: any;
-	order: false | 'asc' | 'desc';
+	order: false | "asc" | "desc";
 	orderBy: string;
 	onRequestSort: ((par1: React.SyntheticEvent, pa2: any) => void) | undefined;
 	hasActions: boolean;
@@ -43,7 +42,7 @@ interface IField {
 	type: any;
 	isImage: boolean;
 	isAvatar: boolean;
-	options: Object;
+	options: object;
 	isHTML: boolean;
 	isStatus: boolean;
 }
@@ -76,7 +75,7 @@ const descendingComparator = (a: any, b: any, orderBy: string) => {
 };
 
 const getComparator = (order: any, orderBy: string) =>
-	order === 'desc'
+	order === "desc"
 		? (a: any, b: any) => descendingComparator(a, b, orderBy)
 		: (a: any, b: any) => -descendingComparator(a, b, orderBy);
 
@@ -96,7 +95,6 @@ const EnhancedTableHead = (props: IEnhancedTableHead) => {
 	const createSortHandler = (property: any) => (event: React.SyntheticEvent) => {
 		onRequestSort && onRequestSort(event, property);
 	};
-	const theme = useTheme();
 
 	return (
 		<TableHead>
@@ -105,21 +103,19 @@ const EnhancedTableHead = (props: IEnhancedTableHead) => {
 					<TableCell
 						key={headCell.sortField || headCell.field}
 						style={{ ...simpleTableStyle.tableHeadCell, ...headCell.styles }}
-						align={headCell.numeric ? 'right' : 'left'}
-						padding={headCell.disablePadding ? 'none' : 'normal'}
+						align={headCell.numeric ? "right" : "left"}
+						padding={headCell.disablePadding ? "none" : "normal"}
 						sortDirection={orderBy === (headCell.sortField || headCell.field) ? order : false}>
 						{disabledOrder ? (
 							headCell.label
 						) : (
 							<TableSortLabel
 								active={orderBy === (headCell.sortField || headCell.field)}
-								direction={orderBy === (headCell.sortField || headCell.field) ? order : 'asc'}
+								direction={orderBy === (headCell.sortField || headCell.field) ? order : "asc"}
 								onClick={createSortHandler(headCell.sortField || headCell.field)}>
 								{headCell.label}
 								{orderBy === (headCell.sortField || headCell.field) ? (
-									<span style={simpleTableStyle.spanHead}>
-										{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-									</span>
+									<span style={simpleTableStyle.spanHead}>{order === "desc" ? "sorted descending" : "sorted ascending"}</span>
 								) : null}
 							</TableSortLabel>
 						)}
@@ -127,7 +123,7 @@ const EnhancedTableHead = (props: IEnhancedTableHead) => {
 				))}
 				{hasActions ? (
 					<TableCell
-						key={'actions'}
+						key={"actions"}
 						sx={{
 							...simpleTableStyle.tableHeadCell,
 							...simpleTableStyle.tableCellActions
@@ -154,7 +150,7 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 		styles
 	} = props;
 	const [filter, setFilter] = React.useState(null);
-	const [order, setOrder] = React.useState(initialOrder || 'asc');
+	const [order, setOrder] = React.useState(initialOrder || "asc");
 	const [orderBy, setOrderBy] = React.useState(initialSort);
 
 	React.useEffect(() => {
@@ -163,10 +159,10 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 			if (fields.length === 0) return;
 			if (!sort.field) {
 				setOrderBy(sort.field);
-				setOrder(sort.sortAscending ? 'asc' : 'desc');
+				setOrder(sort.sortAscending ? "asc" : "desc");
 			} else {
 				setOrderBy(fields[0]);
-				setOrder(sort[fields[0]] === 1 ? 'asc' : 'desc');
+				setOrder(sort[fields[0]] === 1 ? "asc" : "desc");
 			}
 		}
 	}, [sort]);
@@ -185,7 +181,7 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 							: sort
 								? true
 								: orderBy === property
-									? order === 'asc'
+									? order === "asc"
 										? false
 										: true
 									: true
@@ -194,24 +190,24 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 			setOrder(
 				sort && sort.field === property
 					? sort.sortAscending
-						? 'desc'
-						: 'asc'
+						? "desc"
+						: "asc"
 					: sort && sort[property]
 						? sort[property] === 1
-							? 'desc'
-							: 'asc'
+							? "desc"
+							: "asc"
 						: sort
-							? 'asc'
+							? "asc"
 							: orderBy === property
-								? order === 'asc'
-									? 'desc'
-									: 'asc'
-								: 'asc'
+								? order === "asc"
+									? "desc"
+									: "asc"
+								: "asc"
 			);
 			return;
 		}
-		const isAsc = orderBy === property && order === 'asc';
-		setOrder(isAsc ? 'desc' : 'asc');
+		const isAsc = orderBy === property && order === "asc";
+		setOrder(isAsc ? "desc" : "asc");
 		setOrderBy(property);
 	};
 
@@ -223,28 +219,28 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 	};
 
 	const getType = (field: IField) => {
-		if (field.type === 'DOM') {
-			return 'dom';
+		if (field.type === "DOM") {
+			return "dom";
 		}
 
-		if (field.isImage || field.isAvatar) return 'image';
-		else if (field.type === Number) return 'number';
-		else if (field.type === Date) return 'date';
-		else if (field.type === Boolean) return 'boolean';
-		else if (Array.isArray(field.type)) return 'list';
-		else if ((field.type === String || field.type === Number) && field.options) return 'select';
-		else if (field.type === String) return 'text';
-		else if (field.type === Object) return 'object';
-		else if (field.isHTML) return 'html';
-		else if (field.isStatus) return 'status';
+		if (field.isImage || field.isAvatar) return "image";
+		else if (field.type === Number) return "number";
+		else if (field.type === Date) return "date";
+		else if (field.type === Boolean) return "boolean";
+		else if (Array.isArray(field.type)) return "list";
+		else if ((field.type === String || field.type === Number) && field.options) return "select";
+		else if (field.type === String) return "text";
+		else if (field.type === Object) return "object";
+		else if (field.isHTML) return "html";
+		else if (field.isStatus) return "status";
 
-		return 'undefined';
+		return "undefined";
 	};
 
 	const renderType = (type: string, data: any, colName: SchemaKey) => {
-		if (type === 'dom') return data;
+		if (type === "dom") return data;
 
-		if (type === 'select') {
+		if (type === "select") {
 			const value =
 				schema && schema[colName] && schema[colName].options
 					? schema[colName].options.find((d: any) => d.value === data || d === data)
@@ -252,70 +248,70 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 			return value && value.label ? value.label : value;
 		}
 
-		if (type === 'image') {
+		if (type === "image") {
 			return (
 				<img
 					src={data}
 					onError={(e: React.BaseSyntheticEvent) => {
 						e.target.onerror = null;
-						e.target.src = '/images/wireframe/imagem_default.png';
+						e.target.src = "/images/wireframe/imagem_default.png";
 					}}
 					style={simpleTableStyle.containerRenderType}
 				/>
 			);
-		} else if (type === 'text' || type === 'number') return data;
-		else if (type === 'date' && data && data.toLocaleDateString) return data.toLocaleDateString();
-		else if (type === 'list') {
+		} else if (type === "text" || type === "number") return data;
+		else if (type === "date" && data && data.toLocaleDateString) return data.toLocaleDateString();
+		else if (type === "list") {
 			return (
-				<Typography style={{ wordBreak: 'break-word' }}>
+				<Typography style={{ wordBreak: "break-word" }}>
 					{!data
 						? null
 						: data.map((item: any, idx: number) => {
-								if (typeof item === 'string') {
-									return <Chip key={item + idx} variant="outlined" label={item} color={'primary'} />;
+								if (typeof item === "string") {
+									return <Chip key={item + idx} variant="outlined" label={item} color={"primary"} />;
 								}
 								return <>**Não é possível exibir o conteúdo**</>;
 							})}
 				</Typography>
 			);
-		} else if (type === 'object') {
-			if (!data) return '';
+		} else if (type === "object") {
+			if (!data) return "";
 
 			return (
-				<div style={{ display: 'flex', flexDirection: 'column' }}>
+				<div style={{ display: "flex", flexDirection: "column" }}>
 					{Object.keys(data).map((key, idx: number) => (
 						<div key={key + idx} style={{ lineHeight: 0.8, marginBottom: 10 }}>
 							{data[key]}
 							<br />
-							<span style={{ fontSize: 9, color: '#777' }}>{key}</span>
+							<span style={{ fontSize: 9, color: "#777" }}>{key}</span>
 						</div>
 					))}
 				</div>
 			);
-		} else if (type === 'boolean')
+		} else if (type === "boolean")
 			return data ? (
-				<SysIcon name={'check'} style={{ width: '15px' }} />
+				<SysIcon name={"check"} style={{ width: "15px" }} />
 			) : (
-				<SysIcon name={'close'} style={{ width: '15px' }} />
+				<SysIcon name={"close"} style={{ width: "15px" }} />
 			);
-		else if (type === 'html') {
+		else if (type === "html") {
 			return Array.isArray(data) ? (
-				data.map((d, idx) => <div key={'dgrs' + idx} dangerouslySetInnerHTML={{ __html: d }} />)
+				data.map((d, idx) => <div key={"dgrs" + idx} dangerouslySetInnerHTML={{ __html: d }} />)
 			) : (
-				<div key={'dgrs'} dangerouslySetInnerHTML={{ __html: data }} />
+				<div key={"dgrs"} dangerouslySetInnerHTML={{ __html: data }} />
 			);
-		} else if (type === 'status') {
+		} else if (type === "status") {
 			return (
 				<div
 					style={{
-						width: '10px',
-						height: '10px',
-						borderRadius: '10px',
+						width: "10px",
+						height: "10px",
+						borderRadius: "10px",
 						background: `radial-gradient(${data}, gray)`
 					}}
 				/>
 			);
-		} else if (type === 'select') {
+		} else if (type === "select") {
 			const schemaData =
 				data &&
 				schema[colName] &&
@@ -351,20 +347,20 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 				onClick={handleRowClick(row._id ? row._id : row.id, row)}
 				style={{
 					...(row.rowStyle ? row.rowStyle : {}),
-					cursor: hasOnClick ? 'pointer' : undefined
+					cursor: hasOnClick ? "pointer" : undefined
 				}}
 				key={row._id + index || row.key || row.name || `row${index}`}>
 				{cols.map((col) => (
 					<TableCell
 						scope="row"
-						{...{ 'data-label': col.label }}
+						{...{ "data-label": col.label }}
 						key={col.name + col.label}
 						style={{
 							...simpleTableStyle.tableCell,
-							textAlign: col.type === 'image' || col.type === 'dom' ? 'flex-start' : undefined,
+							textAlign: col.type === "image" || col.type === "dom" ? "flex-start" : undefined,
 							// display: col.type === 'dom' ? 'flex' : undefined,
-							justifyContent: col.type === 'dom' ? 'flex-start' : undefined,
-							flexDirection: col.type === 'dom' ? 'row' : undefined
+							justifyContent: col.type === "dom" ? "flex-start" : undefined,
+							flexDirection: col.type === "dom" ? "row" : undefined
 						}}>
 						{renderType(col.type, row[col.field], col.field)}
 					</TableCell>
@@ -391,31 +387,29 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 	});
 
 	return (
-		<div style={{ display: 'flex' }}>
+		<div style={{ display: "flex" }}>
 			{filterByField ? (
 				<div
 					style={{
-						width: '100%',
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'flex-end',
-						alignItems: 'flex-start'
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "flex-end",
+						alignItems: "flex-start"
 					}}>
-					{'Filtro: '}
+					{"Filtro: "}
 					{filter ? (
-						<span style={{ fontWeight: 'bold' }}>
-							{filter}{' '}
-							<Button style={{ color: '#F00' }} onClick={() => setFilter(null)}>
+						<span style={{ fontWeight: "bold" }}>
+							{filter}{" "}
+							<Button style={{ color: "#F00" }} onClick={() => setFilter(null)}>
 								X
 							</Button>
 						</span>
 					) : (
 						<Select
 							value={filter}
-							onChange={(evt: SelectChangeEvent<any>) =>
-								!evt.target.value ? setFilter(null) : setFilter(evt.target.value)
-							}>
-							<MenuItem key={'NoFilter'} value={undefined}>
+							onChange={(evt: SelectChangeEvent<any>) => (!evt.target.value ? setFilter(null) : setFilter(evt.target.value))}>
+							<MenuItem key={"NoFilter"} value={undefined}>
 								Sem Filtro
 							</MenuItem>
 							{Object.keys(filterList).map((item) => (
@@ -428,7 +422,7 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 				</div>
 			) : null}
 
-			<Table className={'mobileTable'} style={{ ...simpleTableStyle.tableBox, ...styles }}>
+			<Table className={"mobileTable"} style={{ ...simpleTableStyle.tableBox, ...styles }}>
 				{/* <TableHead> */}
 				{/*    <TableRow > */}
 				{/*        {cols.map(col=>{ */}

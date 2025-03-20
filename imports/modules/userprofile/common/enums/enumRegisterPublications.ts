@@ -1,9 +1,9 @@
 import EnumExampleSettings from "..";
 
-const getName = (name: string): string => `${EnumExampleSettings.MODULE_NAME}.${name}`;
+const getName = (name: string): string => `${EnumExampleSettings.MODULE_NAME}.${name}`; 
 
 const enumUsersRegisterPublications = {
-    getUsersListPublication: getName('getUsersListPublication'),
+    getUsersListPublication: getName("getUsersListPublication"),
 } as const;
 
 export default enumUsersRegisterPublications;

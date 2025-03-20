@@ -7,25 +7,24 @@ import { UsersApiMethods } from "../../common/interfaces/methods";
 import UsersApiPublication from "../../common/interfaces/publications";
 
 class UsersApi extends ApiBase {
-    public mongoInstance: Mongo.Collection<Meteor.User>;
+	public mongoInstance: Mongo.Collection<Meteor.User>;
 
-    constructor() {
-        super(enumUserProfileRegisterMethods, enumUsersRegisterPublications);
-        this.mongoInstance = Meteor.users;
-    }
+	constructor() {
+		super(enumUserProfileRegisterMethods, enumUsersRegisterPublications);
+		this.mongoInstance = Meteor.users;
+	}
 
-    resetForgotPassword = async (token: string, newPassword: string, callback: (error?: Error | Meteor.Error ) => void) => {
-        Accounts.resetPassword(token, newPassword, callback);
-    }
+	resetForgotPassword = async (token: string, newPassword: string, callback: (error?: Error | Meteor.Error) => void) => {
+		Accounts.resetPassword(token, newPassword, callback);
+	};
 
-    verifyEmail = async (token: string, callback: (error?: Error | Meteor.Error ) => void) => {
-        Accounts.verifyEmail(token, callback);
-    }
+	verifyEmail = async (token: string, callback: (error?: Error | Meteor.Error) => void) => {
+		Accounts.verifyEmail(token, callback);
+	};
 }
-
 
 type interfaceWithMethods = UsersApiMethods & UsersApi & UsersApiPublication;
 
 const usersApi = new UsersApi() as interfaceWithMethods;
 export default usersApi;
-export type { interfaceWithMethods as ExampleApi  };
+export type { interfaceWithMethods as ExampleApi };

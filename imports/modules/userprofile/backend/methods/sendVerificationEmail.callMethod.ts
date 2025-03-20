@@ -8,12 +8,8 @@ class SendVerificationEmail extends MethodBase<UsersServer, void, void> {
         super({ name: enumUserProfileRegisterMethods.sendVerificationEmail });
     }
 
-
-
-    async action(_prop: void, _context: IContext): Promise<void> {
-        
-    }
-} 
+	async action(_prop: void, _context: IContext): Promise<void> {}
+}
 
 const sendVerificationEmailInstance = new SendVerificationEmail();
 export default sendVerificationEmailInstance;

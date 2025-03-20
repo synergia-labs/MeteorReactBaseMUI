@@ -1,11 +1,11 @@
-import { createTheme } from '@mui/material/styles';
-import React from 'react';
-import { Theme, ThemeOptions } from '@mui/material';
-import sysLightPalette from './sysColors';
-import SysFonts from './sysFonts';
-import getSysComponentsStyles from './sysComponents';
+import { createTheme } from "@mui/material/styles";
+import React from "react";
+import { Theme, ThemeOptions } from "@mui/material";
+import sysLightPalette from "./sysColors";
+import SysFonts from "./sysFonts";
+import getSysComponentsStyles from "./sysComponents";
 
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
 	interface ISysText {
 		body?: string;
 		title?: string;
@@ -51,14 +51,14 @@ declare module '@mui/material/styles' {
 	}
 
 	interface Palette {
-		tertiary: Palette['primary'];
+		tertiary: Palette["primary"];
 		sysText?: ISysText;
 		sysBackground?: ISysBackground;
 		sysAction?: ISysAction;
 	}
 
 	interface PaletteOptions {
-		tertiary?: PaletteOptions['primary'];
+		tertiary?: PaletteOptions["primary"];
 		sysText?: Partial<ISysText>;
 		sysBackground?: Partial<ISysBackground>;
 		sysAction?: Partial<ISysAction>;
@@ -75,7 +75,7 @@ declare module '@mui/material/styles' {
 	}
 }
 
-declare module '@mui/material/Typography' {
+declare module "@mui/material/Typography" {
 	interface TypographyPropsVariantOverrides {
 		link: true;
 		button2: true;
@@ -88,13 +88,13 @@ const getLightThemeBase = (props: { fontScale: number }): ThemeOptions => {
 	return {
 		palette: sysLightPalette,
 		typography: SysFonts.getTypography(fontScale),
-		spacing: 8,
+		spacing: 8
 	};
 };
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 	const fontScale = options.fontScale || 1;
-	let theme: Theme = createTheme(getLightThemeBase({ fontScale }));
+	const theme: Theme = createTheme(getLightThemeBase({ fontScale }));
 
 	return createTheme(theme, { ...getSysComponentsStyles(theme, fontScale) });
 };

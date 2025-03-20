@@ -1,21 +1,21 @@
-import { Meteor } from 'meteor/meteor';
-import OAuthBase from '/imports/base/services/auth/oAuth.base';
-import { GoogleServiceDataType, googleServiceDataSchema } from '../../common/types/serviceGoogleData';
+import { Meteor } from "meteor/meteor";
+import OAuthBase from "/imports/base/services/auth/oAuth.base";
+import { GoogleServiceDataType, googleServiceDataSchema } from "../../common/types/serviceGoogleData";
 
 class GoogleOAuth extends OAuthBase<GoogleServiceDataType> {
 	constructor() {
 		super({
-			serviceName: 'google', 
-			clientId: Meteor.settings.auth?.google?.clientId, 
+			serviceName: "google",
+			clientId: Meteor.settings.auth?.google?.clientId,
 			secret: Meteor.settings.auth?.google?.secret,
-			schema: googleServiceDataSchema,
+			schema: googleServiceDataSchema
 		});
 	}
 
 	public async onUserMatched(serviceData: GoogleServiceDataType): Promise<Meteor.User | null> {
 		const user = (await Accounts.findUserByEmail(serviceData.email)) as Meteor.User;
-		if(user && serviceData.picture)
-			await Meteor.users.updateAsync({ _id: user._id }, { $set: { 'profile.photo': serviceData.picture } });
+		if (user && serviceData.picture)
+			await Meteor.users.updateAsync({ _id: user._id }, { $set: { "profile.photo": serviceData.picture } });
 		return user ?? null;
 	}
 }

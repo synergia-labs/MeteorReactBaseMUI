@@ -1,6 +1,6 @@
 /**
  * Método para validação de e-mail
- * 
+ *
  * @param {string} email - E-mail a ser validado
  * @returns {boolean}     - Retorna true se o e-mail for válido, false caso contrário
  */
