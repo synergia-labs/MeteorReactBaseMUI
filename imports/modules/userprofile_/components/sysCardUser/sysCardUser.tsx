@@ -1,13 +1,13 @@
-import React from 'react';
-import { SxProps, Theme } from '@mui/material';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import SysCardUserStyled from './sysCardUserStyles';
-import { UserProfileListControllerContext } from '../../pages/UserProfileList/userProfileListController';
-import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
-import { getUserRoleTranslated } from '../../config/enumUser';
+import React from "react";
+import { SxProps, Theme } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import SysCardUserStyled from "./sysCardUserStyles";
+import { UserProfileListControllerContext } from "../../pages/UserProfileList/userProfileListController";
+import SysIcon from "../../../../ui/components/sysIcon/sysIcon";
+import { getUserRoleTranslated } from "../../config/enumUser";
 
 interface ISysCardUserProps {
 	username: string;
@@ -27,10 +27,10 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 
 	return (
 		<Container sx={sx} key={userId}>
-			<Typography sx={{ gridArea: 'name' }} variant="subtitle1">
+			<Typography sx={{ gridArea: "name" }} variant="subtitle1">
 				{username}
 			</Typography>
-			<Box sx={{ gridArea: 'roles' }}>
+			<Box sx={{ gridArea: "roles" }}>
 				{roles?.map((role) => {
 					return (
 						<Typography key={role} variant="body1">
@@ -39,30 +39,30 @@ export const SysCardUser: React.FC<ISysCardUserProps> = ({ ...props }: ISysCardU
 					);
 				})}
 			</Box>
-			<Typography variant="body1" sx={{ gridArea: 'email' }}>
+			<Typography variant="body1" sx={{ gridArea: "email" }}>
 				{email}
 			</Typography>
-			<Status color={status === 'active' ? 'primary.main' : 'sysText.disabled'} variant="body1">
+			<Status color={status === "active" ? "primary.main" : "sysText.disabled"} variant="body1">
 				{translateStatus(status)}
 			</Status>
 			<ActionBox>
-				{status === 'active' ? (
+				{status === "active" ? (
 					<>
-						<Tooltip title={'Destivar'}>
+						<Tooltip title={"Destivar"}>
 							<IconButton onClick={() => onChangeStatusClick(userId!)}>
-								<SysIcon name={'doNotDisturbOn'} />
+								<SysIcon name={"doNotDisturbOn"} />
 							</IconButton>
 						</Tooltip>
-						<Tooltip title={'Editar'}>
+						<Tooltip title={"Editar"}>
 							<IconButton onClick={() => onEdit(userId)}>
-								<SysIcon name={'edit'} />
+								<SysIcon name={"edit"} />
 							</IconButton>
 						</Tooltip>
 					</>
 				) : (
-					<Tooltip title={'Ativar'}>
+					<Tooltip title={"Ativar"}>
 						<IconButton onClick={() => onChangeStatusClick(userId!)}>
-							<SysIcon name={'checkCircle'} />
+							<SysIcon name={"checkCircle"} />
 						</IconButton>
 					</Tooltip>
 				)}

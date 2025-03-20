@@ -1,10 +1,10 @@
-import { ApiBase } from './base';
-import { getUser } from '../libs/getUser';
+import { ApiBase } from "./base";
+import { getUser } from "../libs/getUser";
 
-import { IProductBaseOptions } from '../typings/IBaseOptions';
-import { Meteor } from 'meteor/meteor';
-import { IDoc } from '../typings/IDoc';
-import { ISchema } from '../typings/ISchema';
+import { IProductBaseOptions } from "../typings/IBaseOptions";
+import { Meteor } from "meteor/meteor";
+import { IDoc } from "../typings/IDoc";
+import { ISchema } from "../typings/ISchema";
 
 export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 	private enableCallMethodObserver: boolean | undefined;
@@ -29,10 +29,10 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 	callMethod(name: string, ...params: (string | object | any)[]) {
 		if (this.enableCallMethodObserver) {
 			const self = this;
-			import('../analytics/analyticsSubscriber').then(({ subjectCallMethod }) => {
+			import("../analytics/analyticsSubscriber").then(({ subjectCallMethod }) => {
 				const preparedParams = params
 					? Object.keys(params)
-							.filter((key: any) => Array.isArray(params[key]) || typeof params[key] !== 'function')
+							.filter((key: any) => Array.isArray(params[key]) || typeof params[key] !== "function")
 							.reduce((obj, key: any) => {
 								return Object.assign(obj, {
 									[key]: params[key]
@@ -57,7 +57,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 	}
 
 	subscribe(
-		api: string = 'default',
+		api: string = "default",
 		...params: object[]
 	): {
 		total: any;
@@ -66,10 +66,10 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 	} | null {
 		if (this.enableSubscribeObserver) {
 			const self = this;
-			import('../analytics/analyticsSubscriber').then(({ subjectSubscribe }) => {
+			import("../analytics/analyticsSubscriber").then(({ subjectSubscribe }) => {
 				const preparedParams = params
 					? Object.keys(params)
-							.filter((key: any) => Array.isArray(params[key]) || typeof params[key] !== 'function')
+							.filter((key: any) => Array.isArray(params[key]) || typeof params[key] !== "function")
 							.reduce((obj, key: any) => {
 								return Object.assign(obj, {
 									[key]: params[key]

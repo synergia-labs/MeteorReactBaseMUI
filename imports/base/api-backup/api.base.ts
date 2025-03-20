@@ -1,11 +1,11 @@
-import { Mongo } from 'meteor/mongo';
-import { Meteor } from 'meteor/meteor';
+import { Mongo } from "meteor/mongo";
+import { Meteor } from "meteor/meteor";
 import Selector = Mongo.Selector;
-import { IDoc } from '/imports/typings/IDoc';
-import { countsCollection } from '/imports/api/countCollection';
-import { IBaseOptions } from '/imports/typings/IBaseOptions';
-import { IMeteorError } from '/imports/typings/IMeteorError';
-import { ISchema } from '/imports/typings/ISchema';
+import { IDoc } from "/imports/typings/IDoc";
+import { countsCollection } from "/imports/api/countCollection";
+import { IBaseOptions } from "/imports/typings/IBaseOptions";
+import { IMeteorError } from "/imports/typings/IMeteorError";
+import { ISchema } from "/imports/typings/ISchema";
 
 const defaultOptions = {
 	disableDefaultPublications: true
@@ -99,7 +99,7 @@ export class ApiBase<Doc extends IDoc> {
 
 	initCollection(apiName: string) {
 		this.collectionName = apiName;
-		if (this.collectionName !== 'users') {
+		if (this.collectionName !== "users") {
 			this.collectionInstance = new Mongo.Collection(this.collectionName);
 			// Deny all client-side updates on the Lists collection
 			this.getCollectionInstance().deny({
@@ -137,9 +137,9 @@ export class ApiBase<Doc extends IDoc> {
 	_addImgPathToFields = (doc: any) => {
 		Object.keys(this.schema).forEach((field) => {
 			if (this.schema[field].isImage) {
-				if (doc['has' + field]) {
+				if (doc["has" + field]) {
 					doc[field] = `${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${doc._id}?date=${
-						doc.lastupdate && doc.lastupdate.toISOString ? doc.lastupdate.toISOString() : '1'
+						doc.lastupdate && doc.lastupdate.toISOString ? doc.lastupdate.toISOString() : "1"
 					}`;
 				} else {
 					doc[field] = this.noImagePath ? this.noImagePath : `${Meteor.absoluteUrl()}images/noimage.jpg`;
@@ -178,7 +178,7 @@ export class ApiBase<Doc extends IDoc> {
 		if (Meteor.status().connected) {
 			Meteor.call(`${this.collectionName}.${name}`, ...params);
 		} else {
-			console.error('Sem Conexão com o Servidor');
+			console.error("Sem Conexão com o Servidor");
 		}
 	}
 
@@ -206,12 +206,12 @@ export class ApiBase<Doc extends IDoc> {
 			if (
 				!!schema[key] &&
 				((!schema[key].isImage && !schema[key].isAvatar) ||
-					(docObj[key] && docObj[key].indexOf('/img/') === -1 && docObj[key].indexOf('/thumbnail/') === -1))
+					(docObj[key] && docObj[key].indexOf("/img/") === -1 && docObj[key].indexOf("/thumbnail/") === -1))
 			) {
 				newObj[key] = docObj[key];
 			}
 		});
-		this.callMethod('insert', newObj, callback);
+		this.callMethod("insert", newObj, callback);
 	}
 
 	/**
@@ -231,15 +231,15 @@ export class ApiBase<Doc extends IDoc> {
 			if (
 				(!!schema[key] || schema[key] === null) &&
 				((!schema[key].isImage && !schema[key].isAvatar) ||
-					(typeof docObj[key] === 'string' &&
-						docObj[key].indexOf('/img/') === -1 &&
-						docObj[key].indexOf('/thumbnail/') === -1))
+					(typeof docObj[key] === "string" &&
+						docObj[key].indexOf("/img/") === -1 &&
+						docObj[key].indexOf("/thumbnail/") === -1))
 			) {
 				newObj[key] = docObj[key];
 			}
 		});
 
-		return this.callMethod('update', newObj, callback);
+		return this.callMethod("update", newObj, callback);
 	}
 
 	/**
@@ -265,7 +265,7 @@ export class ApiBase<Doc extends IDoc> {
 			console.log(e, r);
 		}
 	) {
-		this.callMethod('remove', docObj, callback);
+		this.callMethod("remove", docObj, callback);
 	}
 
 	/**
@@ -276,14 +276,14 @@ export class ApiBase<Doc extends IDoc> {
 	 * @param  {Function} callback - Callback Function
 	 */
 	getDocs(
-		apiName = 'default',
+		apiName = "default",
 		filter = {},
 		optionsPub = {},
 		callback = (e: IMeteorError, r: any) => {
 			console.log(e, r);
 		}
 	) {
-		this.callMethod('getDocs', apiName, filter, optionsPub, callback);
+		this.callMethod("getDocs", apiName, filter, optionsPub, callback);
 	}
 
 	/**
@@ -297,7 +297,7 @@ export class ApiBase<Doc extends IDoc> {
 			console.log(e, r);
 		}
 	) {
-		this.callMethod('sync', docObj, callback);
+		this.callMethod("sync", docObj, callback);
 	}
 
 	/**
@@ -328,7 +328,7 @@ export class ApiBase<Doc extends IDoc> {
 	 * @param param
 	 */
 	subscribe(
-		api = 'default',
+		api = "default",
 		...param: any[]
 	): {
 		total: number;
@@ -340,7 +340,7 @@ export class ApiBase<Doc extends IDoc> {
 			const subsHandle = Meteor.subscribe(`${this.collectionName}.${api}`, ...param);
 
 			const subHandleCounter = Meteor.subscribe(`${this.collectionName}.count${api}`, param[0] || {});
-			const countResult = subHandleCounter.ready() ? self.counts.findOne({ _id: api + 'Total' }) : null;
+			const countResult = subHandleCounter.ready() ? self.counts.findOne({ _id: api + "Total" }) : null;
 			const count = countResult ? countResult.count : 0;
 
 			if (subHandleCounter && subHandleCounter.ready() && subsHandle && subsHandle.ready()) {

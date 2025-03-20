@@ -1,22 +1,22 @@
-import { Meteor, Subscription } from 'meteor/meteor';
-import { WebApp } from 'meteor/webapp';
-import connectRoute from 'connect-route';
-import { IContext } from '/imports/typings/IContext';
-import { IConnection } from '/imports/typings/IConnection';
-import MethodBase from './methods/method.base';
-import PublicationBase from './publication/publication.base';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import { EndpointType } from '../types/serverParams';
-import { MethodType } from '../types/method';
-import EnumUserRoles from '../../modules/userprofile/common/enums/enumUserRoles';
-import { getDefaultAdminContext, getDefaultPublicContext } from './utils/defaultContexts';
-import { methodSafeInsert } from '../services/security/backend/methods/methodSafeInsert';
-import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
-import { enumMethodTypes, MethodTypes } from '../services/security/common/enums/methodTypes';
+import { Meteor, Subscription } from "meteor/meteor";
+import { WebApp } from "meteor/webapp";
+import connectRoute from "connect-route";
+import { IContext } from "/imports/typings/IContext";
+import { IConnection } from "/imports/typings/IConnection";
+import MethodBase from "./methods/method.base";
+import PublicationBase from "./publication/publication.base";
+import bodyParser from "body-parser";
+import cors from "cors";
+import { EndpointType } from "../types/serverParams";
+import { MethodType } from "../types/method";
+import EnumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
+import { getDefaultAdminContext, getDefaultPublicContext } from "./utils/defaultContexts";
+import { methodSafeInsert } from "../services/security/backend/methods/methodSafeInsert";
+import { enumSecurityConfig } from "../services/security/common/enums/config.enum";
+import { enumMethodTypes, MethodTypes } from "../services/security/common/enums/methodTypes";
 
 WebApp.connectHandlers.use(cors());
-WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
+WebApp.connectHandlers.use(bodyParser.json({ limit: "50mb" }));
 
 class ServerBase {
 	apiName: string;
@@ -39,7 +39,7 @@ class ServerBase {
 	private _registerSecurity(name: string, type: MethodTypes, isProtected: boolean, roles?: Array<string>) {
 		setTimeout(async () => {
 			try {
-				const context = getDefaultAdminContext({ apiName: this.apiName, action: 'startApplication' });
+				const context = getDefaultAdminContext({ apiName: this.apiName, action: "startApplication" });
 				await methodSafeInsert.execute(
 					{
 						name: name,
@@ -61,7 +61,7 @@ class ServerBase {
 	 * @returns {string} - A URL principal da API.
 	 */
 	protected getMainUrl(sufix?: string, withPrefix = true): string {
-		const baseUrl = `api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${sufix || ''}`;
+		const baseUrl = `api/v${this.apiOptions.apiVersion || 1}/${this.apiName}/${sufix || ""}`;
 		return withPrefix ? Meteor.absoluteUrl(baseUrl) : baseUrl;
 	}
 
@@ -77,7 +77,7 @@ class ServerBase {
 		classInstance: Base
 	) {
 		try {
-			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
+			if (Meteor.isClient) throw new Meteor.Error("500", "This method can only be called on the server side");
 			if (methodInstances?.length == 0 || !classInstance) return;
 
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
@@ -99,8 +99,8 @@ class ServerBase {
 					return await method.execute(...param, meteorContext);
 				}
 
-				const rawName = methodName.split('.')[1];
-				if (!rawName) throw new Meteor.Error('500', 'Nome do método inválido');
+				const rawName = methodName.split(".")[1];
+				if (!rawName) throw new Meteor.Error("500", "Nome do método inválido");
 				(classInstance as any)[rawName] = methodFunction;
 
 				if (endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
@@ -129,7 +129,7 @@ class ServerBase {
 		classInstance: Base
 	) {
 		try {
-			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
+			if (Meteor.isClient) throw new Meteor.Error("500", "This method can only be called on the server side");
 			if (publicationInstances?.length == 0 || !classInstance) return;
 			const self = this;
 
@@ -174,7 +174,7 @@ class ServerBase {
 				if (!transformedFunction) Meteor.publish(publicationName, publicationFunction);
 				else
 					Meteor.publish(publicationName, async function (query, options) {
-						console.log('Enter in publish transform');
+						console.log("Enter in publish transform");
 
 						const subHandle = await (
 							await publicationFunction(query, options)
@@ -227,11 +227,11 @@ class ServerBase {
 	// #endregion
 
 	private _convertToInt(value: any) {
-		if (typeof value === 'object') {
+		if (typeof value === "object") {
 			for (const key in value) {
 				value[key] = this._convertToInt(value[key]);
 			}
-		} else if (typeof value === 'string') {
+		} else if (typeof value === "string") {
 			if (!isNaN(Number(value))) {
 				return Number(value);
 			}
@@ -275,16 +275,16 @@ class ServerBase {
 
 					if (!res.headersSent && res.writable) {
 						res.writeHead(200, {
-							'Content-Type': 'application/json'
+							"Content-Type": "application/json"
 						});
-						res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
+						res.write(typeof result === "object" ? JSON.stringify(result) : `${result ? result.toString() : "-"}`);
 						res.end(); // Must call this immediately before return!
 					}
 					return;
 				} catch (e) {
 					if (!res.headersSent && res.writable) {
 						res.writeHead(403, {
-							'Content-Type': 'application/json'
+							"Content-Type": "application/json"
 						});
 						res.end();
 					}

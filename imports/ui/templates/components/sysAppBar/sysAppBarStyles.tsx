@@ -1,6 +1,6 @@
-import { ElementType } from 'react';
-import { Box, BoxProps, IconButton, IconButtonProps, styled } from '@mui/material';
-import { sysSizing } from '/imports/ui/materialui/styles';
+import { ElementType } from "react";
+import { Box, BoxProps, IconButton, IconButtonProps, styled } from "@mui/material";
+import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface ISysAppBarStyles {
 	wrapper: ElementType<BoxProps>;
@@ -12,46 +12,46 @@ interface ISysAppBarStyles {
 
 const SysAppBarStyles: ISysAppBarStyles = {
 	wrapper: styled(Box)(({ theme }) => ({
-		display: 'flex',
-		alignItems: 'center',
-		flexDirection: 'row',
-		justifyContent: 'center',
+		display: "flex",
+		alignItems: "center",
+		flexDirection: "row",
+		justifyContent: "center",
 		backgroundColor: theme.palette.primary.main,
 		color: theme.palette.primary.contrastText
 	})),
 	container: styled(Box)(({ theme }) => ({
-		display: 'flex',
+		display: "flex",
 		flexGrow: 1,
 		flexShrink: 0,
-		alignItems: 'center',
-		justifyContent: 'space-between',
+		alignItems: "center",
+		justifyContent: "space-between",
 		maxWidth: sysSizing.maxDisplayWidth,
 		padding: `${sysSizing.spacingFixedSm} ${sysSizing.contentPx}`,
-		transition: 'padding 0.3s ease',
-		[theme.breakpoints.down('sm')]: { padding: sysSizing.spacingFixedSm }
+		transition: "padding 0.3s ease",
+		[theme.breakpoints.down("sm")]: { padding: sysSizing.spacingFixedSm }
 	})),
 	navContainerDesktop: styled(Box)(({ theme }) => ({
 		flex: 1,
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-end',
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "flex-end",
 		gap: sysSizing.spacingRemMd,
 		paddingRight: sysSizing.spacingFixedMd,
-		[theme.breakpoints.down('md')]: { display: 'none' }
+		[theme.breakpoints.down("md")]: { display: "none" }
 	})),
 	navContainerMobile: styled(Box)(({ theme }) => ({
-		display: 'none',
+		display: "none",
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'flex-end',
+		alignItems: "center",
+		justifyContent: "flex-end",
 		paddingRight: sysSizing.spacingFixedMd,
-		[theme.breakpoints.down('md')]: { display: 'flex' }
+		[theme.breakpoints.down("md")]: { display: "flex" }
 	})),
 	iconButton: styled(IconButton)(({ theme }) => ({
-		color: theme.palette.primary.contrastText,
-		padding: 0,
-		margin: 0,
-		'& .MuiSvgIcon-root:hover': { color: theme.palette.sysAction?.bgDisabled }
+		"color": theme.palette.primary.contrastText,
+		"padding": 0,
+		"margin": 0,
+		"& .MuiSvgIcon-root:hover": { color: theme.palette.sysAction?.bgDisabled }
 	}))
 };
 

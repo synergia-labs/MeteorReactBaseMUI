@@ -1,4 +1,4 @@
-import { Mongo } from 'meteor/mongo';
+import { Mongo } from "meteor/mongo";
 
 export class UserBase {
 	private collectionInstance: Mongo.Collection<any>;

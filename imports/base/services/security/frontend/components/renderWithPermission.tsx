@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { useSecurity } from '../security.provider';
+import React, { ReactNode } from "react";
+import { useSecurity } from "../security.provider";
 
 interface RenderWithPermissionProps {
 	functionalities: Array<string>;

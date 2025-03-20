@@ -1,9 +1,9 @@
-import React from 'react';
-import Button from '@mui/material/Button';
-import { colors, simpleExportCSVStyle } from './SimpleExportCSVStyle';
-import CircularProgress from '@mui/material/CircularProgress';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import React from "react";
+import Button from "@mui/material/Button";
+import { colors, simpleExportCSVStyle } from "./SimpleExportCSVStyle";
+import CircularProgress from "@mui/material/CircularProgress";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) => {
 	const [showLoading, setShowLoading] = React.useState(false);
@@ -11,29 +11,29 @@ const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) =
 	const showNotification = () => (
 		<Snackbar
 			anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'left'
+				vertical: "bottom",
+				horizontal: "left"
 			}}
 			open={showLoading}
 			autoHideDuration={16000}
 			onClose={() => setShowLoading(false)}>
 			<Alert
-				id={'message-id'}
+				id={"message-id"}
 				icon={false}
-				arialabel={'message-id'}
+				arialabel={"message-id"}
 				onClose={() => setShowLoading(false)}
-				color={'info'}
-				severity={'info'}
+				color={"info"}
+				severity={"info"}
 				elevation={6}
 				variant="filled">
 				<div
 					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center'
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center"
 					}}>
-					<div>{'Aguarde enquanto o CSV está sendo gerado!'}</div>
-					<div style={{ paddingTop: '5px' }}>
+					<div>{"Aguarde enquanto o CSV está sendo gerado!"}</div>
+					<div style={{ paddingTop: "5px" }}>
 						<CircularProgress size={23} thickness={5} />
 					</div>
 				</div>
@@ -47,8 +47,8 @@ const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) =
 				console.error(err);
 			} else {
 				setShowLoading(false);
-				const link = document.createElement('a');
-				link.download = (filename || 'dadosExportados') + '.csv';
+				const link = document.createElement("a");
+				link.download = (filename || "dadosExportados") + ".csv";
 				link.href = csvLink;
 				link.click();
 			}
@@ -61,24 +61,24 @@ const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) =
 				size="small"
 				style={{
 					marginRight: 10,
-					justifyContent: 'flex-end',
+					justifyContent: "flex-end",
 					// fontFamily: 'PTSans',
-					fontSize: '17px',
-					fontWeight: 'bold',
-					fontStretch: 'normal',
-					fontStyle: 'normal',
+					fontSize: "17px",
+					fontWeight: "bold",
+					fontStretch: "normal",
+					fontStyle: "normal",
 					lineHeight: 1.2,
-					letterSpacing: '0.7px',
-					textAlign: 'center',
+					letterSpacing: "0.7px",
+					textAlign: "center",
 					color: colors.secondaryColor,
-					textTransform: 'none'
+					textTransform: "none"
 				}}
-				color={'secondary'}
+				color={"secondary"}
 				onClick={() => {
 					setShowLoading(true);
 					downloadCSV();
 				}}>
-				{'Exportar para CSV'}
+				{"Exportar para CSV"}
 			</Button>
 			{showLoading && showNotification()}
 		</div>

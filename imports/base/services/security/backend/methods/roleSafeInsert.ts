@@ -1,16 +1,16 @@
-import { enumSecurityMethods } from '../../common/enums/methods.enum';
+import { enumSecurityMethods } from "../../common/enums/methods.enum";
 import {
 	paramRoleSafeInsertSch,
 	ParamRoleSafeInsertType,
 	returnRoleSafeInsertSch,
 	ReturnRoleSafeInsertType
-} from '../../common/types/roleSafeInsert';
-import { SecurityServer } from '../security.server';
-import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
-import { AuditType } from '/imports/base/types/audit';
-import { textNormalize } from '/imports/libs/textUtilities';
-import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
-import { IContext } from '/imports/typings/IContext';
+} from "../../common/types/roleSafeInsert";
+import { SecurityServer } from "../security.server";
+import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
+import { AuditType } from "/imports/base/types/audit";
+import { textNormalize } from "/imports/libs/textUtilities";
+import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import { IContext } from "/imports/typings/IContext";
 
 class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInsertType, ReturnRoleSafeInsertType> {
 	constructor() {
@@ -19,7 +19,7 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 			paramSch: paramRoleSafeInsertSch,
 			returnSch: returnRoleSafeInsertSch,
 			roles: [EnumUserRoles.ADMIN],
-			description: 'Insert a new role to a specific referred'
+			description: "Insert a new role to a specific referred"
 		});
 	}
 
@@ -33,12 +33,12 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 
 	async action(_param: ParamRoleSafeInsertType & AuditType, _context: IContext): Promise<ReturnRoleSafeInsertType> {
 		const roleCollection = this.getServerInstance()?.getRoleCollection();
-		if (!roleCollection) this.generateError({ _message: 'Role collection not found', _context });
+		if (!roleCollection) this.generateError({ _message: "Role collection not found", _context });
 
 		const _id = `${_param.referred}.${textNormalize(_param.name)}`;
 		const role = await roleCollection!.findOneAsync({ _id });
 
-		if (role) this.generateError({ _message: 'Role already exists', _context });
+		if (role) this.generateError({ _message: "Role already exists", _context });
 
 		const result = await roleCollection!.insertAsync({ _id, ..._param });
 		return { _id: result };

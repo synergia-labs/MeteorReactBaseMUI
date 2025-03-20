@@ -1,10 +1,10 @@
-import { z } from 'zod';
-import enumUserProfileRegisterMethods from '../../common/enums/enumRegisterMethods';
-import EnumUserRoles from '../../common/enums/enumUserRoles';
-import { createUserSchema, CreateUserType } from '../../common/types/createUser';
-import { UserProfileServer } from '../server';
-import { CreateMethodBase } from '/imports/base/server/methods/create.method.base';
-import { IContext } from '/imports/typings/IContext';
+import { z } from "zod";
+import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
+import EnumUserRoles from "../../common/enums/enumUserRoles";
+import { createUserSchema, CreateUserType } from "../../common/types/createUser";
+import { UserProfileServer } from "../server";
+import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
+import { IContext } from "/imports/typings/IContext";
 
 /**
  * Método de criação de usuário
@@ -28,7 +28,7 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
 
 	protected insertAuditData(param: CreateUserType, _context: IContext): void {
 		param.createdAt = new Date();
-		param.createdBy = (Meteor.userId() ?? 'System') as string;
+		param.createdBy = (Meteor.userId() ?? "System") as string;
 	}
 
 	protected async beforeAction(prop: CreateUserType, context: IContext): Promise<void> {
@@ -37,7 +37,7 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
 		if (prop.roles.includes(EnumUserRoles.ADMIN)) return;
 		if (context.user?.profile?.roles?.includes(EnumUserRoles.ADMIN)) return;
 		if (await this.getServerInstance()?.checkIfHasAdminUser())
-			this.generateError({ _message: 'Apenas usuários administradores podem criar usuários administradores' });
+			this.generateError({ _message: "Apenas usuários administradores podem criar usuários administradores" });
 	}
 
 	async action(_prop: CreateUserType, _context: IContext): Promise<string> {
@@ -58,9 +58,9 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
 	}
 
 	protected async onError(_param: CreateUserType, _context: IContext, _error: Meteor.Error): Promise<string | void> {
-		await this.getServerInstance()?.mongoInstance.removeAsync({ 'emails.address': _param.email });
+		await this.getServerInstance()?.mongoInstance.removeAsync({ "emails.address": _param.email });
 		console.error(`[ERROR] Erro ao criar o usuário ${_param.email}: ${_error}`);
-		this.generateError({ _message: 'Erro ao criar o usuário' });
+		this.generateError({ _message: "Erro ao criar o usuário" });
 	}
 }
 

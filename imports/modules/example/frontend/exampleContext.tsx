@@ -1,5 +1,5 @@
-import React, { createContext } from 'react';
-import EnumExampleScreenState from '../common/enums/enumScreenState';
+import React, { createContext } from "react";
+import EnumExampleScreenState from "../common/enums/enumScreenState";
 
 interface IExampleModuleContext {
 	state?: EnumExampleScreenState;

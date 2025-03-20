@@ -1,6 +1,6 @@
-import React, { ElementType } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
-import styled from '@mui/material/styles/styled';
+import React, { ElementType } from "react";
+import Box, { BoxProps } from "@mui/material/Box";
+import styled from "@mui/material/styles/styled";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -9,9 +9,9 @@ interface IStyles {
 const usersListStyles: IStyles = {
 	container: styled(Box)(({ theme }) => ({
 		padding: theme.spacing(20),
-		width: '100%',
-		display: 'flex',
-		flexDirection: 'column'
+		width: "100%",
+		display: "flex",
+		flexDirection: "column"
 	}))
 };
 

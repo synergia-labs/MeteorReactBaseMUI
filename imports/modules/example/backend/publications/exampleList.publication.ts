@@ -1,8 +1,8 @@
-import { Mongo } from 'meteor/mongo';
-import PublicationBase from '/imports/base/server/publication/publication.base';
-import { IContext } from '/imports/typings/IContext';
-import { ExampleServer } from '../server';
-import enumExampleRegisterPublications from '../../common/enums/enumRegisterPublications';
+import { Mongo } from "meteor/mongo";
+import PublicationBase from "/imports/base/server/publication/publication.base";
+import { IContext } from "/imports/typings/IContext";
+import { ExampleServer } from "../server";
+import enumExampleRegisterPublications from "../../common/enums/enumRegisterPublications";
 
 class ExampleListPublication extends PublicationBase<ExampleServer, undefined, undefined> {
 	constructor() {
@@ -22,7 +22,7 @@ class ExampleListPublication extends PublicationBase<ExampleServer, undefined, u
 	}
 
 	async transformPublication(_doc: any, _context: IContext): Promise<any> {
-		return { ..._doc, teste: 'teste' };
+		return { ..._doc, teste: "teste" };
 	}
 }
 

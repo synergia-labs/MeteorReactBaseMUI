@@ -1,22 +1,22 @@
-import React, { FC, ReactNode, useEffect } from 'react';
-import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
-import Box from '@mui/material/Box';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import { Theme, SxProps } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-import { DialogContentStyled } from './showDialogStyles';
-import { DialogTransitions } from '../transitions';
-import { MemoryRouter } from 'react-router-dom';
-import { AppRouterSwitch } from '/imports/app/routes/appRouterSwitch';
-import Styles from './showDialogStyles';
-import { sysSizing } from '../../materialui/styles';
-import { Button, ButtonProps } from '@mui/material';
+import React, { FC, ReactNode, useEffect } from "react";
+import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
+import Box from "@mui/material/Box";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
+import { Theme, SxProps } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import { DialogContentStyled } from "./showDialogStyles";
+import { DialogTransitions } from "../transitions";
+import { MemoryRouter } from "react-router-dom";
+import { AppRouterSwitch } from "/imports/app/routes/appRouterSwitch";
+import Styles from "./showDialogStyles";
+import { sysSizing } from "../../materialui/styles";
+import { Button, ButtonProps } from "@mui/material";
 
-export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, 'open' | 'title'> {
+export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, "open" | "title"> {
 	open?: boolean;
-	close?: (event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void;
+	close?: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
 	onOpen?: () => void;
 	onClose?: () => void;
 	title?: ReactNode;
@@ -29,8 +29,8 @@ export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<Dial
 	sx?: SxProps<Theme>;
 	backgroundSx?: SxProps<Theme>;
 	fullScreen?: boolean;
-	fullScreenMediaQuery?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-	transition?: 'slide' | 'grow' | 'zoom' | 'fade';
+	fullScreenMediaQuery?: "xs" | "sm" | "md" | "lg" | "xl";
+	transition?: "slide" | "grow" | "zoom" | "fade";
 	urlPath?: string;
 	children?: ReactNode;
 	confirmButtonLabel?: string;
@@ -68,17 +68,17 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 	useEffect(() => {
 		if (!duration) return;
 		let timer: number | undefined;
-		if (open && duration) timer = window.setTimeout(() => close?.({}, 'backdropClick'), duration);
+		if (open && duration) timer = window.setTimeout(() => close?.({}, "backdropClick"), duration);
 		return () => {
 			if (timer) clearTimeout(timer);
 		};
 	}, [open]);
 
 	const theme = useTheme();
-	const isFullScreen = useMediaQuery(theme.breakpoints.down(fullScreenMediaQuery ?? 'xs'));
+	const isFullScreen = useMediaQuery(theme.breakpoints.down(fullScreenMediaQuery ?? "xs"));
 
 	const closeDialog = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		close?.({}, 'backdropClick');
+		close?.({}, "backdropClick");
 		cancelButtonProps?.onClick?.(e);
 		dialogProps.onClose?.();
 	};
@@ -86,7 +86,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 	const onConfirm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		confirmButtonProps?.onClick?.(e);
 		if (!closeOnConfirm) return;
-		close?.({}, 'backdropClick');
+		close?.({}, "backdropClick");
 		dialogProps.onClose?.();
 	};
 
@@ -95,7 +95,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 			{...dialogProps}
 			open={open ?? false}
 			onClose={closeDialog}
-			TransitionComponent={DialogTransitions(transition ?? 'zoom')}
+			TransitionComponent={DialogTransitions(transition ?? "zoom")}
 			PaperProps={dialogProps.PaperProps ?? { sx: { borderRadius: sysSizing.radiusLg, ...sx } }}
 			sx={backgroundSx}
 			fullScreen={fullScreen || (!!fullScreenMediaQuery && isFullScreen)}>
@@ -112,7 +112,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 							{header || (
 								<Styles.header>
 									{prefixIcon && prefixIcon}
-									{typeof title === 'string' ? (
+									{typeof title === "string" ? (
 										<Typography variant="subtitle1" color={(theme) => theme.palette.sysText?.body}>
 											{title}
 										</Typography>

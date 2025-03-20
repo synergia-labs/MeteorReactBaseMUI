@@ -1,12 +1,12 @@
-import React, { useCallback, useContext, useState } from 'react';
-import Context, { IExampleDetailContext } from './exampleDetailContext';
-import ExampleDetailView from './exampleDetailView';
-import { useNavigate } from 'react-router-dom';
-import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
-import { useTracker } from 'meteor/react-meteor-data';
-import EnumExampleScreenState from '../../../common/enums/enumScreenState';
-import { IMeteorError } from '/imports/typings/IMeteorError';
-import ExampleModuleContext, { IExampleModuleContext } from '../../exampleContext';
+import React, { useCallback, useContext, useState } from "react";
+import Context, { IExampleDetailContext } from "./exampleDetailContext";
+import ExampleDetailView from "./exampleDetailView";
+import { useNavigate } from "react-router-dom";
+import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
+import { useTracker } from "meteor/react-meteor-data";
+import EnumExampleScreenState from "../../../common/enums/enumScreenState";
+import { IMeteorError } from "/imports/typings/IMeteorError";
+import ExampleModuleContext, { IExampleModuleContext } from "../../exampleContext";
 
 const ExampleDetailProvider: React.FC = () => {
 	const navigate = useNavigate();
@@ -38,7 +38,7 @@ const ExampleDetailProvider: React.FC = () => {
 
 	const onSubmit = useCallback(
 		(doc: any) => {
-			const action = state === EnumExampleScreenState.CREATE ? 'insert' : 'update';
+			const action = state === EnumExampleScreenState.CREATE ? "insert" : "update";
 			// exampleApi[action](doc, (error: IMeteorError) => {
 			//     if(error) return showNotification({
 			//         type: 'error',

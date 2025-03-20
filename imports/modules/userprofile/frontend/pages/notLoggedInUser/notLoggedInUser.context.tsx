@@ -1,5 +1,5 @@
-import React, { createContext } from 'react';
-import { CreateUserType } from '../../../common/types/createUser';
+import React, { createContext } from "react";
+import { CreateUserType } from "../../../common/types/createUser";
 
 interface INotLoggedInUserContext {
 	hasAdminUser: boolean;

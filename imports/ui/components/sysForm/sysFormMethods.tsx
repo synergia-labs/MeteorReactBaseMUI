@@ -1,7 +1,7 @@
-import { MutableRefObject } from 'react';
-import { IDocRef, IDocValues, ISysFormComponentRef } from './typings';
-import { hasValue } from '../../../libs/hasValue';
-import { IDefField, SchemaType } from '/imports/base/types/schema';
+import { MutableRefObject } from "react";
+import { IDocRef, IDocValues, ISysFormComponentRef } from "./typings";
+import { hasValue } from "../../../libs/hasValue";
+import { IDefField, SchemaType } from "/imports/base/types/schema";
 
 class SysFormMethods {
 	public static setRefComponent = ({
@@ -20,14 +20,14 @@ class SysFormMethods {
 		fieldsWithOptions: MutableRefObject<IDocRef>;
 	}) => {
 		try {
-			if (!schema) throw new Error('schema não informado ou incompleto.');
-			if (!componentRef || !componentRef.current) throw new Error('componentRef não informado ou inválido.');
-			if (!mainRef) throw new Error('mainRef não informado ou inválido.');
+			if (!schema) throw new Error("schema não informado ou incompleto.");
+			if (!componentRef || !componentRef.current) throw new Error("componentRef não informado ou inválido.");
+			if (!mainRef) throw new Error("mainRef não informado ou inválido.");
 
 			const name = key || componentRef.current.name;
-			if (!name) throw new Error('nome do componente não informado não informado.');
+			if (!name) throw new Error("nome do componente não informado não informado.");
 
-			const path = name.split('.');
+			const path = name.split(".");
 
 			if (path.length === 1) {
 				if (hasValue(mainRef[name])) return mainRef;
@@ -51,7 +51,7 @@ class SysFormMethods {
 				mainRef: (mainRef[path[0]] as IDocRef) || {},
 				componentRef,
 				schema: subSchema,
-				key: path.slice(1).join('.'),
+				key: path.slice(1).join("."),
 				initialDefaultValues: initialDefaultValues?.[path[0]],
 				fieldsWithOptions
 			}) as IDocRef;
@@ -73,7 +73,7 @@ class SysFormMethods {
 		initialRequiredFields: string[];
 		fieldsWithVisibilityFunction: string[];
 	} => {
-		if (!schema) throw new Error('schema não informado ou incompleto.');
+		if (!schema) throw new Error("schema não informado ou incompleto.");
 		for (const key in schema) {
 			const { defaultValue, optional, visibilityFunction, subSchema } = schema[key];
 			if (!subSchema) {
@@ -98,7 +98,7 @@ class SysFormMethods {
 	public static getDocValues = (doc: IDocRef, schema: SchemaType<any>): IDocValues => {
 		const docValues: IDocValues = {};
 		try {
-			if (!schema) throw new Error('schema não informado ou incompleto.');
+			if (!schema) throw new Error("schema não informado ou incompleto.");
 			if (!doc) return docValues;
 			for (const key in schema) {
 				const { subSchema } = schema[key];
@@ -119,9 +119,9 @@ class SysFormMethods {
 
 	public static getValueByName = (doc: IDocValues, name: string): any => {
 		try {
-			const path = name.split('.');
+			const path = name.split(".");
 			if (path.length === 1) return doc[name];
-			return SysFormMethods.getValueByName(doc[path[0]], path.slice(1).join('.'));
+			return SysFormMethods.getValueByName(doc[path[0]], path.slice(1).join("."));
 		} catch (error) {
 			throw new Error(`[SysFormMethods.getValueByName] ${error}`);
 		}
@@ -129,12 +129,12 @@ class SysFormMethods {
 
 	public static getSchemaByName = (schema: SchemaType<any>, name: string): IDefField<any> => {
 		try {
-			if (!schema) throw new Error('schema não informado ou incompleto.');
-			const path = name.split('.');
+			if (!schema) throw new Error("schema não informado ou incompleto.");
+			const path = name.split(".");
 			if (path.length === 1) return schema[name];
 			const { subSchema } = schema[path[0]];
 			if (!subSchema) throw new Error(`[SysFormMethods.getSchemaByName] ${path[0]} não possui subschema.`);
-			return SysFormMethods.getSchemaByName(subSchema, path.slice(1).join('.'));
+			return SysFormMethods.getSchemaByName(subSchema, path.slice(1).join("."));
 		} catch (error) {
 			throw new Error(`[SysFormMethods.getSchemaByName] ${error}`);
 		}
@@ -142,9 +142,9 @@ class SysFormMethods {
 
 	public static getRefComponentByName = (doc: IDocRef, name: string): MutableRefObject<ISysFormComponentRef> => {
 		try {
-			const path = name.split('.');
+			const path = name.split(".");
 			if (path.length === 1) return doc[name] as MutableRefObject<ISysFormComponentRef>;
-			return SysFormMethods.getRefComponentByName(doc[path[0]] as IDocRef, path.slice(1).join('.'));
+			return SysFormMethods.getRefComponentByName(doc[path[0]] as IDocRef, path.slice(1).join("."));
 		} catch (error) {
 			throw new Error(`[SysFormMethods.getRefComponentByName] ${error}`);
 		}
@@ -152,7 +152,7 @@ class SysFormMethods {
 
 	public static checkIfFieldIsVisible = (schema: SchemaType<any>, doc: IDocValues, name: string): boolean => {
 		try {
-			if (!schema) throw new Error('schema não informado ou incompleto.');
+			if (!schema) throw new Error("schema não informado ou incompleto.");
 			const schemaInfo = SysFormMethods.getSchemaByName(schema, name);
 			if (!schemaInfo) return false;
 			if (!schemaInfo.visibilityFunction) return true;
@@ -164,7 +164,7 @@ class SysFormMethods {
 
 	public static updateDoc(doc: IDocValues, schema: SchemaType<any>, ref: IDocRef) {
 		try {
-			if (!schema) throw new Error('schema não informado ou incompleto.');
+			if (!schema) throw new Error("schema não informado ou incompleto.");
 			if (!doc) return;
 			if (!ref) return;
 			for (const key in schema) {
@@ -216,7 +216,7 @@ class SysFormMethods {
 
 			const errorMessage =
 				schema[key].validationFunction?.(value, SysFormMethods.getDocValues(doc, schema)) ??
-				(!isOptional && !hasValue(value) ? 'Campo obrigatório.' : undefined);
+				(!isOptional && !hasValue(value) ? "Campo obrigatório." : undefined);
 
 			ref.current.error = errorMessage;
 			ref.current.setError?.(errorMessage);
@@ -231,10 +231,10 @@ class SysFormMethods {
 			throw new Error(`
                 Erro nos campos: ${Object.keys(fieldsWithErrors.current)
 																	.map((key) => {
-																		const path = key.split('.');
+																		const path = key.split(".");
 																		return path[path.length - 1];
 																	})
-																	.join(', ')}
+																	.join(", ")}
             `);
 	};
 
@@ -247,7 +247,7 @@ class SysFormMethods {
 					continue;
 				}
 				const ref = doc[key] as MutableRefObject<ISysFormComponentRef>;
-				ref.current.value = '';
+				ref.current.value = "";
 				ref.current.clearValue?.();
 			}
 		} catch (error) {

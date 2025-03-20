@@ -1,7 +1,7 @@
-import { ServerBase } from '../server.base';
-import EnumUserRoles from '../../../modules/userprofile/common/enums/enumUserRoles';
-import { IContext } from '/imports/typings/IContext';
-import { z } from 'zod';
+import { ServerBase } from "../server.base";
+import EnumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
+import { IContext } from "/imports/typings/IContext";
+import { z } from "zod";
 
 interface IMethodBase {
 	roles?: EnumUserRoles[];

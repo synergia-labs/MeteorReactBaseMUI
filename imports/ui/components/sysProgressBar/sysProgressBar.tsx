@@ -1,6 +1,6 @@
-import React from 'react';
-import SysProgressBarStyles from './sysProgressBarStyle';
-import { SxProps, Theme } from '@mui/system';
+import React from "react";
+import SysProgressBarStyles from "./sysProgressBarStyle";
+import { SxProps, Theme } from "@mui/system";
 
 const { Container, ProgressBar } = SysProgressBarStyles;
 /**
@@ -68,7 +68,7 @@ const SysProgressBar: React.FC<ISysProgressBar> = ({ progress, sxMap }) => {
 				value={progress ? progress : componentProgress}
 				aria-labelledby="discrete-slider"
 				// Exibe o rótulo de valor somente quando o mouse está sobre a barra
-				valueLabelDisplay={hovered ? 'on' : 'off'}
+				valueLabelDisplay={hovered ? "on" : "off"}
 				valueLabelFormat={valuetext}
 				min={0}
 				max={100}

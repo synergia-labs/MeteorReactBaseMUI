@@ -1,8 +1,8 @@
-import React, { ReactNode, useCallback } from 'react';
-import AuthContext, { IAuthContext } from './authContext';
-import { useTracker } from 'meteor/react-meteor-data';
-import { Meteor } from 'meteor/meteor';
-import { hasValue } from '/imports/libs/hasValue';
+import React, { ReactNode, useCallback } from "react";
+import AuthContext, { IAuthContext } from "./authContext";
+import { useTracker } from "meteor/react-meteor-data";
+import { Meteor } from "meteor/meteor";
+import { hasValue } from "/imports/libs/hasValue";
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	const userLoggedIn = useTracker(() => !!Meteor.userId(), []);

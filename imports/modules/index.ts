@@ -1,6 +1,6 @@
-import { IAppMenu, IModuleRoutes, IRoute } from './modulesTypings';
-import Example from './example/config';
-import Users from './userprofile/routes';
+import { IAppMenu, IModuleRoutes, IRoute } from "./modulesTypings";
+import Example from "./example/config";
+import Users from "./userprofile/routes";
 
 const pages: Array<IRoute | null> = [...Example.pagesRouterList, ...Users.pagesRouterList];
 

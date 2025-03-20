@@ -1,30 +1,30 @@
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from "react";
 import AppLayoutContext, {
 	IAppLayoutContext,
 	ICloseDialog,
 	ICloseNotification,
 	ISysThemeOptions
-} from './appLayoutContext';
-import { IShowNotificationProps, ShowNotification } from '/imports/ui/appComponents/showNotification/showNotification';
-import { ISysGeneralComponentsCommon } from '/imports/typings/BoilerplateDefaultTypings';
-import { IShowDrawerProps, ShowDrawer } from '/imports/ui/appComponents/showDrawer/showDrawer';
-import { IShowDialogProps, ShowDialog } from '/imports/ui/appComponents/showDialog/showDialog';
-import GlobalStyles from '@mui/material/GlobalStyles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
-import { getTheme } from '/imports/ui/materialui/theme';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ISysTemplate, SysTemplateOptions } from '/imports/ui/templates/getTemplate';
-import sysRoutes from '../routes/routes';
+} from "./appLayoutContext";
+import { IShowNotificationProps, ShowNotification } from "/imports/ui/appComponents/showNotification/showNotification";
+import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
+import { IShowDrawerProps, ShowDrawer } from "/imports/ui/appComponents/showDrawer/showDrawer";
+import { IShowDialogProps, ShowDialog } from "/imports/ui/appComponents/showDialog/showDialog";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import { getTheme } from "/imports/ui/materialui/theme";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ISysTemplate, SysTemplateOptions } from "/imports/ui/templates/getTemplate";
+import sysRoutes from "../routes/routes";
 
 const defaultState: ISysGeneralComponentsCommon = { open: false };
 
 const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => {
-	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 	const userAgent = window.navigator.userAgent.toLowerCase();
 	const isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(userAgent);
 	const isTablet = /ipad|android 3.0|xoom|sch-i800|playbook|tablet|kindle/.test(userAgent);
-	const deviceType: 'mobile' | 'tablet' | 'desktop' = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
+	const deviceType: "mobile" | "tablet" | "desktop" = isMobile ? "mobile" : isTablet ? "tablet" : "desktop";
 
 	const [showNotification, setShowNotification] = useState<IShowNotificationProps>(defaultState);
 	const [showDrawer, setShowDrawer] = useState<IShowDrawerProps>(defaultState);
@@ -42,12 +42,12 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 		return (
 			<GlobalStyles
 				styles={{
-					scrollbarColor: '#ccc #00000012',
-					scrollbarWidth: 'thin',
-					'::-webkit-scrollbar': { width: '10px', height: '8px', margin: '16px' },
-					'::-webkit-scrollbar-track': { background: '#00000012', margin: '16px', borderRadius: '20px' },
-					'::-webkit-scrollbar-thumb': { background: '#ccc', borderRadius: '20px' },
-					'::-webkit-scrollbar-thumb:hover': { background: '#bbb' }
+					"scrollbarColor": "#ccc #00000012",
+					"scrollbarWidth": "thin",
+					"::-webkit-scrollbar": { width: "10px", height: "8px", margin: "16px" },
+					"::-webkit-scrollbar-track": { background: "#00000012", margin: "16px", borderRadius: "20px" },
+					"::-webkit-scrollbar-thumb": { background: "#ccc", borderRadius: "20px" },
+					"::-webkit-scrollbar-thumb:hover": { background: "#bbb" }
 				}}
 			/>
 		);
@@ -55,7 +55,7 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 
 	//region Show Notification
 	const handleCloseNotification = useCallback(({ event, reason, callBack }: ICloseNotification = {}) => {
-		if (reason === 'clickaway') return;
+		if (reason === "clickaway") return;
 		setShowNotification(defaultState);
 		callBack?.(event, reason);
 	}, []);

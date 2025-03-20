@@ -1,5 +1,5 @@
-import React, { createContext } from 'react';
-import { Meteor } from 'meteor/meteor';
+import React, { createContext } from "react";
+import { Meteor } from "meteor/meteor";
 interface IAuthContext {
 	user: Meteor.User | null;
 	userLoggedIn: boolean;

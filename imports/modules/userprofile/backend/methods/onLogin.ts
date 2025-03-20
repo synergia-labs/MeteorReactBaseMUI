@@ -1,8 +1,8 @@
-import { z } from 'zod';
-import { UserProfileServer } from '../server';
-import MethodBase from '/imports/base/server/methods/method.base';
-import { IContext } from '/imports/typings/IContext';
-import { onLoginSchema, OnLoginType } from '../../common/types/onLogin';
+import { z } from "zod";
+import { UserProfileServer } from "../server";
+import MethodBase from "/imports/base/server/methods/method.base";
+import { IContext } from "/imports/typings/IContext";
+import { onLoginSchema, OnLoginType } from "../../common/types/onLogin";
 
 /**
  * Método chamado quando um usuário faz login.
@@ -16,7 +16,7 @@ import { onLoginSchema, OnLoginType } from '../../common/types/onLogin';
 class OnLogin extends MethodBase<UserProfileServer, OnLoginType, void> {
 	constructor() {
 		super({
-			name: 'users.onLogin',
+			name: "users.onLogin",
 			paramSch: onLoginSchema,
 			returnSch: z.void(),
 			canRegister: false
@@ -27,7 +27,7 @@ class OnLogin extends MethodBase<UserProfileServer, OnLoginType, void> {
 		if (!user?._id) return;
 		await this.getServerInstance()?.mongoInstance.updateAsync(
 			{ _id: user._id },
-			{ $set: { 'profile.connected': true, 'profile.lastAccess': new Date() } }
+			{ $set: { "profile.connected": true, "profile.lastAccess": new Date() } }
 		);
 
 		const onLogoutHandler = this.getServerInstance()?.onLogout.bind(this.getServerInstance(), { user });

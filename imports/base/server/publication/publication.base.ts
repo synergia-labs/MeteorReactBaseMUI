@@ -1,9 +1,9 @@
-import ServerBase from '../server.base';
-import ActionsBase, { IActionsBase } from '../actions.base';
-import { Mongo } from 'meteor/mongo';
-import { Meteor, Subscription } from 'meteor/meteor';
-import { IContext } from '/imports/typings/IContext';
-import { z } from 'zod';
+import ServerBase from "../server.base";
+import ActionsBase, { IActionsBase } from "../actions.base";
+import { Mongo } from "meteor/mongo";
+import { Meteor, Subscription } from "meteor/meteor";
+import { IContext } from "/imports/typings/IContext";
+import { z } from "zod";
 
 interface IPublicationBase extends IActionsBase {
 	enableCountPublication?: boolean;
@@ -23,7 +23,7 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 	constructor({ enableCountPublication = false, transformedPublication = false, ...props }: IPublicationBase) {
 		super({
 			...props,
-			actionType: 'publication',
+			actionType: "publication",
 			returnSch: undefined,
 			paramSch: undefined
 		});
@@ -58,7 +58,7 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 
 	protected generateError({
 		_message,
-		_code = '500',
+		_code = "500",
 		_context
 	}: {
 		_message: string;
@@ -86,7 +86,7 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 				this.returnPubliSch.parse(doc);
 			});
 			if (errors.length > 0) {
-				throw new Meteor.Error('500', `Os documentos não estão de acordo com o schema: \n${errors.join('\n')}`);
+				throw new Meteor.Error("500", `Os documentos não estão de acordo com o schema: \n${errors.join("\n")}`);
 			}
 		}
 		super.afterAction(_param, _result, _context);
@@ -97,7 +97,7 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 	}
 
 	async transformPublication(_doc: Return, _context: IContext): Promise<Return> {
-		throw new Meteor.Error('500', 'O método transformPublication deve ser implementado');
+		throw new Meteor.Error("500", "O método transformPublication deve ser implementado");
 	}
 }
 

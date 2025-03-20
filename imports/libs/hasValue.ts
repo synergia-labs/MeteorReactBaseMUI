@@ -4,8 +4,8 @@ export const isBoolean = (value: any) => {
 	}
 
 	if (
-		typeof value === 'boolean' ||
-		(typeof value === 'object' && (value.toString() === 'false' || value.toString() === 'true'))
+		typeof value === "boolean" ||
+		(typeof value === "object" && (value.toString() === "false" || value.toString() === "true"))
 	) {
 		return true;
 	}
@@ -13,7 +13,7 @@ export const isBoolean = (value: any) => {
 	return false;
 };
 
-export const getTypeOf = (obj: any) => ({}).toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();
+export const getTypeOf = (obj: any) => ({}).toString.call(obj).split(" ")[1].slice(0, -1).toLowerCase();
 
 export const hasValue = (value: any) => {
 	if (isBoolean(value)) {
@@ -21,18 +21,18 @@ export const hasValue = (value: any) => {
 	}
 
 	switch (getTypeOf(value)) {
-		case 'undefined':
+		case "undefined":
 			return false;
-		case 'null':
+		case "null":
 			return false;
-		case 'number':
+		case "number":
 			return !isNaN(value);
-		case 'object':
+		case "object":
 			return Object.keys(value).length > 0;
-		case 'array':
+		case "array":
 			return value.length > 0;
-		case 'string':
-			return value.trim() !== '';
+		case "string":
+			return value.trim() !== "";
 		default:
 			return true;
 	}

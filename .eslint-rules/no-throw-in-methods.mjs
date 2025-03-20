@@ -2,10 +2,10 @@
 
 export default {
 	meta: {
-		type: 'problem',
+		type: "problem",
 		docs: {
 			description:
-				'Proíbe o uso de throw em classes que estendem MethodBase, PublicationBase, CreateMethodBase ou ActionBase'
+				"Proíbe o uso de throw em classes que estendem MethodBase, PublicationBase, CreateMethodBase ou ActionBase"
 		},
 		messages: {
 			noThrow:
@@ -29,15 +29,15 @@ export default {
 
 					// Verificando se a superclasse corresponde a uma das classes especificadas
 					if (
-						superClassName === 'MethodBase' ||
-						superClassName === 'PublicationBase' ||
-						superClassName === 'CreateMethodBase' ||
-						superClassName === 'ActionBase'
+						superClassName === "MethodBase" ||
+						superClassName === "PublicationBase" ||
+						superClassName === "CreateMethodBase" ||
+						superClassName === "ActionBase"
 					) {
 						// Relatando o erro se a classe for uma subclasse de uma das mencionadas
 						context.report({
 							node,
-							messageId: 'noThrow'
+							messageId: "noThrow"
 						});
 					}
 				}

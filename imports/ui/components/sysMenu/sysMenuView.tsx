@@ -1,11 +1,11 @@
-import React, { ElementType, useContext } from 'react';
-import Context, { ISysMenuContext } from './sysMenuContext';
-import { MenuProps } from '@mui/material/Menu';
-import Styles from './sysMenuStyles';
-import SysMenuItemDefault from './components/sysMenuItemDefault';
-import RenderWithPermission from '/imports/security/ui/components/renderWithPermission';
+import React, { ElementType, useContext } from "react";
+import Context, { ISysMenuContext } from "./sysMenuContext";
+import { MenuProps } from "@mui/material/Menu";
+import Styles from "./sysMenuStyles";
+import SysMenuItemDefault from "./components/sysMenuItemDefault";
+import RenderWithPermission from "/imports/security/ui/components/renderWithPermission";
 
-const SysMenuView: React.FC<Omit<MenuProps, 'open' | 'anchorEl' | 'onClose'>> = ({ children, ...menuProps }) => {
+const SysMenuView: React.FC<Omit<MenuProps, "open" | "anchorEl" | "onClose">> = ({ children, ...menuProps }) => {
 	const context = useContext<ISysMenuContext>(Context);
 	const ContentContainer: ElementType = context?.contentContainer ?? Styles.conteudoContainer;
 	return (

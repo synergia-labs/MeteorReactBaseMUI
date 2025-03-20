@@ -1,5 +1,5 @@
 export enum enumSecurityConfig {
-	apiName = 'SecurityService',
-	roleCollectionName = 'Roles',
-	methodCollectionName = 'Methods'
+	apiName = "SecurityService",
+	roleCollectionName = "Roles",
+	methodCollectionName = "Methods"
 }

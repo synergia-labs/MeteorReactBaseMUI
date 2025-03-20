@@ -1,10 +1,10 @@
-import React, { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
-import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
-import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
-import usersApi from '../../api/api';
-import { CreateUserType } from '../../../common/types/createUser';
-import Context, { INotLoggedInUserContext } from './notLoggedInUser.context';
-import { useNavigate } from 'react-router-dom';
+import React, { ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
+import AuthContext, { IAuthContext } from "/imports/app/authProvider/authContext";
+import usersApi from "../../api/api";
+import { CreateUserType } from "../../../common/types/createUser";
+import Context, { INotLoggedInUserContext } from "./notLoggedInUser.context";
+import { useNavigate } from "react-router-dom";
 
 interface INotLoggedInUserContainerProps {
 	children?: ReactNode;
@@ -21,10 +21,10 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({ ch
 		usersApi.checkIfHasAdminUser(undefined, (error, result) => {
 			if (error)
 				return showNotification({
-					type: 'error',
-					title: 'Erro ao verificar existência de usuário administrador',
+					type: "error",
+					title: "Erro ao verificar existência de usuário administrador",
 					message:
-						'Ocorreu um erro ao verificar se existe um usuário administrador cadastrado no sistema. Por favor, tente novamente.'
+						"Ocorreu um erro ao verificar se existe um usuário administrador cadastrado no sistema. Por favor, tente novamente."
 				});
 			setHasAdminUser(result);
 		});
@@ -34,27 +34,27 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({ ch
 		usersApi.create(doc, (error) => {
 			if (error)
 				return showNotification({
-					type: 'error',
-					title: 'Erro ao criar usuário',
-					message: 'Ocorreu um erro ao criar o usuário. Por favor, tente novamente.'
+					type: "error",
+					title: "Erro ao criar usuário",
+					message: "Ocorreu um erro ao criar o usuário. Por favor, tente novamente."
 				});
 			showNotification({
-				type: 'success',
-				title: 'Usuário criado',
+				type: "success",
+				title: "Usuário criado",
 				message: `O usuário ${doc.name} foi criado com sucesso.`
 			});
-			navigate('/guest/sign-in');
+			navigate("/guest/sign-in");
 		});
 	}, []);
 
 	const callBackLogin = useCallback((error: any) => {
 		if (error)
 			return showNotification({
-				type: 'error',
-				title: 'Erro ao logar',
-				message: 'Ocorreu um erro ao logar no sistema. Por favor, tente novamente.'
+				type: "error",
+				title: "Erro ao logar",
+				message: "Ocorreu um erro ao logar no sistema. Por favor, tente novamente."
 			});
-		navigate('/');
+		navigate("/");
 	}, []);
 
 	const sendResetPasswordEmail = useCallback((email: string, callback: (error: Meteor.Error) => void) => {
@@ -65,11 +65,11 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({ ch
 		(token: string, newPassword: string, callback: (error?: Error | Meteor.Error) => void) => {
 			usersApi.resetForgotPassword(token, newPassword, (error) => {
 				if (!error) {
-					navigate('/');
+					navigate("/");
 					showDialog({
-						title: 'Senha alterada',
-						message: 'Sua senha foi alterada com sucesso. Seja bem-vindo de volta!',
-						confirmButtonLabel: 'Ok'
+						title: "Senha alterada",
+						message: "Sua senha foi alterada com sucesso. Seja bem-vindo de volta!",
+						confirmButtonLabel: "Ok"
 					});
 				}
 				callback(error);
@@ -78,7 +78,7 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({ ch
 		[]
 	);
 
-	const loginWithGithub = useCallback(() => Meteor.loginWithGithub({ requestPermissions: ['user'] }, callBackLogin), []);
+	const loginWithGithub = useCallback(() => Meteor.loginWithGithub({ requestPermissions: ["user"] }, callBackLogin), []);
 	const loginWithGoogle = useCallback(() => Meteor.loginWithGoogle({}, callBackLogin), []);
 	const loginWithPassword = useCallback(
 		({ email, password }: { email: string; password: string }) =>

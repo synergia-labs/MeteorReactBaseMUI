@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { userProfileSchema } from './meteorUser';
+import { z } from "zod";
+import { userProfileSchema } from "./meteorUser";
 
 export const createUserSchema = userProfileSchema.extend({
 	email: z.string().email(),

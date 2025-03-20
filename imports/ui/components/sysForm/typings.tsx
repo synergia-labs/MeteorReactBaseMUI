@@ -1,7 +1,7 @@
-import { MutableRefObject } from 'react';
-import { IOption } from '../InterfaceBaseSimpleFormComponent';
-import { IDefField, SchemaType } from '/imports/base/types/schema';
-import React from 'react';
+import { MutableRefObject } from "react";
+import { IOption } from "../InterfaceBaseSimpleFormComponent";
+import { IDefField, SchemaType } from "/imports/base/types/schema";
+import React from "react";
 
 interface IDocValues {
 	[key: string]: any;
@@ -14,7 +14,7 @@ interface IDocRef {
 interface ISysForm {
 	schema: SchemaType<any>;
 	doc?: IDocValues;
-	mode?: 'view' | 'edit' | 'create';
+	mode?: "view" | "edit" | "create";
 	ref?: React.RefObject<HTMLFormElement>;
 	debugAlerts?: boolean;
 	disabled?: boolean;
@@ -48,7 +48,7 @@ interface ISysFormRef {
 }
 
 interface ISysFormContext {
-	mode: 'view' | 'edit' | 'create';
+	mode: "view" | "edit" | "create";
 	loading: boolean;
 	disabled: boolean;
 	docId?: string;
@@ -104,7 +104,7 @@ interface ISysFormButtonRef {
 interface ISysFormState {
 	loading: boolean;
 	disabled: boolean;
-	mode: 'view' | 'edit' | 'create';
+	mode: "view" | "edit" | "create";
 	fieldsWithErrors: { [key: string]: string | undefined };
 }
 

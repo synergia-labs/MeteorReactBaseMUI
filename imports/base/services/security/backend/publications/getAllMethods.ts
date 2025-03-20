@@ -1,16 +1,16 @@
-import { enumSecurityConfig } from '../../common/enums/config.enum';
-import { enumSecurityPublications } from '../../common/enums/publications.enum';
-import { paramGetAllSch, ParamGetAllType, returnGetMethodSch, ReturnGetMethodType } from '../../common/types/get';
-import { SecurityServer } from '../security.server';
-import PublicationBase from '/imports/base/server/publication/publication.base';
-import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
-import { IContext } from '/imports/typings/IContext';
+import { enumSecurityConfig } from "../../common/enums/config.enum";
+import { enumSecurityPublications } from "../../common/enums/publications.enum";
+import { paramGetAllSch, ParamGetAllType, returnGetMethodSch, ReturnGetMethodType } from "../../common/types/get";
+import { SecurityServer } from "../security.server";
+import PublicationBase from "/imports/base/server/publication/publication.base";
+import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import { IContext } from "/imports/typings/IContext";
 
 class GetAllMethodsPublication extends PublicationBase<SecurityServer, ParamGetAllType, ReturnGetMethodType> {
 	constructor() {
 		super({
 			name: enumSecurityPublications.getAllMethodsPublication,
-			description: 'Retorna todos os métodos disponíveis para uma determinada referência',
+			description: "Retorna todos os métodos disponíveis para uma determinada referência",
 			roles: [EnumUserRoles.ADMIN],
 			paramSch: paramGetAllSch,
 			returnSch: returnGetMethodSch,
@@ -25,7 +25,7 @@ class GetAllMethodsPublication extends PublicationBase<SecurityServer, ParamGetA
 		_context: IContext
 	): Promise<any> {
 		const server = this.getServerInstance()?.getMethodCollection();
-		if (!server) throw new Error('Server instance not found');
+		if (!server) throw new Error("Server instance not found");
 
 		const alreadyFound: Array<string> = [];
 

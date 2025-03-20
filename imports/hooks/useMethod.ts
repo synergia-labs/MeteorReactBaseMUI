@@ -1,8 +1,8 @@
-import { Meteor } from 'meteor/meteor';
-import React, { useEffect, useRef, useState } from 'react';
-import { ProductBase } from '../api/productBase';
-import { IMeteorError } from '../typings/BoilerplateDefaultTypings';
-import { IDoc } from '../typings/IDoc';
+import { Meteor } from "meteor/meteor";
+import React, { useEffect, useRef, useState } from "react";
+import { ProductBase } from "../api/productBase";
+import { IMeteorError } from "../typings/BoilerplateDefaultTypings";
+import { IDoc } from "../typings/IDoc";
 
 const isObjectEqual = (objA: object, objB: object) => {
 	return JSON.stringify(objA) === JSON.stringify(objB);

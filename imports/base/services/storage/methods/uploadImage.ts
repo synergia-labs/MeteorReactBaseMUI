@@ -1,12 +1,12 @@
-import { IContext } from '/imports/typings/IContext';
-import { enumStorageMethods } from '../common/enums/methods.enum';
-import storageService, { StorageServer } from '../storage.server';
-import { UploadStorageBase } from './bases/upload';
-import { Buffer } from 'buffer';
-import EnumUserRoles from '../../../../modules/userprofile/common/enums/enumUserRoles';
-import storageServer from '../storage.server';
-import { enumFileType } from '../common/types/file.type';
-import { ParamUploadArchiveType, ReturnUploadArchiveType } from '../common/types/uploadArchive';
+import { IContext } from "/imports/typings/IContext";
+import { enumStorageMethods } from "../common/enums/methods.enum";
+import storageService, { StorageServer } from "../storage.server";
+import { UploadStorageBase } from "./bases/upload";
+import { Buffer } from "buffer";
+import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
+import storageServer from "../storage.server";
+import { enumFileType } from "../common/types/file.type";
+import { ParamUploadArchiveType, ReturnUploadArchiveType } from "../common/types/uploadArchive";
 
 class UploadImage extends UploadStorageBase {
 	constructor() {
@@ -18,7 +18,7 @@ class UploadImage extends UploadStorageBase {
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
 		const imageCollection = this.getServerInstance()?.getImageCollection();
-		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== 'archive'));
+		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== "archive"));
 
 		const objec = await imageCollection?.write(param.archive.content as Buffer, {
 			meta: partialDoc,
@@ -29,7 +29,7 @@ class UploadImage extends UploadStorageBase {
 
 		if (!objec) {
 			this.generateError({
-				_message: 'Failed to upload image',
+				_message: "Failed to upload image",
 				_context
 			});
 		}

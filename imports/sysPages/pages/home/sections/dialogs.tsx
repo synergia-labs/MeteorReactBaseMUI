@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import HomeSection from '../components/section';
-import { Button } from '@mui/material';
-import HomeStyles from '../homeStyle';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import React, { useContext } from "react";
+import HomeSection from "../components/section";
+import { Button } from "@mui/material";
+import HomeStyles from "../homeStyle";
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
 
 const HomeSectionDialogs: React.FC = () => {
 	const { showDialog, ...sysLayoutContext } = useContext<IAppLayoutContext>(AppLayoutContext);
@@ -36,43 +36,43 @@ const HomeSectionDialogs: React.FC = () => {
 			<RowButtons>
 				<Button
 					color="secondary"
-					startIcon={<SysIcon name={'highlightOff'} />}
+					startIcon={<SysIcon name={"highlightOff"} />}
 					onClick={() => sysLayoutContext.closeDialog()}>
 					Fechar Dialog
 				</Button>
 
 				<Button
 					color="secondary"
-					startIcon={<SysIcon name={'highlightOff'} />}
+					startIcon={<SysIcon name={"highlightOff"} />}
 					onClick={() => sysLayoutContext.closeModal()}>
 					Fechar Modal
 				</Button>
 
 				<Button
 					color="secondary"
-					startIcon={<SysIcon name={'highlightOff'} />}
+					startIcon={<SysIcon name={"highlightOff"} />}
 					onClick={() => sysLayoutContext.closeWindow()}
-					sx={{ mr: '1.5rem' }}>
+					sx={{ mr: "1.5rem" }}>
 					Fechar window
 				</Button>
 
 				<Button
 					color="primary"
-					startIcon={<SysIcon name={'thumbUpAlt'} />}
+					startIcon={<SysIcon name={"thumbUpAlt"} />}
 					onClick={() => {
 						showDialog({
-							title: 'Confirmar cadastro',
-							message: 'Tem certeza que deseja confirmar o cadastro dos dados preenchidos?',
-							confirmButtonLabel: 'Confirmar',
-							cancelButtonLabel: 'Cancelar',
+							title: "Confirmar cadastro",
+							message: "Tem certeza que deseja confirmar o cadastro dos dados preenchidos?",
+							confirmButtonLabel: "Confirmar",
+							cancelButtonLabel: "Cancelar",
 							cancelButtonProps: {
-								startIcon: <SysIcon name={'close'} />
+								startIcon: <SysIcon name={"close"} />
 							},
 							confirmButtonProps: {
-								startIcon: <SysIcon name={'check'} />,
+								startIcon: <SysIcon name={"check"} />,
 								onClick: () => {
 									sysLayoutContext.showNotification({
-										message: 'Dados salvos!'
+										message: "Dados salvos!"
 									});
 								}
 							}
@@ -83,21 +83,21 @@ const HomeSectionDialogs: React.FC = () => {
 
 				<Button
 					color="primary"
-					startIcon={<SysIcon name={'warningAmber'} />}
+					startIcon={<SysIcon name={"warningAmber"} />}
 					onClick={() => {
 						showDialog({
-							title: 'Excluir arquivo',
-							message: 'Tem certeza que deseja excluir o arquivo xx.csv?',
-							confirmButtonLabel: 'Excluir',
-							cancelButtonLabel: 'Cancelar',
+							title: "Excluir arquivo",
+							message: "Tem certeza que deseja excluir o arquivo xx.csv?",
+							confirmButtonLabel: "Excluir",
+							cancelButtonLabel: "Cancelar",
 							cancelButtonProps: {
-								startIcon: <SysIcon name={'close'} />
+								startIcon: <SysIcon name={"close"} />
 							},
 							confirmButtonProps: {
-								startIcon: <SysIcon name={'delete'} />,
+								startIcon: <SysIcon name={"delete"} />,
 								onClick: () => {
 									sysLayoutContext.showNotification({
-										message: 'Excluído com sucesso!'
+										message: "Excluído com sucesso!"
 									});
 								}
 							}
@@ -108,10 +108,10 @@ const HomeSectionDialogs: React.FC = () => {
 
 				<Button
 					color="primary"
-					startIcon={<SysIcon name={'desktopWindows'} />}
+					startIcon={<SysIcon name={"desktopWindows"} />}
 					onClick={() => {
 						sysLayoutContext.showWindow({
-							urlPath: '/'
+							urlPath: "/"
 						});
 					}}>
 					Mostrar janela com rota

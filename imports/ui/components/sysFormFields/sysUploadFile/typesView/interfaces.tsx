@@ -1,6 +1,6 @@
-import { FilesViewType } from '../acceptableTypes';
-import { SxProps, Theme } from '@mui/material';
-import { IFile } from './cards/interfaces';
+import { FilesViewType } from "../acceptableTypes";
+import { SxProps, Theme } from "@mui/material";
+import { IFile } from "./cards/interfaces";
 
 export interface ITypesView {
 	files: Array<IFile>;

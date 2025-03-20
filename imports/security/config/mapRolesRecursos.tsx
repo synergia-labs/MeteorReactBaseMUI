@@ -1,7 +1,7 @@
-import { Recurso as Exemplo } from '/imports/modules/example/config/recursos';
-import { Recurso as Usuarios } from '/imports/modules/userprofile_/config/recurso';
-import { HomeResources, SysFormTestPageResources } from '/imports/sysPages/config/resources';
-import EnumUserRoles from '../../modules/userprofile/common/enums/enumUserRoles';
+import { Recurso as Exemplo } from "/imports/modules/example/config/recursos";
+import { Recurso as Usuarios } from "/imports/modules/userprofile_/config/recurso";
+import { HomeResources, SysFormTestPageResources } from "/imports/sysPages/config/resources";
+import EnumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 
 const _getAllValues = (obj: any) => Object.keys(obj).map((key) => obj[key]);
 

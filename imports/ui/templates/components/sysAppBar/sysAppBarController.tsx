@@ -1,15 +1,15 @@
-import React, { ReactNode, useCallback, useContext, useRef } from 'react';
-import Context, { ISysAppBarContext } from './sysAppBarContext';
-import { useNavigate } from 'react-router-dom';
-import SysAppBarView from './sysAppBarView';
-import AuthContext from '/imports/app/authProvider/authContext';
-import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
-import { ISysMenuItem, ISysMenuRef } from '/imports/ui/components/sysMenu/sysMenuProvider';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-import sysRoutes from '/imports/app/routes/routes';
-import { hasValue } from '/imports/libs/hasValue';
-import { IAppMenu } from '/imports/modules/modulesTypings';
-import SysAvatar from '/imports/ui/components/sysAvatar/sysAvatar';
+import React, { ReactNode, useCallback, useContext, useRef } from "react";
+import Context, { ISysAppBarContext } from "./sysAppBarContext";
+import { useNavigate } from "react-router-dom";
+import SysAppBarView from "./sysAppBarView";
+import AuthContext from "/imports/app/authProvider/authContext";
+import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
+import { ISysMenuItem, ISysMenuRef } from "/imports/ui/components/sysMenu/sysMenuProvider";
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import sysRoutes from "/imports/app/routes/routes";
+import { hasValue } from "/imports/libs/hasValue";
+import { IAppMenu } from "/imports/modules/modulesTypings";
+import SysAvatar from "/imports/ui/components/sysAvatar/sysAvatar";
 
 interface ISysAppBarController {
 	logo?: ReactNode;
@@ -24,10 +24,10 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo, menuOptions = [] }) =
 	const menuPerfilRef = useRef<ISysMenuRef>(null);
 	const menuMobileRef = useRef<ISysMenuRef>(null);
 
-	const onClickLogo = useCallback((): void => navigate('/'), [navigate]);
+	const onClickLogo = useCallback((): void => navigate("/"), [navigate]);
 
 	const onLogout = useCallback(async (): Promise<void> => {
-		logout(() => navigate('/'));
+		logout(() => navigate("/"));
 	}, [navigate]);
 
 	const abrirMenuPerfil = useCallback(
@@ -47,16 +47,16 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo, menuOptions = [] }) =
 	const getOpcoesMenuDeUsuario = useCallback(
 		(): Array<ISysMenuItem> => [
 			{
-				key: 'perfil',
+				key: "perfil",
 				otherProps: {
-					label: user?.profile?.name || '-',
+					label: user?.profile?.name || "-",
 					startIcon: <SysAvatar name={user?.profile?.name} src={user?.profile?.photo} />
 				}
 			},
 			{
-				key: 'sair',
+				key: "sair",
 				onClick: onLogout,
-				otherProps: { label: 'Sair', startIcon: <SysIcon name="logout" /> }
+				otherProps: { label: "Sair", startIcon: <SysIcon name="logout" /> }
 			}
 		],
 		[user, showModal, onLogout]
@@ -66,14 +66,14 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo, menuOptions = [] }) =
 		(): Array<ISysMenuItem> =>
 			menuOptions
 				.map((option) => {
-					const verificaUsuarioLogadoERotaProtegida = !user && sysRoutes.checkIfRouteIsProtected(option?.path || '');
+					const verificaUsuarioLogadoERotaProtegida = !user && sysRoutes.checkIfRouteIsProtected(option?.path || "");
 					if (!hasValue(option) || verificaUsuarioLogadoERotaProtegida) return null;
 					return {
-						key: 'menu-' + option?.name,
-						onClick: () => navigate(option?.path || ''),
+						key: "menu-" + option?.name,
+						onClick: () => navigate(option?.path || ""),
 						resources: option?.resources,
 						otherProps: {
-							label: option?.name || '',
+							label: option?.name || "",
 							startIcon: option?.icon
 						}
 					};
@@ -83,7 +83,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo, menuOptions = [] }) =
 	);
 
 	const providerValue: ISysAppBarContext = {
-		userName: user?.profile?.name || '-',
+		userName: user?.profile?.name || "-",
 		userPhoto: user?.profile?.photo,
 		menuOptions,
 		menuPerfilRef,

@@ -1,11 +1,11 @@
-import React, { ReactNode, useEffect } from 'react';
-import { ISysGeneralComponentsCommon } from '../../../typings/BoilerplateDefaultTypings';
-import { SxProps, Theme } from '@mui/material';
-import Drawer, { DrawerProps } from '@mui/material/Drawer';
+import React, { ReactNode, useEffect } from "react";
+import { ISysGeneralComponentsCommon } from "../../../typings/BoilerplateDefaultTypings";
+import { SxProps, Theme } from "@mui/material";
+import Drawer, { DrawerProps } from "@mui/material/Drawer";
 
-export interface IShowDrawerProps extends ISysGeneralComponentsCommon, Omit<DrawerProps, 'open' | 'onClose'> {
+export interface IShowDrawerProps extends ISysGeneralComponentsCommon, Omit<DrawerProps, "open" | "onClose"> {
 	/** Define o lado do ancoramento do Drawer. */
-	anchor?: 'left' | 'right' | 'top' | 'bottom';
+	anchor?: "left" | "right" | "top" | "bottom";
 	/** Estilização customizada do Drawer seguindo padrões Material-UI. */
 	sx?: SxProps<Theme>;
 	/** Estilos personalizados aplicados especificamente ao fundo do Drawer. */
@@ -36,7 +36,7 @@ export interface IShowDrawerProps extends ISysGeneralComponentsCommon, Omit<Draw
 export const ShowDrawer: React.FC<IShowDrawerProps> = ({
 	open = false,
 	close,
-	anchor = 'left',
+	anchor = "left",
 	sx,
 	sxBackground,
 	children,
@@ -46,7 +46,7 @@ export const ShowDrawer: React.FC<IShowDrawerProps> = ({
 	useEffect(() => {
 		if (!duration) return;
 		let timer: number | undefined;
-		if (open && duration) timer = window.setTimeout(() => close?.({}, 'backdropClick'), duration);
+		if (open && duration) timer = window.setTimeout(() => close?.({}, "backdropClick"), duration);
 		return () => {
 			if (timer) clearTimeout(timer);
 		};

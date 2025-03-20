@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import { useParams } from 'react-router-dom';
-import Styles from './resetPassword.styles';
-import SysForm from '/imports/ui/components/sysForm/sysForm';
-import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
-import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
-import resetPasswordFrontSchema from './resetPassword.schema';
+import React, { useContext, useState } from "react";
+import Typography from "@mui/material/Typography";
+import { useParams } from "react-router-dom";
+import Styles from "./resetPassword.styles";
+import SysForm from "/imports/ui/components/sysForm/sysForm";
+import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
+import Context, { INotLoggedInUserContext } from "../notLoggedInUser.context";
+import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
+import resetPasswordFrontSchema from "./resetPassword.schema";
 
 export const ResetPasswordPage: React.FC = () => {
 	const { token } = useParams();
@@ -23,8 +23,8 @@ export const ResetPasswordPage: React.FC = () => {
 			setLoading(false);
 			if (error) {
 				showNotification({
-					type: 'error',
-					title: 'Falha ao redefinir senha',
+					type: "error",
+					title: "Falha ao redefinir senha",
 					message: `Mensagem de erro: ${error}`
 				});
 			}
@@ -39,7 +39,7 @@ export const ResetPasswordPage: React.FC = () => {
 				onSubmit={handleSubmit}
 				debugAlerts={false}
 				loading={loading}
-				validateOnChange={['confirmPassword']}>
+				validateOnChange={["confirmPassword"]}>
 				<Styles.body>
 					<SysTextField name="password" fullWidth type="password" placeholder="Digite uma senha segura" />
 					<SysTextField name="confirmPassword" fullWidth type="password" placeholder="Confirme a senha" />

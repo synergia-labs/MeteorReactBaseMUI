@@ -1,16 +1,16 @@
-import React, { ReactNode } from 'react';
-import { TemplateAppBar } from './templateAppBar/templateAppBar';
-import TemplateNone from './templateNone/templateNone';
-import { IAppMenu } from '../../modules/modulesTypings';
-import { NavigateFunction } from 'react-router-dom';
-import TemplateLogin from './templateLogin/templateLogin';
+import React, { ReactNode } from "react";
+import { TemplateAppBar } from "./templateAppBar/templateAppBar";
+import TemplateNone from "./templateNone/templateNone";
+import { IAppMenu } from "../../modules/modulesTypings";
+import { NavigateFunction } from "react-router-dom";
+import TemplateLogin from "./templateLogin/templateLogin";
 
 //important: A definição do template default da aplicação é feita no aquivo /imports/app/appLayout.tsx
 
 export enum SysTemplateOptions {
-	AppBar = 'AppBar',
-	None = 'None',
-	Login = 'Login'
+	AppBar = "AppBar",
+	None = "None",
+	Login = "Login"
 }
 
 const templates = {
@@ -39,7 +39,7 @@ export interface ISysTemplate {
 	children?: ReactNode;
 }
 
-export interface ISysTemplateProps extends Omit<ISysTemplate, 'variant' | 'props'> {}
+export interface ISysTemplateProps extends Omit<ISysTemplate, "variant" | "props"> {}
 
 export const SysTemplate = ({ variant = SysTemplateOptions.AppBar, menuOptions, props, children }: ISysTemplate) => {
 	const Template = templates[variant];

@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { meteorUserSchema } from './meteorUser';
+import { z } from "zod";
+import { meteorUserSchema } from "./meteorUser";
 
 export const onLogoutSchema = z.object({
 	user: meteorUserSchema.optional()

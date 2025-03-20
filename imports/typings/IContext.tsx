@@ -1,5 +1,5 @@
-import { IConnection } from './IConnection';
-import { Meteor } from 'meteor/meteor';
+import { IConnection } from "./IConnection";
+import { Meteor } from "meteor/meteor";
 
 export interface IContext {
 	apiName: string;

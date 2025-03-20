@@ -1,14 +1,14 @@
 // region Imports
-import { Recurso } from '../config/recursos';
-import { exampleSch, IExample } from './exampleSch';
-import { userprofileServerApi } from '/imports/modules/userprofile/api/userProfileServerApi';
-import { ProductServerBase } from '/imports/api/productServerBase';
+import { Recurso } from "../config/recursos";
+import { exampleSch, IExample } from "./exampleSch";
+import { userprofileServerApi } from "/imports/modules/userprofile/api/userProfileServerApi";
+import { ProductServerBase } from "/imports/api/productServerBase";
 
 // endregion
 
 class ExampleServerApi extends ProductServerBase<IExample> {
 	constructor() {
-		super('example', exampleSch, {
+		super("example", exampleSch, {
 			resources: Recurso
 			// saveImageToDisk: true,
 		});
@@ -16,7 +16,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 		const self = this;
 
 		this.addTransformedPublication(
-			'exampleList',
+			"exampleList",
 			(filter = {}) => {
 				return this.defaultListCollectionPublication(filter, {
 					projection: { title: 1, type: 1, typeMulti: 1, createdat: 1 }
@@ -28,7 +28,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 			}
 		);
 
-		this.addPublication('exampleDetail', (filter = {}) => {
+		this.addPublication("exampleDetail", (filter = {}) => {
 			return this.defaultDetailCollectionPublication(filter, {
 				projection: {
 					contacts: 1,
@@ -49,19 +49,19 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 		});
 
 		this.addRestEndpoint(
-			'view',
+			"view",
 			(params, options) => {
-				console.log('Params', params);
-				console.log('options.headers', options.headers);
-				return { status: 'ok' };
+				console.log("Params", params);
+				console.log("options.headers", options.headers);
+				return { status: "ok" };
 			},
-			['post']
+			["post"]
 		);
 
 		this.addRestEndpoint(
-			'view/:exampleId',
+			"view/:exampleId",
 			(params, _options) => {
-				console.log('Rest', params);
+				console.log("Rest", params);
 				if (params.exampleId) {
 					return self
 						.defaultCollectionPublication(
@@ -75,7 +75,7 @@ class ExampleServerApi extends ProductServerBase<IExample> {
 					return { ...params };
 				}
 			},
-			['get']
+			["get"]
 		);
 	}
 }

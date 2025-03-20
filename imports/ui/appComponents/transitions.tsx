@@ -1,16 +1,16 @@
-import React, { forwardRef, ReactElement, Ref } from 'react';
-import Slide, { SlideProps } from '@mui/material/Slide';
-import Zoom, { ZoomProps } from '@mui/material/Zoom';
-import Grow, { GrowProps } from '@mui/material/Grow';
-import Fade, { FadeProps } from '@mui/material/Fade';
-import { TransitionProps } from '@mui/material/transitions';
+import React, { forwardRef, ReactElement, Ref } from "react";
+import Slide, { SlideProps } from "@mui/material/Slide";
+import Zoom, { ZoomProps } from "@mui/material/Zoom";
+import Grow, { GrowProps } from "@mui/material/Grow";
+import Fade, { FadeProps } from "@mui/material/Fade";
+import { TransitionProps } from "@mui/material/transitions";
 
 export const ShowNotificationTransitions = ({
 	type,
-	direction = 'up'
+	direction = "up"
 }: {
-	type: 'slide' | 'grow' | 'fade' | 'zoom';
-	direction?: SlideProps['direction'];
+	type: "slide" | "grow" | "fade" | "zoom";
+	direction?: SlideProps["direction"];
 }) => {
 	function SlideTransition(props: SlideProps) {
 		return <Slide {...props} direction={direction} />;
@@ -29,13 +29,13 @@ export const ShowNotificationTransitions = ({
 	}
 
 	switch (type) {
-		case 'slide':
+		case "slide":
 			return SlideTransition;
-		case 'grow':
+		case "grow":
 			return GrowTransition;
-		case 'fade':
+		case "fade":
 			return FadeTransition;
-		case 'zoom':
+		case "zoom":
 			return ZoomTransition;
 		default:
 			return FadeTransition;
@@ -67,15 +67,15 @@ const FadeTransition = forwardRef(function Transition(
 	return <Fade ref={ref} {...props} />;
 });
 
-export const DialogTransitions = (type?: 'slide' | 'grow' | 'fade' | 'zoom') => {
+export const DialogTransitions = (type?: "slide" | "grow" | "fade" | "zoom") => {
 	switch (type) {
-		case 'slide':
+		case "slide":
 			return SlideTransition;
-		case 'grow':
+		case "grow":
 			return GrowTransition;
-		case 'fade':
+		case "fade":
 			return FadeTransition;
-		case 'zoom':
+		case "zoom":
 			return ZoomTransition;
 		default:
 			return FadeTransition;

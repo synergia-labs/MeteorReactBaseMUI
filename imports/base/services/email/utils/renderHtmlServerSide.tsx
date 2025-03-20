@@ -1,14 +1,14 @@
-import React, { ReactNode } from 'react';
-import createCache from '@emotion/cache';
-import createEmotionServer from '@emotion/server/create-instance';
-import { getTheme } from '/imports/ui/materialui/theme';
-import { renderToString } from 'react-dom/server';
-import CssBaseline from '@mui/material/CssBaseline';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
-import { CacheProvider } from '@emotion/react';
-import juice from 'juice';
+import React, { ReactNode } from "react";
+import createCache from "@emotion/cache";
+import createEmotionServer from "@emotion/server/create-instance";
+import { getTheme } from "/imports/ui/materialui/theme";
+import { renderToString } from "react-dom/server";
+import CssBaseline from "@mui/material/CssBaseline";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import { CacheProvider } from "@emotion/react";
+import juice from "juice";
 
-const cache = createCache({ key: 'css' });
+const cache = createCache({ key: "css" });
 const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
 const theme = getTheme({ darkMode: false, fontScale: 1 });
 

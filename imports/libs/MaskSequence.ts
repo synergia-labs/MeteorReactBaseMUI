@@ -6,5 +6,5 @@
 
 export function maskSequence(value: number, totalWidth: number, paddingChar?: string): string {
 	const length = totalWidth - value.toString().length + 1;
-	return Array(length).join(paddingChar || '0') + value;
+	return Array(length).join(paddingChar || "0") + value;
 }

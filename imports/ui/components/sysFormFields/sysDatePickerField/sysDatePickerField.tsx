@@ -1,16 +1,16 @@
-import React, { useContext, useRef, useState } from 'react';
-import { SysFormContext } from '../../sysForm/sysForm';
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import TextField from '@mui/material/TextField';
-import SysLabelView from '../../sysLabelView/sysLabelView';
-import { SxProps, Theme } from '@mui/material';
-import { SysViewField } from '../sysViewField/sysViewField';
-import Box from '@mui/material/Box';
-import { hasValue } from '../../../../libs/hasValue';
-import { ISysFormComponentRef } from '../../sysForm/typings';
-import { ISysTextFieldProps } from '../sysTextField/sysTextField';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
+import React, { useContext, useRef, useState } from "react";
+import { SysFormContext } from "../../sysForm/sysForm";
+import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import TextField from "@mui/material/TextField";
+import SysLabelView from "../../sysLabelView/sysLabelView";
+import { SxProps, Theme } from "@mui/material";
+import { SysViewField } from "../sysViewField/sysViewField";
+import Box from "@mui/material/Box";
+import { hasValue } from "../../../../libs/hasValue";
+import { ISysFormComponentRef } from "../../sysForm/typings";
+import { ISysTextFieldProps } from "../sysTextField/sysTextField";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
 
 interface ISysDatePickerField extends ISysFormComponent<ISysTextFieldProps> {
 	sxMap?: {
@@ -19,7 +19,7 @@ interface ISysDatePickerField extends ISysFormComponent<ISysTextFieldProps> {
 		boxContainer?: SxProps<Theme>;
 	};
 	/** posicao dos elementos */
-	view?: 'row' | 'column';
+	view?: "row" | "column";
 }
 
 export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
@@ -37,7 +37,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	tooltipMessage,
 	tooltipPosition,
 	sxMap,
-	view = 'column',
+	view = "column",
 	...otherProps
 }) => {
 	//Busca as informações do contexto do SysForm
@@ -51,7 +51,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	const schema = refObject?.current.schema;
 
 	label = label || schema?.label;
-	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
+	readOnly = readOnly || controllerSysForm?.mode === "view" || schema?.readOnly;
 	disabled = disabled || controllerSysForm?.disabled;
 	loading = loading || controllerSysForm?.loading;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
@@ -65,7 +65,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({
 			componentRef: refObject!,
-			clearMethod: () => setDateValue(''),
+			clearMethod: () => setDateValue(""),
 			setValueMethod: (value) => setDateValue(value),
 			changeVisibilityMethod: (visible) => setVisibleState(visible),
 			setErrorMethod: (error) => setErrorState(error)
@@ -104,7 +104,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 
 	const formatDate = (dateValue: Date) => {
 		const data = new Date(dateValue);
-		const formattedDate = data.toLocaleDateString('pt-BR').split('/').reverse().join('-');
+		const formattedDate = data.toLocaleDateString("pt-BR").split("/").reverse().join("-");
 		return formattedDate;
 	};
 
@@ -124,7 +124,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 		<FormControl error={!!errorState}>
 			<Box
 				sx={[
-					{ display: 'flex', alignItems: 'center' },
+					{ display: "flex", alignItems: "center" },
 					...(Array.isArray(sxMap?.boxContainer) ? sxMap?.boxContainer : [sxMap?.boxContainer])
 				]}>
 				<SysLabelView
@@ -136,13 +136,13 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 					showLabelAdornment={showLabelAdornment}
 					labelAdornment={labelAdornment}
 					sx={sxMap?.container}>
-					{view === 'column' && (
+					{view === "column" && (
 						<TextField
 							{...otherProps}
 							type="date"
 							onBlur={onBlur}
 							onChange={handleChange}
-							value={(dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue) || ''}
+							value={(dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue) || ""}
 							error={!!errorState}
 							disabled={disabled || loading}
 							name={name}
@@ -150,13 +150,13 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 						/>
 					)}
 				</SysLabelView>
-				{view === 'row' && (
+				{view === "row" && (
 					<TextField
 						{...otherProps}
 						type="date"
 						onBlur={onBlur}
 						onChange={handleChange}
-						value={(dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue) || ''}
+						value={(dateValue && dateValue instanceof Date ? formatDate(dateValue) : dateValue) || ""}
 						error={!!errorState}
 						disabled={disabled || loading}
 						name={name}

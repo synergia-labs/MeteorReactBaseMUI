@@ -1,11 +1,11 @@
-import React, { ReactElement, ReactNode } from 'react';
-import SysLabelViewStyles from './sysLabelViewStyle';
-import { SxProps, Theme } from '@mui/material';
-import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import SysIcon from '../../../ui/components/sysIcon/sysIcon';
+import React, { ReactElement, ReactNode } from "react";
+import SysLabelViewStyles from "./sysLabelViewStyle";
+import { SxProps, Theme } from "@mui/material";
+import Tooltip, { TooltipProps } from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import SysIcon from "../../../ui/components/sysIcon/sysIcon";
 
-interface ISysLabelView extends Omit<TooltipProps, 'children' | 'title' | 'placement'> {
+interface ISysLabelView extends Omit<TooltipProps, "children" | "title" | "placement"> {
 	label?: string;
 	showLabelAdornment?: boolean;
 	labelAdornment?: string;
@@ -26,7 +26,7 @@ const { Container, Header } = SysLabelViewStyles;
 const SysLabelView: React.FC<ISysLabelView> = ({
 	label,
 	showLabelAdornment,
-	labelAdornment = '(opcional)',
+	labelAdornment = "(opcional)",
 	disabled,
 	children,
 	showTooltip,
@@ -44,7 +44,7 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 							color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}>
 							{label} {showLabelAdornment && labelAdornment}
 						</Typography>
-						{showTooltip && <SysIcon name={'help'} color={disabled ? 'disabled' : 'inherit'} />}
+						{showTooltip && <SysIcon name={"help"} color={disabled ? "disabled" : "inherit"} />}
 					</Header>
 				</Tooltip>
 			)}

@@ -1,8 +1,8 @@
-import { Accounts } from 'meteor/accounts-base';
-import { Meteor } from 'meteor/meteor';
-import userProfileServer from '../server';
-import verificationEmailTemplate from '../../common/emails/sendEmailVerificationTemplate/sendEmailVerificationTempalte';
-import resetPasswordEmailTemplate from '../../common/emails/sendEmailResetPasswordTemplate/sendEmailResetPasswordTemplate.view';
+import { Accounts } from "meteor/accounts-base";
+import { Meteor } from "meteor/meteor";
+import userProfileServer from "../server";
+import verificationEmailTemplate from "../../common/emails/sendEmailVerificationTemplate/sendEmailVerificationTempalte";
+import resetPasswordEmailTemplate from "../../common/emails/sendEmailResetPasswordTemplate/sendEmailResetPasswordTemplate.view";
 
 Meteor.startup(() => {
 	//region Configurações de contas

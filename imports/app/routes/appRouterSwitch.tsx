@@ -1,12 +1,12 @@
-import React, { ElementType, useContext } from 'react';
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { NotFound } from '/imports/sysPages/pages/notFound/notFound';
-import { hasValue } from '/imports/libs/hasValue';
-import { SysLoading } from '/imports/ui/components/sysLoading/sysLoading';
-import { IRoute, ITemplateRouteProps } from '/imports/modules/modulesTypings';
-import AuthContext, { IAuthContext } from '../authProvider/authContext';
-import sysRoutes from './routes';
-import ScreenRouteRender from './screenRouteRender';
+import React, { ElementType, useContext } from "react";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { NotFound } from "/imports/sysPages/pages/notFound/notFound";
+import { hasValue } from "/imports/libs/hasValue";
+import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
+import { IRoute, ITemplateRouteProps } from "/imports/modules/modulesTypings";
+import AuthContext, { IAuthContext } from "../authProvider/authContext";
+import sysRoutes from "./routes";
+import ScreenRouteRender from "./screenRouteRender";
 
 export const AppRouterSwitch: React.FC = React.memo(() => {
 	const { user, userLoading } = useContext<IAuthContext>(AuthContext);
@@ -20,11 +20,11 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 
 	const getRecursiveRoutes = (
 		routes: IRoute[],
-		parentPath = '',
+		parentPath = "",
 		parentTemplateProps?: ITemplateRouteProps
 	): JSX.Element[] => {
 		return routes.map(({ children, path, index, ...rest }) => {
-			const fullPath = `${parentPath}/${path || ''}`.replace(/\/+/g, '/');
+			const fullPath = `${parentPath}/${path || ""}`.replace(/\/+/g, "/");
 			const mergedTemplateProps = { ...parentTemplateProps, ...rest };
 
 			const Component: ElementType = mergedTemplateProps.element as ElementType;

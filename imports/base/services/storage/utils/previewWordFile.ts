@@ -1,13 +1,13 @@
-import { IArchive } from '../common/types/archive.type';
+import { IArchive } from "../common/types/archive.type";
 
 export async function previewWord(file: IArchive, res: any, _: any) {
 	try {
-		const mammoth = require('mammoth');
+		const mammoth = require("mammoth");
 		const result = await mammoth.convertToHtml({ path: file.path });
 
 		res.writeHead(200, {
-			'Content-Type': 'text/html',
-			'Cache-Control': 'max-age=3600'
+			"Content-Type": "text/html",
+			"Cache-Control": "max-age=3600"
 		});
 
 		res.end(`
@@ -21,7 +21,7 @@ export async function previewWord(file: IArchive, res: any, _: any) {
             </div>
         `);
 	} catch (error) {
-		console.error('Erro na conversão do Word:', error);
-		res.status(500).end('Erro ao converter documento');
+		console.error("Erro na conversão do Word:", error);
+		res.status(500).end("Erro ao converter documento");
 	}
 }

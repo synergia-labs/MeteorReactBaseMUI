@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const IDocSchema = z.object({
 	_id: z.string().optional(),

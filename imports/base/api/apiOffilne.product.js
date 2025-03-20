@@ -1,10 +1,10 @@
-import { createStore, del, get, keys, set } from 'idb-keyval';
-import { parse, stringify } from 'zipson';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { _ } from 'lodash';
+import { createStore, del, get, keys, set } from "idb-keyval";
+import { parse, stringify } from "zipson";
+import { ReactiveVar } from "meteor/reactive-var";
+import { _ } from "lodash";
 
-import settings from '../../../settings.json';
-import { ApiBase } from './api.base';
+import settings from "../../../settings.json";
+import { ApiBase } from "./api.base";
 
 class PersistentMinimongoStorage {
 	constructor(collectionName, collectionInstance) {
@@ -60,7 +60,7 @@ class PersistentMinimongoStorage {
 				}
 				callback(null, { ...selector, ...newDoc });
 			} catch (e) {
-				console.log('Error:', e);
+				console.log("Error:", e);
 				callback(e, null);
 			}
 		};
@@ -171,7 +171,7 @@ class PersistentMinimongoStorage {
 		if (self.controlStoreData) {
 			return self.controlStoreData;
 		}
-		get('config', self.controlStore).then((resultString) => {
+		get("config", self.controlStore).then((resultString) => {
 			const result = self.updateDateOnJson(resultString ? parse(resultString) : {});
 
 			self.controlStoreData = {
@@ -205,7 +205,7 @@ class PersistentMinimongoStorage {
 			...(this.controlStoreData || {}),
 			...(newData || {})
 		};
-		set('config', stringify(newControlStoreDate), self.controlStore);
+		set("config", stringify(newControlStoreDate), self.controlStore);
 		this.controlStoreData = newControlStoreDate;
 		return newControlStoreDate;
 	};
@@ -321,7 +321,7 @@ class PersistentMinimongoStorage {
 					if (callback) {
 						callback(e, null);
 					}
-					console.log('Error:', self.collectionName, ':', e);
+					console.log("Error:", self.collectionName, ":", e);
 				}
 			});
 		}
@@ -376,16 +376,16 @@ class PersistentMinimongoStorage {
 						{ _id: docId },
 						{
 							date: new Date(),
-							type: 'remove',
-							status: 'success',
+							type: "remove",
+							status: "success",
 							docId
 						}
 					);
 				} else {
 					self.updateSyncHistory({
 						date: new Date(),
-						type: 'remove',
-						status: 'error',
+						type: "remove",
+						status: "error",
 						error: e,
 						docId
 					});
@@ -396,7 +396,7 @@ class PersistentMinimongoStorage {
 	syncUpdatedDocs = (updateDocFunc = () => {}) => {
 		const self = this;
 		const controlStoreData = this.getControlStoreData();
-		console.log('#syncUpdatedDocs', controlStoreData);
+		console.log("#syncUpdatedDocs", controlStoreData);
 		(controlStoreData.updatedDocs || []).forEach((doc) => {
 			updateDocFunc(doc, (e, serverDoc) => {
 				if (!e) {
@@ -406,8 +406,8 @@ class PersistentMinimongoStorage {
 						delete serverDoc.updatedServer;
 						self.delUpdatedDocsIntoControlStoreData(doc, {
 							date: new Date(),
-							type: 'update',
-							status: 'success',
+							type: "update",
+							status: "success",
 							docId: doc._id
 						});
 						self.cachedCollection.update({ _id: serverDoc._id }, { $set: serverDoc }, {}, undefined, true);
@@ -415,8 +415,8 @@ class PersistentMinimongoStorage {
 				} else {
 					self.updateSyncHistory({
 						date: new Date(),
-						type: 'update',
-						status: 'error',
+						type: "update",
+						status: "error",
 						error: e,
 						docId: doc._id
 					});
@@ -491,10 +491,10 @@ export class OfflineBaseApi extends ApiBase {
 	 * @param  {} api='default'
 	 * @param  {} ...param
 	 */
-	subscribe(api = 'default', ...param) {
+	subscribe(api = "default", ...param) {
 		const self = this;
 		if (Meteor.isClient) {
-			if (Meteor.status().status !== 'waiting') {
+			if (Meteor.status().status !== "waiting") {
 				// Sync Functions ###################################################
 				if (self.minimongoStorage.needSync() && Meteor.status().connected) {
 					self.minimongoStorage.syncFromClient(self.remove, self.sync);
@@ -513,7 +513,7 @@ export class OfflineBaseApi extends ApiBase {
 	}
 
 	callOfflineMethod = (name, docObj, callback = () => {}) => {
-		if (name === 'update') {
+		if (name === "update") {
 			const oldDoc = Meteor.status().connected
 				? this.getCollectionInstance().findOne({ _id: docObj._id })
 				: this.persistentCollectionInstance.findOne({ _id: docObj._id });
@@ -535,11 +535,11 @@ export class OfflineBaseApi extends ApiBase {
 
 		if (Meteor.status().connected) {
 			Meteor.call(`${this.collectionName}.${name}`, ...params);
-		} else if (Meteor.status().status === 'waiting') {
-			if (name === 'insert' || name === 'update' || name === 'remove') {
+		} else if (Meteor.status().status === "waiting") {
+			if (name === "insert" || name === "update" || name === "remove") {
 				self.callOfflineMethod(name, ...params);
 			} else {
-				console.log('Sem Conexão com o Servidor');
+				console.log("Sem Conexão com o Servidor");
 			}
 
 			// window.$app.globalFunctions.openSnackBar('SEM CONEXÃO COM O SERVIDOR:Sua operçaão não será registrada. Verifique sua conexão com a internet.', 'info');

@@ -1,13 +1,13 @@
-import React, { JSX } from 'react';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { Theme, SxProps } from '@mui/material';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import { ISysGeneralComponentsCommon } from '../../../typings/BoilerplateDefaultTypings';
-import { hasValue } from '../../../libs/hasValue';
-import Styles from './showNotificationStyles';
-import SysIcon from '../../../ui/components/sysIcon/sysIcon';
+import React, { JSX } from "react";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { Theme, SxProps } from "@mui/material";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import { ISysGeneralComponentsCommon } from "../../../typings/BoilerplateDefaultTypings";
+import { hasValue } from "../../../libs/hasValue";
+import Styles from "./showNotificationStyles";
+import SysIcon from "../../../ui/components/sysIcon/sysIcon";
 
 export interface IShowNotificationProps extends ISysGeneralComponentsCommon {
 	/**Exibe um botão para fechar a notificação.*/
@@ -15,15 +15,15 @@ export interface IShowNotificationProps extends ISysGeneralComponentsCommon {
 	/**Exibe um ícone no início do corpo notificação.*/
 	showStartIcon?: boolean;
 	/**Especifica o tipo da notificação, como sucesso, erro, informação ou aviso.*/
-	type?: 'success' | 'error' | 'warning' | 'default';
+	type?: "success" | "error" | "warning" | "default";
 	/** Define o título da notificação, destacado na parte superior.*/
 	title?: string;
 	/**Estabelece a mensagem principal da notificação.*/
 	message?: string;
 	/**Posicionamento horizontal da notificação na tela.*/
-	horizontal?: 'left' | 'center' | 'right';
+	horizontal?: "left" | "center" | "right";
 	/**Posicionamento vertical da notificação na tela.*/
-	vertical?: 'top' | 'bottom';
+	vertical?: "top" | "bottom";
 	/**Permite a inclusão de um ícone personalizado na notificação.*/
 	icon?: React.ReactNode;
 	/**Exibe um botão de ação na notificação, com um texto personalizado.*/
@@ -79,9 +79,9 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 	open = false,
 	close,
 	duration = 4000,
-	horizontal = 'left',
-	vertical = 'bottom',
-	type = 'default',
+	horizontal = "left",
+	vertical = "bottom",
+	type = "default",
 	showCloseButton = false,
 	showStartIcon = true,
 	title,
@@ -94,10 +94,10 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 	children
 }) => {
 	const icons = {
-		success: <SysIcon name={'check'} />,
-		error: <SysIcon name={'errorCircle'} />,
-		warning: <SysIcon name={'warningAmber'} />,
-		default: <SysIcon name={'notification'} />
+		success: <SysIcon name={"check"} />,
+		error: <SysIcon name={"errorCircle"} />,
+		warning: <SysIcon name={"warningAmber"} />,
+		default: <SysIcon name={"notification"} />
 	};
 
 	return (
@@ -127,22 +127,22 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 									<Button
 										variant="text"
 										size="small"
-										color={type === 'default' ? 'primary' : type}
+										color={type === "default" ? "primary" : type}
 										onClick={onClickActionButton}
 										sx={{
 											color: (theme) =>
-												type === 'default'
+												type === "default"
 													? theme.palette.sysAction?.primary
-													: type === 'warning'
+													: type === "warning"
 														? theme.palette.warning.dark
 														: theme.palette[type].main
 										}}>
-										{actionButtonTex || 'Ação'}
+										{actionButtonTex || "Ação"}
 									</Button>
 								)}
 						{showCloseButton && (
 							<IconButton onClick={close}>
-								<SysIcon name={'close'} />
+								<SysIcon name={"close"} />
 							</IconButton>
 						)}
 					</Styles.Body>

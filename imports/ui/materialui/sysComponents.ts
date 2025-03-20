@@ -1,5 +1,5 @@
-import { Theme } from '@mui/material';
-import { sysSizing, sysShadows } from './styles';
+import { Theme } from "@mui/material";
+import { sysSizing, sysShadows } from "./styles";
 
 const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 	return {
@@ -7,27 +7,27 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiAutocomplete: {
 				styleOverrides: {
 					root: {
-						'&.MuiTextField-root': {
-							padding: '0'
+						"&.MuiTextField-root": {
+							padding: "0"
 						}
 					},
 					popupIndicator: {
 						color: theme.palette.sysText?.body
 					},
 					endAdornment: {
-						top: 'unset',
+						top: "unset",
 						right: sysSizing.spacingRemSm
 					},
 					inputRoot: {
-						padding: '.3125rem 0.75rem'
+						padding: ".3125rem 0.75rem"
 					},
 					paper: {
-						borderRadius: '8px'
+						borderRadius: "8px"
 					},
 					option: {
-						color: theme.palette.sysText?.body,
-						padding: '0.5rem 1rem !important',
-						'&:hover, &.Mui-focused': {
+						"color": theme.palette.sysText?.body,
+						"padding": "0.5rem 1rem !important",
+						"&:hover, &.Mui-focused": {
 							color: theme.palette.sysText?.primary,
 							backgroundColor: `${theme.palette.sysAction?.primaryBgHover} !important`
 						}
@@ -37,21 +37,21 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 
 			MuiButton: {
 				defaultProps: {
-					variant: 'contained',
-					size: 'medium',
+					variant: "contained",
+					size: "medium",
 					disableElevation: true
 				},
 				styleOverrides: {
 					root: {
-						borderRadius: sysSizing.radiusSm,
-						margin: 0,
-						textTransform: 'none',
-						'&:focus': {
-							outline: 'none'
+						"borderRadius": sysSizing.radiusSm,
+						"margin": 0,
+						"textTransform": "none",
+						"&:focus": {
+							outline: "none"
 						}
 					},
 					contained: {
-						'&.Mui-disabled': {
+						"&.Mui-disabled": {
 							color: theme.palette.sysAction?.disabled,
 							backgroundColor: theme.palette.sysAction?.bgDisabled,
 							border: `1px solid ${theme.palette.sysAction?.bgDisabled}`,
@@ -59,43 +59,43 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 						}
 					},
 					containedPrimary: {
-						color: theme.palette.sysAction?.primaryContrastText,
-						backgroundColor: theme.palette.sysAction?.primary,
-						border: `1px solid ${theme.palette.sysAction?.primary}`,
-						'&:hover, &:focus': {
+						"color": theme.palette.sysAction?.primaryContrastText,
+						"backgroundColor": theme.palette.sysAction?.primary,
+						"border": `1px solid ${theme.palette.sysAction?.primary}`,
+						"&:hover, &:focus": {
 							backgroundColor: theme.palette.sysAction?.primaryHover,
 							border: `1px solid ${theme.palette.sysAction?.primaryHover}`
 						}
 					},
 					outlined: {
-						'&.Mui-disabled': {
+						"&.Mui-disabled": {
 							color: theme.palette.sysAction?.disabled,
-							backgroundColor: 'transparent',
+							backgroundColor: "transparent",
 							border: `1px solid ${theme.palette.sysAction?.disabled}`,
 							opacity: 1
 						}
 					},
 					outlinedPrimary: {
-						color: theme.palette.sysAction?.primary,
-						backgroundColor: 'transparent',
-						border: `1px solid ${theme.palette.sysAction?.primary}`,
-						'&:hover, &:focus': {
+						"color": theme.palette.sysAction?.primary,
+						"backgroundColor": "transparent",
+						"border": `1px solid ${theme.palette.sysAction?.primary}`,
+						"&:hover, &:focus": {
 							color: theme.palette.sysAction?.primaryHover,
 							backgroundColor: theme.palette.sysAction?.primaryBgHover,
 							border: `1px solid ${theme.palette.sysAction?.primaryHover}`
 						}
 					},
 					text: {
-						'&.Mui-disabled': {
+						"&.Mui-disabled": {
 							color: theme.palette.sysAction?.disabled,
-							backgroundColor: 'transparent',
+							backgroundColor: "transparent",
 							opacity: 1
 						}
 					},
 					textPrimary: {
-						color: theme.palette.sysAction?.primary,
-						backgroundColor: 'transparent',
-						'&:hover': {
+						"color": theme.palette.sysAction?.primary,
+						"backgroundColor": "transparent",
+						"&:hover": {
 							color: theme.palette.sysAction?.primaryHover,
 							backgroundColor: theme.palette.sysAction?.primaryBgHover
 						}
@@ -122,12 +122,12 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 						padding: 0
 					},
 					iconSizeSmall: {
-						'& .MuiSvgIcon-root': {
+						"& .MuiSvgIcon-root": {
 							fontSize: sysSizing.componentsIconSizeSmall
 						}
 					},
 					iconSizeMedium: {
-						'& .MuiSvgIcon-root': {
+						"& .MuiSvgIcon-root": {
 							fontSize: sysSizing.componentsIconSize
 						}
 					}
@@ -137,22 +137,22 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiCheckbox: {
 				styleOverrides: {
 					root: {
-						'& > .MuiSvgIcon-root': {
+						"& > .MuiSvgIcon-root": {
 							color: theme.palette.sysAction?.auxiliary
 						},
-						'&:hover': {
-							background: theme.palette.sysAction?.primaryBgHover,
-							'& > .MuiSvgIcon-root': {
+						"&:hover": {
+							"background": theme.palette.sysAction?.primaryBgHover,
+							"& > .MuiSvgIcon-root": {
 								color: theme.palette.sysAction?.primary
 							}
 						},
-						'&.Mui-checked': {
-							'& > .MuiSvgIcon-root': {
+						"&.Mui-checked": {
+							"& > .MuiSvgIcon-root": {
 								color: theme.palette.sysAction?.primary
 							}
 						},
-						'&.Mui-disabled': {
-							'& > .MuiSvgIcon-root': {
+						"&.Mui-disabled": {
+							"& > .MuiSvgIcon-root": {
 								color: theme.palette.sysAction?.disabled
 							}
 						}
@@ -163,57 +163,57 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiDataGrid: {
 				styleOverrides: {
 					root: {
-						borderRadius: sysSizing.radiusSm,
-						border: `1px solid ${theme.palette.divider}`,
-						'& .MuiCircularProgress-root': {
+						"borderRadius": sysSizing.radiusSm,
+						"border": `1px solid ${theme.palette.divider}`,
+						"& .MuiCircularProgress-root": {
 							color: theme.palette.primary.main
 						},
-						'& .MuiDataGrid-columnHeader': {
-							padding: `${sysSizing.spacingFixedMd} ${sysSizing.spacingFixedLg}`,
-							gap: `${sysSizing.spacingFixedXl}`,
-							'& .MuiDataGrid-columnSeparator': {
-								visibility: 'hidden'
+						"& .MuiDataGrid-columnHeader": {
+							"padding": `${sysSizing.spacingFixedMd} ${sysSizing.spacingFixedLg}`,
+							"gap": `${sysSizing.spacingFixedXl}`,
+							"& .MuiDataGrid-columnSeparator": {
+								visibility: "hidden"
 							}
 						},
-						'& .MuiDataGrid-columnHeaders': {
+						"& .MuiDataGrid-columnHeaders": {
 							borderBottom: `2px solid ${theme.palette.sysAction?.primary}`
 						},
 
-						'& .MuiTablePagination-root': {
+						"& .MuiTablePagination-root": {
 							color: theme.palette.sysText?.body
 						},
-						'& .MuiDataGrid-cell': {
+						"& .MuiDataGrid-cell": {
 							padding: `${sysSizing.spacingFixedSm} ${sysSizing.spacingFixedLg}`,
 							gap: `${sysSizing.spacingFixedXl}`,
-							textAlign: 'center'
+							textAlign: "center"
 						},
-						'& .MuiDataGrid-row': {
-							borderBottom: `1px solid ${theme.palette.divider}`,
-							'&:hover': {
+						"& .MuiDataGrid-row": {
+							"borderBottom": `1px solid ${theme.palette.divider}`,
+							"&:hover": {
 								backgroundColor: theme.palette.sysAction?.primaryBgHover
 							}
 						},
-						'& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within': {
-							outline: 'none'
+						"& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within": {
+							outline: "none"
 						},
-						'& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within': {
-							outline: 'none'
+						"& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within": {
+							outline: "none"
 						},
-						'& .MuiDataGrid-actionsCell': {
-							'& button': {
+						"& .MuiDataGrid-actionsCell": {
+							"& button": {
 								color: theme.palette.sysAction?.primaryIcon //altera a cor dos icones de ação
 							},
-							'& .MuiDataGrid-footerContainer': {
+							"& .MuiDataGrid-footerContainer": {
 								padding: `${sysSizing.spacingFixedSm} ${sysSizing.spacingFixedLg}`,
 								gap: `${sysSizing.spacingFixedXl}`
 							}
 						}
 					},
 					row: {
-						cursor: 'pointer',
-						'&.Mui-selected': {
-							backgroundColor: theme.palette.sysAction?.primaryBgHover,
-							'&:hover': {
+						"cursor": "pointer",
+						"&.Mui-selected": {
+							"backgroundColor": theme.palette.sysAction?.primaryBgHover,
+							"&:hover": {
 								backgroundColor: theme.palette.sysAction?.primaryBgHover
 							}
 						}
@@ -223,16 +223,16 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 
 			MuiFab: {
 				defaultProps: {
-					variant: 'extended',
-					size: 'medium',
-					color: 'primary'
+					variant: "extended",
+					size: "medium",
+					color: "primary"
 				},
 				styleOverrides: {
 					root: {
-						gap: sysSizing.componentsButtonGap,
-						textTransform: 'none',
-						boxShadow: sysShadows.shadow6,
-						'&.Mui-disabled': {
+						"gap": sysSizing.componentsButtonGap,
+						"textTransform": "none",
+						"boxShadow": sysShadows.shadow6,
+						"&.Mui-disabled": {
 							color: theme.palette.sysAction?.disabled,
 							backgroundColor: theme.palette.sysAction?.bgDisabled,
 							boxShadow: sysShadows.shadow6,
@@ -240,16 +240,16 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 						}
 					},
 					primary: {
-						color: theme.palette.sysAction?.primaryContrastText,
-						backgroundColor: theme.palette.sysAction?.primary,
-						transition: 'all 150ms linear',
-						'&:hover, &:focus': {
+						"color": theme.palette.sysAction?.primaryContrastText,
+						"backgroundColor": theme.palette.sysAction?.primary,
+						"transition": "all 150ms linear",
+						"&:hover, &:focus": {
 							backgroundColor: theme.palette.sysAction?.primaryHover,
-							transition: 'all 150ms linear'
+							transition: "all 150ms linear"
 						},
-						'&:active': {
+						"&:active": {
 							boxShadow: sysShadows.shadow2,
-							transition: 'all 150ms linear'
+							transition: "all 150ms linear"
 						}
 					},
 					sizeMedium: {
@@ -268,62 +268,62 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 
 			MuiFilledInput: {
 				defaultProps: {
-					margin: 'dense',
+					margin: "dense",
 					disableUnderline: true
 				},
 				styleOverrides: {
 					root: {
-						padding: `${sysSizing.componentsInputPy} ${sysSizing.componentsInputPx}`,
-						gap: sysSizing.componentsInputGap,
-						backgroundColor: theme.palette.sysBackground?.default,
-						color: theme.palette.sysText?.body,
-						borderRadius: sysSizing.radiusSm,
-						border: `1px solid ${theme.palette.divider}`,
-						transition: 'all 150ms linear',
-						'& .MuiSvgIcon-root': {
+						"padding": `${sysSizing.componentsInputPy} ${sysSizing.componentsInputPx}`,
+						"gap": sysSizing.componentsInputGap,
+						"backgroundColor": theme.palette.sysBackground?.default,
+						"color": theme.palette.sysText?.body,
+						"borderRadius": sysSizing.radiusSm,
+						"border": `1px solid ${theme.palette.divider}`,
+						"transition": "all 150ms linear",
+						"& .MuiSvgIcon-root": {
 							color: theme.palette.sysAction?.primaryIcon
 						},
-						'&:hover': {
+						"&:hover": {
 							backgroundColor: theme.palette.sysBackground?.bg1,
-							transition: 'all 150ms linear'
+							transition: "all 150ms linear"
 						},
-						'&.Mui-focused': {
-							backgroundColor: theme.palette.sysBackground?.default,
-							color: theme.palette.sysText?.body,
-							border: `1px solid ${theme.palette.primary.main}`,
-							transition: 'all 150ms linear',
-							'&:hover': {
+						"&.Mui-focused": {
+							"backgroundColor": theme.palette.sysBackground?.default,
+							"color": theme.palette.sysText?.body,
+							"border": `1px solid ${theme.palette.primary.main}`,
+							"transition": "all 150ms linear",
+							"&:hover": {
 								backgroundColor: theme.palette.sysBackground?.bg1,
-								transition: 'all 150ms linear'
+								transition: "all 150ms linear"
 							}
 						},
-						'&.Mui-disabled': {
-							backgroundColor: theme.palette.sysAction?.bgDisabled,
-							color: theme.palette.sysText?.disabled,
-							'& .MuiSvgIcon-root': {
+						"&.Mui-disabled": {
+							"backgroundColor": theme.palette.sysAction?.bgDisabled,
+							"color": theme.palette.sysText?.disabled,
+							"& .MuiSvgIcon-root": {
 								color: theme.palette.sysText?.disabled
 							}
 						},
-						'&.Mui-error': {
-							backgroundColor: theme.palette.sysBackground?.default,
-							color: theme.palette.sysText?.body,
-							border: `1px solid ${theme.palette.error.main}`,
-							transition: 'all 150ms linear',
-							'&:hover': {
+						"&.Mui-error": {
+							"backgroundColor": theme.palette.sysBackground?.default,
+							"color": theme.palette.sysText?.body,
+							"border": `1px solid ${theme.palette.error.main}`,
+							"transition": "all 150ms linear",
+							"&:hover": {
 								backgroundColor: theme.palette.sysBackground?.bg1,
-								transition: 'all 150ms linear'
+								transition: "all 150ms linear"
 							}
 						}
 					},
 					input: {
-						color: theme.palette.sysText?.body,
-						padding: 0,
-						height: sysSizing.componentsIconSize,
-						'&.Mui-disabled': {
+						"color": theme.palette.sysText?.body,
+						"padding": 0,
+						"height": sysSizing.componentsIconSize,
+						"&.Mui-disabled": {
 							color: theme.palette.sysText?.disabled,
 							WebkitTextFillColor: theme.palette.sysText?.disabled
 						},
-						'&::placeholder': {
+						"&::placeholder": {
 							color: theme.palette.sysText?.disabled,
 							opacity: 1
 						},
@@ -335,9 +335,9 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiFormControl: {
 				styleOverrides: {
 					root: {
-						borderRadius: '8px',
+						borderRadius: "8px",
 						margin: 0,
-						width: '100%'
+						width: "100%"
 					},
 					marginNormal: {
 						marginTop: 4
@@ -347,24 +347,24 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 
 			MuiFormHelperText: {
 				defaultProps: {
-					margin: 'dense'
+					margin: "dense"
 				}
 			},
 
 			MuiIconButton: {
 				defaultProps: {
-					color: 'primary'
+					color: "primary"
 				},
 				styleOverrides: {
 					root: {
-						padding: sysSizing.spacingRemXs,
-						'&.Mui-disabled': {
+						"padding": sysSizing.spacingRemXs,
+						"&.Mui-disabled": {
 							color: theme.palette.sysAction?.disabled
 						}
 					},
 					colorPrimary: {
-						color: theme.palette.sysAction?.primaryIcon,
-						'&:hover': {
+						"color": theme.palette.sysAction?.primaryIcon,
+						"&:hover": {
 							color: theme.palette.sysAction?.primaryIcon,
 							backgroundColor: theme.palette.sysAction?.primaryBgHover
 						}
@@ -378,20 +378,20 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 						color: theme.palette.sysAction?.primaryIcon
 					},
 					filled: {
-						margin: '0 !important'
+						margin: "0 !important"
 					}
 				}
 			},
 
 			MuiInputBase: {
 				defaultProps: {
-					margin: 'dense'
+					margin: "dense"
 				}
 			},
 
 			MuiInputLabel: {
 				defaultProps: {
-					margin: 'dense'
+					margin: "dense"
 				}
 			},
 
@@ -411,26 +411,26 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiMenuItem: {
 				styleOverrides: {
 					root: {
-						padding: `${sysSizing.spacingRemSm} ${sysSizing.spacingFixedLg}`,
-						color: theme.palette.sysText?.body,
-						gap: `${sysSizing.spacingRemSm}`,
-						width: '100%',
-						transition: 'all 150ms linear',
-						'&:hover, &:focus, &:focus-visible': {
+						"padding": `${sysSizing.spacingRemSm} ${sysSizing.spacingFixedLg}`,
+						"color": theme.palette.sysText?.body,
+						"gap": `${sysSizing.spacingRemSm}`,
+						"width": "100%",
+						"transition": "all 150ms linear",
+						"&:hover, &:focus, &:focus-visible": {
 							backgroundColor: theme.palette.sysBackground?.bg1,
-							transition: 'all 150ms linear'
+							transition: "all 150ms linear"
 						},
-						'& .MuiSvgIcon-root': {
+						"& .MuiSvgIcon-root": {
 							color: theme.palette.sysAction?.primary
 						},
-						'&.Mui-disabled, &.Mui-disabled .MuiSvgIcon-root': {
+						"&.Mui-disabled, &.Mui-disabled .MuiSvgIcon-root": {
 							color: theme.palette.sysAction?.disabled,
 							opacity: 1
 						},
 
-						'&.Mui-selected': {
+						"&.Mui-selected": {
 							backgroundColor: theme.palette.sysAction?.primaryBgHover,
-							transition: 'all 150ms linear'
+							transition: "all 150ms linear"
 						}
 					}
 				}
@@ -439,22 +439,22 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiRadio: {
 				styleOverrides: {
 					root: {
-						'& > span > .MuiSvgIcon-root': {
+						"& > span > .MuiSvgIcon-root": {
 							color: theme.palette.sysAction?.auxiliary
 						},
-						'&:hover': {
-							background: theme.palette.sysAction?.primaryBgHover,
-							'& > span > .MuiSvgIcon-root': {
+						"&:hover": {
+							"background": theme.palette.sysAction?.primaryBgHover,
+							"& > span > .MuiSvgIcon-root": {
 								color: theme.palette.sysAction?.primary
 							}
 						},
-						'&.Mui-checked': {
-							'& > span > .MuiSvgIcon-root': {
+						"&.Mui-checked": {
+							"& > span > .MuiSvgIcon-root": {
 								color: theme.palette.sysAction?.primary
 							}
 						},
-						'&.Mui-disabled': {
-							'& > span > .MuiSvgIcon-root': {
+						"&.Mui-disabled": {
+							"& > span > .MuiSvgIcon-root": {
 								color: theme.palette.sysAction?.disabled
 							}
 						}
@@ -464,21 +464,21 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 
 			MuiSelect: {
 				defaultProps: {
-					variant: 'filled'
+					variant: "filled"
 				},
 				styleOverrides: {
 					root: {
 						padding: 0,
-						width: '100%'
+						width: "100%"
 					},
 					select: {
-						width: '100%',
-						padding: `${sysSizing.componentsInputPy} ${sysSizing.componentsInputPx}`,
-						height: sysSizing.componentsIconSize,
-						transition: 'all 150ms linear',
-						'&:focus': {
+						"width": "100%",
+						"padding": `${sysSizing.componentsInputPy} ${sysSizing.componentsInputPx}`,
+						"height": sysSizing.componentsIconSize,
+						"transition": "all 150ms linear",
+						"&:focus": {
 							backgroundColor: theme.palette.sysBackground?.bg1,
-							transition: 'all 150ms linear',
+							transition: "all 150ms linear",
 							borderRadius: sysSizing.radiusSm
 						},
 						...theme.typography.body1
@@ -488,24 +488,24 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 
 			MuiSlider: {
 				defaultProps: {
-					color: 'primary',
-					valueLabelDisplay: 'auto'
+					color: "primary",
+					valueLabelDisplay: "auto"
 				},
 				styleOverrides: {
 					root: {
-						'&.Mui-disabled': {
+						"&.Mui-disabled": {
 							opacity: 1
 						},
-						'&.Mui-disabled > .MuiSlider-rail, &.Mui-disabled > .MuiSlider-track, &.Mui-disabled > .MuiSlider-thumb': {
+						"&.Mui-disabled > .MuiSlider-rail, &.Mui-disabled > .MuiSlider-track, &.Mui-disabled > .MuiSlider-thumb": {
 							backgroundColor: theme.palette.sysAction?.disabled
 						},
-						'&.Mui-disabled > .MuiSlider-track': {
+						"&.Mui-disabled > .MuiSlider-track": {
 							borderColor: theme.palette.sysAction?.disabled
 						}
 					},
 					thumb: {
-						backgroundColor: theme.palette.sysAction?.primary,
-						'&:hover, &:focus': {
+						"backgroundColor": theme.palette.sysAction?.primary,
+						"&:hover, &:focus": {
 							boxShadow: `0 0 0 8px ${theme.palette.sysAction?.primaryBgHover}`
 						}
 					},
@@ -526,36 +526,36 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiSwitch: {
 				styleOverrides: {
 					switchBase: {
-						'&:hover': {
+						"&:hover": {
 							background: theme.palette.sysAction?.primaryBgHover
 						},
-						'&.Mui-checked:hover': {
+						"&.Mui-checked:hover": {
 							background: theme.palette.sysAction?.primaryBgHover
 						},
-						'&:not(.Mui-disabled):not(.Mui-checked) > span.MuiSwitch-thumb': {
+						"&:not(.Mui-disabled):not(.Mui-checked) > span.MuiSwitch-thumb": {
 							backgroundColor: theme.palette.sysAction?.primary
 						},
-						'&.Mui-checked+.MuiSwitch-track': {
+						"&.Mui-checked+.MuiSwitch-track": {
 							background: theme.palette.sysAction?.primaryHover,
 							opacity: 1
 						},
-						'&.Mui-disabled+.MuiSwitch-track': {
+						"&.Mui-disabled+.MuiSwitch-track": {
 							background: theme.palette.sysAction?.disabled,
 							opacity: 1
 						},
-						'&.Mui-disabled.Mui-checked > span.MuiSwitch-thumb': {
+						"&.Mui-disabled.Mui-checked > span.MuiSwitch-thumb": {
 							backgroundColor: theme.palette.sysAction?.disabled,
 							opacity: 1
 						},
-						'&.Mui-disabled:not(.Mui-checked)+.MuiSwitch-track': {
+						"&.Mui-disabled:not(.Mui-checked)+.MuiSwitch-track": {
 							background: theme.palette.sysAction?.bgDisabled,
 							opacity: 1
 						},
-						'&.Mui-disabled': {
+						"&.Mui-disabled": {
 							color: theme.palette.sysAction?.disabled,
 							opacity: 1
 						},
-						'&.Mui-disabled:not(.Mui-checked)': {
+						"&.Mui-disabled:not(.Mui-checked)": {
 							color: theme.palette.sysAction?.bgDisabled,
 							opacity: 1
 						}
@@ -570,22 +570,22 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiTab: {
 				styleOverrides: {
 					root: {
-						textColor: theme.palette.sysText?.body,
-						textTransform: 'none',
-						padding: `${sysSizing.radiusSm} ${sysSizing.radiusLg}`,
-						minHeight: 0,
-						lineHeight: 'normal',
-						transition: 'all 150ms linear',
-						'&:hover': {
+						"textColor": theme.palette.sysText?.body,
+						"textTransform": "none",
+						"padding": `${sysSizing.radiusSm} ${sysSizing.radiusLg}`,
+						"minHeight": 0,
+						"lineHeight": "normal",
+						"transition": "all 150ms linear",
+						"&:hover": {
 							background: theme.palette.sysAction?.primaryBgHover,
 							color: theme.palette.sysAction?.primaryHover,
-							transition: 'all 150ms linear'
+							transition: "all 150ms linear"
 						},
-						'&.Mui-selected': {
+						"&.Mui-selected": {
 							color: theme.palette.sysAction?.primaryHover,
-							transition: 'all 150ms linear'
+							transition: "all 150ms linear"
 						},
-						'&:disabled': {
+						"&:disabled": {
 							color: theme.palette.sysAction?.disabled
 						}
 					}
@@ -595,27 +595,27 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiTabs: {
 				styleOverrides: {
 					root: {
-						minHeight: 'unset'
+						minHeight: "unset"
 					},
 					flexContainer: {
-						position: 'relative',
-						'&::before': {
+						"position": "relative",
+						"&::before": {
 							content: '""',
-							width: '100%',
-							height: '1px',
+							width: "100%",
+							height: "1px",
 							backgroundColor: theme.palette.divider,
-							position: 'absolute',
+							position: "absolute",
 							bottom: 0,
 							left: 0
 						}
 					},
 					flexContainerVertical: {
-						'&::before': {
-							display: 'none'
+						"&::before": {
+							display: "none"
 						}
 					},
 					indicator: {
-						height: '3px'
+						height: "3px"
 					},
 					scrollButtons: {
 						backgroundColor: theme.palette.sysBackground?.default,
@@ -626,18 +626,18 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 
 			MuiTextField: {
 				defaultProps: {
-					variant: 'filled'
+					variant: "filled"
 				},
 				styleOverrides: {
 					root: {
-						width: '100%'
+						width: "100%"
 					}
 				}
 			},
 
 			MuiToolbar: {
 				defaultProps: {
-					variant: 'dense'
+					variant: "dense"
 				}
 			},
 
@@ -659,8 +659,8 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiTypography: {
 				defaultProps: {
 					variantMapping: {
-						link: 'p',
-						button2: 'p'
+						link: "p",
+						button2: "p"
 					}
 				}
 			},
@@ -668,8 +668,8 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number) => {
 			MuiDialog: {
 				styleOverrides: {
 					paper: {
-						maxWidth: '100%',
-						maxHeight: '100%'
+						maxWidth: "100%",
+						maxHeight: "100%"
 					}
 				}
 			}

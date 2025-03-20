@@ -1,10 +1,10 @@
-import fillDatabaseWithFakeDataInstance from './methods/fillDatabaseWithFakeData.callMethod';
-import exampleListPublicationInstance from './publications/exampleList.publication';
-import { MongoBase } from '/imports/base/database/mongo.base';
-import MethodBase from '/imports/base/server/methods/method.base';
-import { ExampleServerMethods } from '../common/interfaces/methods';
-import EnumExampleSettings from '../common';
-import ServerBase from '/imports/base/server/server.base';
+import fillDatabaseWithFakeDataInstance from "./methods/fillDatabaseWithFakeData.callMethod";
+import exampleListPublicationInstance from "./publications/exampleList.publication";
+import { MongoBase } from "/imports/base/database/mongo.base";
+import MethodBase from "/imports/base/server/methods/method.base";
+import { ExampleServerMethods } from "../common/interfaces/methods";
+import EnumExampleSettings from "../common";
+import ServerBase from "/imports/base/server/server.base";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [fillDatabaseWithFakeDataInstance] as const;

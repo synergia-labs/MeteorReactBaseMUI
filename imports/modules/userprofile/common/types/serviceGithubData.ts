@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const githubServiceDataSchema = z.object({
 	accessToken: z.string().nonempty(),
@@ -13,7 +13,7 @@ export const githubServiceDataSchema = z.object({
 				email: z.string().email(),
 				verified: z.boolean(),
 				primary: z.boolean(),
-				visibility: z.enum(['public', 'private']).nullable().optional()
+				visibility: z.enum(["public", "private"]).nullable().optional()
 			})
 		)
 		.optional(),

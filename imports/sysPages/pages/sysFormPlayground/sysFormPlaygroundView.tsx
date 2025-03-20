@@ -1,25 +1,25 @@
-import React, { useContext } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import { schemaFormated } from './interface/sysFormSch';
-import { sysSizing } from '/imports/ui/materialui/styles';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-import SysForm from '/imports/ui/components/sysForm/sysForm';
-import { SysFormPlaygroundContext } from './sysFormPlayground';
-import SysFormPlaygroundStyles from './sysFormPlaygroundStyles';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import SysSlider from '/imports/ui/components/sysFormFields/sysSlider/sysSliderField';
-import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
-import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
-import { SysRadioButton } from '/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton';
-import { SysCheckBox } from '/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField';
-import { SysDatePickerField } from '/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField';
-import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
+import React, { useContext } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import { schemaFormated } from "./interface/sysFormSch";
+import { sysSizing } from "/imports/ui/materialui/styles";
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysForm from "/imports/ui/components/sysForm/sysForm";
+import { SysFormPlaygroundContext } from "./sysFormPlayground";
+import SysFormPlaygroundStyles from "./sysFormPlaygroundStyles";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import SysSlider from "/imports/ui/components/sysFormFields/sysSlider/sysSliderField";
+import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
+import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
+import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectField/sysSelectField";
+import { SysRadioButton } from "/imports/ui/components/sysFormFields/sysRadioButton/sysRadioButton";
+import { SysCheckBox } from "/imports/ui/components/sysFormFields/sysCheckBoxField/sysCheckBoxField";
+import { SysDatePickerField } from "/imports/ui/components/sysFormFields/sysDatePickerField/sysDatePickerField";
+import { SysLocationField } from "/imports/ui/components/sysFormFields/sysLocationField/sysLocationField";
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);
@@ -37,8 +37,8 @@ const SysFormPlaygroundView: React.FC = () => {
 
 	const transparentTheme = {
 		...solarizedlight,
-		'code[class*="language-"]': { ...solarizedlight['code[class*="language-"]'], background: 'transparent' },
-		'pre[class*="language-"]': { ...solarizedlight['pre[class*="language-"]'], background: 'transparent' }
+		'code[class*="language-"]': { ...solarizedlight['code[class*="language-"]'], background: "transparent" },
+		'pre[class*="language-"]': { ...solarizedlight['pre[class*="language-"]'], background: "transparent" }
 	};
 
 	return (
@@ -88,7 +88,7 @@ const SysFormPlaygroundView: React.FC = () => {
 					intuitivos.
 				</p>
 				<p>
-					<strong style={{ color: 'red' }}>Obervações: </strong> Para utilizar o SysForm, é necessário informar sempre o
+					<strong style={{ color: "red" }}>Obervações: </strong> Para utilizar o SysForm, é necessário informar sempre o
 					Schema e utilizar apenas os componentes da pasta SysFormComponents. A integração com outros componentes não é
 					garantida e pode causar problemas de funcionamento. Além disso, valores default devem ser passados no schema ou no
 					doc informado para o SysForm e nunca inline nos componentes.
@@ -96,7 +96,7 @@ const SysFormPlaygroundView: React.FC = () => {
 			</Description>
 
 			<Typography variant="h5">Playground</Typography>
-			<Box sx={{ display: 'flex', flexDirection: 'column', gap: sysSizing.spacingFixedLg }}>
+			<Box sx={{ display: "flex", flexDirection: "column", gap: sysSizing.spacingFixedLg }}>
 				<Typography variant="subtitle1">schema</Typography>
 				<SchemaContainer>
 					<SyntaxHighlighter language="typescript" style={transparentTheme}>
@@ -120,12 +120,12 @@ const SysFormPlaygroundView: React.FC = () => {
 						validateOnChange={controller.realTimeValidation}>
 						<RowElement>
 							<SysTextField name="name" placeholder="Digite seu nome completo" />
-							{controller.mode === 'edit' && (
+							{controller.mode === "edit" && (
 								<Button
 									variant="outlined"
-									startIcon={<SysIcon name={'task'} />}
-									onClick={() => controller.validateIndividualField('name')}
-									sx={{ mt: '1.5rem' }}>
+									startIcon={<SysIcon name={"task"} />}
+									onClick={() => controller.validateIndividualField("name")}
+									sx={{ mt: "1.5rem" }}>
 									Validar
 								</Button>
 							)}
@@ -136,10 +136,10 @@ const SysFormPlaygroundView: React.FC = () => {
 						</RowElement>
 						<RowElement>
 							<SysTextField name="cpf" placeholder="Ex.: 123.456.789-00" />
-							{controller.mode === 'edit' && (
-								<Tooltip title={'Validar'}>
-									<IconButton size="small" onClick={() => controller.validateIndividualField('cpf')} sx={{ mt: '2rem' }}>
-										<SysIcon name={'task'} />
+							{controller.mode === "edit" && (
+								<Tooltip title={"Validar"}>
+									<IconButton size="small" onClick={() => controller.validateIndividualField("cpf")} sx={{ mt: "2rem" }}>
+										<SysIcon name={"task"} />
 									</IconButton>
 								</Tooltip>
 							)}
@@ -154,7 +154,7 @@ const SysFormPlaygroundView: React.FC = () => {
 						<SysRadioButton name="rate" childrenAlignment="row" />
 						<SysLocationField name="address" />
 						<SysSlider name="temperature" />
-						<SysFormButton sx={{ alignSelf: 'flex-start' }} startIcon={<SysIcon name={'check'} />}>
+						<SysFormButton sx={{ alignSelf: "flex-start" }} startIcon={<SysIcon name={"check"} />}>
 							Enviar
 						</SysFormButton>
 					</SysForm>
@@ -162,18 +162,18 @@ const SysFormPlaygroundView: React.FC = () => {
 				<ControlerContainer>
 					<Typography variant="subtitle1">Controles</Typography>
 					<ButtonContainer>
-						<Button startIcon={<SysIcon name={'task'} />} onClick={controller.sysFormRef.current?.validateFields}>
+						<Button startIcon={<SysIcon name={"task"} />} onClick={controller.sysFormRef.current?.validateFields}>
 							Validar
 						</Button>
 						<Button
-							startIcon={controller.mode === 'edit' ? <SysIcon name={'visibility'} /> : <SysIcon name={'edit'} />}
-							onClick={() => controller.setMode(controller.mode === 'edit' ? 'view' : 'edit')}
+							startIcon={controller.mode === "edit" ? <SysIcon name={"visibility"} /> : <SysIcon name={"edit"} />}
+							onClick={() => controller.setMode(controller.mode === "edit" ? "view" : "edit")}
 							//@ts-ignore
-							color={controller.mode === 'edit' ? 'tertiary' : 'secondary'}>
-							{controller.mode === 'edit' ? 'Alterar Modo: Visualização' : 'Alterar Modo: Edição'}
+							color={controller.mode === "edit" ? "tertiary" : "secondary"}>
+							{controller.mode === "edit" ? "Alterar Modo: Visualização" : "Alterar Modo: Edição"}
 						</Button>
 						<Button
-							startIcon={<SysIcon name={'cleaning'} />}
+							startIcon={<SysIcon name={"cleaning"} />}
 							color="error"
 							onClick={() => {
 								controller.sysFormRef.current?.clearForm();
@@ -181,22 +181,22 @@ const SysFormPlaygroundView: React.FC = () => {
 							}}>
 							Limpar
 						</Button>
-						<Button startIcon={<SysIcon name={'security'} />} onClick={controller.sysFormRef.current?.submit} color="warning">
+						<Button startIcon={<SysIcon name={"security"} />} onClick={controller.sysFormRef.current?.submit} color="warning">
 							Forçar submit
 						</Button>
 						<Button
-							startIcon={<SysIcon name={'manageSearch'} />}
+							startIcon={<SysIcon name={"manageSearch"} />}
 							onClick={() => controller.setDebugMode(!controller.debugMode)}
-							color={!controller.debugMode ? 'warning' : 'success'}>
-							{controller.debugMode ? 'Desativar Debug' : 'Ativar Debug'}
+							color={!controller.debugMode ? "warning" : "success"}>
+							{controller.debugMode ? "Desativar Debug" : "Ativar Debug"}
 						</Button>
-						<Button startIcon={<SysIcon name={'security'} />} onClick={() => controller.setLoading(!controller.loading)}>
-							Loading: {controller.loading ? 'Ativo' : 'Inativo'}
+						<Button startIcon={<SysIcon name={"security"} />} onClick={() => controller.setLoading(!controller.loading)}>
+							Loading: {controller.loading ? "Ativo" : "Inativo"}
 						</Button>
 						<Button
-							startIcon={<SysIcon name={'published'} />}
+							startIcon={<SysIcon name={"published"} />}
 							onClick={() => controller.setRealTimeValidation(!controller.realTimeValidation)}>
-							Validação em tempo real: {controller.realTimeValidation ? 'Ativo' : 'Inativo'}
+							Validação em tempo real: {controller.realTimeValidation ? "Ativo" : "Inativo"}
 						</Button>
 					</ButtonContainer>
 
@@ -205,20 +205,20 @@ const SysFormPlaygroundView: React.FC = () => {
 						<SyntaxHighlighter language="typescript" style={transparentTheme}>
 							{JSON.stringify(controller.doc, null, 2)}
 						</SyntaxHighlighter>
-						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-							<Tooltip title={'Atualizar doc'}>
+						<Box sx={{ display: "flex", flexDirection: "column" }}>
+							<Tooltip title={"Atualizar doc"}>
 								<IconButton onClick={controller.updateDoc}>
-									<SysIcon name={'replay'} />
+									<SysIcon name={"replay"} />
 								</IconButton>
 							</Tooltip>
-							<Tooltip title={controller.updateRealTime ? 'Atualização em tempo real' : 'Atualização manual'}>
+							<Tooltip title={controller.updateRealTime ? "Atualização em tempo real" : "Atualização manual"}>
 								<IconButton onClick={() => controller.changeUpdateRealTime(!controller.updateRealTime)}>
-									{controller.updateRealTime ? <SysIcon name={'visibility'} /> : <SysIcon name={'visibilityOff'} />}
+									{controller.updateRealTime ? <SysIcon name={"visibility"} /> : <SysIcon name={"visibilityOff"} />}
 								</IconButton>
 							</Tooltip>
-							<Tooltip title={'Campos com erro'}>
+							<Tooltip title={"Campos com erro"}>
 								<IconButton onClick={controller.showFieldWithErrors}>
-									<SysIcon name={'errorCircle'} color="error" />
+									<SysIcon name={"errorCircle"} color="error" />
 								</IconButton>
 							</Tooltip>
 						</Box>

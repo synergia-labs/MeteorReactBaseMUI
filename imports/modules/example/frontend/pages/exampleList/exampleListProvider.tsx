@@ -1,23 +1,23 @@
-import React, { useCallback, useContext, useState } from 'react';
-import Context, { IExampleListContext } from './exampleListContext';
-import ExampleListView from './exampleListView';
-import { useTracker } from 'meteor/react-meteor-data';
-import { hasValue } from '/imports/libs/hasValue';
-import { debounce } from 'lodash';
-import { IFilterPublication, IOptionsPublication } from '/imports/typings/IFilterProperties';
-import { useNavigate } from 'react-router-dom';
-import EnumExampleScreenState from '../../../common/enums/enumScreenState';
-import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
-import { GridPaginationModel } from '@mui/x-data-grid';
-import { nanoid } from 'nanoid';
-import exampleApi from '../../api/api';
-import enumExampleRegisterPublications from '../../../common/enums/enumRegisterPublications';
+import React, { useCallback, useContext, useState } from "react";
+import Context, { IExampleListContext } from "./exampleListContext";
+import ExampleListView from "./exampleListView";
+import { useTracker } from "meteor/react-meteor-data";
+import { hasValue } from "/imports/libs/hasValue";
+import { debounce } from "lodash";
+import { IFilterPublication, IOptionsPublication } from "/imports/typings/IFilterProperties";
+import { useNavigate } from "react-router-dom";
+import EnumExampleScreenState from "../../../common/enums/enumScreenState";
+import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
+import { GridPaginationModel } from "@mui/x-data-grid";
+import { nanoid } from "nanoid";
+import exampleApi from "../../api/api";
+import enumExampleRegisterPublications from "../../../common/enums/enumRegisterPublications";
 
 const ExampleListProvider: React.FC = () => {
 	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
-	const [filterByNameValue, setFilterByNameValue] = useState<string>('');
-	const [filterByCategoryValue, setFilterByCategoryValue] = useState<string>('');
+	const [filterByNameValue, setFilterByNameValue] = useState<string>("");
+	const [filterByCategoryValue, setFilterByCategoryValue] = useState<string>("");
 	const [paginationProps, setPaginationProps] = useState<GridPaginationModel>({ page: 0, pageSize: 15 });
 	const [loading, setLoading] = useState<boolean>(false);
 	const [totalDocuments, setTotalDocuments] = useState<number>(0);
@@ -29,7 +29,7 @@ const ExampleListProvider: React.FC = () => {
 		debounce((value: string) => {
 			setFilterByNameValue((prev) => {
 				if (value.length < 3)
-					if (prev.length > 0) return '';
+					if (prev.length > 0) return "";
 					else return prev;
 				return value;
 			});
@@ -43,9 +43,9 @@ const ExampleListProvider: React.FC = () => {
 		(state: EnumExampleScreenState, id?: string) => {
 			if ((state === EnumExampleScreenState.VIEW || state === EnumExampleScreenState.EDIT) && !hasValue(id))
 				return showNotification({
-					type: 'error',
-					title: 'Não foi possível navegar até a página',
-					message: 'O id do item não foi informado'
+					type: "error",
+					title: "Não foi possível navegar até a página",
+					message: "O id do item não foi informado"
 				});
 
 			navigate(`/example/${state}/${id ?? nanoid()}`);

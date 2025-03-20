@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
-import ExampleListView from './exampleListView';
-import { nanoid } from 'nanoid';
-import { useNavigate } from 'react-router-dom';
-import { useTracker } from 'meteor/react-meteor-data';
-import { ISchema } from '/imports/typings/ISchema';
-import { IExample } from '../../api/exampleSch';
-import { exampleApi } from '../../api/exampleApi';
+import React, { useCallback, useMemo } from "react";
+import ExampleListView from "./exampleListView";
+import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
+import { useTracker } from "meteor/react-meteor-data";
+import { ISchema } from "/imports/typings/ISchema";
+import { IExample } from "../../api/exampleSch";
+import { exampleApi } from "../../api/exampleApi";
 
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean };
@@ -29,7 +29,7 @@ export const ExampleListControllerContext = React.createContext<IExampleListCont
 );
 
 const initialConfig = {
-	sortProperties: { field: 'createdat', sortAscending: true },
+	sortProperties: { field: "createdat", sortAscending: true },
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false
@@ -39,7 +39,7 @@ const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 
 	const { title, type, typeMulti } = exampleApi.getSchema();
-	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
+	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: "Criado em" } };
 	const navigate = useNavigate();
 
 	const { sortProperties, filter } = config;
@@ -48,7 +48,7 @@ const ExampleListController = () => {
 	};
 
 	const { loading, examples } = useTracker(() => {
-		const subHandle = exampleApi.subscribe('exampleList', filter, {
+		const subHandle = exampleApi.subscribe("exampleList", filter, {
 			sort
 		});
 		const examples = subHandle?.ready() ? exampleApi.find(filter, { sort }).fetch() : [];
@@ -73,7 +73,7 @@ const ExampleListController = () => {
 		const delayedSearch = setTimeout(() => {
 			setConfig((prev) => ({
 				...prev,
-				filter: { ...prev.filter, title: { $regex: value.trim(), $options: 'i' } }
+				filter: { ...prev.filter, title: { $regex: value.trim(), $options: "i" } }
 			}));
 		}, 1000);
 		return () => clearTimeout(delayedSearch);

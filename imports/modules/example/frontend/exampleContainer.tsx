@@ -1,8 +1,8 @@
-import React, { ReactNode, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import { hasValue } from '/imports/libs/hasValue';
-import EnumExampleScreenState, { exampleScreenStateValidState } from '../common/enums/enumScreenState';
-import ExampleModuleContext, { IExampleModuleContext } from './exampleContext';
+import React, { ReactNode, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import { hasValue } from "/imports/libs/hasValue";
+import EnumExampleScreenState, { exampleScreenStateValidState } from "../common/enums/enumScreenState";
+import ExampleModuleContext, { IExampleModuleContext } from "./exampleContext";
 
 interface IExampleContainerProps {
 	children?: ReactNode;

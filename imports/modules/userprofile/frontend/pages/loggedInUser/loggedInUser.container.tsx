@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import Context, { ILoggedInUserContext } from './loggedInUser.context';
+import React, { ReactNode } from "react";
+import Context, { ILoggedInUserContext } from "./loggedInUser.context";
 
 interface ILoggedInUserContainerProps {
 	children?: ReactNode;

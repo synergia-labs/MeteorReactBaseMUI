@@ -1,33 +1,33 @@
-import React from 'react';
-import LibraryBooks from '@mui/icons-material/LibraryBooks';
-import LibraryMusic from '@mui/icons-material/LibraryMusic';
-import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import AttachFile from '@mui/icons-material/AttachFile';
-import Book from '@mui/icons-material/Book';
-import Image from '@mui/icons-material/Image';
+import React from "react";
+import LibraryBooks from "@mui/icons-material/LibraryBooks";
+import LibraryMusic from "@mui/icons-material/LibraryMusic";
+import VideoLibrary from "@mui/icons-material/VideoLibrary";
+import AttachFile from "@mui/icons-material/AttachFile";
+import Book from "@mui/icons-material/Book";
+import Image from "@mui/icons-material/Image";
 
-import Styles from './cardStyles';
-import { IFileCard } from './interfaces';
+import Styles from "./cardStyles";
+import { IFileCard } from "./interfaces";
 
 function getIcon(type: string, sxIcon?: any) {
 	switch (type) {
-		case 'text':
+		case "text":
 			return <LibraryBooks color="primary" sx={sxIcon} />;
-		case 'audio':
+		case "audio":
 			return <LibraryMusic color="primary" sx={sxIcon} />;
-		case 'image':
+		case "image":
 			return <Image color="primary" sx={sxIcon} />;
-		case 'video':
+		case "video":
 			return <VideoLibrary color="primary" sx={sxIcon} />;
-		case 'application':
+		case "application":
 			return <Book color="primary" sx={sxIcon} />;
 		default:
 			return <AttachFile color="primary" sx={sxIcon} />;
 	}
 }
 
-export function FileCardWithIcons({ item, sxMap, viewType = 'row', canEdit = true, onRemove }: IFileCard) {
-	const size = item?.file ? `${(item?.file?.size / (1024 * 1024)).toFixed(3)}MB` : 'unknown';
+export function FileCardWithIcons({ item, sxMap, viewType = "row", canEdit = true, onRemove }: IFileCard) {
+	const size = item?.file ? `${(item?.file?.size / (1024 * 1024)).toFixed(3)}MB` : "unknown";
 
 	return (
 		<Styles.card sx={sxMap?.card} typeview={viewType}>

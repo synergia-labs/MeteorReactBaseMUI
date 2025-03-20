@@ -18,34 +18,34 @@ html {
 }
 
 body {
-	font-family: 'Poppins', sans-serif;
+	font-family: "Poppins", sans-serif;
 	height: 100%;
 	margin: 0;
 }
 
 .custom-list-item::before {
-	content: '• '; /* Unicode for bullet */
+	content: "• "; /* Unicode for bullet */
 	margin-right: 5px;
 }
 
 @font-face {
 	font-display: swap;
-	font-family: 'Poppins';
+	font-family: "Poppins";
 	font-style: normal;
 	font-weight: 400;
 	src:
-		url('../fonts/poppins-v20-latin-regular.woff2') format('woff2'),
-		url('../fonts/poppins-v20-latin-regular.ttf') format('truetype');
+		url("../fonts/poppins-v20-latin-regular.woff2") format("woff2"),
+		url("../fonts/poppins-v20-latin-regular.ttf") format("truetype");
 }
 
 @font-face {
 	font-display: swap;
-	font-family: 'Poppins';
+	font-family: "Poppins";
 	font-style: normal;
 	font-weight: 600;
 	src:
-		url('../fonts/poppins-v20-latin-600.woff2') format('woff2'),
-		url('../fonts/poppins-v20-latin-600.ttf') format('truetype');
+		url("../fonts/poppins-v20-latin-600.woff2") format("woff2"),
+		url("../fonts/poppins-v20-latin-600.ttf") format("truetype");
 }
 
 /* Ensure that the max height respects the viewport height */

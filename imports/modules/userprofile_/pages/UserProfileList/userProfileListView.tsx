@@ -1,20 +1,20 @@
-import React, { useContext, useState } from 'react';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import InputAdornment from '@mui/material/InputAdornment';
-import { UserProfileListControllerContext } from './userProfileListController';
-import { SysCardUser } from '../../components/sysCardUser/sysCardUser';
-import UserProfileListViewStyled from './userProfileListStyles';
-import { SysFab } from '../../../../ui/components/sysFab/sysFab';
-import { SysSelectField } from '../../../../ui/components/sysFormFields/sysSelectField/sysSelectField';
-import { useTheme } from '@mui/material/styles';
-import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
-import { EnumUserRoles, getUserRoleTranslated } from '../../config/enumUser';
+import React, { useContext, useState } from "react";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import InputAdornment from "@mui/material/InputAdornment";
+import { UserProfileListControllerContext } from "./userProfileListController";
+import { SysCardUser } from "../../components/sysCardUser/sysCardUser";
+import UserProfileListViewStyled from "./userProfileListStyles";
+import { SysFab } from "../../../../ui/components/sysFab/sysFab";
+import { SysSelectField } from "../../../../ui/components/sysFormFields/sysSelectField/sysSelectField";
+import { useTheme } from "@mui/material/styles";
+import SysIcon from "../../../../ui/components/sysIcon/sysIcon";
+import { EnumUserRoles, getUserRoleTranslated } from "../../config/enumUser";
 
 const UserProfileLisView = () => {
 	const context = useContext(UserProfileListControllerContext);
 	const { list, onSearch, onSetFilter, onAddButtonClick } = context;
-	const [selectedRole, setSelectedRole] = useState('');
+	const [selectedRole, setSelectedRole] = useState("");
 	const theme = useTheme();
 	const { Container, Filters } = UserProfileListViewStyled;
 	const options = Object.values(EnumUserRoles).map((key) => ({ value: key, label: getUserRoleTranslated(key) }));
@@ -30,7 +30,7 @@ const UserProfileLisView = () => {
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
-								<SysIcon name={'search'} sx={{ color: theme.palette.sysAction?.primaryIcon }} />
+								<SysIcon name={"search"} sx={{ color: theme.palette.sysAction?.primaryIcon }} />
 							</InputAdornment>
 						)
 					}}
@@ -42,7 +42,7 @@ const UserProfileLisView = () => {
 					value={selectedRole}
 					onChange={(e) => {
 						setSelectedRole(e.target.value);
-						onSetFilter('roles', e.target.value);
+						onSetFilter("roles", e.target.value);
 					}}
 					options={options}
 				/>
@@ -63,7 +63,7 @@ const UserProfileLisView = () => {
 			<SysFab
 				variant="extended"
 				text="Adicionar"
-				startIcon={<SysIcon name={'add'} />}
+				startIcon={<SysIcon name={"add"} />}
 				fixed={true}
 				onClick={onAddButtonClick}
 			/>

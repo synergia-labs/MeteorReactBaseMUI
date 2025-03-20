@@ -1,22 +1,22 @@
-import React, { ReactNode } from 'react';
-import Styles from './baseUserEmailsStyles';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import React, { ReactNode } from "react";
+import Styles from "./baseUserEmailsStyles";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 
 interface IBaseEmailsProps {
 	title?: string;
 	children?: ReactNode;
 }
 
-const BaseUserEmails: React.FC<IBaseEmailsProps> = ({ title = 'Olá, ', children }) => {
+const BaseUserEmails: React.FC<IBaseEmailsProps> = ({ title = "Olá, ", children }) => {
 	return (
 		<Styles.container>
-			<Box sx={{ textAlign: 'center' }}>
+			<Box sx={{ textAlign: "center" }}>
 				<img
 					src="https://i.postimg.cc/7Zjqm6k4/slogan-neon-preta-vertical.png"
 					alt="Synergia Logo"
-					style={{ maxWidth: '270px' }}
+					style={{ maxWidth: "270px" }}
 				/>
 			</Box>
 			<Styles.content>

@@ -1,8 +1,8 @@
-import { z } from 'zod';
-import EnumUserRoles from '../enums/enumUserRoles';
-import { AuditSch } from '/imports/base/types/audit';
-import { githubServiceDataSchema } from './serviceGithubData';
-import { googleServiceDataSchema } from './serviceGoogleData';
+import { z } from "zod";
+import EnumUserRoles from "../enums/enumUserRoles";
+import { AuditSch } from "/imports/base/types/audit";
+import { githubServiceDataSchema } from "./serviceGithubData";
+import { googleServiceDataSchema } from "./serviceGoogleData";
 
 export const userProfileSchema = AuditSch.extend({
 	photo: z.string().optional(),

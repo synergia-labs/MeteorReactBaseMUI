@@ -1,13 +1,13 @@
-import React, { createContext, useCallback, useContext } from 'react';
-import ExampleDetailView from './exampleDetailView';
-import { useNavigate } from 'react-router-dom';
-import { ExampleModuleContext } from '../../exampleContainer';
-import { useTracker } from 'meteor/react-meteor-data';
-import { exampleApi } from '../../api/exampleApi';
-import { IExample } from '../../api/exampleSch';
-import { ISchema } from '/imports/typings/ISchema';
-import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
+import React, { createContext, useCallback, useContext } from "react";
+import ExampleDetailView from "./exampleDetailView";
+import { useNavigate } from "react-router-dom";
+import { ExampleModuleContext } from "../../exampleContainer";
+import { useTracker } from "meteor/react-meteor-data";
+import { exampleApi } from "../../api/exampleApi";
+import { IExample } from "../../api/exampleSch";
+import { ISchema } from "/imports/typings/ISchema";
+import { IMeteorError } from "/imports/typings/BoilerplateDefaultTypings";
+import { SysAppLayoutContext } from "/imports/app/appLayout";
 
 interface IExampleDetailContollerContext {
 	closePage: () => void;
@@ -28,7 +28,7 @@ const ExampleDetailController = () => {
 	const { showNotification } = useContext(SysAppLayoutContext);
 
 	const { document, loading } = useTracker(() => {
-		const subHandle = id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
+		const subHandle = id ? exampleApi.subscribe("exampleDetail", { _id: id }) : null;
 		const document = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {};
 		return {
 			document: (document as IExample) ?? ({ _id: id } as IExample),
@@ -44,19 +44,19 @@ const ExampleDetailController = () => {
 	}, []);
 
 	const onSubmit = useCallback((doc: IExample) => {
-		const selectedAction = state === 'create' ? 'insert' : 'update';
+		const selectedAction = state === "create" ? "insert" : "update";
 		exampleApi[selectedAction](doc, (e: IMeteorError) => {
 			if (!e) {
 				closePage();
 				showNotification({
-					type: 'success',
-					title: 'Operação realizada!',
-					message: `O exemplo foi ${selectedAction === 'update' ? 'atualizado' : 'cadastrado'} com sucesso!`
+					type: "success",
+					title: "Operação realizada!",
+					message: `O exemplo foi ${selectedAction === "update" ? "atualizado" : "cadastrado"} com sucesso!`
 				});
 			} else {
 				showNotification({
-					type: 'error',
-					title: 'Operação não realizada!',
+					type: "error",
+					title: "Operação não realizada!",
 					message: `Erro ao realizar a operação: ${e.reason}`
 				});
 			}

@@ -9,7 +9,7 @@ import React, {
 	useImperativeHandle,
 	useMemo,
 	useRef
-} from 'react';
+} from "react";
 import {
 	IDocRef,
 	IDocValues,
@@ -18,12 +18,12 @@ import {
 	ISysFormComponentRef,
 	ISysFormContext,
 	ISysFormRef
-} from './typings';
-import SysFormMethods from './sysFormMethods';
-import { hasValue } from '../../../libs/hasValue';
-import { IOption } from '../InterfaceBaseSimpleFormComponent';
-import compareArrays from '../../../libs/compareArrays';
-import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
+} from "./typings";
+import SysFormMethods from "./sysFormMethods";
+import { hasValue } from "../../../libs/hasValue";
+import { IOption } from "../InterfaceBaseSimpleFormComponent";
+import compareArrays from "../../../libs/compareArrays";
+import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 
 const SysFormContext = createContext<ISysFormContext>({} as ISysFormContext);
 
@@ -31,7 +31,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 	{
 		schema,
 		doc = {},
-		mode = 'edit',
+		mode = "edit",
 		disabled = false,
 		loading = false,
 		debugAlerts = true,
@@ -54,9 +54,9 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 	const __onFailure = (error: Error) => {
 		if (debugAlerts)
 			showNotification({
-				title: 'Erro no Formulário',
-				message: error.message.replace(/error:/gi, ''),
-				type: 'error'
+				title: "Erro no Formulário",
+				message: error.message.replace(/error:/gi, ""),
+				type: "error"
 			});
 	};
 
@@ -210,7 +210,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 			}
 			const errorMessage =
 				!isOptional && !hasValue(value)
-					? 'Campo obrigatório'
+					? "Campo obrigatório"
 					: schamaInfo?.validationFunction?.(value, SysFormMethods.getDocValues(refComponents.current, schema));
 			componentRef.current.error = errorMessage;
 			componentRef.current.setError?.(errorMessage);
@@ -229,11 +229,11 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 			if (Object.keys(fieldsWithOptions.current).length === 0) return;
 			for (const key in fieldsWithOptions.current) {
 				const refComponent = fieldsWithOptions.current[key] as MutableRefObject<ISysFormComponentRef>;
-				if (!refComponent) throw new Error('Componente não encontrado.');
+				if (!refComponent) throw new Error("Componente não encontrado.");
 				const schemaInfo = SysFormMethods.getSchemaByName(schema, refComponent.current.name);
-				if (!schemaInfo) throw new Error('Schema não encontrado.');
+				if (!schemaInfo) throw new Error("Schema não encontrado.");
 				const newOptions = schemaInfo.options?.(SysFormMethods.getDocValues(refComponents.current, schema));
-				if (!newOptions) throw new Error('Opções não encontradas.');
+				if (!newOptions) throw new Error("Opções não encontradas.");
 				if (compareArrays(newOptions, refComponent.current.options!)) continue;
 				refComponent.current.options = newOptions;
 				refComponent.current.setOptions?.(newOptions ?? []);
@@ -338,12 +338,12 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 		checkIfAllRequiredFieldsAreFilled();
 		checkVisibilityFields();
 		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key !== 'Enter' || !checkIfAllRequiredFieldsAreFilled()) return;
+			if (event.key !== "Enter" || !checkIfAllRequiredFieldsAreFilled()) return;
 			if (submitWithKeyEnter) onSubmitForm();
 		};
-		document.addEventListener('keydown', handleKeyDown);
+		document.addEventListener("keydown", handleKeyDown);
 		return () => {
-			document.removeEventListener('keydown', handleKeyDown);
+			document.removeEventListener("keydown", handleKeyDown);
 		};
 	}, []);
 

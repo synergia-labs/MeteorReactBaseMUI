@@ -1,5 +1,5 @@
-import { Meta } from '@storybook/blocks';
-import Image from '../assets/rotas.png';
+import { Meta } from "@storybook/blocks";
+import Image from "../assets/rotas.png";
 
 <Meta title="Documentação/Rotas" />
 
@@ -41,23 +41,23 @@ interface IRoute {
 > Interface de definição de rotas
 
 ```typescript
-import { IRoute } from '/imports/modules/modulesTypings';
-import SEUCOMPONENTE from './SEUCOMPONENTE';
+import { IRoute } from "/imports/modules/modulesTypings";
+import SEUCOMPONENTE from "./SEUCOMPONENTE";
 
 const exampleRouterList: (IRoute | null)[] = [
 	{
-		path: '/example/:screenState/:exampleId',
+		path: "/example/:screenState/:exampleId",
 		component: SEUCOMPONENTE,
 		isProtected: true
 	},
 	{
-		path: '/example/:screenState',
+		path: "/example/:screenState",
 		component: SEUCOMPONENTE,
 		isProtected: true,
 		resources: [Recurso.EXAMPLE_CREATE]
 	},
 	{
-		path: '/example',
+		path: "/example",
 		component: SEUCOMPONENTE,
 		isProtected: true
 	}

@@ -1,17 +1,17 @@
-import React from 'react';
-import { SxProps, Theme } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import React from "react";
+import { SxProps, Theme } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 /** Essa página é apenas demonstrativa, sua função é ser usada para exemplificar os componentes do StotyBook */
 
 function StoryGenericPage({ sx }: { sx?: SxProps<Theme> }) {
 	return (
-		<Box sx={sx ?? { margin: '20px', gap: '20px', display: 'flex', flexDirection: 'column' }}>
+		<Box sx={sx ?? { margin: "20px", gap: "20px", display: "flex", flexDirection: "column" }}>
 			<Typography variant="h2" gutterBottom>
 				Título da Página
 			</Typography>
@@ -26,7 +26,7 @@ function StoryGenericPage({ sx }: { sx?: SxProps<Theme> }) {
 				Botão de Ação
 			</Button>
 
-			<Typography variant="h5" style={{ marginTop: '20px' }} gutterBottom>
+			<Typography variant="h5" style={{ marginTop: "20px" }} gutterBottom>
 				Subtítulo da Seção 2
 			</Typography>
 			<Grid container spacing={3}>

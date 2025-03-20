@@ -3,9 +3,9 @@
  * Ele pode ser configurado com um rótulo, um espaço reservado e uma opção para desabilitá-lo.
  * Também permite a personalização dos estilos usando o objeto sxMap.
  */
-import React from 'react';
-import { SysViewFieldStyle } from './sysViewFieldStyles';
-import { SxProps, Theme } from '@mui/material';
+import React from "react";
+import { SysViewFieldStyle } from "./sysViewFieldStyles";
+import { SxProps, Theme } from "@mui/material";
 
 /**
  * Propriedades aceitas pelo componente SysViewField.
@@ -66,7 +66,7 @@ interface ISysViewField {
 export const SysViewField: React.FC<ISysViewField> = ({
 	label,
 	showLabelAdornment = false,
-	labelAdornment = '(opcional)',
+	labelAdornment = "(opcional)",
 	placeholder,
 	disabled,
 	sxMap
@@ -75,11 +75,11 @@ export const SysViewField: React.FC<ISysViewField> = ({
 	return (
 		<Container sx={sxMap?.container}>
 			{/* Exibe o rótulo */}
-			<Info variant="body2" sx={sxMap?.label} type={'label'} disabled={disabled || false}>
-				{`${label} ${showLabelAdornment ? labelAdornment : ''}`}
+			<Info variant="body2" sx={sxMap?.label} type={"label"} disabled={disabled || false}>
+				{`${label} ${showLabelAdornment ? labelAdornment : ""}`}
 			</Info>
 			{/* Exibe o espaço reservado */}
-			<Info variant="body1" sx={sxMap?.placeholder} type={'placeholder'} disabled={disabled || false}>
+			<Info variant="body1" sx={sxMap?.placeholder} type={"placeholder"} disabled={disabled || false}>
 				{placeholder}
 			</Info>
 		</Container>

@@ -2,21 +2,21 @@ class BasicCommands {
 	access = {
 		signIn: (login, password) => {
 			cy.clearCookies();
-			cy.visit('/signin');
+			cy.visit("/signin");
 			cy.wait(200);
-			this.utils.isVisible('#email');
-			this.utils.isVisible('#password');
-			cy.get('#email').type(login);
-			cy.get('#password').type(password);
-			cy.get('#btnEnter').click();
+			this.utils.isVisible("#email");
+			this.utils.isVisible("#password");
+			cy.get("#email").type(login);
+			cy.get("#password").type(password);
+			cy.get("#btnEnter").click();
 			cy.wait(200);
 		},
 		signUp: (login, password) => {
 			cy.clearCookies();
-			cy.visit('/signin');
+			cy.visit("/signin");
 			cy.wait(200);
-			this.utils.isVisible('#email');
-			this.utils.isVisible('#password');
+			this.utils.isVisible("#email");
+			this.utils.isVisible("#password");
 			cy.wait(200);
 		}
 	};
@@ -51,7 +51,7 @@ class BasicCommands {
 							`//*[self::Button or self::a or self::div[@role="button"] or self::li[@role="menuitem"]][contains(., "${label}") or contains(@label, "${label}") or contains(@aria-label, "${label}") or contains(@id, "${label}")]`
 						)
 						.first()
-						.click('left', { force: true });
+						.click("left", { force: true });
 					cy.wait(200);
 				} else {
 					cy
@@ -59,7 +59,7 @@ class BasicCommands {
 							`//*[self::Button or self::a or self::div[@role="button"] or self::li[@role="menuitem"]][contains(., "${label}") or contains(@label, "${label}") or contains(@aria-label, "${label}") or contains(@id, "${label}")]`
 						)
 						.first()
-						.click('left', { force: true });
+						.click("left", { force: true });
 					cy.wait(200);
 				}
 			}
@@ -72,7 +72,7 @@ class BasicCommands {
 					)
 					.then(($element) => {
 						if ($element.is(`input[type="file"]`)) {
-							this.components.anyField.image(cy.wrap($element).first(), 'testPicture.png');
+							this.components.anyField.image(cy.wrap($element).first(), "testPicture.png");
 						} else if ($element.is(`input[type="text"]`)) {
 							this.components.textfield.type(cy.wrap($element).first(), value);
 						} else if ($element.is(`input[type="number"]`)) {
@@ -106,19 +106,19 @@ class BasicCommands {
               fileName: 'testPicture.png',
               mimeType: 'image/png'
           });*/
-				cy.fixture('testPicture.png').then((fileContent) => {
-					cy.get('[data-cy="dropzone"]').attachFile('testPicture.png', { subjectType: 'drag-n-drop' });
+				cy.fixture("testPicture.png").then((fileContent) => {
+					cy.get('[data-cy="dropzone"]').attachFile("testPicture.png", { subjectType: "drag-n-drop" });
 				});
 			},
 			image: (name, value) => {
 				cy.get(`[id="${name}"]`).first().click();
 				cy
 					.fixture(`${value}`)
-					.as('logo')
-					.get('input[type=file]')
+					.as("logo")
+					.get("input[type=file]")
 					.then(function () {
 						console.log(this.logo);
-						return Cypress.Blob.base64StringToBlob(this.logo, 'image/png');
+						return Cypress.Blob.base64StringToBlob(this.logo, "image/png");
 					});
 			}
 		},
@@ -186,8 +186,8 @@ class BasicCommands {
 
 	notification = {
 		verifyMessage: (message) => {
-			this.utils.isVisible('#message-id');
-			cy.get('#message-id').should('have.text', message);
+			this.utils.isVisible("#message-id");
+			cy.get("#message-id").should("have.text", message);
 			cy.wait(200);
 		}
 	};
@@ -195,7 +195,7 @@ class BasicCommands {
 	table = {
 		clickRemoveButtonOfLineThatContains: (text) => {
 			cy
-				.get('tr')
+				.get("tr")
 				.get(`td:contains("${text}") ~ td`)
 				//get(`*[aria-label^="remove_"]`).
 				.get(`*[title^="remove"], *[id^="remove"], *[label^="remove"], *[aria-label^="remove"]`)
@@ -205,7 +205,7 @@ class BasicCommands {
 		},
 		clickButtonOnLineThatContains: (textButton, text) => {
 			cy
-				.get('tr')
+				.get("tr")
 				.get(`td:contains("${text}") ~ td`)
 				.get(`*[title*="${textButton}"], *[id="${textButton}"], *[label*="${textButton}"], *[aria-label*="${textButton}"]`)
 				//get(`*[aria-label^="${textBotton}"]`).
@@ -214,28 +214,28 @@ class BasicCommands {
 			cy.wait(200);
 		},
 		clickLineThatContains: (text) => {
-			cy.get('tr').get(`td:contains("${text}") ~ td`).first().click();
+			cy.get("tr").get(`td:contains("${text}") ~ td`).first().click();
 			cy.wait(200);
 		},
 		hasElementOnTableLine: (table, text) => {
-			cy.get(`table#${table}`).get('tr').get(`td:contains("${text}")`).first().should('have.text', text);
+			cy.get(`table#${table}`).get("tr").get(`td:contains("${text}")`).first().should("have.text", text);
 			cy.wait(200);
 		},
 
 		notHasElementOnTableLine: (table, text) => {
-			cy.get(`table#${table}`).get('tr').get(`td:contains("${text}")`).first().should('not.have.text', text);
+			cy.get(`table#${table}`).get("tr").get(`td:contains("${text}")`).first().should("not.have.text", text);
 			cy.wait(200);
 		}
 	};
 
 	utils = {
 		isEnabledAndVisible: (element) => {
-			cy.get(element).invoke('width').should('be.gt', 0);
+			cy.get(element).invoke("width").should("be.gt", 0);
 			cy.wait(200);
 		},
 
 		isVisible: (element) => {
-			cy.get(element).invoke('width').should('be.gt', 0);
+			cy.get(element).invoke("width").should("be.gt", 0);
 			cy.wait(200);
 		},
 
@@ -246,17 +246,17 @@ class BasicCommands {
 			cy.get(`[id="${name}"]`).first().click();
 			cy
 				.fixture(`${value}`)
-				.as('logo')
-				.get('input[type=file]')
+				.as("logo")
+				.get("input[type=file]")
 				.then(function ($input) {
-					const blob = Cypress.Blob.base64StringToBlob(this.logo, 'image/png');
-					$input.fileupload('add', { files: blob });
+					const blob = Cypress.Blob.base64StringToBlob(this.logo, "image/png");
+					$input.fileupload("add", { files: blob });
 				});
 		}
 	};
 }
 
-for (const command of ['visit', 'click', 'trigger', 'type', 'clear', 'reload', 'contains']) {
+for (const command of ["visit", "click", "trigger", "type", "clear", "reload", "contains"]) {
 	Cypress.Commands.overwrite(command, (originalFn, ...args) => {
 		const origVal = originalFn(...args);
 

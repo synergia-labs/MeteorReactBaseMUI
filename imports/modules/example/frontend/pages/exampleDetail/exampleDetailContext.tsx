@@ -1,6 +1,6 @@
-import React, { createContext } from 'react';
-import { IExample } from '../../api/exampleSch';
-import { ISchema } from '/imports/typings/ISchema';
+import React, { createContext } from "react";
+import { IExample } from "../../api/exampleSch";
+import { ISchema } from "/imports/typings/ISchema";
 
 interface IExampleDetailContext {
 	document: Partial<IExample>;

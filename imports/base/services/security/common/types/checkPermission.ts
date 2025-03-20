@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const paramCheckPermissionSch = z.object({
 	names: z.array(z.string()),

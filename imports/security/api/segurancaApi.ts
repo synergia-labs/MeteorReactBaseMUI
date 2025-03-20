@@ -1,7 +1,7 @@
-import { mapRolesRecursos } from '/imports/security/config/mapRolesRecursos';
-import { Meteor } from 'meteor/meteor';
-import { getSystemUserProfile } from '/imports/libs/getUser';
-import EnumUserRoles from '../../modules/userprofile/common/enums/enumUserRoles';
+import { mapRolesRecursos } from "/imports/security/config/mapRolesRecursos";
+import { Meteor } from "meteor/meteor";
+import { getSystemUserProfile } from "/imports/libs/getUser";
+import EnumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 
 type Recurso = string;
 
@@ -47,9 +47,9 @@ class SegurancaApi {
 	validarAcessoRecursos(
 		user: Meteor.User | undefined,
 		recursos: string[],
-		msgErro: string = 'Você não tem permissao para realizar essa operação'
+		msgErro: string = "Você não tem permissao para realizar essa operação"
 	): void {
-		if (!this.podeAcessarRecurso(user, ...recursos)) throw new Meteor.Error('Acesso negado', msgErro, recursos.join(','));
+		if (!this.podeAcessarRecurso(user, ...recursos)) throw new Meteor.Error("Acesso negado", msgErro, recursos.join(","));
 	}
 }
 

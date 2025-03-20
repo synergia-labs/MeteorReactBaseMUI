@@ -15,26 +15,26 @@
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-require('cypress-xpath');
+require("cypress-xpath");
 
 // Import commands.js using ES2015 syntax:
-import './commands';
-import { clearSiteData } from './clearsitedata';
+import "./commands";
+import { clearSiteData } from "./clearsitedata";
 
 // Remove Cache do ServiceWorkers para evitar erros de não atualização do Script.
-Cypress.on('window:before:load', (win) => {
+Cypress.on("window:before:load", (win) => {
 	win.fetch = null;
-	console.log('Clear ALL Data');
+	console.log("Clear ALL Data");
 	clearSiteData();
 });
 beforeEach(() => {
-	console.log('###BEFORE INSERT###', !!window.navigator && !!navigator.serviceWorker);
+	console.log("###BEFORE INSERT###", !!window.navigator && !!navigator.serviceWorker);
 	if (window.navigator && navigator.serviceWorker) {
 		navigator.serviceWorker.getRegistrations().then((registrations) => {
-			console.log('$$$$$$$$$$$ SERVICEWORKER REGISTRADO ############');
+			console.log("$$$$$$$$$$$ SERVICEWORKER REGISTRADO ############");
 			registrations.forEach((registration) => {
 				registration.unregister();
-				console.log('$$$$$$$$$ SW DESRESGISTRADO $$$$$$$$');
+				console.log("$$$$$$$$$ SW DESRESGISTRADO $$$$$$$$");
 			});
 		});
 	}

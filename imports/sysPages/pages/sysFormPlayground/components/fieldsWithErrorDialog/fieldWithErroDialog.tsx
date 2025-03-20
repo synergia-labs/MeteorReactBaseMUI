@@ -1,9 +1,9 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import React from 'react';
-import FieldsWithErrorDialogStyles from './fieldsWithErrorDialogStyles';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import React from "react";
+import FieldsWithErrorDialogStyles from "./fieldsWithErrorDialogStyles";
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 
 interface IFieldsWithErrorsDialog {
 	errors: { [key: string]: string };
@@ -19,11 +19,11 @@ const FieldsWithErrorsDialog: React.FC<IFieldsWithErrorsDialog> = ({ errors, clo
 			<Header>
 				<Typography variant="h5">Campos do formulário com erro</Typography>
 				<IconButton onClick={closeDialog}>
-					<SysIcon name={'close'} />
+					<SysIcon name={"close"} />
 				</IconButton>
 			</Header>
 			{!hasError ? (
-				<Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<Box sx={{ flexGrow: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
 					<Typography variant="body1" textAlign="center">
 						Nenhum campo com erro
 					</Typography>

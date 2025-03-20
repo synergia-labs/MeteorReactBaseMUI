@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import { getUser } from '/imports/libs/getUser';
-import { segurancaApi } from '../../api/segurancaApi';
-import { hasValue } from '/imports/libs/hasValue';
+import { ReactNode } from "react";
+import { getUser } from "/imports/libs/getUser";
+import { segurancaApi } from "../../api/segurancaApi";
+import { hasValue } from "/imports/libs/hasValue";
 
 type RenderComPermissaoProps = {
 	resources?: Array<string>;

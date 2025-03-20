@@ -1,15 +1,15 @@
 // region Imports
-import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
-import { IMeteorUser, IUserProfile, userProfileSch } from './userProfileSch';
-import { userprofileData } from '../../../libs/getUser';
-import settings from '../../../../settings.json';
-import { check } from 'meteor/check';
-import { IContext } from '../../../typings/IContext';
-import { IDoc } from '../../../typings/IDoc';
-import { ProductServerBase } from '../../../api/productServerBase';
-import { EnumUserRoles } from '../config/enumUser';
-import { nanoid } from 'nanoid';
+import { Meteor } from "meteor/meteor";
+import { Accounts } from "meteor/accounts-base";
+import { IMeteorUser, IUserProfile, userProfileSch } from "./userProfileSch";
+import { userprofileData } from "../../../libs/getUser";
+import settings from "../../../../settings.json";
+import { check } from "meteor/check";
+import { IContext } from "../../../typings/IContext";
+import { IDoc } from "../../../typings/IDoc";
+import { ProductServerBase } from "../../../api/productServerBase";
+import { EnumUserRoles } from "../config/enumUser";
+import { nanoid } from "nanoid";
 import User = Meteor.User;
 
 interface IUserProfileEstendido extends IUserProfile {
@@ -36,8 +36,8 @@ export const getUserServer = async (connection?: { id: string } | null): IUserPr
 		const id = connection && connection.id ? simpleDate + connection.id : nanoid();
 
 		return {
-			email: '',
-			username: '',
+			email: "",
+			username: "",
 			_id: id,
 			roles: [EnumUserRoles.PUBLIC]
 		};
@@ -55,7 +55,7 @@ export const getUserServer = async (connection?: { id: string } | null): IUserPr
 
 class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	constructor() {
-		super('userprofile', userProfileSch);
+		super("userprofile", userProfileSch);
 		this.addPublicationMeteorUsers();
 		this.addUserProfileProfilePublication();
 		this.serverInsert = this.serverInsert.bind(this);
@@ -70,28 +70,28 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 		this.afterInsert = this.afterInsert.bind(this);
 
-		this.registerMethod('sendVerificationEmail', async (userData: IUserProfile) => {
+		this.registerMethod("sendVerificationEmail", async (userData: IUserProfile) => {
 			check(userData, Object);
 			if (Meteor.isServer && userData) {
 				if (userData._id) {
 					Accounts.sendVerificationEmail(userData._id);
 				} else if (userData.email) {
 					const user = await Meteor.users.findOneAsync({
-						'emails.address': userData.email
+						"emails.address": userData.email
 					});
-					Accounts.sendVerificationEmail(user?._id ?? '');
+					Accounts.sendVerificationEmail(user?._id ?? "");
 				}
 			}
 		});
 
-		this.registerMethod('sendResetPasswordEmail', async (userData: IUserProfile) => {
+		this.registerMethod("sendResetPasswordEmail", async (userData: IUserProfile) => {
 			check(userData, Object);
 			if (Meteor.isServer && userData) {
 				if (userData._id) {
 					Accounts.sendResetPasswordEmail(userData._id);
 				} else if (userData.email) {
 					const user = await Meteor.users.findOneAsync({
-						'emails.address': userData.email
+						"emails.address": userData.email
 					});
 					if (user) {
 						Accounts.sendResetPasswordEmail(user._id);
@@ -103,19 +103,19 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			return true;
 		});
 
-		this.registerMethod('ChangeUserStatus', this.changeUserStatus);
+		this.registerMethod("ChangeUserStatus", this.changeUserStatus);
 
-		this.addPublication('userProfileList', (filter = {}) => {
+		this.addPublication("userProfileList", (filter = {}) => {
 			return this.defaultListCollectionPublication(filter, {
 				projection: { email: 1, username: 1, status: 1, roles: 1, createdat: 1 }
 			});
 		});
 
-		this.addPublication('userProfileDetail', (filter = {}) => {
+		this.addPublication("userProfileDetail", (filter = {}) => {
 			return this.defaultDetailCollectionPublication(filter, {});
 		});
 
-		this.addPublication('getListOfusers', (filter = {}) => {
+		this.addPublication("getListOfusers", (filter = {}) => {
 			const queryOptions = {
 				fields: { photo: 1, email: 1, username: 1 }
 			};
@@ -123,7 +123,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			return this.collectionInstance.find(Object.assign({}, { ...filter }), queryOptions);
 		});
 
-		this.addPublication('getLoggedUserProfile', async () => {
+		this.addPublication("getLoggedUserProfile", async () => {
 			const user: IMeteorUser | null = await Meteor.userAsync();
 
 			if (!user) {
@@ -157,13 +157,13 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 	changeUserStatus = async (userId: string) => {
 		const user = await this.collectionInstance.findOneAsync({ _id: userId });
-		let newStatus = '';
+		let newStatus = "";
 		try {
 			if (user) {
-				if (user.status !== 'active') {
-					newStatus = 'active';
+				if (user.status !== "active") {
+					newStatus = "active";
 				} else {
-					newStatus = 'disabled';
+					newStatus = "disabled";
 				}
 				await this.collectionInstance.updateAsync(
 					{ _id: userId },
@@ -176,8 +176,8 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 				return true;
 			}
 		} catch (error) {
-			console.error('error :>> ', error);
-			throw new Meteor.Error('Acesso negado', 'Vocẽ não tem permissão para alterar esses dados');
+			console.error("error :>> ", error);
+			throw new Meteor.Error("Acesso negado", "Vocẽ não tem permissão para alterar esses dados");
 		}
 	};
 
@@ -190,14 +190,14 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 				dataObj = Object.assign({}, dataObj, { password });
 			}
 
-			this._includeAuditData(dataObj, 'insert');
+			this._includeAuditData(dataObj, "insert");
 			if (await this.beforeInsert(dataObj, context)) {
 				await this.registrarUserProfileNoMeteor(dataObj);
 				delete dataObj.password;
 				if (!dataObj.roles) {
-					dataObj.roles = ['Usuario'];
-				} else if (dataObj.roles.indexOf('Usuario') === -1) {
-					dataObj.roles.push('Usuario');
+					dataObj.roles = ["Usuario"];
+				} else if (dataObj.roles.indexOf("Usuario") === -1) {
+					dataObj.roles.push("Usuario");
 				}
 
 				const userProfile = await this.collectionInstance.findOneAsync({
@@ -274,9 +274,9 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	 * @param  {String} action - Action the will be perform.
 	 * @param  {String} defaultUser - Value of default user
 	 */
-	async _includeAuditData(doc: IDoc, action: string, defaultUser: string = 'Anonymous') {
+	async _includeAuditData(doc: IDoc, action: string, defaultUser: string = "Anonymous") {
 		const user: IUserProfile = await getUserServer();
-		if (action === 'insert') {
+		if (action === "insert") {
 			doc.createdby = user ? user._id : defaultUser;
 			doc.createdat = new Date();
 			doc.lastupdate = new Date();
@@ -287,28 +287,28 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 	addPublicationMeteorUsers = () => {
 		if (Meteor.isServer) {
-			Meteor.publish('statusCadastroUserProfile', async (userId) => {
+			Meteor.publish("statusCadastroUserProfile", async (userId) => {
 				check(userId, String);
 				const user = await getUserServer();
 
-				if (user && user.roles && user.roles.indexOf('Administrador') !== -1) {
+				if (user && user.roles && user.roles.indexOf("Administrador") !== -1) {
 					return Meteor.users.find(
 						{},
 						{
 							fields: {
-								_id: 1,
-								username: 1,
-								'emails.verified': 1,
-								'emails.address': 1,
-								roles: 1,
-								productProfile: 1
+								"_id": 1,
+								"username": 1,
+								"emails.verified": 1,
+								"emails.address": 1,
+								"roles": 1,
+								"productProfile": 1
 							}
 						}
 					);
 				}
 				return Meteor.users.find({ _id: userId });
 			});
-			Meteor.publish('user', function () {
+			Meteor.publish("user", function () {
 				if (this.userId) {
 					return Meteor.users.find(
 						{ _id: this.userId },
@@ -327,14 +327,14 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 	addUserProfileProfilePublication = () => {
 		if (Meteor.isServer) {
-			Meteor.publish('userprofile-profile', function () {
+			Meteor.publish("userprofile-profile", function () {
 				if (this.userId) {
 					return Meteor.users.find(
 						{ _id: this.userId },
 						{
 							fields: {
-								'emails.address': 1,
-								productProfile: 1
+								"emails.address": 1,
+								"productProfile": 1
 							}
 						}
 					);
@@ -362,12 +362,12 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		const user: IUserProfile = await getUserServer();
 		if (
 			!docObj._id ||
-			(user && user._id !== docObj._id && user && user.roles && user.roles.indexOf('Administrador') === -1)
+			(user && user._id !== docObj._id && user && user.roles && user.roles.indexOf("Administrador") === -1)
 		) {
-			throw new Meteor.Error('Acesso negado', 'Vocẽ não tem permissão para alterar esses dados');
+			throw new Meteor.Error("Acesso negado", "Vocẽ não tem permissão para alterar esses dados");
 		}
 
-		if (user && user.roles && user.roles.indexOf('Administrador') === -1) {
+		if (user && user.roles && user.roles.indexOf("Administrador") === -1) {
 			// prevent user change your self roles
 			if (docObj && docObj.roles) delete docObj.roles;
 		}

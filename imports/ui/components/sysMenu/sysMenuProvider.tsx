@@ -6,12 +6,12 @@ import React, {
 	useCallback,
 	useImperativeHandle,
 	useState
-} from 'react';
-import Context, { ISysMenuContext } from './sysMenuContext';
-import SysMenuView from './sysMenuView';
-import { MenuProps } from '@mui/material/Menu';
+} from "react";
+import Context, { ISysMenuContext } from "./sysMenuContext";
+import SysMenuView from "./sysMenuView";
+import { MenuProps } from "@mui/material/Menu";
 
-interface ISysMenuController extends Omit<MenuProps, 'open' | 'onClose' | 'anchorEl'> {
+interface ISysMenuController extends Omit<MenuProps, "open" | "onClose" | "anchorEl"> {
 	/** Função de callback chamada quando o menu é fechado */
 	onCloseCallback?: () => void;
 	/**Quando ativo aparece uma indicação no menu de onde ele foi clicado  @default false*/

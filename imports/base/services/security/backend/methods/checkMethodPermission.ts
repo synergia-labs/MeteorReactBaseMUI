@@ -1,22 +1,22 @@
-import { enumSecurityConfig } from '../../common/enums/config.enum';
-import { enumSecurityMethods } from '../../common/enums/methods.enum';
+import { enumSecurityConfig } from "../../common/enums/config.enum";
+import { enumSecurityMethods } from "../../common/enums/methods.enum";
 import {
 	paramCheckPermissionSch,
 	ParamCheckPermissionType,
 	returnCheckPermissionSch,
 	ReturnCheckPermissionType
-} from '../../common/types/checkPermission';
-import { SecurityServer } from '../security.server';
-import { _checkPermission } from '../utils/checkPermission';
-import MethodBase from '/imports/base/server/methods/method.base';
-import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
-import { IContext } from '/imports/typings/IContext';
+} from "../../common/types/checkPermission";
+import { SecurityServer } from "../security.server";
+import { _checkPermission } from "../utils/checkPermission";
+import MethodBase from "/imports/base/server/methods/method.base";
+import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import { IContext } from "/imports/typings/IContext";
 
 class CheckMethodPermission extends MethodBase<SecurityServer, ParamCheckPermissionType, ReturnCheckPermissionType> {
 	constructor() {
 		super({
 			name: enumSecurityMethods.checkMethodPermission,
-			description: 'Check if user has permission to execute a method',
+			description: "Check if user has permission to execute a method",
 			roles: [EnumUserRoles.PUBLIC],
 			paramSch: paramCheckPermissionSch,
 			returnSch: returnCheckPermissionSch

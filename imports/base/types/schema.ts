@@ -1,5 +1,5 @@
-import { AuditType } from './audit';
-import { IOption } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
+import { AuditType } from "./audit";
+import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
 
 export type LabelValue = {
 	value: any;

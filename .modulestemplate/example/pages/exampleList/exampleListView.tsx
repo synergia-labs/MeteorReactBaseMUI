@@ -1,17 +1,17 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import { SysFab } from '/imports/ui/components/sysFab/sysFab';
-import { ExampleListControllerContext } from './exampleListController';
-import { useNavigate } from 'react-router-dom';
-import { ComplexTable } from '/imports/ui/components/ComplexTable/ComplexTable';
-import DeleteDialog from '/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog';
-import { SysAppLayoutContext } from '/imports/app/appLayout';
-import ExampleListStyles from './exampleListStyles';
-import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
-import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import React from "react";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import { SysFab } from "/imports/ui/components/sysFab/sysFab";
+import { ExampleListControllerContext } from "./exampleListController";
+import { useNavigate } from "react-router-dom";
+import { ComplexTable } from "/imports/ui/components/ComplexTable/ComplexTable";
+import DeleteDialog from "/imports/ui/appComponents/showDialog/custom/deleteDialog/deleteDialog";
+import { SysAppLayoutContext } from "/imports/app/appLayout";
+import ExampleListStyles from "./exampleListStyles";
+import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
+import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectField/sysSelectField";
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 
 const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);
@@ -19,7 +19,7 @@ const ExampleListView = () => {
 	const navigate = useNavigate();
 	const { Container, LoadingContainer, SearchContainer } = ExampleListStyles;
 
-	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
+	const options = [{ value: "", label: "Nenhum" }, ...(controller.schema.type.options?.() ?? [])];
 
 	return (
 		<Container>
@@ -29,7 +29,7 @@ const ExampleListView = () => {
 					name="search"
 					placeholder="Pesquisar por nome"
 					onChange={controller.onChangeTextField}
-					startAdornment={<SysIcon name={'search'} />}
+					startAdornment={<SysIcon name={"search"} />}
 				/>
 				<SysSelectField
 					name="Category"
@@ -45,13 +45,13 @@ const ExampleListView = () => {
 					<Typography variant="body1">Aguarde, carregando informações...</Typography>
 				</LoadingContainer>
 			) : (
-				<Box sx={{ width: '100%' }}>
+				<Box sx={{ width: "100%" }}>
 					<ComplexTable
 						data={controller.todoList}
 						schema={controller.schema}
-						onRowClick={(row) => navigate('/example/view/' + row.id)}
-						searchPlaceholder={'Pesquisar exemplo'}
-						onEdit={(row) => navigate('/example/edit/' + row._id)}
+						onRowClick={(row) => navigate("/example/view/" + row.id)}
+						searchPlaceholder={"Pesquisar exemplo"}
+						onEdit={(row) => navigate("/example/edit/" + row._id)}
 						onDelete={(row) => {
 							DeleteDialog({
 								showDialog: sysLayoutContext.showDialog,
@@ -61,7 +61,7 @@ const ExampleListView = () => {
 								onDeleteConfirm: () => {
 									controller.onDeleteButtonClick(row);
 									sysLayoutContext.showNotification({
-										message: 'Excluído com sucesso!'
+										message: "Excluído com sucesso!"
 									});
 								}
 							});
@@ -73,7 +73,7 @@ const ExampleListView = () => {
 			<SysFab
 				variant="extended"
 				text="Adicionar"
-				startIcon={<SysIcon name={'add'} />}
+				startIcon={<SysIcon name={"add"} />}
 				fixed={true}
 				onClick={controller.onAddButtonClick}
 			/>

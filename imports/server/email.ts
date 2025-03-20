@@ -1,15 +1,15 @@
-import { Meteor } from 'meteor/meteor';
-import { Email } from 'meteor/email';
-import settings from '/settings.json';
+import { Meteor } from "meteor/meteor";
+import { Email } from "meteor/email";
+import settings from "/settings.json";
 
 const configureMailServer = () => {
 	// process.env.MAIL_URL = 'smtp://192.168.0.13:25';
 	process.env.MAIL_URL = settings.mail_url_smtp;
 };
 
-export const getHTMLEmailTemplate = (title = settings.name, text = 'Message', footer) => {
-	SSR.compileTemplate('htmlEmail', Assets.getText('templateEmail.html'));
-	const email = SSR.render('htmlEmail', {
+export const getHTMLEmailTemplate = (title = settings.name, text = "Message", footer) => {
+	SSR.compileTemplate("htmlEmail", Assets.getText("templateEmail.html"));
+	const email = SSR.render("htmlEmail", {
 		title,
 		text,
 		footer
@@ -32,7 +32,7 @@ function sendEmail(to, from, subject, msg, attachments = [], callback) {
 			html: getHTMLEmailTemplate(subject, msg),
 			attachments
 		});
-		return 'EMAIL OK';
+		return "EMAIL OK";
 	} catch (e) {
 		throw e;
 	}

@@ -1,11 +1,11 @@
-import { ZodTypeAny } from 'zod';
-import ServerBase from './server.base';
-import { IContext } from '/imports/typings/IContext';
-import { Meteor } from 'meteor/meteor';
-import { EndpointType } from '../types/serverParams';
-import EnumUserRoles from '../../modules/userprofile/common/enums/enumUserRoles';
-import { enumSecurityConfig } from '../services/security/common/enums/config.enum';
-import { _checkPermission } from '../services/security/backend/utils/checkPermission';
+import { ZodTypeAny } from "zod";
+import ServerBase from "./server.base";
+import { IContext } from "/imports/typings/IContext";
+import { Meteor } from "meteor/meteor";
+import { EndpointType } from "../types/serverParams";
+import EnumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
+import { enumSecurityConfig } from "../services/security/common/enums/config.enum";
+import { _checkPermission } from "../services/security/backend/utils/checkPermission";
 
 interface IActionsBase {
 	roles?: Array<EnumUserRoles>;
@@ -14,7 +14,7 @@ interface IActionsBase {
 	endpointType?: EndpointType;
 	description?: string;
 	name: string;
-	actionType: 'method' | 'publication';
+	actionType: "method" | "publication";
 	isProtected?: boolean;
 	referred?: string;
 }
@@ -23,7 +23,7 @@ interface IActionsBase {
 abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = unknown> {
 	//region Properties
 	private name: string;
-	private actionType: 'method' | 'publication';
+	private actionType: "method" | "publication";
 	private server?: Server;
 	private roles?: Array<EnumUserRoles>;
 	private paramSch?: ZodTypeAny;
@@ -58,7 +58,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 	//endregion
 
-	protected generateError({ _message, _code = '500' }: { _message: string; _code?: string; _context?: IContext }): void {
+	protected generateError({ _message, _code = "500" }: { _message: string; _code?: string; _context?: IContext }): void {
 		throw new Meteor.Error(_code, `[${this.name}]: ${_message}`);
 	}
 
@@ -66,13 +66,13 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 
 	//region seters and getters
 	public setServerInstance(server: Server): void {
-		if (this.server) this.generateError({ _message: 'Server instance already set', _code: '500' });
+		if (this.server) this.generateError({ _message: "Server instance already set", _code: "500" });
 		this.server = server;
 	}
 	public getName(): string {
 		return this.name;
 	}
-	public getActionType(): 'method' | 'publication' {
+	public getActionType(): "method" | "publication" {
 		return this.actionType;
 	}
 	public getServerInstance(): Server | undefined {
@@ -91,7 +91,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 		return this.endpointType;
 	}
 	public getDescription(): string {
-		return this.description ?? '';
+		return this.description ?? "";
 	}
 	public getIsProtected(): boolean {
 		return this.isProtected;
@@ -104,7 +104,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 
 		if (securityValidation) {
 			const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
-			if (!permission) this.generateError({ _message: 'Sem permissão', _code: '403', _context });
+			if (!permission) this.generateError({ _message: "Sem permissão", _code: "403", _context });
 		}
 	}
 	//endregion
@@ -124,7 +124,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	public async execute(_param: Param, _context: IContext): Promise<Return> {
 		try {
 			if (Meteor.isClient)
-				this.generateError({ _message: 'Método não pode ser executado no client', _code: '500', _context });
+				this.generateError({ _message: "Método não pode ser executado no client", _code: "500", _context });
 			await this.beforeAction(_param, _context);
 			const result = await this.actionBaseMethod(_param, _context);
 			await this.afterAction(_param, result, _context);
@@ -135,7 +135,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 }
 
-type IActionBaseOmited = Omit<IActionsBase, 'actionType'>;
+type IActionBaseOmited = Omit<IActionsBase, "actionType">;
 
 export default ActionsBase;
 export type { IActionBaseOmited as IActionsBase };

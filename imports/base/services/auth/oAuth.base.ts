@@ -1,11 +1,11 @@
-import { ServiceConfiguration } from 'meteor/service-configuration';
-import { hasValue } from '/imports/libs/hasValue';
-import { ZodTypeAny } from 'zod';
+import { ServiceConfiguration } from "meteor/service-configuration";
+import { hasValue } from "/imports/libs/hasValue";
+import { ZodTypeAny } from "zod";
 
 interface IOauthBase {
 	clientId: string;
 	secret: string;
-	loginStyle?: 'popup' | 'redirect';
+	loginStyle?: "popup" | "redirect";
 	serviceName: string;
 	schema: ZodTypeAny;
 }
@@ -13,7 +13,7 @@ interface IOauthBase {
 abstract class OAuthBase<T> {
 	private cliendId: string;
 	private secret: string;
-	private loginStyle: 'popup' | 'redirect';
+	private loginStyle: "popup" | "redirect";
 	private serviceName: string;
 	private schema: ZodTypeAny;
 
@@ -21,7 +21,7 @@ abstract class OAuthBase<T> {
 		this.serviceName = serviceName;
 		this.cliendId = clientId;
 		this.secret = secret;
-		this.loginStyle = loginStyle ?? 'popup';
+		this.loginStyle = loginStyle ?? "popup";
 		this.schema = schema;
 	}
 
@@ -33,9 +33,9 @@ abstract class OAuthBase<T> {
 	 */
 	public async register(): Promise<void> {
 		try {
-			if (!hasValue(this.cliendId)) throw new Meteor.Error('400', 'ClientId não informado');
-			if (!hasValue(this.secret)) throw new Meteor.Error('400', 'Secret não informado');
-			if (!hasValue(this.serviceName)) throw new Meteor.Error('400', 'Nome do serviço não informado');
+			if (!hasValue(this.cliendId)) throw new Meteor.Error("400", "ClientId não informado");
+			if (!hasValue(this.secret)) throw new Meteor.Error("400", "Secret não informado");
+			if (!hasValue(this.serviceName)) throw new Meteor.Error("400", "Nome do serviço não informado");
 
 			await ServiceConfiguration.configurations.upsertAsync(
 				{ service: this.serviceName },
@@ -48,7 +48,7 @@ abstract class OAuthBase<T> {
 				}
 			);
 		} catch (error) {
-			console.error('Error initializing OAuth service:', error);
+			console.error("Error initializing OAuth service:", error);
 		}
 	}
 

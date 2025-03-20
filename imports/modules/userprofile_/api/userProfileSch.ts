@@ -1,64 +1,64 @@
-import { validarEmail } from '../../../libs/validaEmail';
-import { IDoc } from '../../../typings/IDoc';
-import { ISchema } from '../../../typings/ISchema';
-import { Meteor } from 'meteor/meteor';
+import { validarEmail } from "../../../libs/validaEmail";
+import { IDoc } from "../../../typings/IDoc";
+import { ISchema } from "../../../typings/ISchema";
+import { Meteor } from "meteor/meteor";
 
 import User = Meteor.User;
-import { EnumUserRoles, getUserRoleTranslated } from '../config/enumUser';
+import { EnumUserRoles, getUserRoleTranslated } from "../config/enumUser";
 
 export const userProfileSch: ISchema<IUserProfile> = {
 	photo: {
 		type: String,
-		label: 'Photo',
-		defaultValue: '',
+		label: "Photo",
+		defaultValue: "",
 		optional: true,
 		isImage: true
 	},
 	username: {
 		type: String,
-		label: 'Username',
-		defaultValue: '',
+		label: "Username",
+		defaultValue: "",
 		optional: false
 	},
 	email: {
 		type: String,
-		label: 'Email',
-		defaultValue: '',
+		label: "Email",
+		defaultValue: "",
 		optional: false,
 		validationFunction: (value: string) => {
 			if (!value) return undefined;
 			const email = validarEmail(value);
-			if (!email) return 'Email inválido';
+			if (!email) return "Email inválido";
 			return undefined;
 		}
 	},
 	phone: {
 		type: String,
-		label: 'Telefone',
-		defaultValue: '',
+		label: "Telefone",
+		defaultValue: "",
 		optional: true,
-		mask: '(##) ####-####'
+		mask: "(##) ####-####"
 	},
 	roles: {
 		type: [String],
-		label: 'Perfil de acesso',
+		label: "Perfil de acesso",
 		defaultValue: [],
 		optional: true,
 		options: () => Object.values(EnumUserRoles).map((key) => ({ value: key, label: getUserRoleTranslated(key) }))
 	},
 	status: {
 		type: String,
-		label: 'Status',
-		defaultValue: 'disabled',
+		label: "Status",
+		defaultValue: "disabled",
 		optional: true,
 		options: () => [
 			{
-				value: 'active',
-				label: 'Ativo'
+				value: "active",
+				label: "Ativo"
 			},
 			{
-				value: 'disabled',
-				label: 'Desativado'
+				value: "disabled",
+				label: "Desativado"
 			}
 		]
 	}

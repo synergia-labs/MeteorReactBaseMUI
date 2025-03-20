@@ -1,6 +1,6 @@
-import { FilesCollection } from 'meteor/ostrio:files';
-import { enumStorageConfig } from '../common/enums/config.enum';
-import { IArchive } from '../common/types/archive.type';
+import { FilesCollection } from "meteor/ostrio:files";
+import { enumStorageConfig } from "../common/enums/config.enum";
+import { IArchive } from "../common/types/archive.type";
 
 interface IGenerateFileCollection {
 	collectionName: string;
@@ -20,7 +20,7 @@ export function generateFileCollection({ collectionName, limitSize, allowedExten
 			}
 
 			if (allowedExtensions && !allowedExtensions.includes(archive.extension)) {
-				return `Apenas arquivos com as seguintes extensões são permitidos: ${allowedExtensions.join(', ')}`;
+				return `Apenas arquivos com as seguintes extensões são permitidos: ${allowedExtensions.join(", ")}`;
 			}
 
 			return true;

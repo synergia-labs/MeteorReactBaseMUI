@@ -1,23 +1,23 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { SysFormContext } from '../../sysForm/sysForm';
-import { ISysFormComponentRef } from '../../sysForm/typings';
-import { useDropzone } from 'react-dropzone';
-import { acceptableMimeType, FilesViewType, MimeType } from './acceptableTypes';
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { SysFormContext } from "../../sysForm/sysForm";
+import { ISysFormComponentRef } from "../../sysForm/typings";
+import { useDropzone } from "react-dropzone";
+import { acceptableMimeType, FilesViewType, MimeType } from "./acceptableTypes";
 
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { produce } from 'immer';
+import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { produce } from "immer";
 
-import AddIcon from '@mui/icons-material/Add';
-import Styles from './sysUploadFileStyle';
-import { FormControl, SxProps, Theme } from '@mui/material';
-import Box, { BoxProps } from '@mui/material/Box';
-import SysLabelView from '../../sysLabelView/sysLabelView';
-import FilesView from './typesView/filesView';
-import { ISxMapTypesView } from './typesView/interfaces';
-import { IFile } from './typesView/cards/interfaces';
-import { getTypeOfFile } from './typesView/utils';
-import { hasValue } from '/imports/libs/hasValue';
-import { ArchiveType } from '/imports/base/types/archive';
+import AddIcon from "@mui/icons-material/Add";
+import Styles from "./sysUploadFileStyle";
+import { FormControl, SxProps, Theme } from "@mui/material";
+import Box, { BoxProps } from "@mui/material/Box";
+import SysLabelView from "../../sysLabelView/sysLabelView";
+import FilesView from "./typesView/filesView";
+import { ISxMapTypesView } from "./typesView/interfaces";
+import { IFile } from "./typesView/cards/interfaces";
+import { getTypeOfFile } from "./typesView/utils";
+import { hasValue } from "/imports/libs/hasValue";
+import { ArchiveType } from "/imports/base/types/archive";
 
 interface ISysUploadFile extends ISysFormComponent<BoxProps> {
 	name: string;
@@ -52,10 +52,10 @@ export default function SysUploadFile({
 	multiple = false,
 	readOnly = false,
 	disabled = false,
-	viewType = 'grid',
-	mainText = 'Arraste ou clique aqui para adicionar arquivos',
-	onDropText = 'Soltar',
-	buttonText = 'Adicionar',
+	viewType = "grid",
+	mainText = "Arraste ou clique aqui para adicionar arquivos",
+	onDropText = "Soltar",
+	buttonText = "Adicionar",
 	acceptTypes,
 	label,
 	sxMap,
@@ -76,7 +76,7 @@ export default function SysUploadFile({
 		try {
 			file = refObject.current.value ? [...refObject.current.value] : [];
 		} catch (e) {
-			console.warn('Proxy revogado em refObject.current.value', e);
+			console.warn("Proxy revogado em refObject.current.value", e);
 			file = [];
 		}
 	}
@@ -85,7 +85,7 @@ export default function SysUploadFile({
 		try {
 			file = [...schema.defaultValue];
 		} catch (e) {
-			console.warn('Proxy revogado em schema.defaultValue', e);
+			console.warn("Proxy revogado em schema.defaultValue", e);
 			file = [];
 		}
 	}
@@ -95,7 +95,7 @@ export default function SysUploadFile({
 	label = label || schema?.label;
 	multiple = multiple || Array.isArray(schema?.type);
 	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
-	readOnly = readOnly || controllerSysForm.mode === 'view' || !!schema?.readOnly;
+	readOnly = readOnly || controllerSysForm.mode === "view" || !!schema?.readOnly;
 	acceptTypes = (acceptTypes || schema?.acceptTypes) ?? acceptableMimeType;
 	loading = loading || controllerSysForm.loading;
 
@@ -129,13 +129,13 @@ export default function SysUploadFile({
 					return new Promise<ArchiveType>((resolveFile) => {
 						const reader = new FileReader();
 						reader.onload = () => {
-							if (typeof reader.result === 'string') {
+							if (typeof reader.result === "string") {
 								resolveFile({
 									alt: file.alt!,
 									name: file.file!.name,
 									type: file.file!.type,
 									size: file.file!.size,
-									content: reader.result.split(',')[1] // Remove o prefixo "data:image/png;base64,"
+									content: reader.result.split(",")[1] // Remove o prefixo "data:image/png;base64,"
 								});
 							}
 						};
@@ -166,9 +166,9 @@ export default function SysUploadFile({
 				...(multiple ? filesState : []),
 				...acceptedFiles.map((item) => ({
 					file: item,
-					url: '',
-					type: getTypeOfFile(item.type ?? ''),
-					alt: item.name ?? ''
+					url: "",
+					type: getTypeOfFile(item.type ?? ""),
+					alt: item.name ?? ""
 				}))
 			];
 
@@ -207,7 +207,7 @@ export default function SysUploadFile({
 	}
 
 	return (
-		<Box sx={{ position: 'relative' }}>
+		<Box sx={{ position: "relative" }}>
 			<FormControl error={!!errorState}>
 				<SysLabelView
 					label={label}
@@ -223,7 +223,7 @@ export default function SysUploadFile({
 						) : (
 							<Styles.button variant="text" {...getRootProps()} disabled={disabled} sx={sxMap?.dropzone?.container}>
 								<input {...getInputProps()} />
-								<Styles.typographyInfo variant={!isDragActive ? 'caption' : 'subtitle1'} sx={sxMap?.dropzone?.text}>
+								<Styles.typographyInfo variant={!isDragActive ? "caption" : "subtitle1"} sx={sxMap?.dropzone?.text}>
 									{isDragActive ? onDropText : mainText}
 								</Styles.typographyInfo>
 								{!isDragActive && (

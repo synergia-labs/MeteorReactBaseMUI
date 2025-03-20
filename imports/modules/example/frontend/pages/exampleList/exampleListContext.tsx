@@ -1,8 +1,8 @@
-import React, { createContext } from 'react';
-import { IExample } from '../../api/exampleSch';
-import { ISchema } from '/imports/typings/ISchema';
-import EnumExampleScreenState from '../../../common/enums/enumScreenState';
-import { GridPaginationModel } from '@mui/x-data-grid';
+import React, { createContext } from "react";
+import { IExample } from "../../api/exampleSch";
+import { ISchema } from "/imports/typings/ISchema";
+import EnumExampleScreenState from "../../../common/enums/enumScreenState";
+import { GridPaginationModel } from "@mui/x-data-grid";
 
 interface IExampleListContext {
 	todoList: Array<IExample>;

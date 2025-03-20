@@ -1,13 +1,13 @@
-import { nanoid } from 'nanoid';
-import { Meteor } from 'meteor/meteor';
-import { get, set, Store } from 'idb-keyval';
-import { parse, stringify } from 'zipson';
-import settings from '../../settings.json';
-import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
-import EnumUserRoles from '../modules/userprofile/common/enums/enumUserRoles';
+import { nanoid } from "nanoid";
+import { Meteor } from "meteor/meteor";
+import { get, set, Store } from "idb-keyval";
+import { parse, stringify } from "zipson";
+import settings from "../../settings.json";
+import { IUserProfile } from "../modules/userprofile/api/userProfileSch";
+import EnumUserRoles from "../modules/userprofile/common/enums/enumUserRoles";
 
 class LoggedUserStore {
-	userStore = new Store(`${settings.name}_` + 'loggedUser', 'LoggedUser-store');
+	userStore = new Store(`${settings.name}_` + "loggedUser", "LoggedUser-store");
 	updateDateOnJson = (object) => {
 		function reviver(key, value) {
 			if (`${value}`.length === 24 && !!Date.parse(value)) {
@@ -18,9 +18,9 @@ class LoggedUserStore {
 
 		return JSON.parse(JSON.stringify(object), reviver);
 	};
-	getUser = async () => await get('user', this.userStore).then((result) => this.updateDateOnJson(parse(result)));
+	getUser = async () => await get("user", this.userStore).then((result) => this.updateDateOnJson(parse(result)));
 	setUser = (userDoc) => {
-		set('user', stringify(userDoc), this.userStore);
+		set("user", stringify(userDoc), this.userStore);
 	};
 }
 
@@ -33,7 +33,7 @@ export const userprofileData = {
  * @return {Object} Logged User
  */
 export const getUser = (connection?: { id: string } | null): IUserProfile => {
-	if (Meteor.isClient && Meteor.status().status !== 'connected') {
+	if (Meteor.isClient && Meteor.status().status !== "connected") {
 		if (!!window && !!window.$app && !!window.$app.user) {
 			return window.$app.user;
 		}
@@ -57,8 +57,8 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 		const id = connection && connection.id ? simpleDate + connection.id : nanoid();
 
 		return {
-			email: '',
-			username: '',
+			email: "",
+			username: "",
 			_id: id,
 			roles: [EnumUserRoles.PUBLIC]
 		};
@@ -82,12 +82,12 @@ const SYSTEM_USER: Readonly<{
 	email: string;
 	username: string;
 }> = Object.freeze({
-	email: 'SYSTEM@SYSTEM',
-	username: 'Sistema',
-	_id: 'SYSTEM',
+	email: "SYSTEM@SYSTEM",
+	username: "Sistema",
+	_id: "SYSTEM",
 	blocked: false,
 	createdat: new Date(),
-	createdby: 'SYSTEM'
+	createdby: "SYSTEM"
 });
 
 /**

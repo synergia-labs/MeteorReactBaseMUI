@@ -1,4 +1,4 @@
-import { FilesViewType } from '../../acceptableTypes';
+import { FilesViewType } from "../../acceptableTypes";
 
 export interface IFile {
 	file?: File;

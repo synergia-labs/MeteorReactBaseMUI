@@ -1,62 +1,62 @@
 const plugins = [
 	[
-		'babel-plugin-import',
+		"babel-plugin-import",
 		{
-			'libraryName': '@mui/material',
+			libraryName: "@mui/material",
 			// Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
-			'libraryDirectory': 'esm',
-			'camel2DashComponentName': false
+			libraryDirectory: "esm",
+			camel2DashComponentName: false
 		},
-		'core'
+		"core"
 	],
 	[
-		'babel-plugin-import',
+		"babel-plugin-import",
 		{
-			'libraryName': '@mui/icons-material',
+			libraryName: "@mui/icons-material",
 			// Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
-			'libraryDirectory': 'esm',
-			'camel2DashComponentName': false
+			libraryDirectory: "esm",
+			camel2DashComponentName: false
 		},
-		'icons'
+		"icons"
 	],
 	[
-		'babel-plugin-import',
+		"babel-plugin-import",
 		{
-			'libraryName': '@material-ui/lab',
+			libraryName: "@material-ui/lab",
 			// Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
-			'libraryDirectory': 'esm',
-			'camel2DashComponentName': false
+			libraryDirectory: "esm",
+			camel2DashComponentName: false
 		},
-		'lab'
+		"lab"
 	],
 	[
-		'babel-plugin-import',
+		"babel-plugin-import",
 		{
-			'libraryName': '@material-ui/styles',
+			libraryName: "@material-ui/styles",
 			// Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
-			'libraryDirectory': 'esm',
-			'camel2DashComponentName': false
+			libraryDirectory: "esm",
+			camel2DashComponentName: false
 		},
-		'styles'
+		"styles"
 	],
 	[
-		'babel-plugin-import',
+		"babel-plugin-import",
 		{
-			'libraryName': '@material-ui/pickers',
+			libraryName: "@material-ui/pickers",
 			// Use "'libraryDirectory': ''," se o seu bundler não suportar módulos ES
-			'libraryDirectory': 'esm',
-			'camel2DashComponentName': false
+			libraryDirectory: "esm",
+			camel2DashComponentName: false
 		},
-		'pickers'
+		"pickers"
 	],
 	[
-		'babel-plugin-import',
+		"babel-plugin-import",
 		{
-			'libraryName': 'lodash',
-			'libraryDirectory': '',
-			'camel2DashComponentName': false // default: true
+			libraryName: "lodash",
+			libraryDirectory: "",
+			camel2DashComponentName: false // default: true
 		},
-		'lodash'
+		"lodash"
 	]
 ];
 

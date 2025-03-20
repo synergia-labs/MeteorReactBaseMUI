@@ -1,5 +1,5 @@
-import React, { createContext, ElementType } from 'react';
-import { ISysMenuItem } from './sysMenuProvider';
+import React, { createContext, ElementType } from "react";
+import { ISysMenuItem } from "./sysMenuProvider";
 
 interface ISysMenuContext {
 	anchorEl: null | HTMLElement;

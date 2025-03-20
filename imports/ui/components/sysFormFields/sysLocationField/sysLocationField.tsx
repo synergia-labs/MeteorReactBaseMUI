@@ -1,21 +1,21 @@
-import React, { useContext, useRef, useState } from 'react';
-import { Theme, SxProps } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import { SysFormContext } from '../../sysForm/sysForm';
-import { hasValue } from '../../../../libs/hasValue';
-import { ISysFormComponentRef } from '../../sysForm/typings';
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import SysLabelView from '../../sysLabelView/sysLabelView';
-import listEstados from './estados';
-import localidades from './localidades.json';
-import { SysViewField } from '../sysViewField/sysViewField';
-import SysLocationFieldStyle from './sysLocationFieldStyle';
-import SysIcon from '../../../../ui/components/sysIcon/sysIcon';
+import React, { useContext, useRef, useState } from "react";
+import { Theme, SxProps } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent, SelectProps } from "@mui/material/Select";
+import Typography from "@mui/material/Typography";
+import { SysFormContext } from "../../sysForm/sysForm";
+import { hasValue } from "../../../../libs/hasValue";
+import { ISysFormComponentRef } from "../../sysForm/typings";
+import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import SysLabelView from "../../sysLabelView/sysLabelView";
+import listEstados from "./estados";
+import localidades from "./localidades.json";
+import { SysViewField } from "../sysViewField/sysViewField";
+import SysLocationFieldStyle from "./sysLocationFieldStyle";
+import SysIcon from "../../../../ui/components/sysIcon/sysIcon";
 
 interface ILocation {
 	estado?: string | null;
@@ -29,7 +29,7 @@ interface ILocalidade {
 	d?: string;
 }
 
-interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, 'variant'>> {
+interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, "variant">> {
 	defaultValue?: ILocation;
 	sxMap?: {
 		container: SxProps<Theme>;
@@ -62,7 +62,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	tooltipMessage,
 	tooltipPosition,
 	onlyEstado = false,
-	placeholder = 'Selecione um estado',
+	placeholder = "Selecione um estado",
 	sxMap,
 	...otherProps
 }) => {
@@ -78,7 +78,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	defaultValue = refObject?.current.value || schema?.defaultValue;
 
 	disabled = disabled || controllerSysForm?.disabled;
-	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
+	readOnly = readOnly || controllerSysForm?.mode === "view" || schema?.readOnly;
 	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
 	const [valueState, setValueState] = useState<ILocation | null>(defaultValue || null);
@@ -114,7 +114,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 		let newValue;
 		if (selected === null) {
 			// Se o usuário limpar a seleção
-			newValue = { estado: valueState?.estado || '', municipio: null, distrito: null };
+			newValue = { estado: valueState?.estado || "", municipio: null, distrito: null };
 			setSelectedValue(null); // Limpa o valor selecionado
 		} else {
 			newValue = {
@@ -136,10 +136,10 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 		let newValue: ILocation = {};
 		let filtered: ILocalidade[] = [];
 
-		if (valueState?.estado === 'Não identificado' || valueState?.estado === 'Atribuição de Origem') {
+		if (valueState?.estado === "Não identificado" || valueState?.estado === "Atribuição de Origem") {
 			newValue = {
-				estado: valueState?.estado || '',
-				municipio: 'Não identificado',
+				estado: valueState?.estado || "",
+				municipio: "Não identificado",
 				distrito: null
 			};
 		} else if (valueState?.estado) {
@@ -166,7 +166,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 	}, [valueState?.estado]);
 
 	React.useEffect(() => {
-		let str = '';
+		let str = "";
 		if (valueState?.municipio != null) {
 			if (valueState?.distrito) {
 				str = `${valueState?.municipio} - ${valueState?.distrito}`;
@@ -186,7 +186,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 				? `${valueState?.estado} - ${valueState?.municipio}`
 				: valueState?.estado
 					? valueState?.estado
-					: '-';
+					: "-";
 		return (
 			<SysViewField
 				label={label}
@@ -209,17 +209,17 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 				tooltipPosition={tooltipPosition}>
 				<Select
 					{...otherProps}
-					name={'estado'}
-					value={valueState?.estado || ''}
+					name={"estado"}
+					value={valueState?.estado || ""}
 					onChange={handleChange}
 					displayEmpty
 					error={!!errorState}
 					disabled={disabled || loading}
-					IconComponent={() => <SysIcon name={'arrowDropDown'} />}
+					IconComponent={() => <SysIcon name={"arrowDropDown"} />}
 					renderValue={(options) => {
 						if (!hasValue(options)) {
 							return (
-								<Typography variant="body1" color={'text.disabled'}>
+								<Typography variant="body1" color={"text.disabled"}>
 									{placeholder}
 								</Typography>
 							);
@@ -241,29 +241,29 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 				</Select>
 
 				<AutoComplete
-					key={name + 'noValue'}
+					key={name + "noValue"}
 					id={name}
 					value={selectedValue}
-					noOptionsText={'Nenhuma opção'}
+					noOptionsText={"Nenhuma opção"}
 					autoSelect={true}
 					clearOnEscape={true}
 					openOnFocus={true}
 					blurOnSelect={true}
 					onlyEstado={onlyEstado}
 					onChange={handleOnChange}
-					popupIcon={<SysIcon name={'arrowDropDown'} />}
+					popupIcon={<SysIcon name={"arrowDropDown"} />}
 					sx={sxMap?.autoComplete}
 					options={filteredLocalidades.map((l) => ({
 						value: JSON.stringify({
 							municipio: l.m,
 							distrito: l.d || null
 						}),
-						label: `${l.m}${l.d ? ' - ' + l.d : ''}`
+						label: `${l.m}${l.d ? " - " + l.d : ""}`
 					}))}
 					renderInput={(params) => (
 						<TextField
 							error={!!errorState}
-							key={name + 'inputNoValue'}
+							key={name + "inputNoValue"}
 							{...params}
 							placeholder="Cidade - municipio"
 							sx={sxMap?.textFieldAutoComplete}

@@ -1,26 +1,26 @@
-import ExampleContainer from '../frontend/exampleContainer';
-import ExampleDetailProvider from '../frontend/pages/exampleDetail/exampleDetailProvider';
-import ExampleListProvider from '../frontend/pages/exampleList/exampleListProvider';
-import { IRoute } from '/imports/modules/modulesTypings';
+import ExampleContainer from "../frontend/exampleContainer";
+import ExampleDetailProvider from "../frontend/pages/exampleDetail/exampleDetailProvider";
+import ExampleListProvider from "../frontend/pages/exampleList/exampleListProvider";
+import { IRoute } from "/imports/modules/modulesTypings";
 
 const exampleRouterList: Array<IRoute | null> = [
 	{
-		path: 'example',
+		path: "example",
 		element: ExampleContainer,
-		templateVariant: 'AppBar',
+		templateVariant: "AppBar",
 		children: [
 			{
-				path: ':screenState/:exampleId',
+				path: ":screenState/:exampleId",
 				element: ExampleDetailProvider,
 				isProtected: true
 			},
 			{
-				path: ':screenState',
+				path: ":screenState",
 				element: ExampleDetailProvider,
 				isProtected: true
 			},
 			{
-				path: 'list',
+				path: "list",
 				element: ExampleListProvider,
 				isProtected: true
 			}

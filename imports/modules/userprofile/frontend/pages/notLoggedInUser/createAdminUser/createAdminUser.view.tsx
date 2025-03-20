@@ -1,20 +1,20 @@
-import React, { useContext } from 'react';
-import Styles from './createAdminUser.styles';
-import SysForm from '/imports/ui/components/sysForm/sysForm';
-import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
-import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
-import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-import Typography from '@mui/material/Typography';
-import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
-import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
-import createUserFrontSchema from './createAdminUser.schema';
+import React, { useContext } from "react";
+import Styles from "./createAdminUser.styles";
+import SysForm from "/imports/ui/components/sysForm/sysForm";
+import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
+import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import Typography from "@mui/material/Typography";
+import EnumUserRoles from "/imports/modules/userprofile/common/enums/enumUserRoles";
+import Context, { INotLoggedInUserContext } from "../notLoggedInUser.context";
+import createUserFrontSchema from "./createAdminUser.schema";
 
 const CreateAdminUserPage: React.FC = () => {
 	const context = useContext<INotLoggedInUserContext>(Context);
 
 	return (
 		<Styles.container>
-			<Typography variant="h5" textAlign={'center'}>
+			<Typography variant="h5" textAlign={"center"}>
 				Registro de usuário administrador
 			</Typography>
 			<Typography variant="caption" color={(theme) => theme.palette.sysAction?.auxiliary}>
@@ -28,7 +28,7 @@ const CreateAdminUserPage: React.FC = () => {
 					<SysTextField name="password" label="Senha" fullWidth placeholder="Digite sua senha" />
 				</Styles.formContainer>
 
-				<SysFormButton variant="contained" color="primary" endIcon={<SysIcon name={'arrowForward'} />}>
+				<SysFormButton variant="contained" color="primary" endIcon={<SysIcon name={"arrowForward"} />}>
 					Cadastrar
 				</SysFormButton>
 			</SysForm>

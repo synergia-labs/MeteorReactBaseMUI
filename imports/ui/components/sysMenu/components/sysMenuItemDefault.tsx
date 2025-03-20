@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
-import { ISysMenuItem } from '../sysMenuProvider';
-import Styles from './sysMenuItemDefaultStyles';
-import { Typography } from '@mui/material';
+import React, { ReactNode } from "react";
+import { ISysMenuItem } from "../sysMenuProvider";
+import Styles from "./sysMenuItemDefaultStyles";
+import { Typography } from "@mui/material";
 
 interface ISysMenuItemDefault extends ISysMenuItem {
 	startIcon?: ReactNode;

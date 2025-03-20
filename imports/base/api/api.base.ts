@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
+import { Meteor } from "meteor/meteor";
+import { Mongo } from "meteor/mongo";
 
 abstract class ApiBase {
 	constructor(methodsNames: Record<string, string>, publicationsNames: Record<string, string>) {

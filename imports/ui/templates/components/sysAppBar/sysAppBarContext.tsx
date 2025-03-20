@@ -1,6 +1,6 @@
-import React, { createContext, RefObject } from 'react';
-import { IAppMenu } from '/imports/modules/modulesTypings';
-import { ISysMenuItem, ISysMenuRef } from '/imports/ui/components/sysMenu/sysMenuProvider';
+import React, { createContext, RefObject } from "react";
+import { IAppMenu } from "/imports/modules/modulesTypings";
+import { ISysMenuItem, ISysMenuRef } from "/imports/ui/components/sysMenu/sysMenuProvider";
 
 interface ISysAppBarContext {
 	userName: string;

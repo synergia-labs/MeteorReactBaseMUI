@@ -1,21 +1,21 @@
-import React from 'react';
-import Styles from './sysAvatarStyles';
-import { AvatarProps } from '@mui/material/Avatar';
-import Typography, { TypographyProps } from '@mui/material/Typography';
-import { SxProps, Theme } from '@mui/material/styles';
-import { hasValue } from '/imports/libs/hasValue';
+import React from "react";
+import Styles from "./sysAvatarStyles";
+import { AvatarProps } from "@mui/material/Avatar";
+import Typography, { TypographyProps } from "@mui/material/Typography";
+import { SxProps, Theme } from "@mui/material/styles";
+import { hasValue } from "/imports/libs/hasValue";
 
-interface ISysAvatar extends Omit<AvatarProps, 'onClick'> {
+interface ISysAvatar extends Omit<AvatarProps, "onClick"> {
 	/**O nome que será usado para mostrar a primeira letra no avatar.*/
 	name?: string;
 	/**Tamanhos default para o componente @default medium*/
-	size?: 'small' | 'medium' | 'large';
+	size?: "small" | "medium" | "large";
 	/** Borda circular de distância de 4 px do avatar. @default false */
 	activateOutline?: boolean;
 	/** Estilos personalizados para o componente Box que envolve o Avatar. */
 	sxAvatar?: SxProps<Theme>;
 	/** Variante do texto que exibe a letra do nome no avatar. */
-	textVariant?: TypographyProps['variant'];
+	textVariant?: TypographyProps["variant"];
 	/** Função chamada quando há um click no componente */
 	onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
@@ -32,10 +32,10 @@ const SysAvatar: React.FC<ISysAvatar> = ({
 	name,
 	onClick,
 	activateOutline = false,
-	size = 'medium',
+	size = "medium",
 	sx,
 	sxAvatar,
-	textVariant = 'h5',
+	textVariant = "h5",
 	...otherProps
 }) => {
 	return (

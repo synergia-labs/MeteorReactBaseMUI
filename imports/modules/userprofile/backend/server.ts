@@ -1,16 +1,16 @@
-import { Meteor } from 'meteor/meteor';
-import MethodBase from '/imports/base/server/methods/method.base';
-import EnumUserProfileSettings from '../common';
-import { UserProfileServerMethods } from '../common/interfaces/methods';
-import checkIfHasAdminUserCallMethodInstance from './methods/checkIfHasAdminUser.callMethod';
-import createUserCallMethodInstance from './methods/createUser.callMethod';
-import { Mongo } from 'meteor/mongo';
-import onLoginInstance from './methods/onLogin';
-import onLogoutInstance from './methods/onLogout';
-import sendVerificationEmailInstance from './methods/sendVerificationEmail.callMethod';
-import ServerBase from '/imports/base/server/server.base';
-import sendResetPasswordInstance from './methods/sendResetPasswordEmail';
-import resetUserPasswordInstance from './methods/resetUserPassword';
+import { Meteor } from "meteor/meteor";
+import MethodBase from "/imports/base/server/methods/method.base";
+import EnumUserProfileSettings from "../common";
+import { UserProfileServerMethods } from "../common/interfaces/methods";
+import checkIfHasAdminUserCallMethodInstance from "./methods/checkIfHasAdminUser.callMethod";
+import createUserCallMethodInstance from "./methods/createUser.callMethod";
+import { Mongo } from "meteor/mongo";
+import onLoginInstance from "./methods/onLogin";
+import onLogoutInstance from "./methods/onLogout";
+import sendVerificationEmailInstance from "./methods/sendVerificationEmail.callMethod";
+import ServerBase from "/imports/base/server/server.base";
+import sendResetPasswordInstance from "./methods/sendResetPasswordEmail";
+import resetUserPasswordInstance from "./methods/resetUserPassword";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
