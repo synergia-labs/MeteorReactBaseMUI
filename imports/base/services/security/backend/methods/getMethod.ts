@@ -6,7 +6,6 @@ import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
-import { useSecurity } from "../../frontend/security.provider";
 
 class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethodType> {
 	constructor() {
@@ -20,7 +19,6 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 	}
 
 	async action(_param: ParamGetType, _context: IContext): Promise<ReturnGetMethodType> {
-		useSecurity();
 		const methodCollection = this.getServerInstance()?.getMethodCollection();
 		if (!methodCollection) this.generateError({ _message: "Method collection not found", _context });
 
