@@ -1,25 +1,26 @@
-import { Ref } from 'react';
-import { IConteudo } from '../modules/conteudo/api/conteudoSch';
+import { Ref } from "react";
+import { IConteudo } from "../modules/conteudo/api/conteudoSch";
+import React, { JSX } from "react";
 
 export interface IContentType {
 	type:
-		| 'image'
-		| 'richtext'
-		| 'titulo'
-		| 'legenda'
-		| 'citacao'
-		| 'destaque'
-		| 'sobreAutor'
-		| 'sobreInstituicao'
-		| 'hyperlink'
-		| 'lista'
-		| 'template'
-		| 'video'
-		| 'file'
-		| 'blockedcontent'
-		| 'link'
-		| 'row'
-		| 'col';
+		| "image"
+		| "richtext"
+		| "titulo"
+		| "legenda"
+		| "citacao"
+		| "destaque"
+		| "sobreAutor"
+		| "sobreInstituicao"
+		| "hyperlink"
+		| "lista"
+		| "template"
+		| "video"
+		| "file"
+		| "blockedcontent"
+		| "link"
+		| "row"
+		| "col";
 }
 
 export interface IContentComponent {
@@ -53,21 +54,21 @@ export interface IContentLayout {
 	i: string;
 	order: number;
 	gridStyle?: {
-		alingItems?: string;
-		justifyContent?: string;
-		maxWidth?: string;
-		maxHeight?: any;
-		alignItems?: any;
-		border?: any;
-		backgroundColor?: any;
-		opacity?: any;
-		filter?: any;
-		'object-fit'?: any;
-		color?: any;
-		variant?: any;
-		size?: any;
-		justify?: any;
-		flexWrap?: any;
+		"alingItems"?: string;
+		"justifyContent"?: string;
+		"maxWidth"?: string;
+		"maxHeight"?: any;
+		"alignItems"?: any;
+		"border"?: any;
+		"backgroundColor"?: any;
+		"opacity"?: any;
+		"filter"?: any;
+		"object-fit"?: any;
+		"color"?: any;
+		"variant"?: any;
+		"size"?: any;
+		"justify"?: any;
+		"flexWrap"?: any;
 	};
 	parent: string | null;
 }
@@ -81,12 +82,12 @@ export interface IContentGridType {
 }
 
 export interface ISelectedGrid extends IContentGridType {
-	contentType: IContentType['type'];
+	contentType: IContentType["type"];
 	i: string;
 	layout: IContentLayout;
 	name: string;
-	gridStyle?: IContentLayout['gridStyle'];
-	style?: IContentLayout['gridStyle'];
+	gridStyle?: IContentLayout["gridStyle"];
+	style?: IContentLayout["gridStyle"];
 	value?: any;
 	textContent?: string;
 	classe?: string;
@@ -95,12 +96,12 @@ export interface ISelectedGrid extends IContentGridType {
 }
 
 export interface IContentData {
-	contentType: IContentType['type']; //| "row" | "column";
+	contentType: IContentType["type"]; //| "row" | "column";
 	i: string;
 	name: string;
 	value?: any;
 	textContent?: string;
-	style?: IContentLayout['gridStyle'];
+	style?: IContentLayout["gridStyle"];
 	image?: string;
 	classe?: string;
 	nomeAutor?: string;
@@ -142,7 +143,7 @@ export interface IScreenEditorTopToolbar {
 	setMobileSize: React.Dispatch<React.SetStateAction<any>>;
 	gridContainerRef: React.MutableRefObject<any>;
 	setGridOptions: (options: any) => void;
-	gridOptions: IFlexGridContainer['gridOptions'];
+	gridOptions: IFlexGridContainer["gridOptions"];
 	selectParent: () => void;
 	setSelectedGrid: React.Dispatch<React.SetStateAction<any>>;
 	selectedGrid: any;

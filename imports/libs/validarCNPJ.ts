@@ -1,22 +1,22 @@
 export const validarCNPJ = (cnpj: string): boolean => {
-	cnpj = cnpj.replace(/[^\d]+/g, '');
+	cnpj = cnpj.replace(/[^\d]+/g, "");
 
-	if (cnpj === '') return false;
+	if (cnpj === "") return false;
 
 	if (cnpj.length !== 14) return false;
 
 	// Elimina CNPJs inválidos conhecidos
 	const cnpjInvalidosConhecidos = [
-		'00000000000000',
-		'11111111111111',
-		'22222222222222',
-		'33333333333333',
-		'44444444444444',
-		'55555555555555',
-		'66666666666666',
-		'77777777777777',
-		'88888888888888',
-		'99999999999999'
+		"00000000000000",
+		"11111111111111",
+		"22222222222222",
+		"33333333333333",
+		"44444444444444",
+		"55555555555555",
+		"66666666666666",
+		"77777777777777",
+		"88888888888888",
+		"99999999999999"
 	];
 
 	if (cnpjInvalidosConhecidos.includes(cnpj)) return false;
@@ -24,7 +24,7 @@ export const validarCNPJ = (cnpj: string): boolean => {
 	// Valida Dígitos Verificadores (DVs)
 	let tamanho = cnpj.length - 2;
 	let numeros = cnpj.substring(0, tamanho);
-	let digitos = cnpj.substring(tamanho);
+	const digitos = cnpj.substring(tamanho);
 	let soma = 0;
 	let pos = tamanho - 7;
 

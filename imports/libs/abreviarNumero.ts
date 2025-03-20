@@ -4,18 +4,18 @@
  * @returns
  */
 export const abreviarNumero = (numero: number): string => {
-	if (!numero) return '0';
+	if (!numero) return "0";
 	const intlFormat = (num: number) => {
 		return new Intl.NumberFormat().format(Math.floor(num * 10) / 10);
 	};
 
 	const makeFriendly = (num: number) => {
-		if (num >= 1000000) return intlFormat(num / 1000000) + 'M';
-		if (num >= 1000) return intlFormat(num / 1000) + 'k';
+		if (num >= 1000000) return intlFormat(num / 1000000) + "M";
+		if (num >= 1000) return intlFormat(num / 1000) + "k";
 		return intlFormat(num);
 	};
 
-	let numeroAbreviado = makeFriendly(numero);
+	const numeroAbreviado = makeFriendly(numero);
 
-	return numeroAbreviado.replace(',', '.');
+	return numeroAbreviado.replace(",", ".");
 };

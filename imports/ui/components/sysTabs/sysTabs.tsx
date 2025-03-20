@@ -1,13 +1,8 @@
-import React from 'react';
-import SysTabsStyles from './sysTabsStyles';
-import {SxProps, Theme} from '@mui/system';
+import React from "react";
+import SysTabsStyles from "./sysTabsStyles";
+import { SxProps, Theme } from "@mui/system";
 
-
-const {
-  Container,
-  Tab,
-  Tabs,
-} = SysTabsStyles;
+const { Container, Tab, Tabs } = SysTabsStyles;
 
 /**
  * Interface para representar uma aba em um sistema de abas.
@@ -22,7 +17,7 @@ interface IAba {
 	/** Ícone da aba. */
 	icon?: React.ReactNode;
 	/** Posição do ícone da aba. */
-	iconPosition?: 'start' | 'end' | 'bottom';
+	iconPosition?: "start" | "end" | "bottom";
 }
 
 /**
@@ -36,19 +31,19 @@ interface ISysTabs {
 	/** Função de retorno de chamada chamada quando uma aba é alterada. */
 	handleChange: (event: React.SyntheticEvent, newValue: string) => void;
 	/** Cor do texto das abas. */
-	textColor?: 'secondary' | 'inherit' | 'primary' | undefined;
+	textColor?: "secondary" | "inherit" | "primary" | undefined;
 	/** Cor do indicador de seleção. */
-	indicatorColor?: 'secondary' | 'primary' | undefined;
+	indicatorColor?: "secondary" | "primary" | undefined;
 	/** Variante do sistema de abas. */
-	variant?: 'fullWidth' | 'scrollable' | 'standard' | undefined;
+	variant?: "fullWidth" | "scrollable" | "standard" | undefined;
 	/** Indica se as abas devem ser centralizadas. */
 	centered?: boolean;
 	/** Indica se devem ser exibidos botões de rolagem em dispositivos móveis. */
 	allowScrollButtonsMobile?: boolean;
 	/** Tipo de botões de rolagem. */
-	scrollButtons?: 'auto' | false;
+	scrollButtons?: "auto" | false;
 	/** Orientação das abas. */
-	orientation?: 'vertical' | 'horizontal';
+	orientation?: "vertical" | "horizontal";
 	/** Mapeamento de estilos personalizados para o componente e seus elementos filhos. */
 	sxMap?: {
 		/** Estilos personalizados para o contêiner de abas. */
@@ -68,13 +63,13 @@ export const SysTabs: React.FC<ISysTabs> = ({
 	abas = [],
 	value,
 	handleChange,
-	textColor = 'primary',
-	indicatorColor = 'primary',
-	variant = 'standard',
+	textColor = "primary",
+	indicatorColor = "primary",
+	variant = "standard",
 	centered = false,
 	allowScrollButtonsMobile = false,
-	scrollButtons = 'auto',
-	orientation = 'horizontal',
+	scrollButtons = "auto",
+	orientation = "horizontal",
 	sxMap
 }) => {
 	return (
@@ -97,7 +92,7 @@ export const SysTabs: React.FC<ISysTabs> = ({
 						key={aba.value}
 						disabled={aba.disabled}
 						sx={sxMap?.tab}
-						icon={typeof aba.icon === 'string' ? aba.icon : ''}
+						icon={typeof aba.icon === "string" ? aba.icon : ""}
 						iconPosition={aba?.iconPosition}
 					/>
 				))}

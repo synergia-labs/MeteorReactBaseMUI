@@ -1,6 +1,6 @@
-import ApiBase from '../../api/api.base';
-import { enumStorageMethods } from './common/enums/methods.enum';
-import { StorageApiMethods } from './common/interfaces/methods';
+import ApiBase from "../../api/api.base";
+import { enumStorageMethods } from "./common/enums/methods.enum";
+import { StorageApiMethods } from "./common/interfaces/methods";
 
 class StorageApi extends ApiBase {
 	constructor() {

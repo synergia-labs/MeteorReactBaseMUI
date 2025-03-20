@@ -1,7 +1,7 @@
-import { pagesRouterList } from './pagesrouters';
-import { pagesMenuItemList } from './pagesappmenu';
+import { pagesRouterList } from "./pagesrouters";
+import { pagesMenuItemList } from "./pagesappmenu";
 
-const Pages: IModuleHub = {
+const Pages = {
 	pagesRouterList,
 	pagesMenuItemList
 };

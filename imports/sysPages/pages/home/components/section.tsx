@@ -1,40 +1,39 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import React from "react";
+import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
-
-const Container = styled(Box)(({}) => ({
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'flex-start',
-	justifyContent: 'flex-start',
-	gap: '1rem',
-  width: '100%'
+const Container = styled(Box)(() => ({
+	display: "flex",
+	flexDirection: "column",
+	alignItems: "flex-start",
+	justifyContent: "flex-start",
+	gap: "1rem",
+	width: "100%"
 }));
 
-const Header = styled(Box)(({}) => ({
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'flex-start',
-	justifyContent: 'flex-start',
-	gap: '0.5rem'
+const Header = styled(Box)(() => ({
+	display: "flex",
+	flexDirection: "column",
+	alignItems: "flex-start",
+	justifyContent: "flex-start",
+	gap: "0.5rem"
 }));
 
 const ContainerExample = styled(Box)(({ theme }) => ({
 	backgroundColor: theme.palette.sysBackground?.bg2,
 	border: `1px solid ${theme.palette.divider}`,
 	borderRadius: theme.shape.borderRadius,
-	padding: '1rem',
-	width: '100%'
+	padding: "1rem",
+	width: "100%"
 }));
 
-const ReviewContainer = styled(Box)(({}) => ({
-	display: 'flex',
-	flexDirection: 'row',
-	gap: '0.5rem',
-	alignItems: 'center',
-	justifyContent: 'flex-start'
+const ReviewContainer = styled(Box)(() => ({
+	display: "flex",
+	flexDirection: "row",
+	gap: "0.5rem",
+	alignItems: "center",
+	justifyContent: "flex-start"
 }));
 
 interface IHomeSection {
@@ -49,7 +48,7 @@ const HomeSection: React.FC<IHomeSection> = ({ title, description, children, nee
 		<Container>
 			<Header>
 				<Typography variant="h5">{title}</Typography>
-				<Typography variant="body1" textAlign={'justify'}>
+				<Typography variant="body1" textAlign={"justify"}>
 					{description}
 				</Typography>
 			</Header>

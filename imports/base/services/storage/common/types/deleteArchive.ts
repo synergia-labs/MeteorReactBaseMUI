@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * Esquema para os parâmetros necessários para deletar um arquivo.

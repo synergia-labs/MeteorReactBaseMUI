@@ -1,9 +1,9 @@
-import React, { useContext, useRef, useState } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Button, { ButtonProps } from '@mui/material/Button';
-import { SysFormContext } from '../../sysForm/sysForm';
-import { ISysFormButtonRef } from '../../sysForm/typings';
-import { hasValue } from '../../../../libs/hasValue';
+import React, { useContext, useRef, useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button, { ButtonProps } from "@mui/material/Button";
+import { SysFormContext } from "../../sysForm/sysForm";
+import { ISysFormButtonRef } from "../../sysForm/typings";
+import { hasValue } from "../../../../libs/hasValue";
 
 const SysFormButton: React.FC<ButtonProps> = (props) => {
 	const sysFormController = useContext(SysFormContext);
@@ -24,7 +24,7 @@ const SysFormButton: React.FC<ButtonProps> = (props) => {
 		props.onClick?.(e);
 	};
 
-	if (inSysFormContext && sysFormController?.mode === 'view') return null;
+	if (inSysFormContext && sysFormController?.mode === "view") return null;
 	return (
 		<Button
 			{...props}

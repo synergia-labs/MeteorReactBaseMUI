@@ -14,30 +14,29 @@ import resetUserPasswordInstance from "./methods/resetUserPassword";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
-    checkIfHasAdminUserCallMethodInstance,
-    createUserCallMethodInstance,
-    sendVerificationEmailInstance,
-    sendResetPasswordInstance,
-    onLoginInstance,
-    onLogoutInstance,
-    resetUserPasswordInstance
+	checkIfHasAdminUserCallMethodInstance,
+	createUserCallMethodInstance,
+	sendVerificationEmailInstance,
+	sendResetPasswordInstance,
+	onLoginInstance,
+	onLogoutInstance,
+	resetUserPasswordInstance
 ] as const;
 
 /**Array com as instâncias de todas as classes de publicação do módulo */
-const _publicationInstances: Array<any> = [
-] as const;
+const _publicationInstances: Array<any> = [] as const;
 
 class UserProfileServer extends ServerBase {
-    public mongoInstance: Mongo.Collection<Meteor.User>;
-    public storageInstance?: any;
+	public mongoInstance: Mongo.Collection<Meteor.User>;
+	public storageInstance?: any;
 
-    constructor() {
-        super(EnumUserProfileSettings.MODULE_NAME);
-        this.mongoInstance = Meteor.users;
+	constructor() {
+		super(EnumUserProfileSettings.MODULE_NAME);
+		this.mongoInstance = Meteor.users;
 
-        this.registerMethods(_methodInstances, this);
-        this.registerPublications(_publicationInstances, this);
-    }
+		this.registerMethods(_methodInstances, this);
+		this.registerPublications(_publicationInstances, this);
+	}
 }
 
 type interfaceWithMethods = UserProfileServerMethods & UserProfileServer;

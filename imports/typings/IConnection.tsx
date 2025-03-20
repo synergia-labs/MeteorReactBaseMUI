@@ -4,11 +4,11 @@ export interface IConnection {
 	onClose: () => any;
 	clientAddress: string;
 	httpHeaders: {
-		'x-forwarded-for': string;
-		'x-forwarded-port': string;
-		'x-forwarded-proto': string;
-		host: string;
-		'user-agent': string;
-		'accept-language': string;
+		"x-forwarded-for": string;
+		"x-forwarded-port": string;
+		"x-forwarded-proto": string;
+		"host": string;
+		"user-agent": string;
+		"accept-language": string;
 	};
 }

@@ -1,17 +1,17 @@
-import { Meteor } from 'meteor/meteor';
-import { IDoc } from '/imports/typings/IDoc';
-import { MongoInternals } from 'meteor/mongo';
-import { WebApp } from 'meteor/webapp';
+import { Meteor } from "meteor/meteor";
+import { IDoc } from "/imports/typings/IDoc";
+import { MongoInternals } from "meteor/mongo";
+import { WebApp } from "meteor/webapp";
 
 //@ts-ignore
-import connectRoute from 'connect-route';
-import { IContext } from '/imports/typings/IContext';
-import { IConnection } from '/imports/typings/IConnection';
-import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
-import { getUserServer } from '/imports/modules/userprofile/api/userProfileServerApi';
+import connectRoute from "connect-route";
+import { IContext } from "/imports/typings/IContext";
+import { IConnection } from "/imports/typings/IConnection";
+import { IUserProfile } from "/imports/modules/userprofile/api/userProfileSch";
+import { getUserServer } from "/imports/modules/userprofile/api/userProfileServerApi";
 
-export type ServerActions = 'create' | 'update' | 'delete';
-export type EndpointType = 'get' | 'post';
+export type ServerActions = "create" | "update" | "delete";
+export type EndpointType = "get" | "post";
 export type MethodType = (params?: any, _context?: IContext) => any;
 
 export class ServerBase {
@@ -53,14 +53,14 @@ export class ServerBase {
 	// #region _includeAuditFilds
 	async _includeAuditFilds(doc: any & Partial<IDoc>, action: ServerActions) {
 		const userId = Meteor.userId();
-		if (!userId) throw new Meteor.Error('Usuário não autenticado');
+		if (!userId) throw new Meteor.Error("Usuário não autenticado");
 
-		if (action === 'create') {
+		if (action === "create") {
 			doc.createdby = userId;
 			doc.createdat = new Date();
 			doc.lastupdate = new Date();
 			doc.updatedby = userId;
-		} else if (action === 'update') {
+		} else if (action === "update") {
 			doc.lastupdate = new Date();
 			doc.updatedby = userId;
 		}
@@ -103,7 +103,6 @@ export class ServerBase {
 		const self = this;
 
 		Object.entries(publications).forEach(([action, { method, endpointType }]) => {
-			
 			if (endpointType) this.addRestEndpoint(action, method, endpointType);
 
 			publicationsObject[`${this.apiName}.${action}`] = async (...args: any[]) => {
@@ -151,7 +150,7 @@ export class ServerBase {
 					action,
 					user: {
 						username: `By ${type} api endpoint`,
-						email: 'api.endpoint@api.com',
+						email: "api.endpoint@api.com",
 						roles: params.role ? [params.role] : []
 					},
 					session: endpointContext.request,
@@ -162,20 +161,20 @@ export class ServerBase {
 
 				try {
 					res.writeHead(200, {
-						'Content-Type': 'application/json'
+						"Content-Type": "application/json"
 					});
 
 					const result = func({ params }, _context);
 
-					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
+					res.write(typeof result === "object" ? JSON.stringify(result) : `${result ? result.toString() : "-"}`);
 					res.end();
 					return;
 				} catch (e) {
 					console.log(`API ERROR:${this.apiName}|${action} - `, e);
 					res.writeHead(403, {
-						'Content-Type': 'application/json'
+						"Content-Type": "application/json"
 					});
-					res.write('Error');
+					res.write("Error");
 					res.end();
 					return;
 				}

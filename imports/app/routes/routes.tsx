@@ -1,30 +1,30 @@
-import Modules from '../../modules';
-import Pages from '../../sysPages/config';
-import { IAppMenu, IRoute } from '../../modules/modulesTypings';
-import { useLocation } from 'react-router-dom';
+import Modules from "../../modules";
+import Pages from "../../sysPages/config";
+import { IAppMenu, IRoute } from "../../modules/modulesTypings";
+import { useLocation } from "react-router-dom";
 class SysRoutes {
 	private routes: Array<IRoute | null>;
 	private menuItens: Array<IAppMenu | null>;
-	public getRoutes = (): Array<IRoute>  => this.routes.filter((route) => route !== null) as Array<IRoute>;
+	public getRoutes = (): Array<IRoute> => this.routes.filter((route) => route !== null) as Array<IRoute>;
 	public getMenuItens = () => {
 		return this.menuItens.map((item) => {
-			if(!item?.path) return undefined;
+			if (!item?.path) return undefined;
 			return {
 				...item,
 				resources: false
-			}
+			};
 		});
 	};
 
 	constructor() {
-		this.routes = [...Modules.pagesRouterList, ...Pages.pagesRouterList ];
+		this.routes = [...Modules.pagesRouterList, ...Pages.pagesRouterList];
 		this.menuItens = [...Pages.pagesMenuItemList, ...Modules.pagesMenuItemList];
 	}
 
 	public checkIfRouteExists = (path: string) =>
 		this.routes.some((route) => {
 			if (!route?.path) return false;
-			const routeRegex = new RegExp('^' + route.path.replace(/:[^\s/]+/g, '([^/]+)') + '$');
+			const routeRegex = new RegExp("^" + route.path.replace(/:[^\s/]+/g, "([^/]+)") + "$");
 			return routeRegex.test(path);
 		});
 
@@ -39,9 +39,9 @@ class SysRoutes {
 	public checkIsActiveRoute = (routePath?: string) => {
 		const location = useLocation().pathname;
 		if (!routePath) return false;
-		if (routePath === '/') return location === '/';
+		if (routePath === "/") return location === "/";
 
-		const normalizedRoutePath = routePath.replace(/\/$/, '');
+		const normalizedRoutePath = routePath.replace(/\/$/, "");
 
 		return location.startsWith(normalizedRoutePath);
 	};

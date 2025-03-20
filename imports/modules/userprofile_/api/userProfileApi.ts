@@ -1,15 +1,15 @@
 // region Imports
-import { Meteor } from 'meteor/meteor';
-import { userProfileSch } from './userProfileSch';
-import { userprofileData } from '/imports/libs/getUser';
-import { IMeteorError } from '/imports/typings/BoilerplateDefaultTypings';
-import { OfflineBaseApi } from '../../../api/offlinebase';
+import { Meteor } from "meteor/meteor";
+import { userProfileSch } from "./userProfileSch";
+import { userprofileData } from "/imports/libs/getUser";
+import { IMeteorError } from "/imports/typings/BoilerplateDefaultTypings";
+import { OfflineBaseApi } from "../../../api/offlinebase";
 
 // endregion
 
 class UserProfileApi extends OfflineBaseApi {
 	constructor() {
-		super('userprofile', userProfileSch);
+		super("userprofile", userProfileSch);
 		this.insertNewUser = this.insertNewUser.bind(this);
 		this.noImagePath = `${Meteor.absoluteUrl()}images/wireframe/user_no_photo.png`;
 		// @ts-ignore
@@ -22,11 +22,11 @@ class UserProfileApi extends OfflineBaseApi {
 			console.log(e, r);
 		}
 	) {
-		this.callMethod('insert', userData, callback);
+		this.callMethod("insert", userData, callback);
 	}
 
 	changeUserStatus(id: string, callback = (e: IMeteorError, _: any) => {}) {
-		return this.callMethod('ChangeUserStatus', id, callback);
+		return this.callMethod("ChangeUserStatus", id, callback);
 	}
 }
 

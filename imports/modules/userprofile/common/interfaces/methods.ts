@@ -11,13 +11,12 @@ import resetUserPasswordInstance from "../../backend/methods/resetUserPassword";
  * IMPORTANTE: Adicionar apenas os métodos. Não adicionar publicações.
  */
 interface UserProfileServerMethods extends Record<string, (...args: any) => any> {
-    checkIfHasAdminUser: MethodType<typeof checkIfHasAdminUserCallMethodInstance>;
-    create: MethodType<typeof createUserCallMethodInstance>;
-    onLogin: MethodType<typeof onLoginInstance>;
-    sendResetPasswordEmail: MethodType<typeof sendResetPasswordInstance>;
-    resetUserPassword: MethodType<typeof resetUserPasswordInstance>;
+	checkIfHasAdminUser: MethodType<typeof checkIfHasAdminUserCallMethodInstance>;
+	create: MethodType<typeof createUserCallMethodInstance>;
+	onLogin: MethodType<typeof onLoginInstance>;
+	sendResetPasswordEmail: MethodType<typeof sendResetPasswordInstance>;
+	resetUserPassword: MethodType<typeof resetUserPasswordInstance>;
 }
-
 
 type UsersApiMethods = TransformServerToApiMethods<UserProfileServerMethods>;
 export type { UserProfileServerMethods, UsersApiMethods };

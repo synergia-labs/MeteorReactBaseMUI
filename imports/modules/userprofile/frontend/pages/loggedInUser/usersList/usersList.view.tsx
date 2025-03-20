@@ -1,14 +1,8 @@
-import React, { useContext } from 'react';
-import Styles from './usersList.styles';
+import React, { useContext } from "react";
+import Styles from "./usersList.styles";
 
 const UserListView: React.FC = () => {
-     
-    return (
-        <Styles.container>
-            
-
-        </Styles.container>
-    )
+	return <Styles.container></Styles.container>;
 };
 
 export default UserListView;

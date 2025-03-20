@@ -1,11 +1,11 @@
-import { FilesCollection } from 'meteor/ostrio:files';
-import { Meteor } from 'meteor/meteor';
+import { FilesCollection } from "meteor/ostrio:files";
+import { Meteor } from "meteor/meteor";
 
 let uploadPaths = null;
 if (Meteor.isServer) {
-	const fs = require('fs');
+	const fs = require("fs");
 
-	uploadPaths = `${Meteor.absolutePath.split('/').slice(0, -1).join('/')}/uploads/meteorUploads`;
+	uploadPaths = `${Meteor.absolutePath.split("/").slice(0, -1).join("/")}/uploads/meteorUploads`;
 
 	if (!fs.existsSync(uploadPaths)) {
 		fs.mkdirSync(uploadPaths, { recursive: true });
@@ -19,7 +19,7 @@ class AttachmentsCollection {
 		 */
 		// const storagePath = path: '/home/servicedesk/DEPLOY/LINIO_SERVICEDESK_PRODUCAO/bundle/uploads'
 		this.attachments = new FilesCollection({
-			collectionName: 'Attachments',
+			collectionName: "Attachments",
 			allowClientCode: false, // actions from client
 			// Mudar a cada versão
 			// ToDo Colocar em uma variável de ambiente
@@ -32,7 +32,7 @@ class AttachmentsCollection {
 				) {
 					return true;
 				}
-				return 'Please upload image, with size equal or less than 10MB';
+				return "Please upload image, with size equal or less than 10MB";
 			}
 		});
 		if (Meteor.isServer) {
@@ -42,7 +42,7 @@ class AttachmentsCollection {
 			this.attachments.allowClient();
 		}
 		this.applyPublication();
-		this.serverGetFileFileByDocId('MapaCalorConfig');
+		this.serverGetFileFileByDocId("MapaCalorConfig");
 	}
 
 	applyPublication = () => {
@@ -63,7 +63,7 @@ class AttachmentsCollection {
 				}
 			});
 
-			Meteor.publish('files-attachments', (filter) => {
+			Meteor.publish("files-attachments", (filter) => {
 				check(filter, Object);
 				return self.attachments.collection.find({ ...filter });
 			});
@@ -73,35 +73,35 @@ class AttachmentsCollection {
 	find = (filter) => this.attachments.collection.find(filter);
 
 	getAttachmentDoc = (doc) => ({
-		_id: doc._id,
-		size: doc.size,
-		type: 'application/octet-stream',
-		name: doc.name,
-		ext: 'csv',
-		extension: 'csv',
-		extensionWithDot: '.csv',
-		mime: '',
-		'mime-type': '',
-		userId: 'B2WZtLcLjeAoadsML',
-		path: doc.path,
-		versions: {
+		"_id": doc._id,
+		"size": doc.size,
+		"type": "application/octet-stream",
+		"name": doc.name,
+		"ext": "csv",
+		"extension": "csv",
+		"extensionWithDot": ".csv",
+		"mime": "",
+		"mime-type": "",
+		"userId": "B2WZtLcLjeAoadsML",
+		"path": doc.path,
+		"versions": {
 			original: {
 				path: doc.path,
 				size: doc.size,
-				type: '',
-				extension: 'csv'
+				type: "",
+				extension: "csv"
 			}
 		},
-		_downloadRoute: '/cdn/storage',
-		_collectionName: 'Attachments',
-		isVideo: false,
-		isAudio: false,
-		isImage: false,
-		isText: false,
-		isJSON: false,
-		isPDF: false,
-		_storagePath: '/meteorUploads',
-		public: false
+		"_downloadRoute": "/cdn/storage",
+		"_collectionName": "Attachments",
+		"isVideo": false,
+		"isAudio": false,
+		"isImage": false,
+		"isText": false,
+		"isJSON": false,
+		"isPDF": false,
+		"_storagePath": "/meteorUploads",
+		"public": false
 	});
 
 	serverInsert = (doc) => {
@@ -109,7 +109,7 @@ class AttachmentsCollection {
 	};
 
 	serverGetFileFileByDocId = (id) => {
-		const docFile = this.find({ 'meta.docId': id }).fetch()[0];
+		const docFile = this.find({ "meta.docId": id }).fetch()[0];
 		return docFile && docFile.path ? docFile.path : null;
 	};
 
@@ -117,7 +117,7 @@ class AttachmentsCollection {
 		if (Meteor.isServer) {
 			const fileId = shortid.generate();
 			const nameFile = `${fileName ? fileName : fileId}.csv`;
-			const fs = require('fs').promises;
+			const fs = require("fs").promises;
 			const fileSave = await fs.writeFile(`${uploadPaths}/${nameFile}`, file);
 			const fileStat = await fs.stat(`${uploadPaths}/${nameFile}`);
 			const fileData = {

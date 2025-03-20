@@ -1,32 +1,32 @@
-import { noAvatarBase64, noImageBase64 } from './noimage';
-import { isArray, isObject, merge } from 'lodash';
-import { hasValue } from '../libs/hasValue';
-import { Mongo, MongoInternals } from 'meteor/mongo';
-import { ClientSession, MongoClient } from 'mongodb';
-import { Meteor } from 'meteor/meteor';
-import { check, Match } from 'meteor/check';
-import sharp from 'sharp';
-import { countsCollection } from '../api/countCollection';
-import { Validador } from '../libs/Validador';
-import { segurancaApi } from '../security/api/segurancaApi';
-import { WebApp } from 'meteor/webapp';
+import { noAvatarBase64, noImageBase64 } from "./noimage";
+import { isArray, isObject, merge } from "lodash";
+import { hasValue } from "../libs/hasValue";
+import { Mongo, MongoInternals } from "meteor/mongo";
+import { ClientSession, MongoClient } from "mongodb";
+import { Meteor } from "meteor/meteor";
+import { check, Match } from "meteor/check";
+import sharp from "sharp";
+import { countsCollection } from "../api/countCollection";
+import { Validador } from "../libs/Validador";
+import { segurancaApi } from "../security/api/segurancaApi";
+import { WebApp } from "meteor/webapp";
 // @ts-ignore
-import bodyParser from 'body-parser';
+import bodyParser from "body-parser";
 // @ts-ignore
-import cors from 'cors';
+import cors from "cors";
 // @ts-ignore
-import connectRoute from 'connect-route';
-import { ISchema } from '../typings/ISchema';
-import { IContext } from '../typings/IContext';
-import { IDoc } from '../typings/IDoc';
-import { IBaseOptions } from '../typings/IBaseOptions';
-import { IConnection } from '../typings/IConnection';
+import connectRoute from "connect-route";
+import { ISchema } from "../typings/ISchema";
+import { IContext } from "../typings/IContext";
+import { IDoc } from "../typings/IDoc";
+import { IBaseOptions } from "../typings/IBaseOptions";
+import { IConnection } from "../typings/IConnection";
 import Selector = Mongo.Selector;
-import { nanoid } from 'nanoid';
-import EnumUserRoles from '../modules/userprofile/common/enums/enumUserRoles';
+import { nanoid } from "nanoid";
+import EnumUserRoles from "../modules/userprofile/common/enums/enumUserRoles";
 
 WebApp.connectHandlers.use(cors());
-WebApp.connectHandlers.use(bodyParser.json({ limit: '50mb' }));
+WebApp.connectHandlers.use(bodyParser.json({ limit: "50mb" }));
 
 const getNoImage = (isAvatar = false) => {
 	if (!isAvatar) {
@@ -71,7 +71,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	counts: Mongo.Collection<any>;
 	apiRestImage?: IApiRestImage | undefined;
 	apiRestAudio?: IApiRestAudio | undefined;
-	auditFields = ['createdby', 'createdat', 'lastupdate', 'updatedby', 'sincronizadoEm', 'idAparelho'];
+	auditFields = ["createdby", "createdat", "lastupdate", "updatedby", "sincronizadoEm", "idAparelho"];
 	defaultResources?: any;
 	// @ts-ignore
 	collectionInstance: Mongo.Collection<any>;
@@ -164,7 +164,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		this.initApiRest();
 		this.registerPublications(options);
 		this.registerAllMethods();
-		
+
 		// this.createAPIRESTForAudioFields();
 		// this.createAPIRESTForIMGFields();
 		// this.createAPIRESTThumbnailForIMGFields(sharp);
@@ -172,7 +172,7 @@ export class ServerApiBase<Doc extends IDoc> {
 
 	initCollection(apiName: string) {
 		this.collectionName = apiName;
-		if (this.collectionName !== 'users') {
+		if (this.collectionName !== "users") {
 			// If Is SERVER
 			this.collectionInstance = new Mongo.Collection(this.collectionName);
 			// Deny all client-side updates on the Lists collection
@@ -228,9 +228,9 @@ export class ServerApiBase<Doc extends IDoc> {
 	_addImgPathToFields = (doc: any) => {
 		Object.keys(this.schema).forEach((field) => {
 			if (this.schema[field].isImage) {
-				if (doc['has' + field]) {
+				if (doc["has" + field]) {
 					doc[field] = `${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${doc._id}?date=${
-						doc.lastupdate && doc.lastupdate.toISOString ? doc.lastupdate.toISOString() : '1'
+						doc.lastupdate && doc.lastupdate.toISOString ? doc.lastupdate.toISOString() : "1"
 					}`;
 				} else {
 					doc[field] = this.noImagePath ? this.noImagePath : `${Meteor.absoluteUrl()}images/noimage.jpg`;
@@ -258,11 +258,11 @@ export class ServerApiBase<Doc extends IDoc> {
 				schemaData = schema[key];
 				if (
 					schemaData.isImage &&
-					(!hasValue(data) || (hasValue(data) && data?.indexOf('data:image') === -1)) &&
-					data !== '-'
+					(!hasValue(data) || (hasValue(data) && data?.indexOf("data:image") === -1)) &&
+					data !== "-"
 				) {
 					// dont update if not have value field of image
-				} else if (schema[key].isImage && data === '-') {
+				} else if (schema[key].isImage && data === "-") {
 					newDataObj[key] = null;
 				} else if (hasValue(data) && schema[key] && schema[key].type === Number) {
 					newDataObj[key] = Number(data);
@@ -273,7 +273,7 @@ export class ServerApiBase<Doc extends IDoc> {
 				} else if (
 					schema[key] &&
 					!Array.isArray(schema[key].type) &&
-					typeof schema[key].type === 'object' &&
+					typeof schema[key].type === "object" &&
 					!hasValue(data)
 				) {
 					// No Save
@@ -328,9 +328,9 @@ export class ServerApiBase<Doc extends IDoc> {
 				fieldsNamesIgnoreCheck.indexOf(field) === -1 &&
 				!hasValue(newDataObj[field])
 			) {
-				throw new Meteor.Error('Obrigatoriedade', `O campo "${schema[field].label || field}" é obrigatório`);
+				throw new Meteor.Error("Obrigatoriedade", `O campo "${schema[field].label || field}" é obrigatório`);
 			} else if (keysOfDataObj.indexOf(field) !== -1) {
-				if (!!schema[field]?.optional) {
+				if (schema[field]?.optional) {
 					newSchema[field] = Match.OneOf(undefined, null, schema[field].type);
 				} else {
 					newSchema[field] = schema[field].type;
@@ -340,7 +340,7 @@ export class ServerApiBase<Doc extends IDoc> {
 				if (
 					(schema[field].isImage || schema[field].isAvatar) &&
 					newDataObj[field] &&
-					typeof newDataObj[field] === 'string'
+					typeof newDataObj[field] === "string"
 				) {
 					delete newSchema[field];
 					delete objForCheck[field];
@@ -354,7 +354,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		} catch (e: any) {
 			const field = e.path;
 			throw new Meteor.Error(
-				'Erro de tipagem no schema',
+				"Erro de tipagem no schema",
 				`Erro de tipagem no schema. Verifique se o campo "${field}" está correto.`
 			);
 		}
@@ -369,9 +369,9 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {String} action - Action the will be perform.
 	 * @param defaultUser
 	 */
-	async _includeAuditData(doc: Doc | Partial<Doc>, action: string, defaultUser: string = 'Anonymous') {
+	async _includeAuditData(doc: Doc | Partial<Doc>, action: string, defaultUser: string = "Anonymous") {
 		const userId = nanoid();
-		if (action === 'insert') {
+		if (action === "insert") {
 			doc.createdby = userId;
 			doc.createdat = new Date();
 			doc.lastupdate = new Date();
@@ -386,15 +386,15 @@ export class ServerApiBase<Doc extends IDoc> {
 		const newDoc: any = {};
 		Object.keys(doc).forEach((key: string) => {
 			// @ts-ignore
-			let docData = doc[key];
+			const docData = doc[key];
 			const isDate = docData && docData instanceof Date && !isNaN(docData.valueOf());
-			const isBoolean = typeof docData === 'boolean';
+			const isBoolean = typeof docData === "boolean";
 			if (!!nullValues && !docData && docData !== 0 && !isBoolean) {
-				nullValues[key] = '';
+				nullValues[key] = "";
 			} else {
 				if (
-					key !== '_id' &&
-					['lastupdate', 'createdat', 'createdby', 'updatedby'].indexOf(key) === -1 &&
+					key !== "_id" &&
+					["lastupdate", "createdat", "createdby", "updatedby"].indexOf(key) === -1 &&
 					!isDate &&
 					isObject(docData) &&
 					!isArray(docData) &&
@@ -423,8 +423,8 @@ export class ServerApiBase<Doc extends IDoc> {
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
 		const user: Meteor.UserProfile = userProfile || {
-			username: `Teste`,
-			email: 'api.endpoint@api.com',
+			username: "Teste",
+			email: "api.endpoint@api.com",
 			roles: [EnumUserRoles.PUBLIC]
 		};
 
@@ -452,14 +452,14 @@ export class ServerApiBase<Doc extends IDoc> {
 				await session.commitTransaction();
 			} catch (e: any) {
 				await session.abortTransaction();
-				console.error('Erro durante transacao', e);
-				if (e.name === 'MongoError' && e.codeName == 'WriteConflict') {
-					erro = new Meteor.Error('mongo.WriteConflict', 'Não foi possivel realizar a operação. Tente novamente.');
+				console.error("Erro durante transacao", e);
+				if (e.name === "MongoError" && e.codeName == "WriteConflict") {
+					erro = new Meteor.Error("mongo.WriteConflict", "Não foi possivel realizar a operação. Tente novamente.");
 				}
 				if (e instanceof Meteor.Error) {
 					erro = e;
 				} else {
-					erro = new Meteor.Error('erroOperacao', e.message || e);
+					erro = new Meteor.Error("erroOperacao", e.message || e);
 				}
 			} finally {
 				session.endSession();
@@ -476,10 +476,10 @@ export class ServerApiBase<Doc extends IDoc> {
 	addRestEndpoint(
 		route: string,
 		func: (params: any, options: any) => any,
-		types: string[] = ['get', 'post'],
+		types: string[] = ["get", "post"],
 		apiOptions: {
 			apiVersion: number;
-			authFunction: (headers: any, params: any) => Boolean;
+			authFunction: (headers: any, params: any) => boolean;
 		} = {
 			apiVersion: 1,
 			authFunction: () => true
@@ -487,7 +487,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	) {
 		if (Meteor.isServer) {
 			if (!route || !func || !types || !apiOptions) {
-				console.log('CREATE API ERRRO:', this.collectionName, route);
+				console.log("CREATE API ERRRO:", this.collectionName, route);
 				return;
 			}
 			const endpoinUrl = `/api/v${apiOptions.apiVersion || 1}/${this.collectionName}/${route}`;
@@ -516,29 +516,29 @@ export class ServerApiBase<Doc extends IDoc> {
 
 				if (apiOptions.authFunction && !apiOptions.authFunction(req.headers, params)) {
 					res.writeHead(403, {
-						'Content-Type': 'application/json'
+						"Content-Type": "application/json"
 					});
-					res.write('Access denied');
+					res.write("Access denied");
 					res.end();
 					return;
 				}
 
 				try {
 					res.writeHead(200, {
-						'Content-Type': 'application/json'
+						"Content-Type": "application/json"
 					});
 
 					const result = func(params, context);
 
-					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
+					res.write(typeof result === "object" ? JSON.stringify(result) : `${result ? result.toString() : "-"}`);
 					res.end(); // Must call this immediately before return!
 					return;
 				} catch (e) {
 					console.log(`API ERROR:${this.collectionName}|${route} - `, e);
 					res.writeHead(403, {
-						'Content-Type': 'application/json'
+						"Content-Type": "application/json"
 					});
-					res.write('Error');
+					res.write("Error");
 					res.end();
 					return;
 				}
@@ -561,28 +561,28 @@ export class ServerApiBase<Doc extends IDoc> {
 		if (Meteor.isServer) {
 			this.apiRestAudio = {
 				addRoute: (path: string, handle: any) => {
-					console.log('Path', path);
+					console.log("Path", path);
 					WebApp.connectHandlers.use(
 						connectRoute((router: any) => {
-							router.get('/audio/' + path, handle);
+							router.get("/audio/" + path, handle);
 						})
 					);
 				}
 			};
 			this.apiRestImage = {
 				addRoute: (path: string, handle: any) => {
-					console.log('Path', path);
+					console.log("Path", path);
 					WebApp.connectHandlers.use(
 						connectRoute((router: any) => {
-							router.get('/img/' + path, handle);
+							router.get("/img/" + path, handle);
 						})
 					);
 				},
 				addThumbnailRoute: (path: string, handle: any) => {
-					console.log('Path', path);
+					console.log("Path", path);
 					WebApp.connectHandlers.use(
 						connectRoute((router: any) => {
-							router.get('/thumbnail/' + path, handle);
+							router.get("/thumbnail/" + path, handle);
 						})
 					);
 				}
@@ -597,7 +597,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			Object.keys(schema).forEach((field) => {
 				if (schema[field].isAudio) {
 					console.log(
-						'CREATE ENDPOINT GET ' + `audio/${this.collectionName}/${field}/:audio ########## IMAGE #############`
+						"CREATE ENDPOINT GET " + `audio/${this.collectionName}/${field}/:audio ########## IMAGE #############`
 					);
 					this.apiRestAudio &&
 						this.apiRestAudio.addRoute(`${this.collectionName}/${field}/:audio`, async (req: any, res: any) => {
@@ -605,33 +605,31 @@ export class ServerApiBase<Doc extends IDoc> {
 
 							if (params && !!params.audio) {
 								const docID =
-									params.audio.indexOf('?') !== -1
-										? params.audio.split('?')[0].split('.')[0]
-										: params.audio.split('.')[0];
+									params.audio.indexOf("?") !== -1 ? params.audio.split("?")[0].split(".")[0] : params.audio.split(".")[0];
 								const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
 
-								if (doc && !!doc[field] && doc[field] !== '-') {
-									if (doc[field].indexOf(';base64,') !== -1) {
+								if (doc && !!doc[field] && doc[field] !== "-") {
+									if (doc[field].indexOf(";base64,") !== -1) {
 										const matches = doc[field].match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
 										const response: IResponse = {};
 										response.type = matches[1];
-										response.data = Buffer.from(matches[2], 'base64');
+										response.data = Buffer.from(matches[2], "base64");
 										res.writeHead(200, {
-											'Content-Type': response.type,
-											'Cache-Control': 'max-age=120, must-revalidate, public',
-											'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
+											"Content-Type": response.type,
+											"Cache-Control": "max-age=120, must-revalidate, public",
+											"Last-Modified": (new Date(doc.lastupdate) || new Date()).toUTCString()
 										});
 										res.write(response.data);
 										res.end(); // Must call this immediately before return!
 										return;
 									} else {
 										const response: IResponse = {};
-										response.type = 'ogg';
-										response.data = Buffer.from(doc[field], 'base64');
+										response.type = "ogg";
+										response.data = Buffer.from(doc[field], "base64");
 										res.writeHead(200, {
-											'Content-Type': response.type,
-											'Cache-Control': 'max-age=120, must-revalidate, public',
-											'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
+											"Content-Type": response.type,
+											"Cache-Control": "max-age=120, must-revalidate, public",
+											"Last-Modified": (new Date(doc.lastupdate) || new Date()).toUTCString()
 										});
 										res.write(response.data);
 										res.end(); // Must call this immediately before return!
@@ -657,34 +655,32 @@ export class ServerApiBase<Doc extends IDoc> {
 			const schema = self.schema;
 			Object.keys(schema).forEach((field) => {
 				if (schema[field].isImage) {
-					console.log(
-						'CREATE ENDPOINT GET ' + `img/${this.collectionName}/${field}/:image ########## IMAGE #############`
-					);
+					console.log("CREATE ENDPOINT GET " + `img/${this.collectionName}/${field}/:image ########## IMAGE #############`);
 					this.apiRestImage &&
 						this.apiRestImage.addRoute(`${this.collectionName}/${field}/:image`, async (req: any, res: any) => {
 							const { params } = req;
 
 							if (params && !!params.image) {
 								const docID =
-									params.image.indexOf('.png') !== -1 ? params.image.split('.png')[0] : params.image.split('.jpg')[0];
+									params.image.indexOf(".png") !== -1 ? params.image.split(".png")[0] : params.image.split(".jpg")[0];
 								const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
 
-								if (doc && !!doc[field] && doc[field] !== '-') {
+								if (doc && !!doc[field] && doc[field] !== "-") {
 									const matches = doc[field].match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
 									const response: IResponse = {};
 
 									if (!matches || matches.length !== 3) {
 										const noimg = getNoImage(schema[field].isAvatar);
 										const tempImg = noimg.match(/^data:([A-Za-z-+\/]+);base64,([\s\S]+)$/);
-										return Buffer.from(tempImg![2], 'base64');
+										return Buffer.from(tempImg![2], "base64");
 									}
 
 									response.type = matches[1];
-									response.data = Buffer.from(matches[2], 'base64');
+									response.data = Buffer.from(matches[2], "base64");
 									res.writeHead(200, {
-										'Content-Type': response.type,
-										'Cache-Control': 'max-age=120, must-revalidate, public',
-										'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
+										"Content-Type": response.type,
+										"Cache-Control": "max-age=120, must-revalidate, public",
+										"Last-Modified": (new Date(doc.lastupdate) || new Date()).toUTCString()
 									});
 									res.write(response.data);
 									res.end(); // Must call this immediately before return!
@@ -710,66 +706,62 @@ export class ServerApiBase<Doc extends IDoc> {
 			Object.keys(schema).forEach((field) => {
 				if (schema[field].isImage) {
 					console.log(
-						'CREATE ENDPOINT GET ' + `thumbnail/${this.collectionName}/${field}/:image ########## IMAGE #############`
+						"CREATE ENDPOINT GET " + `thumbnail/${this.collectionName}/${field}/:image ########## IMAGE #############`
 					);
 					this.apiRestImage &&
-						this.apiRestImage.addThumbnailRoute(
-							`${this.collectionName}/${field}/:image`,
-							async (req: any, res: any) => {
-								const { params, query } = req;
+						this.apiRestImage.addThumbnailRoute(`${this.collectionName}/${field}/:image`, async (req: any, res: any) => {
+							const { params, query } = req;
 
-								const widthAndHeight = query.d ? query.d.split('x').map((n: string) => parseInt(n)) : [200, 200];
+							const widthAndHeight = query.d ? query.d.split("x").map((n: string) => parseInt(n)) : [200, 200];
 
-								if (params && !!params.image) {
-									const docID =
-										params.image.indexOf('.') !== -1 ? params.image.split('.')[0] : params.image.split('.')[0];
-									const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
+							if (params && !!params.image) {
+								const docID = params.image.indexOf(".") !== -1 ? params.image.split(".")[0] : params.image.split(".")[0];
+								const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
 
-									if (doc && !!doc[field] && doc[field] !== '-') {
-										const destructImage = doc[field].split(';');
-										const imageData = destructImage[1].split(',')[1];
+								if (doc && !!doc[field] && doc[field] !== "-") {
+									const destructImage = doc[field].split(";");
+									const imageData = destructImage[1].split(",")[1];
 
-										try {
-											let resizedImage = Buffer.from(imageData, 'base64');
-											resizedImage = await sharp(resizedImage)
-												.rotate()
-												.resize({
-													fit: 'contain',
-													background: {
-														r: 255,
-														g: 255,
-														b: 255,
-														alpha: 0.01
-													},
-													width: !!widthAndHeight[0] ? widthAndHeight[0] : undefined,
-													height: !!widthAndHeight[1] ? widthAndHeight[1] : undefined
-												})
-												.toFormat('webp')
-												.toBuffer();
+									try {
+										let resizedImage = Buffer.from(imageData, "base64");
+										resizedImage = await sharp(resizedImage)
+											.rotate()
+											.resize({
+												fit: "contain",
+												background: {
+													r: 255,
+													g: 255,
+													b: 255,
+													alpha: 0.01
+												},
+												width: widthAndHeight[0] ? widthAndHeight[0] : undefined,
+												height: widthAndHeight[1] ? widthAndHeight[1] : undefined
+											})
+											.toFormat("webp")
+											.toBuffer();
 
-											res.writeHead(200, {
-												'Content-Type': 'image/webp',
-												'Cache-Control': 'max-age=120, must-revalidate, public',
-												'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
-											});
-											res.write(resizedImage);
-											res.end(); // Must call this immediately before return!
-											return;
+										res.writeHead(200, {
+											"Content-Type": "image/webp",
+											"Cache-Control": "max-age=120, must-revalidate, public",
+											"Last-Modified": (new Date(doc.lastupdate) || new Date()).toUTCString()
+										});
+										res.write(resizedImage);
+										res.end(); // Must call this immediately before return!
+										return;
 
-											//To Save Base64 IMG
-											// return `data:${mimType};base64,${resizedImage.toString("base64")}`
-										} catch (error) {
-											res.writeHead(200);
-											res.end();
-											return;
-										}
+										//To Save Base64 IMG
+										// return `data:${mimType};base64,${resizedImage.toString("base64")}`
+									} catch (error) {
+										res.writeHead(200);
+										res.end();
+										return;
 									}
-									res.writeHead(404);
-									res.end();
-									return;
 								}
+								res.writeHead(404);
+								res.end();
+								return;
 							}
-						);
+						});
 				}
 			});
 		}
@@ -785,7 +777,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 */
 	registerPublications(options: IBaseOptions) {
 		if (!options.disableDefaultPublications) {
-			this.addPublication('default', this.defaultCollectionPublication);
+			this.addPublication("default", this.defaultCollectionPublication);
 		}
 	}
 
@@ -794,7 +786,13 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {String} publication - Name of the publication.
 	 * @param  {Function} newPublicationsFunction - Function the handle the publication of the data
 	 */
-	addPublication = (publication: string, newPublicationsFunction: ( filter?: Mongo.ObjectID | Mongo.Selector<any>, optionsPub?: Partial<IMongoOptions<any>> ) => Promise<Mongo.Cursor<any>>  ) => {
+	addPublication = (
+		publication: string,
+		newPublicationsFunction: (
+			filter?: Mongo.ObjectID | Mongo.Selector<any>,
+			optionsPub?: Partial<IMongoOptions<any>>
+		) => Promise<Mongo.Cursor<any>>
+	) => {
 		const self = this;
 
 		if (Meteor.isServer) {
@@ -802,10 +800,10 @@ export class ServerApiBase<Doc extends IDoc> {
 			self.publications[publication] = newPublicationsFunction;
 
 			Meteor.publish(
-				`${self.collectionName}.${'count' + publication}`,
+				`${self.collectionName}.${"count" + publication}`,
 				self.defaultCounterCollectionPublication(self, publication)
 			);
-			self.publications['count' + publication] = self.defaultCounterCollectionPublication(self, publication);
+			self.publications["count" + publication] = self.defaultCounterCollectionPublication(self, publication);
 		} else {
 			this.publications[publication] = true;
 		}
@@ -838,10 +836,10 @@ export class ServerApiBase<Doc extends IDoc> {
 			self.publications[publication] = newPublicationsFunction;
 
 			Meteor.publish(
-				`${self.collectionName}.${'count' + publication}`,
+				`${self.collectionName}.${"count" + publication}`,
 				self.defaultCounterCollectionPublication(self, publication)
 			);
-			self.publications['count' + publication] = self.defaultCounterCollectionPublication(self, publication);
+			self.publications["count" + publication] = self.defaultCounterCollectionPublication(self, publication);
 		} else {
 			this.publications[publication] = true;
 		}
@@ -878,32 +876,34 @@ export class ServerApiBase<Doc extends IDoc> {
 	};
 
 	//**DEFAULT PUBLICATIONS**
-	async defaultCollectionPublication<Doc>(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub?: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
-
+	async defaultCollectionPublication<Doc>(
+		filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {},
+		optionsPub?: Partial<IMongoOptions<Doc>>
+	): Promise<Mongo.Cursor<Doc>> {
 		if (!optionsPub) {
 			optionsPub = { limit: 999999, skip: 0 };
 		}
 
-		if (!!optionsPub.skip && (optionsPub.skip < 0)) {
+		if (!!optionsPub.skip && optionsPub.skip < 0) {
 			optionsPub.skip = 0;
 		}
 
-		if (optionsPub.limit && (optionsPub.limit < 0)) {
+		if (optionsPub.limit && optionsPub.limit < 0) {
 			optionsPub.limit = 999999;
 		}
 
-		if (!!!optionsPub.projection && !!optionsPub.fields) {
+		if (!optionsPub.projection && !!optionsPub.fields) {
 			optionsPub.projection = optionsPub.fields;
 		}
 
-		if (!!!optionsPub.projection) optionsPub.projection = {};
+		if (!optionsPub.projection) optionsPub.projection = {};
 		const hasExceptionProjection = optionsPub && Object.values(optionsPub.projection).find((v) => v === 0 || v === -1);
 		const hasRestrictionProjection = optionsPub && Object.values(optionsPub.projection).find((v) => v === 1);
 
 		// Use the default subschema if no one was defined.
 		const tempProjection: Mongo.FieldSpecifier = { ...(optionsPub.projection || {}) };
 		Object.keys(this.schema)
-			.concat(['_id'])
+			.concat(["_id"])
 			.concat(this.auditFields)
 			.forEach((key) => {
 				if (
@@ -922,48 +922,48 @@ export class ServerApiBase<Doc extends IDoc> {
 
 		Object.keys(this.schema).forEach((field) => {
 			if (this.schema[field].isImage) {
-				imgFields['has' + field] = { $or: '$' + field };
+				imgFields["has" + field] = { $or: "$" + field };
 				delete optionsPub.projection?.[field];
 				imgFields[field] = {
 					$cond: [
-						{ $ifNull: ['$' + field, false] },
+						{ $ifNull: ["$" + field, false] },
 						{
 							$concat: [
 								`${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/`,
-								'$_id',
-								'?date=',
-								{ $toString: '$lastupdate' }
+								"$_id",
+								"?date=",
+								{ $toString: "$lastupdate" }
 							]
 						},
 						this.noImagePath
 					]
 				};
-				imgFields[field + 'Thumbnail'] = {
+				imgFields[field + "Thumbnail"] = {
 					$cond: [
-						{ $ifNull: ['$' + field, false] },
+						{ $ifNull: ["$" + field, false] },
 						{
 							$concat: [
 								`${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/`,
-								'$_id',
-								'?date=',
-								{ $toString: '$lastupdate' }
+								"$_id",
+								"?date=",
+								{ $toString: "$lastupdate" }
 							]
 						},
 						this.noImagePath
 					]
 				};
 			} else if (this.schema[field].isAudio) {
-				imgFields['has' + field] = { $or: '$' + field };
+				imgFields["has" + field] = { $or: "$" + field };
 				delete optionsPub.projection?.[field];
 				imgFields[field] = {
 					$cond: [
-						{ $ifNull: ['$' + field, false] },
+						{ $ifNull: ["$" + field, false] },
 						{
 							$concat: [
 								`${Meteor.absoluteUrl()}audio/${this.collectionName}/${field}/`,
-								'$_id',
-								'?date=',
-								{ $toString: '$lastupdate' }
+								"$_id",
+								"?date=",
+								{ $toString: "$lastupdate" }
 							]
 						},
 						this.noImagePath
@@ -999,21 +999,21 @@ export class ServerApiBase<Doc extends IDoc> {
 				let count = 0;
 				let loaded = false;
 
-				if (!!handlePub) {
+				if (handlePub) {
 					handlePub.observeChanges(
 						{
 							added: () => {
 								if (loaded) {
 									count++;
 									// @ts-ignore
-									this.changed('counts', `${publishName}Total`, { count });
+									this.changed("counts", `${publishName}Total`, { count });
 								}
 							},
 							removed: () => {
 								if (loaded) {
 									count--;
 									// @ts-ignore
-									this.changed('counts', `${publishName}Total`, { count });
+									this.changed("counts", `${publishName}Total`, { count });
 								}
 							}
 						},
@@ -1023,14 +1023,14 @@ export class ServerApiBase<Doc extends IDoc> {
 					);
 					count = await handlePub.countAsync(false);
 					// @ts-ignore
-					this.added('counts', `${publishName}Total`, { count: count });
+					this.added("counts", `${publishName}Total`, { count: count });
 					loaded = true;
 					// @ts-ignore
 					this.ready();
 					return;
 				} else {
 					// @ts-ignore
-					this.added('counts', `${publishName}Total`, { count: 0 });
+					this.added("counts", `${publishName}Total`, { count: 0 });
 					// @ts-ignore
 					this.ready();
 					return;
@@ -1038,7 +1038,10 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		};
 
-	async defaultListCollectionPublication(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
+	async defaultListCollectionPublication(
+		filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {},
+		optionsPub: Partial<IMongoOptions<Doc>>
+	): Promise<Mongo.Cursor<Doc>> {
 		const user = await getUserServer();
 
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
@@ -1047,7 +1050,7 @@ export class ServerApiBase<Doc extends IDoc> {
 				//     `erro.${this.collectionName}Api.permissaoInsuficiente`,
 				//     'Você não possui permissão o suficiente para visualizar estes dados!'
 				// );
-				return this.getCollectionInstance().find({ _id: 'ERROR' });
+				return this.getCollectionInstance().find({ _id: "ERROR" });
 			}
 		}
 
@@ -1059,7 +1062,10 @@ export class ServerApiBase<Doc extends IDoc> {
 		return this.defaultCollectionPublication(filter, defaultListOptions);
 	}
 
-	async defaultDetailCollectionPublication<Doc>(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
+	async defaultDetailCollectionPublication<Doc>(
+		filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {},
+		optionsPub: Partial<IMongoOptions<Doc>>
+	): Promise<Mongo.Cursor<Doc>> {
 		const user = await getUserServer();
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
 			if (!segurancaApi.podeAcessarRecurso(user, this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`])) {
@@ -1067,13 +1073,13 @@ export class ServerApiBase<Doc extends IDoc> {
 				//     `erro.${this.collectionName}Api.permissaoInsuficiente`,
 				//     'Você não possui permissão o suficiente para visualizar estes dados!'
 				// );
-				return this.getCollectionInstance().find({ _id: 'ERROR' });
+				return this.getCollectionInstance().find({ _id: "ERROR" });
 			}
 		}
 
-		const defaultDetailFilter = typeof filter === 'object' && filter !== null ? { ...filter } : {};
-		if (!filter || (typeof filter === 'object' && !('_id' in filter))) {
-			return this.getCollectionInstance().find({ _id: 'ERROR' });
+		const defaultDetailFilter = typeof filter === "object" && filter !== null ? { ...filter } : {};
+		if (!filter || (typeof filter === "object" && !("_id" in filter))) {
+			return this.getCollectionInstance().find({ _id: "ERROR" });
 		}
 		return this.defaultCollectionPublication(defaultDetailFilter, optionsPub);
 	}
@@ -1087,13 +1093,13 @@ export class ServerApiBase<Doc extends IDoc> {
 	registerMethod = (name: string, func: Function) => {
 		const self = this;
 		const action = name;
-		const collection = this.collectionName || '';
+		const collection = this.collectionName || "";
 		const methodFullName = `${this.collectionName}.${name}`;
 		const schema = this.schema;
 
 		const method = {
 			async [methodFullName](...param: any[]) {
-				console.info('CALL Method:', name, param ? param.length : '-');
+				console.info("CALL Method:", name, param ? param.length : "-");
 				// Prevent unauthorized access
 
 				try {
@@ -1105,13 +1111,13 @@ export class ServerApiBase<Doc extends IDoc> {
 					// Here With pass the new Metoer Method with the framework
 					// security and the meteor _context.
 					const functionResult = func(...param, meteorContext);
-					if (action === 'insert') {
+					if (action === "insert") {
 						meteorContext.docId = functionResult;
 					}
 					meteorContext.validador.lancarErroSeHouver();
 					return functionResult;
 				} catch (error) {
-					console.error('Error on CALL Method:', name, 'error:', JSON.stringify(error));
+					console.error("Error on CALL Method:", name, "error:", JSON.stringify(error));
 					throw error;
 				}
 			}
@@ -1124,14 +1130,14 @@ export class ServerApiBase<Doc extends IDoc> {
 	registerTransactionMethod = async (name: string, func: Function) => {
 		const self = this;
 		const action = name;
-		const collection = this.collectionName || '';
+		const collection = this.collectionName || "";
 		const methodFullName = `${this.collectionName}.${name}`;
 		const schema = this.schema;
 
 		const method = {
 			async [methodFullName](...param: any[]) {
 				const selfMeteor = this;
-				console.log('CALL Transaction Method:', name, param ? Object.keys(param) : '-');
+				console.log("CALL Transaction Method:", name, param ? Object.keys(param) : "-");
 				// Prevent unauthorized access
 
 				let connection: IConnection;
@@ -1155,7 +1161,7 @@ export class ServerApiBase<Doc extends IDoc> {
 						// security and the meteor _context.
 						const functionResult = func(...param, meteorContext);
 
-						if (action === 'insert') {
+						if (action === "insert") {
 							meteorContext.docId = functionResult;
 						}
 						meteorContext.validador.lancarErroSeHouver();
@@ -1176,14 +1182,14 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * Meteor call.
 	 */
 	registerAllMethods() {
-		this.registerMethod('update', this.serverUpdate);
-		this.registerMethod('insert', this.serverInsert);
-		this.registerMethod('remove', this.serverRemove);
-		this.registerMethod('upsert', this.serverUpsert);
-		this.registerMethod('sync', this.serverSync);
-		this.registerMethod('countDocuments', this.countDocuments);
-		this.registerMethod('getDocs', this.serverGetDocs);
-		this.registerMethod('exportCollection', this.exportCollection);
+		this.registerMethod("update", this.serverUpdate);
+		this.registerMethod("insert", this.serverInsert);
+		this.registerMethod("remove", this.serverRemove);
+		this.registerMethod("upsert", this.serverUpsert);
+		this.registerMethod("sync", this.serverSync);
+		this.registerMethod("countDocuments", this.countDocuments);
+		this.registerMethod("getDocs", this.serverGetDocs);
+		this.registerMethod("exportCollection", this.exportCollection);
 	}
 
 	exportCollection = async () => {
@@ -1214,7 +1220,7 @@ export class ServerApiBase<Doc extends IDoc> {
 
 		if (!oldDoc || !oldDoc._id) {
 			_docObj = this._checkDataBySchema(_docObj, this.auditFields);
-			await this._includeAuditData(_docObj, 'insert');
+			await this._includeAuditData(_docObj, "insert");
 			const insertId = await this.getCollectionInstance().insertAsync(_docObj);
 			return { _id: insertId, ..._docObj };
 		}
@@ -1226,7 +1232,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		}
 
 		docToSave = this._checkDataBySchema(docToSave, this.auditFields);
-		await this._includeAuditData(docToSave, 'update');
+		await this._includeAuditData(docToSave, "update");
 
 		await this.getCollectionInstance().updateAsync(_docObj._id, {
 			$set: docToSave
@@ -1244,7 +1250,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			const id = _docObj._id;
 			if (await this.beforeInsert(_docObj, _context)) {
 				_docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
-				await this._includeAuditData(_docObj, 'insert');
+				await this._includeAuditData(_docObj, "insert");
 				if (id) {
 					_docObj._id = id;
 				}
@@ -1334,7 +1340,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			const id = _docObj._id;
 			if (await this.beforeUpdate(_docObj, _context)) {
 				_docObj = this._checkDataBySchema(_docObj as Doc, this.auditFields);
-				await this._includeAuditData(_docObj, 'update');
+				await this._includeAuditData(_docObj, "update");
 				const oldData = (await this.getCollectionInstance().findOneAsync({ _id: id })) || {};
 				const nullValues = {};
 
@@ -1343,7 +1349,7 @@ export class ServerApiBase<Doc extends IDoc> {
 					$set: preparedData
 				};
 				if (Object.keys(nullValues).length > 0) {
-					action['$unset'] = nullValues;
+					action["$unset"] = nullValues;
 				}
 				const result = await this.getCollectionInstance().updateAsync({ _id: id }, action);
 				preparedData._id = id;
@@ -1392,7 +1398,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		const unsetFields: { [key: string]: string } = {};
 		Object.keys(schema).forEach((field) => {
 			if (schema[field].visibilityFunction && !schema[field].visibilityFunction!(_docObj)) {
-				unsetFields[field] = '';
+				unsetFields[field] = "";
 			}
 		});
 
@@ -1471,7 +1477,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {Object} optionsPub - Options Publication, like publications.
 	 * @returns {Array} - Array of documents.
 	 */
-	async serverGetDocs(publicationName = 'default', filter = {}, optionsPub: IMongoOptions<Doc>) {
+	async serverGetDocs(publicationName = "default", filter = {}, optionsPub: IMongoOptions<Doc>) {
 		const result = this.publications[publicationName](filter, optionsPub);
 		if (result) {
 			return await result.fetchAsync();

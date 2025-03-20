@@ -3,17 +3,17 @@ import {
 	ParamDeleteArchiveType,
 	returnDeleteArchiveSch,
 	ReturnDeleteArchiveType
-} from '../../common/types/deleteArchive';
-import { StorageServer } from '../../storage.server';
-import MethodBase, { IMethodBase } from '/imports/base/server/methods/method.base';
-import EnumUserRoles from '../../../../../modules/userprofile/common/enums/enumUserRoles';
+} from "../../common/types/deleteArchive";
+import { StorageServer } from "../../storage.server";
+import MethodBase, { IMethodBase } from "/imports/base/server/methods/method.base";
+import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 
 export abstract class DeleteStorageBase extends MethodBase<
 	StorageServer,
 	ParamDeleteArchiveType,
 	ReturnDeleteArchiveType
 > {
-	constructor(props: Omit<IMethodBase, 'paramSch' | 'returnSch'>) {
+	constructor(props: Omit<IMethodBase, "paramSch" | "returnSch">) {
 		super({
 			paramSch: paramDeleteArchiveSch,
 			returnSch: returnDeleteArchiveSch,

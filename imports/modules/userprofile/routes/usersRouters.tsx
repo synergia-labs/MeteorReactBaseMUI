@@ -8,48 +8,48 @@ import ForgotPasswordPage from "../frontend/pages/notLoggedInUser/forgotPassword
 import ResetPasswordPage from "../frontend/pages/notLoggedInUser/resetPassword/resetPassword.view";
 import VerifyEmailPage from "../frontend/pages/notLoggedInUser/verifyEmail/verifyEmail.view";
 
-const exampleRouterList: Array<(IRoute | null)> = [
+const exampleRouterList: Array<IRoute | null> = [
 	{
-		path: 'users',
+		path: "users",
 		element: LoggedInUserContainer,
 		children: [
 			{
-				path: 'list',
-				element: UsersListProvider,
+				path: "list",
+				element: UsersListProvider
 			}
 		]
 	},
 	{
-		path: 'guest',
+		path: "guest",
 		element: NotLoggedInUserContainer,
-		templateVariant: 'Login',
+		templateVariant: "Login",
 		index: false,
 		children: [
 			{
-				path: 'sign-in',
-				element: SignInPage,
+				path: "sign-in",
+				element: SignInPage
 			},
 			{
-				path: 'create-admin-user',
-				element: CreateAdminUserPage,
+				path: "create-admin-user",
+				element: CreateAdminUserPage
 			},
 			{
-				path: 'forgot-password',
+				path: "forgot-password",
 				element: ForgotPasswordPage
 			},
 			{
-				path: 'forgot-password/:email',
+				path: "forgot-password/:email",
 				element: ForgotPasswordPage
 			},
 			{
-				path: 'reset-password/:token',
+				path: "reset-password/:token",
 				element: ResetPasswordPage
 			},
 			{
 				path: 'verify-email/:token',
 				element: VerifyEmailPage
 			}
-		] 
+		]
 	}
 ] as const;
 

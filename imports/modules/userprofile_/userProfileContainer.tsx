@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import UserProfileListController from '../userprofile/pages/UserProfileList/userProfileListController';
-import AuthContext, { IAuthContext } from '/imports/app/authProvider/authContext';
+import React, { useContext } from "react";
+import { useParams } from "react-router-dom";
+import UserProfileListController from "../userprofile/pages/UserProfileList/userProfileListController";
+import AuthContext, { IAuthContext } from "/imports/app/authProvider/authContext";
 
 export interface IUserProfileModuleContext {
 	state?: string;
@@ -12,15 +12,15 @@ export const UserProfileModuleContext = React.createContext<IUserProfileModuleCo
 
 export default () => {
 	const { user } = useContext<IAuthContext>(AuthContext);
-	let { screenState, userprofileId } = useParams();
+	const { screenState, userprofileId } = useParams();
 
 	const state = screenState;
 	const id = userprofileId ?? user?._id;
 
-	const validState = ['view', 'edit', 'create'];
+	const validState = ["view", "edit", "create"];
 
 	const renderPage = () => {
-		if (!!!state || !validState.includes(state)) return <UserProfileListController />;
+		if (!state || !validState.includes(state)) return <UserProfileListController />;
 	};
 
 	const providerValue = {

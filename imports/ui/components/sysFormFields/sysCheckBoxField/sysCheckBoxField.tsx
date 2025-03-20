@@ -1,17 +1,17 @@
-import React, { useContext, useRef, useState } from 'react';
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import { SxProps, Theme } from '@mui/material';
-import { IOption, ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { SysFormContext } from '../../sysForm/sysForm';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import SysLabelView from '../../sysLabelView/sysLabelView';
-import FormGroup from '@mui/material/FormGroup';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import { hasValue } from '../../../../libs/hasValue';
-import { ISysFormComponentRef } from '../../sysForm/typings';
-import { SysViewField } from '../sysViewField/sysViewField';
-import { sysSizing } from '../../../../ui/materialui/styles';
+import React, { useContext, useRef, useState } from "react";
+import Checkbox, { CheckboxProps } from "@mui/material/Checkbox";
+import { SxProps, Theme } from "@mui/material";
+import { IOption, ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { SysFormContext } from "../../sysForm/sysForm";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import SysLabelView from "../../sysLabelView/sysLabelView";
+import FormGroup from "@mui/material/FormGroup";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import { hasValue } from "../../../../libs/hasValue";
+import { ISysFormComponentRef } from "../../sysForm/typings";
+import { SysViewField } from "../sysViewField/sysViewField";
+import { sysSizing } from "../../../../ui/materialui/styles";
 
 interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
 	/** Estilo do componente.*/
@@ -22,7 +22,7 @@ interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
 		checkbox?: SxProps<Theme>;
 	};
 	/** Posicionamento dos elementos */
-	childrenAlignment?: 'row' | 'column';
+	childrenAlignment?: "row" | "column";
 }
 
 export const SysCheckBox: React.FC<ISysCheckBox> = ({
@@ -41,7 +41,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	showTooltip,
 	tooltipMessage,
 	tooltipPosition,
-	childrenAlignment = 'column',
+	childrenAlignment = "column",
 	sxMap,
 	...otherProps
 }) => {
@@ -56,7 +56,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 
 	label = label || schema?.label;
 	defaultValue = refObject?.current.value || schema?.defaultValue;
-	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
+	readOnly = readOnly || controllerSysForm?.mode === "view" || schema?.readOnly;
 	options = options || refObject?.current?.options || ([] as any);
 	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
@@ -106,8 +106,8 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				label={label}
 				placeholder={
 					valueState && valueState?.map
-						? valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label).join?.(', ') || '-'
-						: '-'
+						? valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label).join?.(", ") || "-"
+						: "-"
 				}
 				showLabelAdornment={showLabelAdornment}
 				labelAdornment={labelAdornment}

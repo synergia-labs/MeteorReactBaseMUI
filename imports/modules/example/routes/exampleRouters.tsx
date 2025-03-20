@@ -3,26 +3,26 @@ import ExampleDetailProvider from "../frontend/pages/exampleDetail/exampleDetail
 import ExampleListProvider from "../frontend/pages/exampleList/exampleListProvider";
 import { IRoute } from "/imports/modules/modulesTypings";
 
-const exampleRouterList: Array<(IRoute | null)> = [
+const exampleRouterList: Array<IRoute | null> = [
 	{
-		path: 'example',
+		path: "example",
 		element: ExampleContainer,
-		templateVariant: 'AppBar',
+		templateVariant: "AppBar",
 		children: [
 			{
-				path: ':screenState/:exampleId',
+				path: ":screenState/:exampleId",
 				element: ExampleDetailProvider,
-				isProtected: true,
+				isProtected: true
 			},
 			{
-				path: ':screenState',
+				path: ":screenState",
 				element: ExampleDetailProvider,
-				isProtected: true,
+				isProtected: true
 			},
 			{
-				path: 'list',
+				path: "list",
 				element: ExampleListProvider,
-				isProtected: true,
+				isProtected: true
 			}
 		]
 	}

@@ -1,6 +1,6 @@
-import routerList  from './usersRouters';
-import menuItemList from './usersAppMenu';
-import { IModuleRoutes } from '../../modulesTypings';
+import routerList from "./usersRouters";
+import menuItemList from "./usersAppMenu";
+import { IModuleRoutes } from "../../modulesTypings";
 
 const ExampleRoutes: IModuleRoutes = {
 	pagesRouterList: routerList,

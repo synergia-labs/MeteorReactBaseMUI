@@ -1,16 +1,16 @@
-import React from 'react';
-import { Meta, Story } from '@storybook/react';
-import { SysLoading } from './sysLoading';
+import React from "react";
+import { Meta, Story } from "@storybook/react";
+import { SysLoading } from "./sysLoading";
 
 export default {
-	title: 'ui/components/sysLoading',
+	title: "ui/components/sysLoading",
 	component: SysLoading,
-	tags: ['autodocs'],
+	tags: ["autodocs"],
 	args: {
-		label: 'Carregando...'
+		label: "Carregando..."
 	},
 	argTypes: {
-		label: { control: 'text' }
+		label: { control: "text" }
 	}
 } as Meta;
 
@@ -24,5 +24,5 @@ CustomStyle.args = {};
 
 export const CustomLabel: Story = Template.bind({});
 CustomLabel.args = {
-	label: 'Carregando dados...'
+	label: "Carregando dados..."
 };

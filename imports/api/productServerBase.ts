@@ -1,8 +1,8 @@
-import { Meteor } from 'meteor/meteor';
-import { ServerApiBase } from './serverBase';
-import { IBaseOptions } from '../typings/IBaseOptions';
-import { IDoc } from '../typings/IDoc';
-import { ISchema } from '../typings/ISchema';
+import { Meteor } from "meteor/meteor";
+import { ServerApiBase } from "./serverBase";
+import { IBaseOptions } from "../typings/IBaseOptions";
+import { IDoc } from "../typings/IDoc";
+import { ISchema } from "../typings/ISchema";
 
 export class ProductServerBase<Doc extends IDoc> extends ServerApiBase<Doc> {
 	constructor(apiName: string, apiSch: ISchema<Doc>, options?: IBaseOptions) {

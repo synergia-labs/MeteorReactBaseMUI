@@ -1,10 +1,10 @@
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from "meteor/meteor";
 // @ts-ignore
-import { ParseStatic, ScheduleData } from 'later';
+import { ParseStatic, ScheduleData } from "later";
 
 if (Meteor.isServer) {
 	// @ts-ignore
-	import { SyncedCron } from 'meteor/littledata:synced-cron';
+	import { SyncedCron } from "meteor/littledata:synced-cron";
 }
 
 /**
@@ -14,7 +14,7 @@ class JobScheduling {
 	initJobScheduling() {
 		if (Meteor.settings.runJobs === false) {
 			console.info(
-				'Jobs não serão iniciados nesta instância do servidor. Para habilitar utilize Meteor.settings.runJobs = true'
+				"Jobs não serão iniciados nesta instância do servidor. Para habilitar utilize Meteor.settings.runJobs = true"
 			);
 			return;
 		}

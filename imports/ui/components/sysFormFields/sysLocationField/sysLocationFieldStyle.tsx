@@ -1,7 +1,7 @@
-import { styled } from '@mui/material/styles';
-import Autocomplete, { AutocompleteRenderInputParams } from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import React from 'react';
+import { styled } from "@mui/material/styles";
+import Autocomplete, { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import React from "react";
 
 interface IAutoComplete {
 	onlyEstado: boolean;
@@ -13,15 +13,15 @@ const SysLocationFieldStyle = {
 	AutoComplete: styled(({ onlyEstado, ...otherProps }: IAutoComplete) => (
 		<Autocomplete {...otherProps} />
 	))<IAutoComplete>(({ onlyEstado }) => ({
-		width: '100%',
-		display: onlyEstado ? 'none' : 'flex',
+		"width": "100%",
+		"display": onlyEstado ? "none" : "flex",
 
-		'& .MuiFilledInput-root': { height: '41px !important' },
-		'& .MuiFilledInput-input': { padding: '0 !important' }
+		"& .MuiFilledInput-root": { height: "41px !important" },
+		"& .MuiFilledInput-input": { padding: "0 !important" }
 	})),
 
-	TextField: styled(TextField)(({}) => ({
-		'& .MuiAutocomplete-endAdornment': { top: '50%', right: '7px !important' }
+	TextField: styled(TextField)(() => ({
+		"& .MuiAutocomplete-endAdornment": { top: "50%", right: "7px !important" }
 	}))
 };
 

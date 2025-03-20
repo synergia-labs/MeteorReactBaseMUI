@@ -1,4 +1,4 @@
-import { AuditType } from '/imports/base/types/audit';
+import { AuditType } from "/imports/base/types/audit";
 
 /**
  * Tipo que representa um arquivo no sistema.

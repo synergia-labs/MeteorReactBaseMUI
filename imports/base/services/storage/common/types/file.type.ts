@@ -1,20 +1,20 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * Enumeração que representa os tipos de arquivos suportados pelo sistema.
  */
 enum FileTypes {
 	/** Arquivos de vídeo (exemplo: MP4, WebM, AVI) */
-	VIDEO = 'videos',
+	VIDEO = "videos",
 
 	/** Arquivos de áudio (exemplo: MP3, WAV, OGG) */
-	AUDIO = 'audios',
+	AUDIO = "audios",
 
 	/** Arquivos de imagem (exemplo: PNG, JPG, GIF) */
-	IMAGE = 'images',
+	IMAGE = "images",
 
 	/** Arquivos de documento (exemplo: PDF, DOCX, XLSX) */
-	DOCUMENT = 'documents'
+	DOCUMENT = "documents"
 }
 
 /**

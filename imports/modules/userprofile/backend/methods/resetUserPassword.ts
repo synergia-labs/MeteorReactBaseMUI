@@ -9,26 +9,24 @@ import { Accounts } from "meteor/accounts-base";
 import { hasValue } from "/imports/libs/hasValue";
 
 class ResetUserPassword extends MethodBase<UserProfileServer, ResetUserPasswordType, void> {
-    constructor() {
-        super({ 
-            name: enumUserProfileRegisterMethods.resetUserPassword, 
-            paramSch: resetUserPasswordSchema,
-            returnSch: z.void(),
-            roles: [EnumUserRoles.PUBLIC],
-        });
-    }
+	constructor() {
+		super({
+			name: enumUserProfileRegisterMethods.resetUserPassword,
+			paramSch: resetUserPasswordSchema,
+			returnSch: z.void(),
+			roles: [EnumUserRoles.PUBLIC]
+		});
+	}
 
-    async action({ token, newPassword }: ResetUserPasswordType, _context: IContext): Promise<void> {
-        const user = Accounts._checkResetPasswordToken(token);
-        if (!hasValue(user)) 
-            this.generateError({ _message: "Token inválido", _code: '400' });
+	async action({ token, newPassword }: ResetUserPasswordType, _context: IContext): Promise<void> {
+		const user = Accounts._checkResetPasswordToken(token);
+		if (!hasValue(user)) this.generateError({ _message: "Token inválido", _code: "400" });
 
-        await Accounts.setPasswordAsync(user!._id, newPassword);
+		await Accounts.setPasswordAsync(user!._id, newPassword);
 
-        Accounts._clearResetPasswordToken(user!._id);
-        
-    }
-} 
+		Accounts._clearResetPasswordToken(user!._id);
+	}
+}
 
 const resetUserPasswordInstance = new ResetUserPassword();
 export default resetUserPasswordInstance;

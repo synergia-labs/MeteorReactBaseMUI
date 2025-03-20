@@ -1,32 +1,32 @@
 export const getMongoDBFilterSintaxe = (operator: string, value: string | Date | number, type: string) => {
-	if (type == 'number') {
+	if (type == "number") {
 		value = Number(value);
 	}
-	if (type == 'date') {
+	if (type == "date") {
 		value = new Date(value);
 	}
 	switch (operator) {
-		case '==':
+		case "==":
 			return value;
-		case '!=':
+		case "!=":
 			return { $ne: value };
-		case 'initwith':
-			return new RegExp(`^${value}.*`, 'i');
-		case 'contains':
-			return new RegExp(`.*${value}.*`, 'i');
-		case '!contains':
-			return new RegExp(`^((?!${value}).)*$`, 'i');
-		case '>':
+		case "initwith":
+			return new RegExp(`^${value}.*`, "i");
+		case "contains":
+			return new RegExp(`.*${value}.*`, "i");
+		case "!contains":
+			return new RegExp(`^((?!${value}).)*$`, "i");
+		case ">":
 			return { $gt: value };
-		case '>=':
+		case ">=":
 			return { $gte: value };
-		case '<':
+		case "<":
 			return { $lt: value };
-		case '<=':
+		case "<=":
 			return { $lte: value };
-		case 'in':
+		case "in":
 			return { $in: value };
-		case '!in':
+		case "!in":
 			return { $nin: value };
 		default:
 			return value;

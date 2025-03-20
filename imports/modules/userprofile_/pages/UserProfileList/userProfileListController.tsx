@@ -1,13 +1,13 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { nanoid } from 'nanoid';
-import UserProfileListView from './userProfileListView';
-import { IUserProfile } from '../../api/userProfileSch';
-import { useTracker } from 'meteor/react-meteor-data';
-import { userprofileApi } from '../../api/userProfileApi';
-import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
-import UserProfileDetailController from '../UserProfileDetail/userProfileDetailController';
-import { sysSizing } from '../../../../ui/materialui/styles';
-import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { nanoid } from "nanoid";
+import UserProfileListView from "./userProfileListView";
+import { IUserProfile } from "../../api/userProfileSch";
+import { useTracker } from "meteor/react-meteor-data";
+import { userprofileApi } from "../../api/userProfileApi";
+import { IMeteorError } from "../../../../typings/BoilerplateDefaultTypings";
+import UserProfileDetailController from "../UserProfileDetail/userProfileDetailController";
+import { sysSizing } from "../../../../ui/materialui/styles";
+import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
 
 interface IInitialConfig {
 	pageProperties: {
@@ -15,7 +15,7 @@ interface IInitialConfig {
 		pageSize: number;
 	};
 	sortProperties: { field: string; sortAscending: boolean };
-	filter: Object;
+	filter: object;
 	searchBy: string | null;
 }
 
@@ -38,7 +38,7 @@ const initialConfig = {
 		currentPage: 1,
 		pageSize: 25
 	},
-	sortProperties: { field: 'createdat', sortAscending: true },
+	sortProperties: { field: "createdat", sortAscending: true },
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false
@@ -64,9 +64,9 @@ const UserProfileListController = () => {
 		userList: IUserProfile[];
 		total: number;
 	} = useTracker(() => {
-		const searchFilter = config.searchBy ? { username: { $regex: config.searchBy, $options: 'i' } } : {};
+		const searchFilter = config.searchBy ? { username: { $regex: config.searchBy, $options: "i" } } : {};
 		const subHandle = userprofileApi.subscribe(
-			'userProfileList',
+			"userProfileList",
 			{ ...filter, ...searchFilter },
 			{
 				sort,
@@ -82,30 +82,30 @@ const UserProfileListController = () => {
 		};
 	}, [config]);
 
-	const translateStatus = useCallback((status = '') => {
+	const translateStatus = useCallback((status = "") => {
 		switch (status) {
-			case 'active':
-				return 'Ativo';
-			case 'disabled':
-				return 'Desativado';
+			case "active":
+				return "Ativo";
+			case "disabled":
+				return "Desativado";
 			default:
-				return 'Desativado';
+				return "Desativado";
 		}
 	}, []);
 
-	const onChangeStatusClick = useCallback((id = '') => {
+	const onChangeStatusClick = useCallback((id = "") => {
 		userprofileApi.changeUserStatus(id, (e: IMeteorError, r: boolean) => {
 			if (!e) {
 				showNotification({
-					type: 'success',
-					title: 'Operação realizada!',
-					message: `Status alterado com sucesso`
+					type: "success",
+					title: "Operação realizada!",
+					message: "Status alterado com sucesso"
 				});
 			} else {
-				console.error('Error:', e);
+				console.error("Error:", e);
 				showNotification({
-					type: 'warning',
-					title: 'Operação não realizada!',
+					type: "warning",
+					title: "Operação não realizada!",
 					message: `Erro ao realizar a operação: ${e.reason}`
 				});
 			}
@@ -130,11 +130,11 @@ const UserProfileListController = () => {
 	}, [userList]);
 
 	const onSearch = useCallback((username: string | undefined) => {
-		const searchUsername = username !== undefined ? username.trim() : '';
+		const searchUsername = username !== undefined ? username.trim() : "";
 		const delayedSearch = setTimeout(() => {
 			setConfig((prevConfig) => ({
 				...prevConfig,
-				searchBy: searchUsername !== '' ? searchUsername : null
+				searchBy: searchUsername !== "" ? searchUsername : null
 			}));
 		}, 1000);
 		return () => clearTimeout(delayedSearch);

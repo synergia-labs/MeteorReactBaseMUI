@@ -30,16 +30,16 @@ export const formataData = (data: Date | undefined) => {
 };
 
 export const dateParaStringDatePicker = (data: Date): string => {
-	const dataLocal = data.toLocaleDateString('pt-br', {
-		year: 'numeric',
-		month: 'numeric',
-		day: 'numeric'
+	const dataLocal = data.toLocaleDateString("pt-br", {
+		year: "numeric",
+		month: "numeric",
+		day: "numeric"
 	});
-	const dadosData = dataLocal.split('/');
-	return dadosData[2] + '-' + dadosData[1] + '-' + dadosData[0];
+	const dadosData = dataLocal.split("/");
+	return dadosData[2] + "-" + dadosData[1] + "-" + dadosData[0];
 };
 
 export const getMesAbreviado = (data: Date | undefined) => {
-	const mes = data?.toLocaleDateString('pt-Br', { month: 'short' }) ?? '';
-	return mes ? mes[0].toUpperCase() + mes.slice(1, 3) : '';
+	const mes = data?.toLocaleDateString("pt-Br", { month: "short" }) ?? "";
+	return mes ? mes[0].toUpperCase() + mes.slice(1, 3) : "";
 };

@@ -1,16 +1,16 @@
-import React, { useContext, useRef, useState } from 'react';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { SxProps, Theme } from '@mui/material';
-import InputAdornment from '@mui/material/InputAdornment';
-import Typography from '@mui/material/Typography';
-import { ISysFormComponent } from '../../InterfaceBaseSimpleFormComponent';
-import { SysFormContext } from '../../sysForm/sysForm';
-import { ISysFormComponentRef } from '../../sysForm/typings';
-import { generalMask } from '../../../../libs/MaskFunctions';
-import { hasValue } from '../../../../libs/hasValue';
-import SysLabelView from '../../sysLabelView/sysLabelView';
-import { textNoFormatting } from '../../../../libs/textUtilities';
-import { SysViewField } from '../sysViewField/sysViewField';
+import React, { useContext, useRef, useState } from "react";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
+import { SxProps, Theme } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import Typography from "@mui/material/Typography";
+import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { SysFormContext } from "../../sysForm/sysForm";
+import { ISysFormComponentRef } from "../../sysForm/typings";
+import { generalMask } from "../../../../libs/MaskFunctions";
+import { hasValue } from "../../../../libs/hasValue";
+import SysLabelView from "../../sysLabelView/sysLabelView";
+import { textNoFormatting } from "../../../../libs/textUtilities";
+import { SysViewField } from "../sysViewField/sysViewField";
 
 interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
 	/** mask: Máscara de formatação.*/
@@ -69,7 +69,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	mask = mask || schema?.mask;
 	min = min || schema?.min;
 	max = max || schema?.max;
-	readOnly = readOnly || controllerSysForm.mode === 'view' || schema?.readOnly;
+	readOnly = readOnly || controllerSysForm.mode === "view" || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
 	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
@@ -83,7 +83,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({
 			componentRef: refObject!,
-			clearMethod: () => setValueState(''),
+			clearMethod: () => setValueState(""),
 			setValueMethod: (value) => (mask ? setValueState(generalMask(value, mask)) : setValueState(value)),
 			changeVisibilityMethod: (visible) => setVisibleState(visible),
 			setErrorMethod: (error) => setErrorState(error)
@@ -109,8 +109,8 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 		<Typography
 			variant="caption"
 			color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}
-			sx={{ width: '100%', textAlign: 'right' }}>
-			{`${valueState?.length || 0}${max ? `/${max}` : ''}`}
+			sx={{ width: "100%", textAlign: "right" }}>
+			{`${valueState?.length || 0}${max ? `/${max}` : ""}`}
 		</Typography>
 	);
 
@@ -120,7 +120,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 		return (
 			<SysViewField
 				label={label}
-				placeholder={valueState || '-'}
+				placeholder={valueState || "-"}
 				showLabelAdornment={showLabelAdornment}
 				labelAdornment={labelAdornment}
 			/>
@@ -146,7 +146,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 				id={name}
 				key={name}
 				sx={sxMap?.textField}
-				value={valueState || ''}
+				value={valueState || ""}
 				onChange={onFieldChange}
 				error={!!errorState}
 				disabled={disabled || loading}

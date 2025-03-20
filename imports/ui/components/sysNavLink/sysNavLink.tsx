@@ -1,8 +1,8 @@
-import React from 'react';
-import { IAppMenu } from '../../../modules/modulesTypings';
-import { BoxProps, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import SysNavLinkStyles from './sysNavLinkStyles';
+import React from "react";
+import { IAppMenu } from "../../../modules/modulesTypings";
+import { BoxProps, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import SysNavLinkStyles from "./sysNavLinkStyles";
 
 const { Container } = SysNavLinkStyles;
 
@@ -40,7 +40,7 @@ export const SysNavLink: React.FC<ISysNavLink> = ({
 			{children ?? (
 				<>
 					{sysOptions?.icon ?? icon ?? null}
-					<Typography variant="button2">{text ?? sysOptions?.name ?? ''}</Typography>
+					<Typography variant="button2">{text ?? sysOptions?.name ?? ""}</Typography>
 				</>
 			)}
 		</Container>

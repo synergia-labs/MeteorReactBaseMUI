@@ -1,13 +1,12 @@
-import { Accounts } from 'meteor/accounts-base';
-import { Meteor } from 'meteor/meteor';
-import { userprofileServerApi } from '../modules/userprofile_/api/userProfileServerApi';
-import { getHTMLEmailTemplate } from './email';
-import req from 'request';
-
+import { Accounts } from "meteor/accounts-base";
+import { Meteor } from "meteor/meteor";
+import { userprofileServerApi } from "../modules/userprofile_/api/userProfileServerApi";
+import { getHTMLEmailTemplate } from "./email";
+import req from "request";
 
 // @ts-ignore
-import settings from '/settings';
-import { Mongo } from 'meteor/mongo';
+import settings from "/settings";
+import { Mongo } from "meteor/mongo";
 
 function getBase64FromURLImage(
 	urlImage: string,
@@ -19,7 +18,7 @@ function getBase64FromURLImage(
 
 	request.get(urlImage, (error, response, body) => {
 		if (!error && response.statusCode === 200) {
-			const data = 'data:' + response.headers['content-type'] + ';base64,' + new Buffer(body).toString('base64');
+			const data = "data:" + response.headers["content-type"] + ";base64," + new Buffer(body).toString("base64");
 			callback(null, data);
 		} else {
 			callback(error, null);
@@ -50,7 +49,7 @@ async function validateSocialLoginAndUpdateProfile(
 	serviceName: string
 ) {
 	if (!userProfile) {
-		user.roles = ['Usuario'];
+		user.roles = ["Usuario"];
 		user.otheraccounts = [{ _id: user._id, service: serviceName }];
 		user.createdat = new Date();
 		user.lastupdate = new Date();
@@ -72,7 +71,7 @@ async function validateSocialLoginAndUpdateProfile(
 			{
 				$set: {
 					profile: user.profile,
-					roles: user.roles ? user.roles : ['Usuario']
+					roles: user.roles ? user.roles : ["Usuario"]
 				}
 			}
 		);
@@ -97,7 +96,7 @@ async function validateLoginGoogle(user: Meteor.User & { name?: string; email?: 
 	user.username = `${user.services.google.name}`;
 	user.name = `${user.services.google.name}`;
 	user.email = user.services.google.email;
-	const serviceName = 'google';
+	const serviceName = "google";
 	const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
 		email: user.email
 	});
@@ -105,8 +104,8 @@ async function validateLoginGoogle(user: Meteor.User & { name?: string; email?: 
 	return validateSocialLoginAndUpdateProfile(userProfile, user, serviceName);
 }
 
-async function validateLoginFacebook(user: Meteor.User & { name?: string; email?: string }): Promise<Boolean> {
-	const serviceName = 'facebook';
+async function validateLoginFacebook(user: Meteor.User & { name?: string; email?: string }): Promise<boolean> {
+	const serviceName = "facebook";
 	user.username = `${user.services.facebook.name}_facebook`;
 	user.name = `${user.services.facebook.name}`;
 	user.email = user.services.facebook.email;
@@ -127,19 +126,19 @@ Meteor.startup(() => {
 		return settings.name;
 	};
 	Accounts.emailTemplates.verifyEmail.html = (user, url) => {
-		const urlWithoutHash = url.replace('#/', '');
+		const urlWithoutHash = url.replace("#/", "");
 		const userData = userprofileServerApi.findOne({ _id: user._id }) || {};
 		const email =
 			`${
-				`<p>Olá ${userData.username || 'usuário'},</p>` +
-				'<p>Seja bem vindo ao &nbsp;<strong>MeteorReactBase-MUI</strong>.</p>' +
-				'<p>Para confirmar seu cadastro clique no link abaixo:</p>' +
-				'<p><ins><a href='
+				`<p>Olá ${userData.username || "usuário"},</p>` +
+				"<p>Seja bem vindo ao &nbsp;<strong>MeteorReactBase-MUI</strong>.</p>" +
+				"<p>Para confirmar seu cadastro clique no link abaixo:</p>" +
+				"<p><ins><a href="
 			}${urlWithoutHash}>${urlWithoutHash}</a></ins></p>` +
-			'<p>Ficamos felizes com o seu cadastro.</p>' +
-			'<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>';
-		const footer = `Essa mensagem foi gerada automaticamente!`;
-		return getHTMLEmailTemplate('Confirmação do cadastro', email, footer);
+			"<p>Ficamos felizes com o seu cadastro.</p>" +
+			"<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>";
+		const footer = "Essa mensagem foi gerada automaticamente!";
+		return getHTMLEmailTemplate("Confirmação do cadastro", email, footer);
 	};
 
 	Accounts.emailTemplates.enrollAccount.subject = () => {
@@ -147,20 +146,20 @@ Meteor.startup(() => {
 	};
 
 	Accounts.emailTemplates.enrollAccount.html = (user, url) => {
-		const urlWithoutHash = url.replace('#/', '');
+		const urlWithoutHash = url.replace("#/", "");
 		const userData = userprofileServerApi.findOne({ _id: user._id }) || {};
 
 		const email =
 			`${
-				`<p>Olá ${userData.username || 'usuário'},</p>` +
-				'<p>Seja bem vindo ao &nbsp;<strong>MeteorReactBase-MUI</strong>.</p>' +
-				'<p>Para concluir seu cadastro clique no link abaixo e informe uma senha:</p>' +
-				'<p><ins><a href='
+				`<p>Olá ${userData.username || "usuário"},</p>` +
+				"<p>Seja bem vindo ao &nbsp;<strong>MeteorReactBase-MUI</strong>.</p>" +
+				"<p>Para concluir seu cadastro clique no link abaixo e informe uma senha:</p>" +
+				"<p><ins><a href="
 			}${urlWithoutHash}>${urlWithoutHash}</a></ins></p>` +
-			'<p>Ficamos felizes com o seu cadastro.</p>' +
-			'<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>';
-		const footer = `Essa mensagem foi gerada automaticamente!`;
-		return getHTMLEmailTemplate('Conclua o seu cadastro', email, footer);
+			"<p>Ficamos felizes com o seu cadastro.</p>" +
+			"<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>";
+		const footer = "Essa mensagem foi gerada automaticamente!";
+		return getHTMLEmailTemplate("Conclua o seu cadastro", email, footer);
 	};
 
 	// endregion
@@ -171,18 +170,18 @@ Meteor.startup(() => {
 	};
 	Accounts.emailTemplates.resetPassword.html = (user, url) => {
 		const userData = userprofileServerApi.findOne({ _id: user._id }) || {};
-		const urlWithoutHash = url.replace('#/', '');
+		const urlWithoutHash = url.replace("#/", "");
 		const email =
 			`${
-				`<p>Olá ${userData.username || 'usuário'},</p>` +
-				'<p>Sua senha de acesso ao <strong>MeteorReactBase-MUI</strong> será alterada.</p>' +
-				'<p>Clique no link abaixo e informe uma nova senha:</p>' +
-				'<p><ins><a href='
+				`<p>Olá ${userData.username || "usuário"},</p>` +
+				"<p>Sua senha de acesso ao <strong>MeteorReactBase-MUI</strong> será alterada.</p>" +
+				"<p>Clique no link abaixo e informe uma nova senha:</p>" +
+				"<p><ins><a href="
 			}${urlWithoutHash}>${urlWithoutHash}</a></ins></p>` +
-			'<p></p>' +
-			'<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>';
-		const footer = `Essa mensagem foi gerada automaticamente!`;
-		return getHTMLEmailTemplate('Alteração da senha atual', email, footer);
+			"<p></p>" +
+			"<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>";
+		const footer = "Essa mensagem foi gerada automaticamente!";
+		return getHTMLEmailTemplate("Alteração da senha atual", email, footer);
 	};
 
 	Accounts.onLogin(async (params: { user: Meteor.User; connection: { onClose: Function } }) => {
@@ -217,9 +216,9 @@ Meteor.startup(() => {
 	});
 
 	Accounts.config({
-		sendVerificationEmail: false, 
-		forbidClientAccountCreation: false, 	// impede que um usuário seja criado pelo cliente,
-		defaultFieldSelector: { services: 0 }	// Impede que o cliente veja os serviços de autenticação
+		sendVerificationEmail: false,
+		forbidClientAccountCreation: false, // impede que um usuário seja criado pelo cliente,
+		defaultFieldSelector: { services: 0 } // Impede que o cliente veja os serviços de autenticação
 	});
 
 	Accounts.validateLoginAttempt(({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {
@@ -241,7 +240,7 @@ Meteor.startup(() => {
 			return validateLoginGoogle(user);
 		}
 		if (!user || !user.emails || !user.emails[0].verified) {
-			throw new Meteor.Error('Email ñao verificado', `Este email ainda não foi verificado!`);
+			throw new Meteor.Error("Email ñao verificado", "Este email ainda não foi verificado!");
 		}
 		return true;
 	});

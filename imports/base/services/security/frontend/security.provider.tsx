@@ -1,6 +1,6 @@
-import React, { createContext, useContext, ReactNode, useState, useMemo, useEffect } from 'react';
-import securityApi from '../security.api';
-import { set } from 'lodash';
+import React, { createContext, useContext, ReactNode, useState, useMemo, useEffect } from "react";
+import securityApi from "../security.api";
+import { set } from "lodash";
 
 interface ISecurityContext {
 	permissions: Record<string, boolean>;
@@ -44,7 +44,7 @@ export function SecurityProvider({ functionality, module, children }: ISecurityP
 export const useSecurity = (): ISecurityContext => {
 	const context = useContext(SecurityContext);
 	if (!context) {
-		throw new Error('useSecurity must be used within a SecurityProvider');
+		throw new Error("useSecurity must be used within a SecurityProvider");
 	}
 	return context;
 };
