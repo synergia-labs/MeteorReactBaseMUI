@@ -64,16 +64,15 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}: {
 		_message: string;
 		_code?: string;
-		_context?: IContext;
-	}): void {
+	}, _context?: IContext): void {
 		throw new Meteor.Error(_code, `[${this.name}]: ${_message}`);
 	}
 
 	protected abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
 
 	//region seters and getters
-	public setServerInstance(server: Server): void {
-		if (!!this.server) this.generateError({ _message: 'Server instance already set', _code: '500' });
+	public setServerInstance(server: Server, _context: IContext): void {
+		if (!!this.server) this.generateError({ _message: 'Server instance already set', _code: '500' }, _context);
 		this.server = server;
 	}
 	public getName(): string {
@@ -111,7 +110,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 
 		if (securityValidation) {
 			const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
-			if (!permission) this.generateError({ _message: 'Sem permissão', _code: '403', _context });
+			if (!permission) this.generateError({ _message: 'Sem permissão', _code: '403' }, _context);
 		}
 	}
 	//endregion
@@ -125,13 +124,13 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	//region OnError
 	protected async onError(_param: Param, _context: IContext, _error: Meteor.Error): Promise<Return | void> {
 		console.error(`Erro registrado no(a) ${this.actionType} ${this.name}: ${_error}`);
-		this.generateError({ _message: _error.message, _context });
+		this.generateError({ _message: _error.message }, _context);
 	}
 
 	public async execute(_param: Param, _context: IContext): Promise<Return> {
 		try {
 			if (Meteor.isClient)
-				this.generateError({ _message: 'Método não pode ser executado no client', _code: '500', _context });
+				this.generateError({ _message: 'Método não pode ser executado no client', _code: '500' }, _context);
 			await this.beforeAction(_param, _context);
 			const result = await this.actionBaseMethod(_param, _context);
 			await this.afterAction(_param, result, _context);

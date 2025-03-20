@@ -20,14 +20,14 @@ class GetAudio extends GetStorageBase {
 		const file = await audioCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			this.generateError({ _message: 'Áudio não encontrado', _context });
+			this.generateError({ _message: 'Áudio não encontrado' }, _context);
 		}
 
 		// Verifica se o áudio é restrito
 		if (file?.meta?.isRestricted) {
-			if (!_context.user._id) this.generateError({ _message: 'Usuário não autenticado', _context });
+			if (!_context.user._id) this.generateError({ _message: 'Usuário não autenticado' }, _context);
 			if (_context.user._id !== file.meta.createdBy)
-				this.generateError({ _message: 'Você não tem permissão para acessar este áudio', _context });
+				this.generateError({ _message: 'Você não tem permissão para acessar este áudio' }, _context);
 		}
 
 		// Obtém estatísticas do arquivo para Content-Length (opcional)

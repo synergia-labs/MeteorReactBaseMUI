@@ -28,10 +28,7 @@ class UploadDocument extends UploadStorageBase {
 		});
 
 		if (!objec) {
-			this.generateError({
-				_message: 'Failed to upload document',
-				_context
-			});
+			this.generateError({ _message: 'Failed to upload document' }, _context);
 		}
 
 		const path = storageServer.getUrl({

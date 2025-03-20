@@ -28,10 +28,7 @@ class UploadVideo extends UploadStorageBase {
 		});
 
 		if (!objec) {
-			this.generateError({
-				_message: 'Failed to upload video',
-				_context
-			});
+			this.generateError({ _message: 'Failed to upload video' }, _context);
 		}
 
 		const path = storageServer.getUrl({

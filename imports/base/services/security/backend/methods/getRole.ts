@@ -19,11 +19,11 @@ class GetRole extends MethodBase<SecurityServer, ParamGetType, ReturnGetRoleType
 
 	async action(_param: ParamGetType, _context: any): Promise<ReturnGetRoleType> {
 		const roleCollection = this.getServerInstance()?.getRoleCollection();
-		if (!roleCollection) this.generateError({ _message: 'Role collection not found', _context });
+		if (!roleCollection) this.generateError({ _message: 'Role collection not found' }, _context);
 
 		const _id = `${_param.referred ?? enumSecurityConfig.apiName}.${_param.name}`;
 		const role = await roleCollection!.findOneAsync({ _id });
-		if (!role) this.generateError({ _message: 'Role not found', _context });
+		if (!role) this.generateError({ _message: 'Role not found' }, _context);
 
 		return role;
 	}

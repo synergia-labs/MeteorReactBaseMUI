@@ -17,9 +17,9 @@ class DeleteDocument extends DeleteStorageBase {
 		const documentCollection = this.getServerInstance()?.getDocumentCollection();
 		const file = await documentCollection?.findOneAsync({ _id: _param._id });
 
-		if (!file) this.generateError({ _message: 'Documento não encontrado', _context });
+		if (!file) this.generateError({ _message: 'Documento não encontrado' }, _context);
 		if (file.meta?.isRestricted && file.meta?.createdBy !== _context.user._id)
-			throw this.generateError({ _message: 'Você não tem permissão para deletar este documento', _context });
+			throw this.generateError({ _message: 'Você não tem permissão para deletar este documento' }, _context);
 
 		await documentCollection?.removeAsync({ _id: _param._id });
 

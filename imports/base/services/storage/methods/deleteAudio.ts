@@ -16,9 +16,9 @@ class DeleteAudio extends DeleteStorageBase {
 		const audioCollection = this.getServerInstance()?.getAudioCollection();
 		const file = await audioCollection?.findOneAsync({ _id: _param._id });
 
-		if (!file) this.generateError({ _message: 'Áudio não encontrado', _context });
+		if (!file) this.generateError({ _message: 'Áudio não encontrado' }, _context);
 		if (file.meta?.isRestricted && file.meta?.createdBy !== _context.user._id)
-			this.generateError({ _message: 'Você não tem permissão para deletar este áudio', _context });
+			this.generateError({ _message: 'Você não tem permissão para deletar este áudio' }, _context);
 
 		await audioCollection?.removeAsync({ _id: _param._id });
 

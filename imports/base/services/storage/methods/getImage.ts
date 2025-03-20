@@ -22,12 +22,12 @@ class GetImage extends GetStorageBase {
 		const file = await imageCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			this.generateError({ _message: 'Imagem não encontrada', _context });
+			this.generateError({ _message: 'Imagem não encontrada' }, _context);
 		}
 
 		if (file?.meta?.isRestricted) {
-			if (!_context.user._id) this.generateError({ _message: 'User not authorized', _context });
-			if (_context.user._id != file.meta.createdBy) this.generateError({ _message: 'User not authorized', _context });
+			if (!_context.user._id) this.generateError({ _message: 'User not authorized' }, _context);
+			if (_context.user._id != file.meta.createdBy) this.generateError({ _message: 'User not authorized' }, _context);
 		}
 
 		// Configurar o cabeçalho correto para exibir a imagem no navegador

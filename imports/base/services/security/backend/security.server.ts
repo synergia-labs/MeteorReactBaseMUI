@@ -7,6 +7,7 @@ import { SecurityServerMethods } from '../common/interfaces/methods';
 import { checkMethodPermission } from './methods/checkMethodPermission';
 import { getMethod } from './methods/getMethod';
 import { getRole } from './methods/getRole';
+import { getRolesListNames } from './methods/getRolesListNames';
 import { methodSafeInsert } from './methods/methodSafeInsert';
 import { roleSafeInsert } from './methods/roleSafeInsert';
 import { getAllMethodsPublication } from './publications/getAllMethods';
@@ -17,7 +18,8 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	methodSafeInsert,
 	getRole,
 	getMethod,
-	checkMethodPermission
+	checkMethodPermission,
+	getRolesListNames
 ] as const;
 
 const _publicationInstances: Array<PublicationBase<any, any, any>> = [

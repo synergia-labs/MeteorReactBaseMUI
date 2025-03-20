@@ -20,11 +20,11 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 
 	async action(_param: ParamGetType, _context: IContext): Promise<ReturnGetMethodType> {
 		const methodCollection = this.getServerInstance()?.getMethodCollection();
-		if (!methodCollection) this.generateError({ _message: 'Method collection not found', _context });
+		if (!methodCollection) this.generateError({ _message: 'Method collection not found' }, _context);
 
 		const _id = `${_param.referred ?? enumSecurityConfig.apiName}.${_param.name}`;
 		const method = await methodCollection!.findOneAsync({ _id });
-		if (!method) this.generateError({ _message: 'Method not found', _context });
+		if (!method) this.generateError({ _message: 'Method not found' }, _context);
 
 		if (method.isProtected && !_context.user.profile?.roles.includes(EnumUserRoles.ADMIN))
 			throw new Error('Unauthorized');

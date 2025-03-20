@@ -28,17 +28,17 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 		_context: IContext,
 		_error: Error
 	): Promise<void> {
-		this.generateError({ _message: _error.message, _context });
+		this.generateError({ _message: _error.message }, _context);
 	}
 
 	async action(_param: ParamRoleSafeInsertType & AuditType, _context: IContext): Promise<ReturnRoleSafeInsertType> {
 		const roleCollection = this.getServerInstance()?.getRoleCollection();
-		if (!roleCollection) this.generateError({ _message: 'Role collection not found', _context });
+		if (!roleCollection) this.generateError({ _message: 'Role collection not found' }, _context);
 
 		const _id = `${_param.referred}.${textNormalize(_param.name)}`;
 		const role = await roleCollection!.findOneAsync({ _id });
 
-		if (role) this.generateError({ _message: 'Role already exists', _context });
+		if (role) this.generateError({ _message: 'Role already exists' }, _context);
 
 		const result = await roleCollection!.insertAsync({ _id, ..._param });
 		return { _id: result };

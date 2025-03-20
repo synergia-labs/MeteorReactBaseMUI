@@ -66,11 +66,11 @@ class GetDocument extends GetStorageBase {
 		const file = await documentCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			this.generateError({ _message: 'Documento não encontrado', _context });
+			this.generateError({ _message: 'Documento não encontrado' }, _context);
 		}
 
 		if (file?.meta?.isRestricted && (!_context.user?._id || _context.user._id !== file.meta.createdBy))
-			this.generateError({ _message: 'Você não tem permissão para acessar este documento', _context });
+			this.generateError({ _message: 'Você não tem permissão para acessar este documento' }, _context);
 
 		const isForcedDownload = param.dl == 1;
 		const withPreview = req.query.preview == 1;

@@ -58,14 +58,13 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 
 	protected generateError({
 		_message,
-		_code = '500',
-		_context
+		_code = '500'
 	}: {
 		_message: string;
 		_code?: string;
-		_context?: IContext;
-	}): void {
-		(_context?.meteorInstance as Subscription)?.error(new Meteor.Error(_code, `[${this.getName()}]: ${_message}`));
+	}, _context: IContext): void {
+		console.error(`Erro :>> [${this.getName()}] ${_message}`);
+		(_context?.meteorInstance as Subscription)?.error(new Meteor.Error(_code, _message));
 	}
 
 	abstract action(_params: Param, _options: Mongo.Options<Return>, _context: IContext): Promise<Mongo.Cursor<Return>>;
@@ -77,7 +76,7 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 	): Promise<void> {
 		if (this.returnPubliSch) {
 			const errors: Array<string> = [];
-			_result.forEach((doc) => {
+			_result?.forEach((doc) => {
 				try {
 					this.returnPubliSch.parse(doc);
 				} catch (__) {
