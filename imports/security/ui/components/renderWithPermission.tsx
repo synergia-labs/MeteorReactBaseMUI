@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { getUser } from "/imports/libs/getUser";
 import { segurancaApi } from "../../api/segurancaApi";
 import { hasValue } from "/imports/libs/hasValue";
 
@@ -25,8 +24,8 @@ const RenderWithPermission = ({
 	ignore = false
 }: RenderComPermissaoProps): ReactNode | null => {
 	if (!recursos) return children;
-	const user = getUser();
-	if (ignore || segurancaApi.podeAcessarRecurso(user, ...recursos)) {
+	const user = Meteor.user();
+	if (ignore || segurancaApi.podeAcessarRecurso(user as any, ...recursos)) {
 		if (hasValue(showCondition)) {
 			if (showCondition!()) return children;
 			return null;

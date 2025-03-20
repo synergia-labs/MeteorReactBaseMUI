@@ -1,6 +1,5 @@
 import { mapRolesRecursos } from "/imports/security/config/mapRolesRecursos";
 import { Meteor } from "meteor/meteor";
-import { getSystemUserProfile } from "/imports/libs/getUser";
 import EnumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 
 type Recurso = string;
@@ -30,7 +29,7 @@ class SegurancaApi {
 	 * @param recursosTestados
 	 */
 	podeAcessarRecurso(user: Meteor.User | undefined, ...recursosTestados: string[]): boolean {
-		if (!!user && getSystemUserProfile() === user) return true;
+		if (!!user && Meteor.user() === user) return true;
 		const recursos = this._getRecursosUsuario(user);
 		for (const role of recursosTestados) {
 			if (recursos.has(role)) return true;
