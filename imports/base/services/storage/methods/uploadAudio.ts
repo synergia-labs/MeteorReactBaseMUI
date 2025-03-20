@@ -28,7 +28,7 @@ class UploadAudio extends UploadStorageBase {
 		});
 
 		if (!objec) {
-			this.generateError({ _message: "Failed to upload audio"}, _context);
+			this.generateError({ _message: "Failed to upload audio" }, _context);
 		}
 
 		const path = storageServer.getUrl({

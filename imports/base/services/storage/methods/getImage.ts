@@ -25,8 +25,8 @@ class GetImage extends GetStorageBase {
 		}
 
 		if (file?.meta?.isRestricted) {
-			if (!_context.user._id) this.generateError({ _message: "User not authorized"}, _context);
-			if (_context.user._id != file.meta.createdBy) this.generateError({ _message: "User not authorized"}, _context);
+			if (!_context.user._id) this.generateError({ _message: "User not authorized" }, _context);
+			if (_context.user._id != file.meta.createdBy) this.generateError({ _message: "User not authorized" }, _context);
 		}
 
 		// Configurar o cabeçalho correto para exibir a imagem no navegador

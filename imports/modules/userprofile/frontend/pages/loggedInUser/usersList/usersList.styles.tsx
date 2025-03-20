@@ -5,19 +5,19 @@ import { SysSectionPaddingXY } from "/imports/ui/layoutComponents/sysLayoutCompo
 import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface IStyles {
-    container: ElementType<BoxProps>;
-    filters: ElementType<BoxProps>;
+	container: ElementType<BoxProps>;
+	filters: ElementType<BoxProps>;
 	listContainer: ElementType<BoxProps>;
 }
 
 const usersListStyles: IStyles = {
-    container: styled(SysSectionPaddingXY)(() => ({
+	container: styled(SysSectionPaddingXY)(() => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
 		alignItems: "stretch",
 		width: "100%",
-		gap: sysSizing.spacingFixedMd,
+		gap: sysSizing.spacingFixedMd
 	})),
 	filters: styled(Box)(({ theme }) => ({
 		display: "flex",
@@ -26,14 +26,14 @@ const usersListStyles: IStyles = {
 		width: "100%",
 		maxWidth: "600px",
 		marginBottom: sysSizing.spacingFixedMd,
-		[theme.breakpoints.down("sm")]: { flexDirection: "column"}
+		[theme.breakpoints.down("sm")]: { flexDirection: "column" }
 	})),
-	listContainer: styled(Box)(({
+	listContainer: styled(Box)({
 		display: "flex",
 		flexDirection: "column",
 		gap: sysSizing.spacingFixedMd,
-		padding: `${sysSizing.spacingFixedMd} 0`,
-	}))
-}
+		padding: `${sysSizing.spacingFixedMd} 0`
+	})
+};
 
 export default usersListStyles;

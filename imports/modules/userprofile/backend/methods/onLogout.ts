@@ -5,7 +5,6 @@ import { OnLoginType } from "../../common/types/onLogin";
 import { onLogoutSchema, OnLogoutType } from "../../common/types/onLogout";
 import { UsersServer } from "../server";
 
-
 /**
  * Método chamado quando um usuário faz logout.
  *

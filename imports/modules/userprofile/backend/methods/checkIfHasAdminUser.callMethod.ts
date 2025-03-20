@@ -11,9 +11,9 @@ import { IContext } from "/imports/typings/IContext";
  */
 
 class CheckIfHasAdminUserCallMethod extends MethodBase<UsersServer, void, boolean> {
-    constructor() {
-        super({ name: enumUserProfileRegisterMethods.checkIfHasAdminUser });
-    }
+	constructor() {
+		super({ name: enumUserProfileRegisterMethods.checkIfHasAdminUser });
+	}
 
 	async action(_prop: void, _context: IContext): Promise<boolean> {
 		const adminUser = await this.getServerInstance()?.mongoInstance.findOneAsync({

@@ -2,7 +2,7 @@ import { getUsersListPublication } from "../../backend/publications/usersList.pu
 import { PublicationType } from "/imports/base/types/publication";
 
 interface UsersApiPublication {
-    getUsersListPublication: PublicationType<typeof getUsersListPublication>;
+	getUsersListPublication: PublicationType<typeof getUsersListPublication>;
 }
 
 export default UsersApiPublication;

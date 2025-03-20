@@ -38,12 +38,14 @@ export const meteorUserSchema = z.object({
 	_id: z.string().nonempty(),
 	createdAt: z.date().optional(),
 	username: z.string().optional(),
-	emails: z.array(
-		z.object({
-			address: z.string().email(),
-			verified: z.boolean()
-		})
-	).optional(),
+	emails: z
+		.array(
+			z.object({
+				address: z.string().email(),
+				verified: z.boolean()
+			})
+		)
+		.optional(),
 	profile: userProfileSchema.optional(),
 	services: userServicesSchema.optional()
 });

@@ -4,7 +4,6 @@ import { IContext } from "/imports/typings/IContext";
 import { onLoginSchema, OnLoginType } from "../../common/types/onLogin";
 import { UsersServer } from "../server";
 
-
 /**
  * Método chamado quando um usuário faz login.
  *

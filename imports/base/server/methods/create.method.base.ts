@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { AuditType } from "../../types/audit";
 import ServerBase from "../server.base";
 import MethodBase, { IMethodBase } from "./method.base";

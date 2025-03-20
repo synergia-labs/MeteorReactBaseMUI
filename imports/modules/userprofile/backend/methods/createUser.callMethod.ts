@@ -18,7 +18,7 @@ import { UsersServer } from "../server";
  */
 
 class CreateUserCallMethod extends CreateMethodBase<UsersServer, CreateUserType, string> {
-    private hasAdminUser?: boolean;
+	private hasAdminUser?: boolean;
 
 	constructor() {
 		super({

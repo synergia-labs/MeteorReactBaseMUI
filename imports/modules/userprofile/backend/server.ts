@@ -25,13 +25,11 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 ] as const;
 
 /**Array com as instâncias de todas as classes de publicação do módulo */
-const _publicationInstances: Array<any> = [    
-	getUsersListPublication
-] as const;
+const _publicationInstances: Array<any> = [getUsersListPublication] as const;
 
 class UsersServer extends ServerBase {
-    public mongoInstance: Mongo.Collection<Meteor.User>;
-    public storageInstance?: any;
+	public mongoInstance: Mongo.Collection<Meteor.User>;
+	public storageInstance?: any;
 
 	constructor() {
 		super(EnumUserProfileSettings.MODULE_NAME);

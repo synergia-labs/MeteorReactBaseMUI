@@ -58,13 +58,16 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 	//endregion
 
-	protected generateError({
-		_message,
-		_code = "500"
-	}: {
-		_message: string;
-		_code?: string;
-	}, _context?: IContext): void {
+	protected generateError(
+		{
+			_message,
+			_code = "500"
+		}: {
+			_message: string;
+			_code?: string;
+		},
+		_context?: IContext
+	): void {
 		throw new Meteor.Error(_code, `[${this.name}]: ${_message}`);
 	}
 
@@ -72,7 +75,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 
 	//region seters and getters
 	public setServerInstance(server: Server, _context: IContext): void {
-		if (!!this.server) this.generateError({ _message: "Server instance already set", _code: '500' }, _context);
+		if (!!this.server) this.generateError({ _message: "Server instance already set", _code: "500" }, _context);
 		this.server = server;
 	}
 	public getName(): string {

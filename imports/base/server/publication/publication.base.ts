@@ -56,13 +56,16 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		super.beforeAction(_param, _context);
 	}
 
-	protected generateError({
-		_message,
-		_code = "500",
-	}: {
-		_message: string;
-		_code?: string;
-	}, _context: IContext): void {
+	protected generateError(
+		{
+			_message,
+			_code = "500"
+		}: {
+			_message: string;
+			_code?: string;
+		},
+		_context: IContext
+	): void {
 		console.error(`Erro :>> [${this.getName()}] ${_message}`);
 		(_context?.meteorInstance as Subscription)?.error(new Meteor.Error(_code, _message));
 	}
