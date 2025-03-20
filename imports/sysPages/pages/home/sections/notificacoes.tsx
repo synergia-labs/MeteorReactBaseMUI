@@ -9,10 +9,9 @@ import Typography from '@mui/material/Typography';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
-
 const HomeSectionNotificacoes: React.FC = () => {
 	const sysLayoutContext = useContext(AppLayoutContext);
-  const { RowButtons, } = HomeStyles;
+	const { RowButtons } = HomeStyles;
 
 	return (
 		<HomeSection

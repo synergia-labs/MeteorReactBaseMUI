@@ -1,8 +1,8 @@
 import { ElementType } from 'react';
 import { styled } from '@mui/material/styles';
-import  Box,{ BoxProps } from '@mui/material/Box';
+import Box, { BoxProps } from '@mui/material/Box';
 import { sysSizing } from '/imports/ui/materialui/styles';
-import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
+import { SysSectionPaddingXY } from '/imports/ui/layoutComponents/sysLayoutComponents';
 
 interface IExampleListStyles {
 	Container: ElementType<BoxProps>;
@@ -20,7 +20,7 @@ const ExampleListStyles: IExampleListStyles = {
 		height: '100vh',
 		overflow: 'auto',
 		gap: sysSizing.spacingFixedMd,
-    marginBottom: sysSizing.contentFabDistance
+		marginBottom: sysSizing.contentFabDistance
 	})),
 	LoadingContainer: styled(Box)(({ theme }) => ({
 		width: '100%',

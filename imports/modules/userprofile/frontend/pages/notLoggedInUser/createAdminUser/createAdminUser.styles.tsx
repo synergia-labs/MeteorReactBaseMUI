@@ -9,22 +9,22 @@ interface ISignInStyles {
 }
 
 const CreateAdminUserStyles: ISignInStyles = {
-	container: styled(Box)(({
+	container: styled(Box)({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: sysSizing.spacingFixedXl
-	})),
-	formContainer: styled(Box)(({
+	}),
+	formContainer: styled(Box)({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: '16px'
-	})),
+	})
 };
 
 export default CreateAdminUserStyles;

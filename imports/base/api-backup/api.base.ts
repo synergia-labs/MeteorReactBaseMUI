@@ -16,10 +16,10 @@ type IPublication = {
 };
 
 export type IBaseApiCallMehodProps<Param, Return> = {
-	name?: string,
-	props?: Param,
-	callback?: (e: IMeteorError, r: Return) => void
-}
+	name?: string;
+	props?: Param;
+	callback?: (e: IMeteorError, r: Return) => void;
+};
 
 // region Base Model
 export class ApiBase<Doc extends IDoc> {

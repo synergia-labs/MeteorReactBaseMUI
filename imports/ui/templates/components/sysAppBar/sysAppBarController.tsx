@@ -12,86 +12,94 @@ import { IAppMenu } from '/imports/modules/modulesTypings';
 import SysAvatar from '/imports/ui/components/sysAvatar/sysAvatar';
 
 interface ISysAppBarController {
-    logo?: ReactNode;
-    menuOptions?: Array<(IAppMenu | null)>;
+	logo?: ReactNode;
+	menuOptions?: Array<IAppMenu | null>;
 }
 
-const SysAppBar: React.FC<ISysAppBarController> = ({
-    logo,
-    menuOptions = []
-}) => {
-    const { user, logout } = useContext(AuthContext);
-    const { showModal } = useContext(AppLayoutContext);
+const SysAppBar: React.FC<ISysAppBarController> = ({ logo, menuOptions = [] }) => {
+	const { user, logout } = useContext(AuthContext);
+	const { showModal } = useContext(AppLayoutContext);
 
-    const navigate = useNavigate();
-    const menuPerfilRef = useRef<ISysMenuRef>(null);
-    const menuMobileRef = useRef<ISysMenuRef>(null);
+	const navigate = useNavigate();
+	const menuPerfilRef = useRef<ISysMenuRef>(null);
+	const menuMobileRef = useRef<ISysMenuRef>(null);
 
-    const onClickLogo = useCallback((): void => navigate('/'), [navigate]);
-    
-    const onLogout = useCallback(async (): Promise<void> => { 
-        logout(() => navigate('/'));
-    }, [navigate]);
-    
-    const abrirMenuPerfil = useCallback((event: React.MouseEvent<HTMLElement>): void => { 
-        menuPerfilRef.current?.openMenu(event)
-    }, [menuPerfilRef]);
-    
-    const abrirMenuMobile = useCallback((event: React.MouseEvent<HTMLElement>): void => {
-        menuMobileRef.current?.openMenu(event)
-    }, [menuMobileRef]);
+	const onClickLogo = useCallback((): void => navigate('/'), [navigate]);
 
-    const getOpcoesMenuDeUsuario = useCallback((): Array<ISysMenuItem> => ([
-        {
-            key: 'perfil',
-            otherProps: {  
-                label: user?.profile?.name || '-',  
-                startIcon: (
-                    <SysAvatar 
-                        name={user?.profile?.name} 
-                        src={user?.profile?.photo}
-                    />
-                )},
-        },
-        {
-            key: 'sair',
-            onClick: onLogout,
-            otherProps: { label: 'Sair', startIcon: (<SysIcon name='logout'/>)}
-        }
-    ]), [user, showModal, onLogout]);
+	const onLogout = useCallback(async (): Promise<void> => {
+		logout(() => navigate('/'));
+	}, [navigate]);
 
-    const getOpcoesMenuMobile = useCallback((): Array<ISysMenuItem> => menuOptions.map((option) => {
-        const verificaUsuarioLogadoERotaProtegida = !user && sysRoutes.checkIfRouteIsProtected(option?.path || '');
-        if(!hasValue(option) || verificaUsuarioLogadoERotaProtegida) return null;
-        return {
-            key: 'menu-' + option?.name,
-            onClick: () => navigate(option?.path || ''),
-            resources: option?.resources,
-            otherProps: {
-                label: option?.name || '',
-                startIcon: option?.icon,
-            }
-        };
-    }).filter((option) => option !== null), [menuOptions, navigate, user]);
+	const abrirMenuPerfil = useCallback(
+		(event: React.MouseEvent<HTMLElement>): void => {
+			menuPerfilRef.current?.openMenu(event);
+		},
+		[menuPerfilRef]
+	);
 
-    const providerValue: ISysAppBarContext = {
-        userName: user?.profile?.name || '-',
-        userPhoto: user?.profile?.photo,
-        menuOptions,
-        menuPerfilRef,
-        menuMobileRef,
-        onClickLogo,
-        abrirMenuPerfil,
-        abrirMenuMobile,
-        getOpcoesMenuDeUsuario,
-        getOpcoesMenuMobile
-    };
+	const abrirMenuMobile = useCallback(
+		(event: React.MouseEvent<HTMLElement>): void => {
+			menuMobileRef.current?.openMenu(event);
+		},
+		[menuMobileRef]
+	);
 
-    return (
-        <Context.Provider value={providerValue}>
-            <SysAppBarView logo={logo} />
-        </Context.Provider>
-    )
+	const getOpcoesMenuDeUsuario = useCallback(
+		(): Array<ISysMenuItem> => [
+			{
+				key: 'perfil',
+				otherProps: {
+					label: user?.profile?.name || '-',
+					startIcon: <SysAvatar name={user?.profile?.name} src={user?.profile?.photo} />
+				}
+			},
+			{
+				key: 'sair',
+				onClick: onLogout,
+				otherProps: { label: 'Sair', startIcon: <SysIcon name="logout" /> }
+			}
+		],
+		[user, showModal, onLogout]
+	);
+
+	const getOpcoesMenuMobile = useCallback(
+		(): Array<ISysMenuItem> =>
+			menuOptions
+				.map((option) => {
+					const verificaUsuarioLogadoERotaProtegida = !user && sysRoutes.checkIfRouteIsProtected(option?.path || '');
+					if (!hasValue(option) || verificaUsuarioLogadoERotaProtegida) return null;
+					return {
+						key: 'menu-' + option?.name,
+						onClick: () => navigate(option?.path || ''),
+						resources: option?.resources,
+						otherProps: {
+							label: option?.name || '',
+							startIcon: option?.icon
+						}
+					};
+				})
+				.filter((option) => option !== null),
+		[menuOptions, navigate, user]
+	);
+
+	const providerValue: ISysAppBarContext = {
+		userName: user?.profile?.name || '-',
+		userPhoto: user?.profile?.photo,
+		menuOptions,
+		menuPerfilRef,
+		menuMobileRef,
+		onClickLogo,
+		abrirMenuPerfil,
+		abrirMenuMobile,
+		getOpcoesMenuDeUsuario,
+		getOpcoesMenuMobile
+	};
+
+	return (
+		<Context.Provider value={providerValue}>
+			<SysAppBarView logo={logo} />
+		</Context.Provider>
+	);
 };
 
 export default SysAppBar;

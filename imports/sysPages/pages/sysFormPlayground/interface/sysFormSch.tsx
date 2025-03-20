@@ -67,7 +67,7 @@ const sysFormPlaygroundSch: ISchema<ISysFormPlaygroundSch> = {
 		]
 	},
 	favorites: {
-		type: Array<String>,
+		type: Array<string>,
 		label: 'Favoritos',
 		optional: true,
 		visibilityFunction: (doc) => !!doc.midia && doc.midia !== 'other',

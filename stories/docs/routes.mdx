@@ -1,13 +1,12 @@
-import { Meta } from "@storybook/blocks";
+import { Meta } from '@storybook/blocks';
 import Image from '../assets/rotas.png';
 
-<Meta title='Documentação/Rotas' />
+<Meta title="Documentação/Rotas" />
 
-# Rotas 
+# Rotas
 
 <br />
 <br />
-
 
 <img src={Image} />
 
@@ -29,19 +28,16 @@ As rotas são configuradas dentro de uma pasta designada `config`. Esta pasta co
 
 ```typescript
 interface IRoute {
-    path?: string;
-    component:
-        | React.ReactNode
-        | React.Component
-        | React.FunctionComponent<any>
-        | React.ComponentType<any>;
-    isProtected?: boolean;
-    exact?: string | boolean | undefined;
-    resources?: string[];
-    template?: SysTemplateOptions | keyof typeof SysTemplateOptions;
-    templateProps?: any;
+	path?: string;
+	component: React.ReactNode | React.Component | React.FunctionComponent<any> | React.ComponentType<any>;
+	isProtected?: boolean;
+	exact?: string | boolean | undefined;
+	resources?: string[];
+	template?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+	templateProps?: any;
 }
-``` 
+```
+
 > Interface de definição de rotas
 
 ```typescript
@@ -49,39 +45,38 @@ import { IRoute } from '/imports/modules/modulesTypings';
 import SEUCOMPONENTE from './SEUCOMPONENTE';
 
 const exampleRouterList: (IRoute | null)[] = [
-    {
-        path: '/example/:screenState/:exampleId',
-        component: SEUCOMPONENTE,
-        isProtected: true,
-    },
-    {
-        path: '/example/:screenState',
-        component: SEUCOMPONENTE,
-        isProtected: true,
-        resources: [Recurso.EXAMPLE_CREATE],
-    },
-    {
-        path: '/example',
-        component: SEUCOMPONENTE,
-        isProtected: true,
-    },
+	{
+		path: '/example/:screenState/:exampleId',
+		component: SEUCOMPONENTE,
+		isProtected: true
+	},
+	{
+		path: '/example/:screenState',
+		component: SEUCOMPONENTE,
+		isProtected: true,
+		resources: [Recurso.EXAMPLE_CREATE]
+	},
+	{
+		path: '/example',
+		component: SEUCOMPONENTE,
+		isProtected: true
+	}
 ];
-
 ```
+
 > Exemplo de definição de rotas de um módulo
-
-
 
 #### Exemplo de definição de menu
 
 ```typescript
 interface IAppMenu {
-    path?: string;
-    name?: string;
-    isProtected?: boolean;
-    icon?: React.ReactNode;
+	path?: string;
+	name?: string;
+	isProtected?: boolean;
+	icon?: React.ReactNode;
 }
 ```
+
 > Interface de definição de menu
 
 ```typescript
@@ -96,14 +91,15 @@ const exampleMenuItemList: (IAppMenu | null)[] = [
     },
 ];
 ```
+
 > Exemplo de definição de menu de um módulo
 
 ### Gerenciamento e Integração de Módulos
+
 Cada módulo opera de forma independente, com suas próprias rotas e menus. A centralização destes módulos é feita através do arquivo `index.tsx` localizado em `imports/modules`. Este arquivo é crucial para a integração das rotas e menus de todos os módulos no sistema.
 
 **Nota Importante:** A inclusão de um novo módulo <span style={{'color': 'red','font-weight': 'bold'}} > requer a atualização deste arquivo central.</span>
 
 ### Conexão entre Rotas, Páginas e Módulos
+
 O ponto central de todas as configurações de rotas, incluindo módulos, páginas e userProfile, é o arquivo `imports/ui/layouts/routes.tsx`. Este arquivo não apenas consolida todas as rotas do sistema, mas também gerencia os itens do menu. Além disso, permite a implementação de regras de negócio específicas para o roteamento.
-
-

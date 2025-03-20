@@ -103,7 +103,6 @@ export class ServerBase {
 		const self = this;
 
 		Object.entries(publications).forEach(([action, { method, endpointType }]) => {
-			
 			if (endpointType) this.addRestEndpoint(action, method, endpointType);
 
 			publicationsObject[`${this.apiName}.${action}`] = async (...args: any[]) => {

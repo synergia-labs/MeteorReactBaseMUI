@@ -7,7 +7,7 @@ import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 export const NotFound: React.FC = () => {
 	const navigate = useNavigate();
-  const { Container, } = NotFoundStyles;
+	const { Container } = NotFoundStyles;
 	const backToHome = () => navigate('/');
 
 	return (

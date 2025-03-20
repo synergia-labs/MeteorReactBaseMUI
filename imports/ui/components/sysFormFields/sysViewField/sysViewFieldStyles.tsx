@@ -9,7 +9,7 @@ interface IInfo {
 }
 
 export const SysViewFieldStyle = {
-	Container: styled(Box)(({}) => ({
+	Container: styled(Box)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedXs

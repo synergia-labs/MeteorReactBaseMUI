@@ -13,7 +13,6 @@ import IconButton from '@mui/material/IconButton';
 import { SysFab } from '/imports/ui/components/sysFab/sysFab';
 import exampleApi from '../../api/api';
 
-
 const ExampleListView: React.FC = () => {
 	const { showDialog, closeDialog } = useContext<IAppLayoutContext>(AppLayoutContext);
 	const context = useContext<IExampleListContext>(Context);
@@ -21,15 +20,18 @@ const ExampleListView: React.FC = () => {
 	const { title, type, typeMulti } = context.schema;
 	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
 
-
 	return (
 		<Styles.container>
 			<Typography variant="h5">Lista de itens</Typography>
-			<ToolTip title="Adicionar dados de exemplos" placement='right'>
-				<IconButton sx={{ mb: 1 }}  onClick= {() => exampleApi.fillDatabaseWithFakeData(undefined, (error, result) => {
-					console.log('error', error);
-					console.log('result', result);
-				})}>
+			<ToolTip title="Adicionar dados de exemplos" placement="right">
+				<IconButton
+					sx={{ mb: 1 }}
+					onClick={() =>
+						exampleApi.fillDatabaseWithFakeData(undefined, (error, result) => {
+							console.log('error', error);
+							console.log('result', result);
+						})
+					}>
 					<SysIcon name="contract" />
 				</IconButton>
 			</ToolTip>

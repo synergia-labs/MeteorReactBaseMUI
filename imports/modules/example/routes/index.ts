@@ -1,4 +1,4 @@
-import routerList  from './exampleRouters';
+import routerList from './exampleRouters';
 import menuItemList from './exampleAppMenu';
 import { IModuleRoutes } from '../../modulesTypings';
 

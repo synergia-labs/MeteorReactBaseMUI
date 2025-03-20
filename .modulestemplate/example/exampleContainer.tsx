@@ -12,7 +12,7 @@ export interface IExampleModuleContext {
 export const ExampleModuleContext = React.createContext<IExampleModuleContext>({});
 
 export default (props: IDefaultContainerProps) => {
-	let { screenState, exampleId } = useParams();
+	const { screenState, exampleId } = useParams();
 	const state = screenState ?? props.screenState;
 	const id = exampleId ?? props.id;
 

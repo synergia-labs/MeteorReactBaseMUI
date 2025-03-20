@@ -1,9 +1,5 @@
-import exampleMenuItemList from "../routes/exampleAppMenu";
-import exampleRouterList from "../routes/exampleRouters";
-
-
-
-
+import exampleMenuItemList from '../routes/exampleAppMenu';
+import exampleRouterList from '../routes/exampleRouters';
 
 const Example = {
 	pagesRouterList: exampleRouterList,

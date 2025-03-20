@@ -20,11 +20,11 @@ const SignInPage: React.FC = () => {
 	const navigate = useNavigate();
 	const handleForgotPassword = () => {
 		const email = sysFormRef.current?.getDocValues()?.email;
-		if(email) navigate(`/guest/forgot-password/${email}`);
+		if (email) navigate(`/guest/forgot-password/${email}`);
 		else navigate('/guest/forgot-password');
 	};
 	useEffect(() => {
-		if(context.hasAdminUser) return;
+		if (context.hasAdminUser) return;
 		navigate('/guest/create-admin-user');
 	}, [context.hasAdminUser]);
 

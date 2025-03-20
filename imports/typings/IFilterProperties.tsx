@@ -1,4 +1,4 @@
-import { IMongoOptions } from "../api/serverBase";
+import { IMongoOptions } from '../api/serverBase';
 
 export interface ISortProperties {
 	field: string;

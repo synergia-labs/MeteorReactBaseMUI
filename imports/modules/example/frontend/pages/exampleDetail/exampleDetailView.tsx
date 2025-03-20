@@ -36,18 +36,11 @@ const ExampleDetailView: React.FC = () => {
 				<Typography variant="h5" sx={{ flexGrow: 1 }}>
 					{isCreate ? 'Adicionar Item' : isEdit ? 'Editar Item' : context.document.title}
 				</Typography>
-				<IconButton
-					onClick={!isView ? context.closePage : () => context.changeToEdit(context.document?._id || '')}>
+				<IconButton onClick={!isView ? context.closePage : () => context.changeToEdit(context.document?._id || '')}>
 					{!isView ? <SysIcon name={'close'} /> : <SysIcon name={'edit'} />}
 				</IconButton>
 			</Styles.header>
-			<SysForm
-				mode={state}
-				schema={{}}
-				doc={context.document}
-				onSubmit={context.onSubmit}
-				loading={context.loading}
-			>
+			<SysForm mode={state} schema={{}} doc={context.document} onSubmit={context.onSubmit} loading={context.loading}>
 				<Styles.body>
 					<Styles.formColumn>
 						<SysTextField name="title" placeholder="Ex.: Item XX" />
@@ -75,9 +68,7 @@ const ExampleDetailView: React.FC = () => {
 							Cancelar
 						</Button>
 					)}
-					<SysFormButton>
-						Salvar
-					</SysFormButton>
+					<SysFormButton>Salvar</SysFormButton>
 				</Styles.footer>
 			</SysForm>
 		</Styles.container>

@@ -138,8 +138,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				checkVisibilityFields();
 				if (
 					(!Array.isArray(validateOnChangeRef.current) && validateOnChangeRef.current) ||
-					(Array.isArray(validateOnChangeRef.current) &&
-						validateOnChangeRef.current.includes(refComponent.current.name)) ||
+					(Array.isArray(validateOnChangeRef.current) && validateOnChangeRef.current.includes(refComponent.current.name)) ||
 					hasValue(fieldsWithErrors.current[refComponent.current.name])
 				)
 					checkIfErrorExists(refComponent);
@@ -210,10 +209,12 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				return;
 			}
 			const errorMessage =
-				!isOptional && !hasValue(value) ? 'Campo obrigatório' : schamaInfo?.validationFunction?.(value, SysFormMethods.getDocValues(refComponents.current, schema));
+				!isOptional && !hasValue(value)
+					? 'Campo obrigatório'
+					: schamaInfo?.validationFunction?.(value, SysFormMethods.getDocValues(refComponents.current, schema));
 			componentRef.current.error = errorMessage;
 			componentRef.current.setError?.(errorMessage);
-			if (!!errorMessage) {
+			if (errorMessage) {
 				fieldsWithErrors.current[componentRef.current.name] = errorMessage;
 			} else {
 				delete fieldsWithErrors.current[componentRef.current.name];
@@ -292,7 +293,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 			getDocValues: () => {
 				try {
 					return SysFormMethods.getDocValues(refComponents.current, schema);
-				} catch (error: any) {
+				} catch (__: any) {
 					return {};
 				}
 			},

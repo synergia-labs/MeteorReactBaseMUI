@@ -1,6 +1,7 @@
 import { MutableRefObject } from 'react';
 import { IOption } from '../InterfaceBaseSimpleFormComponent';
 import { IDefField, SchemaType } from '/imports/base/types/schema';
+import React from 'react';
 
 interface IDocValues {
 	[key: string]: any;

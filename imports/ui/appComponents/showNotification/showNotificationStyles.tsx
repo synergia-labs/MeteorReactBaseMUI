@@ -79,5 +79,4 @@ const ShowNotificationStyles: IShowNotificationStyles = {
 	}))
 };
 
-
 export default ShowNotificationStyles;

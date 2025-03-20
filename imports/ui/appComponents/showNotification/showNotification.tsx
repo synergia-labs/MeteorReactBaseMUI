@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { Theme, SxProps } from '@mui/material';

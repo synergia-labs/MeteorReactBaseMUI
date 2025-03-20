@@ -12,22 +12,17 @@ const ExampleContainer: React.FC<IExampleContainerProps> = ({ children }) => {
 	const { screenState, exampleId } = useParams();
 
 	const id = hasValue(exampleId) ? exampleId : undefined;
-	const state: EnumExampleScreenState | undefined = 
-		(hasValue(screenState) && exampleScreenStateValidState.includes(screenState!)) 
-		? screenState as EnumExampleScreenState
-		: undefined;
+	const state: EnumExampleScreenState | undefined =
+		hasValue(screenState) && exampleScreenStateValidState.includes(screenState!)
+			? (screenState as EnumExampleScreenState)
+			: undefined;
 
 	const contextValues: IExampleModuleContext = {
 		state: state,
 		id: id
 	};
 
-
-	return (
-		<ExampleModuleContext.Provider value={contextValues}>
-			{children}
-		</ExampleModuleContext.Provider>
-	);
+	return <ExampleModuleContext.Provider value={contextValues}>{children}</ExampleModuleContext.Provider>;
 };
 
 export default ExampleContainer;

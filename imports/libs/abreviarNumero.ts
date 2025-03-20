@@ -15,7 +15,7 @@ export const abreviarNumero = (numero: number): string => {
 		return intlFormat(num);
 	};
 
-	let numeroAbreviado = makeFriendly(numero);
+	const numeroAbreviado = makeFriendly(numero);
 
 	return numeroAbreviado.replace(',', '.');
 };

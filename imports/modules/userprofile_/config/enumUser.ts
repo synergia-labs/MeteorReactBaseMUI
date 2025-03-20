@@ -1,4 +1,4 @@
-import { hasValue } from "/imports/libs/hasValue";
+import { hasValue } from '/imports/libs/hasValue';
 
 export enum EnumUserPresences {
 	ONLINE = 'Online',
@@ -13,11 +13,11 @@ export enum EnumUserRoles {
 const UserRolesDictionary: Record<EnumUserRoles, string> = {
 	[EnumUserRoles.ADM]: 'Administrador',
 	[EnumUserRoles.USER]: 'Usuário',
-	[EnumUserRoles.PUBLIC]: 'Público',
+	[EnumUserRoles.PUBLIC]: 'Público'
 } as const;
 
 export const getUserRoleTranslated = (role: EnumUserRoles | string): string => {
 	const roleTranslated = UserRolesDictionary[role as EnumUserRoles];
-	if(!hasValue(roleTranslated)) return '';
+	if (!hasValue(roleTranslated)) return '';
 	return roleTranslated;
-}
+};

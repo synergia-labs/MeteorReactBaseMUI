@@ -109,7 +109,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		types: string[] = ['get', 'post'],
 		apiOptions: {
 			apiVersion: number;
-			authFunction: (headers: any, params: any) => Boolean;
+			authFunction: (headers: any, params: any) => boolean;
 		} = {
 			apiVersion: 1,
 			authFunction: () => true
@@ -372,8 +372,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		nodeElementId?: string;
 	}): Promise<boolean> {
 		try {
-			if (!hasValue(nodeId) && !hasValue(nodeElementId))
-				throw prodI18n.error({ key: 'errors.checkAccess.notProvided' });
+			if (!hasValue(nodeId) && !hasValue(nodeElementId)) throw prodI18n.error({ key: 'errors.checkAccess.notProvided' });
 
 			if (!hasValue(userId)) {
 				const user = getUser();
@@ -384,10 +383,10 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 			const query = `
             ${this._getQueryMatchNodeById({ idName: 'userId', nodeName: 'userNode', companyIdName: 'companyId' })}
             ${
-							hasValue(nodeElementId)
-								? this._getQueryMatchNodeByElementId({ elementIdName: 'nodeElementId', nodeName: 'node' })
-								: this._getQueryMatchNodeById({ idName: 'nodeId', nodeName: 'node', companyIdName: 'companyId' })
-						}
+													hasValue(nodeElementId)
+														? this._getQueryMatchNodeByElementId({ elementIdName: 'nodeElementId', nodeName: 'node' })
+														: this._getQueryMatchNodeById({ idName: 'nodeId', nodeName: 'node', companyIdName: 'companyId' })
+												}
             RETURN security.canAccess(userNode, node) as canAccess
          `;
 
@@ -401,7 +400,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 	_getQueryAuditCreateData(nodeName: string, update?: boolean) {
 		const user = getRealUser();
-		return !!update
+		return update
 			? `
          ${nodeName}.updatedat = '${new Date().toISOString()}',
          ${nodeName}.updatedby = '${user?._id || 'system'}'
@@ -845,7 +844,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else {
-			throw new Error(`É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"`);
+			throw new Error('É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"');
 		}
 
 		try {
@@ -923,7 +922,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else {
-			throw new Error(`É necessário um par de nós "serverInsertRelationships"`);
+			throw new Error('É necessário um par de nós "serverInsertRelationships"');
 		}
 
 		try {
@@ -1010,7 +1009,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
                 RETURN DISTINCT parent as PARENT, child as CHILD, rel as RELATIONSHIP
             `;
 		} else {
-			throw new Error(`É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"`);
+			throw new Error('É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"');
 		}
 
 		try {
@@ -1092,7 +1091,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
                 DELETE rel
             `;
 		} else {
-			throw new Error(`É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"`);
+			throw new Error('É necessário um par de nós, elementId ou filter da relação "serverUpdateRelationships"');
 		}
 
 		try {
@@ -1151,7 +1150,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 			if (!node || visited.has(nodeId)) return;
 			visited.add(nodeId);
 
-			let childrenWidths: number[] = [];
+			const childrenWidths: number[] = [];
 			let totalWidth = 0;
 
 			// Calcula a largura total dos filhos
@@ -1474,9 +1473,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 			nodeList.forEach((node) => {
 				if (
 					node.incomingRelationships.length > 0 &&
-					!node.incomingRelationships.find(
-						(rel: any) => !!nodeList.find((no) => no.elementId === rel.relatedNodeElementId)
-					)
+					!node.incomingRelationships.find((rel: any) => !!nodeList.find((no) => no.elementId === rel.relatedNodeElementId))
 				) {
 					rootIds.add(node.elementId);
 				}

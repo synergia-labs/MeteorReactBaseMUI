@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import {
 	DataGrid,
 	DataGridProps,
@@ -60,7 +60,7 @@ export interface IToolbarOptions {
 	};
 }
 
-interface IComplexTableProps extends Omit<DataGridProps , 'columns'> {
+interface IComplexTableProps extends Omit<DataGridProps, 'columns'> {
 	/**
 	 * Dados que compõem as linhas da tabela.
 	 */
@@ -215,8 +215,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	const {
 		data,
 		schema,
-		headerVariant,
-		rowVariant,
 		searchPlaceholder,
 		actions,
 		conditionalActions,
@@ -239,7 +237,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		disableSorting,
 		disableCheckboxSelection = true,
 		fieldsMinWidthColumnModified,
-		fieldsMaxWidthColumnModified, 
+		fieldsMaxWidthColumnModified,
 		...otherProps
 	} = props;
 
@@ -257,8 +255,8 @@ export const ComplexTable = (props: IComplexTableProps) => {
 		else if (Array.isArray(value)) return value.join();
 		else if (type === Object) {
 			const data = Object.keys(value).reduce((prev: string, curr: string) => {
-				if (!!renderKey) return value[renderKey];
-				return !!value[curr] ? `${prev}\n` + `${curr}: ${value[curr]}\n` : prev + '\n';
+				if (renderKey) return value[renderKey];
+				return value[curr] ? `${prev}\n` + `${curr}: ${value[curr]}\n` : prev + '\n';
 			}, '');
 			return data;
 		} else if (type === Date) return value.toLocaleDateString();
@@ -360,17 +358,17 @@ export const ComplexTable = (props: IComplexTableProps) => {
 			hideable: false,
 			renderHeader,
 			getActions: (params: GridRowParams) => {
-				const renderActions = !!actions ? [...actions] : [];
-				if (!!onDelete)
+				const renderActions = actions ? [...actions] : [];
+				if (onDelete)
 					renderActions.unshift({
 						icon: <SysIcon name={'delete'} />,
 						label: 'Deletar',
 						onClick: onDelete
 					});
 
-				if (!!onEdit) renderActions.unshift({ icon: <SysIcon name={'edit'} />, label: 'Editar', onClick: onEdit });
+				if (onEdit) renderActions.unshift({ icon: <SysIcon name={'edit'} />, label: 'Editar', onClick: onEdit });
 
-				if (!!conditionalActions) {
+				if (conditionalActions) {
 					conditionalActions.forEach((action: IConditionalAction) => {
 						if (action.condition(params.row)) {
 							renderActions.push({
@@ -378,7 +376,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 								label: action.if.label,
 								onClick: action.if.onClick
 							});
-						} else if (!!action.else) {
+						} else if (action.else) {
 							renderActions.push({
 								icon: <IconButton>{action.else.icon}</IconButton>,
 								label: action.else.label,
@@ -426,11 +424,11 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				paginationMode={'server'}
 				autoHeight={autoHeight ?? true}
 				localeText={locale}
-				getRowId={!!getId ? getId : (row) => row._id}
+				getRowId={getId ? getId : (row) => row._id}
 				onRowSelectionModelChange={(newSelection) => setSelection([...newSelection])}
 				rowSelectionModel={selection}
 				onRowClick={
-					!!onRowClick
+					onRowClick
 						? (params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
 								event.stopPropagation();
 								onRowClick(params);
@@ -439,7 +437,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 				}
 				getRowHeight={() => 'auto'}
 				slots={{
-					toolbar: (props) => <Toolbar {...props} />,
+					toolbar: (props) => <Toolbar {...props} />
 				}}
 				slotProps={{
 					toolbar: {
@@ -474,9 +472,9 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						labelRowsPerPage: 'Itens por página'
 					}
 				}}
-				filterMode={!!onFilterChange ? 'server' : 'client'}
+				filterMode={onFilterChange ? 'server' : 'client'}
 				onFilterModelChange={
-					!!onFilterChange
+					onFilterChange
 						? (model: GridFilterModel) => {
 								const search = model.quickFilterValues![0] ? model.quickFilterValues![0] : '';
 								onFilterChange(search);

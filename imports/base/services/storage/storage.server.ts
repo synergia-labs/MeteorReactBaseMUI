@@ -95,21 +95,9 @@ export class StorageServer extends ServerBase {
 
 		// Registra os endpoints REST para obtenção de arquivos.
 		this.addRestEndpoints([
-			[
-				enumEndpointType.enum.GET,
-				getImage.execute.bind(getImage) as MethodType<typeof getImage>,
-				enumFileType.enum.IMAGE
-			],
-			[
-				enumEndpointType.enum.GET,
-				getAudio.execute.bind(getAudio) as MethodType<typeof getAudio>,
-				enumFileType.enum.AUDIO
-			],
-			[
-				enumEndpointType.enum.GET,
-				getVideo.execute.bind(getVideo) as MethodType<typeof getVideo>,
-				enumFileType.enum.VIDEO
-			],
+			[enumEndpointType.enum.GET, getImage.execute.bind(getImage) as MethodType<typeof getImage>, enumFileType.enum.IMAGE],
+			[enumEndpointType.enum.GET, getAudio.execute.bind(getAudio) as MethodType<typeof getAudio>, enumFileType.enum.AUDIO],
+			[enumEndpointType.enum.GET, getVideo.execute.bind(getVideo) as MethodType<typeof getVideo>, enumFileType.enum.VIDEO],
 			[
 				enumEndpointType.enum.GET,
 				getDocument.execute.bind(getDocument) as MethodType<typeof getDocument>,
@@ -148,8 +136,8 @@ export class StorageServer extends ServerBase {
 		const access = Meteor.userId();
 		if (resolution) url += `&resolution=${resolution}`;
 		if (access) url += `&access=${access}`;
-		if (isDownload) url += `&dl=1`;
-		if (withPreview) url += `&preview=1`;
+		if (isDownload) url += '&dl=1';
+		if (withPreview) url += '&preview=1';
 
 		return url;
 	}

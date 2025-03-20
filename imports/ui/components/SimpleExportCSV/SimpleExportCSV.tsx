@@ -44,9 +44,8 @@ const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) =
 	const downloadCSV = () => {
 		api.downloadCSV(publishName, filter, options, (err: boolean, csvLink) => {
 			if (err) {
-				console.log(err);
+				console.error(err);
 			} else {
-				console.log(csvLink);
 				setShowLoading(false);
 				const link = document.createElement('a');
 				link.download = (filename || 'dadosExportados') + '.csv';

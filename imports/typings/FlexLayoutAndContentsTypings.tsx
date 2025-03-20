@@ -1,5 +1,6 @@
 import { Ref } from 'react';
 import { IConteudo } from '../modules/conteudo/api/conteudoSch';
+import React, { JSX } from 'react';
 
 export interface IContentType {
 	type:

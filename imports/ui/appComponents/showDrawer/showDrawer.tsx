@@ -44,7 +44,7 @@ export const ShowDrawer: React.FC<IShowDrawerProps> = ({
 	...drawerProps
 }: IShowDrawerProps) => {
 	useEffect(() => {
-		if (!!!duration) return;
+		if (!duration) return;
 		let timer: number | undefined;
 		if (open && duration) timer = window.setTimeout(() => close?.({}, 'backdropClick'), duration);
 		return () => {

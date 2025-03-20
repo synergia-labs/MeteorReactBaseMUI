@@ -4,7 +4,6 @@ import { userprofileServerApi } from '../modules/userprofile_/api/userProfileSer
 import { getHTMLEmailTemplate } from './email';
 import req from 'request';
 
-
 // @ts-ignore
 import settings from '/settings';
 import { Mongo } from 'meteor/mongo';
@@ -105,7 +104,7 @@ async function validateLoginGoogle(user: Meteor.User & { name?: string; email?: 
 	return validateSocialLoginAndUpdateProfile(userProfile, user, serviceName);
 }
 
-async function validateLoginFacebook(user: Meteor.User & { name?: string; email?: string }): Promise<Boolean> {
+async function validateLoginFacebook(user: Meteor.User & { name?: string; email?: string }): Promise<boolean> {
 	const serviceName = 'facebook';
 	user.username = `${user.services.facebook.name}_facebook`;
 	user.name = `${user.services.facebook.name}`;
@@ -138,7 +137,7 @@ Meteor.startup(() => {
 			}${urlWithoutHash}>${urlWithoutHash}</a></ins></p>` +
 			'<p>Ficamos felizes com o seu cadastro.</p>' +
 			'<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>';
-		const footer = `Essa mensagem foi gerada automaticamente!`;
+		const footer = 'Essa mensagem foi gerada automaticamente!';
 		return getHTMLEmailTemplate('Confirmação do cadastro', email, footer);
 	};
 
@@ -159,7 +158,7 @@ Meteor.startup(() => {
 			}${urlWithoutHash}>${urlWithoutHash}</a></ins></p>` +
 			'<p>Ficamos felizes com o seu cadastro.</p>' +
 			'<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>';
-		const footer = `Essa mensagem foi gerada automaticamente!`;
+		const footer = 'Essa mensagem foi gerada automaticamente!';
 		return getHTMLEmailTemplate('Conclua o seu cadastro', email, footer);
 	};
 
@@ -181,7 +180,7 @@ Meteor.startup(() => {
 			}${urlWithoutHash}>${urlWithoutHash}</a></ins></p>` +
 			'<p></p>' +
 			'<p><br/>Equipe <b>MeteorReactBase-MUI</b></p>';
-		const footer = `Essa mensagem foi gerada automaticamente!`;
+		const footer = 'Essa mensagem foi gerada automaticamente!';
 		return getHTMLEmailTemplate('Alteração da senha atual', email, footer);
 	};
 
@@ -217,9 +216,9 @@ Meteor.startup(() => {
 	});
 
 	Accounts.config({
-		sendVerificationEmail: false, 
-		forbidClientAccountCreation: false, 	// impede que um usuário seja criado pelo cliente,
-		defaultFieldSelector: { services: 0 }	// Impede que o cliente veja os serviços de autenticação
+		sendVerificationEmail: false,
+		forbidClientAccountCreation: false, // impede que um usuário seja criado pelo cliente,
+		defaultFieldSelector: { services: 0 } // Impede que o cliente veja os serviços de autenticação
 	});
 
 	Accounts.validateLoginAttempt(({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {
@@ -241,7 +240,7 @@ Meteor.startup(() => {
 			return validateLoginGoogle(user);
 		}
 		if (!user || !user.emails || !user.emails[0].verified) {
-			throw new Meteor.Error('Email ñao verificado', `Este email ainda não foi verificado!`);
+			throw new Meteor.Error('Email ñao verificado', 'Este email ainda não foi verificado!');
 		}
 		return true;
 	});

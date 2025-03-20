@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import { enrollAccountStyle } from './enrollAccountStyle';
 import { useNavigate, useParams } from 'react-router-dom';
 
-let emailVerified = false;
 export const EnrollAccount = () => {
 	const [status, setStatus] = React.useState<string | null>(null);
 	const navigate = useNavigate();

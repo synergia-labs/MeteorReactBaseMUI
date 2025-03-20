@@ -53,12 +53,12 @@ export class Validador {
 		const expressao = !!doc[campo];
 		if (!expressao) {
 			if (!msgErro) {
-				if (!!this._schema) {
+				if (this._schema) {
 					// @ts-ignore
 					const label = (this._schema[campo] && this._schema[campo].label) || campo;
 					msgErro = `Campo ${label} obrigatório`;
 				} else {
-					msgErro = `Campo obrigatório`;
+					msgErro = 'Campo obrigatório';
 				}
 			}
 			this._errors.push({

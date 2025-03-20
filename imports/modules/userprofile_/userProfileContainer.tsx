@@ -12,7 +12,7 @@ export const UserProfileModuleContext = React.createContext<IUserProfileModuleCo
 
 export default () => {
 	const { user } = useContext<IAuthContext>(AuthContext);
-	let { screenState, userprofileId } = useParams();
+	const { screenState, userprofileId } = useParams();
 
 	const state = screenState;
 	const id = userprofileId ?? user?._id;
@@ -20,7 +20,7 @@ export default () => {
 	const validState = ['view', 'edit', 'create'];
 
 	const renderPage = () => {
-		if (!!!state || !validState.includes(state)) return <UserProfileListController />;
+		if (!state || !validState.includes(state)) return <UserProfileListController />;
 	};
 
 	const providerValue = {

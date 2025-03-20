@@ -13,18 +13,16 @@ import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sy
 import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
 import Collapse from '@mui/material/Collapse';
 
-
 export const ForgotPasswordPage: React.FC = () => {
 	const { email } = useParams();
 	const context = useContext<INotLoggedInUserContext>(Context);
-	
 
-	const [ loading, setLoading ] = useState<boolean>(false);
-	const [ isEmailSent, setIsEmailSent ] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
 
 	const navigate = useNavigate();
 
-	const handleSubmit = (_doc: { email: string }) => { 
+	const handleSubmit = (_doc: { email: string }) => {
 		setLoading(true);
 		context.sendResetPasswordEmail(_doc.email, (_) => {
 			setLoading(false);
@@ -40,7 +38,7 @@ export const ForgotPasswordPage: React.FC = () => {
 			label: 'Email',
 			optional: false,
 			validationFunction: (value: string) => {
-				if(!emailValidator(value)) return 'Email inválido';
+				if (!emailValidator(value)) return 'Email inválido';
 				return undefined;
 			}
 		}
@@ -48,50 +46,28 @@ export const ForgotPasswordPage: React.FC = () => {
 
 	return (
 		<Styles.container>
-			<Typography variant="h5">
-				{ isEmailSent ? 'Agora é só aguardar!' : 'Esqueceu sua senha?'}
-			</Typography>
-			<SysForm 
-				schema={schema} 
-				onSubmit={handleSubmit} 
-				debugAlerts={false}
-				loading={loading}
-				doc={{ email }}
-			>
+			<Typography variant="h5">{isEmailSent ? 'Agora é só aguardar!' : 'Esqueceu sua senha?'}</Typography>
+			<SysForm schema={schema} onSubmit={handleSubmit} debugAlerts={false} loading={loading} doc={{ email }}>
 				<Styles.body>
-					<Typography textAlign='center' color={ theme => theme.palette.sysText?.body }>
-						{	isEmailSent 
-							? "Caso o e-mail informado esteja cadastrado no sistema, enviaremos um link para a redefinição de sua senha"
-							: "Confirme seu e-mail abaixo para receber um link de redefinição da sua senha"
-						}
+					<Typography textAlign="center" color={(theme) => theme.palette.sysText?.body}>
+						{isEmailSent
+							? 'Caso o e-mail informado esteja cadastrado no sistema, enviaremos um link para a redefinição de sua senha'
+							: 'Confirme seu e-mail abaixo para receber um link de redefinição da sua senha'}
 					</Typography>
 					<Collapse in={!isEmailSent} sx={{ width: '100%' }}>
-						<SysTextField name='email' placeholder='Ex.: jose@email.com'/>
+						<SysTextField name="email" placeholder="Ex.: jose@email.com" />
 					</Collapse>
 				</Styles.body>
 				{isEmailSent ? (
-					<Button
-						startIcon={ <SysIcon name='arrowBack' /> }
-						onClick={onCancelClick}
-					>
+					<Button startIcon={<SysIcon name="arrowBack" />} onClick={onCancelClick}>
 						Voltar para o Login
 					</Button>
-				) :(
+				) : (
 					<Styles.footer>
-						<Button
-							startIcon={ <SysIcon name='close' /> }
-							variant='outlined'
-							onClick={onCancelClick}
-							disabled={loading}
-						>
+						<Button startIcon={<SysIcon name="close" />} variant="outlined" onClick={onCancelClick} disabled={loading}>
 							Cancelar
 						</Button>
-						<SysFormButton
-							startIcon={ <SysIcon name='check' /> }
-
-						>
-							Confirmar
-						</SysFormButton>
+						<SysFormButton startIcon={<SysIcon name="check" />}>Confirmar</SysFormButton>
 					</Styles.footer>
 				)}
 			</SysForm>

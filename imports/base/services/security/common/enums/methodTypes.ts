@@ -3,7 +3,8 @@ import { z } from 'zod';
 enum enumMethodTypesRef {
 	METHOD = 'method',
 	PUBLICATION = 'publication',
-	MODULE = 'module'
+	MODULE = 'module',
+	SCREEN = 'screen'
 }
 
 export const enumMethodTypes = z.nativeEnum(enumMethodTypesRef);

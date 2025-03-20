@@ -110,7 +110,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 
 	const [selectedValue, setSelectedValue] = useState<string | null>(null);
 
-	const handleOnChange = (evt: React.ChangeEvent<{}>, selected: any, nome: string) => {
+	const handleOnChange = (__: React.ChangeEvent<{}>, selected: any, _: string) => {
 		let newValue;
 		if (selected === null) {
 			// Se o usuário limpar a seleção

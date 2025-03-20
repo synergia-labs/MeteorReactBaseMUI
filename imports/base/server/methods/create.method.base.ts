@@ -10,11 +10,10 @@ export abstract class CreateMethodBase<S extends ServerBase, P, R> extends Metho
 	}
 
 	protected insertAuditData(param: P & AuditType, _context: IContext): void {
-		if(!param._id) param._id = nanoid();
+		if (!param._id) param._id = nanoid();
 		param.createdAt = new Date();
 		param.createdBy = (_context.user._id ?? Meteor.userId()) as string;
 	}
-
 
 	protected async beforeAction(param: P & AuditType, _context: IContext): Promise<void> {
 		super.beforeAction(param, _context);

@@ -27,7 +27,6 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	label,
 	value,
 	defaultValue,
-	onChange,
 	disabled,
 	loading,
 	readOnly,
@@ -93,18 +92,14 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 	}
 
 	const onBlur = () => {
-		if (new Date(dateValue) !== new Date(value)) {
-			try {
-				const date = new Date(dateValue);
-				if (!isNaN(date.getTime())) {
-					date.setHours(date.getHours() + 10);
-					controllerSysForm.onChangeComponentValue({ refComponent: refObject!, value: date });
-					//sysFormController?.onChange({ name, value: date });
-				}
-			} catch (e) {
-				console.log('Data Inválida', e);
+		try {
+			const date = new Date(dateValue);
+			if (!isNaN(date.getTime())) {
+				date.setHours(date.getHours() + 10);
+				controllerSysForm.onChangeComponentValue({ refComponent: refObject!, value: date });
+				//sysFormController?.onChange({ name, value: date });
 			}
-		}
+		} catch (_) {}
 	};
 
 	const formatDate = (dateValue: Date) => {

@@ -164,7 +164,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		this.initApiRest();
 		this.registerPublications(options);
 		this.registerAllMethods();
-		
+
 		// this.createAPIRESTForAudioFields();
 		// this.createAPIRESTForIMGFields();
 		// this.createAPIRESTThumbnailForIMGFields(sharp);
@@ -330,7 +330,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			) {
 				throw new Meteor.Error('Obrigatoriedade', `O campo "${schema[field].label || field}" é obrigatório`);
 			} else if (keysOfDataObj.indexOf(field) !== -1) {
-				if (!!schema[field]?.optional) {
+				if (schema[field]?.optional) {
 					newSchema[field] = Match.OneOf(undefined, null, schema[field].type);
 				} else {
 					newSchema[field] = schema[field].type;
@@ -386,7 +386,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		const newDoc: any = {};
 		Object.keys(doc).forEach((key: string) => {
 			// @ts-ignore
-			let docData = doc[key];
+			const docData = doc[key];
 			const isDate = docData && docData instanceof Date && !isNaN(docData.valueOf());
 			const isBoolean = typeof docData === 'boolean';
 			if (!!nullValues && !docData && docData !== 0 && !isBoolean) {
@@ -423,7 +423,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		session?: MongoInternals.MongoConnection
 	): Promise<IContext> {
 		const user: Meteor.UserProfile = userProfile || {
-			username: `Teste`,
+			username: 'Teste',
 			email: 'api.endpoint@api.com',
 			roles: [EnumUserRoles.PUBLIC]
 		};
@@ -479,7 +479,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		types: string[] = ['get', 'post'],
 		apiOptions: {
 			apiVersion: number;
-			authFunction: (headers: any, params: any) => Boolean;
+			authFunction: (headers: any, params: any) => boolean;
 		} = {
 			apiVersion: 1,
 			authFunction: () => true
@@ -605,9 +605,7 @@ export class ServerApiBase<Doc extends IDoc> {
 
 							if (params && !!params.audio) {
 								const docID =
-									params.audio.indexOf('?') !== -1
-										? params.audio.split('?')[0].split('.')[0]
-										: params.audio.split('.')[0];
+									params.audio.indexOf('?') !== -1 ? params.audio.split('?')[0].split('.')[0] : params.audio.split('.')[0];
 								const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
 
 								if (doc && !!doc[field] && doc[field] !== '-') {
@@ -657,9 +655,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			const schema = self.schema;
 			Object.keys(schema).forEach((field) => {
 				if (schema[field].isImage) {
-					console.log(
-						'CREATE ENDPOINT GET ' + `img/${this.collectionName}/${field}/:image ########## IMAGE #############`
-					);
+					console.log('CREATE ENDPOINT GET ' + `img/${this.collectionName}/${field}/:image ########## IMAGE #############`);
 					this.apiRestImage &&
 						this.apiRestImage.addRoute(`${this.collectionName}/${field}/:image`, async (req: any, res: any) => {
 							const { params } = req;
@@ -713,63 +709,59 @@ export class ServerApiBase<Doc extends IDoc> {
 						'CREATE ENDPOINT GET ' + `thumbnail/${this.collectionName}/${field}/:image ########## IMAGE #############`
 					);
 					this.apiRestImage &&
-						this.apiRestImage.addThumbnailRoute(
-							`${this.collectionName}/${field}/:image`,
-							async (req: any, res: any) => {
-								const { params, query } = req;
+						this.apiRestImage.addThumbnailRoute(`${this.collectionName}/${field}/:image`, async (req: any, res: any) => {
+							const { params, query } = req;
 
-								const widthAndHeight = query.d ? query.d.split('x').map((n: string) => parseInt(n)) : [200, 200];
+							const widthAndHeight = query.d ? query.d.split('x').map((n: string) => parseInt(n)) : [200, 200];
 
-								if (params && !!params.image) {
-									const docID =
-										params.image.indexOf('.') !== -1 ? params.image.split('.')[0] : params.image.split('.')[0];
-									const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
+							if (params && !!params.image) {
+								const docID = params.image.indexOf('.') !== -1 ? params.image.split('.')[0] : params.image.split('.')[0];
+								const doc = await self.getCollectionInstance().findOneAsync({ _id: docID });
 
-									if (doc && !!doc[field] && doc[field] !== '-') {
-										const destructImage = doc[field].split(';');
-										const imageData = destructImage[1].split(',')[1];
+								if (doc && !!doc[field] && doc[field] !== '-') {
+									const destructImage = doc[field].split(';');
+									const imageData = destructImage[1].split(',')[1];
 
-										try {
-											let resizedImage = Buffer.from(imageData, 'base64');
-											resizedImage = await sharp(resizedImage)
-												.rotate()
-												.resize({
-													fit: 'contain',
-													background: {
-														r: 255,
-														g: 255,
-														b: 255,
-														alpha: 0.01
-													},
-													width: !!widthAndHeight[0] ? widthAndHeight[0] : undefined,
-													height: !!widthAndHeight[1] ? widthAndHeight[1] : undefined
-												})
-												.toFormat('webp')
-												.toBuffer();
+									try {
+										let resizedImage = Buffer.from(imageData, 'base64');
+										resizedImage = await sharp(resizedImage)
+											.rotate()
+											.resize({
+												fit: 'contain',
+												background: {
+													r: 255,
+													g: 255,
+													b: 255,
+													alpha: 0.01
+												},
+												width: widthAndHeight[0] ? widthAndHeight[0] : undefined,
+												height: widthAndHeight[1] ? widthAndHeight[1] : undefined
+											})
+											.toFormat('webp')
+											.toBuffer();
 
-											res.writeHead(200, {
-												'Content-Type': 'image/webp',
-												'Cache-Control': 'max-age=120, must-revalidate, public',
-												'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
-											});
-											res.write(resizedImage);
-											res.end(); // Must call this immediately before return!
-											return;
+										res.writeHead(200, {
+											'Content-Type': 'image/webp',
+											'Cache-Control': 'max-age=120, must-revalidate, public',
+											'Last-Modified': (new Date(doc.lastupdate) || new Date()).toUTCString()
+										});
+										res.write(resizedImage);
+										res.end(); // Must call this immediately before return!
+										return;
 
-											//To Save Base64 IMG
-											// return `data:${mimType};base64,${resizedImage.toString("base64")}`
-										} catch (error) {
-											res.writeHead(200);
-											res.end();
-											return;
-										}
+										//To Save Base64 IMG
+										// return `data:${mimType};base64,${resizedImage.toString("base64")}`
+									} catch (error) {
+										res.writeHead(200);
+										res.end();
+										return;
 									}
-									res.writeHead(404);
-									res.end();
-									return;
 								}
+								res.writeHead(404);
+								res.end();
+								return;
 							}
-						);
+						});
 				}
 			});
 		}
@@ -794,7 +786,13 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @param  {String} publication - Name of the publication.
 	 * @param  {Function} newPublicationsFunction - Function the handle the publication of the data
 	 */
-	addPublication = (publication: string, newPublicationsFunction: ( filter?: Mongo.ObjectID | Mongo.Selector<any>, optionsPub?: Partial<IMongoOptions<any>> ) => Promise<Mongo.Cursor<any>>  ) => {
+	addPublication = (
+		publication: string,
+		newPublicationsFunction: (
+			filter?: Mongo.ObjectID | Mongo.Selector<any>,
+			optionsPub?: Partial<IMongoOptions<any>>
+		) => Promise<Mongo.Cursor<any>>
+	) => {
 		const self = this;
 
 		if (Meteor.isServer) {
@@ -878,25 +876,27 @@ export class ServerApiBase<Doc extends IDoc> {
 	};
 
 	//**DEFAULT PUBLICATIONS**
-	async defaultCollectionPublication<Doc>(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub?: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
-
+	async defaultCollectionPublication<Doc>(
+		filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {},
+		optionsPub?: Partial<IMongoOptions<Doc>>
+	): Promise<Mongo.Cursor<Doc>> {
 		if (!optionsPub) {
 			optionsPub = { limit: 999999, skip: 0 };
 		}
 
-		if (!!optionsPub.skip && (optionsPub.skip < 0)) {
+		if (!!optionsPub.skip && optionsPub.skip < 0) {
 			optionsPub.skip = 0;
 		}
 
-		if (optionsPub.limit && (optionsPub.limit < 0)) {
+		if (optionsPub.limit && optionsPub.limit < 0) {
 			optionsPub.limit = 999999;
 		}
 
-		if (!!!optionsPub.projection && !!optionsPub.fields) {
+		if (!optionsPub.projection && !!optionsPub.fields) {
 			optionsPub.projection = optionsPub.fields;
 		}
 
-		if (!!!optionsPub.projection) optionsPub.projection = {};
+		if (!optionsPub.projection) optionsPub.projection = {};
 		const hasExceptionProjection = optionsPub && Object.values(optionsPub.projection).find((v) => v === 0 || v === -1);
 		const hasRestrictionProjection = optionsPub && Object.values(optionsPub.projection).find((v) => v === 1);
 
@@ -999,7 +999,7 @@ export class ServerApiBase<Doc extends IDoc> {
 				let count = 0;
 				let loaded = false;
 
-				if (!!handlePub) {
+				if (handlePub) {
 					handlePub.observeChanges(
 						{
 							added: () => {
@@ -1038,7 +1038,10 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 		};
 
-	async defaultListCollectionPublication(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
+	async defaultListCollectionPublication(
+		filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {},
+		optionsPub: Partial<IMongoOptions<Doc>>
+	): Promise<Mongo.Cursor<Doc>> {
 		const user = await getUserServer();
 
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
@@ -1059,7 +1062,10 @@ export class ServerApiBase<Doc extends IDoc> {
 		return this.defaultCollectionPublication(filter, defaultListOptions);
 	}
 
-	async defaultDetailCollectionPublication<Doc>(filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {}, optionsPub: Partial<IMongoOptions<Doc>>): Promise<Mongo.Cursor<Doc>> {
+	async defaultDetailCollectionPublication<Doc>(
+		filter: Mongo.Selector<Doc> | Mongo.ObjectID | string = {},
+		optionsPub: Partial<IMongoOptions<Doc>>
+	): Promise<Mongo.Cursor<Doc>> {
 		const user = await getUserServer();
 		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`]) {
 			if (!segurancaApi.podeAcessarRecurso(user, this.defaultResources[`${this.collectionName?.toUpperCase()}_VIEW`])) {

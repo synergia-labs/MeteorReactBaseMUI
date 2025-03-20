@@ -84,7 +84,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			}
 		});
 
-		this.registerMethod('sendResetPasswordEmail', async (userData: IUserProfile) => { 
+		this.registerMethod('sendResetPasswordEmail', async (userData: IUserProfile) => {
 			check(userData, Object);
 			if (Meteor.isServer && userData) {
 				if (userData._id) {
@@ -177,7 +177,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			}
 		} catch (error) {
 			console.error('error :>> ', error);
-			throw new Meteor.Error('Acesso negado', `Vocẽ não tem permissão para alterar esses dados`);
+			throw new Meteor.Error('Acesso negado', 'Vocẽ não tem permissão para alterar esses dados');
 		}
 	};
 
@@ -327,7 +327,6 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 	addUserProfileProfilePublication = () => {
 		if (Meteor.isServer) {
-			// eslint-disable-next-line
 			Meteor.publish('userprofile-profile', function () {
 				if (this.userId) {
 					return Meteor.users.find(
@@ -365,7 +364,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			!docObj._id ||
 			(user && user._id !== docObj._id && user && user.roles && user.roles.indexOf('Administrador') === -1)
 		) {
-			throw new Meteor.Error('Acesso negado', `Vocẽ não tem permissão para alterar esses dados`);
+			throw new Meteor.Error('Acesso negado', 'Vocẽ não tem permissão para alterar esses dados');
 		}
 
 		if (user && user.roles && user.roles.indexOf('Administrador') === -1) {

@@ -1,19 +1,15 @@
-import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
-import { UserProfileServer } from "../server";
-import MethodBase from "/imports/base/server/methods/method.base";
-import { IContext } from "/imports/typings/IContext";
+import enumUserProfileRegisterMethods from '../../common/enums/enumRegisterMethods';
+import { UserProfileServer } from '../server';
+import MethodBase from '/imports/base/server/methods/method.base';
+import { IContext } from '/imports/typings/IContext';
 
 class SendVerificationEmail extends MethodBase<UserProfileServer, void, void> {
-    constructor() {
-        super({ name: enumUserProfileRegisterMethods.sendVerificationEmail });
-    }
+	constructor() {
+		super({ name: enumUserProfileRegisterMethods.sendVerificationEmail });
+	}
 
-
-
-    async action(_prop: void, _context: IContext): Promise<void> {
-        
-    }
-} 
+	async action(_prop: void, _context: IContext): Promise<void> {}
+}
 
 const sendVerificationEmailInstance = new SendVerificationEmail();
 export default sendVerificationEmailInstance;

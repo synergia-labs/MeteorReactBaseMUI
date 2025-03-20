@@ -25,30 +25,26 @@ interface IToolbarProps {
 export const Toolbar = (props: IToolbarProps) => {
 	const { buttonVariant, toolbarOptions, filterIconWidth, openFilterModal } = props;
 
-	if (!!toolbarOptions) {
+	if (toolbarOptions) {
 		const hideFilterIcon = useMediaQuery(`(min-width:${filterIconWidth ?? 600}px)`);
 
 		const { searchFilter, selectColumns, density, exportTable } = toolbarOptions;
 		return (
 			<GridToolbarContainer sx={toolbarStyle.container}>
 				<Box sx={{ mr: { xs: 'auto', sm: '0' } }}>
-					{!!selectColumns ? (
+					{selectColumns ? (
 						// @ts-ignore
-						<GridToolbarColumnsButton
-							disableRipple
-							variant={buttonVariant ?? 'outlined'}
-							style={{ marginRight: '1rem' }}
-						/>
+						<GridToolbarColumnsButton disableRipple variant={buttonVariant ?? 'outlined'} style={{ marginRight: '1rem' }} />
 					) : null}
-					{!!density ? (
+					{density ? (
 						// @ts-ignore
 						<GridToolbarDensitySelector disableRipple variant={buttonVariant ?? 'outlined'} />
 					) : null}
 					{!exportTable ? null : (
 						// @ts-ignore
 						<GridToolbarExportContainer disableRipple variant={buttonVariant ?? 'outlined'} style={{ marginLeft: '0' }}>
-							{!!exportTable.csv ? <GridCsvExportMenuItem options={{ utf8WithBom: true }} /> : null}
-							{!!exportTable.print ? <GridPrintExportMenuItem /> : null}
+							{exportTable.csv ? <GridCsvExportMenuItem options={{ utf8WithBom: true }} /> : null}
+							{exportTable.print ? <GridPrintExportMenuItem /> : null}
 						</GridToolbarExportContainer>
 					)}
 				</Box>

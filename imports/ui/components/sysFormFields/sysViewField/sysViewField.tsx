@@ -4,8 +4,8 @@
  * Também permite a personalização dos estilos usando o objeto sxMap.
  */
 import React from 'react';
-import {SysViewFieldStyle} from './sysViewFieldStyles';
-import {SxProps, Theme} from '@mui/material';
+import { SysViewFieldStyle } from './sysViewFieldStyles';
+import { SxProps, Theme } from '@mui/material';
 
 /**
  * Propriedades aceitas pelo componente SysViewField.
@@ -15,16 +15,16 @@ interface ISysViewField {
 	 * Rótulo do campo de visualização.
 	 */
 	label: string | undefined;
-  /**
-   * Indica se vai ser exibido algum complemento para o rótulo.
-   * @default false
-   */
-  showLabelAdornment?: boolean;
-  /**
-   * Define o complemento para o rótulo.
-   * @default '(opcional)'
-   */
-  labelAdornment?: string;
+	/**
+	 * Indica se vai ser exibido algum complemento para o rótulo.
+	 * @default false
+	 */
+	showLabelAdornment?: boolean;
+	/**
+	 * Define o complemento para o rótulo.
+	 * @default '(opcional)'
+	 */
+	labelAdornment?: string;
 	/**
 	 * Texto de espaço reservado para o campo de visualização.
 	 */
@@ -63,13 +63,20 @@ interface ISysViewField {
  * @param sxMap Um objeto que contém estilos personalizados para o container, o rótulo e o espaço reservado.
  * @returns Um componente de campo de visualização.
  */
-export const SysViewField: React.FC<ISysViewField> = ({ label, showLabelAdornment = false, labelAdornment = '(opcional)', placeholder, disabled, sxMap }) => {
-  const { Container, Info } = SysViewFieldStyle;
-  return (
+export const SysViewField: React.FC<ISysViewField> = ({
+	label,
+	showLabelAdornment = false,
+	labelAdornment = '(opcional)',
+	placeholder,
+	disabled,
+	sxMap
+}) => {
+	const { Container, Info } = SysViewFieldStyle;
+	return (
 		<Container sx={sxMap?.container}>
 			{/* Exibe o rótulo */}
 			<Info variant="body2" sx={sxMap?.label} type={'label'} disabled={disabled || false}>
-        {`${label} ${showLabelAdornment ? labelAdornment : ''}`}
+				{`${label} ${showLabelAdornment ? labelAdornment : ''}`}
 			</Info>
 			{/* Exibe o espaço reservado */}
 			<Info variant="body1" sx={sxMap?.placeholder} type={'placeholder'} disabled={disabled || false}>

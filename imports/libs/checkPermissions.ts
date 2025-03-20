@@ -1,7 +1,6 @@
 import { getUser } from '../libs/getUser';
 import { EnumUserRoles } from '../modules/userprofile/config/enumUser';
 
-
 const checkPermissionAdmin = () => {
 	const userLogged = getUser();
 	return userLogged?.roles?.includes(EnumUserRoles.ADM);

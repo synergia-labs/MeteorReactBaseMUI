@@ -10,17 +10,17 @@ export interface IBaseSimpleFormComponent {
 	name: string;
 	label?: string | undefined;
 	value?: any;
-  defaultValue?: any;
-  options?: Array<IOption>;
-  onChange?: (e: any) => void;
+	defaultValue?: any;
+	options?: Array<IOption>;
+	onChange?: (e: any) => void;
 	disabled?: boolean;
 	loading?: boolean;
 	readOnly?: boolean;
 	error?: string | undefined;
-  showLabelAdornment?: boolean;
-  labelAdornment?: string;
-  showTooltip?: boolean;
-  tooltipMessage?: string;
+	showLabelAdornment?: boolean;
+	labelAdornment?: string;
+	showTooltip?: boolean;
+	tooltipMessage?: string;
 	tooltipPosition?:
 		| 'bottom-end'
 		| 'bottom-start'

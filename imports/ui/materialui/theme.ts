@@ -88,13 +88,13 @@ const getLightThemeBase = (props: { fontScale: number }): ThemeOptions => {
 	return {
 		palette: sysLightPalette,
 		typography: SysFonts.getTypography(fontScale),
-		spacing: 8,
+		spacing: 8
 	};
 };
 
 export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 	const fontScale = options.fontScale || 1;
-	let theme: Theme = createTheme(getLightThemeBase({ fontScale }));
+	const theme: Theme = createTheme(getLightThemeBase({ fontScale }));
 
 	return createTheme(theme, { ...getSysComponentsStyles(theme, fontScale) });
 };

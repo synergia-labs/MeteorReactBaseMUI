@@ -28,7 +28,7 @@ const ExampleDetailController = () => {
 	const { showNotification } = useContext(SysAppLayoutContext);
 
 	const { document, loading } = useTracker(() => {
-		const subHandle = !!id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
+		const subHandle = id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
 		const document = id && subHandle?.ready() ? exampleApi.findOne({ _id: id }) : {};
 		return {
 			document: (document as IExample) ?? ({ _id: id } as IExample),

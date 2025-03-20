@@ -15,7 +15,7 @@ interface ISysUploadFileStyle {
 }
 
 const SysUploadFileStyle: ISysUploadFileStyle = {
-	container: styled(Box)(({}) => ({
+	container: styled(Box)(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		width: '100%',
@@ -23,7 +23,7 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 		padding: sysSizing.spacingRemMd,
 		gap: sysSizing.spacingFixedSm
 	})),
-	loadingContainer: styled(Box)(({}) => ({
+	loadingContainer: styled(Box)(() => ({
 		position: 'absolute',
 		top: 0,
 		left: 0,

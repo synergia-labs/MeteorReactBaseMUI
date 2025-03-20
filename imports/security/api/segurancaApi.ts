@@ -21,7 +21,6 @@ class SegurancaApi {
 			}
 		}
 
-
 		return resources;
 	}
 
@@ -30,10 +29,7 @@ class SegurancaApi {
 	 * @param user
 	 * @param recursosTestados
 	 */
-	podeAcessarRecurso(
-		user: Meteor.User | undefined,	
-		...recursosTestados: string[]
-	): boolean {
+	podeAcessarRecurso(user: Meteor.User | undefined, ...recursosTestados: string[]): boolean {
 		if (!!user && getSystemUserProfile() === user) return true;
 		const recursos = this._getRecursosUsuario(user);
 		for (const role of recursosTestados) {
@@ -53,8 +49,7 @@ class SegurancaApi {
 		recursos: string[],
 		msgErro: string = 'Você não tem permissao para realizar essa operação'
 	): void {
-		if (!this.podeAcessarRecurso(user, ...recursos))
-			throw new Meteor.Error('Acesso negado', msgErro, recursos.join(','));
+		if (!this.podeAcessarRecurso(user, ...recursos)) throw new Meteor.Error('Acesso negado', msgErro, recursos.join(','));
 	}
 }
 

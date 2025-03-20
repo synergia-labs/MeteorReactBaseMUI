@@ -18,7 +18,6 @@ import { SysLoading } from '/imports/ui/components/sysLoading/sysLoading';
 import { styled } from '@mui/material/styles';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysUploadFile from '/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile';
-import { SysButton } from '/imports/ui/components/SimpleFormFields/SysButton/SysButton';
 import SysFormButton from '/imports/ui/components/sysFormFields/sysFormButton/sysFormButton';
 import storageApi from '/imports/base/services/storage/storage.api';
 import { enumFileType } from '/imports/base/services/storage/common/types/file.type';
@@ -36,10 +35,9 @@ const HomeSectionComponents: React.FC = () => {
 	const [fileUrl, setFileUrl] = React.useState<string>();
 	const [fileOptions, setFileOptions] = React.useState<storageType>('Image');
 
-	const { tasks, isLoading } = useTracker(() => {
+	useTracker(() => {
 		const methodshandle = securityApi.getAllRolesPublication({});
 		const documents = methodshandle.ready() ? securityApi.mongoRole.find().fetch() : [];
-		console.log('documents: ', documents);
 		return {
 			tasks: documents,
 			isLoading: false
@@ -86,7 +84,6 @@ const HomeSectionComponents: React.FC = () => {
 		};
 		storageApi[`upload${fileOptions}`](doc, (error, result) => {
 			if (error) return;
-			console.log('result: ', result);
 			setImageId(result._id);
 			setFileUrl(result.path);
 			// window.open(result.path, '_blank');
@@ -94,9 +91,8 @@ const HomeSectionComponents: React.FC = () => {
 	}
 
 	async function handleDeleteImage() {
-		storageApi[`delete${fileOptions}`]({ _id: imageId as string }, (error, result) => {
+		storageApi[`delete${fileOptions}`]({ _id: imageId as string }, (error, _) => {
 			if (error) return;
-			else console.log('result', result);
 			setImageId(undefined);
 			setFileUrl(undefined);
 		});
@@ -259,9 +255,9 @@ const HomeSectionComponents: React.FC = () => {
 					<SysForm schema={uploadSchema} onSubmit={handleUploadFile}>
 						<SysUploadFile name="file" />
 						<SysFormButton>Submit</SysFormButton>
-						<SysButton disabled={!imageId} onClick={handleDeleteImage}>
+						<SysFormButton disabled={!imageId} onClick={handleDeleteImage}>
 							Delete
-						</SysButton>
+						</SysFormButton>
 					</SysForm>
 
 					{fileUrl?.includes(enumFileType.enum.IMAGE) ? (

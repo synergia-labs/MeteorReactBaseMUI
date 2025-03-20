@@ -10,30 +10,30 @@ interface ISignInStyles {
 }
 
 const SignInStyles: ISignInStyles = {
-	container: styled(Box)(({
+	container: styled(Box)({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: sysSizing.spacingFixedXl
-	})),
-	formContainer: styled(Box)(({
+	}),
+	formContainer: styled(Box)({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: '16px'
-	})),
-	externalLoginContainer: styled(Box)(({
+	}),
+	externalLoginContainer: styled(Box)({
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: '16px'
-	}))
+	})
 };
 
 export default SignInStyles;

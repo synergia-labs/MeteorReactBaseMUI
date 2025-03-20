@@ -13,16 +13,11 @@ import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysT
 import { SysSelectField } from '/imports/ui/components/sysFormFields/sysSelectField/sysSelectField';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
-
 const ExampleListView = () => {
 	const controller = React.useContext(ExampleListControllerContext);
 	const sysLayoutContext = React.useContext(SysAppLayoutContext);
 	const navigate = useNavigate();
-  const {
-    Container,
-    LoadingContainer,
-    SearchContainer
-  } = ExampleListStyles;
+	const { Container, LoadingContainer, SearchContainer } = ExampleListStyles;
 
 	const options = [{ value: '', label: 'Nenhum' }, ...(controller.schema.type.options?.() ?? [])];
 

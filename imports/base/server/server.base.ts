@@ -78,7 +78,7 @@ class ServerBase {
 	) {
 		try {
 			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
-			if (methodInstances?.length == 0 || !!!classInstance) return;
+			if (methodInstances?.length == 0 || !classInstance) return;
 
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
 			const self = this;
@@ -103,7 +103,7 @@ class ServerBase {
 				if (!rawName) throw new Meteor.Error('500', 'Nome do método inválido');
 				(classInstance as any)[rawName] = methodFunction;
 
-				if (!!endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
+				if (endpointType) this.addRestEndpoint(methodName, methodFunction, endpointType);
 				if (method.getCanRegister()) {
 					this._registerSecurity(methodName, enumMethodTypes.enum.METHOD, method.getIsProtected(), method.getRoles());
 					methodsObject[methodName] = methodFunction;
@@ -130,7 +130,7 @@ class ServerBase {
 	) {
 		try {
 			if (Meteor.isClient) throw new Meteor.Error('500', 'This method can only be called on the server side');
-			if (publicationInstances?.length == 0 || !!!classInstance) return;
+			if (publicationInstances?.length == 0 || !classInstance) return;
 			const self = this;
 
 			publicationInstances.forEach(async (publication) => {
@@ -260,11 +260,7 @@ class ServerBase {
 				};
 
 				const params = this._convertToInt(
-					Object.assign(
-						endpointContext.queryParams || {},
-						endpointContext.urlParams || {},
-						endpointContext.bodyParams || {}
-					)
+					Object.assign(endpointContext.queryParams || {}, endpointContext.urlParams || {}, endpointContext.bodyParams || {})
 				);
 
 				const _context: IContext = getDefaultPublicContext({

@@ -17,7 +17,7 @@ const UserProfileLisView = () => {
 	const [selectedRole, setSelectedRole] = useState('');
 	const theme = useTheme();
 	const { Container, Filters } = UserProfileListViewStyled;
-	const options = Object.values(EnumUserRoles).map((key) => ({ value: key,  label: getUserRoleTranslated(key) }));
+	const options = Object.values(EnumUserRoles).map((key) => ({ value: key, label: getUserRoleTranslated(key) }));
 
 	return (
 		<Container>

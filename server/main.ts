@@ -1,1 +1,1 @@
-import "../imports/server/index";
+import '../imports/server/index';

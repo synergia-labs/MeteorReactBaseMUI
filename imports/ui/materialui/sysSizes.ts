@@ -40,7 +40,7 @@ const sysMainSizes = {
 	contentPt: sysBaseSizes.baseFixed2,
 	contentPb: sysBaseSizes.baseFixed4,
 	contentPx: '8.5rem',
-  	contentFabDistance: sysBaseSizes.baseFixed4,
+	contentFabDistance: sysBaseSizes.baseFixed4,
 	spacingFixedXs: sysBaseSizes.baseFixed025,
 	spacingFixedSm: sysBaseSizes.baseFixed050,
 	spacingFixedMd: sysBaseSizes.baseFixed1,
@@ -57,8 +57,8 @@ const sysMainSizes = {
 	radiusLg: sysBaseSizes.baseFixed15,
 	radiusXl: sysBaseSizes.baseFixed2,
 	radiusInfinite: '800px',
-  	menuMinWidth: '250px',
-	maxDisplayWidth: '1920px',
+	menuMinWidth: '250px',
+	maxDisplayWidth: '1920px'
 };
 
 export default sysMainSizes;

@@ -39,16 +39,9 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	loading,
 	readOnly,
 	error,
-	showLabelAdornment,
-	labelAdornment,
-	showTooltip,
 	tooltipMessage,
 	tooltipPosition,
-	description,
-	menuNone,
-	menuNotSelected,
 	multiple,
-	renderValue,
 	placeholder,
 	sxMap,
 	...otherProps
@@ -74,7 +67,6 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
-
 
 	useEffect(() => {
 		setOptionsState(options);
@@ -112,8 +104,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 				tooltipMessage={tooltipMessage}
 				disabled={disabled}
 				tooltipPosition={tooltipPosition}
-				sx={sxMap?.container}
-			>
+				sx={sxMap?.container}>
 				<Select
 					{...otherProps}
 					labelId={`${label}${name}`}
@@ -125,28 +116,28 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					multiple={multiple}
 					renderValue={(Selected) => {
 						if (!hasValue(Selected)) {
-							return <Typography variant="body1" color={'text.disabled'}>{placeholder}</Typography>;
+							return (
+								<Typography variant="body1" color={'text.disabled'}>
+									{placeholder}
+								</Typography>
+							);
 						}
 						return (
-							<Box sx={{  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
-								<Typography variant="body1">
-									{options?.find(e => e.value == Selected)?.label}
-								</Typography>
-								<IconButton 
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
+								<Typography variant="body1">{options?.find((e) => e.value == Selected)?.label}</Typography>
+								<IconButton
 									size="small"
 									sx={{ padding: 0, margin: 0, zIndex: 10000 }}
-									onClick={(e) => { 
-										e.stopPropagation(); 
+									onClick={(e) => {
+										e.stopPropagation();
 										handleChange({ target: { value: '' } } as any);
 									}}
-									onMouseDown={(e) => e.stopPropagation()}
-								>
+									onMouseDown={(e) => e.stopPropagation()}>
 									<SysIcon name="close" />
 								</IconButton>
 							</Box>
 						);
-					}}
-				>
+					}}>
 					{optionsState?.length === 0 ? (
 						<MenuItem id={'NoValues'} disabled value="">
 							<ListItemText primary="Nenhuma opção para selecionar" />
@@ -161,6 +152,6 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 				</Select>
 			</SysLabelView>
 			<FormHelperText>{errorState}</FormHelperText>
-		</FormControl >
+		</FormControl>
 	);
 };

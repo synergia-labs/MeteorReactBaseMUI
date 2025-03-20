@@ -24,7 +24,7 @@ export const SysFabStyled = styled(({ fixed, ...otherProps }: ISysFabProps) => <
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: sysSizing.componentsButtonGap,
-		transition: 'all 0.3s ease',
+		transition: 'all 0.3s ease'
 	};
 
 	const fixedStyle = {
@@ -43,7 +43,7 @@ export const SysFabStyled = styled(({ fixed, ...otherProps }: ISysFabProps) => <
 	if (fixed)
 		return {
 			...defaultStyle,
-			...fixedStyle,
+			...fixedStyle
 		};
 	return defaultStyle;
 });

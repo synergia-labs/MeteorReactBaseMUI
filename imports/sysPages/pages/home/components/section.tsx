@@ -3,17 +3,16 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-
-const Container = styled(Box)(({}) => ({
+const Container = styled(Box)(() => ({
 	display: 'flex',
 	flexDirection: 'column',
 	alignItems: 'flex-start',
 	justifyContent: 'flex-start',
 	gap: '1rem',
-  width: '100%'
+	width: '100%'
 }));
 
-const Header = styled(Box)(({}) => ({
+const Header = styled(Box)(() => ({
 	display: 'flex',
 	flexDirection: 'column',
 	alignItems: 'flex-start',
@@ -29,7 +28,7 @@ const ContainerExample = styled(Box)(({ theme }) => ({
 	width: '100%'
 }));
 
-const ReviewContainer = styled(Box)(({}) => ({
+const ReviewContainer = styled(Box)(() => ({
 	display: 'flex',
 	flexDirection: 'row',
 	gap: '0.5rem',

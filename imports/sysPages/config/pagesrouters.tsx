@@ -1,30 +1,21 @@
 import React from 'react';
 import Home from '../../sysPages/pages/home/home';
-import { SignUp } from '../../sysPages/pages/signUp/signUp';
-import { EmailVerify } from '../../sysPages/pages/emailVerify/emailVerify';
-import { ResetPassword } from '../../sysPages/pages/resetPassword/resetPassword';
-import { PasswordRecovery } from '../../sysPages/pages/recoveryPassword/passwordRecovery';
 import { IRoute } from '../../modules/modulesTypings';
-import { NoPermission } from '../../sysPages/pages/noPermission/noPermission';
-import SignInPage from '../pages/signIn/signIn';
-import { HomeResources, SysFormTestPageResources } from './resources';
 import SysFormPlayground from '../../sysPages/pages/sysFormPlayground/sysFormPlayground';
 
 export const pagesRouterList: (IRoute | null)[] = [
 	{
 		path: '/',
 		element: Home,
-		isProtected: true,	
-		index: true,
+		isProtected: true,
+		index: true
 	},
 	{
 		path: '/sysFormTests',
 		element: SysFormPlayground,
-		isProtected: true,
+		isProtected: true
 	}
-	
-	
-	
+
 	// {
 	// 	path: '/',
 	// 	exact: true,

@@ -66,7 +66,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 	...dialogProps
 }: IShowDialogProps) => {
 	useEffect(() => {
-		if (!!!duration) return;
+		if (!duration) return;
 		let timer: number | undefined;
 		if (open && duration) timer = window.setTimeout(() => close?.({}, 'backdropClick'), duration);
 		return () => {
@@ -77,18 +77,18 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 	const theme = useTheme();
 	const isFullScreen = useMediaQuery(theme.breakpoints.down(fullScreenMediaQuery ?? 'xs'));
 
-	const closeDialog = ( e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+	const closeDialog = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		close?.({}, 'backdropClick');
 		cancelButtonProps?.onClick?.(e);
 		dialogProps.onClose?.();
-	}
+	};
 
-	const onConfirm = ( e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+	const onConfirm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		confirmButtonProps?.onClick?.(e);
-		if(!closeOnConfirm) return;
+		if (!closeOnConfirm) return;
 		close?.({}, 'backdropClick');
 		dialogProps.onClose?.();
-	}
+	};
 
 	return (
 		<Dialog
@@ -96,10 +96,9 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 			open={open ?? false}
 			onClose={closeDialog}
 			TransitionComponent={DialogTransitions(transition ?? 'zoom')}
-			PaperProps={ dialogProps.PaperProps ?? { sx: { borderRadius: sysSizing.radiusLg,...sx }}}
+			PaperProps={dialogProps.PaperProps ?? { sx: { borderRadius: sysSizing.radiusLg, ...sx } }}
 			sx={backgroundSx}
-			fullScreen={fullScreen || (!!fullScreenMediaQuery && isFullScreen)}
-		>
+			fullScreen={fullScreen || (!!fullScreenMediaQuery && isFullScreen)}>
 			{urlPath ? (
 				<DialogContentStyled>
 					<MemoryRouter initialEntries={[urlPath]} initialIndex={0}>
@@ -110,54 +109,38 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 				children || (
 					<Styles.container>
 						<Styles.messageContent>
-							{ header || (
+							{header || (
 								<Styles.header>
 									{prefixIcon && prefixIcon}
-									{ typeof title === 'string' ? (
-										<Typography 
-											variant='subtitle1'
-											color={ theme => theme.palette.sysText?.body }
-										>
+									{typeof title === 'string' ? (
+										<Typography variant="subtitle1" color={(theme) => theme.palette.sysText?.body}>
 											{title}
 										</Typography>
-									) : title }
+									) : (
+										title
+									)}
 									<Box flexGrow={1} />
 									{sufixIcon && sufixIcon}
 								</Styles.header>
 							)}
-							{body || (message && (
-								<Typography
-									color={ theme => theme.palette.sysText?.auxiliary }
-								>
-									{message}
-								</Typography>
-							))}
+							{body || (message && <Typography color={(theme) => theme.palette.sysText?.auxiliary}>{message}</Typography>)}
 						</Styles.messageContent>
-						{actions || (  (confirmButtonLabel || cancelButtonLabel) &&  (
-							<Styles.footer>
-								{cancelButtonLabel && (
-									<Button
-										variant='outlined'
-										size='small'
-										{...cancelButtonProps}
-										onClick={closeDialog}
-									>
-										{cancelButtonLabel}
-									</Button>
-								)}
-								{confirmButtonLabel && (
-									<Button
-										variant='contained'
-										size='small'
-										{...confirmButtonProps}
-										onClick={onConfirm}
-									>
-										{confirmButtonLabel}
-									</Button>
-								)}
-							</Styles.footer>
-						))}
-					</Styles.container>					
+						{actions ||
+							((confirmButtonLabel || cancelButtonLabel) && (
+								<Styles.footer>
+									{cancelButtonLabel && (
+										<Button variant="outlined" size="small" {...cancelButtonProps} onClick={closeDialog}>
+											{cancelButtonLabel}
+										</Button>
+									)}
+									{confirmButtonLabel && (
+										<Button variant="contained" size="small" {...confirmButtonProps} onClick={onConfirm}>
+											{confirmButtonLabel}
+										</Button>
+									)}
+								</Styles.footer>
+							))}
+					</Styles.container>
 				)
 			)}
 		</Dialog>

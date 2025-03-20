@@ -7,7 +7,7 @@ import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 export const NoPermission: React.FC = () => {
 	const navigate = useNavigate();
-  const { Container } = NoPermissionStyles;
+	const { Container } = NoPermissionStyles;
 	const backToHome = () => navigate('/');
 
 	return (

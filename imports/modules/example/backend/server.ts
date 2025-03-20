@@ -1,38 +1,32 @@
-import fillDatabaseWithFakeDataInstance from "./methods/fillDatabaseWithFakeData.callMethod";
-import exampleListPublicationInstance from "./publications/exampleList.publication";
-import { MongoBase } from "/imports/base/database/mongo.base";
-import MethodBase from "/imports/base/server/methods/method.base";
-import { ExampleServerMethods } from "../common/interfaces/methods";
-import EnumExampleSettings from "../common";
-import ServerBase from "/imports/base/server/server.base";
+import fillDatabaseWithFakeDataInstance from './methods/fillDatabaseWithFakeData.callMethod';
+import exampleListPublicationInstance from './publications/exampleList.publication';
+import { MongoBase } from '/imports/base/database/mongo.base';
+import MethodBase from '/imports/base/server/methods/method.base';
+import { ExampleServerMethods } from '../common/interfaces/methods';
+import EnumExampleSettings from '../common';
+import ServerBase from '/imports/base/server/server.base';
 
 /**Array com as instâncias de todas as classes de método do módulo */
-const _methodInstances: Array<MethodBase<any, any, any>> = [
-    fillDatabaseWithFakeDataInstance,
-] as const;
+const _methodInstances: Array<MethodBase<any, any, any>> = [fillDatabaseWithFakeDataInstance] as const;
 
 /**Array com as instâncias de todas as classes de publicação do módulo */
-const _publicationInstances: Array<any> = [
-    exampleListPublicationInstance,
-] as const;
+const _publicationInstances: Array<any> = [exampleListPublicationInstance] as const;
 
 class ExampleServer extends ServerBase {
-    public mongoInstance: MongoBase;
-    public storageInstance?: any;
+	public mongoInstance: MongoBase;
+	public storageInstance?: any;
 
-    constructor() {
-        super(EnumExampleSettings.MODULE_NAME);
-        this.mongoInstance = new MongoBase(EnumExampleSettings.MODULE_NAME);
+	constructor() {
+		super(EnumExampleSettings.MODULE_NAME);
+		this.mongoInstance = new MongoBase(EnumExampleSettings.MODULE_NAME);
 
-        this.registerMethods(_methodInstances, this);
-        this.registerPublications(_publicationInstances, this);
-    }
+		this.registerMethods(_methodInstances, this);
+		this.registerPublications(_publicationInstances, this);
+	}
 }
-
-
 
 type teste = ExampleServerMethods & ExampleServer;
 
 const exampleServer = new ExampleServer() as teste;
 export default exampleServer;
-export type { teste as ExampleServer  };
+export type { teste as ExampleServer };

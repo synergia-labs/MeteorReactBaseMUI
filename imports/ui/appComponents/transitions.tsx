@@ -1,7 +1,7 @@
 import React, { forwardRef, ReactElement, Ref } from 'react';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import Zoom, { ZoomProps } from '@mui/material/Zoom';
-import Grow, { GrowProps} from '@mui/material/Grow';
+import Grow, { GrowProps } from '@mui/material/Grow';
 import Fade, { FadeProps } from '@mui/material/Fade';
 import { TransitionProps } from '@mui/material/transitions';
 

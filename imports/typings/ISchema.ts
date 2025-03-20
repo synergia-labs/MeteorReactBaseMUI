@@ -1,6 +1,5 @@
 import { IOption } from '../ui/components/InterfaceBaseSimpleFormComponent';
 import { MimeType } from '../ui/components/sysFormFields/sysUploadFile/acceptableTypes';
-import { IDoc } from './IDoc';
 
 export type LabelValue = {
 	value: any;

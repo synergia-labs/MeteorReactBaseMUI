@@ -3,9 +3,9 @@ import { Recurso as Usuarios } from '/imports/modules/userprofile_/config/recurs
 import { HomeResources, SysFormTestPageResources } from '/imports/sysPages/config/resources';
 import EnumUserRoles from '../../modules/userprofile/common/enums/enumUserRoles';
 
-const _getAllValues = (obj: any) => Object.keys(obj).map(key => obj[key]);
+const _getAllValues = (obj: any) => Object.keys(obj).map((key) => obj[key]);
 
-type MapRolesRecursos = Record<EnumUserRoles, Array<string>>; 
+type MapRolesRecursos = Record<EnumUserRoles, Array<string>>;
 
 const _mapRolesRecursos: MapRolesRecursos = {
 	[EnumUserRoles.PUBLIC]: [],
@@ -14,12 +14,9 @@ const _mapRolesRecursos: MapRolesRecursos = {
 		..._getAllValues(HomeResources),
 		..._getAllValues(SysFormTestPageResources),
 		Usuarios.USUARIO_UPDATE,
-		Usuarios.USUARIO_VIEW,	
+		Usuarios.USUARIO_VIEW
 	],
-	[EnumUserRoles.ADMIN]: [
-		Usuarios.USUARIO_CREATE,
-		Usuarios.USUARIO_REMOVE,
-	],
+	[EnumUserRoles.ADMIN]: [Usuarios.USUARIO_CREATE, Usuarios.USUARIO_REMOVE]
 };
 
 /**
@@ -31,16 +28,11 @@ const _mapRolesRecursos: MapRolesRecursos = {
  * O nome do recurso deve ser prefixado com nome do módulo.
  */
 export const mapRolesRecursos: MapRolesRecursos = {
-	[EnumUserRoles.PUBLIC]: [
-		..._mapRolesRecursos[EnumUserRoles.PUBLIC],
-	],
-	[EnumUserRoles.USER]: [
-		..._mapRolesRecursos[EnumUserRoles.PUBLIC],
-		..._mapRolesRecursos[EnumUserRoles.USER],
-	],
+	[EnumUserRoles.PUBLIC]: [..._mapRolesRecursos[EnumUserRoles.PUBLIC]],
+	[EnumUserRoles.USER]: [..._mapRolesRecursos[EnumUserRoles.PUBLIC], ..._mapRolesRecursos[EnumUserRoles.USER]],
 	[EnumUserRoles.ADMIN]: [
 		..._mapRolesRecursos[EnumUserRoles.PUBLIC],
 		..._mapRolesRecursos[EnumUserRoles.USER],
-		..._mapRolesRecursos[EnumUserRoles.ADMIN],
-	],
+		..._mapRolesRecursos[EnumUserRoles.ADMIN]
+	]
 };

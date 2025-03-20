@@ -107,7 +107,7 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 			marginRight: typeview == 'column' ? '25px' : '0'
 		})),
 
-		iconsGroup: styled(Box)(({}) => ({
+		iconsGroup: styled(Box)(() => ({
 			display: 'flex',
 			justifyContent: 'space-between'
 		}))

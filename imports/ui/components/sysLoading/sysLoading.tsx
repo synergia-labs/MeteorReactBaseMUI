@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import LoadingStyle from './sysLoadingStyle';
 import { SxProps, Theme } from '@mui/material';
 
-
 const { Container, Loading } = LoadingStyle;
 
 /**

@@ -7,7 +7,7 @@ class SysFonts {
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${3 * _fontScale}rem`,
 		fontWeight: 600,
-    fontStyle: 'normal',
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
@@ -15,7 +15,7 @@ class SysFonts {
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${2 * _fontScale}rem`,
 		fontWeight: 600,
-    fontStyle: 'normal',
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
@@ -23,7 +23,7 @@ class SysFonts {
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.5 * _fontScale}rem`,
 		fontWeight: 600,
-    fontStyle: 'normal',
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
@@ -31,7 +31,7 @@ class SysFonts {
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.5 * _fontScale}rem`,
 		fontWeight: 400,
-    fontStyle: 'normal',
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
@@ -39,7 +39,7 @@ class SysFonts {
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.25 * _fontScale}rem`,
 		fontWeight: 600,
-    fontStyle: 'normal',
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
@@ -47,7 +47,7 @@ class SysFonts {
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${1.125 * _fontScale}rem`,
 		fontWeight: 400,
-    fontStyle: 'normal',
+		fontStyle: 'normal',
 		lineHeight: 'normal'
 	});
 
@@ -95,9 +95,9 @@ class SysFonts {
 	public static readonly body1 = (_fontScale: number = 1) => ({
 		fontFamily: SysFonts.fontFamily,
 		fontSize: `${_fontScale}rem`,
-    fontWeight: 400,
+		fontWeight: 400,
 		fontStyle: 'normal',
-    lineHeight: 'normal'
+		lineHeight: 'normal'
 	});
 
 	public static readonly body2 = (_fontScale: number = 1) => ({

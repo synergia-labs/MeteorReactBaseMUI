@@ -9,7 +9,7 @@ import { exampleApi } from '../../api/exampleApi';
 
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean };
-	filter: Object;
+	filter: object;
 	searchBy: string | null;
 	viewComplexTable: boolean;
 }

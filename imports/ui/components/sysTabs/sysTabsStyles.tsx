@@ -16,9 +16,9 @@ const SysTabsStyles = {
 		maxWidth: '100%'
 	})),
 
-	Tabs: styled(Tabs)(({ theme }) => ({})),
+	Tabs: styled(Tabs)(() => ({})),
 
-	Tab: styled(Tab)(({ theme }) => ({}))
+	Tab: styled(Tab)(() => ({}))
 };
 
 export default SysTabsStyles;

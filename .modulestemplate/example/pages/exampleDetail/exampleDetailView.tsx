@@ -22,13 +22,7 @@ const ExampleDetailView = () => {
 	const isView = state === 'view';
 	const isEdit = state === 'edit';
 	const isCreate = state === 'create';
-  const {
-    Container,
-    Body,
-    Header,
-    Footer,
-    FormColumn
-  } = ExampleDetailStyles;
+	const { Container, Body, Header, Footer, FormColumn } = ExampleDetailStyles;
 
 	return (
 		<Container>
@@ -41,8 +35,7 @@ const ExampleDetailView = () => {
 				<Typography variant="h5" sx={{ flexGrow: 1 }}>
 					{isCreate ? 'Adicionar Item' : isEdit ? 'Editar Item' : controller.document.title}
 				</Typography>
-				<IconButton
-					onClick={!isView ? controller.closePage : () => controller.changeToEdit(controller.document._id || '')}>
+				<IconButton onClick={!isView ? controller.closePage : () => controller.changeToEdit(controller.document._id || '')}>
 					{!isView ? <SysIcon name={'close'} /> : <SysIcon name={'edit'} />}
 				</IconButton>
 			</Header>

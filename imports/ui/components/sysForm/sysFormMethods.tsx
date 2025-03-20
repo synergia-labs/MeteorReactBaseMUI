@@ -31,7 +31,7 @@ class SysFormMethods {
 
 			if (path.length === 1) {
 				if (hasValue(mainRef[name])) return mainRef;
-				if (!!!schema[name]) throw new Error(`${name} não encontrado no schema.`);
+				if (!schema[name]) throw new Error(`${name} não encontrado no schema.`);
 				componentRef.current = {
 					...componentRef.current,
 					value: componentRef.current.value || initialDefaultValues?.[name],
@@ -169,7 +169,7 @@ class SysFormMethods {
 			if (!ref) return;
 			for (const key in schema) {
 				const { subSchema } = schema[key];
-				if (!!subSchema) {
+				if (subSchema) {
 					SysFormMethods.updateDoc(doc[key] as IDocValues, subSchema, ref[key] as IDocRef);
 					continue;
 				}
@@ -194,59 +194,55 @@ class SysFormMethods {
 		requiredFields: string[];
 		fieldsWithErrors: MutableRefObject<{ [key: string]: string }>;
 	}) => {
-		try {
-			if (!doc) return;
-			for (const key in schema) {
-				const { subSchema } = schema[key];
-				if (!!subSchema) {
-					SysFormMethods.validate({ schema: subSchema, doc: doc[key] as IDocRef, requiredFields, fieldsWithErrors });
-					continue;
-				}
-
-				const isVisible = SysFormMethods.checkIfFieldIsVisible(schema, SysFormMethods.getDocValues(doc, schema), key);
-				if (!isVisible) continue;
-
-				const ref = doc[key] as MutableRefObject<ISysFormComponentRef>;
-
-				if (!ref) continue;
-
-				const isOptional = !requiredFields.includes(ref.current.name);
-				const value = ref.current.value;
-
-				if (isOptional && !hasValue(value)) continue;
-
-				const errorMessage =
-					schema[key].validationFunction?.(value, SysFormMethods.getDocValues(doc, schema)) ??
-					(!isOptional && !hasValue(value) ? 'Campo obrigatório.' : undefined);
-
-				ref.current.error = errorMessage;
-				ref.current.setError?.(errorMessage);
-
-				if (hasValue(errorMessage)) {
-					fieldsWithErrors.current[ref.current.name] = errorMessage!;
-				} else {
-					if (hasValue(fieldsWithErrors.current[ref.current.name])) delete fieldsWithErrors.current[ref.current.name];
-				}
+		if (!doc) return;
+		for (const key in schema) {
+			const { subSchema } = schema[key];
+			if (subSchema) {
+				SysFormMethods.validate({ schema: subSchema, doc: doc[key] as IDocRef, requiredFields, fieldsWithErrors });
+				continue;
 			}
-			if (hasValue(fieldsWithErrors.current))
-				throw new Error(`
-                Erro nos campos: ${Object.keys(fieldsWithErrors.current)
-									.map((key) => {
-										const path = key.split('.');
-										return path[path.length - 1];
-									})
-									.join(', ')}
-            `);
-		} catch (error) {
-			throw error;
+
+			const isVisible = SysFormMethods.checkIfFieldIsVisible(schema, SysFormMethods.getDocValues(doc, schema), key);
+			if (!isVisible) continue;
+
+			const ref = doc[key] as MutableRefObject<ISysFormComponentRef>;
+
+			if (!ref) continue;
+
+			const isOptional = !requiredFields.includes(ref.current.name);
+			const value = ref.current.value;
+
+			if (isOptional && !hasValue(value)) continue;
+
+			const errorMessage =
+				schema[key].validationFunction?.(value, SysFormMethods.getDocValues(doc, schema)) ??
+				(!isOptional && !hasValue(value) ? 'Campo obrigatório.' : undefined);
+
+			ref.current.error = errorMessage;
+			ref.current.setError?.(errorMessage);
+
+			if (hasValue(errorMessage)) {
+				fieldsWithErrors.current[ref.current.name] = errorMessage!;
+			} else {
+				if (hasValue(fieldsWithErrors.current[ref.current.name])) delete fieldsWithErrors.current[ref.current.name];
+			}
 		}
+		if (hasValue(fieldsWithErrors.current))
+			throw new Error(`
+                Erro nos campos: ${Object.keys(fieldsWithErrors.current)
+																	.map((key) => {
+																		const path = key.split('.');
+																		return path[path.length - 1];
+																	})
+																	.join(', ')}
+            `);
 	};
 
 	public static clearForm = (doc: IDocRef, schema: SchemaType<any>) => {
 		try {
 			for (const key in schema) {
 				const { subSchema } = schema[key];
-				if (!!subSchema) {
+				if (subSchema) {
 					SysFormMethods.clearForm(doc[key] as IDocRef, subSchema);
 					continue;
 				}

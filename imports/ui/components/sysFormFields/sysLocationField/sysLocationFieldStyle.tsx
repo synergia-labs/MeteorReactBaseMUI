@@ -20,7 +20,7 @@ const SysLocationFieldStyle = {
 		'& .MuiFilledInput-input': { padding: '0 !important' }
 	})),
 
-	TextField: styled(TextField)(({}) => ({
+	TextField: styled(TextField)(() => ({
 		'& .MuiAutocomplete-endAdornment': { top: '50%', right: '7px !important' }
 	}))
 };

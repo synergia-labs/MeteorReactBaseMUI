@@ -8,7 +8,7 @@ interface ISysNavLinkStyles {
 
 interface IContainer {
 	active: boolean;
-  disabled: boolean;
+	disabled: boolean;
 }
 
 const SysNavLinkStyles: ISysNavLinkStyles = {
@@ -22,13 +22,14 @@ const SysNavLinkStyles: ISysNavLinkStyles = {
 			gap: sysSizing.spacingRemSm,
 			cursor: disabled ? 'default' : 'pointer',
 			backgroundColor: active ? theme.palette.sysAction?.primaryHover : 'transparent',
-      color: disabled ? theme.palette.primary.light : theme.palette.sysAction?.primaryContrastText,
-      transition: 'all 150ms linear',
-			'&:hover': !active && !disabled && {
-				backgroundColor: theme.palette.sysAction?.primaryContrastBg,
-        color: theme.palette.sysAction?.primaryContrastText,
-        transition: 'all 150ms linear'
-			}
+			color: disabled ? theme.palette.primary.light : theme.palette.sysAction?.primaryContrastText,
+			transition: 'all 150ms linear',
+			'&:hover': !active &&
+				!disabled && {
+					backgroundColor: theme.palette.sysAction?.primaryContrastBg,
+					color: theme.palette.sysAction?.primaryContrastText,
+					transition: 'all 150ms linear'
+				}
 		})
 	)
 };

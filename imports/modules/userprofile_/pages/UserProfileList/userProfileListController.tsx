@@ -15,7 +15,7 @@ interface IInitialConfig {
 		pageSize: number;
 	};
 	sortProperties: { field: string; sortAscending: boolean };
-	filter: Object;
+	filter: object;
 	searchBy: string | null;
 }
 
@@ -99,7 +99,7 @@ const UserProfileListController = () => {
 				showNotification({
 					type: 'success',
 					title: 'Operação realizada!',
-					message: `Status alterado com sucesso`
+					message: 'Status alterado com sucesso'
 				});
 			} else {
 				console.error('Error:', e);

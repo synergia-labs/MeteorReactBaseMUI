@@ -1,9 +1,9 @@
-import ExampleContainer from "../frontend/exampleContainer";
-import ExampleDetailProvider from "../frontend/pages/exampleDetail/exampleDetailProvider";
-import ExampleListProvider from "../frontend/pages/exampleList/exampleListProvider";
-import { IRoute } from "/imports/modules/modulesTypings";
+import ExampleContainer from '../frontend/exampleContainer';
+import ExampleDetailProvider from '../frontend/pages/exampleDetail/exampleDetailProvider';
+import ExampleListProvider from '../frontend/pages/exampleList/exampleListProvider';
+import { IRoute } from '/imports/modules/modulesTypings';
 
-const exampleRouterList: Array<(IRoute | null)> = [
+const exampleRouterList: Array<IRoute | null> = [
 	{
 		path: 'example',
 		element: ExampleContainer,
@@ -12,17 +12,17 @@ const exampleRouterList: Array<(IRoute | null)> = [
 			{
 				path: ':screenState/:exampleId',
 				element: ExampleDetailProvider,
-				isProtected: true,
+				isProtected: true
 			},
 			{
 				path: ':screenState',
 				element: ExampleDetailProvider,
-				isProtected: true,
+				isProtected: true
 			},
 			{
 				path: 'list',
 				element: ExampleListProvider,
-				isProtected: true,
+				isProtected: true
 			}
 		]
 	}

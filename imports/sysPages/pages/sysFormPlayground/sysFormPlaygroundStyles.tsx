@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
 
 import { sysSizing } from '/imports/ui/materialui/styles';
-import {SysSectionPaddingXY} from "/imports/ui/layoutComponents/sysLayoutComponents";
+import { SysSectionPaddingXY } from '/imports/ui/layoutComponents/sysLayoutComponents';
 
 interface ISysFormPlaygroundStyles {
 	Container: ElementType<BoxProps>;
@@ -21,7 +21,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 	Container: styled(SysSectionPaddingXY)(() => ({
 		gap: sysSizing.spacingFixedMd,
 		display: 'flex',
-		flexDirection: 'column',
+		flexDirection: 'column'
 	})),
 	Description: styled(Box)({
 		textAlign: 'justify',
@@ -29,24 +29,24 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedSm
 	}),
-	Playground: styled(Box)(({theme}) => ({
+	Playground: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'row',
 		gap: '32px 64px',
-    marginTop: sysSizing.spacingFixedLg,
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'column-reverse'
-    }
+		marginTop: sysSizing.spacingFixedLg,
+		[theme.breakpoints.down('md')]: {
+			flexDirection: 'column-reverse'
+		}
 	})),
 	FormContainer: styled(Box)(() => ({
-    flex: 1,
+		flex: 1,
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedMd,
 		height: 'fit-content'
 	})),
 	ControlerContainer: styled(Box)(({ theme }) => ({
-    flex: 1,
+		flex: 1,
 		display: 'flex',
 		flexDirection: 'column',
 		gap: sysSizing.spacingFixedLg,

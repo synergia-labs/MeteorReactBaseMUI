@@ -1,16 +1,11 @@
-import React, {MouseEventHandler} from 'react';
+import React, { MouseEventHandler } from 'react';
 import Typography from '@mui/material/Typography';
 import AccordionStyle from './sysAccordionStyles';
-import {SxProps, Theme} from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Button from '@mui/material/Button';
 
-const {
-  Container,
-  Accordion,
-  AccordionSummary,
-  AccordionActions,
-} = AccordionStyle;
+const { Container, Accordion, AccordionSummary, AccordionActions } = AccordionStyle;
 
 /**
  * Props para o componente SysAccordion.
@@ -85,10 +80,7 @@ export const SysAccordion: React.FC<ISysAccordion> = ({
 				defaultExpanded={aberta}
 				disabled={disabled}
 				slotProps={{ transition: { unmountOnExit: true } }}>
-				<AccordionSummary
-					expandIcon={expandIcon}
-					posicaoIcone={posicaoIcone}
-					sx={sxMap?.acordionSumamry}>
+				<AccordionSummary expandIcon={expandIcon} posicaoIcone={posicaoIcone} sx={sxMap?.acordionSumamry}>
 					<Typography variant="h6">{titulo}</Typography>
 				</AccordionSummary>
 

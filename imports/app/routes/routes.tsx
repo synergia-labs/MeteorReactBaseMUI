@@ -5,19 +5,19 @@ import { useLocation } from 'react-router-dom';
 class SysRoutes {
 	private routes: Array<IRoute | null>;
 	private menuItens: Array<IAppMenu | null>;
-	public getRoutes = (): Array<IRoute>  => this.routes.filter((route) => route !== null) as Array<IRoute>;
+	public getRoutes = (): Array<IRoute> => this.routes.filter((route) => route !== null) as Array<IRoute>;
 	public getMenuItens = () => {
 		return this.menuItens.map((item) => {
-			if(!item?.path) return undefined;
+			if (!item?.path) return undefined;
 			return {
 				...item,
 				resources: false
-			}
+			};
 		});
 	};
 
 	constructor() {
-		this.routes = [...Modules.pagesRouterList, ...Pages.pagesRouterList ];
+		this.routes = [...Modules.pagesRouterList, ...Pages.pagesRouterList];
 		this.menuItens = [...Pages.pagesMenuItemList, ...Modules.pagesMenuItemList];
 	}
 

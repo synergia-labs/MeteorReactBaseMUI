@@ -4,16 +4,16 @@ import { githubServiceDataSchema, ServiceGithubDataType } from '../../common/typ
 class GithubOAuth extends OAuthBase<ServiceGithubDataType> {
 	constructor() {
 		super({
-			serviceName: 'github', 
-			clientId: Meteor.settings.auth?.github?.clientId, 
+			serviceName: 'github',
+			clientId: Meteor.settings.auth?.github?.clientId,
 			secret: Meteor.settings.auth?.github?.secret,
-			schema: githubServiceDataSchema,
+			schema: githubServiceDataSchema
 		});
 	}
 
 	public async onUserMatched(serviceData: ServiceGithubDataType): Promise<Meteor.User | null> {
 		const user = (await Accounts.findUserByEmail(serviceData.email)) as Meteor.User;
-		if(user && serviceData.avatar)
+		if (user && serviceData.avatar)
 			await Meteor.users.updateAsync({ _id: user._id }, { $set: { 'profile.photo': serviceData.avatar } });
 		return user ?? null;
 	}

@@ -4,14 +4,12 @@ import { styled } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
 import { sysSizing } from '../../materialui/styles';
 
-interface IStyles{
+interface IStyles {
 	container: ElementType<BoxProps>;
 	messageContent: ElementType<BoxProps>;
 	header: ElementType<BoxProps>;
 	footer: ElementType<BoxProps>;
-
 }
-
 
 const showDialogStyles: IStyles = {
 	container: styled(Box)(({ theme }) => ({
@@ -27,38 +25,35 @@ const showDialogStyles: IStyles = {
 
 		[theme.breakpoints.down('sm')]: {
 			minWidth: 'auto',
-			minHeight: 'auto',
+			minHeight: 'auto'
 		}
 	})),
-	messageContent: styled(Box)(({
+	messageContent: styled(Box)({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		alignItems: 'stretch',
-		gap: sysSizing.spacingFixedMd,
-	})),
-	header: styled(Box)(({
+		gap: sysSizing.spacingFixedMd
+	}),
+	header: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		gap: sysSizing.spacingFixedMd,
-	})),
-	footer: styled(Box)(({
+		gap: sysSizing.spacingFixedMd
+	}),
+	footer: styled(Box)({
 		gap: sysSizing.spacingRemMd,
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
-		alignItems: 'center',
-	})),
-}
+		alignItems: 'center'
+	})
+};
 
 export default showDialogStyles;
 
-
-
-
-export const DialogContentStyled = styled(DialogContent)(({}) => ({
+export const DialogContentStyled = styled(DialogContent)(() => ({
 	padding: 0,
 	color: 'sysBackground.sysText.auxiliary',
 	overflowY: 'hidden'

@@ -9,28 +9,26 @@ interface IStyles {
 	footer: ElementType<BoxProps>;
 }
 
-
 const forgotPasswordStyle: IStyles = {
-	container: styled(Box)(({
+	container: styled(Box)({
 		gap: sysSizing.spacingFixedXl,
 		display: 'flex',
 		flexDirection: 'column',
-		alignItems: 'center',
-	})),
+		alignItems: 'center'
+	}),
 	body: styled(Box)(({ theme }) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-		gap: theme.spacing(2),
+		gap: theme.spacing(2)
 	})),
-	footer: styled(Box)(({
+	footer: styled(Box)({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: sysSizing.spacingFixedMd,
-		justifyContent: 'space-between',
-	})),
-}
-
+		justifyContent: 'space-between'
+	})
+};
 
 export default forgotPasswordStyle;

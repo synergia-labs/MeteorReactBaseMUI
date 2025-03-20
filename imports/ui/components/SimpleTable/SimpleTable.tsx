@@ -25,9 +25,9 @@ interface ISimpleTable {
 	initialOrder?: any;
 	disabledOrder?: boolean;
 	filterByField?: string;
-	sort?: any | Object[];
-	onSort?: (param: Object) => void;
-	styles?: Object;
+	sort?: any | object[];
+	onSort?: (param: object) => void;
+	styles?: object;
 }
 
 interface IEnhancedTableHead {
@@ -43,7 +43,7 @@ interface IField {
 	type: any;
 	isImage: boolean;
 	isAvatar: boolean;
-	options: Object;
+	options: object;
 	isHTML: boolean;
 	isStatus: boolean;
 }
@@ -96,7 +96,6 @@ const EnhancedTableHead = (props: IEnhancedTableHead) => {
 	const createSortHandler = (property: any) => (event: React.SyntheticEvent) => {
 		onRequestSort && onRequestSort(event, property);
 	};
-	const theme = useTheme();
 
 	return (
 		<TableHead>
@@ -117,9 +116,7 @@ const EnhancedTableHead = (props: IEnhancedTableHead) => {
 								onClick={createSortHandler(headCell.sortField || headCell.field)}>
 								{headCell.label}
 								{orderBy === (headCell.sortField || headCell.field) ? (
-									<span style={simpleTableStyle.spanHead}>
-										{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-									</span>
+									<span style={simpleTableStyle.spanHead}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</span>
 								) : null}
 							</TableSortLabel>
 						)}
@@ -412,9 +409,7 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 					) : (
 						<Select
 							value={filter}
-							onChange={(evt: SelectChangeEvent<any>) =>
-								!evt.target.value ? setFilter(null) : setFilter(evt.target.value)
-							}>
+							onChange={(evt: SelectChangeEvent<any>) => (!evt.target.value ? setFilter(null) : setFilter(evt.target.value))}>
 							<MenuItem key={'NoFilter'} value={undefined}>
 								Sem Filtro
 							</MenuItem>

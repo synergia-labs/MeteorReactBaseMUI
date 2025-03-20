@@ -1,4 +1,4 @@
-import {isEqual, isObject, transform} from 'lodash';
+import { isEqual, isObject, transform } from 'lodash';
 
 /**
  * Deep diff between two object, using lodash
@@ -26,9 +26,9 @@ export function isObjectEqual(obj1: object | null, obj2: object | null): boolean
 }
 
 export const removeRepeticoesEmArrayDeObjetos = (a: any[], key: any) => {
-	let jaObservados = new Set();
+	const jaObservados = new Set();
 	return a.filter((item) => {
-		let k = item[key];
+		const k = item[key];
 		return jaObservados.has(k) ? false : jaObservados.add(k);
 	});
 };

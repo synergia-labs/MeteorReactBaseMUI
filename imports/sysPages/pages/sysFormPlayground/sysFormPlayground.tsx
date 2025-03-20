@@ -40,9 +40,7 @@ const SysFormPlayground: React.FC = () => {
 
 	const showFieldWithErrors = useCallback(() => {
 		showDialog({
-			children: (
-				<FieldsWithErrorsDialog errors={formRef.current?.getFieldWithErrors() || {}} closeDialog={closeDialog} />
-			),
+			children: <FieldsWithErrorsDialog errors={formRef.current?.getFieldWithErrors() || {}} closeDialog={closeDialog} />,
 			fullScreenMediaQuery: 'sm'
 		});
 	}, []);

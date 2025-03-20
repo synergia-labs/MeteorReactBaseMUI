@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import HomeSection from '../components/section';
 import { Button } from '@mui/material';
 import HomeStyles from '../homeStyle';
@@ -7,7 +7,7 @@ import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvi
 
 const HomeSectionDialogs: React.FC = () => {
 	const { showDialog, ...sysLayoutContext } = useContext<IAppLayoutContext>(AppLayoutContext);
-  	const { RowButtons, } = HomeStyles;
+	const { RowButtons } = HomeStyles;
 
 	return (
 		<HomeSection
@@ -15,9 +15,9 @@ const HomeSectionDialogs: React.FC = () => {
 			description={
 				<>
 					Os Dialogs, Modais e Windows são janelas modais que aparecem sobre a aplicação para informar, confirmar ou
-					solicitar ações do usuário. Eles podem ser personalizados e possuem diferentes tipos de exibição. Estão
-					acessíveis através do contexto SysAppLayoutContext, que é compartilhado por toda a aplicação. Para usar basta
-					apenas chamar a função showDialog e passar as propriedades desejadas. <br />
+					solicitar ações do usuário. Eles podem ser personalizados e possuem diferentes tipos de exibição. Estão acessíveis
+					através do contexto SysAppLayoutContext, que é compartilhado por toda a aplicação. Para usar basta apenas chamar a
+					função showDialog e passar as propriedades desejadas. <br />
 					<br /> Todos os 3 componentes:
 					<span>
 						<br />
@@ -29,16 +29,22 @@ const HomeSectionDialogs: React.FC = () => {
 						<br />
 						<br />
 					</span>
-					São na verdade um único componente de dialog com parâmetros diferentes. Caso queira renderizar rotas dentro
-					deles, opte pelos componente Modal ou Window
+					São na verdade um único componente de dialog com parâmetros diferentes. Caso queira renderizar rotas dentro deles,
+					opte pelos componente Modal ou Window
 				</>
 			}>
 			<RowButtons>
-				<Button color="secondary" startIcon={<SysIcon name={'highlightOff'} />} onClick={() => sysLayoutContext.closeDialog()}>
+				<Button
+					color="secondary"
+					startIcon={<SysIcon name={'highlightOff'} />}
+					onClick={() => sysLayoutContext.closeDialog()}>
 					Fechar Dialog
 				</Button>
 
-				<Button color="secondary" startIcon={<SysIcon name={'highlightOff'} />} onClick={() => sysLayoutContext.closeModal()}>
+				<Button
+					color="secondary"
+					startIcon={<SysIcon name={'highlightOff'} />}
+					onClick={() => sysLayoutContext.closeModal()}>
 					Fechar Modal
 				</Button>
 
@@ -57,10 +63,10 @@ const HomeSectionDialogs: React.FC = () => {
 						showDialog({
 							title: 'Confirmar cadastro',
 							message: 'Tem certeza que deseja confirmar o cadastro dos dados preenchidos?',
-							confirmButtonLabel: "Confirmar",
-							cancelButtonLabel: "Cancelar",
+							confirmButtonLabel: 'Confirmar',
+							cancelButtonLabel: 'Cancelar',
 							cancelButtonProps: {
-								startIcon: <SysIcon name={'close'} />,
+								startIcon: <SysIcon name={'close'} />
 							},
 							confirmButtonProps: {
 								startIcon: <SysIcon name={'check'} />,
@@ -70,8 +76,7 @@ const HomeSectionDialogs: React.FC = () => {
 									});
 								}
 							}
-							
-						})
+						});
 					}}>
 					Dialog de confirmação
 				</Button>
@@ -83,10 +88,10 @@ const HomeSectionDialogs: React.FC = () => {
 						showDialog({
 							title: 'Excluir arquivo',
 							message: 'Tem certeza que deseja excluir o arquivo xx.csv?',
-							confirmButtonLabel: "Excluir",
-							cancelButtonLabel: "Cancelar",
+							confirmButtonLabel: 'Excluir',
+							cancelButtonLabel: 'Cancelar',
 							cancelButtonProps: {
-								startIcon: <SysIcon name={'close'} />,
+								startIcon: <SysIcon name={'close'} />
 							},
 							confirmButtonProps: {
 								startIcon: <SysIcon name={'delete'} />,
@@ -97,7 +102,6 @@ const HomeSectionDialogs: React.FC = () => {
 								}
 							}
 						});
-
 					}}>
 					Dialog de deleção
 				</Button>

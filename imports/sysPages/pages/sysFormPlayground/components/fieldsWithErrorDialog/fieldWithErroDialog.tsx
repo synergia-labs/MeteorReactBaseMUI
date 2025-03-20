@@ -12,7 +12,7 @@ interface IFieldsWithErrorsDialog {
 
 const FieldsWithErrorsDialog: React.FC<IFieldsWithErrorsDialog> = ({ errors, closeDialog }) => {
 	const hasError = Object.keys(errors).length > 0;
-  const { Container, Body, Header, } = FieldsWithErrorDialogStyles;
+	const { Container, Body, Header } = FieldsWithErrorDialogStyles;
 
 	return (
 		<Container>
