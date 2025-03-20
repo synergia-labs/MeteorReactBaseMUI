@@ -1,12 +1,13 @@
 import React, { ElementType, useContext } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { NotFound } from '/imports/sysPages/pages/notFound/notFound';
 import { hasValue } from '/imports/libs/hasValue';
 import { SysLoading } from '/imports/ui/components/sysLoading/sysLoading';
 import { IRoute, ITemplateRouteProps } from '/imports/modules/modulesTypings';
 import AuthContext, { IAuthContext } from '../authProvider/authContext';
 import sysRoutes from './routes';
 import ScreenRouteRender from './screenRouteRender';
+import NotFoundErrorPage from '/imports/sysPages/pages/error/notFoundErrorPage';
+import ForbiddenErrorPage from '/imports/sysPages/pages/error/forbiddenErrorPage';
 
 export const AppRouterSwitch: React.FC = React.memo(() => {
     const { user, userLoading } = useContext<IAuthContext>(AuthContext);
@@ -48,7 +49,8 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
     return (
         <Routes>
             {getRecursiveRoutes(sysRoutes.getRoutes())}
-            <Route path="*" element={<NotFound />} />
+			<Route path='/forbidden' element={<ForbiddenErrorPage />} />
+            <Route path="*" element={<NotFoundErrorPage />} />
         </Routes>
     );
 });

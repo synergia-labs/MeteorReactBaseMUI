@@ -18,6 +18,8 @@ import { IContext } from "/imports/typings/IContext";
  */
 
 class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUserType, string> {
+    private hasAdminUser?: boolean;
+
     constructor() {
         super({ 
             name: enumUserProfileRegisterMethods.create,
@@ -36,7 +38,8 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
 
         if(prop.roles.includes(EnumUserRoles.ADMIN)) return;
         if(context.user?.profile?.roles?.includes(EnumUserRoles.ADMIN)) return;
-        if(await this.getServerInstance()?.checkIfHasAdminUser())
+        this.hasAdminUser = await this.getServerInstance()?.checkIfHasAdminUser();
+        if(this.hasAdminUser)
             this.generateError({ _message: 'Apenas usuários administradores podem criar usuários administradores' });
 
     }
@@ -55,7 +58,8 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
 
     protected async afterAction(_prop: CreateUserType, _result: string, _context: IContext): Promise<void> {
         super.afterAction(_prop, _result, _context);
-        Accounts.sendVerificationEmail(_result);
+        if(this.hasAdminUser) return Accounts.sendVerificationEmail(_result);
+        await this.getServerInstance()?.mongoInstance.updateAsync({ _id: _result }, { $set: { 'emails.0.verified': true } });
     };
 
     protected async onError(_param: CreateUserType, _context: IContext, _error: Meteor.Error): Promise<string | void> {

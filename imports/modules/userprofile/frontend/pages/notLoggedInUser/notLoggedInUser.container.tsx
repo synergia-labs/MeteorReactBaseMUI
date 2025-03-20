@@ -42,9 +42,10 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
                 title: "Usuário criado",
                 message: `O usuário ${doc.name} foi criado com sucesso.`
             });
+            if(!hasAdminUser) setHasAdminUser(true);
             navigate('/guest/sign-in');
         });
-    }, []);
+    }, [hasAdminUser]);
 
     const callBackLogin = useCallback((error: any) => {
         if(error) return showNotification({
@@ -73,6 +74,9 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
         });
     }, []);
 
+    const verifyEmail = useCallback((token: string, callback: (error?: Error | Meteor.Error) => void) => 
+        usersApi.verifyEmail(token, callback), []);
+
     const loginWithGithub = useCallback(() => 
         Meteor.loginWithGithub( { requestPermissions: ["user"] }, callBackLogin ), []);
     const loginWithGoogle = useCallback(() => 
@@ -87,7 +91,8 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({
         loginWithGoogle: loginWithGoogle,
         loginWithPassword: loginWithPassword,
         sendResetPasswordEmail: sendResetPasswordEmail,
-        resetUserPassword: resetUserPassword
+        resetUserPassword: resetUserPassword,
+        verifyEmail: verifyEmail
     };
 
     return (

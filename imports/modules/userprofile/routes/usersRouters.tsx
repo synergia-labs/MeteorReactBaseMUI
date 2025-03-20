@@ -1,4 +1,3 @@
-import React, { ReactNode } from "react";
 import { IRoute } from "/imports/modules/modulesTypings";
 import NotLoggedInUserContainer from "../frontend/pages/notLoggedInUser/notLoggedInUser.container";
 import SignInPage from "../frontend/pages/notLoggedInUser/signIn/signIn.view";
@@ -7,6 +6,7 @@ import UsersListProvider from "../frontend/pages/loggedInUser/usersList/usersLis
 import CreateAdminUserPage from "../frontend/pages/notLoggedInUser/createAdminUser/createAdminUser.view";
 import ForgotPasswordPage from "../frontend/pages/notLoggedInUser/forgotPassword/forgotPassword.view";
 import ResetPasswordPage from "../frontend/pages/notLoggedInUser/resetPassword/resetPassword.view";
+import VerifyEmailPage from "../frontend/pages/notLoggedInUser/verifyEmail/verifyEmail.view";
 
 const exampleRouterList: Array<(IRoute | null)> = [
 	{
@@ -44,6 +44,10 @@ const exampleRouterList: Array<(IRoute | null)> = [
 			{
 				path: 'reset-password/:token',
 				element: ResetPasswordPage
+			},
+			{
+				path: 'verify-email/:token',
+				element: VerifyEmailPage
 			}
 		] 
 	}

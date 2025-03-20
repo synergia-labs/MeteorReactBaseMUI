@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Styles from './createAdminUser.styles';
 import SysForm from '/imports/ui/components/sysForm/sysForm';
 import SysTextField from '/imports/ui/components/sysFormFields/sysTextField/sysTextField';
@@ -8,9 +8,15 @@ import Typography from '@mui/material/Typography';
 import EnumUserRoles from '/imports/modules/userprofile/common/enums/enumUserRoles';
 import Context, { INotLoggedInUserContext } from '../notLoggedInUser.context';
 import createUserFrontSchema from './createAdminUser.schema';
+import { useNavigate } from 'react-router-dom';
 
 const CreateAdminUserPage: React.FC = () => {
-    const context = useContext<INotLoggedInUserContext>(Context);
+    const { createUser, hasAdminUser } = useContext<INotLoggedInUserContext>(Context);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (hasAdminUser) navigate("/forbidden");
+    }, [hasAdminUser]);
 
     return (
         <Styles.container>
@@ -21,7 +27,7 @@ const CreateAdminUserPage: React.FC = () => {
             </Typography>
             <SysForm
                 schema={createUserFrontSchema}
-                onSubmit={context.createUser}
+                onSubmit={createUser}
                 doc={{ roles: [EnumUserRoles.ADMIN] }}
             >
                 <Styles.formContainer>

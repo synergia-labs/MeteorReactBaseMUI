@@ -16,6 +16,10 @@ class UsersApi extends ApiBase {
     resetForgotPassword = async (token: string, newPassword: string, callback: (error?: Error | Meteor.Error ) => void) => {
         Accounts.resetPassword(token, newPassword, callback);
     }
+
+    verifyEmail = async (token: string, callback: (error?: Error | Meteor.Error ) => void) => {
+        Accounts.verifyEmail(token, callback);
+    }
 }
 
 

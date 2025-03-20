@@ -24,6 +24,7 @@ const showDialogStyles: IStyles = {
 		alignItems: 'stretch',
 		minWidth: '500px',
 		minHeight: '160px',
+		maxWidth: '550px',
 
 		[theme.breakpoints.down('sm')]: {
 			minWidth: 'auto',

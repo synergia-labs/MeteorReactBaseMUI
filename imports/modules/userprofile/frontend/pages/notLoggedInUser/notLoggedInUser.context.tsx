@@ -9,6 +9,7 @@ interface INotLoggedInUserContext {
     loginWithPassword: ({ email, password } : { email: string, password: string }) => void;
     sendResetPasswordEmail: (email: string, callback: (error: Meteor.Error) => void) => void;
     resetUserPassword: (token: string, newPassword: string, callback: (error?: Error | Meteor.Error) => void) => void;
+    verifyEmail: (token: string, callback: (error?: Error | Meteor.Error) => void) => void;
 }
 
 const notLoggedInUserContext = createContext<INotLoggedInUserContext>({} as INotLoggedInUserContext);
