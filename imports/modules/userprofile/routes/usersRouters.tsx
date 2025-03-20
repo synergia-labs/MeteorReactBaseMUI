@@ -46,7 +46,7 @@ const exampleRouterList: Array<IRoute | null> = [
 				element: ResetPasswordPage
 			},
 			{
-				path: 'verify-email/:token',
+				path: "verify-email/:token",
 				element: VerifyEmailPage
 			}
 		]
