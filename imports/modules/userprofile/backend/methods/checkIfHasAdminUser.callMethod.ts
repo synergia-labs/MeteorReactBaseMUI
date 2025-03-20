@@ -1,6 +1,6 @@
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
 import EnumUserRoles from "../../common/enums/enumUserRoles";
-import { UserProfileServer } from "../server";
+import { UsersServer } from "../server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
 
@@ -11,7 +11,7 @@ import { IContext } from "/imports/typings/IContext";
  * @returns {boolean} - Retorna true se existir um usuário administrador cadastrado no sistema, false caso contrário.
  */
 
-class CheckIfHasAdminUserCallMethod extends MethodBase<UserProfileServer, void, boolean> {
+class CheckIfHasAdminUserCallMethod extends MethodBase<UsersServer, void, boolean> {
     constructor() {
         super({ name: enumUserProfileRegisterMethods.checkIfHasAdminUser });
     }

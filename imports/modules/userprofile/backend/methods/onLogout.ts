@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { UserProfileServer } from "../server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
 import { OnLoginType } from "../../common/types/onLogin";
 import { onLogoutSchema, OnLogoutType } from "../../common/types/onLogout";
+import { UsersServer } from "../server";
 
 
 /**
@@ -14,7 +14,7 @@ import { onLogoutSchema, OnLogoutType } from "../../common/types/onLogout";
  * @param { Meteor.User } user - Usuário que fez logout.
  */
 
-class OnLogout extends MethodBase<UserProfileServer, OnLogoutType, void> {
+class OnLogout extends MethodBase<UsersServer, OnLogoutType, void> {
     constructor() {
         super({
             name: 'server.onLogout',

@@ -1,9 +1,9 @@
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
-import { UserProfileServer } from "../server";
+import { UsersServer } from "../server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
 
-class SendVerificationEmail extends MethodBase<UserProfileServer, void, void> {
+class SendVerificationEmail extends MethodBase<UsersServer, void, void> {
     constructor() {
         super({ name: enumUserProfileRegisterMethods.sendVerificationEmail });
     }

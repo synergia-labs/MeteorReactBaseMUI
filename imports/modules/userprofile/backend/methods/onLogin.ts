@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { UserProfileServer } from "../server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
 import { onLoginSchema, OnLoginType } from "../../common/types/onLogin";
+import { UsersServer } from "../server";
 
 
 /**
@@ -14,7 +14,7 @@ import { onLoginSchema, OnLoginType } from "../../common/types/onLogin";
      * @param { Meteor.IConnection } connection - Conexão do usuário. 
 */
 
-class OnLogin extends MethodBase<UserProfileServer, OnLoginType, void> {
+class OnLogin extends MethodBase<UsersServer, OnLoginType, void> {
     constructor() {
         super({
             name: 'users.onLogin',

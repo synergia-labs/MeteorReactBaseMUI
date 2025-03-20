@@ -2,9 +2,9 @@ import { z } from "zod";
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
 import EnumUserRoles from "../../common/enums/enumUserRoles";
 import { createUserSchema, CreateUserType } from "../../common/types/createUser";
-import { UserProfileServer } from "../server";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
 import { IContext } from "/imports/typings/IContext";
+import { UsersServer } from "../server";
 
 /**
  * Método de criação de usuário
@@ -17,7 +17,7 @@ import { IContext } from "/imports/typings/IContext";
  * @returns {string}            - ID do usuário criado
  */
 
-class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUserType, string> {
+class CreateUserCallMethod extends CreateMethodBase<UsersServer, CreateUserType, string> {
     private hasAdminUser?: boolean;
 
     constructor() {
@@ -40,7 +40,7 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
         if(context.user?.profile?.roles?.includes(EnumUserRoles.ADMIN)) return;
         this.hasAdminUser = await this.getServerInstance()?.checkIfHasAdminUser();
         if(this.hasAdminUser)
-            this.generateError({ _message: 'Apenas usuários administradores podem criar usuários administradores' });
+            this.generateError({ _message: 'Apenas usuários administradores podem criar usuários administradores' }, context);
 
     }
 
@@ -65,7 +65,7 @@ class CreateUserCallMethod extends CreateMethodBase<UserProfileServer, CreateUse
     protected async onError(_param: CreateUserType, _context: IContext, _error: Meteor.Error): Promise<string | void> {
         await this.getServerInstance()?.mongoInstance.removeAsync({ 'emails.address': _param.email });
         console.error(`[ERROR] Erro ao criar o usuário ${_param.email}: ${_error}`);
-        this.generateError({ _message: 'Erro ao criar o usuário' });
+        this.generateError({ _message: 'Erro ao criar o usuário' }, _context);
     }
 } 
 

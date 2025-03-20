@@ -39,7 +39,7 @@ export const meteorUserSchema = z.object({
       address: z.string().email(),
       verified: z.boolean(),
     })
-  ),
+  ).optional(),
   profile: userProfileSchema.optional(),
   services: userServicesSchema.optional(),
 });

@@ -11,6 +11,7 @@ import sendVerificationEmailInstance from "./methods/sendVerificationEmail.callM
 import ServerBase from "/imports/base/server/server.base";
 import sendResetPasswordInstance from "./methods/sendResetPasswordEmail";
 import resetUserPasswordInstance from "./methods/resetUserPassword";
+import { getUsersListPublication } from "./publications/usersList.publication";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
@@ -25,9 +26,10 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 
 /**Array com as instâncias de todas as classes de publicação do módulo */
 const _publicationInstances: Array<any> = [
+    getUsersListPublication
 ] as const;
 
-class UserProfileServer extends ServerBase {
+class UsersServer extends ServerBase {
     public mongoInstance: Mongo.Collection<Meteor.User>;
     public storageInstance?: any;
 
@@ -40,8 +42,8 @@ class UserProfileServer extends ServerBase {
     }
 }
 
-type interfaceWithMethods = UserProfileServerMethods & UserProfileServer;
+type interfaceWithMethods = UserProfileServerMethods & UsersServer;
 
-const userProfileServer = new UserProfileServer() as interfaceWithMethods;
-export default userProfileServer;
-export type { interfaceWithMethods as UserProfileServer };
+const usersServer = new UsersServer() as interfaceWithMethods;
+export default usersServer;
+export type { interfaceWithMethods as UsersServer };

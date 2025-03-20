@@ -1,6 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import userProfileServer from '../server';
+import usersServer from '../server';
 import verificationEmailTemplate from '../../common/emails/sendEmailVerificationTemplate/sendEmailVerificationTempalte';
 import resetPasswordEmailTemplate from '../../common/emails/sendEmailResetPasswordTemplate/sendEmailResetPasswordTemplate.view';
 
@@ -22,6 +22,6 @@ Meteor.startup(() => {
 	Accounts.urls.resetPassword = (token: string) => Meteor.absoluteUrl(`guest/reset-password/${token}`);
 	Accounts.urls.verifyEmail = (token: string) => Meteor.absoluteUrl(`guest/verify-email/${token}`);
 
-	Accounts.onLogin(userProfileServer.onLogin.bind(userProfileServer));
-	Accounts.onLogout(userProfileServer.onLogout.bind(userProfileServer));
+	Accounts.onLogin(usersServer.onLogin.bind(usersServer));
+	Accounts.onLogout(usersServer.onLogout.bind(usersServer));
 });
