@@ -21,7 +21,6 @@ const resetPasswordFrontSchema: SchemaType<IResetForgotPasswordSchema> = {
 		label: "confirmar senha",
 		optional: false,
 		validationFunction: (value, doc) => {
-			console.log(value, doc?.password);
 			if (value != doc?.password) return "As senhas não conferem";
 			return undefined;
 		}

@@ -1,4 +1,3 @@
-import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { createStore, get, set, del } from "idb-keyval";
 

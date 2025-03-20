@@ -1,5 +1,4 @@
 import { enumStorageMethods } from "../common/enums/methods.enum";
-import { StorageServer } from "../storage.server";
 import { GetStorageBase } from "./bases/get";
 import { IContext } from "/imports/typings/IContext";
 import fs from "fs";

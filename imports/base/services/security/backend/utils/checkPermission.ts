@@ -5,7 +5,7 @@ import { IContext } from "/imports/typings/IContext";
 
 export async function _checkPermission(name: string, referred: string, _context: IContext): Promise<boolean> {
 	try {
-		const SecurityServer = await require("../security.server").SecurityServer;
+		const SecurityServer = await require("../security.server").SecurityServer; // eslint-disable-line
 		const server = SecurityServer.mongoMethod;
 		if (!server) throw new Error("Method collection not found");
 

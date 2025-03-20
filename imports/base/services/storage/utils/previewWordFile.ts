@@ -2,7 +2,7 @@ import { IArchive } from "../common/types/archive.type";
 
 export async function previewWord(file: IArchive, res: any, _: any) {
 	try {
-		const mammoth = require("mammoth");
+		const mammoth = require("mammoth"); // eslint-disable-line
 		const result = await mammoth.convertToHtml({ path: file.path });
 
 		res.writeHead(200, {

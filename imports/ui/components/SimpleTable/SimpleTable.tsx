@@ -13,7 +13,6 @@ import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import { simpleTableStyle } from "./SimpleTableStyle";
 import "./simpletableCSS.css";
-import { useTheme } from "@mui/material/styles";
 import SysIcon from "../sysIcon/sysIcon";
 
 interface ISimpleTable {

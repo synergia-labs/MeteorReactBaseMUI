@@ -1,6 +1,5 @@
 import { IContext } from "/imports/typings/IContext";
 import { enumStorageMethods } from "../common/enums/methods.enum";
-import storageService, { StorageServer } from "../storage.server";
 import { UploadStorageBase } from "./bases/upload";
 import { Buffer } from "buffer";
 import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";

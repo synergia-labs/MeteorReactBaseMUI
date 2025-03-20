@@ -1,5 +1,7 @@
 import { Meteor } from "meteor/meteor";
+//@ts-ignore
 import { ApiBase } from "./api.base";
+//@ts-ignore
 import { getUser } from "/imports/libs/getUser";
 import { IProductBaseOptions } from "/imports/typings/IBaseOptions";
 import { IDoc } from "/imports/typings/IDoc";
@@ -27,7 +29,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 
 	callMethod(name: string, ...params: (string | object | any)[]) {
 		if (this.enableCallMethodObserver) {
-			const self = this;
+			const self = this; // eslint-disable-line
 			import("../../analytics/analyticsSubscriber").then(({ subjectCallMethod }) => {
 				const preparedParams = params
 					? Object.keys(params)
@@ -41,6 +43,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 
 				const eventData = {
 					methodName: name,
+					//@ts-ignore
 					collection: self.collectionName,
 					params: Object.values(preparedParams),
 					user: getUser()
@@ -64,7 +67,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 		ready: () => boolean;
 	} | null {
 		if (this.enableSubscribeObserver) {
-			const self = this;
+			const self = this; // eslint-disable-line
 			import("../../analytics/analyticsSubscriber").then(({ subjectSubscribe }) => {
 				const preparedParams = params
 					? Object.keys(params)
@@ -78,6 +81,7 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 
 				const eventData = {
 					apiName: api,
+					//@ts-ignore
 					collection: self.collectionName,
 					params: Object.values(preparedParams),
 					user: getUser()
@@ -95,16 +99,19 @@ export class ProductBase<Doc extends IDoc> extends ApiBase<Doc> {
 
 	getImageThumbnail(field: string, _id: string) {
 		const date = new Date();
+		//@ts-ignore
 		return `${Meteor.absoluteUrl()}thumbnail/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
 	}
 
 	getImageURL(field: string, _id: string) {
 		const date = new Date();
+		//@ts-ignore
 		return `${Meteor.absoluteUrl()}img/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
 	}
 
 	getAudioURL(field: string, _id: string) {
 		const date = new Date();
+		//@ts-ignore
 		return `${Meteor.absoluteUrl()}audio/${this.collectionName}/${field}/${_id}?date=${date.toISOString()}`;
 	}
 }

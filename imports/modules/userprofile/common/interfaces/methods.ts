@@ -1,4 +1,3 @@
-import { Meteor } from "meteor/meteor";
 import { MethodType } from "/imports/base/types/method";
 import checkIfHasAdminUserCallMethodInstance from "../../backend/methods/checkIfHasAdminUser.callMethod";
 import createUserCallMethodInstance from "../../backend/methods/createUser.callMethod";

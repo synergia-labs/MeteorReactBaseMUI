@@ -1,6 +1,6 @@
 import { IContext } from "/imports/typings/IContext";
 import { enumStorageMethods } from "../common/enums/methods.enum";
-import storageServer, { StorageServer } from "../storage.server";
+import storageServer from "../storage.server";
 import { UploadStorageBase } from "./bases/upload";
 import { Buffer } from "buffer";
 import { enumFileType } from "../common/types/file.type";

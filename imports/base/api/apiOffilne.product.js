@@ -8,7 +8,7 @@ import { ApiBase } from "./api.base";
 
 class PersistentMinimongoStorage {
 	constructor(collectionName, collectionInstance) {
-		const self = this;
+		const self = this; //eslint-disable-line
 		self.collectionName = collectionName;
 		self.customStore = new createStore(`${settings.name}_${collectionName}`, `${collectionName}-store`);
 		self.controlStore = new createStore(`${settings.name}_${collectionName}_Control`, `${collectionName}-control`);
@@ -60,7 +60,6 @@ class PersistentMinimongoStorage {
 				}
 				callback(null, { ...selector, ...newDoc });
 			} catch (e) {
-				console.log("Error:", e);
 				callback(e, null);
 			}
 		};
@@ -90,7 +89,7 @@ class PersistentMinimongoStorage {
 		self.cachedCollection.clear = () => {
 			if (self.list.length > 0) {
 				self.list.forEach((key) => {
-					del(key, self.customStore).then((result) => {
+					del(key, self.customStore).then((_result) => {
 						self.cachedCollection.remove_(key);
 					});
 				});
@@ -113,7 +112,7 @@ class PersistentMinimongoStorage {
 			return;
 		}
 
-		const self = this;
+		const self = this; //eslint-disable-line
 
 		if (self.collection) {
 			self.collection.find({}).observe({
@@ -128,7 +127,7 @@ class PersistentMinimongoStorage {
 					++self.stats.added;
 				},
 
-				removed(doc, ...params) {
+				removed(doc, ..._params) {
 					// if not in list, nothing to do
 					// if(!_.includes(self.list, doc._id)) {
 					//     return;
@@ -167,7 +166,7 @@ class PersistentMinimongoStorage {
 	};
 
 	initControlStore = (callback = () => {}) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		if (self.controlStoreData) {
 			return self.controlStoreData;
 		}
@@ -200,7 +199,7 @@ class PersistentMinimongoStorage {
 		};
 
 	updateControlStoreData = (newData) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const newControlStoreDate = {
 			...(this.controlStoreData || {}),
 			...(newData || {})
@@ -211,7 +210,7 @@ class PersistentMinimongoStorage {
 	};
 
 	addUpdatedDocsIntoControlStoreData = (doc, historyItem) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const controlStore = self.getControlStoreData();
 		if (!controlStore.updatedDocs) {
 			controlStore.updatedDocs = [doc];
@@ -232,7 +231,7 @@ class PersistentMinimongoStorage {
 	};
 
 	delUpdatedDocsIntoControlStoreData = (doc, historyItem) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const controlStore = self.getControlStoreData();
 		if (!controlStore.updatedDocs) {
 			return false;
@@ -246,7 +245,7 @@ class PersistentMinimongoStorage {
 	};
 
 	addRemovedDocIntoControlStoreData = (doc, historyItem) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const controlStore = self.getControlStoreData();
 		if (!controlStore.removedDocs) {
 			controlStore.removedDocs = [doc._id];
@@ -260,7 +259,7 @@ class PersistentMinimongoStorage {
 		return true;
 	};
 	delRemovedDocIntoControlStoreData = (doc, historyItem) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const controlStore = self.getControlStoreData();
 		if (!controlStore.removedDocs) {
 			return false;
@@ -274,7 +273,7 @@ class PersistentMinimongoStorage {
 	};
 
 	updateSyncHistory = (historyItem) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const controlStore = self.getControlStoreData();
 		if (historyItem) {
 			controlStore.syncnavigate(historyItem);
@@ -284,7 +283,7 @@ class PersistentMinimongoStorage {
 	};
 
 	needSync = () => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const controlStore = self.getControlStoreData();
 		if (!controlStore) {
 			return false;
@@ -298,7 +297,7 @@ class PersistentMinimongoStorage {
 	};
 
 	initCachedMinimongo = (callback) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 
 		const seconds = self.lastCallInit ? (new Date().getTime() - self.lastCallInit.getTime()) / 1000 : 61;
 
@@ -306,8 +305,8 @@ class PersistentMinimongoStorage {
 			this.updateKeys((e, r) => {
 				if (r) {
 					self.cachedCollection.remove_({});
-					self.list.forEach(async (key, i) => {
-						const res = await get(key, self.customStore).then((result) => {
+					self.list.forEach(async (key, _i) => {
+						await get(key, self.customStore).then((result) => {
 							const docR = parse(result);
 							const doc = self.updateDateOnJson(docR);
 							self.cachedCollection.update_({ _id: doc._id }, { $set: doc }, { upsert: true });
@@ -321,7 +320,6 @@ class PersistentMinimongoStorage {
 					if (callback) {
 						callback(e, null);
 					}
-					console.log("Error:", self.collectionName, ":", e);
 				}
 			});
 		}
@@ -336,7 +334,7 @@ class PersistentMinimongoStorage {
 			}
 		}
 	) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		keys(self.customStore)
 			.then((keys) => {
 				self.list = keys;
@@ -346,14 +344,14 @@ class PersistentMinimongoStorage {
 	};
 
 	getDocs = (filter = {}, callback = () => {}) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const matchFilter = (o1, o2) =>
 			Object.keys(o1).map((k) => _.isEqual(o1[k], o2[k]).filter((o) => !!o).length === Object.keys(o1).length);
 		this.updateKeys((e, r) => {
 			const result = [];
 			if (r) {
-				self.list.forEach(async (key, i) => {
-					const res = await get(key, self.customStore).then((result) => {
+				self.list.forEach(async (key, _i) => {
+					await get(key, self.customStore).then((result) => {
 						const docR = parse(result);
 						if (matchFilter(filter, docR)) {
 							result.push(self.updateDateOnJson(docR));
@@ -367,10 +365,10 @@ class PersistentMinimongoStorage {
 	};
 
 	syncRemovedDocs = (removeDocFunc = () => {}) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const controlStoreData = this.getControlStoreData();
 		(controlStoreData.removedDocs || []).forEach((docId) => {
-			removeDocFunc({ _id: docId }, (e, r) => {
+			removeDocFunc({ _id: docId }, (e, _r) => {
 				if (!e) {
 					self.delRemovedDocIntoControlStoreData(
 						{ _id: docId },
@@ -394,9 +392,8 @@ class PersistentMinimongoStorage {
 		});
 	};
 	syncUpdatedDocs = (updateDocFunc = () => {}) => {
-		const self = this;
+		const self = this; //eslint-disable-line
 		const controlStoreData = this.getControlStoreData();
-		console.log("#syncUpdatedDocs", controlStoreData);
 		(controlStoreData.updatedDocs || []).forEach((doc) => {
 			updateDocFunc(doc, (e, serverDoc) => {
 				if (!e) {
@@ -492,7 +489,7 @@ export class OfflineBaseApi extends ApiBase {
 	 * @param  {} ...param
 	 */
 	subscribe(api = "default", ...param) {
-		const self = this;
+		const self = this; //eslint-disable-line
 		if (Meteor.isClient) {
 			if (Meteor.status().status !== "waiting") {
 				// Sync Functions ###################################################
@@ -531,7 +528,7 @@ export class OfflineBaseApi extends ApiBase {
 	 * @param  {Object} ...params - Parameters for this meteor method.
 	 */
 	callMethod(name, ...params) {
-		const self = this;
+		const self = this; // eslint-disable-line
 
 		if (Meteor.status().connected) {
 			Meteor.call(`${this.collectionName}.${name}`, ...params);
@@ -539,7 +536,6 @@ export class OfflineBaseApi extends ApiBase {
 			if (name === "insert" || name === "update" || name === "remove") {
 				self.callOfflineMethod(name, ...params);
 			} else {
-				console.log("Sem Conexão com o Servidor");
 			}
 
 			// window.$app.globalFunctions.openSnackBar('SEM CONEXÃO COM O SERVIDOR:Sua operçaão não será registrada. Verifique sua conexão com a internet.', 'info');

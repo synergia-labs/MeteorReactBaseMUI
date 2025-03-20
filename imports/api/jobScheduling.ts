@@ -4,7 +4,7 @@ import { ParseStatic, ScheduleData } from "later";
 
 if (Meteor.isServer) {
 	// @ts-ignore
-	import { SyncedCron } from "meteor/littledata:synced-cron";
+	import { SyncedCron } from "meteor/littledata:synced-cron"; // eslint-disable-line
 }
 
 /**
@@ -25,7 +25,11 @@ class JobScheduling {
 		SyncedCron.remove(jobName);
 	}
 
-	addJob(jobName: string, schedule: (parser: ParseStatic) => ScheduleData, job: Function) {
+	addJob(
+		jobName: string,
+		schedule: (parser: ParseStatic) => ScheduleData,
+		job: Function // eslint-disable-line
+	) {
 		SyncedCron.add({
 			name: jobName,
 			schedule,

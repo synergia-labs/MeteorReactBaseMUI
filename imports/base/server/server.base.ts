@@ -2,7 +2,6 @@ import { Meteor, Subscription } from "meteor/meteor";
 import { WebApp } from "meteor/webapp";
 import connectRoute from "connect-route";
 import { IContext } from "/imports/typings/IContext";
-import { IConnection } from "/imports/typings/IConnection";
 import MethodBase from "./methods/method.base";
 import PublicationBase from "./publication/publication.base";
 import bodyParser from "body-parser";
@@ -81,7 +80,7 @@ class ServerBase {
 			if (methodInstances?.length == 0 || !classInstance) return;
 
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
-			const self = this;
+			const self = this; // eslint-disable-line
 
 			for (const method of methodInstances) {
 				method.setServerInstance(classInstance);
@@ -91,9 +90,8 @@ class ServerBase {
 				async function methodFunction(...param: [any]) {
 					console.info(`Call Method: ${methodName}`);
 
-					let connection: IConnection;
 					// @ts-ignore
-					const meteorInstance: Meteor.MethodThisType = this;
+					const meteorInstance: Meteor.MethodThisType = this; // eslint-disable-line
 
 					const meteorContext = await self._createContext({ action: methodName, meteorInstance: meteorInstance });
 					return await method.execute(...param, meteorContext);
@@ -131,7 +129,7 @@ class ServerBase {
 		try {
 			if (Meteor.isClient) throw new Meteor.Error("500", "This method can only be called on the server side");
 			if (publicationInstances?.length == 0 || !classInstance) return;
-			const self = this;
+			const self = this; // eslint-disable-line
 
 			publicationInstances.forEach(async (publication) => {
 				publication.setServerInstance(classInstance);
@@ -147,9 +145,8 @@ class ServerBase {
 				async function publicationFunction(...param: any) {
 					console.info(`Call Publication: ${publicationName}`);
 
-					let connection: IConnection;
 					// @ts-ignore
-					const meteorInstance: Subscription = this;
+					const meteorInstance: Subscription = this; // eslint-disable-line
 					const meteorContext = await self._createContext({
 						action: publicationName,
 						meteorInstance: meteorInstance
@@ -161,9 +158,8 @@ class ServerBase {
 				const transformedFunction = !publication.isTransformedPublication()
 					? undefined
 					: async (...param: [any]): Promise<any> => {
-							let connection: IConnection;
 							// @ts-ignore
-							const meteorInstance: Subscription = this;
+							const meteorInstance: Subscription = this; // eslint-disable-line
 							const meteorContext = await self._createContext({
 								action: publicationName,
 								meteorInstance: meteorInstance
@@ -174,8 +170,6 @@ class ServerBase {
 				if (!transformedFunction) Meteor.publish(publicationName, publicationFunction);
 				else
 					Meteor.publish(publicationName, async function (query, options) {
-						console.log("Enter in publish transform");
-
 						const subHandle = await (
 							await publicationFunction(query, options)
 						)?.observe({

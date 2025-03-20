@@ -1,4 +1,3 @@
-import { IConnection } from "./IConnection";
 import { Meteor } from "meteor/meteor";
 
 export interface IContext {

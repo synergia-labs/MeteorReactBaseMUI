@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
 import { useTracker } from "meteor/react-meteor-data";
 import EnumExampleScreenState from "../../../common/enums/enumScreenState";
-import { IMeteorError } from "/imports/typings/IMeteorError";
 import ExampleModuleContext, { IExampleModuleContext } from "../../exampleContext";
 
 const ExampleDetailProvider: React.FC = () => {
@@ -37,15 +36,13 @@ const ExampleDetailProvider: React.FC = () => {
 	);
 
 	const onSubmit = useCallback(
-		(doc: any) => {
-			const action = state === EnumExampleScreenState.CREATE ? "insert" : "update";
+		(__doc: any) => {
 			// exampleApi[action](doc, (error: IMeteorError) => {
 			//     if(error) return showNotification({
 			//         type: 'error',
 			//         title: 'Erro ao realizar operação',
 			//         message: error.reason
 			//     });
-
 			//     closePage();
 			//     showNotification({
 			//         type: 'success',

@@ -83,6 +83,7 @@
 		"@storybook/react": "^8.2.7",
 		"@storybook/react-webpack5": "^8.2.7",
 		"@storybook/test": "^8.2.7",
+		"@types/body-parser": "^1.19.5",
 		"@types/connect-route": "^0.1.0",
 		"@types/cors": "^2.8.17",
 		"@types/inline-css": "^3.0.3",

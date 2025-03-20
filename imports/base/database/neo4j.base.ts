@@ -180,7 +180,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 			if (types) {
 				types.forEach((type) => {
-					console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
+					console.info(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
 					WebApp.connectHandlers.use(
 						connectRoute((router: any) => {
 							router[type](endpoinUrl, handleFunc(type));
@@ -191,8 +191,11 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		}
 	}
 
-	registerMethod = (name: string, func: Function) => {
-		const self = this;
+	registerMethod = (
+		name: string,
+		func: Function // eslint-disable-line
+	) => {
+		const self = this; // eslint-disable-line
 		const action = name;
 		const collection = this.nodeLabel;
 		const methodFullName = `${collection}.${name}`;
@@ -200,7 +203,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		const method = {
 			[methodFullName]: async (...param: any[]) => {
 				const start = performance.now();
-				inspectSubCallsNeo4j && console.log(`\nCALL Method [${name} ${param ? param.length : "-"}]`);
+				inspectSubCallsNeo4j && console.info(`\nCALL Method [${name} ${param ? param.length : "-"}]`);
 				InspectNeo4jCalls &&
 					console.time(
 						inspectSubCallsNeo4j
@@ -210,9 +213,8 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 				// Prevent unauthorized access
 				try {
-					let connection: IConnection;
 					// @ts-ignore
-					connection = this.connection;
+					const connection = this.connection;
 					// @ts-ignore
 					const meteorContext = self._createContext(this.schema, collection, action, connection);
 
@@ -767,8 +769,7 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 
 	// Remove um nó e todas suas relações do banco de dados por meio do elementId
 
-	async serverRemove({ elementId, nodeLabel }: { elementId: string; nodeLabel?: string }) {
-		const label = hasValue(nodeLabel) ? nodeLabel : this.nodeLabel;
+	async serverRemove({ elementId, _nodeLabel }: { elementId: string; nodeLabel?: string }) {
 		const query = `
             ${this._getQueryMatchNodeByElementId({ elementIdName: "elementId" })}
             DETACH DELETE node
@@ -1196,7 +1197,6 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		const session = this.driver.session(sessionConfig);
 
 		const properties = propertiesProp || {};
-		const updatePosition = !!(properties && properties.updatePosition);
 		if (properties && properties.updatePosition) {
 			delete properties.updatePosition;
 		}

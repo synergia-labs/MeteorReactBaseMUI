@@ -1,27 +1,23 @@
 import React, { useCallback, useContext, useState } from "react";
 import Context, { IExampleListContext } from "./exampleListContext";
 import ExampleListView from "./exampleListView";
-import { useTracker } from "meteor/react-meteor-data";
 import { hasValue } from "/imports/libs/hasValue";
 import { debounce } from "lodash";
-import { IFilterPublication, IOptionsPublication } from "/imports/typings/IFilterProperties";
 import { useNavigate } from "react-router-dom";
 import EnumExampleScreenState from "../../../common/enums/enumScreenState";
 import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
 import { GridPaginationModel } from "@mui/x-data-grid";
 import { nanoid } from "nanoid";
-import exampleApi from "../../api/api";
-import enumExampleRegisterPublications from "../../../common/enums/enumRegisterPublications";
 
 const ExampleListProvider: React.FC = () => {
 	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
-	const [filterByNameValue, setFilterByNameValue] = useState<string>("");
-	const [filterByCategoryValue, setFilterByCategoryValue] = useState<string>("");
+	const [__filterByNameValue, setFilterByNameValue] = useState<string>("");
+	const [__filterByCategoryValue, setFilterByCategoryValue] = useState<string>("");
 	const [paginationProps, setPaginationProps] = useState<GridPaginationModel>({ page: 0, pageSize: 15 });
-	const [loading, setLoading] = useState<boolean>(false);
-	const [totalDocuments, setTotalDocuments] = useState<number>(0);
-	const [todoList, setTodoList] = useState<Array<any>>([]);
+	const [loading, __setLoading] = useState<boolean>(false);
+	const [totalDocuments, __setTotalDocuments] = useState<number>(0);
+	const [todoList, __setTodoList] = useState<Array<any>>([]);
 
 	const navigate = useNavigate();
 
@@ -53,7 +49,7 @@ const ExampleListProvider: React.FC = () => {
 		[navigate]
 	);
 
-	const handleDeleteTask = useCallback((id?: string) => {
+	const handleDeleteTask = useCallback((_id?: string) => {
 		// exampleApi.remove({ _id: id }, (error) => {
 		//     if(error) return showNotification({
 		//         type: 'error',

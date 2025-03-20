@@ -1,5 +1,4 @@
 import { nanoid } from "nanoid";
-import { IMeteorError } from "/imports/typings/IMeteorError";
 
 const taskPrefixes = [
 	"Completar",

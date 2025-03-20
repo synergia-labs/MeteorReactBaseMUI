@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import HomeSection from "../components/section";
 import { Button, Menu, TextField } from "@mui/material";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";

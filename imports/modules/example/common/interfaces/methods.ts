@@ -1,4 +1,3 @@
-import { Meteor } from "meteor/meteor";
 import fillDatabaseWithFakeDataInstance from "../../backend/methods/fillDatabaseWithFakeData.callMethod";
 import { MethodType } from "/imports/base/types/method";
 import { TransformServerToApiMethods } from "/imports/base/types/serverApiMethods";

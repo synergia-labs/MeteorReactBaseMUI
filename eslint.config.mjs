@@ -48,7 +48,7 @@ export default [
 			}
 		},
 		rules: {
-			"no-console": ["error", { allow: ["warn", "error"] }], // Avisar sobre console.log
+			"no-console": ["error", { allow: ["warn", "error", "info", "time", "timeEnd"] }], // Avisar sobre console.log
 			"prefer-const": "error", // Preferir const
 			"prettier/prettier": ["error", { singleQuote: false, trailingComma: "none" }], // **Garante aspas duplas e sem trailing comma**
 			"meteor/no-session": "warn", // Avisar sobre o uso de Session (não recomendado)
@@ -58,16 +58,18 @@ export default [
 			"@typescript-eslint/ban-ts-comment": "off", // Desativa a regra que emite erro para uso de "// @ts-ignore"
 			"no-unused-vars": "off",
 			"react/display-name": "off",
+			"@typescript-eslint/no-unused-expressions": "off",
 
 			"@typescript-eslint/no-unused-vars": [
 				"error",
 				{
 					ignoreRestSiblings: true,
 					argsIgnorePattern: "^_", // Ignora argumentos com prefixo "_"
-					varsIgnorePattern: "^(React|_)$", // Ignora a variável "React"
-					caughtErrorsIgnorePattern: "^_"
+					varsIgnorePattern: "^(React|_|__)", // Ignora variáveis que começam com "React", "_" ou "__"
+					caughtErrorsIgnorePattern: "^_*"
 				}
 			],
+
 			"import/no-restricted-paths": [
 				"error",
 				{

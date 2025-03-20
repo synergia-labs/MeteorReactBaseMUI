@@ -1,6 +1,5 @@
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamGetArchiveType, ReturnGetArchiveType } from "../common/types/getArchive";
-import { StorageServer } from "../storage.server";
 import { GetStorageBase } from "./bases/get";
 import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";

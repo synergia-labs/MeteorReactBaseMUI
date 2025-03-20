@@ -38,8 +38,6 @@ export const initSearch = (api: any, subscribeConfigReactiveVar: ReactiveVar<any
 					return returnJson;
 				}
 				subscribeConfig.reactiveVarConfig.set(subscribeConfig.config);
-			} else {
-				console.log("SearchError: ReactiveVar Or Config is NOT Defined");
 			}
 
 			return;
@@ -78,8 +76,6 @@ export const initSearch = (api: any, subscribeConfigReactiveVar: ReactiveVar<any
 				return returnJson;
 			}
 			subscribeConfig.reactiveVarConfig.set(subscribeConfig.config);
-		} else {
-			console.log("SearchError: ReactiveVar Or Config is NOT Defined");
 		}
 	};
 

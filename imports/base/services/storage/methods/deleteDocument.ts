@@ -1,6 +1,5 @@
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamDeleteArchiveType, ReturnDeleteArchiveType } from "../common/types/deleteArchive";
-import { StorageServer } from "../storage.server";
 import { DeleteStorageBase } from "./bases/delete";
 import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";

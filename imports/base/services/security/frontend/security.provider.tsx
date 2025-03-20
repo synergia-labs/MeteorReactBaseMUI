@@ -1,6 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState, useMemo, useEffect } from "react";
 import securityApi from "../security.api";
-import { set } from "lodash";
 
 interface ISecurityContext {
 	permissions: Record<string, boolean>;
@@ -17,7 +16,7 @@ interface ISecurityProvider {
 
 export function SecurityProvider({ functionality, module, children }: ISecurityProvider) {
 	const [access, setAccess] = useState<Record<string, boolean>>({});
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [_isLoading, setIsLoading] = useState<boolean>(false);
 
 	useEffect(() => {
 		setIsLoading(true);

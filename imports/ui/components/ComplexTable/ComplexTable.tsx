@@ -245,7 +245,7 @@ export const ComplexTable = (props: IComplexTableProps) => {
 
 	const transformData = (
 		value: any,
-		type: Function,
+		type: Function, // eslint-disable-line @typescript-eslint/no-unsafe-function-type
 		renderKey?: string,
 		arrayOptions?: Array<{ label: string; value: any }>
 	) => {
@@ -325,7 +325,6 @@ export const ComplexTable = (props: IComplexTableProps) => {
 								schema[key].renderKey,
 								schema[key]?.options?.(params.row)
 							);
-							const variant = params.field === "atividade" ? "labelMedium" : "bodyMedium";
 							return (
 								<ComplexTableRowText variant="body2" sx={{ textAlign: "left" }}>
 									<Tooltip title={value} arrow={true}>
@@ -386,9 +385,10 @@ export const ComplexTable = (props: IComplexTableProps) => {
 					});
 				}
 
-				return renderActions.map((action: IAction) => {
+				return renderActions.map((action: IAction, idx: number) => {
 					return (
 						<GridActionsCellItem
+							key={action.label + idx}
 							label={action.label}
 							icon={typeof action.icon === "function" ? action.icon(params.row) : action.icon}
 							disabled={!!action.disabled}
