@@ -9,6 +9,7 @@ import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sy
 import Context, { INotLoggedInUserContext } from "../notLoggedInUser.context";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 import resetPasswordFrontSchema from "./enrollAccount.schema";
+import usersServer from "/imports/modules/userprofile/backend/server";
 
 export const EnrollAccountPage: React.FC = () => {
 	const { token } = useParams();
