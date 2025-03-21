@@ -7,9 +7,11 @@ import prettierConfig from "eslint-config-prettier";
 import prettierPlugin from "eslint-plugin-prettier";
 
 import typescriptParser from "@typescript-eslint/parser";
-import noThrowInMethods from "./.eslint-rules/no-throw-in-methods.mjs";
 import eslintPluginImport from "eslint-plugin-import";
 import importPlugin from "eslint-plugin-import";
+
+import createRuleMaxLines from "./.eslint-rules/max-function-lines.mjs";
+import crossImports from "./.eslint-rules/cross-imports.mjs";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -43,20 +45,51 @@ export default [
 			"import": eslintPluginImport,
 			"custom-rules": {
 				rules: {
-					"no-throw-in-methods": noThrowInMethods // Registrando a regra personalizada
+					"cross-imports": crossImports,
+					"max-lines-error": createRuleMaxLines(),
+					"max-lines-warn": createRuleMaxLines()
 				}
 			}
 		},
 		rules: {
+			"custom-rules/cross-imports": "error", // Regra customizada
+			"custom-rules/max-lines-warn": ["warn", { maxLines: 40 }], // 👈 Warn acima de 50
+			"custom-rules/max-lines-error": ["error", { maxLines: 80 }], // 👈 Error acima de 70
+
 			"no-console": ["error", { allow: ["warn", "error", "info", "time", "timeEnd"] }], // Avisar sobre console.log
 			"prefer-const": "error", // Preferir const
 			"prettier/prettier": ["error", { singleQuote: false, trailingComma: "none" }], // **Garante aspas duplas e sem trailing comma**
 			"meteor/no-session": "warn", // Avisar sobre o uso de Session (não recomendado)
-			"custom-rules/no-throw-in-methods": "error", // Regra customizada
 			"@typescript-eslint/no-empty-object-type": "off", // Desativa a regra que emite erro para interfaces vazias
 			"@typescript-eslint/no-explicit-any": "off", // Desativa a regra que emite erro para uso de "any"
 			"@typescript-eslint/ban-ts-comment": "off", // Desativa a regra que emite erro para uso de "// @ts-ignore"
+			"linebreak-style": ["error", "unix"],
+			"max-depth": ["error", { max: 3 }],
 			"no-unused-vars": "off",
+			"no-restricted-syntax": [
+				"error",
+				{
+					selector:
+						"ClassDeclaration[superClass.name]:matches([superClass.name='MethodBase'], [superClass.name='ActionsBase'], [superClass.name='CreateMethodBase'], [superClass.name='PublicationBase']) MethodDefinition ThrowStatement",
+					message: "Não é permitido usar 'throw' em métodos dentro desta classe. Utilize this.generateError em vez disso."
+				}
+			],
+			"@typescript-eslint/naming-convention": [
+				"error",
+				{
+					selector: "variableLike",
+					format: ["camelCase", "UPPER_CASE"],
+					filter: { match: false, regex: "^_" }
+				},
+				{ selector: ["classMethod"], format: ["camelCase"], leadingUnderscore: "allow" },
+				{ selector: ["function"], format: ["PascalCase", "camelCase"], leadingUnderscore: "allow" },
+				{ selector: ["interface"], format: ["PascalCase"], prefix: ["I"] },
+				{ selector: ["variable"], format: ["camelCase", "PascalCase"], leadingUnderscore: "allow" },
+				{ selector: ["enum"], format: ["camelCase"], prefix: ["enum"] },
+				{ selector: ["typeAlias"], format: ["PascalCase"], suffix: ["Type"] },
+				{ selector: ["class"], format: ["PascalCase"] },
+				{ selector: "enumMember", format: ["UPPER_CASE"] }
+			],
 			"react/display-name": "off",
 			"@typescript-eslint/no-unused-expressions": "off",
 
@@ -74,17 +107,17 @@ export default [
 				"error",
 				{
 					zones: [
+						// Frontend → Backend
 						{
-							// Qualquer arquivo dentro de uma pasta que contenha "frontend"
-							target: "**/frontend/**",
-							// Não pode importar de qualquer pasta que contenha "backend"
-							from: "**/backend/**",
-							message: "Importar arquivos do backend em um diretório frontend não é permitido."
+							target: "*backend*",
+							from: "*frontend*",
+							message: "Importação do backend no frontend é proibida! 🔴"
 						},
+						// Backend → Frontend
 						{
-							target: "**/backend/**",
-							from: "**/frontend/**",
-							message: "Importar arquivos do frontend em um diretório backend não é permitido."
+							target: "*frontend*",
+							from: "*backend*",
+							message: "Importação do frontend no backend é proibida! 🔵"
 						}
 					]
 				}
