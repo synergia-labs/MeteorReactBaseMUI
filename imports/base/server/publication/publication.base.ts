@@ -88,7 +88,12 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 				this.returnPubliSch.parse(doc);
 			});
 			if (errors.length > 0) {
-				throw new Meteor.Error("500", `Os documentos não estão de acordo com o schema: \n${errors.join("\n")}`);
+				this.generateError(
+					{
+						_message: `Os documentos não estão de acordo com o schema: \n${errors.join("\n")}`
+					},
+					_context
+				);
 			}
 		}
 		super.afterAction(_param, _result, _context);
@@ -98,8 +103,8 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		return this.action(_param[0], _param[1], _context);
 	}
 
-	async transformPublication(_doc: Return, _context: IContext): Promise<Return> {
-		throw new Meteor.Error("500", "O método transformPublication deve ser implementado");
+	async transformPublication(_doc: Return, _context: IContext): Promise<Return | void> {
+		return this.generateError({ _message: "Transformação de publicação não implementada" }, _context);
 	}
 }
 

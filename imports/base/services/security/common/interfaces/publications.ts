@@ -2,7 +2,7 @@ import { getAllMethodsPublication } from "../../backend/publications/getAllMetho
 import { getAllRolesPublication } from "../../backend/publications/getAllRoles";
 import { PublicationType } from "/imports/base/types/publication";
 
-export interface SecurityApiPublication {
+export interface ISecurityApiPublication {
 	getAllMethodsPublication: PublicationType<typeof getAllMethodsPublication>;
 	getAllRolesPublication: PublicationType<typeof getAllRolesPublication>;
 }

@@ -90,7 +90,7 @@ export class StorageServer extends ServerBase {
 	 * Inicializa o servidor de armazenamento e registra os métodos disponíveis.
 	 */
 	constructor() {
-		super(enumStorageConfig.apiName);
+		super(enumStorageConfig.API_NAME);
 		this.registerMethods(_methodInstances, this);
 
 		// Registra os endpoints REST para obtenção de arquivos.

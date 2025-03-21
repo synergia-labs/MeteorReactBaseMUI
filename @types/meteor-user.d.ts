@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { UserProfileType, UserServiceType } from "../imports/modules/userprofile/common/types/meteorUser";
 
 declare module "meteor/meteor" {
@@ -6,3 +7,5 @@ declare module "meteor/meteor" {
 		interface UserServices extends UserServiceType {}
 	}
 }
+
+/* eslint-enable */

@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import Slider, { SliderProps } from "@mui/material/Slider";
 import { ISysFormComponentRef } from "../../sysForm/typings";
-import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import { SxProps, Theme } from "@mui/material";
 import { hasValue } from "../../../../libs/hasValue";
 import { SysFormContext } from "../../sysForm/sysForm";
@@ -10,7 +10,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import SysLabelView from "../../sysLabelView/sysLabelView";
 import { SysViewField } from "../sysViewField/sysViewField";
 
-interface ISysSliderProps extends ISysFormComponent<SliderProps> {
+interface ISysSliderProps extends SysFormComponentType<SliderProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
 		container?: SxProps<Theme>;

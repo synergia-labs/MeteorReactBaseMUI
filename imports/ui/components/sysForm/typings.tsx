@@ -1,6 +1,6 @@
 import { MutableRefObject } from "react";
 import { IOption } from "../InterfaceBaseSimpleFormComponent";
-import { IDefField, SchemaType } from "/imports/base/types/schema";
+import { IDefField, ISchema } from "/imports/base/types/schema";
 import React from "react";
 
 interface IDocValues {
@@ -12,7 +12,7 @@ interface IDocRef {
 }
 
 interface ISysForm {
-	schema: SchemaType<any>;
+	schema: ISchema<any>;
 	doc?: IDocValues;
 	mode?: "view" | "edit" | "create";
 	ref?: React.RefObject<HTMLFormElement>;

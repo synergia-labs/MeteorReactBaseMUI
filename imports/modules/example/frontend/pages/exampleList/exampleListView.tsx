@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Styles from "./exampleListStyles";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 import Context, { IExampleListContext } from "./exampleListContext";
-import EnumExampleScreenState from "../../../common/enums/enumScreenState";
+import enumExampleScreenState from "../../../common/enums/enumScreenState";
 import ToolTip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import { SysFab } from "/imports/ui/components/sysFab/sysFab";
@@ -42,8 +42,8 @@ const ExampleListView: React.FC = () => {
 				data={context.todoList}
 				schema={exampleSchReduzido}
 				loading={context.loading}
-				onRowClick={(row) => context.navigateToDetail(EnumExampleScreenState.VIEW, row?.id as string)}
-				onEdit={(row: any ) => context.navigateToDetail(EnumExampleScreenState.EDIT, row?._id)}
+				onRowClick={(row) => context.navigateToDetail(enumExampleScreenState.VIEW, row?.id as string)}
+				onEdit={(row: any ) => context.navigateToDetail(enumExampleScreenState.EDIT, row?._id)}
 				onDelete={(row: any) => {
 					DeleteDialog({
 						showDialog: showDialog,
@@ -62,7 +62,7 @@ const ExampleListView: React.FC = () => {
 				text="Adicionar"
 				startIcon={<SysIcon name={"add"} />}
 				fixed={true}
-				onClick={() => context.navigateToDetail(EnumExampleScreenState.CREATE)}
+				onClick={() => context.navigateToDetail(enumExampleScreenState.CREATE)}
 			/>
 		</Styles.container>
 	);

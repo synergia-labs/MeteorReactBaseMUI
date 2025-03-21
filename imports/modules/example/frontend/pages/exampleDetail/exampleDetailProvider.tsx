@@ -4,7 +4,7 @@ import ExampleDetailView from "./exampleDetailView";
 import { useNavigate } from "react-router-dom";
 import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
 import { useTracker } from "meteor/react-meteor-data";
-import EnumExampleScreenState from "../../../common/enums/enumScreenState";
+import enumExampleScreenState from "../../../common/enums/enumScreenState";
 import ExampleModuleContext, { IExampleModuleContext } from "../../exampleContext";
 
 const ExampleDetailProvider: React.FC = () => {
@@ -31,7 +31,7 @@ const ExampleDetailProvider: React.FC = () => {
 	const closePage = useCallback(() => navigate(-1), [navigate]);
 
 	const changeToEdit = useCallback(
-		(id: string) => navigate(`/example/${EnumExampleScreenState.EDIT}/${id}`),
+		(id: string) => navigate(`/example/${enumExampleScreenState.EDIT}/${id}`),
 		[navigate]
 	);
 

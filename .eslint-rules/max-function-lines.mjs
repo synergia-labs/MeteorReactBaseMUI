@@ -1,5 +1,5 @@
 // custom-max-lines.js
-export default function createRuleMaxLines(options = {}) {
+export default function createRuleMaxLines(options) {
 	return {
 		meta: {
 			type: "suggestion",

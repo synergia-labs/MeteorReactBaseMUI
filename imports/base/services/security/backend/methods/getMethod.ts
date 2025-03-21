@@ -4,7 +4,7 @@ import { enumSecurityMethods } from "../../common/enums/methods.enum";
 import { ParamGetType, returnGetMethodSch, ReturnGetMethodType } from "../../common/types/get";
 import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";
-import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
 
 class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethodType> {
@@ -13,7 +13,7 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 			name: enumSecurityMethods.getMethod,
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetMethodSch,
-			roles: [EnumUserRoles.ADMIN],
+			roles: [enumUserRoles.ADMIN],
 			description: "Get method by name and referred"
 		});
 	}
@@ -22,12 +22,12 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 		const methodCollection = this.getServerInstance()?.getMethodCollection();
 		if (!methodCollection) this.generateError({ _message: "Method collection not found" }, _context);
 
-		const _id = `${_param.referred ?? enumSecurityConfig.apiName}.${_param.name}`;
+		const _id = `${_param.referred ?? enumSecurityConfig.API_NAME}.${_param.name}`;
 		const method = await methodCollection!.findOneAsync({ _id });
 		if (!method) this.generateError({ _message: "Method not found" }, _context);
 
-		if (method.isProtected && !_context.user.profile?.roles.includes(EnumUserRoles.ADMIN))
-			throw new Error("Unauthorized");
+		if (method.isProtected && !_context.user.profile?.roles.includes(enumUserRoles.ADMIN))
+			this.generateError({ _message: "Method is protected" }, _context);
 
 		return method;
 	}

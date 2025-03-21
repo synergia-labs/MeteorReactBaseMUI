@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Meteor, Subscription } from "meteor/meteor";
 import { WebApp } from "meteor/webapp";
 import connectRoute from "connect-route";
@@ -8,11 +9,11 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { EndpointType } from "../types/serverParams";
 import { MethodType } from "../types/method";
-import EnumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 import { getDefaultAdminContext, getDefaultPublicContext } from "./utils/defaultContexts";
 import { methodSafeInsert } from "../services/security/backend/methods/methodSafeInsert";
 import { enumSecurityConfig } from "../services/security/common/enums/config.enum";
-import { enumMethodTypes, MethodTypes } from "../services/security/common/enums/methodTypes";
+import { enumMethodTypes, MethodEnumType } from "../services/security/common/enums/methodTypes";
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: "50mb" }));
@@ -35,15 +36,15 @@ class ServerBase {
 	}
 	//endregion
 
-	private _registerSecurity(name: string, type: MethodTypes, isProtected: boolean, roles?: Array<string>) {
+	private _registerSecurity(name: string, type: MethodEnumType, isProtected: boolean, roles?: Array<string>) {
 		setTimeout(async () => {
 			try {
 				const context = getDefaultAdminContext({ apiName: this.apiName, action: "startApplication" });
 				await methodSafeInsert.execute(
 					{
 						name: name,
-						referred: enumSecurityConfig.apiName,
-						roles: roles ?? [EnumUserRoles.PUBLIC],
+						referred: enumSecurityConfig.API_NAME,
+						roles: roles ?? [enumUserRoles.PUBLIC],
 						type: type,
 						isProtected: isProtected
 					},
@@ -80,7 +81,7 @@ class ServerBase {
 			if (methodInstances?.length == 0 || !classInstance) return;
 
 			const methodsObject: Record<string, MethodType<MethodBase<any, any, any>>> = {};
-			const self = this; // eslint-disable-line
+			const self = this;
 
 			for (const method of methodInstances) {
 				method.setServerInstance(classInstance);
@@ -91,7 +92,7 @@ class ServerBase {
 					console.info(`Call Method: ${methodName}`);
 
 					// @ts-ignore
-					const meteorInstance: Meteor.MethodThisType = this; // eslint-disable-line
+					const meteorInstance: Meteor.MethodThisType = this;
 
 					const meteorContext = await self._createContext({ action: methodName, meteorInstance: meteorInstance });
 					return await method.execute(...param, meteorContext);
@@ -129,7 +130,7 @@ class ServerBase {
 		try {
 			if (Meteor.isClient) throw new Meteor.Error("500", "This method can only be called on the server side");
 			if (publicationInstances?.length == 0 || !classInstance) return;
-			const self = this; // eslint-disable-line
+			const self = this;
 
 			publicationInstances.forEach(async (publication) => {
 				publication.setServerInstance(classInstance);
@@ -146,7 +147,7 @@ class ServerBase {
 					console.info(`Call Publication: ${publicationName}`);
 
 					// @ts-ignore
-					const meteorInstance: Subscription = this; // eslint-disable-line
+					const meteorInstance: Subscription = this;
 					const meteorContext = await self._createContext({
 						action: publicationName,
 						meteorInstance: meteorInstance
@@ -159,7 +160,7 @@ class ServerBase {
 					? undefined
 					: async (...param: [any]): Promise<any> => {
 							// @ts-ignore
-							const meteorInstance: Subscription = this; // eslint-disable-line
+							const meteorInstance: Subscription = this;
 							const meteorContext = await self._createContext({
 								action: publicationName,
 								meteorInstance: meteorInstance
@@ -215,7 +216,7 @@ class ServerBase {
 		user?: Meteor.User;
 		meteorInstance?: Subscription | Meteor.MethodThisType;
 	}): Promise<IContext> {
-		user = user ?? ((await Meteor.userAsync()) || ({ profile: { roles: [EnumUserRoles.PUBLIC] } } as Meteor.User));
+		user = user ?? ((await Meteor.userAsync()) || ({ profile: { roles: [enumUserRoles.PUBLIC] } } as Meteor.User));
 		return { apiName: this.apiName, action, user, meteorInstance };
 	}
 	// #endregion
@@ -313,3 +314,4 @@ class ServerBase {
 }
 
 export default ServerBase;
+/* eslint-enable */

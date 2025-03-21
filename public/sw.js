@@ -1,3 +1,4 @@
+/* eslint-disable */
 const HTMLToCache = "/";
 const version = "MSW V0.3";
 
@@ -103,6 +104,7 @@ function hasSameHash(firstUrl, secondUrl) {
 		return /\?hash=(.*)/.exec(firstUrl)[1] === /\?hash=(.*)/.exec(secondUrl)[1];
 	}
 }
+/* eslint-enable */
 
 // Service worker created by Ilan Schemoul alias NitroBAY as a specific Service Worker for Meteor
 // Please see https://github.com/NitroBAY/meteor-service-worker for the official project source

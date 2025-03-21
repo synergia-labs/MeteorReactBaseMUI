@@ -9,7 +9,7 @@ import {
 import { SecurityServer } from "../security.server";
 import { _checkPermission } from "../utils/checkPermission";
 import MethodBase from "/imports/base/server/methods/method.base";
-import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
 
 class CheckMethodPermission extends MethodBase<SecurityServer, ParamCheckPermissionType, ReturnCheckPermissionType> {
@@ -17,7 +17,7 @@ class CheckMethodPermission extends MethodBase<SecurityServer, ParamCheckPermiss
 		super({
 			name: enumSecurityMethods.checkMethodPermission,
 			description: "Check if user has permission to execute a method",
-			roles: [EnumUserRoles.PUBLIC],
+			roles: [enumUserRoles.PUBLIC],
 			paramSch: paramCheckPermissionSch,
 			returnSch: returnCheckPermissionSch
 		});
@@ -29,7 +29,7 @@ class CheckMethodPermission extends MethodBase<SecurityServer, ParamCheckPermiss
 		const result: ReturnCheckPermissionType = {};
 
 		for (const name of names) {
-			result[name] = await _checkPermission(name, referred ?? enumSecurityConfig.apiName, _context);
+			result[name] = await _checkPermission(name, referred ?? enumSecurityConfig.API_NAME, _context);
 		}
 
 		return result;

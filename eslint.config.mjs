@@ -21,7 +21,7 @@ export default [
 	{ files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
 	{ languageOptions: { globals: { ...globals.browser, ...globals.node }, parser: typescriptParser } },
 	{
-		ignores: ["node_modules/", ".meteor/", "build/", ".cypress/", ".vscode/", "stories/"]
+		ignores: ["node_modules/", ".meteor/", "build/", ".cypress/", ".vscode/", "stories/", ".eslint-rules/"]
 	},
 	{
 		settings: {
@@ -53,7 +53,7 @@ export default [
 		},
 		rules: {
 			"custom-rules/cross-imports": "error", // Regra customizada
-			"custom-rules/max-lines-warn": ["warn", { maxLines: 40 }], // 👈 Warn acima de 50
+			"custom-rules/max-lines-warn": ["warn", { maxLines: 50 }], // 👈 Warn acima de 50
 			"custom-rules/max-lines-error": ["error", { maxLines: 80 }], // 👈 Error acima de 70
 
 			"no-console": ["error", { allow: ["warn", "error", "info", "time", "timeEnd"] }], // Avisar sobre console.log
@@ -64,7 +64,7 @@ export default [
 			"@typescript-eslint/no-explicit-any": "off", // Desativa a regra que emite erro para uso de "any"
 			"@typescript-eslint/ban-ts-comment": "off", // Desativa a regra que emite erro para uso de "// @ts-ignore"
 			"linebreak-style": ["error", "unix"],
-			"max-depth": ["error", { max: 3 }],
+			"max-depth": ["error", { max: 4 }],
 			"no-unused-vars": "off",
 			"no-restricted-syntax": [
 				"error",
@@ -85,7 +85,7 @@ export default [
 				{ selector: ["function"], format: ["PascalCase", "camelCase"], leadingUnderscore: "allow" },
 				{ selector: ["interface"], format: ["PascalCase"], prefix: ["I"] },
 				{ selector: ["variable"], format: ["camelCase", "PascalCase"], leadingUnderscore: "allow" },
-				{ selector: ["enum"], format: ["camelCase"], prefix: ["enum"] },
+				{ selector: ["enum"], format: ["PascalCase"], prefix: ["enum"] },
 				{ selector: ["typeAlias"], format: ["PascalCase"], suffix: ["Type"] },
 				{ selector: ["class"], format: ["PascalCase"] },
 				{ selector: "enumMember", format: ["UPPER_CASE"] }

@@ -2,7 +2,7 @@ import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamGetArchiveType, ReturnGetArchiveType } from "../common/types/getArchive";
 import { enumResolution } from "../common/types/resolution.type";
 import { GetStorageBase } from "./bases/get";
-import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
 import fs from "fs";
 import sharp from "sharp";
@@ -11,7 +11,7 @@ class GetImage extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getImage,
-			roles: [EnumUserRoles.PUBLIC, EnumUserRoles.ADMIN],
+			roles: [enumUserRoles.PUBLIC, enumUserRoles.ADMIN],
 			canRegister: false
 		});
 	}

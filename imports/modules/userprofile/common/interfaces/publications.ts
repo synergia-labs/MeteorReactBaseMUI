@@ -1,8 +1,8 @@
 import { getUsersListPublication } from "../../backend/publications/usersList.publication";
 import { PublicationType } from "/imports/base/types/publication";
 
-interface UsersApiPublication {
+interface IUsersApiPublication {
 	getUsersListPublication: PublicationType<typeof getUsersListPublication>;
 }
 
-export default UsersApiPublication;
+export default IUsersApiPublication;

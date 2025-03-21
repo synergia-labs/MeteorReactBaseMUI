@@ -1,7 +1,7 @@
-import { SchemaType } from "/imports/base/types/schema";
+import { ISchema } from "/imports/base/types/schema";
 import emailValidator from "/imports/libs/validators/email";
 
-const signInFrontSchema: SchemaType<{}> = {
+const signInFrontSchema: ISchema<{}> = {
 	email: {
 		type: "String",
 		label: "Email",

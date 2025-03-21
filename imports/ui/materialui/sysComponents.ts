@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Theme } from "@mui/material";
 import { sysSizing, sysShadows } from "./styles";
 

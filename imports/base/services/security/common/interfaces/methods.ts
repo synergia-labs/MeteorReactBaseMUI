@@ -5,9 +5,9 @@ import { getRolesListNames } from "../../backend/methods/getRolesListNames";
 import { methodSafeInsert } from "../../backend/methods/methodSafeInsert";
 import { roleSafeInsert } from "../../backend/methods/roleSafeInsert";
 import { MethodType } from "/imports/base/types/method";
-import { TransformServerToApiMethods } from "/imports/base/types/serverApiMethods";
+import { TransformServerToApiMethodsType } from "/imports/base/types/serverApiMethods";
 
-interface SecurityServerMethods extends Record<string, (...args: any) => any> {
+interface ISecurityServerMethods extends Record<string, (...args: any) => any> {
 	roleSafeInsert: MethodType<typeof roleSafeInsert>;
 	methodSafeInsert: MethodType<typeof methodSafeInsert>;
 	getMethod: MethodType<typeof getMethod>;
@@ -16,5 +16,5 @@ interface SecurityServerMethods extends Record<string, (...args: any) => any> {
 	checkMethodPermission: MethodType<typeof checkMethodPermission>;
 }
 
-type SecurityApiMethods = TransformServerToApiMethods<SecurityServerMethods>;
-export type { SecurityServerMethods, SecurityApiMethods };
+type SecurityApiMethodsType = TransformServerToApiMethodsType<ISecurityServerMethods>;
+export type { ISecurityServerMethods, SecurityApiMethodsType };

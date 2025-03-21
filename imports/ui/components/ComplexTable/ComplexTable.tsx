@@ -27,13 +27,13 @@ interface ISchema {
 	[key: string]: any;
 }
 
-type onClickFunction = (row: any) => void;
+type OnClickFunctionType = (row: any) => void;
 
 interface IAction {
 	icon: JSX.Element | ((doc: any) => JSX.Element);
 	label: string;
 	disabled?: boolean;
-	onClick: onClickFunction;
+	onClick: OnClickFunctionType;
 }
 
 interface IConditionalAction {
@@ -41,12 +41,12 @@ interface IConditionalAction {
 	if: {
 		icon: JSX.Element;
 		label: string;
-		onClick: onClickFunction;
+		onClick: OnClickFunctionType;
 	};
 	else?: {
 		icon: JSX.Element;
 		label: string;
-		onClick: onClickFunction;
+		onClick: OnClickFunctionType;
 	};
 }
 
@@ -90,12 +90,12 @@ interface IComplexTableProps extends Omit<DataGridProps, "columns"> {
 	 * Função callback ativada para deletar uma linha. Se é especificada, então há uma action de deleção.
 	 * @param {any} row Linha que está sendo deletada.
 	 */
-	onDelete?: onClickFunction;
+	onDelete?: OnClickFunctionType;
 	/**
 	 * Função callback ativada para editar uma linha. Se é especificada, então há uma action de edição.
 	 * @param {any} row Linha que está sendo editada.
 	 */
-	onEdit?: onClickFunction;
+	onEdit?: OnClickFunctionType;
 	/**
 	 * Array com as actions que devem ter na tabela, exceto deleção e edição que são especificadas pelas
 	 * callbacks onDelete e onEdit. Deve especificar um ícone, uma label e uma callback para cada action.

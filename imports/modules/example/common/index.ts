@@ -1,6 +1,6 @@
-enum EnumExampleSettings {
+enum enumExampleSettings {
 	MODULE_NAME = "example",
 	MODULE_PATH = "/example"
 }
 
-export default EnumExampleSettings;
+export default enumExampleSettings;

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { IOption, ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { IOption, SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -16,7 +16,7 @@ import SysIcon from "../../sysIcon/sysIcon";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 
-interface ISysSelectFieldProps extends ISysFormComponent<Omit<SelectProps, "variant">> {
+interface ISysSelectFieldProps extends SysFormComponentType<Omit<SelectProps, "variant">> {
 	defaultValue?: string;
 	description?: string;
 	menuNone?: boolean;
@@ -114,8 +114,8 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 					displayEmpty
 					disabled={disabled || loading}
 					multiple={multiple}
-					renderValue={(Selected) => {
-						if (!hasValue(Selected)) {
+					renderValue={(selected) => {
+						if (!hasValue(selected)) {
 							return (
 								<Typography variant="body1" color={"text.disabled"}>
 									{placeholder}
@@ -124,7 +124,7 @@ export const SysSelectField: React.FC<ISysSelectFieldProps> = ({
 						}
 						return (
 							<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 1 }}>
-								<Typography variant="body1">{options?.find((e) => e.value == Selected)?.label}</Typography>
+								<Typography variant="body1">{options?.find((e) => e.value == selected)?.label}</Typography>
 								<IconButton
 									size="small"
 									sx={{ padding: 0, margin: 0, zIndex: 10000 }}

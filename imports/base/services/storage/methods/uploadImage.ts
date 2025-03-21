@@ -2,7 +2,7 @@ import { IContext } from "/imports/typings/IContext";
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { UploadStorageBase } from "./bases/upload";
 import { Buffer } from "buffer";
-import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import storageServer from "../storage.server";
 import { enumFileType } from "../common/types/file.type";
 import { ParamUploadArchiveType, ReturnUploadArchiveType } from "../common/types/uploadArchive";
@@ -11,7 +11,7 @@ class UploadImage extends UploadStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.uploadImage,
-			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
+			roles: [enumUserRoles.ADMIN, enumUserRoles.USER]
 		});
 	}
 

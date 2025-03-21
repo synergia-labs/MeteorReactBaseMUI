@@ -1,4 +1,4 @@
-import EnumUserRoles from "../../common/enums/enumUserRoles";
+import enumUserRoles from "../../common/enums/enumUserRoles";
 import { UsersServer } from "../server";
 import PublicationBase from "/imports/base/server/publication/publication.base";
 import { IContext } from "/imports/typings/IContext";
@@ -15,7 +15,7 @@ class GetUsersListPublication extends PublicationBase<UsersServer, GetUsersListP
 		super({
 			name: enumUsersRegisterPublications.getUsersListPublication,
 			description: "Retorna todos os usuários cadastrados no sistema",
-			roles: [EnumUserRoles.ADMIN],
+			roles: [enumUserRoles.ADMIN],
 			paramSch: getUsersListParamSchema,
 			returnSch: getUsersListReturnSchema,
 			enableCountPublication: true,

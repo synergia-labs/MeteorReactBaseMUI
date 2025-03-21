@@ -1,5 +1,5 @@
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
-import EnumUserRoles from "../../common/enums/enumUserRoles";
+import enumUserRoles from "../../common/enums/enumUserRoles";
 import { UsersServer } from "../server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
@@ -17,7 +17,7 @@ class CheckIfHasAdminUserCallMethod extends MethodBase<UsersServer, void, boolea
 
 	async action(_prop: void, _context: IContext): Promise<boolean> {
 		const adminUser = await this.getServerInstance()?.mongoInstance.findOneAsync({
-			"profile.roles": EnumUserRoles.ADMIN
+			"profile.roles": enumUserRoles.ADMIN
 		});
 		return !!adminUser;
 	}

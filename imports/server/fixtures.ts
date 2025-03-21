@@ -34,7 +34,7 @@
 // 			}
 // 		});
 
-// 		defaultUser.roles = [ EnumUserRoles.ADM ];
+// 		defaultUser.roles = [ enumUserRoles.ADM ];
 // 		await userprofileServerApi.getCollectionInstance().insertAsync(defaultUser);
 
 // 		console.info(`Usuário padrão criado com sucesso.`);

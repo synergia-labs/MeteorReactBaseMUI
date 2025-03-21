@@ -1,8 +1,9 @@
+/* eslint-disable */
 import { Meteor } from "meteor/meteor";
 import React, { useEffect, useRef, useState } from "react";
 import { ProductBase } from "../api/productBase";
 import { IMeteorError } from "../typings/BoilerplateDefaultTypings";
-import { IDoc } from "../typings/IDoc";
+import { DocType } from "../typings/DocType";
 
 const isObjectEqual = (objA: object, objB: object) => {
 	return JSON.stringify(objA) === JSON.stringify(objB);
@@ -16,7 +17,7 @@ const isObjectEqual = (objA: object, objB: object) => {
  */
 
 export function useMethod<T>(
-	api: ProductBase<IDoc>,
+	api: ProductBase<DocType>,
 	method: string,
 	params?: object
 ): [result: T | null, loading: boolean, error: IMeteorError | null] {
@@ -71,3 +72,4 @@ export function useMethod<T>(
 
 	return [result, loading, error];
 }
+/* eslint-enable */

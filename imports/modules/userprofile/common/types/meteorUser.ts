@@ -1,5 +1,5 @@
 import { z } from "zod";
-import EnumUserRoles from "../enums/enumUserRoles";
+import enumUserRoles from "../enums/enumUserRoles";
 import { AuditSch } from "/imports/base/types/audit";
 import { githubServiceDataSchema } from "./serviceGithubData";
 import { googleServiceDataSchema } from "./serviceGoogleData";
@@ -8,7 +8,7 @@ export const userProfileSchema = AuditSch.extend({
 	photo: z.string().optional(),
 	phone: z.string().optional(),
 	name: z.string(),
-	roles: z.array(z.string()).default([EnumUserRoles.USER]),
+	roles: z.array(z.string()).default([enumUserRoles.USER]),
 	connected: z.boolean().default(false).optional(),
 	lastAccess: z.date().optional()
 });

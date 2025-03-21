@@ -1,6 +1,6 @@
 import { Meteor } from "meteor/meteor";
 
-export type ValidadorError = {
+export type ValidadorErrorType = {
 	tipoErro: string | number;
 	campo?: string;
 	titulo: string | undefined;
@@ -9,7 +9,7 @@ export type ValidadorError = {
 };
 
 export class Validador {
-	private _errors: ValidadorError[] = [];
+	private _errors: ValidadorErrorType[] = [];
 
 	private readonly _schema: object | undefined;
 
@@ -48,7 +48,7 @@ export class Validador {
 		return expressao;
 	}
 
-	validarCampoObrigatorio(doc: IDoc, campo: string, msgErro?: string, titulo = "Campo obrigatório"): boolean {
+	validarCampoObrigatorio(doc: DocType, campo: string, msgErro?: string, titulo = "Campo obrigatório"): boolean {
 		// @ts-ignore
 		const expressao = !!doc[campo];
 		if (!expressao) {
@@ -77,7 +77,7 @@ export class Validador {
 		}
 	};
 
-	static recuperarErrosExcecao(excecao: Meteor.Error, tituloDemaisErros?: string): ValidadorError[] {
+	static recuperarErrosExcecao(excecao: Meteor.Error, tituloDemaisErros?: string): ValidadorErrorType[] {
 		if (excecao.error === "errosValidacao" && excecao.reason) {
 			return JSON.parse(excecao.reason);
 		}

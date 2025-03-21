@@ -1,5 +1,4 @@
 // eslint-plugin-custom-imports.js
-import path from "path";
 
 export default {
 	meta: {

@@ -5,7 +5,7 @@ import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysT
 import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 import Typography from "@mui/material/Typography";
-import EnumUserRoles from "/imports/modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "/imports/modules/userprofile/common/enums/enumUserRoles";
 import Context, { INotLoggedInUserContext } from "../notLoggedInUser.context";
 import createUserFrontSchema from "./createAdminUser.schema";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ const CreateAdminUserPage: React.FC = () => {
 				Não foi encontrado nenhum usuário administrador cadastrado no sistema. Por favor, registre um novo usuário
 				administrador.
 			</Typography>
-			<SysForm schema={createUserFrontSchema} onSubmit={createUser} doc={{ roles: [EnumUserRoles.ADMIN] }}>
+			<SysForm schema={createUserFrontSchema} onSubmit={createUser} doc={{ roles: [enumUserRoles.ADMIN] }}>
 				<Styles.formContainer>
 					<SysTextField name="name" label="Nome" fullWidth placeholder="Digite seu email" />
 					<SysTextField name="email" label="Email" fullWidth placeholder="Digite seu email" />

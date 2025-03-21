@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import MethodBase from "/imports/base/server/methods/method.base";
 import EnumUserProfileSettings from "../common";
-import { UserProfileServerMethods } from "../common/interfaces/methods";
+import { IUserProfileServerMethods } from "../common/interfaces/methods";
 import checkIfHasAdminUserCallMethodInstance from "./methods/checkIfHasAdminUser.callMethod";
 import createUserCallMethodInstance from "./methods/createUser.callMethod";
 import { Mongo } from "meteor/mongo";
@@ -40,8 +40,8 @@ class UsersServer extends ServerBase {
 	}
 }
 
-type interfaceWithMethods = UserProfileServerMethods & UsersServer;
+type InterfaceWithMethodsType = IUserProfileServerMethods & UsersServer;
 
-const usersServer = new UsersServer() as interfaceWithMethods;
+const usersServer = new UsersServer() as InterfaceWithMethodsType;
 export default usersServer;
-export type { interfaceWithMethods as UsersServer };
+export type { InterfaceWithMethodsType as UsersServer };

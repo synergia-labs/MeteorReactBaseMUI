@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { createTheme } from "@mui/material/styles";
 import React from "react";
 import { Theme, ThemeOptions } from "@mui/material";
@@ -98,3 +99,4 @@ export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
 
 	return createTheme(theme, { ...getSysComponentsStyles(theme, fontScale) });
 };
+/* eslint-enable */

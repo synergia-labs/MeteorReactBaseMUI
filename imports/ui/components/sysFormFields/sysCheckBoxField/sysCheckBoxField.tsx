@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import Checkbox, { CheckboxProps } from "@mui/material/Checkbox";
 import { SxProps, Theme } from "@mui/material";
-import { IOption, ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { IOption, SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import { SysFormContext } from "../../sysForm/sysForm";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SysLabelView from "../../sysLabelView/sysLabelView";
@@ -13,7 +13,7 @@ import { ISysFormComponentRef } from "../../sysForm/typings";
 import { SysViewField } from "../sysViewField/sysViewField";
 import { sysSizing } from "../../../../ui/materialui/styles";
 
-interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
+interface ISysCheckBox extends SysFormComponentType<CheckboxProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
 		container?: SxProps<Theme>;

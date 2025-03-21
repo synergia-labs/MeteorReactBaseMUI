@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { SysFormContext } from "../../sysForm/sysForm";
-import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import TextField from "@mui/material/TextField";
 import SysLabelView from "../../sysLabelView/sysLabelView";
 import { SxProps, Theme } from "@mui/material";
@@ -12,7 +12,7 @@ import { ISysTextFieldProps } from "../sysTextField/sysTextField";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 
-interface ISysDatePickerField extends ISysFormComponent<ISysTextFieldProps> {
+interface ISysDatePickerField extends SysFormComponentType<ISysTextFieldProps> {
 	sxMap?: {
 		container?: SxProps<Theme>;
 		textField?: SxProps<Theme>;

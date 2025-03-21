@@ -1,4 +1,4 @@
-import EnumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
 
 export function getDefaultPublicContext(context: Partial<IContext>): IContext {
@@ -6,12 +6,12 @@ export function getDefaultPublicContext(context: Partial<IContext>): IContext {
 		apiName: "",
 		action: "",
 		user: {
-			_id: EnumUserRoles.ADMIN,
-			username: EnumUserRoles.ADMIN,
-			emails: [{ address: EnumUserRoles.ADMIN, verified: true }],
+			_id: enumUserRoles.ADMIN,
+			username: enumUserRoles.ADMIN,
+			emails: [{ address: enumUserRoles.ADMIN, verified: true }],
 			profile: {
-				roles: [EnumUserRoles.ADMIN],
-				name: EnumUserRoles.ADMIN
+				roles: [enumUserRoles.ADMIN],
+				name: enumUserRoles.ADMIN
 			}
 		},
 		...context
@@ -25,12 +25,12 @@ export function getDefaultAdminContext(context?: Partial<IContext>): IContext {
 		apiName: "",
 		action: "",
 		user: {
-			_id: EnumUserRoles.ADMIN,
-			username: EnumUserRoles.ADMIN,
-			emails: [{ address: EnumUserRoles.ADMIN, verified: true }],
+			_id: enumUserRoles.ADMIN,
+			username: enumUserRoles.ADMIN,
+			emails: [{ address: enumUserRoles.ADMIN, verified: true }],
 			profile: {
-				roles: [EnumUserRoles.ADMIN],
-				name: EnumUserRoles.ADMIN
+				roles: [enumUserRoles.ADMIN],
+				name: enumUserRoles.ADMIN
 			}
 		},
 		...context

@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { segurancaApi } from "../../api/segurancaApi";
 import { hasValue } from "/imports/libs/hasValue";
 
-type RenderComPermissaoProps = {
+type RenderComPermissaoPropsType = {
 	resources?: Array<string>;
 	/**Ignora validação de recurso e renderiza se true*/
 	ignore?: boolean;
@@ -22,7 +22,7 @@ const RenderWithPermission = ({
 	showCondition,
 	children,
 	ignore = false
-}: RenderComPermissaoProps): ReactNode | null => {
+}: RenderComPermissaoPropsType): ReactNode | null => {
 	if (!recursos) return children;
 	const user = Meteor.user();
 	if (ignore || segurancaApi.podeAcessarRecurso(user as any, ...recursos)) {

@@ -2,8 +2,8 @@ import fillDatabaseWithFakeDataInstance from "./methods/fillDatabaseWithFakeData
 import exampleListPublicationInstance from "./publications/exampleList.publication";
 import { MongoBase } from "/imports/base/database/mongo.base";
 import MethodBase from "/imports/base/server/methods/method.base";
-import { ExampleServerMethods } from "../common/interfaces/methods";
-import EnumExampleSettings from "../common";
+import { IExampleServerMethodsType } from "../common/interfaces/methods";
+import enumExampleSettings from "../common";
 import ServerBase from "/imports/base/server/server.base";
 
 /**Array com as instâncias de todas as classes de método do módulo */
@@ -17,16 +17,16 @@ class ExampleServer extends ServerBase {
 	public storageInstance?: any;
 
 	constructor() {
-		super(EnumExampleSettings.MODULE_NAME);
-		this.mongoInstance = new MongoBase(EnumExampleSettings.MODULE_NAME);
+		super(enumExampleSettings.MODULE_NAME);
+		this.mongoInstance = new MongoBase(enumExampleSettings.MODULE_NAME);
 
 		this.registerMethods(_methodInstances, this);
 		this.registerPublications(_publicationInstances, this);
 	}
 }
 
-type teste = ExampleServerMethods & ExampleServer;
+type TesteType = IExampleServerMethodsType & ExampleServer;
 
-const exampleServer = new ExampleServer() as teste;
+const exampleServer = new ExampleServer() as TesteType;
 export default exampleServer;
-export type { teste as ExampleServer };
+export type { TesteType as ExampleServer };

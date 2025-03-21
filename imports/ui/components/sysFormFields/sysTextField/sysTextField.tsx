@@ -3,7 +3,7 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { SxProps, Theme } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
-import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import { SysFormContext } from "../../sysForm/sysForm";
 import { ISysFormComponentRef } from "../../sysForm/typings";
 import { generalMask } from "../../../../libs/MaskFunctions";
@@ -12,7 +12,7 @@ import SysLabelView from "../../sysLabelView/sysLabelView";
 import { textNoFormatting } from "../../../../libs/textUtilities";
 import { SysViewField } from "../sysViewField/sysViewField";
 
-interface ISysTextFieldProps extends ISysFormComponent<TextFieldProps> {
+interface ISysTextFieldProps extends SysFormComponentType<TextFieldProps> {
 	/** mask: Máscara de formatação.*/
 	mask?: string;
 	/** Componente que será exibido no início do campo.*/

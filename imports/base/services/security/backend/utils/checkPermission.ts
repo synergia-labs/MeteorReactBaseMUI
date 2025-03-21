@@ -1,6 +1,6 @@
 import { enumSecurityConfig } from "../../common/enums/config.enum";
 import { hasValue } from "/imports/libs/hasValue";
-import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
 
 export async function _checkPermission(name: string, referred: string, _context: IContext): Promise<boolean> {
@@ -10,16 +10,16 @@ export async function _checkPermission(name: string, referred: string, _context:
 		if (!server) throw new Error("Method collection not found");
 
 		let method = await server.findOneAsync({ name: name, referred: referred });
-		if (!method) method = await server.findOneAsync({ name: name, referred: enumSecurityConfig.apiName });
+		if (!method) method = await server.findOneAsync({ name: name, referred: enumSecurityConfig.API_NAME });
 		if (!hasValue(method)) throw new Error(`Method <${name}> not found`);
 
 		let module = await server.findOneAsync({ name: name.split(".")[0], referred: referred });
-		if (!module) module = await server.findOneAsync({ name: name.split(".")[0], referred: enumSecurityConfig.apiName });
+		if (!module) module = await server.findOneAsync({ name: name.split(".")[0], referred: enumSecurityConfig.API_NAME });
 		if (!hasValue(module)) throw new Error(`Module <${name.split(".")[0]}> not found`);
 
 		if (
-			(!hasValue(method.roles) || method.roles.length === 0 || method.roles.includes(EnumUserRoles.PUBLIC)) &&
-			(!hasValue(module.roles) || module.roles.length === 0 || module.roles.includes(EnumUserRoles.PUBLIC))
+			(!hasValue(method.roles) || method.roles.length === 0 || method.roles.includes(enumUserRoles.PUBLIC)) &&
+			(!hasValue(module.roles) || module.roles.length === 0 || module.roles.includes(enumUserRoles.PUBLIC))
 		)
 			return true;
 
@@ -28,7 +28,7 @@ export async function _checkPermission(name: string, referred: string, _context:
 
 		return (
 			(module.roles.some((role: string) => user.profile!.roles.includes(role)) ||
-				module.roles.includes(EnumUserRoles.PUBLIC)) &&
+				module.roles.includes(enumUserRoles.PUBLIC)) &&
 			method.roles.some((role: string) => user.profile!.roles.includes(role))
 		);
 	} catch (error) {

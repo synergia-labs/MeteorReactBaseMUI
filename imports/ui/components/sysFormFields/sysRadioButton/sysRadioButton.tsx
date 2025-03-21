@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import Radio, { RadioProps } from "@mui/material/Radio";
 import { SysFormContext } from "../../sysForm/sysForm";
-import { IOption, ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { IOption, SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import { SxProps, Theme } from "@mui/material";
 import { SysViewField } from "../sysViewField/sysViewField";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -13,7 +13,7 @@ import { hasValue } from "../../../../libs/hasValue";
 import { ISysFormComponentRef } from "../../sysForm/typings";
 import { sysSizing } from "../../../../ui/materialui/styles";
 
-interface ISysRadioProps extends ISysFormComponent<RadioProps> {
+interface ISysRadioProps extends SysFormComponentType<RadioProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
 		container?: SxProps<Theme>;

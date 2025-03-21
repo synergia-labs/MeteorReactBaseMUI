@@ -3,7 +3,7 @@ import { z } from "zod";
 /**
  * Enumeração que representa os tipos de arquivos suportados pelo sistema.
  */
-enum FileTypes {
+enum enumFilesType {
 	/** Arquivos de vídeo (exemplo: MP4, WebM, AVI) */
 	VIDEO = "videos",
 
@@ -19,12 +19,12 @@ enum FileTypes {
 
 /**
  * Esquema Zod para validação dos tipos de arquivos suportados.
- * Utiliza a enumeração `FileTypes`.
+ * Utiliza a enumeração `enumFilesType`.
  */
-export const enumFileType = z.nativeEnum(FileTypes);
+export const enumFileType = z.nativeEnum(enumFilesType);
 
 /**
  * Tipo inferido a partir do esquema `enumFileType`.
- * Representa um dos valores da enumeração `FileTypes`.
+ * Representa um dos valores da enumeração `enumFilesType`.
  */
 export type FileType = z.infer<typeof enumFileType>;

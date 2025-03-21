@@ -2,7 +2,7 @@ import { z } from "zod";
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
-import EnumUserRoles from "../../common/enums/enumUserRoles";
+import enumUserRoles from "../../common/enums/enumUserRoles";
 import { hasValue } from "/imports/libs/hasValue";
 import { UsersServer } from "../server";
 
@@ -12,7 +12,7 @@ class SendResetPasswordEmail extends MethodBase<UsersServer, string, void> {
 			name: enumUserProfileRegisterMethods.sendResetPasswordEmail,
 			paramSch: z.string().email(),
 			returnSch: z.void(),
-			roles: [EnumUserRoles.PUBLIC]
+			roles: [enumUserRoles.PUBLIC]
 		});
 	}
 

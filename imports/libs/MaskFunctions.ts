@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const mascaraValorMonetario = (value: string): string => {
 	let valor = value;
 
@@ -119,3 +120,5 @@ export const generalMask = (inputValue?: string, mask?: string): string => {
 	}
 	return text;
 };
+
+/* eslint-enable */

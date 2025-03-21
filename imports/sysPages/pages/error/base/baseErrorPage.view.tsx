@@ -3,7 +3,7 @@ import Styles from "./baseErrorPage.styles";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
-import { MaterialSymbolsIconsNames } from "/imports/ui/components/sysIcon/materialSymbolsIcons";
+import { MaterialSymbolsIconsNamesType } from "/imports/ui/components/sysIcon/materialSymbolsIcons";
 import { useNavigate } from "react-router-dom";
 
 interface IBaseErrorPageProps {
@@ -11,7 +11,7 @@ interface IBaseErrorPageProps {
 	errorTitle: string;
 	errorDescription: string;
 	buttonText?: string;
-	buttonIconName?: MaterialSymbolsIconsNames;
+	buttonIconName?: MaterialSymbolsIconsNamesType;
 	onButtonClick?: () => void;
 }
 

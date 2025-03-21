@@ -1,21 +1,21 @@
 import enumExampleRegisterMethods from "../../common/enums/enumRegisterMethods";
 import enumExampleRegisterPublications from "../../common/enums/enumRegisterPublications";
-import { ExampleApiMethods } from "../../common/interfaces/methods";
+import { ExampleApiMethodsType } from "../../common/interfaces/methods";
 import ApiBase from "../../../../base/api/api.base";
 import { MongoBase } from "/imports/base/database/mongo.base";
-import EnumExampleSettings from "../../common";
+import enumExampleSettings from "../../common";
 
 class ExampleApi extends ApiBase {
 	public mongoInstance: MongoBase;
 
 	constructor() {
 		super(enumExampleRegisterMethods, enumExampleRegisterPublications);
-		this.mongoInstance = new MongoBase(EnumExampleSettings.MODULE_NAME);
+		this.mongoInstance = new MongoBase(enumExampleSettings.MODULE_NAME);
 	}
 }
 
-type teste = ExampleApiMethods & ExampleApi;
+type TesteType = ExampleApiMethodsType & ExampleApi;
 
-const exampleApi = new ExampleApi() as teste;
+const exampleApi = new ExampleApi() as TesteType;
 export default exampleApi;
-export type { teste as ExampleApi };
+export type { TesteType as ExampleApi };

@@ -1,7 +1,8 @@
+/* eslint-disable */
 import { MutableRefObject } from "react";
 import { IDocRef, IDocValues, ISysFormComponentRef } from "./typings";
 import { hasValue } from "../../../libs/hasValue";
-import { IDefField, SchemaType } from "/imports/base/types/schema";
+import { IDefField, ISchema } from "/imports/base/types/schema";
 
 class SysFormMethods {
 	public static setRefComponent = ({
@@ -14,7 +15,7 @@ class SysFormMethods {
 	}: {
 		mainRef: IDocRef;
 		componentRef: MutableRefObject<ISysFormComponentRef>;
-		schema: SchemaType<any>;
+		schema: ISchema<any>;
 		key?: string;
 		initialDefaultValues?: IDocValues;
 		fieldsWithOptions: MutableRefObject<IDocRef>;
@@ -63,7 +64,7 @@ class SysFormMethods {
 	};
 
 	public static getInitialParams = (
-		schema: SchemaType<any>,
+		schema: ISchema<any>,
 		doc: IDocValues,
 		initialDefaultValues: IDocValues = {},
 		initialRequiredFields: Array<string> = [],
@@ -95,7 +96,7 @@ class SysFormMethods {
 		return { initialDefaultValues, initialRequiredFields, fieldsWithVisibilityFunction };
 	};
 
-	public static getDocValues = (doc: IDocRef, schema: SchemaType<any>): IDocValues => {
+	public static getDocValues = (doc: IDocRef, schema: ISchema<any>): IDocValues => {
 		const docValues: IDocValues = {};
 		try {
 			if (!schema) throw new Error("schema não informado ou incompleto.");
@@ -127,7 +128,7 @@ class SysFormMethods {
 		}
 	};
 
-	public static getSchemaByName = (schema: SchemaType<any>, name: string): IDefField<any> => {
+	public static getSchemaByName = (schema: ISchema<any>, name: string): IDefField<any> => {
 		try {
 			if (!schema) throw new Error("schema não informado ou incompleto.");
 			const path = name.split(".");
@@ -150,7 +151,7 @@ class SysFormMethods {
 		}
 	};
 
-	public static checkIfFieldIsVisible = (schema: SchemaType<any>, doc: IDocValues, name: string): boolean => {
+	public static checkIfFieldIsVisible = (schema: ISchema<any>, doc: IDocValues, name: string): boolean => {
 		try {
 			if (!schema) throw new Error("schema não informado ou incompleto.");
 			const schemaInfo = SysFormMethods.getSchemaByName(schema, name);
@@ -162,7 +163,7 @@ class SysFormMethods {
 		}
 	};
 
-	public static updateDoc(doc: IDocValues, schema: SchemaType<any>, ref: IDocRef) {
+	public static updateDoc(doc: IDocValues, schema: ISchema<any>, ref: IDocRef) {
 		try {
 			if (!schema) throw new Error("schema não informado ou incompleto.");
 			if (!doc) return;
@@ -189,7 +190,7 @@ class SysFormMethods {
 		requiredFields,
 		fieldsWithErrors
 	}: {
-		schema: SchemaType<any>;
+		schema: ISchema<any>;
 		doc: IDocRef;
 		requiredFields: string[];
 		fieldsWithErrors: MutableRefObject<{ [key: string]: string }>;
@@ -238,7 +239,7 @@ class SysFormMethods {
             `);
 	};
 
-	public static clearForm = (doc: IDocRef, schema: SchemaType<any>) => {
+	public static clearForm = (doc: IDocRef, schema: ISchema<any>) => {
 		try {
 			for (const key in schema) {
 				const { subSchema } = schema[key];

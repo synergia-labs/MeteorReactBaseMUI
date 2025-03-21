@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-nocheck
 import neo4j from "neo4j-driver";
 import { Meteor } from "meteor/meteor";
@@ -6,7 +7,7 @@ import { Validador } from "../../libs/Validador";
 import { MongoInternals } from "meteor/mongo";
 import { getRealUser, getUser } from "../../libs/getUser";
 import { ISchema } from "../../typings/ISchema";
-import { IDocNeo4j } from "../../typings/IDoc";
+import { IDocNeo4j } from "../../typings/DocType";
 import { IContext } from "../../typings/IContext";
 import { nanoid } from "nanoid";
 import { hasValue } from "../../libs/hasValue";
@@ -191,11 +192,8 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		}
 	}
 
-	registerMethod = (
-		name: string,
-		func: Function // eslint-disable-line
-	) => {
-		const self = this; // eslint-disable-line
+	registerMethod = (name: string, func: Function) => {
+		const self = this;
 		const action = name;
 		const collection = this.nodeLabel;
 		const methodFullName = `${collection}.${name}`;
@@ -1501,3 +1499,5 @@ export class Neo4jBase<Doc extends IDocNeo4j> {
 		await this.driver.close();
 	}
 }
+
+/* eslint-enable */

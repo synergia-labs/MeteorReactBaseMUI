@@ -1,7 +1,7 @@
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamGetArchiveType, ReturnGetArchiveType } from "../common/types/getArchive";
 import { GetStorageBase } from "./bases/get";
-import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
 import fs from "fs";
 
@@ -9,7 +9,7 @@ class GetVideo extends GetStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.getVideo,
-			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER],
+			roles: [enumUserRoles.ADMIN, enumUserRoles.USER],
 			canRegister: false
 		});
 	}
@@ -44,10 +44,10 @@ class GetVideo extends GetStorageBase {
 		}
 
 		// Tratamento de streaming com range
-		const CHUNK_SIZE = 10 ** 6; // 1MB por chunk
+		const chunkSize = 10 ** 6; // 1MB por chunk
 		const [startStr, endStr] = range.replace(/bytes=/, "").split("-");
 		const start = parseInt(startStr, 10);
-		const end = endStr ? parseInt(endStr, 10) : Math.min(start + CHUNK_SIZE, stat.size - 1);
+		const end = endStr ? parseInt(endStr, 10) : Math.min(start + chunkSize, stat.size - 1);
 		const contentLength = end - start + 1;
 
 		_context.response.writeHead(206, {

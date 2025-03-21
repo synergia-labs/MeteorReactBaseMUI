@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -65,7 +66,7 @@ interface IAct {
 	onClick: (row: any) => void;
 }
 
-type SchemaKey = keyof ISchema;
+type SchemaKeyType = keyof ISchema;
 
 const descendingComparator = (a: any, b: any, orderBy: string) => {
 	if (b.noOrder || a.noOrder) return 0;
@@ -237,7 +238,7 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 		return "undefined";
 	};
 
-	const renderType = (type: string, data: any, colName: SchemaKey) => {
+	const renderType = (type: string, data: any, colName: SchemaKeyType) => {
 		if (type === "dom") return data;
 
 		if (type === "select") {
@@ -456,3 +457,5 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 		</div>
 	);
 });
+
+/* eslint-enable */

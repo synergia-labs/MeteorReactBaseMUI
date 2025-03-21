@@ -4,7 +4,7 @@ import ExampleListView from "./exampleListView";
 import { hasValue } from "/imports/libs/hasValue";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
-import EnumExampleScreenState from "../../../common/enums/enumScreenState";
+import enumExampleScreenState from "../../../common/enums/enumScreenState";
 import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
 import { GridPaginationModel } from "@mui/x-data-grid";
 import { nanoid } from "nanoid";
@@ -12,12 +12,12 @@ import { nanoid } from "nanoid";
 const ExampleListProvider: React.FC = () => {
 	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
-	const [__filterByNameValue, setFilterByNameValue] = useState<string>("");
-	const [__filterByCategoryValue, setFilterByCategoryValue] = useState<string>("");
+	const [_filterByNameValue, setFilterByNameValue] = useState<string>("");
+	const [_filterByCategoryValue, setFilterByCategoryValue] = useState<string>("");
 	const [paginationProps, setPaginationProps] = useState<GridPaginationModel>({ page: 0, pageSize: 15 });
-	const [loading, __setLoading] = useState<boolean>(false);
-	const [totalDocuments, __setTotalDocuments] = useState<number>(0);
-	const [todoList, __setTodoList] = useState<Array<any>>([]);
+	const [loading, _setLoading] = useState<boolean>(false);
+	const [totalDocuments, _setTotalDocuments] = useState<number>(0);
+	const [todoList, _setTodoList] = useState<Array<any>>([]);
 
 	const navigate = useNavigate();
 
@@ -36,8 +36,8 @@ const ExampleListProvider: React.FC = () => {
 	const handleCategoryChange = useCallback((value: string) => setFilterByCategoryValue(value), []);
 
 	const navigateToDetail = useCallback(
-		(state: EnumExampleScreenState, id?: string) => {
-			if ((state === EnumExampleScreenState.VIEW || state === EnumExampleScreenState.EDIT) && !hasValue(id))
+		(state: enumExampleScreenState, id?: string) => {
+			if ((state === enumExampleScreenState.VIEW || state === enumExampleScreenState.EDIT) && !hasValue(id))
 				return showNotification({
 					type: "error",
 					title: "Não foi possível navegar até a página",
@@ -80,12 +80,12 @@ const ExampleListProvider: React.FC = () => {
 	}, []);
 
 	// useTracker(() => {
-	//     const filter: IFilterPublication<any> = {
+	//     const filter: FilterPublicationType<any> = {
 	//         ...( hasValue(filterByNameValue) && { title: { $regex: filterByNameValue, $options: 'i' } }),
 	//         ...( hasValue(filterByCategoryValue) && { type: filterByCategoryValue })
 	//     };
 
-	//     const options: IOptionsPublication<any> = {
+	//     const options: OptionsPublicationType<any> = {
 	//         skip: paginationProps.page * paginationProps.pageSize,
 	//         limit: paginationProps.pageSize
 	//     };
