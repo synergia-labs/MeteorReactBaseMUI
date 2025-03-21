@@ -8,7 +8,7 @@
 		"url": "smtp://mail.smtpbucket.com:8025"
 	},
 
-	"auth":{
+	"auth": {
 		"google": {
 			"clientId": "",
 			"secret": ""

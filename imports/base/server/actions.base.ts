@@ -74,7 +74,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	protected abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
 
 	//region seters and getters
-	public setServerInstance(server: Server, _context: IContext): void {
+	public setServerInstance(server: Server, _context?: IContext): void {
 		if (!!this.server) this.generateError({ _message: "Server instance already set", _code: "500" }, _context);
 		this.server = server;
 	}

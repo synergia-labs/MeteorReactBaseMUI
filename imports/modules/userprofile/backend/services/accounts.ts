@@ -8,7 +8,8 @@ import enrollAccountEmailTemplate from "../../common/emails/sendEmailEnrollAccou
 Meteor.startup(() => {
 	Accounts.config({
 		sendVerificationEmail: true,
-		forbidClientAccountCreation: false,
+		forbidClientAccountCreation: true,
+		ambiguousErrorMessages: true,
 		defaultFieldSelector: { services: 0 }
 	});
 
@@ -26,4 +27,7 @@ Meteor.startup(() => {
 
 	Accounts.onLogin(usersServer.onLogin.bind(usersServer));
 	Accounts.onLogout(usersServer.onLogout.bind(usersServer));
+	Accounts.validateLoginAttempt((...options: any) => {
+		console.info(options);
+	});
 });
