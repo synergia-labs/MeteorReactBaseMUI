@@ -44,7 +44,12 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 							color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}>
 							{label} {showLabelAdornment && labelAdornment}
 						</Typography>
-						{showTooltip && <SysIcon name={"help"} color={disabled ? "disabled" : "inherit"} />}
+						{showTooltip && (
+							<SysIcon
+								name={"help"}
+								sx={{ color: (theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary) }}
+							/>
+						)}
 					</Header>
 				</Tooltip>
 			)}
