@@ -1,8 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState, useMemo, useEffect } from "react";
 import securityApi from "../security.api";
-import { getRole } from "../backend/methods/getRole";
-
-getRole.getName();
 
 interface ISecurityContext {
 	permissions: Record<string, boolean>;
