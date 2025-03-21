@@ -1,13 +1,9 @@
 {
-	"name": "MeteorReactBase-MUI",
-	"short_name": "MRB",
-	"service": "MeteorReactBase-MUI",
 	"email": {
 		"no_replay_sender": "no-reply@meteorreactbase.com",
 		"system_sender": "contact@meteorreactbase.com",
 		"url": "smtp://mail.smtpbucket.com:8025"
 	},
-
 	"auth": {
 		"google": {
 			"clientId": "",
@@ -18,10 +14,8 @@
 			"secret": ""
 		}
 	},
-	"maps": {
-		"api": ""
-	},
 	"public": {
-		"appName": "MeteorReactBase-MUI"
+		"appName": "MeteorReactBase-MUI",
+		"short_name": "MRB"
 	}
 }

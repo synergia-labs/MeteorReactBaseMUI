@@ -27,7 +27,7 @@ Meteor.startup(() => {
 
 	Accounts.onLogin(usersServer.onLogin.bind(usersServer));
 	Accounts.onLogout(usersServer.onLogout.bind(usersServer));
-	Accounts.validateLoginAttempt((...options: any) => {
-		console.info(options);
-	});
+	// Accounts.validateLoginAttempt((...options: any) => {
+	// 	console.info(options);
+	// });
 });

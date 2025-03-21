@@ -24,7 +24,7 @@ class GetAllRolesPublication extends PublicationBase<SecurityServer, ParamGetAll
 		if (!server) this.generateError({ _message: "Server não encontrado" }, _context);
 		const alreadyFound: Array<string> = [];
 
-		const referredVarCursor = await server!.find({ referred: _params.referred }).fetch();
+		const referredVarCursor = await server!.find({ referred: _params.referred }).fetchAsync();
 		referredVarCursor.forEach((doc) => {
 			alreadyFound.push(doc.name);
 		});

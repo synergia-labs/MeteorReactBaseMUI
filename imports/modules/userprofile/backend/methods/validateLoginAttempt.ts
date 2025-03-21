@@ -13,7 +13,7 @@ import { UsersServer } from "../server";
  * @param { Meteor.IConnection } connection - Conexão do usuário.
  */
 
-class OnLogin extends MethodBase<UsersServer, OnLoginType, void> {
+class ValidateLoginAttempt extends MethodBase<UsersServer, OnLoginType, void> {
 	constructor() {
 		super({
 			name: "users.onLogin",
@@ -37,5 +37,5 @@ class OnLogin extends MethodBase<UsersServer, OnLoginType, void> {
 	}
 }
 
-const onLoginInstance = new OnLogin();
-export default onLoginInstance;
+const validateLoginAttemptInstance = new ValidateLoginAttempt();
+export default validateLoginAttemptInstance;
