@@ -5,7 +5,7 @@
 		"lint": "npx eslint .",
 		"lint:fix": "npx eslint . --fix",
 		"precommit": "pretty-quick --staged",
-		"start": "meteor run --settings settings.json",
+		"start": "chmod +x .github/init-setup.sh && ./.github/init-setup.sh && meteor run --settings settings.json",
 		"test": "meteor test --once --driver-package meteortesting:mocha",
 		"test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
 		"visualize": "meteor --production --extra-packages bundle-visualizer",

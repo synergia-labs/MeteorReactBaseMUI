@@ -1,0 +1,25 @@
+name: CI - Validação a cada Push
+
+on:
+ push: # Aciona o fluxo a cada push em qualquer branch
+  branches:
+   - backendRefactor
+
+jobs:
+ test:
+  runs-on: ubuntu-latest # Define o ambiente
+
+  steps:
+   - name: Checkout do código
+     uses: actions/checkout@v3 # Baixa o código do repositório
+
+   - name: Configurar Node.js
+     uses: actions/setup-node@v3
+     with:
+      node-version: 23 # Escolha a versão do Node.js
+
+   - name: Instalar dependências
+     run: npm install # Ou outro gerenciador de pacotes, como yarn
+
+   - name: Rodar verificação lint
+     run: npm run lint # Ajuste para o comando de teste do seu projeto
