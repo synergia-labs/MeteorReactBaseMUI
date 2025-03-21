@@ -1,3 +1,4 @@
+/* eslint-disable */
 import path from "path";
 import { IArchive } from "../common/types/archive.type";
 
@@ -193,3 +194,4 @@ export async function previewDefaultFile(file: IArchive, res: any, req: any) {
 
 	res.end(html);
 }
+/* eslint-enable */

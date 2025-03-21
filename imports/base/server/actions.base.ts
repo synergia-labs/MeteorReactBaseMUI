@@ -3,12 +3,12 @@ import ServerBase from "./server.base";
 import { IContext } from "/imports/typings/IContext";
 import { Meteor } from "meteor/meteor";
 import { EndpointType } from "../types/serverParams";
-import EnumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 import { enumSecurityConfig } from "../services/security/common/enums/config.enum";
 import { _checkPermission } from "../services/security/backend/utils/checkPermission";
 
 interface IActionsBase {
-	roles?: Array<EnumUserRoles>;
+	roles?: Array<enumUserRoles>;
 	paramSch?: ZodTypeAny;
 	returnSch?: ZodTypeAny;
 	endpointType?: EndpointType;
@@ -25,7 +25,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	private name: string;
 	private actionType: "method" | "publication";
 	private server?: Server;
-	private roles?: Array<EnumUserRoles>;
+	private roles?: Array<enumUserRoles>;
 	private paramSch?: ZodTypeAny;
 	private returnSch?: ZodTypeAny;
 	private endpointType?: EndpointType;
@@ -87,7 +87,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	public getServerInstance(): Server | undefined {
 		return this.server;
 	}
-	public getRoles(): Array<EnumUserRoles> | undefined {
+	public getRoles(): Array<enumUserRoles> | undefined {
 		return this.roles;
 	}
 	public getParamSch(): ZodTypeAny | undefined {
@@ -112,7 +112,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 		if (this.paramSch) _param = this.paramSch.parse(_param);
 
 		if (securityValidation) {
-			const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.apiName, _context);
+			const permission = await _checkPermission(this.name, this.referred ?? enumSecurityConfig.API_NAME, _context);
 			if (!permission) this.generateError({ _message: "Sem permissão", _code: "403" }, _context);
 		}
 	}
@@ -144,7 +144,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 	}
 }
 
-type IActionBaseOmited = Omit<IActionsBase, "actionType">;
+type ActionBaseOmitedType = Omit<IActionsBase, "actionType">;
 
 export default ActionsBase;
-export type { IActionBaseOmited as IActionsBase };
+export type { ActionBaseOmitedType as IActionsBase };

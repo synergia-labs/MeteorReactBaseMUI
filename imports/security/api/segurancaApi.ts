@@ -1,15 +1,15 @@
 import { mapRolesRecursos } from "/imports/security/config/mapRolesRecursos";
 import { Meteor } from "meteor/meteor";
-import EnumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 
-type Recurso = string;
+type RecursoType = string;
 
 /**
  * Fornece acesso a informações de permissão de acesso do usuário a determinado recursos.
  */
 class SegurancaApi {
-	_getRecursosUsuario(user: Meteor.User | undefined): Set<Recurso> {
-		const roles = user?.profile?.roles || EnumUserRoles.PUBLIC;
+	_getRecursosUsuario(user: Meteor.User | undefined): Set<RecursoType> {
+		const roles = user?.profile?.roles || enumUserRoles.PUBLIC;
 		const resources = new Set<string>();
 
 		for (const role of roles) {

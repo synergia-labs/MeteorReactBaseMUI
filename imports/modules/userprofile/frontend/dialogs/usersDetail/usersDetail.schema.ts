@@ -1,4 +1,4 @@
-import { SchemaType } from "/imports/base/types/schema";
+import { ISchema } from "/imports/base/types/schema";
 import emailValidator from "/imports/libs/validators/email";
 
 export interface IUserDetailFrontSchema {
@@ -8,7 +8,7 @@ export interface IUserDetailFrontSchema {
 	roles: string;
 }
 
-const userDetailFrontSchema: SchemaType<IUserDetailFrontSchema> = {
+const userDetailFrontSchema: ISchema<IUserDetailFrontSchema> = {
 	name: {
 		type: String,
 		label: "Nome",

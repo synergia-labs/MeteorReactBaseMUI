@@ -1,11 +1,11 @@
 import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
 
-export type LabelValue = {
+export type LabelValueType = {
 	value: any;
 	label: string;
 };
 
-export type IDefaultSize = {
+export type DefaultSizeType = {
 	width?: number;
 	height?: number;
 };
@@ -16,11 +16,11 @@ export interface IDefField<C> {
 	defaultValue?: any;
 	optional?: boolean;
 	mask?: string;
-	subSchema?: SchemaType<any>;
+	subSchema?: ISchema<any>;
 	visibilityFunction?: (doc: C) => boolean;
 	validationFunction?: (value: any, doc?: C) => string | undefined;
 	isImage?: boolean;
-	defaultSize?: IDefaultSize;
+	defaultSize?: DefaultSizeType;
 	isAvatar?: boolean;
 	isUpload?: boolean;
 	multiple?: boolean;
@@ -34,6 +34,6 @@ export interface IDefField<C> {
 	acceptTypes?: MimeType[];
 }
 
-export interface SchemaType<T> {
+export interface ISchema<T> {
 	[key: string]: IDefField<T>;
 }

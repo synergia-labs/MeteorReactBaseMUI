@@ -1,12 +1,12 @@
 import { AuditType } from "/imports/base/types/audit";
-import { SchemaType } from "/imports/base/types/schema";
+import { ISchema } from "/imports/base/types/schema";
 
 interface IResetForgotPasswordSchema extends AuditType {
 	password: string;
 	confirmPassword: string;
 }
 
-const resetPasswordFrontSchema: SchemaType<IResetForgotPasswordSchema> = {
+const resetPasswordFrontSchema: ISchema<IResetForgotPasswordSchema> = {
 	password: {
 		type: String,
 		label: "senha",

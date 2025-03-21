@@ -1,10 +1,10 @@
-type fileTypes = "text" | "audio" | "image" | "video" | "application" | "default";
-export function getTypeOfFile(mimeType: string): fileTypes {
-	const type: fileTypes = mimeType?.split("/")[0] as fileTypes;
+type FilesType = "text" | "audio" | "image" | "video" | "application" | "default";
+export function getTypeOfFile(mimeType: string): FilesType {
+	const type: FilesType = mimeType?.split("/")[0] as FilesType;
 	return type;
 }
 
-export function getTypeOfURL(url: string): fileTypes {
+export function getTypeOfURL(url: string): FilesType {
 	const fonts = url.split("/");
 
 	if (fonts.includes("audio")) return "audio";

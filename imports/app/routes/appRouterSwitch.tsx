@@ -2,7 +2,7 @@ import React, { ElementType, useContext } from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { hasValue } from "/imports/libs/hasValue";
 import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
-import { IRoute, ITemplateRouteProps } from "/imports/modules/modulesTypings";
+import { RouteType, ITemplateRouteProps } from "/imports/modules/modulesTypings";
 import AuthContext, { IAuthContext } from "../authProvider/authContext";
 import sysRoutes from "./routes";
 import ScreenRouteRender from "./screenRouteRender";
@@ -14,13 +14,13 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 
 	if (userLoading) return <SysLoading size="large" label="Carregando..." />;
 
-	const getProtectedRouteElement = (route: IRoute) => {
+	const getProtectedRouteElement = (route: RouteType) => {
 		if (!route.isProtected) return <ScreenRouteRender {...route} />;
 		return hasValue(user) ? <ScreenRouteRender {...route} /> : <Navigate to="/guest/sign-in" replace />;
 	};
 
 	const getRecursiveRoutes = (
-		routes: IRoute[],
+		routes: RouteType[],
 		parentPath = "",
 		parentTemplateProps?: ITemplateRouteProps
 	): JSX.Element[] => {

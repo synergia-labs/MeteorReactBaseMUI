@@ -1,8 +1,8 @@
 import Home from "../../sysPages/pages/home/home";
-import { IRoute } from "../../modules/modulesTypings";
+import { RouteType } from "../../modules/modulesTypings";
 import SysFormPlayground from "../../sysPages/pages/sysFormPlayground/sysFormPlayground";
 
-export const pagesRouterList: Array<IRoute | null> = [
+export const pagesRouterList: Array<RouteType | null> = [
 	{
 		path: "/",
 		element: Home,
@@ -20,13 +20,13 @@ export const pagesRouterList: Array<IRoute | null> = [
 	// 	exact: true,
 	// 	component: Home,
 	// 	isProtected: true,
-	// 	resources: [HomeResources.HOME_VIEW]
+	// 	resources: [enumHomeResources.HOME_VIEW]
 	// },
 	// {
 	// 	path: '/sysFormTests',
 	// 	component: SysFormPlayground,
 	// 	isProtected: true,
-	// 	resources: [SysFormTestPageResources.SYSFORMTESTS_VIEW]
+	// 	resources: [enumSysFormTestPageResources.SYSFORMTESTS_VIEW]
 	// },
 	// {
 	// 	path: '/signin',

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
-import EnumUserRoles from "../../common/enums/enumUserRoles";
+import enumUserRoles from "../../common/enums/enumUserRoles";
 import { createUserSchema, CreateUserType } from "../../common/types/createUser";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
 import { IContext } from "/imports/typings/IContext";
@@ -34,8 +34,8 @@ class CreateUserCallMethod extends CreateMethodBase<UsersServer, CreateUserType,
 	protected async beforeAction(prop: CreateUserType, context: IContext): Promise<void> {
 		super.beforeAction(prop, context);
 
-		if (prop.roles.includes(EnumUserRoles.ADMIN)) return;
-		if (context.user?.profile?.roles?.includes(EnumUserRoles.ADMIN)) return;
+		if (prop.roles.includes(enumUserRoles.ADMIN)) return;
+		if (context.user?.profile?.roles?.includes(enumUserRoles.ADMIN)) return;
 		const hasAdminUser = await this.getServerInstance()?.checkIfHasAdminUser();
 		if (hasAdminUser)
 			this.generateError({ _message: "Apenas usuários administradores podem criar usuários administradores" }, context);

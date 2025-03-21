@@ -3,8 +3,8 @@ import { Mongo } from "meteor/mongo";
 import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
 import enumUsersRegisterPublications from "../../common/enums/enumRegisterPublications";
 import { Meteor } from "meteor/meteor";
-import { UsersApiMethods } from "../../common/interfaces/methods";
-import UsersApiPublication from "../../common/interfaces/publications";
+import { UsersApiMethodsType } from "../../common/interfaces/methods";
+import IUsersApiPublication from "../../common/interfaces/publications";
 
 class UsersApi extends ApiBase {
 	public mongoInstance: Mongo.Collection<Meteor.User>;
@@ -23,8 +23,8 @@ class UsersApi extends ApiBase {
 	};
 }
 
-type interfaceWithMethods = UsersApiMethods & UsersApi & UsersApiPublication;
+type InterfaceWithMethodsType = UsersApiMethodsType & UsersApi & IUsersApiPublication;
 
-const usersApi = new UsersApi() as interfaceWithMethods;
+const usersApi = new UsersApi() as InterfaceWithMethodsType;
 export default usersApi;
-export type { interfaceWithMethods as ExampleApi };
+export type { InterfaceWithMethodsType as ExampleApi };

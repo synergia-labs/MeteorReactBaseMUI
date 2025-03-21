@@ -1,4 +1,4 @@
-export enum Recurso {
+export enum enumResources {
 	EXAMPLE_VIEW = "EXAMPLE_VIEW",
 	EXAMPLE_CREATE = "EXAMPLE_CREATE",
 	EXAMPLE_UPDATE = "EXAMPLE_UPDATE",

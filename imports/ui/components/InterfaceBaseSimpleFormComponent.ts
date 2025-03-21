@@ -37,7 +37,7 @@ export interface IBaseSimpleFormComponent {
 		| undefined;
 }
 
-export type ISysFormComponent<T> = Omit<
+export type SysFormComponentType<T> = Omit<
 	T,
 	"name" | "label" | "onChange" | "loading" | "value" | "defaultValue" | "error" | "tooltipPosition"
 > &

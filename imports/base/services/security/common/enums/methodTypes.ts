@@ -8,4 +8,4 @@ enum enumMethodTypesRef {
 }
 
 export const enumMethodTypes = z.nativeEnum(enumMethodTypesRef);
-export type MethodTypes = z.infer<typeof enumMethodTypes>;
+export type MethodEnumType = z.infer<typeof enumMethodTypes>;

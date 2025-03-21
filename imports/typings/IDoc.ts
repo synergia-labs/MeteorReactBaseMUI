@@ -10,4 +10,4 @@ export const IDocSchema = z.object({
 	needSync: z.boolean().optional()
 });
 
-export type IDoc = z.infer<typeof IDocSchema>;
+export type DocType = z.infer<typeof IDocSchema>;

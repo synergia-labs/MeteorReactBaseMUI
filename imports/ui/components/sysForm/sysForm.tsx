@@ -51,7 +51,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 	const refDoc = useRef<IDocValues>(doc);
 	const validateOnChangeRef = useRef<boolean | Array<string>>(validateOnChange);
 
-	const __onFailure = (error: Error) => {
+	const _onFailure = (error: Error) => {
 		if (debugAlerts)
 			showNotification({
 				title: "Erro no Formulário",
@@ -64,7 +64,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 		try {
 			return SysFormMethods.getInitialParams(schema, doc);
 		} catch (e: any) {
-			__onFailure(e);
+			_onFailure(e);
 			return { initialDefaultValues: {}, initialRequiredFields: [], fieldsWithVisibilityFunction: [] };
 		}
 	}, [schema]);

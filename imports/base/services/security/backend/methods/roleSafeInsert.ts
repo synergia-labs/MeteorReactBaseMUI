@@ -9,7 +9,7 @@ import { SecurityServer } from "../security.server";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
 import { AuditType } from "/imports/base/types/audit";
 import { textNormalize } from "/imports/libs/textUtilities";
-import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
 
 class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInsertType, ReturnRoleSafeInsertType> {
@@ -18,7 +18,7 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 			name: enumSecurityMethods.roleSafeInsert,
 			paramSch: paramRoleSafeInsertSch,
 			returnSch: returnRoleSafeInsertSch,
-			roles: [EnumUserRoles.ADMIN],
+			roles: [enumUserRoles.ADMIN],
 			description: "Insert a new role to a specific referred"
 		});
 	}

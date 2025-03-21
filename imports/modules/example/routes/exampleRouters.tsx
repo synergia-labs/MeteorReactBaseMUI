@@ -1,9 +1,9 @@
 import ExampleContainer from "../frontend/exampleContainer";
 import ExampleDetailProvider from "../frontend/pages/exampleDetail/exampleDetailProvider";
 import ExampleListProvider from "../frontend/pages/exampleList/exampleListProvider";
-import { IRoute } from "/imports/modules/modulesTypings";
+import { RouteType } from "/imports/modules/modulesTypings";
 
-const exampleRouterList: Array<IRoute | null> = [
+const exampleRouterList: Array<RouteType | null> = [
 	{
 		path: "example",
 		element: ExampleContainer,

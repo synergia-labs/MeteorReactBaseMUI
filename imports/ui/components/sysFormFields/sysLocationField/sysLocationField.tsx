@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { SysFormContext } from "../../sysForm/sysForm";
 import { hasValue } from "../../../../libs/hasValue";
 import { ISysFormComponentRef } from "../../sysForm/typings";
-import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import SysLabelView from "../../sysLabelView/sysLabelView";
 import listEstados from "./estados";
 import localidades from "./localidades.json";
@@ -29,7 +29,7 @@ interface ILocalidade {
 	d?: string;
 }
 
-interface ISysLocationField extends ISysFormComponent<Omit<SelectProps, "variant">> {
+interface ISysLocationField extends SysFormComponentType<Omit<SelectProps, "variant">> {
 	defaultValue?: ILocation;
 	sxMap?: {
 		container: SxProps<Theme>;

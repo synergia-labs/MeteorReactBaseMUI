@@ -1,14 +1,14 @@
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamDeleteArchiveType, ReturnDeleteArchiveType } from "../common/types/deleteArchive";
 import { DeleteStorageBase } from "./bases/delete";
-import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";
 
 class DeleteAudio extends DeleteStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.deleteAudio,
-			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
+			roles: [enumUserRoles.ADMIN, enumUserRoles.USER]
 		});
 	}
 

@@ -1,12 +1,12 @@
 import { IOption } from "../ui/components/InterfaceBaseSimpleFormComponent";
 import { MimeType } from "../ui/components/sysFormFields/sysUploadFile/acceptableTypes";
 
-export type LabelValue = {
+export type LabelValueType = {
 	value: any;
 	label: string;
 };
 
-export type IDefaultSize = {
+export type DefaultSizeType = {
 	width?: number;
 	height?: number;
 };
@@ -21,7 +21,7 @@ export interface IDefField<C> {
 	visibilityFunction?: (doc: C) => boolean;
 	validationFunction?: (value: any, doc?: C) => string | undefined;
 	isImage?: boolean;
-	defaultSize?: IDefaultSize;
+	defaultSize?: DefaultSizeType;
 	isAvatar?: boolean;
 	isUpload?: boolean;
 	multiple?: boolean;

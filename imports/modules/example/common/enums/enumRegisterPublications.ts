@@ -1,6 +1,6 @@
-import EnumExampleSettings from "..";
+import enumExampleSettings from "..";
 
-const getName = (name: string): string => `${EnumExampleSettings.MODULE_NAME}.${name}`;
+const getName = (name: string): string => `${enumExampleSettings.MODULE_NAME}.${name}`;
 
 const enumExampleRegisterPublications = {
 	exampleList: getName("exampleList")

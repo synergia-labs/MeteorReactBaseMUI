@@ -1,13 +1,13 @@
 import React, { ReactNode } from "react";
 import { useSecurity } from "../security.provider";
 
-interface RenderWithPermissionProps {
+interface IRenderWithPermissionProps {
 	functionalities: Array<string>;
 	children: ReactNode;
 	fallback?: ReactNode; // Opcional: Componente de fallback caso não tenha permissão
 }
 
-export const RenderWithPermission: React.FC<RenderWithPermissionProps> = ({
+export const RenderWithPermission: React.FC<IRenderWithPermissionProps> = ({
 	functionalities,
 	children,
 	fallback = null

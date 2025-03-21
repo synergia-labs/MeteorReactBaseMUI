@@ -1,7 +1,7 @@
-enum EnumUserRoles {
+enum enumUserRoles {
 	ADMIN = "admin",
 	USER = "user",
 	PUBLIC = "public"
 }
 
-export default EnumUserRoles;
+export default enumUserRoles;

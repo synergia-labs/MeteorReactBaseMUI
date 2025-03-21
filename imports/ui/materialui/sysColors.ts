@@ -1,6 +1,6 @@
 import { PaletteOptions } from "@mui/material";
 
-type ColorKey = 10 | 15 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 97 | "transparent" | "transparent2" | "grey";
+type ColorKeyType = 10 | 15 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 97 | "transparent" | "transparent2" | "grey";
 
 //region Common colors
 const sysCommonColors: Record<string, string> = {
@@ -10,7 +10,7 @@ const sysCommonColors: Record<string, string> = {
 //endregion
 
 //region Grey colors
-const sysGreyColors: Partial<Record<ColorKey, string>> = {
+const sysGreyColors: Partial<Record<ColorKeyType, string>> = {
 	10: "#17171c",
 	15: "#23232a",
 	20: "#2e2e38",
@@ -28,7 +28,7 @@ const sysGreyColors: Partial<Record<ColorKey, string>> = {
 //endregion
 
 //region Purple colors
-const sysPurpleColors: Partial<Record<ColorKey, string>> = {
+const sysPurpleColors: Partial<Record<ColorKeyType, string>> = {
 	10: "#09006b",
 	20: "#1400a8",
 	30: "#312ebd",
@@ -46,7 +46,7 @@ const sysPurpleColors: Partial<Record<ColorKey, string>> = {
 //endregion
 
 //region Green colors
-const sysGreenColors: Partial<Record<ColorKey, string>> = {
+const sysGreenColors: Partial<Record<ColorKeyType, string>> = {
 	10: "#00210e",
 	20: "#00391c",
 	30: "#00522b",
@@ -62,7 +62,7 @@ const sysGreenColors: Partial<Record<ColorKey, string>> = {
 //endregion
 
 //region Neon colors
-const sysNeonColors: Partial<Record<ColorKey, string>> = {
+const sysNeonColors: Partial<Record<ColorKeyType, string>> = {
 	10: "#002018",
 	20: "#00382b",
 	30: "#005140",
@@ -78,7 +78,7 @@ const sysNeonColors: Partial<Record<ColorKey, string>> = {
 //endregion
 
 //region Red colors
-const sysRedColors: Partial<Record<ColorKey, string>> = {
+const sysRedColors: Partial<Record<ColorKeyType, string>> = {
 	10: "#400009",
 	20: "#680015",
 	30: "#920021",
@@ -94,7 +94,7 @@ const sysRedColors: Partial<Record<ColorKey, string>> = {
 //endregion
 
 //region Yellow colors
-const sysYellowColors: Partial<Record<ColorKey, string>> = {
+const sysYellowColors: Partial<Record<ColorKeyType, string>> = {
 	30: "#996e00",
 	40: "#cc9300",
 	60: "#ffc633",
@@ -104,7 +104,7 @@ const sysYellowColors: Partial<Record<ColorKey, string>> = {
 //endregion
 
 //region Blue colors
-const sysBlueColors: Partial<Record<ColorKey, string>> = {
+const sysBlueColors: Partial<Record<ColorKeyType, string>> = {
 	30: "#025e97",
 	40: "#027dca",
 	50: "#069efc",

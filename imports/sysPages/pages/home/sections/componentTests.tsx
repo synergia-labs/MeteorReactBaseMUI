@@ -28,12 +28,12 @@ import { useTracker } from "meteor/react-meteor-data";
 import { enumStorageMethods } from "/imports/base/services/storage/common/enums/methods.enum";
 import { RenderWithPermission } from "/imports/base/services/security/frontend/components/renderWithPermission";
 
-type storageType = "Image" | "Audio" | "Video" | "Document";
+type StorageType = "Image" | "Audio" | "Video" | "Document";
 const HomeSectionComponents: React.FC = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [imageId, setImageId] = React.useState<string>();
 	const [fileUrl, setFileUrl] = React.useState<string>();
-	const [fileOptions, setFileOptions] = React.useState<storageType>("Image");
+	const [fileOptions, setFileOptions] = React.useState<StorageType>("Image");
 
 	useTracker(() => {
 		const methodshandle = securityApi.getAllRolesPublication({});
@@ -247,7 +247,7 @@ const HomeSectionComponents: React.FC = () => {
 					name="storage"
 					options={selectField.options}
 					value={fileOptions}
-					onChange={(e) => setFileOptions(e.target.value as storageType)}
+					onChange={(e) => setFileOptions(e.target.value as StorageType)}
 					placeholder="Selecione o tipo de arquivo que será enviado"
 					label="Tipo de arquivo"
 				/>

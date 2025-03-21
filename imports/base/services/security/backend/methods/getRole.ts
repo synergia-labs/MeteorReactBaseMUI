@@ -4,7 +4,7 @@ import { enumSecurityMethods } from "../../common/enums/methods.enum";
 import { ParamGetType, returnGetRoleSch, ReturnGetRoleType } from "../../common/types/get";
 import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";
-import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 
 class GetRole extends MethodBase<SecurityServer, ParamGetType, ReturnGetRoleType> {
 	constructor() {
@@ -12,7 +12,7 @@ class GetRole extends MethodBase<SecurityServer, ParamGetType, ReturnGetRoleType
 			name: enumSecurityMethods.getRole,
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetRoleSch,
-			roles: [EnumUserRoles.ADMIN],
+			roles: [enumUserRoles.ADMIN],
 			description: "Get role by name and referred"
 		});
 	}
@@ -21,7 +21,7 @@ class GetRole extends MethodBase<SecurityServer, ParamGetType, ReturnGetRoleType
 		const roleCollection = this.getServerInstance()?.getRoleCollection();
 		if (!roleCollection) this.generateError({ _message: "Role collection not found" }, _context);
 
-		const _id = `${_param.referred ?? enumSecurityConfig.apiName}.${_param.name}`;
+		const _id = `${_param.referred ?? enumSecurityConfig.API_NAME}.${_param.name}`;
 		const role = await roleCollection!.findOneAsync({ _id });
 		if (!role) this.generateError({ _message: "Role not found" }, _context);
 

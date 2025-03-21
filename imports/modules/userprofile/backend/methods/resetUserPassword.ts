@@ -3,7 +3,7 @@ import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMetho
 import { resetUserPasswordSchema, ResetUserPasswordType } from "../../common/types/resetUserPassword";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
-import EnumUserRoles from "../../common/enums/enumUserRoles";
+import enumUserRoles from "../../common/enums/enumUserRoles";
 import { Accounts } from "meteor/accounts-base";
 import { hasValue } from "/imports/libs/hasValue";
 import { UsersServer } from "../server";
@@ -14,7 +14,7 @@ class ResetUserPassword extends MethodBase<UsersServer, ResetUserPasswordType, v
 			name: enumUserProfileRegisterMethods.resetUserPassword,
 			paramSch: resetUserPasswordSchema,
 			returnSch: z.void(),
-			roles: [EnumUserRoles.PUBLIC]
+			roles: [enumUserRoles.PUBLIC]
 		});
 	}
 

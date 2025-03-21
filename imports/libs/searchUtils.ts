@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { getMongoDBFilterSintaxe } from "./getMongoSintaxe";
 import _ from "lodash";
 import { ReactiveVar } from "meteor/reactive-var";
@@ -88,3 +89,4 @@ export const initSearch = (api: any, subscribeConfigReactiveVar: ReactiveVar<any
 		onSearchJson: (text: string) => onSearch(text, true)
 	};
 };
+/* eslint-enable */

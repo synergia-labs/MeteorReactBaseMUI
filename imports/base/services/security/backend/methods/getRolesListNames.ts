@@ -1,7 +1,7 @@
 import { enumSecurityMethods } from "../../common/enums/methods.enum";
 import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";
-import EnumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 import { z } from "zod";
 import { IContext } from "/imports/typings/IContext";
 
@@ -10,7 +10,7 @@ class GetRolesListNamesMethod extends MethodBase<SecurityServer, void, Array<str
 		super({
 			name: enumSecurityMethods.getRolesListNames,
 			returnSch: z.array(z.string()),
-			roles: [EnumUserRoles.PUBLIC],
+			roles: [enumUserRoles.PUBLIC],
 			description: "Busca pelos perfis de usuário disponíveis no sistema."
 		});
 	}

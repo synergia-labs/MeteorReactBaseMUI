@@ -27,13 +27,13 @@ As rotas são configuradas dentro de uma pasta designada `config`. Esta pasta co
 #### Exemplo de definição de rotas
 
 ```typescript
-interface IRoute {
+interface RouteType {
 	path?: string;
 	component: React.ReactNode | React.Component | React.FunctionComponent<any> | React.ComponentType<any>;
 	isProtected?: boolean;
 	exact?: string | boolean | undefined;
 	resources?: string[];
-	template?: SysTemplateOptions | keyof typeof SysTemplateOptions;
+	template?: enumSysTemplateOptions | keyof typeof enumSysTemplateOptions;
 	templateProps?: any;
 }
 ```
@@ -41,10 +41,10 @@ interface IRoute {
 > Interface de definição de rotas
 
 ```typescript
-import { IRoute } from "/imports/modules/modulesTypings";
+import { RouteType } from "/imports/modules/modulesTypings";
 import SEUCOMPONENTE from "./SEUCOMPONENTE";
 
-const exampleRouterList: (IRoute | null)[] = [
+const exampleRouterList: (RouteType | null)[] = [
 	{
 		path: "/example/:screenState/:exampleId",
 		component: SEUCOMPONENTE,
@@ -54,7 +54,7 @@ const exampleRouterList: (IRoute | null)[] = [
 		path: "/example/:screenState",
 		component: SEUCOMPONENTE,
 		isProtected: true,
-		resources: [Recurso.EXAMPLE_CREATE]
+		resources: [enumResources.EXAMPLE_CREATE]
 	},
 	{
 		path: "/example",

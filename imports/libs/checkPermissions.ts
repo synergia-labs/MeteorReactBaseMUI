@@ -1,19 +1,19 @@
 import { getUser } from "../libs/getUser";
-import { EnumUserRoles } from "../modules/userprofile/config/enumUser";
+import { enumUserRoles } from "../modules/userprofile/config/enumUser";
 
 const checkPermissionAdmin = () => {
 	const userLogged = getUser();
-	return userLogged?.roles?.includes(EnumUserRoles.ADM);
+	return userLogged?.roles?.includes(enumUserRoles.ADM);
 };
 
 const checkPermissionPublic = () => {
 	const userLogged = getUser();
-	return userLogged?.roles?.includes(EnumUserRoles.PUBLIC);
+	return userLogged?.roles?.includes(enumUserRoles.PUBLIC);
 };
 
 const checkPermissionUsuario = () => {
 	const userLogged = getUser();
-	return userLogged?.roles?.includes(EnumUserRoles.USER);
+	return userLogged?.roles?.includes(enumUserRoles.USER);
 };
 
 export { checkPermissionAdmin, checkPermissionPublic, checkPermissionUsuario };

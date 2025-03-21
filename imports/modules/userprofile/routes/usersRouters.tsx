@@ -1,4 +1,4 @@
-import { IRoute } from "/imports/modules/modulesTypings";
+import { RouteType } from "/imports/modules/modulesTypings";
 import NotLoggedInUserContainer from "../frontend/pages/notLoggedInUser/notLoggedInUser.container";
 import SignInPage from "../frontend/pages/notLoggedInUser/signIn/signIn.view";
 import LoggedInUserContainer from "../frontend/pages/loggedInUser/loggedInUser.container";
@@ -9,7 +9,7 @@ import ResetPasswordPage from "../frontend/pages/notLoggedInUser/resetPassword/r
 import VerifyEmailPage from "../frontend/pages/notLoggedInUser/verifyEmail/verifyEmail.view";
 import EnrollAccountPage from "../frontend/pages/notLoggedInUser/enrollAccount/enrollAccount.view";
 
-const exampleRouterList: Array<IRoute | null> = [
+const exampleRouterList: Array<RouteType | null> = [
 	{
 		path: "users",
 		element: LoggedInUserContainer,

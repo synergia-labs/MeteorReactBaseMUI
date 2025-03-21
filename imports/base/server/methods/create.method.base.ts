@@ -18,7 +18,10 @@ export abstract class CreateMethodBase<S extends ServerBase, P, R> extends Metho
 		this.insertAuditData(param, _context);
 
 		if (!param.createdBy) {
-			throw new Meteor.Error("500", "Usuário não encontrado - Para realizar esta ação é necessário estar logado");
+			this.generateError(
+				{ _message: "Usuário não encontrado - Para realizar esta ação é necessário estar logado" },
+				_context
+			);
 		}
 	}
 }

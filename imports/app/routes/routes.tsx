@@ -1,11 +1,11 @@
 import Modules from "../../modules";
 import Pages from "../../sysPages/config";
-import { IAppMenu, IRoute } from "../../modules/modulesTypings";
+import { IAppMenu, RouteType } from "../../modules/modulesTypings";
 import { useLocation } from "react-router-dom";
 class SysRoutes {
-	private routes: Array<IRoute | null>;
+	private routes: Array<RouteType | null>;
 	private menuItens: Array<IAppMenu | null>;
-	public getRoutes = (): Array<IRoute> => this.routes.filter((route) => route !== null) as Array<IRoute>;
+	public getRoutes = (): Array<RouteType> => this.routes.filter((route) => route !== null) as Array<RouteType>;
 	public getMenuItens = () => {
 		return this.menuItens.map((item) => {
 			if (!item?.path) return undefined;

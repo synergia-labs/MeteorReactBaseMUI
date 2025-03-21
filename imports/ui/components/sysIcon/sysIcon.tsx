@@ -1,9 +1,11 @@
 import React from "react";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
-import materialSymbolsIcons, { MaterialSymbolsIconsNames } from "/imports/ui/components/sysIcon/materialSymbolsIcons";
+import materialSymbolsIcons, {
+	MaterialSymbolsIconsNamesType
+} from "/imports/ui/components/sysIcon/materialSymbolsIcons";
 
 interface ISysIconProps extends SvgIconProps {
-	name: MaterialSymbolsIconsNames;
+	name: MaterialSymbolsIconsNamesType;
 }
 
 const SysIcon: React.FC<ISysIconProps> = ({ name = "add", ...props }) => {

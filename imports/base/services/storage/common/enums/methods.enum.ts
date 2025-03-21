@@ -1,7 +1,7 @@
 import { enumStorageConfig } from "./config.enum";
 
 function getName(name: string) {
-	return `${enumStorageConfig.apiName}.${name}`;
+	return `${enumStorageConfig.API_NAME}.${name}`;
 }
 
 export const enumStorageMethods = {

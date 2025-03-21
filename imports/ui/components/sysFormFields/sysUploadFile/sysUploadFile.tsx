@@ -4,7 +4,7 @@ import { ISysFormComponentRef } from "../../sysForm/typings";
 import { useDropzone } from "react-dropzone";
 import { acceptableMimeType, FilesViewType, MimeType } from "./acceptableTypes";
 
-import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import { produce } from "immer";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -19,7 +19,7 @@ import { getTypeOfFile } from "./typesView/utils";
 import { hasValue } from "/imports/libs/hasValue";
 import { ArchiveType } from "/imports/base/types/archive";
 
-interface ISysUploadFile extends ISysFormComponent<BoxProps> {
+interface ISysUploadFile extends SysFormComponentType<BoxProps> {
 	name: string;
 	label?: string;
 	viewType?: FilesViewType;

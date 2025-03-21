@@ -5,13 +5,13 @@ import { UploadStorageBase } from "./bases/upload";
 import { Buffer } from "buffer";
 import { enumFileType } from "../common/types/file.type";
 import { ParamUploadArchiveType, ReturnUploadArchiveType } from "../common/types/uploadArchive";
-import EnumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 
 class UploadVideo extends UploadStorageBase {
 	constructor() {
 		super({
 			name: enumStorageMethods.uploadVideo,
-			roles: [EnumUserRoles.ADMIN, EnumUserRoles.USER]
+			roles: [enumUserRoles.ADMIN, enumUserRoles.USER]
 		});
 	}
 

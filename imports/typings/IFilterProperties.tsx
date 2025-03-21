@@ -15,5 +15,5 @@ export interface IConfigList {
 	searchBy: string | null;
 }
 
-export type IFilterPublication<T> = Mongo.ObjectID | Mongo.Selector<T>;
-export type IOptionsPublication<T> = Partial<IMongoOptions<T>>;
+export type FilterPublicationType<T> = Mongo.ObjectID | Mongo.Selector<T>;
+export type OptionsPublicationType<T> = Partial<IMongoOptions<T>>;

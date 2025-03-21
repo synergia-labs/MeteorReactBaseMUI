@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Styles from "./exampleDetailStyles";
 import Context, { IExampleDetailContext } from "./exampleDetailContext";
-import EnumExampleScreenState from "../../../common/enums/enumScreenState";
+import enumExampleScreenState from "../../../common/enums/enumScreenState";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -21,9 +21,9 @@ const ExampleDetailView: React.FC = () => {
 	const context = useContext<IExampleDetailContext>(Context);
 	const { state } = useContext<IExampleModuleContext>(ExampleModuleContext);
 
-	const isView = state == EnumExampleScreenState.VIEW;
-	const isEdit = state == EnumExampleScreenState.EDIT;
-	const isCreate = state == EnumExampleScreenState.CREATE;
+	const isView = state == enumExampleScreenState.VIEW;
+	const isEdit = state == enumExampleScreenState.EDIT;
+	const isCreate = state == enumExampleScreenState.CREATE;
 
 	return (
 		<Styles.container>

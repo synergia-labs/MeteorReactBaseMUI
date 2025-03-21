@@ -1,7 +1,7 @@
 import { enumSecurityConfig } from "./config.enum";
 
 function getName(name: string) {
-	return `${enumSecurityConfig.apiName}.${name}`;
+	return `${enumSecurityConfig.API_NAME}.${name}`;
 }
 
 export const enumSecurityPublications = {

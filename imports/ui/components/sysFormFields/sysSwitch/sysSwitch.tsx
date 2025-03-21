@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { ISysFormComponent } from "../../InterfaceBaseSimpleFormComponent";
+import { SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { SysFormContext } from "../../sysForm/sysForm";
 import { hasValue } from "../../../../libs/hasValue";
@@ -9,7 +9,7 @@ import { SxProps, Theme } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 
-interface ISysSwitchProps extends ISysFormComponent<SwitchProps> {
+interface ISysSwitchProps extends SysFormComponentType<SwitchProps> {
 	/** Estilo do componente.*/
 	sxMap?: {
 		switch?: SxProps<Theme>;

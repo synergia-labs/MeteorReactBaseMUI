@@ -3,7 +3,7 @@ import MethodBase from "../../../server/methods/method.base";
 import PublicationBase from "../../../server/publication/publication.base";
 import ServerBase from "../../../server/server.base";
 import { enumSecurityConfig } from "../common/enums/config.enum";
-import { SecurityServerMethods } from "../common/interfaces/methods";
+import { ISecurityServerMethods } from "../common/interfaces/methods";
 import { checkMethodPermission } from "./methods/checkMethodPermission";
 import { getMethod } from "./methods/getMethod";
 import { getRole } from "./methods/getRole";
@@ -28,11 +28,11 @@ const _publicationInstances: Array<PublicationBase<any, any, any>> = [
 ] as const;
 
 export class SecurityServer extends ServerBase {
-	static mongoRole = new MongoBase(enumSecurityConfig.roleCollectionName);
-	static mongoMethod = new MongoBase(enumSecurityConfig.methodCollectionName);
+	static mongoRole = new MongoBase(enumSecurityConfig.ROLE_COLLECTION_NAME);
+	static mongoMethod = new MongoBase(enumSecurityConfig.METHOD_COLLECTION_NAME);
 
 	constructor() {
-		super(enumSecurityConfig.apiName);
+		super(enumSecurityConfig.API_NAME);
 		this.registerMethods(_methodInstances, this);
 		this.registerPublications(_publicationInstances, this);
 	}
@@ -41,5 +41,5 @@ export class SecurityServer extends ServerBase {
 	getMethodCollection = () => SecurityServer.mongoMethod;
 }
 
-const securityServer = new SecurityServer() as SecurityServer & SecurityServerMethods;
+const securityServer = new SecurityServer() as SecurityServer & ISecurityServerMethods;
 export default securityServer;

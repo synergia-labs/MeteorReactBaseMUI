@@ -12,7 +12,7 @@ export function generateFileCollection({ collectionName, limitSize, allowedExten
 	return new FilesCollection({
 		collectionName,
 		allowClientCode: false,
-		storagePath: `${enumStorageConfig.defaultDirectory}/${collectionName}`,
+		storagePath: `${enumStorageConfig.DEFAULT_DIRECTORY}/${collectionName}`,
 		protected: true,
 		onBeforeUpload(archive: IArchive) {
 			if (limitSize && archive.size > limitSize) {
