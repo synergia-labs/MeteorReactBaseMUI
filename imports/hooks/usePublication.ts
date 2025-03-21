@@ -27,20 +27,21 @@ function useSubscribe<MethodBase extends PublicationType<any>, ReturnType>({
 
 	useTracker(() => {
 		setLoading(true);
-		method(param || {}, {
+		const handle = method(param || {}, {
 			onStop: (error: Meteor.Error) => {
 				setLoading(false);
 				setError(error);
 				onStop?.(error);
 			},
 			onReady: () => {
-				setLoading(false);
-				const dataList = findFunction?.();
-				setData(dataList);
 				onReady?.();
 			},
 			...(options || {})
 		});
+		if (!handle?.ready()) return;
+		setLoading(false);
+		const dataList = findFunction?.();
+		setData(dataList);
 	}, []);
 
 	return {

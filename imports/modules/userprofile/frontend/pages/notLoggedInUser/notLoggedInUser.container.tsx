@@ -66,13 +66,20 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({ ch
 	}, []);
 
 	const resetUserPassword = useCallback(
-		(token: string, newPassword: string, callback: (error?: Error | Meteor.Error) => void) => {
+		(
+			token: string,
+			newPassword: string,
+			callback: (error?: Error | Meteor.Error) => void,
+			enrollAccount: boolean = false
+		) => {
 			usersApi.resetForgotPassword(token, newPassword, (error) => {
 				if (!error) {
 					navigate("/");
 					showDialog({
-						title: "Senha alterada",
-						message: "Sua senha foi alterada com sucesso. Seja bem-vindo de volta!",
+						title: enrollAccount ? "Senha definida" : "Senha alterada",
+						message: enrollAccount
+							? "Sua senha foi definida com sucesso."
+							: "Sua senha foi alterada com sucesso. Seja bem-vindo de volta!",
 						confirmButtonLabel: "Ok"
 					});
 				}

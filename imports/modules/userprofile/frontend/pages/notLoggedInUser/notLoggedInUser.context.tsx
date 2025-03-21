@@ -8,7 +8,12 @@ interface INotLoggedInUserContext {
 	loginWithGoogle: () => void;
 	loginWithPassword: ({ email, password }: { email: string; password: string }) => void;
 	sendResetPasswordEmail: (email: string, callback: (error: Meteor.Error) => void) => void;
-	resetUserPassword: (token: string, newPassword: string, callback: (error?: Error | Meteor.Error) => void) => void;
+	resetUserPassword: (
+		token: string,
+		newPassword: string,
+		callback: (error?: Error | Meteor.Error) => void,
+		enrollAccount: boolean
+	) => void;
 	verifyEmail: (token: string, callback: (error?: Error | Meteor.Error) => void) => void;
 }
 

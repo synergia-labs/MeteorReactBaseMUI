@@ -1,7 +1,14 @@
 import { SchemaType } from "/imports/base/types/schema";
 import emailValidator from "/imports/libs/validators/email";
 
-const userDetailFrontSchema: SchemaType<any> = {
+export interface IUserDetailFrontSchema {
+	name: string;
+	email: string;
+	password: string;
+	roles: string;
+}
+
+const userDetailFrontSchema: SchemaType<IUserDetailFrontSchema> = {
 	name: {
 		type: String,
 		label: "Nome",
@@ -16,7 +23,7 @@ const userDetailFrontSchema: SchemaType<any> = {
 		label: "E-mail",
 		optional: false,
 		validationFunction: (value: string) => {
-			if (emailValidator(value)) return "E-mail inválido.";
+			if (!emailValidator(value)) return "E-mail inválido.";
 			return undefined;
 		}
 	},
@@ -30,7 +37,7 @@ const userDetailFrontSchema: SchemaType<any> = {
 		}
 	},
 	roles: {
-		type: [String],
+		type: String,
 		label: "Perfil",
 		optional: false
 	}

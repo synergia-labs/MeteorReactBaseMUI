@@ -18,8 +18,6 @@ import { UsersServer } from "../server";
  */
 
 class CreateUserCallMethod extends CreateMethodBase<UsersServer, CreateUserType, string> {
-	private hasAdminUser?: boolean;
-
 	constructor() {
 		super({
 			name: enumUserProfileRegisterMethods.create,
@@ -38,8 +36,8 @@ class CreateUserCallMethod extends CreateMethodBase<UsersServer, CreateUserType,
 
 		if (prop.roles.includes(EnumUserRoles.ADMIN)) return;
 		if (context.user?.profile?.roles?.includes(EnumUserRoles.ADMIN)) return;
-		this.hasAdminUser = await this.getServerInstance()?.checkIfHasAdminUser();
-		if (this.hasAdminUser)
+		const hasAdminUser = await this.getServerInstance()?.checkIfHasAdminUser();
+		if (hasAdminUser)
 			this.generateError({ _message: "Apenas usuários administradores podem criar usuários administradores" }, context);
 	}
 
@@ -57,7 +55,11 @@ class CreateUserCallMethod extends CreateMethodBase<UsersServer, CreateUserType,
 
 	protected async afterAction(_prop: CreateUserType, _result: string, _context: IContext): Promise<void> {
 		super.afterAction(_prop, _result, _context);
-		if (this.hasAdminUser) return Accounts.sendVerificationEmail(_result);
+		const hasAdminUser = await this.getServerInstance()?.checkIfHasAdminUser();
+		if (hasAdminUser) {
+			if (!!_prop.password) return Accounts.sendVerificationEmail(_result);
+			return Accounts.sendEnrollmentEmail(_result);
+		}
 		await this.getServerInstance()?.mongoInstance.updateAsync({ _id: _result }, { $set: { "emails.0.verified": true } });
 	}
 

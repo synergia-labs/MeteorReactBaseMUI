@@ -7,6 +7,7 @@ import CreateAdminUserPage from "../frontend/pages/notLoggedInUser/createAdminUs
 import ForgotPasswordPage from "../frontend/pages/notLoggedInUser/forgotPassword/forgotPassword.view";
 import ResetPasswordPage from "../frontend/pages/notLoggedInUser/resetPassword/resetPassword.view";
 import VerifyEmailPage from "../frontend/pages/notLoggedInUser/verifyEmail/verifyEmail.view";
+import EnrollAccountPage from "../frontend/pages/notLoggedInUser/enrollAccount/enrollAccount.view";
 
 const exampleRouterList: Array<IRoute | null> = [
 	{
@@ -48,6 +49,10 @@ const exampleRouterList: Array<IRoute | null> = [
 			{
 				path: "verify-email/:token",
 				element: VerifyEmailPage
+			},
+			{
+				path: "enroll-account/:token",
+				element: EnrollAccountPage
 			}
 		]
 	}

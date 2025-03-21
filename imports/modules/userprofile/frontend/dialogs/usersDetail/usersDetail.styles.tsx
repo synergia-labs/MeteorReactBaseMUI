@@ -5,6 +5,7 @@ import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
+	footer: ElementType<BoxProps>;
 }
 
 const userDetailStyles: IStyles = {
@@ -18,6 +19,13 @@ const userDetailStyles: IStyles = {
 		width: "540px",
 		maxHeight: "100%",
 		maxWidth: "100%"
+	}),
+	footer: styled(Box)({
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "flex-end",
+		alignItems: "center",
+		gap: sysSizing.spacingFixedMd
 	})
 };
 

@@ -7,6 +7,9 @@ import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectFi
 import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
 import SysForm from "/imports/ui/components/sysForm/sysForm";
 import userDetailFrontSchema from "./usersDetail.schema";
+import Button from "@mui/material/Button";
+import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
 
 const UserDetailView: React.FC = () => {
 	const context = useContext<IUsersDetailContext>(Context);
@@ -18,7 +21,7 @@ const UserDetailView: React.FC = () => {
 			) : (
 				<>
 					<Typography variant="subtitle1">{context.state === "create" ? "Adicionar usuário" : "Editar usuário"}</Typography>
-					<SysForm schema={userDetailFrontSchema}>
+					<SysForm schema={userDetailFrontSchema} onSubmit={context.onSubmit} loading={context.loadingRequest}>
 						<SysTextField name="name" placeholder="Ex.: José da Silva" />
 						<SysTextField name="email" placeholder="Ex.: jose.silva@email.com" />
 						<SysTextField
@@ -30,6 +33,12 @@ const UserDetailView: React.FC = () => {
 							tooltipPosition="right-start"
 						/>
 						<SysSelectField name="roles" options={context.userRoles || []} placeholder="Selecione" />
+						<Styles.footer>
+							<Button variant="outlined" startIcon={<SysIcon name="close" />} onClick={context.closeModal}>
+								Cancelar
+							</Button>
+							<SysFormButton startIcon={<SysIcon name="check" />}>Salvar</SysFormButton>
+						</Styles.footer>
 					</SysForm>
 				</>
 			)}

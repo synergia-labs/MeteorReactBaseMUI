@@ -1,4 +1,3 @@
-import { AuditType } from "./audit";
 import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
 
 export type LabelValue = {
@@ -35,6 +34,6 @@ export interface IDefField<C> {
 	acceptTypes?: MimeType[];
 }
 
-export interface SchemaType<T extends AuditType> {
+export interface SchemaType<T> {
 	[key: string]: IDefField<T>;
 }

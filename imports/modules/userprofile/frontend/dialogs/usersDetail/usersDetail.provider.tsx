@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Context, { IUsersDetailContext } from "./usersDetail.context";
 import UserDetailView from "./usersDetail.view";
 import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
 import securityApi from "/imports/base/services/security/security.api";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
+import { IUserDetailFrontSchema } from "./usersDetail.schema";
+import usersApi from "../../api/api";
 
 interface IUserDetailModalProps {
 	userId?: string;
@@ -11,9 +13,10 @@ interface IUserDetailModalProps {
 }
 
 const UserDetailModal: React.FC<IUserDetailModalProps> = ({ userId, userRoles }) => {
-	const { showNotification } = useContext(AppLayoutContext);
+	const { showNotification, closeModal } = useContext(AppLayoutContext);
 	const [roles, setRoles] = useState<Array<IOption> | undefined>(userRoles);
 	const [loadingData, setLoadingData] = useState<boolean>(false);
+	const [loadingRequest, setLoadingRequest] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (!!userRoles && userRoles.length != 0) return;
@@ -31,10 +34,34 @@ const UserDetailModal: React.FC<IUserDetailModalProps> = ({ userId, userRoles })
 		});
 	}, []);
 
+	const handleSubmit = useCallback((doc: IUserDetailFrontSchema) => {
+		setLoadingRequest(true);
+		usersApi.create({ ...doc, roles: [doc.roles] }, (error, _) => {
+			setLoadingRequest(false);
+			if (error)
+				return showNotification({
+					type: "error",
+					title: "Erro ao salvar usuário",
+					message: `Um erro ocorreu ao salvar o usuário: ${error}`
+				});
+			showNotification({
+				type: "success",
+				title: "Usuário salvo",
+				message: `O usuário ${doc.name} foi salvo com sucesso.`
+			});
+			closeModal();
+		});
+	}, []);
+
+	const handleCloseModal = useCallback(() => closeModal(), [closeModal]);
+
 	const contextValues: IUsersDetailContext = {
 		state: userId ? "edit" : "create",
 		userRoles: roles,
-		loadingData: loadingData
+		loadingData: loadingData,
+		loadingRequest: loadingRequest,
+		onSubmit: handleSubmit,
+		closeModal: handleCloseModal
 	};
 
 	return (

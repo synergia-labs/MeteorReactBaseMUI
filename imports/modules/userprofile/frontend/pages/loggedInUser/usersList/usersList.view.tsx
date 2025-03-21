@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Styles from "./usersList.styles";
 import { Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -10,8 +10,6 @@ import { SysFab } from "/imports/ui/components/sysFab/sysFab";
 
 const UserListView: React.FC = () => {
 	const { userList, userRoles, openDetail } = useContext<IUsersListContext>(Context);
-
-	useEffect(() => openDetail(), []);
 
 	return (
 		<Styles.container>
