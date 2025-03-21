@@ -6,6 +6,8 @@ interface IUsersListContext {
 	userRoles: Array<IOption>;
 	userList: Array<GetUsersListReturnType>;
 	loading: boolean;
+
+	openDetail: (_userId?: string) => void;
 }
 
 const usersListContext = createContext<IUsersListContext>({} as IUsersListContext);

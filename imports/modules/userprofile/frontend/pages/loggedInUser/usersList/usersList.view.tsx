@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Styles from "./usersList.styles";
 import { Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -9,7 +9,9 @@ import CardUser from "../../../components/userCard/userCard.view";
 import { SysFab } from "/imports/ui/components/sysFab/sysFab";
 
 const UserListView: React.FC = () => {
-	const context = useContext<IUsersListContext>(Context);
+	const { userList, userRoles, openDetail } = useContext<IUsersListContext>(Context);
+
+	useEffect(() => openDetail(), []);
 
 	return (
 		<Styles.container>
@@ -19,18 +21,31 @@ const UserListView: React.FC = () => {
 					name="userSearch"
 					placeholder="Pesquisar por nome"
 					InputProps={{
-						startAdornment: <SysIcon name={"search"} sx={{ color: (theme) => theme.palette.sysAction?.primaryIcon }} />
+						startAdornment: (
+							<SysIcon
+								name={"search"}
+								sx={{
+									color: (theme) => theme.palette.sysAction?.primaryIcon
+								}}
+							/>
+						)
 					}}
 				/>
-				<SysSelectField name="roles" label="Filtrar por perfil" placeholder="Selecionar" options={context.userRoles} />
+				<SysSelectField name="roles" label="Filtrar por perfil" placeholder="Selecionar" options={userRoles} />
 			</Styles.filters>
 			<Styles.listContainer>
-				{context.userList.map((user) => (
+				{userList.map((user) => (
 					<CardUser key={user._id} {...user} />
 				))}
 			</Styles.listContainer>
 
-			<SysFab variant="extended" text="Adicionar" startIcon={<SysIcon name={"add"} />} fixed={true} onClick={() => {}} />
+			<SysFab
+				variant="extended"
+				text="Adicionar"
+				startIcon={<SysIcon name={"add"} />}
+				fixed={true}
+				onClick={() => openDetail()}
+			/>
 		</Styles.container>
 	);
 };

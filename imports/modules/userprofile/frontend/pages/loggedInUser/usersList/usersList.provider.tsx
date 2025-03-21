@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import UserListView from "./usersList.view";
 import Context, { IUsersListContext } from "./usersList.context";
 import usersApi from "../../../api/api";
@@ -7,9 +7,10 @@ import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 import { GetUsersListReturnType } from "/imports/modules/userprofile/common/types/getUsersList";
 import useSubscribe from "/imports/hooks/usePublication";
+import UserDetailModal from "../../../dialogs/usersDetail/usersDetail.provider";
 
 const UsersListProvider: React.FC = () => {
-	const { showNotification } = useContext(AppLayoutContext);
+	const { showNotification, showModal } = useContext(AppLayoutContext);
 	const [roles, setRoles] = useState<Array<IOption>>([]);
 
 	useEffect(() => {
@@ -41,10 +42,20 @@ const UsersListProvider: React.FC = () => {
 			message: `Um erro ocorreu ao buscar os usuários: ${error.reason}`
 		});
 
+	const openDetail = useCallback(
+		(_userId?: string) => {
+			showModal({
+				children: <UserDetailModal userRoles={roles} />
+			});
+		},
+		[roles]
+	);
+
 	const contextValues: IUsersListContext = {
 		userRoles: roles,
 		userList: usersList || [],
-		loading: loading
+		loading: loading,
+		openDetail: openDetail
 	};
 
 	return (
