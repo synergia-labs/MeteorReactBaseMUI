@@ -3,6 +3,7 @@ import securityApi from "../security.api";
 import { getRole } from "../backend/methods/getRole";
 
 getRole.getName();
+
 interface ISecurityContext {
 	permissions: Record<string, boolean>;
 	module: string;
