@@ -21,7 +21,7 @@ export default function AppRouterProvider({ children }: { children: React.ReactN
 	function _constructRoute(routes: Array<RouteType>): Array<RouteType> {
 		return routes
 			.filter((route) => {
-				return hasValue(permissions.current[route.fullPath ?? "_"]);
+				return hasValue(permissions.current[route.fullPath as string]) && permissions.current[route.fullPath as string];
 			})
 			.map((route): RouteType => {
 				const children = hasValue(route.children) ? _constructRoute(route.children as Array<RouteType>) : undefined;
@@ -30,16 +30,21 @@ export default function AppRouterProvider({ children }: { children: React.ReactN
 	}
 
 	function _constructMenuItens(routes: Array<RouteType>): Array<AppMenuType> {
-		return routes.map((route) => {
-			return route.name
-				? {
-						name: route.name,
-						path: route.fullPath,
-						icon: route.icon,
-						children: hasValue(route.children) ? _constructMenuItens(route.children as Array<RouteType>) : undefined
-					}
-				: {};
+		let response: Array<AppMenuType> = [];
+		routes.forEach((route) => {
+			const children = hasValue(route.children) ? _constructMenuItens(route.children as Array<RouteType>) : undefined;
+			if (route.name) {
+				response.push({
+					name: route.name,
+					path: route.fullPath,
+					icon: route.icon,
+					children: children
+				});
+			} else if (children) {
+				response = [...response, ...children];
+			}
 		});
+		return response;
 	}
 
 	async function updateRoutesPermissions() {
@@ -47,8 +52,10 @@ export default function AppRouterProvider({ children }: { children: React.ReactN
 			setRouterLoading(false);
 			if (error) console.error("Error checking path permissions", error);
 			permissions.current = result;
-			setRoutes(_constructRoute(sysRoutesList));
-			setMenuItens(_constructMenuItens(sysRoutesList));
+
+			const filteredRoutes = _constructRoute(sysRoutesList);
+			setRoutes(filteredRoutes);
+			setMenuItens(_constructMenuItens(filteredRoutes));
 		});
 	}
 
@@ -57,10 +64,6 @@ export default function AppRouterProvider({ children }: { children: React.ReactN
 	}, []);
 
 	const value = React.useMemo(() => {
-		// console.log("Permissions", permissions.current);
-		// console.log("Routes", routes);
-		// console.log("MenuItens", menuItens);
-
 		return {
 			routes: routes,
 			menuItens: menuItens,

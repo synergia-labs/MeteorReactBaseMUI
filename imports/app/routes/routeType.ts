@@ -21,7 +21,7 @@ export type RouteType = Omit<RouteProps, "children" | "element"> &
 		path: string;
 		children?: Array<RouteType>;
 		isProtected?: boolean;
-		element?: React.ReactNode | React.Component | React.FunctionComponent<any> | React.ComponentType<any>;
+		element?: React.LazyExoticComponent<React.ComponentType<any>>;
 		roles?: Array<string>;
 		name?: string;
 		icon?: React.ReactNode;

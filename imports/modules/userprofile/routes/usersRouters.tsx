@@ -1,5 +1,4 @@
 import React, { lazy } from "react";
-import LoggedInUserContainer from "../frontend/pages/loggedInUser/loggedInUser.container";
 import { RouteType } from "/imports/app/routes/routeType";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
@@ -7,7 +6,7 @@ import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOp
 const usersRouterList: Array<RouteType> = [
 	{
 		path: "users",
-		element: LoggedInUserContainer,
+		element: lazy(() => import("../frontend/pages/loggedInUser/loggedInUser.container")),
 		children: [
 			{
 				name: "Usuários",
