@@ -1,0 +1,29 @@
+import React from "react";
+
+import { RouteProps } from "react-router-dom";
+import { enumSysTemplateOptions } from "/imports/ui/templates/getTemplate";
+
+export interface ITemplateRouteProps {
+	templateVariant?: enumSysTemplateOptions;
+	templateMenuOptions?: Array<AppMenuType>;
+	templateProps?: any;
+}
+
+export type AppMenuType = {
+	path?: string;
+	name?: string;
+	icon?: React.ReactNode;
+	children?: Array<AppMenuType>;
+};
+
+export type RouteType = Omit<RouteProps, "children" | "element"> &
+	ITemplateRouteProps & {
+		path: string;
+		children?: Array<RouteType>;
+		isProtected?: boolean;
+		element?: React.ReactNode | React.Component | React.FunctionComponent<any> | React.ComponentType<any>;
+		roles?: Array<string>;
+		name?: string;
+		icon?: React.ReactNode;
+		fullPath?: string;
+	};

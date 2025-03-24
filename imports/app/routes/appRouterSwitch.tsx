@@ -2,12 +2,12 @@ import React, { ElementType, useContext } from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { hasValue } from "/imports/libs/hasValue";
 import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
-import { RouteType, ITemplateRouteProps } from "/imports/modules/modulesTypings";
 import AuthContext, { IAuthContext } from "../authProvider/authContext";
 import sysRoutes from "./routes";
 import ScreenRouteRender from "./screenRouteRender";
 import NotFoundErrorPage from "/imports/sysPages/pages/error/notFoundErrorPage";
 import ForbiddenErrorPage from "/imports/sysPages/pages/error/forbiddenErrorPage";
+import { RouteType, ITemplateRouteProps } from "./routeType";
 
 export const AppRouterSwitch: React.FC = React.memo(() => {
 	const { user, userLoading } = useContext<IAuthContext>(AuthContext);
@@ -19,34 +19,28 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 		return hasValue(user) ? <ScreenRouteRender {...route} /> : <Navigate to="/guest/sign-in" replace />;
 	};
 
-	const getRecursiveRoutes = (
-		routes: RouteType[],
-		parentPath = "",
-		parentTemplateProps?: ITemplateRouteProps
-	): JSX.Element[] => {
-		return routes.map(({ children, path, index, ...rest }) => {
-			const fullPath = `${parentPath}/${path || ""}`.replace(/\/+/g, "/");
-			const mergedTemplateProps = { ...parentTemplateProps, ...rest };
+	const getRecursiveRoutes = (routes: RouteType[], parentTemplateProps?: ITemplateRouteProps): JSX.Element[] => {
+		return routes.map(({ children, path, index, fullPath, ...rest }) => {
+			const mergedTemplateProps = { ...parentTemplateProps, ...rest } as RouteType;
 
 			const Component: ElementType = mergedTemplateProps.element as ElementType;
-
-			const getElement = () =>
-				!children ? (
-					getProtectedRouteElement(mergedTemplateProps)
-				) : (
-					<Component>
-						<Outlet />
-					</Component>
-				);
 
 			return (
 				<Route
 					key={`${fullPath}`}
 					path={path}
-					element={getElement()}
+					element={
+						!hasValue(children) ? (
+							getProtectedRouteElement(mergedTemplateProps)
+						) : (
+							<Component>
+								<Outlet />
+							</Component>
+						)
+					}
 					caseSensitive={mergedTemplateProps.caseSensitive}
 					{...(index ? { index: false } : {})}>
-					{children ? getRecursiveRoutes(children, fullPath, mergedTemplateProps) : null}
+					{children ? getRecursiveRoutes(children, mergedTemplateProps) : null}
 				</Route>
 			);
 		});
