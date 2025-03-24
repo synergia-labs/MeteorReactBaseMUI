@@ -16,7 +16,7 @@ import { UsersServer } from "../server";
 class OnLogout extends MethodBase<UsersServer, OnLogoutType, void> {
 	constructor() {
 		super({
-			name: "server.onLogout",
+			name: "accounts.onLogout",
 			paramSch: onLogoutSchema,
 			returnSch: z.void(),
 			canRegister: false

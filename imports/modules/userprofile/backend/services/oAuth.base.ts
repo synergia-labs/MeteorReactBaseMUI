@@ -48,7 +48,7 @@ abstract class OAuthBase<T> {
 				}
 			);
 		} catch (error) {
-			console.error("Error initializing OAuth service:", error);
+			console.error(` Erro ao iniciar o serviço de autenticação externo ${this.serviceName}:`, (error as any).reason);
 		}
 	}
 

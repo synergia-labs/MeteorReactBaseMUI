@@ -1,5 +1,4 @@
 import { z } from "zod";
-import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/typings/IContext";
 import enumUserRoles from "../../common/enums/enumUserRoles";
@@ -9,7 +8,7 @@ import { UsersServer } from "../server";
 class SendResetPasswordEmail extends MethodBase<UsersServer, string, void> {
 	constructor() {
 		super({
-			name: enumUserProfileRegisterMethods.sendResetPasswordEmail,
+			name: "accounts.sendResetPasswordEmail",
 			paramSch: z.string().email(),
 			returnSch: z.void(),
 			roles: [enumUserRoles.PUBLIC]

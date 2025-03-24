@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
-import OAuthBase from "/imports/base/services/auth/oAuth.base";
+import OAuthBase from "./oAuth.base";
 import { githubServiceDataSchema, ServiceGithubDataType } from "../../common/types/serviceGithubData";
+
 class GithubOAuth extends OAuthBase<ServiceGithubDataType> {
 	constructor() {
 		super({

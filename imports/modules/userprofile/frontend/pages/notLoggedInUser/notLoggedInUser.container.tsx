@@ -56,7 +56,7 @@ const NotLoggedInUserContainer: React.FC<INotLoggedInUserContainerProps> = ({ ch
 			return showNotification({
 				type: "error",
 				title: "Erro ao logar",
-				message: "Ocorreu um erro ao logar no sistema. Por favor, tente novamente."
+				message: `Falha ao realizar login. ${error.reason}`
 			});
 		navigate("/");
 	}, []);

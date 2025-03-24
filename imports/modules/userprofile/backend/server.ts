@@ -5,13 +5,14 @@ import { IUserProfileServerMethods } from "../common/interfaces/methods";
 import checkIfHasAdminUserCallMethodInstance from "./methods/checkIfHasAdminUser.callMethod";
 import createUserCallMethodInstance from "./methods/createUser.callMethod";
 import { Mongo } from "meteor/mongo";
-import onLoginInstance from "./methods/onLogin";
-import onLogoutInstance from "./methods/onLogout";
-import sendVerificationEmailInstance from "./methods/sendVerificationEmail.callMethod";
+import onLoginInstance from "./accountsMethods/onLogin";
+import onLogoutInstance from "./accountsMethods/onLogout";
+import sendVerificationEmailInstance from "./accountsMethods/sendVerificationEmail.callMethod";
 import ServerBase from "/imports/base/server/server.base";
-import sendResetPasswordInstance from "./methods/sendResetPasswordEmail";
-import resetUserPasswordInstance from "./methods/resetUserPassword";
+import sendResetPasswordInstance from "./accountsMethods/sendResetPasswordEmail";
+import resetUserPasswordInstance from "./accountsMethods/resetUserPassword";
 import { getUsersListPublication } from "./publications/usersList.publication";
+import validateLoginAttemptInstance from "./accountsMethods/validateLoginAttempt";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
@@ -21,7 +22,8 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	sendResetPasswordInstance,
 	onLoginInstance,
 	onLogoutInstance,
-	resetUserPasswordInstance
+	resetUserPasswordInstance,
+	validateLoginAttemptInstance
 ] as const;
 
 /**Array com as instâncias de todas as classes de publicação do módulo */

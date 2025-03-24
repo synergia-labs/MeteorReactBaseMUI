@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import OAuthBase from "/imports/base/services/auth/oAuth.base";
+import OAuthBase from "./oAuth.base";
 import { GoogleServiceDataType, googleServiceDataSchema } from "../../common/types/serviceGoogleData";
 
 class GoogleOAuth extends OAuthBase<GoogleServiceDataType> {

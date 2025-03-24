@@ -16,7 +16,7 @@ import { UsersServer } from "../server";
 class OnLogin extends MethodBase<UsersServer, OnLoginType, void> {
 	constructor() {
 		super({
-			name: "users.onLogin",
+			name: "accounts.onLogin",
 			paramSch: onLoginSchema,
 			returnSch: z.void(),
 			canRegister: false

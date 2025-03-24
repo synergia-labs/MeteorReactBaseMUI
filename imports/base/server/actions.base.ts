@@ -68,7 +68,7 @@ abstract class ActionsBase<Server extends ServerBase, Param = unknown, Return = 
 		},
 		_context?: IContext
 	): void {
-		throw new Meteor.Error(_code, `[${this.name}]: ${_message}`);
+		throw new Meteor.Error(_code, _message);
 	}
 
 	protected abstract actionBaseMethod(_param: Param, _context: IContext): Promise<Return>;
