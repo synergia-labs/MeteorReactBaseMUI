@@ -1,11 +1,35 @@
-import Modules from "../../modules";
-import Pages from "../../sysPages/config";
-import { IAppMenu, RouteType } from "../../modules/modulesTypings";
-import { useLocation } from "react-router-dom";
+import { RouteType } from "./routeType";
+import { sysRoutesList, sysRoutesListFullPaths } from "./register";
+import securityApi from "/imports/base/services/security/security.api";
+import { hasValue } from "/imports/libs/hasValue";
 class SysRoutes {
-	private routes: Array<RouteType | null>;
-	private menuItens: Array<IAppMenu | null>;
-	public getRoutes = (): Array<RouteType> => this.routes.filter((route) => route !== null) as Array<RouteType>;
+	private permissions: Record<string, boolean> = {};
+	private routes: Array<RouteType> = [];
+
+	constructor() {
+		this.updateRoutesPermissions();
+	}
+
+	private _constructRoute = (routes: Array<RouteType>): Array<RouteType> => {
+		return routes
+			.filter((route) => {
+				return hasValue(this.permissions[route.fullPath ?? "_"]);
+			})
+			.map((route): RouteType => {
+				const children = hasValue(route.children) ? this._constructRoute(route.children as Array<RouteType>) : undefined;
+				return { ...route, children };
+			});
+	};
+
+	public async updateRoutesPermissions() {
+		securityApi.checkMethodPermission({ names: sysRoutesListFullPaths }, (error, result) => {
+			if (error) console.error("Error checking path permissions", error);
+			this.permissions = result;
+			this.routes = this._constructRoute(sysRoutesList);
+		});
+	}
+
+	public getRoutes = (): Array<RouteType> => this.routes;
 	public getMenuItens = () => {
 		return this.menuItens.map((item) => {
 			if (!item?.path) return undefined;
@@ -14,36 +38,6 @@ class SysRoutes {
 				resources: false
 			};
 		});
-	};
-
-	constructor() {
-		this.routes = [...Modules.pagesRouterList, ...Pages.pagesRouterList];
-		this.menuItens = [...Pages.pagesMenuItemList, ...Modules.pagesMenuItemList];
-	}
-
-	public checkIfRouteExists = (path: string) =>
-		this.routes.some((route) => {
-			if (!route?.path) return false;
-			const routeRegex = new RegExp("^" + route.path.replace(/:[^\s/]+/g, "([^/]+)") + "$");
-			return routeRegex.test(path);
-		});
-
-	public checkIfRouteIsProtected = (path: string): boolean => {
-		for (const route of this.routes) {
-			if (!route?.path || route.path !== path) continue;
-			return route.isProtected || false;
-		}
-		return false;
-	};
-
-	public checkIsActiveRoute = (routePath?: string) => {
-		const location = useLocation().pathname;
-		if (!routePath) return false;
-		if (routePath === "/") return location === "/";
-
-		const normalizedRoutePath = routePath.replace(/\/$/, "");
-
-		return location.startsWith(normalizedRoutePath);
 	};
 }
 
