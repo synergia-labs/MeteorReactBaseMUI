@@ -5,6 +5,8 @@ import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 import { SysNavLink } from "/imports/ui/components/sysNavLink/sysNavLink";
 import SysMenu from "/imports/ui/components/sysMenu/sysMenuProvider";
 import SysAvatar from "/imports/ui/components/sysAvatar/sysAvatar";
+import { RouterContext } from "/imports/app/routes/routesProvider";
+import { hasValue } from "/imports/libs/hasValue";
 
 interface ISysAppBar {
 	logo?: ReactNode;
@@ -12,15 +14,16 @@ interface ISysAppBar {
 
 const SysAppBarView: React.FC<ISysAppBar> = ({ logo }) => {
 	const controller = useContext<ISysAppBarContext>(Context);
+	const { menuItens } = useContext(RouterContext);
 
 	return (
 		<Styles.wrapper>
 			<Styles.container>
 				{logo}
 				<Styles.navContainerDesktop>
-					{controller.menuOptions.map((option) => (
-						<SysNavLink key={option?.name} sysOptions={option!} />
-					))}
+					{menuItens.map((option) => {
+						return hasValue(option) ? <SysNavLink key={option?.path} sysOptions={option!} /> : undefined;
+					})}
 				</Styles.navContainerDesktop>
 				<Styles.navContainerMobile>
 					<Fragment>

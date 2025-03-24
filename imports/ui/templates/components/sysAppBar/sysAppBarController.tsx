@@ -6,18 +6,17 @@ import AuthContext from "/imports/app/authProvider/authContext";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 import { ISysMenuItem, ISysMenuRef } from "/imports/ui/components/sysMenu/sysMenuProvider";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
-import sysRoutes from "/imports/app/routes/routes";
 import { hasValue } from "/imports/libs/hasValue";
-import { IAppMenu } from "/imports/modules/modulesTypings";
 import SysAvatar from "/imports/ui/components/sysAvatar/sysAvatar";
+import { RouterContext } from "/imports/app/routes/routesProvider";
 
 interface ISysAppBarController {
 	logo?: ReactNode;
-	menuOptions?: Array<IAppMenu | null>;
 }
 
-const SysAppBar: React.FC<ISysAppBarController> = ({ logo, menuOptions = [] }) => {
+const SysAppBar: React.FC<ISysAppBarController> = ({ logo }) => {
 	const { user, logout } = useContext(AuthContext);
+	const { menuItens } = useContext(RouterContext);
 	const { showModal } = useContext(AppLayoutContext);
 
 	const navigate = useNavigate();
@@ -64,14 +63,12 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo, menuOptions = [] }) =
 
 	const getOpcoesMenuMobile = useCallback(
 		(): Array<ISysMenuItem> =>
-			menuOptions
+			menuItens
 				.map((option) => {
-					const verificaUsuarioLogadoERotaProtegida = !user && sysRoutes.checkIfRouteIsProtected(option?.path || "");
-					if (!hasValue(option) || verificaUsuarioLogadoERotaProtegida) return null;
+					if (!hasValue(option)) return null;
 					return {
 						key: "menu-" + option?.name,
 						onClick: () => navigate(option?.path || ""),
-						resources: option?.resources,
 						otherProps: {
 							label: option?.name || "",
 							startIcon: option?.icon
@@ -79,13 +76,12 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo, menuOptions = [] }) =
 					};
 				})
 				.filter((option) => option !== null),
-		[menuOptions, navigate, user]
+		[menuItens, navigate, user]
 	);
 
 	const providerValue: ISysAppBarContext = {
 		userName: user?.profile?.name || "-",
 		userPhoto: user?.profile?.photo,
-		menuOptions,
 		menuPerfilRef,
 		menuMobileRef,
 		onClickLogo,

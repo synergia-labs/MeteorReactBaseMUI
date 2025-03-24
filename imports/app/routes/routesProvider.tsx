@@ -7,13 +7,15 @@ import { sysRoutesList, sysRoutesListFullPaths } from "./register";
 interface IRouteProvider {
 	routes: RouteType[];
 	menuItens: AppMenuType[];
+	routerLoading: boolean;
 }
 
 export const RouterContext = React.createContext<IRouteProvider>({} as IRouteProvider);
 
-export default function AppRouteProvider({ children }: { children: React.ReactNode }) {
+export default function AppRouterProvider({ children }: { children: React.ReactNode }) {
 	const [routes, setRoutes] = React.useState<RouteType[]>([]);
 	const [menuItens, setMenuItens] = React.useState<AppMenuType[]>([]);
+	const [routerLoading, setRouterLoading] = React.useState<boolean>(true);
 	const permissions = React.useRef<Record<string, boolean>>({});
 
 	function _constructRoute(routes: Array<RouteType>): Array<RouteType> {
@@ -42,13 +44,11 @@ export default function AppRouteProvider({ children }: { children: React.ReactNo
 
 	async function updateRoutesPermissions() {
 		securityApi.checkMethodPermission({ names: sysRoutesListFullPaths }, (error, result) => {
+			setRouterLoading(false);
 			if (error) console.error("Error checking path permissions", error);
 			permissions.current = result;
 			setRoutes(_constructRoute(sysRoutesList));
-			console.log("Permissions", result);
 			setMenuItens(_constructMenuItens(sysRoutesList));
-			console.log("Routes", routes);
-			console.log("MenuItens", menuItens);
 		});
 	}
 
@@ -57,9 +57,14 @@ export default function AppRouteProvider({ children }: { children: React.ReactNo
 	}, []);
 
 	const value = React.useMemo(() => {
+		console.log("Permissions", permissions.current);
+		console.log("Routes", routes);
+		console.log("MenuItens", menuItens);
+
 		return {
 			routes: routes,
-			menuItens: menuItens
+			menuItens: menuItens,
+			routerLoading: routerLoading
 		};
 	}, [routes, menuItens]);
 

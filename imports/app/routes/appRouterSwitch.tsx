@@ -1,26 +1,19 @@
 import React, { ElementType, useContext } from "react";
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { hasValue } from "/imports/libs/hasValue";
 import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
-import AuthContext, { IAuthContext } from "../authProvider/authContext";
-import sysRoutes from "./routes";
 import ScreenRouteRender from "./screenRouteRender";
 import NotFoundErrorPage from "/imports/sysPages/pages/error/notFoundErrorPage";
 import ForbiddenErrorPage from "/imports/sysPages/pages/error/forbiddenErrorPage";
 import { RouteType, ITemplateRouteProps } from "./routeType";
+import { RouterContext } from "./routesProvider";
 
 export const AppRouterSwitch: React.FC = React.memo(() => {
-	const { user, userLoading } = useContext<IAuthContext>(AuthContext);
+	const { routes, routerLoading } = useContext(RouterContext);
 
-	if (userLoading) return <SysLoading size="large" label="Carregando..." />;
-
-	const getProtectedRouteElement = (route: RouteType) => {
-		if (!route.isProtected) return <ScreenRouteRender {...route} />;
-		return hasValue(user) ? <ScreenRouteRender {...route} /> : <Navigate to="/guest/sign-in" replace />;
-	};
+	if (routerLoading) return <SysLoading size="large" label="Carregando..." />;
 
 	const getRecursiveRoutes = (routes: RouteType[], parentTemplateProps?: ITemplateRouteProps): JSX.Element[] => {
-		console.log("routes to render", routes);
 		return routes.map(({ children, path, index, fullPath, ...rest }) => {
 			const mergedTemplateProps = { ...parentTemplateProps, ...rest } as RouteType;
 
@@ -32,7 +25,7 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 					path={path}
 					element={
 						!hasValue(children) ? (
-							getProtectedRouteElement(mergedTemplateProps)
+							<ScreenRouteRender {...mergedTemplateProps} />
 						) : (
 							<Component>
 								<Outlet />
@@ -49,7 +42,7 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 
 	return (
 		<Routes>
-			{getRecursiveRoutes(sysRoutes.getRoutes())}
+			{getRecursiveRoutes(routes)}
 			<Route path="/forbidden" element={<ForbiddenErrorPage />} />
 			<Route path="*" element={<NotFoundErrorPage />} />
 		</Routes>
