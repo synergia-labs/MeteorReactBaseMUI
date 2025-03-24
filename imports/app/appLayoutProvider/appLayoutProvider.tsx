@@ -14,8 +14,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { getTheme } from "/imports/ui/materialui/theme";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ISysTemplate, enumSysTemplateOptions } from "/imports/ui/templates/getTemplate";
-import sysRoutes from "../routes/routes";
+import { ISysTemplate } from "/imports/ui/templates/getTemplate";
+import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
 
 const defaultState: ISysGeneralComponentsCommon = { open: false };
 
@@ -157,7 +157,6 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 
 	const defaultTemplate: ISysTemplate = {
 		variant: enumSysTemplateOptions.APPBAR,
-		menuOptions: sysRoutes.getMenuItens() as any,
 		props: undefined
 	} as const;
 

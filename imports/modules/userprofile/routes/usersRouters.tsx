@@ -1,16 +1,8 @@
-import React from "react";
-import NotLoggedInUserContainer from "../frontend/pages/notLoggedInUser/notLoggedInUser.container";
-import SignInPage from "../frontend/pages/notLoggedInUser/signIn/signIn.view";
+import React, { lazy } from "react";
 import LoggedInUserContainer from "../frontend/pages/loggedInUser/loggedInUser.container";
-import UsersListProvider from "../frontend/pages/loggedInUser/usersList/usersList.provider";
-import CreateAdminUserPage from "../frontend/pages/notLoggedInUser/createAdminUser/createAdminUser.view";
-import ForgotPasswordPage from "../frontend/pages/notLoggedInUser/forgotPassword/forgotPassword.view";
-import ResetPasswordPage from "../frontend/pages/notLoggedInUser/resetPassword/resetPassword.view";
-import VerifyEmailPage from "../frontend/pages/notLoggedInUser/verifyEmail/verifyEmail.view";
 import { RouteType } from "/imports/app/routes/routeType";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
-import { enumSysTemplateOptions } from "/imports/ui/templates/getTemplate";
-import EnrollAccountPage from "../frontend/pages/notLoggedInUser/enrollAccount/enrollAccount.view";
+import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
 
 const usersRouterList: Array<RouteType> = [
 	{
@@ -21,43 +13,39 @@ const usersRouterList: Array<RouteType> = [
 				name: "Usuários",
 				icon: <SysIcon name={"group"} />,
 				path: "list",
-				element: UsersListProvider
+				element: lazy(() => import("../frontend/pages/loggedInUser/usersList/usersList.provider"))
 			}
 		]
 	},
 	{
 		path: "guest",
-		element: NotLoggedInUserContainer,
+		element: lazy(() => import("../frontend/pages/notLoggedInUser/notLoggedInUser.container")),
 		templateVariant: enumSysTemplateOptions.LOGIN,
 		index: false,
 		children: [
 			{
 				path: "sign-in",
-				element: SignInPage
+				element: lazy(() => import("../frontend/pages/notLoggedInUser/signIn/signIn.view"))
 			},
 			{
 				path: "create-admin-user",
-				element: CreateAdminUserPage
+				element: lazy(() => import("../frontend/pages/notLoggedInUser/createAdminUser/createAdminUser.view"))
 			},
 			{
 				path: "forgot-password",
-				element: ForgotPasswordPage
+				element: lazy(() => import("../frontend/pages/notLoggedInUser/forgotPassword/forgotPassword.view"))
 			},
 			{
 				path: "forgot-password/:email",
-				element: ForgotPasswordPage
+				element: lazy(() => import("../frontend/pages/notLoggedInUser/forgotPassword/forgotPassword.view"))
 			},
 			{
 				path: "reset-password/:token",
-				element: ResetPasswordPage
+				element: lazy(() => import("../frontend/pages/notLoggedInUser/resetPassword/resetPassword.view"))
 			},
 			{
 				path: "verify-email/:token",
-				element: VerifyEmailPage
-			},
-			{
-				path: "enroll-account/:token",
-				element: EnrollAccountPage
+				element: lazy(() => import("../frontend/pages/notLoggedInUser/verifyEmail/verifyEmail.view"))
 			}
 		]
 	}

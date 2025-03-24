@@ -1,7 +1,7 @@
 import React from "react";
 
 import { RouteProps } from "react-router-dom";
-import { enumSysTemplateOptions } from "/imports/ui/templates/getTemplate";
+import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
 
 export interface ITemplateRouteProps {
 	templateVariant?: enumSysTemplateOptions;
