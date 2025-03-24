@@ -1,10 +1,11 @@
-import { RouteType } from "./routeType";
+import { AppMenuType, RouteType } from "./routeType";
 import { sysRoutesList, sysRoutesListFullPaths } from "./register";
 import securityApi from "/imports/base/services/security/security.api";
 import { hasValue } from "/imports/libs/hasValue";
 class SysRoutes {
 	private permissions: Record<string, boolean> = {};
 	private routes: Array<RouteType> = [];
+	private menuItens: Array<AppMenuType> = [];
 
 	constructor() {
 		this.updateRoutesPermissions();
@@ -21,11 +22,25 @@ class SysRoutes {
 			});
 	};
 
+	private _constructMenuItens = (routes: Array<RouteType>): Array<AppMenuType> => {
+		return routes.map((route) => {
+			return route.name
+				? {
+						name: route.name,
+						path: route.fullPath,
+						icon: route.icon,
+						children: hasValue(route.children) ? this._constructMenuItens(route.children as Array<RouteType>) : undefined
+					}
+				: {};
+		});
+	};
+
 	public async updateRoutesPermissions() {
 		securityApi.checkMethodPermission({ names: sysRoutesListFullPaths }, (error, result) => {
 			if (error) console.error("Error checking path permissions", error);
 			this.permissions = result;
 			this.routes = this._constructRoute(sysRoutesList);
+			this.menuItens = this._constructMenuItens(sysRoutesList);
 		});
 	}
 

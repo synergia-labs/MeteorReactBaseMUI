@@ -12,4 +12,5 @@ function addFullPathToRoutes(routes: Array<RouteType>, parentPath = ""): Array<R
 }
 
 export const sysRoutesList: Array<RouteType> = addFullPathToRoutes([...exampleRouterList, ...usersRouterList]);
+
 export const sysRoutesListFullPaths: Array<string> = [];
