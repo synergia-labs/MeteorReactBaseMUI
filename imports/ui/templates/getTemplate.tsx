@@ -1,17 +1,12 @@
 import React, { ReactNode } from "react";
 import { TemplateAppBar } from "./templateAppBar/templateAppBar";
 import TemplateNone from "./templateNone/templateNone";
-import { IAppMenu } from "../../modules/modulesTypings";
 import { NavigateFunction } from "react-router-dom";
 import TemplateLogin from "./templateLogin/templateLogin";
+import { AppMenuType } from "/imports/app/routes/routeType";
+import { enumSysTemplateOptions } from "./enum/sysTemplateOptions";
 
 //important: A definição do template default da aplicação é feita no aquivo /imports/app/appLayout.tsx
-
-export enum enumSysTemplateOptions {
-	APPBAR = "AppBar",
-	NONE = "None",
-	LOGIN = "Login"
-}
 
 const templates = {
 	[enumSysTemplateOptions.APPBAR]: TemplateAppBar,
@@ -29,7 +24,7 @@ export interface ISysTemplate {
 	 *
 	 * **obs:** Essa propriedade é usada como atributo `templateMenuOptions` na definição da rota.
 	 */
-	menuOptions?: (IAppMenu | null)[];
+	menuOptions?: (AppMenuType | null)[];
 	/**Propriedades que podem ser passadas por parâmetro para o template.
 	 *
 	 * **obs:** Essa propriedade é usada como atributo `templateProps` na definição da rota.

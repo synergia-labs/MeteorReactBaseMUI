@@ -20,6 +20,7 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 	};
 
 	const getRecursiveRoutes = (routes: RouteType[], parentTemplateProps?: ITemplateRouteProps): JSX.Element[] => {
+		console.log("routes to render", routes);
 		return routes.map(({ children, path, index, fullPath, ...rest }) => {
 			const mergedTemplateProps = { ...parentTemplateProps, ...rest } as RouteType;
 

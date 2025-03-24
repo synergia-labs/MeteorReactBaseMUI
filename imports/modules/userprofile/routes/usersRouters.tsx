@@ -9,7 +9,7 @@ import ResetPasswordPage from "../frontend/pages/notLoggedInUser/resetPassword/r
 import VerifyEmailPage from "../frontend/pages/notLoggedInUser/verifyEmail/verifyEmail.view";
 import { RouteType } from "/imports/app/routes/routeType";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
-import { enumSysTemplateOptions } from "/imports/ui/templates/getTemplate";
+import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
 
 const usersRouterList: Array<RouteType> = [
 	{

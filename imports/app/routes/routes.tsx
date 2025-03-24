@@ -38,22 +38,17 @@ class SysRoutes {
 	public async updateRoutesPermissions() {
 		securityApi.checkMethodPermission({ names: sysRoutesListFullPaths }, (error, result) => {
 			if (error) console.error("Error checking path permissions", error);
+			console.log("Permissions", result);
 			this.permissions = result;
 			this.routes = this._constructRoute(sysRoutesList);
 			this.menuItens = this._constructMenuItens(sysRoutesList);
+			console.log("Routes", this.routes);
+			console.log("MenuItens", this.menuItens);
 		});
 	}
 
 	public getRoutes = (): Array<RouteType> => this.routes;
-	public getMenuItens = () => {
-		return this.menuItens.map((item) => {
-			if (!item?.path) return undefined;
-			return {
-				...item,
-				resources: false
-			};
-		});
-	};
+	public getMenuItens = (): Array<AppMenuType> => this.menuItens;
 }
 
 const sysRoutes = new SysRoutes();
