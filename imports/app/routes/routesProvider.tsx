@@ -57,9 +57,9 @@ export default function AppRouterProvider({ children }: { children: React.ReactN
 	}, []);
 
 	const value = React.useMemo(() => {
-		console.log("Permissions", permissions.current);
-		console.log("Routes", routes);
-		console.log("MenuItens", menuItens);
+		// console.log("Permissions", permissions.current);
+		// console.log("Routes", routes);
+		// console.log("MenuItens", menuItens);
 
 		return {
 			routes: routes,
