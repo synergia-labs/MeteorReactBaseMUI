@@ -1,4 +1,5 @@
 import { Meteor } from "meteor/meteor";
+import { initRouters } from "./start/initRouters";
 
 Meteor.startup(() => {
 	navigator.serviceWorker
@@ -7,4 +8,6 @@ Meteor.startup(() => {
 		.catch((error) => {
 			console.info("ServiceWorker registration failed: ", error);
 		});
+
+	initRouters();
 });
