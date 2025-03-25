@@ -5,8 +5,8 @@ import Box, { BoxProps } from "@mui/material/Box";
 import Typography, { TypographyProps } from "@mui/material/Typography";
 import { SvgIconProps } from "@mui/material";
 import { FilesViewType } from "../../acceptableTypes";
-import { sysSizing } from "/imports/ui/materialui/styles";
 import SysIcon from "../../../../sysIcon/sysIcon";
+import { getSysSizes } from "../../../../../theme/sizes";
 
 interface ISysUploadFileStyle {
 	withIcons: {
@@ -46,11 +46,11 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 		alignContent: "center",
 		justifyItems: "center",
 		alignItems: "center",
-		gap: sysSizing.spacingRemMd,
-		padding: sysSizing.spacingRemMd,
+		gap: getSysSizes(theme).spacingRem.md,
+		padding: getSysSizes(theme).spacingRem.md,
 		backgroundColor: theme.palette.background.default,
 		border: `1px solid ${theme.palette.divider}`,
-		borderRadius: sysSizing.radiusSm,
+		borderRadius: getSysSizes(theme).radius.sm,
 		position: "relative"
 	})),
 
@@ -99,10 +99,10 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 			background: theme.palette.sysBackground?.bg1
 		})),
 
-		cardInfo: styled(Box)<ICardStyle>(({ typeview }) => ({
+		cardInfo: styled(Box)<ICardStyle>(({ typeview, theme }) => ({
 			display: "block",
 			width: "100%",
-			gap: sysSizing.spacingRemXs,
+			gap: getSysSizes(theme).spacingRem.xs,
 			marginTop: typeview == "column" ? "0" : "10px",
 			marginRight: typeview == "column" ? "25px" : "0"
 		})),
@@ -117,7 +117,7 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 			position: "relative",
 			width: "300px",
 			height: canedit == "true" ? "210px" : "169px",
-			borderRadius: sysSizing.radiusSm,
+			borderRadius: getSysSizes(theme).radius.sm,
 			border: `1px solid ${theme.palette.divider}`,
 			backgroundColor: theme.palette.sysAction?.primaryHover,
 			backgroundImage: `url(${url})`,
@@ -129,7 +129,7 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 		body: styled(Box)(({ theme }) => ({
 			display: "flex",
 			height: "42px",
-			padding: sysSizing.componentsButtonSmallPy,
+			padding: getSysSizes(theme).components.buttonSmallPy,
 			width: "100%",
 			backgroundColor: theme.palette.sysBackground?.default,
 			justifyContent: "center",

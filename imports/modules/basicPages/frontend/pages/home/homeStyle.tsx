@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { styled } from "@mui/material/styles";
 import Box, { BoxProps } from "@mui/material/Box";
-import { SysSectionPaddingXY } from "/imports/ui/layoutComponents/sysLayoutComponents";
+import SysSectionPaddingXY from "/imports/components/layoutComponents/sectionPaddingXY";
 
 interface IHomeStyles {
 	Container: ElementType<BoxProps>;

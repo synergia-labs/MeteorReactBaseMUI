@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import Box, { BoxProps } from "@mui/material/Box";
-import { sysSizing } from "../../../ui/materialui/styles";
+import { getSysSizes } from "../../../theme/sizes";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -13,9 +13,9 @@ interface IStyles {
 
 const showDialogStyles: IStyles = {
 	container: styled(Box)(({ theme }) => ({
-		padding: sysSizing.spacingFixedLg,
-		borderRadius: sysSizing.radiusLg,
-		gap: sysSizing.spacingFixedLg,
+		padding: getSysSizes(theme).spacingFixed.lg,
+		borderRadius: getSysSizes(theme).radius.lg,
+		gap: getSysSizes(theme).spacingFixed.lg,
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
@@ -29,27 +29,27 @@ const showDialogStyles: IStyles = {
 			minHeight: "auto"
 		}
 	})),
-	messageContent: styled(Box)({
+	messageContent: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
 		alignItems: "stretch",
-		gap: sysSizing.spacingFixedMd
-	}),
-	header: styled(Box)({
+		gap: getSysSizes(theme).spacingFixed.md
+	})),
+	header: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-start",
 		alignItems: "center",
-		gap: sysSizing.spacingFixedMd
-	}),
-	footer: styled(Box)({
-		gap: sysSizing.spacingRemMd,
+		gap: getSysSizes(theme).spacingFixed.md
+	})),
+	footer: styled(Box)(({ theme }) => ({
+		gap: getSysSizes(theme).spacingRem.md,
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-end",
 		alignItems: "center"
-	})
+	}))
 };
 
 export default showDialogStyles;

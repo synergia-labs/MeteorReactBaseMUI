@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import styled from "@mui/material/styles/styled";
 import Avatar, { AvatarProps } from "@mui/material/Avatar";
-import { sysSizing } from "../../ui/materialui/styles";
+import { getSysSizes } from "../../theme/sizes";
 
 interface IContainer extends BoxProps {
 	cursorPointer?: boolean;
@@ -20,27 +20,27 @@ const SysAvatarStyles: ISysAvatarStyles = {
 	})<IContainer>(({ theme, cursorPointer, size, activateOutline }) => ({
 		"width":
 			size === "small"
-				? sysSizing.componentsButtonSmallMinHeight
+				? getSysSizes(theme).components.buttonSmallMinHeight
 				: size === "medium"
-					? sysSizing.spacingRemXl
-					: sysSizing.componentsButtonMediumMinHeight,
+					? getSysSizes(theme).spacingRem.xl
+					: getSysSizes(theme).components.buttonMediumMinHeight,
 		"height":
 			size === "small"
-				? sysSizing.componentsButtonSmallMinHeight
+				? getSysSizes(theme).components.buttonSmallMinHeight
 				: size === "medium"
-					? sysSizing.spacingRemXl
-					: sysSizing.componentsButtonMediumMinHeight,
+					? getSysSizes(theme).spacingRem.xl
+					: getSysSizes(theme).components.buttonMediumMinHeight,
 		"borderRadius": "50%",
 		"border": !activateOutline ? "none" : `2px solid ${theme?.palette.common.white}`,
 		"display": "flex",
 		"overflow": "hidden",
 		"alignItems": "center",
 		"justifyContent": "center",
-		"padding": !activateOutline ? "none" : sysSizing.spacingFixedXs,
+		"padding": !activateOutline ? "none" : getSysSizes(theme).spacingFixed.xs,
 		"cursor": cursorPointer ? "pointer" : "inherit",
 		"flexShrink": 0,
-		"minWidth": activateOutline ? sysSizing.componentsButtonMediumMinHeight : "auto",
-		"minHeight": activateOutline ? sysSizing.componentsButtonMediumMinHeight : "auto",
+		"minWidth": activateOutline ? getSysSizes(theme).components.buttonMediumMinHeight : "auto",
+		"minHeight": activateOutline ? getSysSizes(theme).components.buttonMediumMinHeight : "auto",
 		"& .MuiAvatar-root": {
 			margin: 0
 		}

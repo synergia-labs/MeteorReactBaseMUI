@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Box, { BoxProps } from "@mui/material/Box";
 import { ElementType } from "react";
-import { sysSizing } from "/imports/ui/materialui/styles";
+import { getSysSizes } from "../../../../../../../theme/sizes";
 
 interface IFieldsWithErrorDialog {
 	Container: ElementType<BoxProps>;
@@ -28,9 +28,9 @@ const FieldsWithErrorDialogStyles: IFieldsWithErrorDialog = {
 		display: "flex",
 		flexDirection: "column",
 		flexGrow: 1,
-		borderRadius: sysSizing.radiusMd,
+		borderRadius: getSysSizes(theme).radius.md,
 		backgroundColor: theme.palette.sysAction?.primaryBgHover,
-		padding: sysSizing.spacingFixedMd
+		padding: getSysSizes(theme).spacingFixed.md
 	}))
 };
 

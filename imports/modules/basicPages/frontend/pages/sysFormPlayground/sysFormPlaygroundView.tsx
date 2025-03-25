@@ -5,7 +5,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import { schemaFormated } from "./interface/sysFormSch";
-import { sysSizing } from "/imports/ui/materialui/styles";
 import SysIcon from "../../../../../components/sysIcon/sysIcon";
 import SysForm from "../../../../../components/sysForm/sysForm";
 import { SysFormPlaygroundContext } from "./sysFormPlayground";
@@ -20,6 +19,7 @@ import { SysRadioButton } from "../../../../../components/sysFormFields/sysRadio
 import { SysCheckBox } from "../../../../../components/sysFormFields/sysCheckBoxField/sysCheckBoxField";
 import { SysDatePickerField } from "../../../../../components/sysFormFields/sysDatePickerField/sysDatePickerField";
 import { SysLocationField } from "../../../../../components/sysFormFields/sysLocationField/sysLocationField";
+import { getSysSizes } from "../../../../../theme/sizes";
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);
@@ -96,7 +96,7 @@ const SysFormPlaygroundView: React.FC = () => {
 			</Description>
 
 			<Typography variant="h5">Playground</Typography>
-			<Box sx={{ display: "flex", flexDirection: "column", gap: sysSizing.spacingFixedLg }}>
+			<Box sx={{ display: "flex", flexDirection: "column", gap: (theme) => getSysSizes(theme).spacingFixed.lg }}>
 				<Typography variant="subtitle1">schema</Typography>
 				<SchemaContainer>
 					<SyntaxHighlighter language="typescript" style={transparentTheme}>

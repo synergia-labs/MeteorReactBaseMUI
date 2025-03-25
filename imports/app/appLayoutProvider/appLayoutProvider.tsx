@@ -11,7 +11,7 @@ import { IShowDialogProps, ShowDialog } from "../components/showDialog/showDialo
 import GlobalStyles from "@mui/material/GlobalStyles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
-import { getTheme } from "/imports/ui/materialui/theme";
+import getTheme from "../../theme";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ISysTemplate } from "../routes/templates/getTemplate";
 import { enumSysTemplateOptions } from "../routes/templates/enum/sysTemplateOptions";

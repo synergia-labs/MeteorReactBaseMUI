@@ -2,7 +2,7 @@ import { Theme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Fab, { FabProps } from "@mui/material/Fab";
 import React from "react";
-import { sysSizing } from "../../ui/materialui/styles";
+import { getSysSizes } from "../../theme/sizes";
 
 interface ISysFabProps extends FabProps {
 	fixed?: boolean;
@@ -14,7 +14,7 @@ export const SysFabStyled = styled(({ fixed, ...otherProps }: ISysFabProps) => <
 	fixed
 }) => {
 	const defaultStyle = {
-		"borderRadius": sysSizing.radiusInfinite,
+		"borderRadius": getSysSizes(theme).radius.infinite,
 		"backgroundColor": theme?.palette.sysAction?.primary,
 		"color": theme?.palette.sysAction?.primaryContrastText,
 		"&:hover": {
@@ -23,7 +23,7 @@ export const SysFabStyled = styled(({ fixed, ...otherProps }: ISysFabProps) => <
 		"display": "flex",
 		"justifyContent": "center",
 		"alignItems": "center",
-		"gap": sysSizing.componentsButtonGap,
+		"gap": getSysSizes(theme).components.buttonGap,
 		"transition": "all 0.3s ease"
 	};
 

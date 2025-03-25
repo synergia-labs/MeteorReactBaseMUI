@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, BoxProps, styled } from "@mui/material";
-import { sysSizing } from "../../ui/materialui/styles";
+import { getSysSizes } from "../../theme/sizes";
 
 interface ISysNavLinkStyles {
 	Container: React.ElementType<BoxProps & IContainer>;
@@ -14,12 +14,12 @@ interface IContainer {
 const SysNavLinkStyles: ISysNavLinkStyles = {
 	Container: styled(({ active, disabled, ...otherProps }: IContainer) => <Box {...otherProps} />)<IContainer>(
 		({ theme, active, disabled }) => ({
-			"padding": `${sysSizing.spacingRemXs} ${sysSizing.spacingRemMd}`,
-			"borderRadius": sysSizing.radiusInfinite,
+			"padding": `${getSysSizes(theme).spacingRem.xs} ${getSysSizes(theme).spacingRem.md}`,
+			"borderRadius": getSysSizes(theme).radius.infinite,
 			"display": "flex",
 			"alignItems": "center",
 			"justifyContent": "center",
-			"gap": sysSizing.spacingRemSm,
+			"gap": getSysSizes(theme).spacingRem.sm,
 			"cursor": disabled ? "default" : "pointer",
 			"backgroundColor": active ? theme.palette.sysAction?.primaryHover : "transparent",
 			"color": disabled ? theme.palette.primary.light : theme.palette.sysAction?.primaryContrastText,

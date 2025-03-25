@@ -4,7 +4,7 @@ import AccordionActions, { AccordionActionsProps } from "@mui/material/Accordion
 import AccordionSummary, { AccordionSummaryProps } from "@mui/material/AccordionSummary";
 import Box, { BoxProps } from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
-import { sysSizing } from "../../ui/materialui/styles";
+import { getSysSizes } from "../../theme/sizes";
 
 interface ISysAccordion {
 	Container: ElementType<BoxProps>;
@@ -25,14 +25,14 @@ const AccordionStyle: ISysAccordion = {
 		width: "100%"
 	})),
 
-	Accordion: styled(Accordion)(() => ({
+	Accordion: styled(Accordion)(({ theme }) => ({
 		width: "100%",
-		borderRadius: `${sysSizing.spacingFixedXs} !important`
+		borderRadius: `${getSysSizes(theme).spacingFixed.xs} !important`
 	})),
 
-	AccordionSummary: styled(AccordionSummary)<ISummaryProps>(({ posicaoIcone }) => ({
+	AccordionSummary: styled(AccordionSummary)<ISummaryProps>(({ posicaoIcone, theme }) => ({
 		flexDirection: posicaoIcone === "inicio" ? "row-reverse" : "row",
-		gap: sysSizing.spacingFixedSm
+		gap: getSysSizes(theme).spacingFixed.sm
 	})),
 
 	AccordionActions: styled(AccordionActions)(() => ({

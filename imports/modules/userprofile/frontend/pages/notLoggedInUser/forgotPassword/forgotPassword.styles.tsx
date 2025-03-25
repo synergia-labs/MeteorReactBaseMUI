@@ -1,7 +1,7 @@
 import React, { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
-import { sysSizing } from "/imports/ui/materialui/styles";
+import { getSysSizes } from "../../../../../../theme/sizes";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -10,25 +10,25 @@ interface IStyles {
 }
 
 const forgotPasswordStyle: IStyles = {
-	container: styled(Box)({
-		gap: sysSizing.spacingFixedXl,
+	container: styled(Box)(({ theme }) => ({
+		gap: getSysSizes(theme).spacingFixed.xl,
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center"
-	}),
+	})),
 	body: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
 		gap: theme.spacing(2)
 	})),
-	footer: styled(Box)({
+	footer: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
-		gap: sysSizing.spacingFixedMd,
+		gap: getSysSizes(theme).spacingFixed.md,
 		justifyContent: "space-between"
-	})
+	}))
 };
 
 export default forgotPasswordStyle;

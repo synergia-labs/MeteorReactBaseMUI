@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper, { PaperProps } from "@mui/material/Paper";
-import { sysSizing } from "../../../ui/materialui/styles";
+import { getSysSizes } from "../../../theme/sizes";
 
 interface IShowNotificationStyles {
 	Container: React.ElementType;
@@ -20,7 +20,7 @@ const ShowNotificationStyles: IShowNotificationStyles = {
 	})<IContainer>(({ theme, type }) => ({
 		"minWidth": "440px",
 		"minHeight": "80px",
-		"borderRadius": sysSizing.radiusSm,
+		"borderRadius": getSysSizes(theme).radius.sm,
 		"display": "flex",
 		"flexDirection": "column",
 		"overflow": "hidden",
@@ -63,15 +63,15 @@ const ShowNotificationStyles: IShowNotificationStyles = {
 			}
 		})
 	})),
-	Header: styled(Box)(() => ({
-		padding: `${sysSizing.spacingFixedXs} ${sysSizing.spacingFixedSm}`
+	Header: styled(Box)(({ theme }) => ({
+		padding: `${getSysSizes(theme).spacingFixed.xs} ${getSysSizes(theme).spacingFixed.sm}`
 	})),
 	Body: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		padding: `${sysSizing.spacingFixedXs} ${sysSizing.spacingFixedSm}`,
+		padding: `${getSysSizes(theme).spacingFixed.xs} ${getSysSizes(theme).spacingFixed.sm}`,
 		backgroundColor: theme.palette.background.default,
 		flexGrow: 1,
 		flexShrink: 0,

@@ -2,7 +2,7 @@ import { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import { keyframes } from "@mui/system";
-import { sysSizing } from "../../ui/materialui/styles";
+import { getSysSizes } from "../../theme/sizes";
 
 const spin = keyframes`
     from {
@@ -30,12 +30,12 @@ const LoadingStyle: ILoadingStyle = {
 		animation: `${spin} linear infinite 1s`
 	})),
 
-	Container: styled(Box)(() => ({
+	Container: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		gap: sysSizing.spacingRemSm
+		gap: getSysSizes(theme).spacingRem.sm
 	}))
 };
 

@@ -1,9 +1,8 @@
 import { ElementType } from "react";
 import { styled } from "@mui/material/styles";
 import Box, { BoxProps } from "@mui/material/Box";
-
-import { sysSizing } from "/imports/ui/materialui/styles";
-import { SysSectionPaddingXY } from "/imports/ui/layoutComponents/sysLayoutComponents";
+import { getSysSizes } from "../../../../../theme/sizes";
+import SysSectionPaddingXY from "/imports/components/layoutComponents/sectionPaddingXY";
 
 interface ISysFormPlaygroundStyles {
 	Container: ElementType<BoxProps>;
@@ -18,40 +17,40 @@ interface ISysFormPlaygroundStyles {
 }
 
 const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
-	Container: styled(SysSectionPaddingXY)(() => ({
-		gap: sysSizing.spacingFixedMd,
+	Container: styled(SysSectionPaddingXY)(({ theme }) => ({
+		gap: getSysSizes(theme).spacingFixed.md,
 		display: "flex",
 		flexDirection: "column"
 	})),
-	Description: styled(Box)({
+	Description: styled(Box)(({ theme }) => ({
 		textAlign: "justify",
 		display: "flex",
 		flexDirection: "column",
-		gap: sysSizing.spacingFixedSm
-	}),
+		gap: getSysSizes(theme).spacingFixed.sm
+	})),
 	Playground: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "row",
 		gap: "32px 64px",
-		marginTop: sysSizing.spacingFixedLg,
+		marginTop: getSysSizes(theme).spacingFixed.lg,
 		[theme.breakpoints.down("md")]: {
 			flexDirection: "column-reverse"
 		}
 	})),
-	FormContainer: styled(Box)(() => ({
+	FormContainer: styled(Box)(({ theme }) => ({
 		flex: 1,
 		display: "flex",
 		flexDirection: "column",
-		gap: sysSizing.spacingFixedMd,
+		gap: getSysSizes(theme).spacingFixed.md,
 		height: "fit-content"
 	})),
 	ControlerContainer: styled(Box)(({ theme }) => ({
 		flex: 1,
 		display: "flex",
 		flexDirection: "column",
-		gap: sysSizing.spacingFixedLg,
-		borderRadius: sysSizing.radiusSm,
-		padding: sysSizing.spacingFixedMd,
+		gap: getSysSizes(theme).spacingFixed.lg,
+		borderRadius: getSysSizes(theme).radius.sm,
+		padding: getSysSizes(theme).spacingFixed.md,
 		backgroundColor: theme.palette.sysAction?.primaryBgHover,
 		height: "fit-content"
 	})),
@@ -60,30 +59,30 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		backgroundColor: theme.palette.sysBackground?.default,
-		borderRadius: sysSizing.radiusSm,
+		borderRadius: getSysSizes(theme).radius.sm,
 		minHeight: "157px",
 		maxHeight: "350px",
-		padding: sysSizing.spacingFixedMd
+		padding: getSysSizes(theme).spacingFixed.md
 	})),
-	ButtonContainer: styled(Box)({
+	ButtonContainer: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "row",
 		flexWrap: "wrap",
 		justifyContent: "flex-start",
-		rowGap: sysSizing.spacingRemMd,
-		columnGap: sysSizing.spacingRemMd
-	}),
-	RowElement: styled(Box)({
+		rowGap: getSysSizes(theme).spacingRem.md,
+		columnGap: getSysSizes(theme).spacingRem.md
+	})),
+	RowElement: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "row",
-		gap: sysSizing.spacingFixedMd,
+		gap: getSysSizes(theme).spacingFixed.md,
 		alignItems: "start"
-	}),
+	})),
 	SchemaContainer: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "column",
-		borderRadius: sysSizing.radiusSm,
-		padding: sysSizing.spacingFixedMd,
+		borderRadius: getSysSizes(theme).radius.sm,
+		padding: getSysSizes(theme).spacingFixed.md,
 		backgroundColor: theme.palette.sysBackground?.default,
 		border: `1px solid ${theme.palette.divider}`,
 		overflow: "auto"

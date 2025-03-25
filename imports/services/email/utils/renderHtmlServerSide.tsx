@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import createCache from "@emotion/cache";
 import createEmotionServer from "@emotion/server/create-instance";
-import { getTheme } from "/imports/ui/materialui/theme";
+import getTheme from "../../../theme";
 import { renderToString } from "react-dom/server";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";

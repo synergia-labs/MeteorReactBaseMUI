@@ -1,10 +1,6 @@
 /* eslint-disable */
-import { createTheme } from "@mui/material/styles";
-import React from "react";
-import { Theme, ThemeOptions } from "@mui/material";
-import sysLightPalette from "./sysColors";
-import SysFonts from "./sysFonts";
-import getSysComponentsStyles from "./sysComponents";
+import "@mui/material";
+import { PaletteColor } from "@mui/material";
 
 declare module "@mui/material/styles" {
 	interface ISysText {
@@ -52,14 +48,14 @@ declare module "@mui/material/styles" {
 	}
 
 	interface Palette {
-		tertiary: Palette["primary"];
+		tertiary: PaletteColor;
 		sysText?: ISysText;
 		sysBackground?: ISysBackground;
 		sysAction?: ISysAction;
 	}
 
 	interface PaletteOptions {
-		tertiary?: PaletteOptions["primary"];
+		tertiary?: PaletteColor;
 		sysText?: Partial<ISysText>;
 		sysBackground?: Partial<ISysBackground>;
 		sysAction?: Partial<ISysAction>;
@@ -83,20 +79,3 @@ declare module "@mui/material/Typography" {
 		overline: true;
 	}
 }
-
-const getLightThemeBase = (props: { fontScale: number }): ThemeOptions => {
-	const fontScale = props.fontScale;
-	return {
-		palette: sysLightPalette,
-		typography: SysFonts.getTypography(fontScale),
-		spacing: 8
-	};
-};
-
-export const getTheme = (options: { fontScale: number; darkMode: boolean }) => {
-	const fontScale = options.fontScale || 1;
-	const theme: Theme = createTheme(getLightThemeBase({ fontScale }));
-
-	return createTheme(theme, { ...getSysComponentsStyles(theme, fontScale) });
-};
-/* eslint-enable */
