@@ -1,4 +1,4 @@
-import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
+import { IOption } from "../components/InterfaceBaseSimpleFormComponent";
 
 export type LabelValueType = {
 	value: any;

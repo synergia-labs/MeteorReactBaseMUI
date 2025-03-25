@@ -3,7 +3,7 @@ import UserListView from "./usersList.view";
 import Context, { IUsersListContext } from "./usersList.context";
 import usersApi from "../../../api/api";
 import securityApi from "../../../../../../services/security/security.api";
-import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
+import { IOption } from "../../../../../../components/InterfaceBaseSimpleFormComponent";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 import { GetUsersListReturnType } from "/imports/modules/userprofile/common/types/getUsersList";
 import useSubscribe from "/imports/hooks/usePublication";

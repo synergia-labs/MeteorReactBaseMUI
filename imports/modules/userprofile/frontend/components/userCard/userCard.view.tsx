@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Styles from "./userCard.styles";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysIcon from "../../../../../components/sysIcon/sysIcon";
 
 interface ISysCardUserProps extends Partial<Meteor.User> {}
 

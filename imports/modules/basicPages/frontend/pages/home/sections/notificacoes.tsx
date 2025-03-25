@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysIcon from "../../../../../../components/sysIcon/sysIcon";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 
 const HomeSectionNotificacoes: React.FC = () => {

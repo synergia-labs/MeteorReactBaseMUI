@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import { hasValue } from "../../../libs/hasValue";
 import Styles from "./showNotificationStyles";
-import SysIcon from "../../../ui/components/sysIcon/sysIcon";
+import SysIcon from "../../../components/sysIcon/sysIcon";
 import IAppComponents from "/imports/types/appCompontent";
 
 export interface IShowNotificationProps extends IAppComponents {

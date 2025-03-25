@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import React from "react";
 import FieldsWithErrorDialogStyles from "./fieldsWithErrorDialogStyles";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysIcon from "../../../../../../../components/sysIcon/sysIcon";
 
 interface IFieldsWithErrorsDialog {
 	errors: { [key: string]: string };

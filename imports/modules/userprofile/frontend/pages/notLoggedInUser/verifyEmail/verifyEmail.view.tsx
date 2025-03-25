@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Styles from "./verifyEmail.styles";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
+import { SysLoading } from "../../../../../../components/sysLoading/sysLoading";
 import { useNavigate, useParams } from "react-router-dom";
 import Context, { INotLoggedInUserContext } from "../notLoggedInUser.context";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";

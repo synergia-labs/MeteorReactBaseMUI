@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SysAppBarView from "./sysAppBarView";
 import AuthContext from "/imports/app/authProvider/authContext";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
-import { ISysMenuItem, ISysMenuRef } from "/imports/ui/components/sysMenu/sysMenuProvider";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import { ISysMenuItem, ISysMenuRef } from "../../../../../components/sysMenu/sysMenuProvider";
+import SysIcon from "../../../../../components/sysIcon/sysIcon";
 import { hasValue } from "/imports/libs/hasValue";
-import SysAvatar from "/imports/ui/components/sysAvatar/sysAvatar";
+import SysAvatar from "../../../../../components/sysAvatar/sysAvatar";
 import { RouterContext } from "../../../components/routesProvider";
 
 interface ISysAppBarController {

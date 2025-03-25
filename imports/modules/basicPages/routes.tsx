@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
 import { RouteType } from "/imports/app/routes/types/routeType";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysIcon from "../../components/sysIcon/sysIcon";
 
 const basicPagesRouterList: Array<RouteType> = [
 	{

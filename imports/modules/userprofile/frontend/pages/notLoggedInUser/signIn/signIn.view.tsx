@@ -3,14 +3,14 @@ import Styles from "./signIn.styles";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import SysForm from "/imports/ui/components/sysForm/sysForm";
-import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
-import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysForm from "../../../../../../components/sysForm/sysForm";
+import SysTextField from "../../../../../../components/sysFormFields/sysTextField/sysTextField";
+import SysFormButton from "../../../../../../components/sysFormFields/sysFormButton/sysFormButton";
+import SysIcon from "../../../../../../components/sysIcon/sysIcon";
 import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Context, { INotLoggedInUserContext } from "../notLoggedInUser.context";
-import { ISysFormRef } from "/imports/ui/components/sysForm/typings";
+import { ISysFormRef } from "../../../../../../components/sysForm/typings";
 import signInFrontSchema from "./signin.schema";
 
 const SignInPage: React.FC = () => {

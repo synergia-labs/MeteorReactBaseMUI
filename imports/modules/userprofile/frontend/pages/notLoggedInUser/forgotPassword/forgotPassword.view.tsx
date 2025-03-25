@@ -5,11 +5,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate, useParams } from "react-router-dom";
 import Styles from "./forgotPassword.styles";
-import SysForm from "/imports/ui/components/sysForm/sysForm";
-import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
+import SysForm from "../../../../../../components/sysForm/sysForm";
+import SysTextField from "../../../../../../components/sysFormFields/sysTextField/sysTextField";
 import emailValidator from "/imports/libs/validators/email";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
-import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
+import SysIcon from "../../../../../../components/sysIcon/sysIcon";
+import SysFormButton from "../../../../../../components/sysFormFields/sysFormButton/sysFormButton";
 import Context, { INotLoggedInUserContext } from "../notLoggedInUser.context";
 import Collapse from "@mui/material/Collapse";
 

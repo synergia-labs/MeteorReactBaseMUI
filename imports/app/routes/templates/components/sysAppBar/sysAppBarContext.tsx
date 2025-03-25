@@ -1,5 +1,5 @@
 import React, { createContext, RefObject } from "react";
-import { ISysMenuItem, ISysMenuRef } from "/imports/ui/components/sysMenu/sysMenuProvider";
+import { ISysMenuItem, ISysMenuRef } from "../../../../../components/sysMenu/sysMenuProvider";
 
 interface ISysAppBarContext {
 	userName: string;

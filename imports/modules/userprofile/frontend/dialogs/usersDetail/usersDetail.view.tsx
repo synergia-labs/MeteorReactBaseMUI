@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import Styles from "./usersDetail.styles";
 import Typography from "@mui/material/Typography";
 import Context, { IUsersDetailContext } from "./usersDetail.context";
-import SysTextField from "/imports/ui/components/sysFormFields/sysTextField/sysTextField";
-import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectField/sysSelectField";
-import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
-import SysForm from "/imports/ui/components/sysForm/sysForm";
+import SysTextField from "../../../../../components/sysFormFields/sysTextField/sysTextField";
+import { SysSelectField } from "../../../../../components/sysFormFields/sysSelectField/sysSelectField";
+import { SysLoading } from "../../../../../components/sysLoading/sysLoading";
+import SysForm from "../../../../../components/sysForm/sysForm";
 import userDetailFrontSchema from "./usersDetail.schema";
 import Button from "@mui/material/Button";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
-import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
+import SysIcon from "../../../../../components/sysIcon/sysIcon";
+import SysFormButton from "../../../../../components/sysFormFields/sysFormButton/sysFormButton";
 
 const UserDetailView: React.FC = () => {
 	const context = useContext<IUsersDetailContext>(Context);

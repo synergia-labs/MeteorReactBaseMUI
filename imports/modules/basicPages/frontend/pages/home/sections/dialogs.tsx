@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import HomeSection from "../components/section";
 import { Button } from "@mui/material";
 import HomeStyles from "../homeStyle";
-import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
+import SysIcon from "../../../../../../components/sysIcon/sysIcon";
 import AppLayoutContext, { IAppLayoutContext } from "/imports/app/appLayoutProvider/appLayoutContext";
 
 const HomeSectionDialogs: React.FC = () => {

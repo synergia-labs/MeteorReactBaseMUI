@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
+import { IOption } from "../../../../../../components/InterfaceBaseSimpleFormComponent";
 import { GetUsersListReturnType } from "/imports/modules/userprofile/common/types/getUsersList";
 
 interface IUsersListContext {

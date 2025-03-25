@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { ISysFormPlaygroundContext } from "./interface/types";
 import SysFormPlaygroundView from "./sysFormPlaygroundView";
 import { ISysFormPlaygroundSch, sysFormPlaygroundSch } from "./interface/sysFormSch";
-import { ISysFormRef } from "/imports/ui/components/sysForm/typings";
+import { ISysFormRef } from "../../../../../components/sysForm/typings";
 import FieldsWithErrorsDialog from "./components/fieldsWithErrorDialog/fieldWithErroDialog";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 

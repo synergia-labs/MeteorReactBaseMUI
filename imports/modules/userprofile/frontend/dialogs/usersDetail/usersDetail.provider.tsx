@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Context, { IUsersDetailContext } from "./usersDetail.context";
 import UserDetailView from "./usersDetail.view";
-import { IOption } from "/imports/ui/components/InterfaceBaseSimpleFormComponent";
+import { IOption } from "../../../../../components/InterfaceBaseSimpleFormComponent";
 import securityApi from "../../../../../services/security/security.api";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 import { IUserDetailFrontSchema } from "./usersDetail.schema";

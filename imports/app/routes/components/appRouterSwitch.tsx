@@ -1,7 +1,7 @@
 import React, { ElementType, useContext, Suspense } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { hasValue } from "/imports/libs/hasValue";
-import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
+import { SysLoading } from "../../../components/sysLoading/sysLoading";
 import ScreenRouteRender from "./screenRouteRender";
 import NotFoundErrorPage from "../../../modules/basicPages/frontend/pages/error/notFoundErrorPage";
 import ForbiddenErrorPage from "../../../modules/basicPages/frontend/pages/error/forbiddenErrorPage";
