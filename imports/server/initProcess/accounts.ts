@@ -1,8 +1,8 @@
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
-import verificationEmailTemplate from "/imports/modules/userprofile/common/emails/sendEmailVerificationTemplate/sendEmailVerificationTempalte";
-import resetPasswordEmailTemplate from "/imports/modules/userprofile/common/emails/sendEmailResetPasswordTemplate/sendEmailResetPasswordTemplate.view";
-import enrollAccountEmailTemplate from "/imports/modules/userprofile/common/emails/sendEmailEnrollAccountTemplate/sendEmailEnrollAccountTemplate.view";
+import verificationEmailTemplate from "../../modules/userprofile/common/emails/accountsEmails/sendEmailVerificationTemplate/sendEmailVerificationTempalte";
+import resetPasswordEmailTemplate from "../../modules/userprofile/common/emails/accountsEmails/sendEmailResetPasswordTemplate/sendEmailResetPasswordTemplate.view";
+import enrollAccountEmailTemplate from "../../modules/userprofile/common/emails/accountsEmails/sendEmailEnrollAccountTemplate/sendEmailEnrollAccountTemplate.view";
 import usersServer from "/imports/modules/userprofile/backend/server";
 import { externalLoginServicesInstances } from "/imports/modules/userprofile/backend/services/register";
 

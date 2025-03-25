@@ -33,6 +33,7 @@ const convertHtmlToInlineStyles = (html: string, css: string): string => {
 };
 
 const renderHtmlServerSide = (element: ReactNode): string => {
+	if (Meteor.isClient) throw new Meteor.Error("O método renderHtmlServerSide não pode ser chamado no lado do cliente.");
 	const html = renderToString(
 		<CacheProvider value={cache}>
 			<ThemeProvider theme={theme}>

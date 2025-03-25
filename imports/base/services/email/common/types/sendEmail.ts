@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Meteor } from "meteor/meteor";
+import enumEmailTemplate from "../enums/emailTemplate";
 
 /**
  * Send Email Schema
@@ -7,9 +8,8 @@ import { Meteor } from "meteor/meteor";
  * @property {string} from 		- Endeço de email do remetente
  * @property {string} to 		- Endereço de email do destinatário
  * @property {string} subject 	- Título do email
- * @property {string} html 		- Corpo do email. obs: Deve
- * 									ser um html em formato de string, utilizar a função `renderHtmlServerSide` para
- * 									converter um componente React em uma string de html
+ * @property {string} template 	- Template do email
+ * @property {any} templateProps - Propriedades do template
  */
 
 export const sendEmailSchema = z.object({
@@ -23,7 +23,8 @@ export const sendEmailSchema = z.object({
 		.default(Meteor.settings.email.system_sender)
 		.optional(),
 	subject: z.string().nonempty({ message: "O email deve possuir um título" }),
-	html: z.string().nonempty({ message: "O email deve possuir um corpo" })
+	tempalte: z.nativeEnum(enumEmailTemplate),
+	templateProps: z.any().optional()
 });
 
 type SendEmailType = z.infer<typeof sendEmailSchema>;

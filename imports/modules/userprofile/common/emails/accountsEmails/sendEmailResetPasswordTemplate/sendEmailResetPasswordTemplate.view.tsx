@@ -1,10 +1,10 @@
 import React from "react";
 import { Meteor } from "meteor/meteor";
 import renderHtmlServerSide from "/imports/base/services/email/utils/renderHtmlServerSide";
-import BaseUserEmails from "../baseUserEmails/baseUserEmials";
-import Styles from "./sendEmailVerificationTempalteStyles";
+import Styles from "./sendEmailResetPasswordTemplate.styles";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import BaseUserEmails from "../baseUserEmials";
 
 interface ISendEmailVerificationProps {
 	user: Meteor.User;
@@ -15,11 +15,11 @@ const SendEmailVerification: React.FC<ISendEmailVerificationProps> = ({ user, ur
 	return (
 		<BaseUserEmails title={`Olá, ${user.profile?.name || user?.emails?.[0]?.address}`}>
 			<Typography>
-				Seja bem vindo ao <strong> {Meteor.settings.public.appName} </strong>
+				Sua senha de acesso ao <strong>{Meteor.settings.public.appName}</strong> será alterada.
 			</Typography>
-			<Typography>Para confirmar seu endereço de e-mail, clique no botão abaixo:</Typography>
+			<Typography>Clique no link abaixo e informe uma nova senha:</Typography>
 			<Link href={url}>
-				<Styles.buttonContainer>Confirmar e-mail</Styles.buttonContainer>
+				<Styles.buttonContainer>Alterar senha</Styles.buttonContainer>
 			</Link>
 			<Typography variant="caption" color={(theme) => theme.palette.sysText?.auxiliary}>
 				Agradecemos por se cadastrar no <strong>{Meteor.settings.public.appName}</strong>. Esta é uma mensagem gerada
@@ -29,13 +29,13 @@ const SendEmailVerification: React.FC<ISendEmailVerificationProps> = ({ user, ur
 	);
 };
 
-const verificationEmailTemplate = (): EmailFields => ({
+const resetPasswordEmailTemplate = (): EmailFields => ({
 	subject() {
-		return `${Meteor.settings.public.appName} - Confirme seu endereço de e-mail`;
+		return `${Meteor.settings.public.appName} - Redefinição de senha`;
 	},
 	html(user, url) {
 		return renderHtmlServerSide(<SendEmailVerification user={user as Meteor.User} url={url} />);
 	}
 });
 
-export default verificationEmailTemplate;
+export default resetPasswordEmailTemplate;

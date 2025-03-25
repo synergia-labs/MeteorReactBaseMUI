@@ -1,25 +1,25 @@
 import React from "react";
 import { Meteor } from "meteor/meteor";
 import renderHtmlServerSide from "/imports/base/services/email/utils/renderHtmlServerSide";
-import BaseUserEmails from "../baseUserEmails/baseUserEmials";
-import Styles from "./sendEmailEnrollAccountTemplate.styles";
+import Styles from "./sendEmailVerificationTempalteStyles";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import BaseUserEmails from "../baseUserEmials";
 
 interface ISendEmailVerificationProps {
 	user: Meteor.User;
 	url: string;
 }
 
-const SendEmailEnrollAccount: React.FC<ISendEmailVerificationProps> = ({ user, url }) => {
+const SendEmailVerification: React.FC<ISendEmailVerificationProps> = ({ user, url }) => {
 	return (
 		<BaseUserEmails title={`Olá, ${user.profile?.name || user?.emails?.[0]?.address}`}>
 			<Typography>
-				Seu cadastro no <strong>{Meteor.settings.public.appName}</strong> foi realizado por um administrador.
+				Seja bem vindo ao <strong> {Meteor.settings.public.appName} </strong>
 			</Typography>
-			<Typography>Clique no link abaixo para criar sua senha de acesso:</Typography>
+			<Typography>Para confirmar seu endereço de e-mail, clique no botão abaixo:</Typography>
 			<Link href={url}>
-				<Styles.buttonContainer>Definir senha</Styles.buttonContainer>
+				<Styles.buttonContainer>Confirmar e-mail</Styles.buttonContainer>
 			</Link>
 			<Typography variant="caption" color={(theme) => theme.palette.sysText?.auxiliary}>
 				Agradecemos por se cadastrar no <strong>{Meteor.settings.public.appName}</strong>. Esta é uma mensagem gerada
@@ -29,13 +29,13 @@ const SendEmailEnrollAccount: React.FC<ISendEmailVerificationProps> = ({ user, u
 	);
 };
 
-const enrollAccountEmailTemplate = (): EmailFields => ({
+const verificationEmailTemplate = (): EmailFields => ({
 	subject() {
-		return `${Meteor.settings.public.appName} - Cadastro de usuário`;
+		return `${Meteor.settings.public.appName} - Confirme seu endereço de e-mail`;
 	},
 	html(user, url) {
-		return renderHtmlServerSide(<SendEmailEnrollAccount user={user as Meteor.User} url={url} />);
+		return renderHtmlServerSide(<SendEmailVerification user={user as Meteor.User} url={url} />);
 	}
 });
 
-export default enrollAccountEmailTemplate;
+export default verificationEmailTemplate;
