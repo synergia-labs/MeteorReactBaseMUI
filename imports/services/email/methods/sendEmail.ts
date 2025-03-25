@@ -3,7 +3,7 @@ import { enumEmailMethods } from "../common/enums/methods.enum";
 import SendEmailType, { sendEmailSchema } from "../common/types/sendEmail";
 import { EmailServer } from "../email.server";
 import MethodBase from "/imports/base/server/methods/method.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../types/context";
 import { Email } from "meteor/email";
 import renderHtmlServerSide from "../utils/renderHtmlServerSide";
 import enumEmailTemplate from "../common/enums/emailTemplate";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PublicationType } from "../base/types/publication";
+import { PublicationType } from "../types/publication";
 import { useTracker } from "meteor/react-meteor-data";
 
 function useSubscribe<MethodBase extends PublicationType<any>, ReturnType>({

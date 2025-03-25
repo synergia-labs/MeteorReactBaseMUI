@@ -1,6 +1,6 @@
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { GetStorageBase } from "./bases/get";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../types/context";
 import fs from "fs";
 import { previewCsv } from "../utils/previewCsvFiles";
 import { previewTextFile } from "../utils/previewTextFiles";

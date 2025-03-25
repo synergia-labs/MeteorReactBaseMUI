@@ -2,13 +2,13 @@
 import { Meteor, Subscription } from "meteor/meteor";
 import { WebApp } from "meteor/webapp";
 import connectRoute from "connect-route";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../types/context";
 import MethodBase from "./methods/method.base";
 import PublicationBase from "./publication/publication.base";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { EndpointType } from "../types/serverParams";
-import { MethodType } from "../types/method";
+import { EndpointType } from "../../types/serverParams";
+import { MethodType } from "../../types/method";
 import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 import { getDefaultAdminContext, getDefaultPublicContext } from "./utils/defaultContexts";
 import { methodSafeInsert } from "../../services/security/backend/methods/methodSafeInsert";

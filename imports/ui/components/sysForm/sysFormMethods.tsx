@@ -2,7 +2,7 @@
 import { MutableRefObject } from "react";
 import { IDocRef, IDocValues, ISysFormComponentRef } from "./typings";
 import { hasValue } from "../../../libs/hasValue";
-import { IDefField, ISchema } from "/imports/base/types/schema";
+import { IDefField, ISchema } from "../../../types/schema";
 
 class SysFormMethods {
 	public static setRefComponent = ({

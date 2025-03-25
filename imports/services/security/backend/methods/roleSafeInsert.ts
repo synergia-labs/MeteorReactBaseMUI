@@ -7,10 +7,10 @@ import {
 } from "../../common/types/roleSafeInsert";
 import { SecurityServer } from "../security.server";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
-import { AuditType } from "/imports/base/types/audit";
+import { AuditType } from "../../../../types/audit";
 import { textNormalize } from "/imports/libs/textUtilities";
 import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInsertType, ReturnRoleSafeInsertType> {
 	constructor() {

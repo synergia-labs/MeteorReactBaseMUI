@@ -7,7 +7,7 @@ import {
 } from "../../common/types/methodExample";
 import { ExampleServer } from "../server";
 import MethodBase from "/imports/base/server/methods/method.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 class MethodExample extends MethodBase<ExampleServer, ParamMethodExampleType, ReturnMethodExampleType> {
 	constructor() {

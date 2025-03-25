@@ -1,5 +1,5 @@
 import { getUsersListPublication } from "../../backend/publications/usersList.publication";
-import { PublicationType } from "/imports/base/types/publication";
+import { PublicationType } from "../../../../types/publication";
 
 interface IUsersApiPublication {
 	getUsersListPublication: PublicationType<typeof getUsersListPublication>;

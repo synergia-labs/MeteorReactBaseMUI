@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { paramRoleSafeInsertSch } from "./roleSafeInsert";
-import { AuditSch } from "/imports/base/types/audit";
+import { AuditSch } from "../../../../types/audit";
 import { paramMethodSafeInsertSch } from "./methodSafeInsert";
 
 export const paramGetSch = z.object({

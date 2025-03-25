@@ -1,6 +1,6 @@
 import { z } from "zod";
 import enumUserRoles from "../enums/enumUserRoles";
-import { AuditSch } from "/imports/base/types/audit";
+import { AuditSch } from "../../../../types/audit";
 import { githubServiceDataSchema } from "./serviceGithubData";
 import { googleServiceDataSchema } from "./serviceGoogleData";
 

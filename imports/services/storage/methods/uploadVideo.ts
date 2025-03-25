@@ -1,4 +1,4 @@
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../types/context";
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import storageServer from "../storage.server";
 import { UploadStorageBase } from "./bases/upload";

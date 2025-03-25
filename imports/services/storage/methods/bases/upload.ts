@@ -7,9 +7,9 @@ import {
 import { StorageServer } from "../../storage.server";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
 import { IMethodBase } from "/imports/base/server/methods/method.base";
-import { AuditType } from "/imports/base/types/audit";
+import { AuditType } from "../../../../types/audit";
 import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 import { Buffer } from "buffer";
 
 export abstract class UploadStorageBase extends CreateMethodBase<

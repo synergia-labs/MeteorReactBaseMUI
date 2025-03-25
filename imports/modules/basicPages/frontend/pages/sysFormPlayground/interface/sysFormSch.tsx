@@ -1,6 +1,5 @@
 import { validarCPF } from "/imports/libs/validaCPF";
-import { DocType } from "/imports/typings/DocType";
-import { ISchema } from "/imports/typings/ISchema";
+import { ISchema } from "/imports/types/schema";
 
 const sysFormPlaygroundSch: ISchema<ISysFormPlaygroundSch> = {
 	name: {
@@ -132,7 +131,7 @@ const sysFormPlaygroundSch: ISchema<ISysFormPlaygroundSch> = {
 	}
 };
 
-interface ISysFormPlaygroundSch extends DocType {
+interface ISysFormPlaygroundSch {
 	name: string;
 	status: string;
 	statusDate?: Date;

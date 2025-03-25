@@ -7,7 +7,7 @@ import { Validador } from "../../libs/Validador";
 import { MongoInternals } from "meteor/mongo";
 import { ISchema } from "../../typings/ISchema";
 import { IDocNeo4j } from "../../typings/DocType";
-import { IContext } from "../../typings/IContext";
+import { IContext } from "../../types/context";
 import { nanoid } from "nanoid";
 import { hasValue } from "../../libs/hasValue";
 import { prometheusMetrics } from "./prometheusMetrics";

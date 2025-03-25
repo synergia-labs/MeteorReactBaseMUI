@@ -1,6 +1,6 @@
-import { ISxStyleObject } from "../../../typings/ISxStyleObject";
+import { SxProps } from "@mui/material";
 
-export const toolbarStyle: ISxStyleObject = {
+export const toolbarStyle: SxProps = {
 	container: {
 		padding: 0,
 		marginBottom: "1em",

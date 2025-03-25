@@ -1,4 +1,4 @@
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "./context";
 
 export type MethodType<MethodBase extends { execute: (...args: any) => any }> = (
 	params?: Parameters<MethodBase["execute"]>[0],

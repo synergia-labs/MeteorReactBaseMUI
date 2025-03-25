@@ -1,7 +1,7 @@
 import { RefObject } from "react";
-import { ISchema } from "/imports/typings/ISchema";
 import { ISysFormPlaygroundSch } from "./sysFormSch";
 import { ISysFormRef } from "/imports/ui/components/sysForm/typings";
+import { ISchema } from "/imports/types/schema";
 
 interface ISysFormPlaygroundContext {
 	schema: ISchema<ISysFormPlaygroundSch>;

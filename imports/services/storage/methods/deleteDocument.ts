@@ -2,7 +2,7 @@ import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamDeleteArchiveType, ReturnDeleteArchiveType } from "../common/types/deleteArchive";
 import { DeleteStorageBase } from "./bases/delete";
 import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../types/context";
 
 class DeleteDocument extends DeleteStorageBase {
 	constructor() {

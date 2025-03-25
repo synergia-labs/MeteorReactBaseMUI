@@ -7,7 +7,7 @@ import {
 } from "../../common/types/publicationExample";
 import { ExampleServer } from "../server";
 import PublicationBase from "/imports/base/server/publication/publication.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 class PublicationExample extends PublicationBase<
 	ExampleServer,

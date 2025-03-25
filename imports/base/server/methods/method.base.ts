@@ -1,6 +1,6 @@
 import ServerBase from "../server.base";
 import ActionsBase, { IActionsBase } from "../actions.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../types/context";
 
 export interface IMethodBase extends IActionsBase {
 	canRegister?: boolean;

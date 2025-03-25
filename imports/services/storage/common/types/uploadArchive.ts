@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { ArchiveSch } from "/imports/base/types/archive";
+import { ArchiveSch } from "../../../../types/archive";
 
 /**
  * Esquema para os parâmetros necessários para fazer o upload de um arquivo.

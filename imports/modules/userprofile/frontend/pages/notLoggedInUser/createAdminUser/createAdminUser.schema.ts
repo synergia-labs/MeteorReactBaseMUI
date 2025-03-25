@@ -1,4 +1,4 @@
-import { ISchema } from "/imports/base/types/schema";
+import { ISchema } from "../../../../../../types/schema";
 import emailValidator from "/imports/libs/validators/email";
 import { CreateUserType } from "/imports/modules/userprofile/common/types/createUser";
 

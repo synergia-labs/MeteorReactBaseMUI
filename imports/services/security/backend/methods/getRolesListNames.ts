@@ -3,7 +3,7 @@ import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { z } from "zod";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 class GetRolesListNamesMethod extends MethodBase<SecurityServer, void, Array<string>> {
 	constructor() {

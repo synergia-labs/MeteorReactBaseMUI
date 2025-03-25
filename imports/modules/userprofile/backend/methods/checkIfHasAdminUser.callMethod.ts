@@ -2,7 +2,7 @@ import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMetho
 import enumUserRoles from "../../common/enums/enumUserRoles";
 import { UsersServer } from "../server";
 import MethodBase from "/imports/base/server/methods/method.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 /**
  * Método de verificação de existência de usuário administrador

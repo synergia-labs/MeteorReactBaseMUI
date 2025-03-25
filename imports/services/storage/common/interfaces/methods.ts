@@ -2,8 +2,8 @@ import { deleteAudio } from "../../methods/deleteAudio";
 import { deleteImage } from "../../methods/deleteImage";
 import { uploadAudio } from "../../methods/uploadAudio";
 import { uploadImage } from "../../methods/uploadImage";
-import { MethodType } from "/imports/base/types/method";
-import { TransformServerToApiMethodsType } from "/imports/base/types/serverApiMethods";
+import { MethodType } from "../../../../types/method";
+import { TransformServerToApiMethodsType } from "../../../../types/serverApiMethods";
 
 interface IStorageServerMethods extends Record<string, (...args: any) => any> {
 	uploadImage: MethodType<typeof uploadImage>;

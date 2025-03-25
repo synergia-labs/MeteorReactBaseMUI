@@ -3,7 +3,7 @@ import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMetho
 import enumUserRoles from "../../common/enums/enumUserRoles";
 import { createUserSchema, CreateUserType } from "../../common/types/createUser";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 import { UsersServer } from "../server";
 
 /**

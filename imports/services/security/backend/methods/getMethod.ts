@@ -5,7 +5,7 @@ import { ParamGetType, returnGetMethodSch, ReturnGetMethodType } from "../../com
 import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethodType> {
 	constructor() {

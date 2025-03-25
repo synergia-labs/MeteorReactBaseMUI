@@ -3,7 +3,7 @@ import { ParamGetArchiveType, ReturnGetArchiveType } from "../common/types/getAr
 import { enumResolution } from "../common/types/resolution.type";
 import { GetStorageBase } from "./bases/get";
 import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../types/context";
 import fs from "fs";
 import sharp from "sharp";
 

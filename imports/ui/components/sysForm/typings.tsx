@@ -1,6 +1,6 @@
 import { MutableRefObject } from "react";
 import { IOption } from "../InterfaceBaseSimpleFormComponent";
-import { IDefField, ISchema } from "/imports/base/types/schema";
+import { IDefField, ISchema } from "../../../types/schema";
 import React from "react";
 
 interface IDocValues {

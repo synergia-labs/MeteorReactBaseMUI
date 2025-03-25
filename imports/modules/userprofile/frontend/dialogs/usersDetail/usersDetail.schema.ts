@@ -1,4 +1,4 @@
-import { ISchema } from "/imports/base/types/schema";
+import { ISchema } from "../../../../../types/schema";
 import emailValidator from "/imports/libs/validators/email";
 
 export interface IUserDetailFrontSchema {

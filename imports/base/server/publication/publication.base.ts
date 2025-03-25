@@ -2,7 +2,7 @@ import ServerBase from "../server.base";
 import ActionsBase, { IActionsBase } from "../actions.base";
 import { Mongo } from "meteor/mongo";
 import { Meteor, Subscription } from "meteor/meteor";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../types/context";
 import { z } from "zod";
 
 interface IPublicationBase extends IActionsBase {

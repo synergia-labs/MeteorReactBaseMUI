@@ -1,6 +1,6 @@
 import { z } from "zod";
 import MethodBase from "/imports/base/server/methods/method.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 import { OnLoginType } from "../../common/types/onLogin";
 import { onLogoutSchema, OnLogoutType } from "../../common/types/onLogout";
 import { UsersServer } from "../server";

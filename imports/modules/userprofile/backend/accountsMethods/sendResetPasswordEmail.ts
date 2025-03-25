@@ -1,6 +1,6 @@
 import { z } from "zod";
 import MethodBase from "/imports/base/server/methods/method.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 import enumUserRoles from "../../common/enums/enumUserRoles";
 import { hasValue } from "/imports/libs/hasValue";
 import { UsersServer } from "../server";

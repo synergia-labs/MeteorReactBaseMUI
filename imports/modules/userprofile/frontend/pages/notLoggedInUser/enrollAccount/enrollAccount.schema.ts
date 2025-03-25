@@ -1,5 +1,5 @@
-import { AuditType } from "/imports/base/types/audit";
-import { SchemaType } from "/imports/base/types/schema";
+import { AuditType } from "../../../../../../types/audit";
+import { SchemaType } from "../../../../../../types/schema";
 
 interface IResetForgotPasswordSchema extends AuditType {
 	password: string;

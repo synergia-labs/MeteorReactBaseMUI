@@ -4,7 +4,7 @@ import { paramGetAllSch, ParamGetAllType, returnGetRoleSch, ReturnGetRoleType } 
 import { SecurityServer } from "../security.server";
 import PublicationBase from "/imports/base/server/publication/publication.base";
 import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 class GetAllRolesPublication extends PublicationBase<SecurityServer, ParamGetAllType, ReturnGetRoleType> {
 	constructor() {

@@ -1,6 +1,6 @@
 import sendEmailInstance from "../../methods/sendEmail";
-import { MethodType as _, MethodType } from "/imports/base/types/method";
-import { TransformServerToApiMethodsType } from "/imports/base/types/serverApiMethods";
+import { MethodType as _, MethodType } from "../../../../types/method";
+import { TransformServerToApiMethodsType } from "../../../../types/serverApiMethods";
 
 interface IEmailServerMethods extends Record<string, (...args: any) => any> {
 	sendEmail: MethodType<typeof sendEmailInstance>;

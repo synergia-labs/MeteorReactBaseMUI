@@ -1,5 +1,3 @@
-import { Meteor } from "meteor/meteor";
-
 export interface ISysGeneralComponentsCommon {
 	/**
 	 * Controla a visibilidade do componente.
@@ -19,14 +17,4 @@ export interface ISysGeneralComponentsCommon {
 	onClose?: (...props: any) => void;
 	/** Tempo em milissegundos para fechamento automático do diálogo, útil para alertas temporários. */
 	duration?: number;
-}
-
-export interface IMeteorError extends Meteor.Error {
-	details: string | undefined;
-	error: string;
-	errorType: string;
-	isClientSafe: boolean;
-	message: string;
-	reason: string;
-	stack: string;
 }

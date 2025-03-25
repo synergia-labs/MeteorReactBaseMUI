@@ -1,7 +1,7 @@
-import { AuditType } from "../../types/audit";
+import { AuditType } from "../../../types/audit";
 import ServerBase from "../server.base";
 import MethodBase, { IMethodBase } from "./method.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../types/context";
 
 export abstract class CreateMethodBase<S extends ServerBase, P, R> extends MethodBase<S, P & AuditType, R> {
 	constructor(props: IMethodBase) {

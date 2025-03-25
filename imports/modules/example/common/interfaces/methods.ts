@@ -1,4 +1,4 @@
-import { TransformServerToApiMethodsType } from "/imports/base/types/serverApiMethods";
+import { TransformServerToApiMethodsType } from "../../../../types/serverApiMethods";
 // import { MethodType } from "/imports/base/types/method"; // Uncomment this line if you are using methods
 
 /*

@@ -10,7 +10,7 @@ import { SecurityServer } from "../security.server";
 import { _checkPermission } from "../utils/checkPermission";
 import MethodBase from "/imports/base/server/methods/method.base";
 import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 class CheckMethodPermission extends MethodBase<SecurityServer, ParamCheckPermissionType, ReturnCheckPermissionType> {
 	constructor() {

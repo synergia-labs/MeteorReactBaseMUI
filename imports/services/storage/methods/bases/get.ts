@@ -7,7 +7,7 @@ import {
 import { StorageServer } from "../../storage.server";
 import MethodBase, { IMethodBase } from "/imports/base/server/methods/method.base";
 import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 
 export abstract class GetStorageBase extends MethodBase<StorageServer, ParamGetArchiveType, ReturnGetArchiveType> {
 	constructor(props: Omit<IMethodBase, "paramSch" | "returnSch">) {

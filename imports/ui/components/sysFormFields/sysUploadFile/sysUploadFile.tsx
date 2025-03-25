@@ -17,7 +17,7 @@ import { ISxMapTypesView } from "./typesView/interfaces";
 import { IFile } from "./typesView/cards/interfaces";
 import { getTypeOfFile } from "./typesView/utils";
 import { hasValue } from "/imports/libs/hasValue";
-import { ArchiveType } from "/imports/base/types/archive";
+import { ArchiveType } from "../../../../types/archive";
 
 interface ISysUploadFile extends SysFormComponentType<BoxProps> {
 	name: string;

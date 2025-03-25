@@ -1,7 +1,7 @@
 import enumUserRoles from "../../common/enums/enumUserRoles";
 import { UsersServer } from "../server";
 import PublicationBase from "/imports/base/server/publication/publication.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 import enumUsersRegisterPublications from "../../common/enums/enumRegisterPublications";
 import {
 	GetUsersListParamType,

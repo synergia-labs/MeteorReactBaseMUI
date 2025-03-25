@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { resetUserPasswordSchema, ResetUserPasswordType } from "../../common/types/resetUserPassword";
 import MethodBase from "/imports/base/server/methods/method.base";
-import { IContext } from "/imports/typings/IContext";
+import { IContext } from "../../../../types/context";
 import enumUserRoles from "../../common/enums/enumUserRoles";
 import { UsersServer } from "../server";
 
