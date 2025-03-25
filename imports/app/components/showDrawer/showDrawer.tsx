@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect } from "react";
-import { ISysGeneralComponentsCommon } from "../../../typings/BoilerplateDefaultTypings";
 import { SxProps, Theme } from "@mui/material";
 import Drawer, { DrawerProps } from "@mui/material/Drawer";
+import IAppComponents from "/imports/types/appCompontent";
 
-export interface IShowDrawerProps extends ISysGeneralComponentsCommon, Omit<DrawerProps, "open" | "onClose"> {
+export interface IShowDrawerProps extends IAppComponents, Omit<DrawerProps, "open" | "onClose"> {
 	/** Define o lado do ancoramento do Drawer. */
 	anchor?: "left" | "right" | "top" | "bottom";
 	/** Estilização customizada do Drawer seguindo padrões Material-UI. */

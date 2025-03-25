@@ -1,4 +1,4 @@
-export interface ISysGeneralComponentsCommon {
+interface IAppComponents {
 	/**
 	 * Controla a visibilidade do componente.
 	 * **Gerenciado automaticamente pelo provider e não deve ser usada diretamente**.
@@ -18,3 +18,5 @@ export interface ISysGeneralComponentsCommon {
 	/** Tempo em milissegundos para fechamento automático do diálogo, útil para alertas temporários. */
 	duration?: number;
 }
+
+export default IAppComponents;

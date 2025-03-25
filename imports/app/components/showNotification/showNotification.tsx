@@ -4,12 +4,12 @@ import Typography from "@mui/material/Typography";
 import { Theme, SxProps } from "@mui/material";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
-import { ISysGeneralComponentsCommon } from "../../../typings/BoilerplateDefaultTypings";
 import { hasValue } from "../../../libs/hasValue";
 import Styles from "./showNotificationStyles";
 import SysIcon from "../../../ui/components/sysIcon/sysIcon";
+import IAppComponents from "/imports/types/appCompontent";
 
-export interface IShowNotificationProps extends ISysGeneralComponentsCommon {
+export interface IShowNotificationProps extends IAppComponents {
 	/**Exibe um botão para fechar a notificação.*/
 	showCloseButton?: boolean;
 	/**Exibe um ícone no início do corpo notificação.*/

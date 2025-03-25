@@ -6,7 +6,6 @@ import AppLayoutContext, {
 	ISysThemeOptions
 } from "./appLayoutContext";
 import { IShowNotificationProps, ShowNotification } from "../components/showNotification/showNotification";
-import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
 import { IShowDrawerProps, ShowDrawer } from "../components/showDrawer/showDrawer";
 import { IShowDialogProps, ShowDialog } from "../components/showDialog/showDialog";
 import GlobalStyles from "@mui/material/GlobalStyles";
@@ -16,8 +15,9 @@ import { getTheme } from "/imports/ui/materialui/theme";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ISysTemplate } from "../routes/templates/getTemplate";
 import { enumSysTemplateOptions } from "../routes/templates/enum/sysTemplateOptions";
+import IAppComponents from "/imports/types/appCompontent";
 
-const defaultState: ISysGeneralComponentsCommon = { open: false };
+const defaultState: IAppComponents = { open: false };
 
 const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => {
 	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");

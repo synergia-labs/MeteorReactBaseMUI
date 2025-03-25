@@ -1,5 +1,4 @@
 import React, { FC, ReactNode, useEffect } from "react";
-import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
 import Box from "@mui/material/Box";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
 import { Theme, SxProps } from "@mui/material/styles";
@@ -13,8 +12,9 @@ import { AppRouterSwitch } from "../../routes/components/appRouterSwitch";
 import Styles from "./showDialogStyles";
 import { sysSizing } from "../../../ui/materialui/styles";
 import { Button, ButtonProps } from "@mui/material";
+import IAppComponents from "/imports/types/appCompontent";
 
-export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, "open" | "title"> {
+export interface IShowDialogProps extends IAppComponents, Omit<DialogProps, "open" | "title"> {
 	open?: boolean;
 	close?: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
 	onOpen?: () => void;
