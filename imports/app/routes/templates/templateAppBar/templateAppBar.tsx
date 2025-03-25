@@ -9,10 +9,10 @@ export interface ITemplateAppBar extends ISysTemplateProps {
 	logo?: React.ReactNode;
 }
 
-export const TemplateAppBar: React.FC<ITemplateAppBar> = ({ children, menuOptions, logo, containerProps }) => {
+export const TemplateAppBar: React.FC<ITemplateAppBar> = ({ children, logo, containerProps }) => {
 	return (
 		<TemplateAppBarStyles.container>
-			<SysAppBar logo={logo ?? <BoilerplateLogo />} menuOptions={menuOptions} />
+			<SysAppBar logo={logo ?? <BoilerplateLogo />} />
 			<TemplateAppBarStyles.contentWrapper>
 				<TemplateAppBarStyles.contentContainer {...containerProps}>{children}</TemplateAppBarStyles.contentContainer>
 			</TemplateAppBarStyles.contentWrapper>

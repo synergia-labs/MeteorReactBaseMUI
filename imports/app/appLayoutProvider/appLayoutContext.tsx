@@ -1,8 +1,8 @@
 import React, { createContext } from "react";
-import { IShowNotificationProps } from "/imports/ui/appComponents/showNotification/showNotification";
-import { IShowDialogProps } from "/imports/ui/appComponents/showDialog/showDialog";
-import { IShowDrawerProps } from "/imports/ui/appComponents/showDrawer/showDrawer";
-import { ISysTemplate } from "/imports/ui/templates/getTemplate";
+import { IShowNotificationProps } from "../components/showNotification/showNotification";
+import { IShowDialogProps } from "../components/showDialog/showDialog";
+import { IShowDrawerProps } from "../components/showDrawer/showDrawer";
+import { ISysTemplate } from "../routes/templates/getTemplate";
 
 interface ICloseNotification {
 	event?: React.SyntheticEvent | Event;

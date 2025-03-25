@@ -5,8 +5,8 @@ import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 import { SysNavLink } from "/imports/ui/components/sysNavLink/sysNavLink";
 import SysMenu from "/imports/ui/components/sysMenu/sysMenuProvider";
 import SysAvatar from "/imports/ui/components/sysAvatar/sysAvatar";
-import { RouterContext } from "../../../../app/routes/components/routesProvider";
 import { hasValue } from "/imports/libs/hasValue";
+import { RouterContext } from "../../../components/routesProvider";
 
 interface ISysAppBar {
 	logo?: ReactNode;

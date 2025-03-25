@@ -5,17 +5,17 @@ import AppLayoutContext, {
 	ICloseNotification,
 	ISysThemeOptions
 } from "./appLayoutContext";
-import { IShowNotificationProps, ShowNotification } from "/imports/ui/appComponents/showNotification/showNotification";
+import { IShowNotificationProps, ShowNotification } from "../components/showNotification/showNotification";
 import { ISysGeneralComponentsCommon } from "/imports/typings/BoilerplateDefaultTypings";
-import { IShowDrawerProps, ShowDrawer } from "/imports/ui/appComponents/showDrawer/showDrawer";
-import { IShowDialogProps, ShowDialog } from "/imports/ui/appComponents/showDialog/showDialog";
+import { IShowDrawerProps, ShowDrawer } from "../components/showDrawer/showDrawer";
+import { IShowDialogProps, ShowDialog } from "../components/showDialog/showDialog";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { getTheme } from "/imports/ui/materialui/theme";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ISysTemplate } from "/imports/ui/templates/getTemplate";
-import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
+import { ISysTemplate } from "../routes/templates/getTemplate";
+import { enumSysTemplateOptions } from "../routes/templates/enum/sysTemplateOptions";
 
 const defaultState: ISysGeneralComponentsCommon = { open: false };
 

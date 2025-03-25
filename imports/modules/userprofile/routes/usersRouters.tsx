@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 import { RouteType } from "../../../app/routes/types/routeType";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
-import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
+import { enumSysTemplateOptions } from "/imports/app/routes/templates/enum/sysTemplateOptions";
 
 const usersRouterList: Array<RouteType> = [
 	{

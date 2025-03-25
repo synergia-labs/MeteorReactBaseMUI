@@ -1,7 +1,7 @@
 import React, { ElementType, useContext } from "react";
-import { SysTemplate } from "/imports/ui/templates/getTemplate";
 import AppLayoutContext, { IAppLayoutContext } from "../../appLayoutProvider/appLayoutContext";
 import { RouteType } from "../types/routeType";
+import { SysTemplate } from "../templates/getTemplate";
 
 const ScreenRouteRender: React.FC<RouteType> = ({ element, templateVariant, templateProps }) => {
 	const { defaultTemplate } = useContext<IAppLayoutContext>(AppLayoutContext);

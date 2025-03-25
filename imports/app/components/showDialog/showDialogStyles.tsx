@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import Box, { BoxProps } from "@mui/material/Box";
-import { sysSizing } from "../../materialui/styles";
+import { sysSizing } from "../../../ui/materialui/styles";
 
 interface IStyles {
 	container: ElementType<BoxProps>;

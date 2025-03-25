@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import styled from "@mui/material/styles/styled";
-import { sysSizing } from "../../materialui/styles";
+import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface ITemplateAppBarStyles {
 	container: ElementType<BoxProps>;

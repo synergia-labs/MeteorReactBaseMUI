@@ -8,7 +8,7 @@ import { ISysMenuItem, ISysMenuRef } from "/imports/ui/components/sysMenu/sysMen
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 import { hasValue } from "/imports/libs/hasValue";
 import SysAvatar from "/imports/ui/components/sysAvatar/sysAvatar";
-import { RouterContext } from "../../../../app/routes/components/routesProvider";
+import { RouterContext } from "../../../components/routesProvider";
 
 interface ISysAppBarController {
 	logo?: ReactNode;

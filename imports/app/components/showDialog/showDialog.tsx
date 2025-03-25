@@ -9,9 +9,9 @@ import { useTheme } from "@mui/material/styles";
 import { DialogContentStyled } from "./showDialogStyles";
 import { DialogTransitions } from "../transitions";
 import { MemoryRouter } from "react-router-dom";
-import { AppRouterSwitch } from "../../../app/routes/components/appRouterSwitch";
+import { AppRouterSwitch } from "../../routes/components/appRouterSwitch";
 import Styles from "./showDialogStyles";
-import { sysSizing } from "../../materialui/styles";
+import { sysSizing } from "../../../ui/materialui/styles";
 import { Button, ButtonProps } from "@mui/material";
 
 export interface IShowDialogProps extends ISysGeneralComponentsCommon, Omit<DialogProps, "open" | "title"> {

@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import styled from "@mui/material/styles/styled";
 import Box, { BoxProps } from "@mui/material/Box";
 import Paper, { PaperProps } from "@mui/material/Paper";
-import { sysSizing } from "../../materialui/styles";
+import { sysSizing } from "/imports/ui/materialui/styles";
 
 interface IWrapper extends BoxProps {
 	backgroundImagePath?: string;
