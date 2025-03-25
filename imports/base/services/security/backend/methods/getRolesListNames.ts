@@ -1,4 +1,4 @@
-import { enumSecurityMethods } from "../../common/enums/methods.enum";
+import { enumSecurityMethods } from "../../common/enums/methods";
 import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import enumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";

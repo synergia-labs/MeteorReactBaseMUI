@@ -1,6 +1,6 @@
 import { paramGetArchiveSch } from "../../../storage/common/types/getArchive";
-import { enumSecurityConfig } from "../../common/enums/config.enum";
-import { enumSecurityMethods } from "../../common/enums/methods.enum";
+import { enumSecurityConfig } from "../../common/enums/config";
+import { enumSecurityMethods } from "../../common/enums/methods";
 import { ParamGetType, returnGetMethodSch, ReturnGetMethodType } from "../../common/types/get";
 import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";

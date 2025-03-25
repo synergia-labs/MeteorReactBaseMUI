@@ -1,5 +1,5 @@
 import React, { lazy } from "react";
-import { RouteType } from "/imports/app/routes/routeType";
+import { RouteType } from "../../../app/routes/types/routeType";
 import SysIcon from "/imports/ui/components/sysIcon/sysIcon";
 import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
 

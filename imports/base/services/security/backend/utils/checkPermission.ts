@@ -1,4 +1,4 @@
-import { enumSecurityConfig } from "../../common/enums/config.enum";
+import { enumSecurityConfig } from "../../common/enums/config";
 import { hasValue } from "/imports/libs/hasValue";
 import enumUserRoles from "../../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "/imports/typings/IContext";

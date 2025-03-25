@@ -1,7 +1,7 @@
-import { RouteType } from "/imports/app/routes/routeType";
+import { RouteType } from "../../app/routes/types/routeType";
 import { getDefaultAdminContext } from "/imports/base/server/utils/defaultContexts";
 import { methodSafeInsert } from "/imports/base/services/security/backend/methods/methodSafeInsert";
-import { enumSecurityConfig } from "/imports/base/services/security/common/enums/config.enum";
+import { enumSecurityConfig } from "../../base/services/security/common/enums/config";
 import { enumMethodTypes } from "/imports/base/services/security/common/enums/methodTypes";
 import enumUserRoles from "/imports/modules/userprofile/common/enums/enumUserRoles";
 import { sysRoutesList } from "/imports/app/routes/register";

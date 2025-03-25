@@ -2,17 +2,11 @@
 	"name": "meteor-react-base-mui",
 	"private": true,
 	"scripts": {
+		"start": "chmod +x .github/init-setup.sh && ./.github/init-setup.sh && meteor run --settings settings.json",
+		"visualize": "meteor --production --extra-packages bundle-visualizer",
 		"lint": "npx eslint .",
 		"lint:fix": "npx eslint . --fix",
-		"precommit": "pretty-quick --staged",
-		"start": "chmod +x .github/init-setup.sh && ./.github/init-setup.sh && meteor run --settings settings.json",
-		"test": "meteor test --once --driver-package meteortesting:mocha",
-		"test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-		"visualize": "meteor --production --extra-packages bundle-visualizer",
-		"cypress:gui": "cypress open",
-		"cypress:headless": "cypress run",
-		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"newModule": "node ./.module/create.js"
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.25.0",
@@ -36,6 +30,7 @@
 		"csv-parse": "^5.6.0",
 		"date-fns": "^3.6.0",
 		"eslint": "^9.22.0",
+		"express": "^4.21.2",
 		"html-docx-js": "^0.3.1",
 		"idb-keyval": "^6.2.1",
 		"immer": "^10.1.1",
@@ -48,6 +43,8 @@
 		"mammoth": "^1.9.0",
 		"meteor-node-stubs": "^1.2.13",
 		"nanoid": "^5.0.7",
+		"neo4j-driver": "^5.28.1",
+		"prom-client": "^15.1.3",
 		"prop-types": "^15.8.1",
 		"quill": "^2.0.2",
 		"react": "^18.3.1",
