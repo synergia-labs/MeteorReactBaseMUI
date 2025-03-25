@@ -2,17 +2,11 @@
 	"name": "meteor-react-base-mui",
 	"private": true,
 	"scripts": {
+		"start": "chmod +x .github/init-setup.sh && ./.github/init-setup.sh && meteor run --settings settings.json",
+		"visualize": "meteor --production --extra-packages bundle-visualizer",
 		"lint": "npx eslint .",
 		"lint:fix": "npx eslint . --fix",
-		"precommit": "pretty-quick --staged",
-		"start": "chmod +x .github/init-setup.sh && ./.github/init-setup.sh && meteor run --settings settings.json",
-		"test": "meteor test --once --driver-package meteortesting:mocha",
-		"test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-		"visualize": "meteor --production --extra-packages bundle-visualizer",
-		"cypress:gui": "cypress open",
-		"cypress:headless": "cypress run",
-		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"newModule": "node ./.module/create.js"
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.25.0",
