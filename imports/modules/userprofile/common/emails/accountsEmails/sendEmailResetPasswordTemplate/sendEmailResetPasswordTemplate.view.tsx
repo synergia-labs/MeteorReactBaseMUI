@@ -1,6 +1,6 @@
 import React from "react";
 import { Meteor } from "meteor/meteor";
-import renderHtmlServerSide from "/imports/base/services/email/utils/renderHtmlServerSide";
+import renderHtmlServerSide from "../../../../../../services/email/utils/renderHtmlServerSide";
 import Styles from "./sendEmailResetPasswordTemplate.styles";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";

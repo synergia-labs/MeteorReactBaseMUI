@@ -1,4 +1,4 @@
-import { IArchive } from "/imports/base/services/storage/common/types/archive.type";
+import { IArchive } from "../imports/services/storage/common/types/archive.type";
 import { Mongo } from "meteor/mongo";
 
 // src/meteor-typings.d.ts

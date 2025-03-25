@@ -19,14 +19,14 @@ import { styled } from "@mui/material/styles";
 import SysForm from "/imports/ui/components/sysForm/sysForm";
 import SysUploadFile from "/imports/ui/components/sysFormFields/sysUploadFile/sysUploadFile";
 import SysFormButton from "/imports/ui/components/sysFormFields/sysFormButton/sysFormButton";
-import storageApi from "/imports/base/services/storage/storage.api";
-import { enumFileType } from "/imports/base/services/storage/common/types/file.type";
+import storageApi from "../../../../../../services/storage/storage.api";
+import { enumFileType } from "../../../../../../services/storage/common/types/file.type";
 import { SysSelectField } from "/imports/ui/components/sysFormFields/sysSelectField/sysSelectField";
-import securityApi from "/imports/base/services/security/security.api";
-import { ParamUploadArchiveType } from "/imports/base/services/storage/common/types/uploadArchive";
+import securityApi from "../../../../../../services/security/security.api";
+import { ParamUploadArchiveType } from "../../../../../../services/storage/common/types/uploadArchive";
 import { useTracker } from "meteor/react-meteor-data";
-import { enumStorageMethods } from "/imports/base/services/storage/common/enums/methods.enum";
-import { RenderWithPermission } from "/imports/base/services/security/frontend/components/renderWithPermission";
+import { enumStorageMethods } from "../../../../../../services/storage/common/enums/methods.enum";
+import { RenderWithPermission } from "../../../../../../services/security/frontend/components/renderWithPermission";
 
 type StorageType = "Image" | "Audio" | "Video" | "Document";
 const HomeSectionComponents: React.FC = () => {

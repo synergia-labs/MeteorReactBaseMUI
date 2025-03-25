@@ -4,8 +4,8 @@ import { IContext } from "/imports/typings/IContext";
 import { Meteor } from "meteor/meteor";
 import { EndpointType } from "../types/serverParams";
 import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
-import { enumSecurityConfig } from "../services/security/common/enums/config";
-import { _checkPermission } from "../services/security/backend/utils/checkPermission";
+import { enumSecurityConfig } from "../../services/security/common/enums/config";
+import { _checkPermission } from "../../services/security/backend/utils/checkPermission";
 
 interface IActionsBase {
 	roles?: Array<enumUserRoles>;

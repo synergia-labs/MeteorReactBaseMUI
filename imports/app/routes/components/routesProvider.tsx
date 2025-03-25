@@ -1,7 +1,7 @@
 import React from "react";
 import { AppMenuType, RouteType } from "../types/routeType";
 import { hasValue } from "/imports/libs/hasValue";
-import securityApi from "/imports/base/services/security/security.api";
+import securityApi from "../../../services/security/security.api";
 import { sysRoutesList, sysRoutesListFullPaths } from "../register";
 import AuthContext from "../../authProvider/authContext";
 

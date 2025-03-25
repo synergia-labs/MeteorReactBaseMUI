@@ -3,8 +3,8 @@ import Typography from "@mui/material/Typography";
 import HomeSectionNotificacoes from "./sections/notificacoes";
 import HomeSectionDialogs from "./sections/dialogs";
 import HomeStyles from "./homeStyle";
-import { enumStorageMethods } from "/imports/base/services/storage/common/enums/methods.enum";
-import { SecurityProvider } from "/imports/base/services/security/frontend/security.provider";
+import { enumStorageMethods } from "../../../../../services/storage/common/enums/methods.enum";
+import { SecurityProvider } from "../../../../../services/security/frontend/security.provider";
 import HomeSectionComponents from "./sections/componentTests";
 
 const funcionalidades = [

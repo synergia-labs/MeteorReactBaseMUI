@@ -11,9 +11,9 @@ import { EndpointType } from "../types/serverParams";
 import { MethodType } from "../types/method";
 import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 import { getDefaultAdminContext, getDefaultPublicContext } from "./utils/defaultContexts";
-import { methodSafeInsert } from "../services/security/backend/methods/methodSafeInsert";
-import { enumSecurityConfig } from "../services/security/common/enums/config";
-import { enumMethodTypes, MethodEnumType } from "../services/security/common/enums/methodTypes";
+import { methodSafeInsert } from "../../services/security/backend/methods/methodSafeInsert";
+import { enumSecurityConfig } from "../../services/security/common/enums/config";
+import { enumMethodTypes, MethodEnumType } from "../../services/security/common/enums/methodTypes";
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: "50mb" }));
