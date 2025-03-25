@@ -1,7 +1,7 @@
 import { getDefaultAdminContext } from "/imports/base/server/utils/defaultContexts";
-import { enumSecurityConfig } from "../../services/security/common/enums/config";
-import { roleSafeInsert } from "../../services/security/backend/methods/roleSafeInsert";
-import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "/imports/modules/userprofile/common/enums/enumUserRoles";
+import { roleSafeInsert } from "/imports/services/security/backend/methods/roleSafeInsert";
+import { enumSecurityConfig } from "/imports/services/security/common/enums/config";
 
 export async function initRoles() {
 	try {

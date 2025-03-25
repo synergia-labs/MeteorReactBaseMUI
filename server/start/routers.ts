@@ -1,10 +1,10 @@
-import { RouteType } from "../../app/routes/types/routeType";
 import { getDefaultAdminContext } from "/imports/base/server/utils/defaultContexts";
-import { methodSafeInsert } from "../../services/security/backend/methods/methodSafeInsert";
-import { enumSecurityConfig } from "../../services/security/common/enums/config";
-import { enumMethodTypes } from "../../services/security/common/enums/methodTypes";
 import enumUserRoles from "/imports/modules/userprofile/common/enums/enumUserRoles";
 import { sysRoutesList } from "/imports/app/routes/register";
+import { RouteType } from "/imports/app/routes/types/routeType";
+import { methodSafeInsert } from "/imports/services/security/backend/methods/methodSafeInsert";
+import { enumSecurityConfig } from "/imports/services/security/common/enums/config";
+import { enumMethodTypes } from "/imports/services/security/common/enums/methodTypes";
 
 const context = getDefaultAdminContext();
 
