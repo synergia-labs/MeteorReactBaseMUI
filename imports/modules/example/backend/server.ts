@@ -1,32 +1,26 @@
-import fillDatabaseWithFakeDataInstance from "./methods/fillDatabaseWithFakeData.callMethod";
-import exampleListPublicationInstance from "./publications/exampleList.publication";
-import { MongoBase } from "/imports/base/database/mongo.base";
-import MethodBase from "/imports/base/server/methods/method.base";
+import { enumExampleSettings } from "../common/enums/settings";
 import { IExampleServerMethodsType } from "../common/interfaces/methods";
-import enumExampleSettings from "../common";
+import { methodExample } from "./methods/methodExample";
+import { publicationExample } from "./publications/publicationExample";
+import { MongoBase } from "/imports/base/database/mongo.base";
+// import { Neo4jBase } from "/imports/base/database/neo4j.base";
+import MethodBase from "/imports/base/server/methods/method.base";
+import PublicationBase from "/imports/base/server/publication/publication.base";
 import ServerBase from "/imports/base/server/server.base";
 
-/**Array com as instâncias de todas as classes de método do módulo */
-const _methodInstances: Array<MethodBase<any, any, any>> = [fillDatabaseWithFakeDataInstance] as const;
+const _methodInstances: Array<MethodBase<any, any, any>> = [methodExample];
+const _publicationInstances: Array<PublicationBase<any, any, any>> = [publicationExample];
 
-/**Array com as instâncias de todas as classes de publicação do módulo */
-const _publicationInstances: Array<any> = [exampleListPublicationInstance] as const;
-
-class ExampleServer extends ServerBase {
-	public mongoInstance: MongoBase;
-	public storageInstance?: any;
+export class ExampleServer extends ServerBase {
+	private mongo = new MongoBase(enumExampleSettings.MODULE_NAME);
+	// private neo4j = new Neo4jBase(enumExampleSettings.MODULE_NAME);
 
 	constructor() {
 		super(enumExampleSettings.MODULE_NAME);
-		this.mongoInstance = new MongoBase(enumExampleSettings.MODULE_NAME);
-
 		this.registerMethods(_methodInstances, this);
 		this.registerPublications(_publicationInstances, this);
 	}
 }
 
-type TesteType = IExampleServerMethodsType & ExampleServer;
-
-const exampleServer = new ExampleServer() as TesteType;
+const exampleServer = new ExampleServer() as ExampleServer & IExampleServerMethodsType;
 export default exampleServer;
-export type { TesteType as ExampleServer };

@@ -1,5 +1,5 @@
 import { getDefaultAdminContext } from "/imports/base/server/utils/defaultContexts";
-import { enumSecurityConfig } from "/imports/base/services/security/common/enums/config.enum";
+import { enumSecurityConfig } from "../../base/services/security/common/enums/config";
 import { roleSafeInsert } from "../../base/services/security/backend/methods/roleSafeInsert";
 import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 

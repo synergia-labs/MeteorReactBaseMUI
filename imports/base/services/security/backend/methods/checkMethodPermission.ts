@@ -1,5 +1,5 @@
-import { enumSecurityConfig } from "../../common/enums/config.enum";
-import { enumSecurityMethods } from "../../common/enums/methods.enum";
+import { enumSecurityConfig } from "../../common/enums/config";
+import { enumSecurityMethods } from "../../common/enums/methods";
 import {
 	paramCheckPermissionSch,
 	ParamCheckPermissionType,

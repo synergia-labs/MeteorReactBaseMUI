@@ -1,8 +1,8 @@
 import ApiBase from "../../api/api.base";
 import { MongoBase } from "../../database/mongo.base";
-import { enumSecurityConfig } from "./common/enums/config.enum";
-import { enumSecurityMethods } from "./common/enums/methods.enum";
-import { enumSecurityPublications } from "./common/enums/publications.enum";
+import { enumSecurityConfig } from "./common/enums/config";
+import { enumSecurityMethods } from "./common/enums/methods";
+import { enumSecurityPublications } from "./common/enums/publications";
 import { SecurityApiMethodsType } from "./common/interfaces/methods";
 import { ISecurityApiPublication } from "./common/interfaces/publications";
 

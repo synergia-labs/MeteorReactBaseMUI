@@ -1,4 +1,4 @@
-import { enumSecurityMethods } from "../../common/enums/methods.enum";
+import { enumSecurityMethods } from "../../common/enums/methods";
 import {
 	paramRoleSafeInsertSch,
 	ParamRoleSafeInsertType,

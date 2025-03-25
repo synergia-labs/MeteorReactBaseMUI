@@ -2,7 +2,7 @@ import { MongoBase } from "../../../database/mongo.base";
 import MethodBase from "../../../server/methods/method.base";
 import PublicationBase from "../../../server/publication/publication.base";
 import ServerBase from "../../../server/server.base";
-import { enumSecurityConfig } from "../common/enums/config.enum";
+import { enumSecurityConfig } from "../common/enums/config";
 import { ISecurityServerMethods } from "../common/interfaces/methods";
 import { checkMethodPermission } from "./methods/checkMethodPermission";
 import { getMethod } from "./methods/getMethod";

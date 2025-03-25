@@ -1,0 +1,32 @@
+import { enumModuleNameMethods } from "../../common/enums/methods";
+import {
+	paramMethodExampleSch,
+	ParamMethodExampleType,
+	returnMethodExampleSch,
+	ReturnMethodExampleType
+} from "../../common/types/methodExample";
+import { ModuleNameServer } from "../server";
+import MethodBase from "/imports/base/server/methods/method.base";
+import { IContext } from "/imports/typings/IContext";
+
+class MethodExample extends MethodBase<ModuleNameServer, ParamMethodExampleType, ReturnMethodExampleType> {
+	constructor() {
+		super({
+			name: enumModuleNameMethods.exampleMethod,
+			paramSch: paramMethodExampleSch,
+			returnSch: returnMethodExampleSch,
+			roles: [],
+			description: "This is an example of a method"
+		});
+	}
+
+	action(
+		_param: ParamMethodExampleType,
+		_context: IContext
+	): ReturnMethodExampleType | Promise<ReturnMethodExampleType> {
+		// Here you can implement your method
+		return {} as ReturnMethodExampleType;
+	}
+}
+
+export const methodExample = new MethodExample();

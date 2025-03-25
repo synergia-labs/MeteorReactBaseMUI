@@ -1,5 +1,5 @@
-import { enumSecurityConfig } from "../../common/enums/config.enum";
-import { enumSecurityPublications } from "../../common/enums/publications.enum";
+import { enumSecurityConfig } from "../../common/enums/config";
+import { enumSecurityPublications } from "../../common/enums/publications";
 import { paramGetAllSch, ParamGetAllType, returnGetRoleSch, ReturnGetRoleType } from "../../common/types/get";
 import { SecurityServer } from "../security.server";
 import PublicationBase from "/imports/base/server/publication/publication.base";

@@ -1,12 +1,12 @@
-import fillDatabaseWithFakeDataInstance from "../../backend/methods/fillDatabaseWithFakeData.callMethod";
-import { MethodType } from "/imports/base/types/method";
 import { TransformServerToApiMethodsType } from "/imports/base/types/serverApiMethods";
+// import { MethodType } from "/imports/base/types/method"; // Uncomment this line if you are using methods
 
-/**Interface para utilização da classe módulo nos métodos.
- * IMPORTANTE: Adicionar apenas os métodos. Não adicionar publicações.
- */
+/*
+    You need to declare the module methods here with the same name as the enum/methods.ts (keyName).
+    This is necessary to be able to use the methods in the backend/frontend linked with typescript.
+*/
 interface IExampleServerMethodsType extends Record<string, (...args: any) => any> {
-	fillDatabaseWithFakeDataInstance: MethodType<typeof fillDatabaseWithFakeDataInstance>;
+	//methodbase: MethodType<typeof methodbase>; // Example of method definition
 }
 
 type ExampleApiMethodsType = TransformServerToApiMethodsType<IExampleServerMethodsType>;

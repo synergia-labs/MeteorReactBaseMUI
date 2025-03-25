@@ -21,7 +21,7 @@ export default [
 	{ files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
 	{ languageOptions: { globals: { ...globals.browser, ...globals.node }, parser: typescriptParser } },
 	{
-		ignores: ["node_modules/", ".meteor/", "build/", ".cypress/", ".vscode/", "stories/", ".eslint-rules/"]
+		ignores: ["node_modules/", ".meteor/", "build/", ".cypress/", ".vscode/", "stories/", ".eslint-rules/", ".module/"]
 	},
 	{
 		settings: {
