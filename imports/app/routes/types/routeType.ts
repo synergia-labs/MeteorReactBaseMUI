@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { RouteProps } from "react-router-dom";
 import { enumSysTemplateOptions } from "/imports/ui/templates/enum/sysTemplateOptions";
@@ -12,7 +12,7 @@ export interface ITemplateRouteProps {
 export type AppMenuType = {
 	path?: string;
 	name?: string;
-	icon?: React.ReactNode;
+	icon?: ReactNode;
 	children?: Array<AppMenuType>;
 };
 
@@ -24,6 +24,6 @@ export type RouteType = Omit<RouteProps, "children" | "element"> &
 		element?: React.LazyExoticComponent<React.ComponentType<any>>;
 		roles?: Array<string>;
 		name?: string;
-		icon?: React.ReactNode;
+		icon?: ReactNode;
 		fullPath?: string;
 	};

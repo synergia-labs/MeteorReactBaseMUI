@@ -1,3 +1,4 @@
+import "../modules/example/backend/server";
 import "../modules/userprofile/backend/server";
 import "../base/services/storage/storage.server";
 import "../base/services/security/backend/security.server";

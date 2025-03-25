@@ -3,8 +3,8 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import { hasValue } from "/imports/libs/hasValue";
 import { SysLoading } from "/imports/ui/components/sysLoading/sysLoading";
 import ScreenRouteRender from "./screenRouteRender";
-import NotFoundErrorPage from "/imports/sysPages/pages/error/notFoundErrorPage";
-import ForbiddenErrorPage from "/imports/sysPages/pages/error/forbiddenErrorPage";
+import NotFoundErrorPage from "../../../modules/basicPages/frontend/pages/error/notFoundErrorPage";
+import ForbiddenErrorPage from "../../../modules/basicPages/frontend/pages/error/forbiddenErrorPage";
 import { RouteType, ITemplateRouteProps } from "../types/routeType";
 import { RouterContext } from "./routesProvider";
 
