@@ -22,7 +22,9 @@ const SysAppBarView: React.FC<ISysAppBar> = ({ logo }) => {
 				{logo}
 				<Styles.navContainerDesktop>
 					{menuItens.map((option) => {
-						return hasValue(option) ? <SysNavLink key={option?.path} sysOptions={option!} /> : undefined;
+						return hasValue(option) ? (
+							<SysNavLink key={option?.path} sysOptions={option!} active={option.path == controller.currentPath} />
+						) : undefined;
 					})}
 				</Styles.navContainerDesktop>
 				<Styles.navContainerMobile>

@@ -1,6 +1,6 @@
 import React, { ReactNode, useCallback, useContext, useRef } from "react";
 import Context, { ISysAppBarContext } from "./sysAppBarContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SysAppBarView from "./sysAppBarView";
 import AuthContext from "/imports/app/authProvider/authContext";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
@@ -18,6 +18,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo }) => {
 	const { user, logout } = useContext(AuthContext);
 	const { menuItens } = useContext(RouterContext);
 	const { showModal } = useContext(AppLayoutContext);
+	const location = useLocation();
 
 	const navigate = useNavigate();
 	const menuPerfilRef = useRef<ISysMenuRef>(null);
@@ -84,6 +85,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo }) => {
 		userPhoto: user?.profile?.photo,
 		menuPerfilRef,
 		menuMobileRef,
+		currentPath: location.pathname,
 		onClickLogo,
 		abrirMenuPerfil,
 		abrirMenuMobile,

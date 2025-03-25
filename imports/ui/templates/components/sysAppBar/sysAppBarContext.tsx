@@ -6,6 +6,7 @@ interface ISysAppBarContext {
 	userPhoto?: string;
 	menuPerfilRef: RefObject<ISysMenuRef>;
 	menuMobileRef: RefObject<ISysMenuRef>;
+	currentPath: string;
 	onClickLogo: () => void;
 	abrirMenuPerfil: (event: React.MouseEvent<HTMLElement>) => void;
 	abrirMenuMobile: (event: React.MouseEvent<HTMLElement>) => void;
