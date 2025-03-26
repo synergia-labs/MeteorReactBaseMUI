@@ -1,13 +1,13 @@
 import React, { ElementType, useContext, Suspense, useEffect } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { hasValue } from "/imports/libs/hasValue";
-import { SysLoading } from "../../../components/sysLoading/sysLoading";
 import NotFoundErrorPage from "../../../modules/basicPages/frontend/pages/error/notFoundErrorPage";
 import ForbiddenErrorPage from "../../../modules/basicPages/frontend/pages/error/forbiddenErrorPage";
 import { RouteType, ITemplateRouteProps } from "../types/routeType";
 import { RouterContext } from "./routesProvider";
 import { SysTemplateContext } from "../../templates/templateContext";
 import { enumSysTemplateOptions } from "../../templates/enum/sysTemplateOptions";
+import LinearIndeterminateLoading from "/imports/components/LinearIndeterminateLoading/loading";
 
 const RouteWrapper = ({
 	children,
@@ -28,7 +28,7 @@ const RouteWrapper = ({
 				variant: variant ?? enumSysTemplateOptions.APPBAR,
 				props: props
 			});
-	}, []); // A dependência vazia [] faz a função ser chamada apenas na montagem
+	}, [variant]); // A dependência vazia [] faz a função ser chamada apenas na montagem
 
 	return <>{children}</>;
 };
@@ -36,7 +36,7 @@ const RouteWrapper = ({
 export const AppRouterSwitch: React.FC = React.memo(() => {
 	const { routes, routerLoading } = useContext(RouterContext);
 
-	if (routerLoading) return <SysLoading size="large" label="Carregando..." />;
+	if (routerLoading) return;
 
 	const getRecursiveRoutes = (routes: RouteType[], parentTemplateProps?: ITemplateRouteProps) => {
 		try {
@@ -61,7 +61,7 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 								canUpdateTemplate={!hasValue(children)}
 								variant={mergedTemplateProps.templateVariant}
 								props={mergedTemplateProps.templateProps}>
-								<Suspense fallback={<SysLoading size="large" label="Carregando página..." />}>
+								<Suspense fallback={<LinearIndeterminateLoading isLoading={true} />}>
 									{!hasValue(children) ? (
 										<Component />
 									) : (

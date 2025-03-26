@@ -75,6 +75,7 @@ const HomeSectionComponents: React.FC = () => {
 			if (error) return;
 			setImageId(result._id);
 			setFileUrl(result.path);
+
 			// window.open(result.path, '_blank');
 		});
 	}
