@@ -1,4 +1,5 @@
-import { PaletteOptions } from "@mui/material";
+import "@mui/material";
+import { PaletteOptions } from "@mui/material/styles/createPalette";
 
 type ColorKeyType = 10 | 15 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 95 | 97 | "transparent" | "transparent2" | "grey";
 
@@ -133,10 +134,10 @@ const sysLightPalette: PaletteOptions = {
 	},
 
 	tertiary: {
-		light: sysNeonColors[97],
+		light: sysNeonColors[97]!,
 		main: sysNeonColors[90]!,
-		dark: sysNeonColors[60],
-		contrastText: sysGreyColors[20]
+		dark: sysNeonColors[60]!,
+		contrastText: sysGreyColors[20]!
 	},
 
 	success: {

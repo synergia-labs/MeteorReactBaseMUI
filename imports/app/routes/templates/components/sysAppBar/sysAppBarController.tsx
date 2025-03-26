@@ -27,7 +27,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo }) => {
 	const onClickLogo = useCallback((): void => navigate("/"), [navigate]);
 
 	const onLogout = useCallback(async (): Promise<void> => {
-		logout(() => navigate("/"));
+		logout(() => navigate("/guest/sign-in"));
 	}, [navigate]);
 
 	const abrirMenuPerfil = useCallback(
