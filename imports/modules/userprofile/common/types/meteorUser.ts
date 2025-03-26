@@ -5,7 +5,7 @@ import { githubServiceDataSchema } from "./serviceGithubData";
 import { googleServiceDataSchema } from "./serviceGoogleData";
 
 export const userProfileSchema = AuditSch.extend({
-	photo: z.string().optional(),
+	photo: z.string().or(z.boolean()).optional(),
 	phone: z.string().optional(),
 	name: z.string(),
 	roles: z.array(z.string()).default([enumUserRoles.USER]),

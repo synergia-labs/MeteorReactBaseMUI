@@ -38,21 +38,14 @@ const initBrowserPolicy = () => {
 	WebApp.connectHandlers.use((_, res, next) => {
 		res.setHeader(
 			"Content-Security-Policy",
-			[
-				"default-src 'self';",
-				"script-src 'self' 'unsafe-inline' 'unsafe-eval' *.googletagmanager.com *.googleapis.com *.gstatic.com;",
-				"style-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com;",
-				"font-src 'self' data: *.gstatic.com;",
-				"img-src 'self' data:;",
-				"frame-src 'none';",
-				"upgrade-insecure-requests;"
-			].join(" ")
+			"default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.googletagmanager.com *.googleapis.com *.gstatic.com; style-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com; font-src 'self' data: *.gstatic.com; img-src 'self' data:; frame-src 'none';"
 		);
 		res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
 		res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
 		res.setHeader("X-Content-Type-Options", "nosniff");
 		res.setHeader("X-Frame-Options", "DENY");
 		res.setHeader("X-XSS-Protection", "1; mode=block");
+		res.setHeader("Content-Security-Policy", "upgrade-insecure-requests");
 
 		next();
 	});

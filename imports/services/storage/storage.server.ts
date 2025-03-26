@@ -19,6 +19,7 @@ import { deleteVideo } from "./methods/deleteVideo";
 import { getDocument } from "./methods/getDocument";
 import { uploadDocument } from "./methods/uploadDocument";
 import { deleteDocument } from "./methods/deleteDocument";
+import { IStorageServerMethods } from "./common/interfaces/methods";
 
 /**
  * Lista de métodos disponíveis para manipulação de arquivos no servidor de armazenamento.
@@ -143,6 +144,6 @@ export class StorageServer extends ServerBase {
 	}
 }
 
-/** Instância única do servidor de armazenamento. */
-const storageServer = new StorageServer();
+type InterfaceWithMethodsType = StorageServer & IStorageServerMethods;
+const storageServer = new StorageServer() as InterfaceWithMethodsType;
 export default storageServer;

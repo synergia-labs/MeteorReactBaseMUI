@@ -50,7 +50,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo }) => {
 				key: "perfil",
 				otherProps: {
 					label: user?.profile?.name || "-",
-					startIcon: <SysAvatar name={user?.profile?.name} src={user?.profile?.photo} />
+					startIcon: <SysAvatar name={user?.profile?.name} src={user?.profile?.photo?.toString()} />
 				}
 			},
 			{
@@ -82,7 +82,7 @@ const SysAppBar: React.FC<ISysAppBarController> = ({ logo }) => {
 
 	const providerValue: ISysAppBarContext = {
 		userName: user?.profile?.name || "-",
-		userPhoto: user?.profile?.photo,
+		userPhoto: user?.profile?.photo as string,
 		menuPerfilRef,
 		menuMobileRef,
 		currentPath: location.pathname,
