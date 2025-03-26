@@ -22,9 +22,7 @@ import SysFormButton from "../../../../../../components/sysFormFields/sysFormBut
 import storageApi from "../../../../../../services/storage/storage.api";
 import { enumFileType } from "../../../../../../services/storage/common/types/file.type";
 import { SysSelectField } from "../../../../../../components/sysFormFields/sysSelectField/sysSelectField";
-import securityApi from "../../../../../../services/security/security.api";
 import { ParamUploadArchiveType } from "../../../../../../services/storage/common/types/uploadArchive";
-import { useTracker } from "meteor/react-meteor-data";
 import { enumStorageMethods } from "../../../../../../services/storage/common/enums/methods.enum";
 import { RenderWithPermission } from "../../../../../../services/security/frontend/components/renderWithPermission";
 
@@ -34,15 +32,6 @@ const HomeSectionComponents: React.FC = () => {
 	const [imageId, setImageId] = React.useState<string>();
 	const [fileUrl, setFileUrl] = React.useState<string>();
 	const [fileOptions, setFileOptions] = React.useState<StorageType>("Image");
-
-	useTracker(() => {
-		const methodshandle = securityApi.getAllRolesPublication({});
-		const documents = methodshandle.ready() ? securityApi.mongoRole.find().fetch() : [];
-		return {
-			tasks: documents,
-			isLoading: false
-		};
-	});
 
 	const open = Boolean(anchorEl);
 	const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -255,9 +244,9 @@ const HomeSectionComponents: React.FC = () => {
 					<SysForm schema={uploadSchema} onSubmit={handleUploadFile}>
 						<SysUploadFile name="file" />
 						<SysFormButton>Submit</SysFormButton>
-						<SysFormButton disabled={!imageId} onClick={handleDeleteImage}>
+						<Button disabled={!imageId} onClick={handleDeleteImage}>
 							Delete
-						</SysFormButton>
+						</Button>
 					</SysForm>
 
 					{fileUrl?.includes(enumFileType.enum.IMAGE) ? (
