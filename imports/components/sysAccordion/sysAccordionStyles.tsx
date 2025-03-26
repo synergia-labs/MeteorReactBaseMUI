@@ -25,12 +25,12 @@ const AccordionStyle: ISysAccordion = {
 		width: "100%"
 	})),
 
-	Accordion: styled(Accordion)(({ theme }) => ({
+	Accordion: styled(Accordion)(() => ({
 		width: "100%",
 		borderRadius: `${sysSizes.spacingFixed.xs} !important`
 	})),
 
-	AccordionSummary: styled(AccordionSummary)<ISummaryProps>(({ posicaoIcone, theme }) => ({
+	AccordionSummary: styled(AccordionSummary)<ISummaryProps>(({ posicaoIcone }) => ({
 		flexDirection: posicaoIcone === "inicio" ? "row-reverse" : "row",
 		gap: sysSizes.spacingFixed.sm
 	})),

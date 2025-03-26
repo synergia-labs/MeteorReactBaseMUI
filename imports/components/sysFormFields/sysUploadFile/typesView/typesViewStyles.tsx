@@ -13,7 +13,7 @@ interface ICardStyle extends BoxProps {
 }
 
 const SysUploadFileStyle: ISysUploadFileStyle = {
-	container: styled(Box)<ICardStyle>(({ typeview, ismultiple, theme }) => ({
+	container: styled(Box)<ICardStyle>(({ typeview, ismultiple }) => ({
 		width: "100%",
 		...(ismultiple == "true"
 			? {

@@ -112,7 +112,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 						{
 							flexDirection: childrenAlignment,
 							flexWrap: "wrap",
-							gap: (theme) => sysSizes.spacingRem.md
+							gap: sysSizes.spacingRem.md
 						},
 						...(Array.isArray(sxMap?.radioGroup) ? sxMap?.radioGroup : [sxMap?.radioGroup])
 					]}>
