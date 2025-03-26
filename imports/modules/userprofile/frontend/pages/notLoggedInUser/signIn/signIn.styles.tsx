@@ -1,7 +1,7 @@
 import React, { ElementType } from "react";
 import { styled } from "@mui/material/styles";
 import Box, { BoxProps } from "@mui/material/Box";
-import { getSysSizes } from "../../../../../../theme/sizes";
+import { sysSizes } from "../../../../../../theme/sizes";
 
 interface ISignInStyles {
 	container: ElementType<BoxProps>;
@@ -16,7 +16,7 @@ const SignInStyles: ISignInStyles = {
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
-		gap: getSysSizes(theme).spacingFixed.xl
+		gap: sysSizes.spacingFixed.xl
 	})),
 	formContainer: styled(Box)({
 		width: "100%",

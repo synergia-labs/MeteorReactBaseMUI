@@ -11,7 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import { hasValue } from "../../../libs/hasValue";
 import { ISysFormComponentRef } from "../../sysForm/typings";
-import { getSysSizes } from "../../../theme/sizes";
+import { sysSizes } from "../../../theme/sizes";
 
 interface ISysRadioProps extends SysFormComponentType<RadioProps> {
 	/** Estilo do componente.*/
@@ -112,7 +112,7 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 						{
 							flexDirection: childrenAlignment,
 							flexWrap: "wrap",
-							gap: (theme) => getSysSizes(theme).spacingRem.md
+							gap: (theme) => sysSizes.spacingRem.md
 						},
 						...(Array.isArray(sxMap?.radioGroup) ? sxMap?.radioGroup : [sxMap?.radioGroup])
 					]}>

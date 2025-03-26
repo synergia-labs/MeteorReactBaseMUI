@@ -1,7 +1,5 @@
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { Theme } from "@mui/material";
-
 type MediaQueriesType = "xs" | "sm" | "md" | "lg";
+
 interface IRadius {
 	xs: string;
 	sm: string;
@@ -10,6 +8,7 @@ interface IRadius {
 	xl: string;
 	infinite: string;
 }
+
 interface ISpacing {
 	xs: string;
 	sm: string;
@@ -81,238 +80,73 @@ const baseFixedSizes: Record<number, string> = {
 	12: "192px"
 } as const;
 
-const radius: Record<MediaQueriesType, IRadius> = {
-	lg: {
-		xs: baseFixedSizes[0.25],
-		sm: baseFixedSizes[0.5],
-		md: baseFixedSizes[1],
-		lg: baseFixedSizes[1.5],
-		xl: baseFixedSizes[2],
-		infinite: "800px"
-	} as const,
-	md: {
-		xs: baseFixedSizes[0.25],
-		sm: baseFixedSizes[0.5],
-		md: baseFixedSizes[1],
-		lg: baseFixedSizes[1.5],
-		xl: baseFixedSizes[2],
-		infinite: "800px"
-	} as const,
-	sm: {
-		xs: baseFixedSizes[0.25],
-		sm: baseFixedSizes[0.5],
-		md: baseFixedSizes[1],
-		lg: baseFixedSizes[1.5],
-		xl: baseFixedSizes[2],
-		infinite: "800px"
-	} as const,
-	xs: {
-		xs: baseFixedSizes[0.25],
-		sm: baseFixedSizes[0.5],
-		md: baseFixedSizes[1],
-		lg: baseFixedSizes[1.5],
-		xl: baseFixedSizes[2],
-		infinite: "800px"
-	} as const
-} as const;
+const createUniformSizes = <T>(values: T): Record<MediaQueriesType, T> => ({
+	lg: values,
+	md: values,
+	sm: values,
+	xs: values
+});
 
-const spacingRem: Record<MediaQueriesType, ISpacing> = {
-	lg: {
-		xs: baseRemSizes[0.25],
-		sm: baseRemSizes[0.5],
-		md: baseRemSizes[1],
-		lg: baseRemSizes[1.5],
-		xl: baseRemSizes[2],
-		xxl: baseRemSizes[2]
-	} as const,
-	md: {
-		xs: baseRemSizes[0.25],
-		sm: baseRemSizes[0.5],
-		md: baseRemSizes[1],
-		lg: baseRemSizes[1.5],
-		xl: baseRemSizes[2],
-		xxl: baseRemSizes[2]
-	} as const,
-	sm: {
-		xs: baseRemSizes[0.25],
-		sm: baseRemSizes[0.5],
-		md: baseRemSizes[1],
-		lg: baseRemSizes[1.5],
-		xl: baseRemSizes[2],
-		xxl: baseRemSizes[3]
-	} as const,
-	xs: {
-		xs: baseRemSizes[0.25],
-		sm: baseRemSizes[0.5],
-		md: baseRemSizes[1],
-		lg: baseRemSizes[1.5],
-		xl: baseRemSizes[2],
-		xxl: baseRemSizes[3]
-	} as const
-} as const;
+const radius = createUniformSizes<IRadius>({
+	xs: baseFixedSizes[0.25],
+	sm: baseFixedSizes[0.5],
+	md: baseFixedSizes[1],
+	lg: baseFixedSizes[1.5],
+	xl: baseFixedSizes[2],
+	infinite: "800px"
+});
 
-const spacingFixed: Record<MediaQueriesType, ISpacing> = {
-	lg: {
-		xs: baseFixedSizes[0.25],
-		sm: baseFixedSizes[0.5],
-		md: baseFixedSizes[1],
-		lg: baseFixedSizes[1.5],
-		xl: baseFixedSizes[2],
-		xxl: baseFixedSizes[3]
-	} as const,
-	md: {
-		xs: baseFixedSizes[0.25],
-		sm: baseFixedSizes[0.5],
-		md: baseFixedSizes[1],
-		lg: baseFixedSizes[1.5],
-		xl: baseFixedSizes[2],
-		xxl: baseFixedSizes[3]
-	} as const,
-	sm: {
-		xs: baseFixedSizes[0.25],
-		sm: baseFixedSizes[0.5],
-		md: baseFixedSizes[1],
-		lg: baseFixedSizes[1.5],
-		xl: baseFixedSizes[2],
-		xxl: baseFixedSizes[3]
-	} as const,
-	xs: {
-		xs: baseFixedSizes[0.25],
-		sm: baseFixedSizes[0.5],
-		md: baseFixedSizes[1],
-		lg: baseFixedSizes[1.5],
-		xl: baseFixedSizes[2],
-		xxl: baseFixedSizes[3]
-	} as const
-} as const;
+const spacingRem = createUniformSizes<ISpacing>({
+	xs: baseRemSizes[0.25],
+	sm: baseRemSizes[0.5],
+	md: baseRemSizes[1],
+	lg: baseRemSizes[1.5],
+	xl: baseRemSizes[2],
+	xxl: baseRemSizes[3]
+});
 
-const components: Record<MediaQueriesType, IComponents> = {
-	lg: {
-		buttonMediumPy: baseRemSizes[0.5],
-		buttonSmallPy: baseRemSizes[0.25],
-		buttonMediumPx: baseRemSizes[1.5],
-		buttonSmallPx: baseRemSizes[1],
-		buttonGap: baseRemSizes[0.5],
-		buttonMediumMinHeight: "2.5rem",
-		buttonSmallMinHeight: "2.125rem",
-		iconSize: baseRemSizes[1.5],
-		iconSizeSmall: "1.125rem",
-		inputMinHeight: "0",
-		inputGap: baseRemSizes[0.5],
-		inputPx: baseRemSizes[1],
-		inputPy: baseRemSizes[0.5]
-	} as const,
-	md: {
-		buttonMediumPy: baseRemSizes[0.5],
-		buttonSmallPy: baseRemSizes[0.25],
-		buttonMediumPx: baseRemSizes[1.5],
-		buttonSmallPx: baseRemSizes[1],
-		buttonGap: baseRemSizes[0.5],
-		buttonMediumMinHeight: "2.5rem",
-		buttonSmallMinHeight: "2.125rem",
-		iconSize: baseRemSizes[1.5],
-		iconSizeSmall: "1.125rem",
-		inputMinHeight: "0",
-		inputGap: baseRemSizes[0.5],
-		inputPx: baseRemSizes[1],
-		inputPy: baseRemSizes[0.5]
-	} as const,
-	sm: {
-		buttonMediumPy: baseRemSizes[0.5],
-		buttonSmallPy: baseRemSizes[0.25],
-		buttonMediumPx: baseRemSizes[1.5],
-		buttonSmallPx: baseRemSizes[1],
-		buttonGap: baseRemSizes[0.5],
-		buttonMediumMinHeight: "2.5rem",
-		buttonSmallMinHeight: "2.125rem",
-		iconSize: baseRemSizes[1.5],
-		iconSizeSmall: "1.125rem",
-		inputMinHeight: "0",
-		inputGap: baseRemSizes[0.5],
-		inputPx: baseRemSizes[1],
-		inputPy: baseRemSizes[0.5]
-	} as const,
-	xs: {
-		buttonMediumPy: baseRemSizes[0.5],
-		buttonSmallPy: baseRemSizes[0.25],
-		buttonMediumPx: baseRemSizes[1.5],
-		buttonSmallPx: baseRemSizes[1],
-		buttonGap: baseRemSizes[0.5],
-		buttonMediumMinHeight: "2.5rem",
-		buttonSmallMinHeight: "2.125rem",
-		iconSize: baseRemSizes[1.5],
-		iconSizeSmall: "1.125rem",
-		inputMinHeight: "0",
-		inputGap: baseRemSizes[0.5],
-		inputPx: baseRemSizes[1],
-		inputPy: baseRemSizes[0.5]
-	} as const
-} as const;
+const spacingFixed = createUniformSizes<ISpacing>({
+	xs: baseFixedSizes[0.25],
+	sm: baseFixedSizes[0.5],
+	md: baseFixedSizes[1],
+	lg: baseFixedSizes[1.5],
+	xl: baseFixedSizes[2],
+	xxl: baseFixedSizes[3]
+});
 
-const content: Record<MediaQueriesType, IContent> = {
-	lg: {
-		px: "40px",
-		pt: baseFixedSizes[2],
-		pb: baseFixedSizes[4]
-	} as const,
-	md: {
-		px: "40px",
-		pt: baseFixedSizes[2],
-		pb: baseFixedSizes[4]
-	} as const,
-	sm: {
-		px: baseFixedSizes[1],
-		pt: baseFixedSizes[2],
-		pb: baseFixedSizes[4]
-	} as const,
-	xs: {
-		px: baseFixedSizes[1],
-		pt: baseFixedSizes[2],
-		pb: baseFixedSizes[4]
-	} as const
-} as const;
+const components = createUniformSizes<IComponents>({
+	buttonMediumPy: baseRemSizes[0.5],
+	buttonSmallPy: baseRemSizes[0.25],
+	buttonMediumPx: baseRemSizes[1.5],
+	buttonSmallPx: baseRemSizes[1],
+	buttonGap: baseRemSizes[0.5],
+	buttonMediumMinHeight: "2.5rem",
+	buttonSmallMinHeight: "2.125rem",
+	iconSize: baseRemSizes[1.5],
+	iconSizeSmall: "1.125rem",
+	inputMinHeight: "0",
+	inputGap: baseRemSizes[0.5],
+	inputPx: baseRemSizes[1],
+	inputPy: baseRemSizes[0.5]
+});
 
-function useMediaQueryBreakpoint(theme?: Theme): MediaQueriesType {
-	if (!theme) throw new Error("Theme is not defined");
-	const matchesLg = useMediaQuery(theme.breakpoints.up("lg"));
-	const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
-	const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
+const content = createUniformSizes<IContent>({
+	px: baseFixedSizes[1],
+	pt: baseFixedSizes[2],
+	pb: baseFixedSizes[4]
+});
 
-	if (matchesLg) return "lg";
-	if (matchesMd) return "md";
-	if (matchesSm) return "sm";
-	return "xs";
-}
+const sysSizes = {
+	radius: radius.lg,
+	spacingRem: spacingRem.lg,
+	spacingFixed: spacingFixed.lg,
+	components: components.lg,
+	content: content.lg,
+	base: {
+		rem: baseRemSizes,
+		fixed: baseFixedSizes
+	},
+	maxDisplayWidth: "1920px"
+};
 
-function getSysSizes(theme?: Theme): ISysSizes {
-	try {
-		const mediaQuery: MediaQueriesType = useMediaQueryBreakpoint(theme);
-		return {
-			radius: radius[mediaQuery],
-			spacingRem: spacingRem[mediaQuery],
-			spacingFixed: spacingFixed[mediaQuery],
-			components: components[mediaQuery],
-			content: content[mediaQuery],
-			base: {
-				rem: baseRemSizes,
-				fixed: baseFixedSizes
-			},
-			maxDisplayWidth: "1920px"
-		};
-	} catch (e) {
-		return {
-			radius: radius.lg,
-			spacingRem: spacingRem.lg,
-			spacingFixed: spacingFixed.lg,
-			components: components.lg,
-			content: content.lg,
-			base: {
-				rem: baseRemSizes,
-				fixed: baseFixedSizes
-			},
-			maxDisplayWidth: "1920px"
-		};
-	}
-}
-
-export { getSysSizes };
+export { ISysSizes, sysSizes };

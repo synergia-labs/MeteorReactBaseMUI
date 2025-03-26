@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import styled from "@mui/material/styles/styled";
 import Box, { BoxProps } from "@mui/material/Box";
 import Paper, { PaperProps } from "@mui/material/Paper";
-import { getSysSizes } from "../../../../theme/sizes";
+import { sysSizes } from "../../../../theme/sizes";
 
 interface IWrapper extends BoxProps {
 	backgroundImagePath?: string;
@@ -38,7 +38,7 @@ const TemplateLoginStyles: IStyles = {
 		justifyContent: "space-evenly",
 		alignItems: "center",
 		gap: theme.spacing(6),
-		padding: `${getSysSizes(theme).spacingFixed.lg} ${getSysSizes(theme).spacingFixed.xl}`,
+		padding: `${sysSizes.spacingFixed.lg} ${sysSizes.spacingFixed.xl}`,
 
 		[theme.breakpoints.up("md")]: {
 			width: "auto",
@@ -51,10 +51,10 @@ const TemplateLoginStyles: IStyles = {
 	})),
 	dataContent: styled(Paper)(({ theme }) => ({
 		width: "100%",
-		padding: `${getSysSizes(theme).spacingFixed.lg} ${getSysSizes(theme).spacingFixed.xl}`,
-		borderRadius: getSysSizes(theme).radius.lg,
+		padding: `${sysSizes.spacingFixed.lg} ${sysSizes.spacingFixed.xl}`,
+		borderRadius: sysSizes.radius.lg,
 		boxShadow: theme.shadows[3],
-		gap: getSysSizes(theme).spacingFixed.xl,
+		gap: sysSizes.spacingFixed.xl,
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",

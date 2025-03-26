@@ -1,7 +1,7 @@
 import React, { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
-import { getSysSizes } from "../../../../../../theme/sizes";
+import { sysSizes } from "../../../../../../theme/sizes";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -11,7 +11,7 @@ interface IStyles {
 
 const enrollAccountStyle: IStyles = {
 	container: styled(Box)(({ theme }) => ({
-		gap: getSysSizes(theme).spacingFixed.xl,
+		gap: sysSizes.spacingFixed.xl,
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -28,7 +28,7 @@ const enrollAccountStyle: IStyles = {
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
-		gap: getSysSizes(theme).spacingFixed.md,
+		gap: sysSizes.spacingFixed.md,
 		justifyContent: "space-between"
 	}))
 };

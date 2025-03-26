@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import Box, { BoxProps } from "@mui/material/Box";
-import { getSysSizes } from "../../../theme/sizes";
+import { sysSizes } from "../../../theme/sizes";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -13,9 +13,9 @@ interface IStyles {
 
 const showDialogStyles: IStyles = {
 	container: styled(Box)(({ theme }) => ({
-		padding: getSysSizes(theme).spacingFixed.lg,
-		borderRadius: getSysSizes(theme).radius.lg,
-		gap: getSysSizes(theme).spacingFixed.lg,
+		padding: sysSizes.spacingFixed.lg,
+		borderRadius: sysSizes.radius.lg,
+		gap: sysSizes.spacingFixed.lg,
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
@@ -34,17 +34,17 @@ const showDialogStyles: IStyles = {
 		flexDirection: "column",
 		justifyContent: "flex-start",
 		alignItems: "stretch",
-		gap: getSysSizes(theme).spacingFixed.md
+		gap: sysSizes.spacingFixed.md
 	})),
 	header: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-start",
 		alignItems: "center",
-		gap: getSysSizes(theme).spacingFixed.md
+		gap: sysSizes.spacingFixed.md
 	})),
 	footer: styled(Box)(({ theme }) => ({
-		gap: getSysSizes(theme).spacingRem.md,
+		gap: sysSizes.spacingRem.md,
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-end",
