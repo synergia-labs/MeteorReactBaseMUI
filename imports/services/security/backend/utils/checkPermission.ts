@@ -24,7 +24,8 @@ export async function _checkPermission(name: string, referred: string, _context:
 			return true;
 
 		const user = _context.user ?? Meteor.user();
-		if (!hasValue(user) || !hasValue(user.profile?.roles)) return false;
+		if (!hasValue(user) || (!hasValue(user.profile?.roles) && !method?.roles?.includes(enumUserRoles.PUBLIC)))
+			return false;
 
 		return (
 			(module.roles.some((role: string) => user.profile!.roles.includes(role)) ||

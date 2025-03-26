@@ -2,11 +2,13 @@ import React, { lazy } from "react";
 import { RouteType } from "../../../app/routes/types/routeType";
 import SysIcon from "../../../components/sysIcon/sysIcon";
 import { enumSysTemplateOptions } from "/imports/app/routes/templates/enum/sysTemplateOptions";
+import enumUserRoles from "../common/enums/enumUserRoles";
 
 const usersRouterList: Array<RouteType> = [
 	{
 		path: "users",
 		element: lazy(() => import("../frontend/pages/loggedInUser/loggedInUser.container")),
+		roles: [enumUserRoles.ADMIN],
 		children: [
 			{
 				name: "Usuários",
@@ -21,6 +23,7 @@ const usersRouterList: Array<RouteType> = [
 		element: lazy(() => import("../frontend/pages/notLoggedInUser/notLoggedInUser.container")),
 		templateVariant: enumSysTemplateOptions.LOGIN,
 		index: false,
+		roles: [enumUserRoles.PUBLIC],
 		children: [
 			{
 				path: "sign-in",

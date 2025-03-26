@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Styles from "./baseErrorPage.styles";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import SysIcon from "../../../../../../components/sysIcon/sysIcon";
 import { MaterialSymbolsIconsNamesType } from "../../../../../../components/sysIcon/materialSymbolsIcons";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "/imports/app/authProvider/authContext";
 
 interface IBaseErrorPageProps {
 	codeError: string;
@@ -23,8 +24,9 @@ const BaseErrorPage: React.FC<IBaseErrorPageProps> = ({
 	buttonIconName = "arrowBack",
 	onButtonClick
 }) => {
+	const { user } = useContext(AuthContext);
 	const navigate = useNavigate();
-	const onClick = () => onButtonClick ?? navigate("/");
+	const onClick = () => onButtonClick ?? navigate(!!user ? "/" : "/guest/sign-in");
 
 	return (
 		<Styles.container>
