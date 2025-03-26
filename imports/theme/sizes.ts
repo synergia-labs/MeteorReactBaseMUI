@@ -151,20 +151,48 @@ function useMediaQueryBreakpoint(theme?: Theme): MediaQueriesType {
 	return "xs";
 }
 
-function getSysSizes(theme?: Theme): ISysSizes {
-	const mediaQuery = useMediaQueryBreakpoint(theme);
-	return {
-		radius: radius[mediaQuery],
-		spacingRem: spacingRem[mediaQuery],
-		spacingFixed: spacingFixed[mediaQuery],
-		components: components[mediaQuery],
-		content: content[mediaQuery],
-		base: {
-			rem: baseRemSizes,
-			fixed: baseFixedSizes
-		},
-		maxDisplayWidth: "1920px"
-	};
+function sisSizes(theme?: Theme): ISysSizes {
+	try {
+		const mediaQuery = useMediaQueryBreakpoint(theme);
+		return {
+			radius: radius[mediaQuery],
+			spacingRem: spacingRem[mediaQuery],
+			spacingFixed: spacingFixed[mediaQuery],
+			components: components[mediaQuery],
+			content: content[mediaQuery],
+			base: {
+				rem: baseRemSizes,
+				fixed: baseFixedSizes
+			},
+			maxDisplayWidth: "1920px"
+		};
+	} catch (e) {
+		return {
+			radius: radius.lg,
+			spacingRem: spacingRem.lg,
+			spacingFixed: spacingFixed.lg,
+			components: components.lg,
+			content: content.lg,
+			base: {
+				rem: baseRemSizes,
+				fixed: baseFixedSizes
+			},
+			maxDisplayWidth: "1920px"
+		};
+	}
 }
 
-export { useMediaQueryBreakpoint, getSysSizes, ISysSizes };
+const sysSizes = {
+	radius: radius.lg,
+	spacingRem: spacingRem.lg,
+	spacingFixed: spacingFixed.lg,
+	components: components.lg,
+	content: content.lg,
+	base: {
+		rem: baseRemSizes,
+		fixed: baseFixedSizes
+	},
+	maxDisplayWidth: "1920px"
+};
+
+export { useMediaQueryBreakpoint, sisSizes, ISysSizes, sysSizes };

@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import styled from "@mui/material/styles/styled";
 import Avatar, { AvatarProps } from "@mui/material/Avatar";
-import { getSysSizes } from "../../theme/sizes";
+import { sisSizes } from "../../theme/sizes";
 
 interface IContainer extends BoxProps {
 	cursorPointer?: boolean;
@@ -20,27 +20,27 @@ const SysAvatarStyles: ISysAvatarStyles = {
 	})<IContainer>(({ theme, cursorPointer, size, activateOutline }) => ({
 		"width":
 			size === "small"
-				? getSysSizes(theme).components.buttonSmallMinHeight
+				? sisSizes(theme).components.buttonSmallMinHeight
 				: size === "medium"
-					? getSysSizes(theme).spacingRem.xl
-					: getSysSizes(theme).components.buttonMediumMinHeight,
+					? sisSizes(theme).spacingRem.xl
+					: sisSizes(theme).components.buttonMediumMinHeight,
 		"height":
 			size === "small"
-				? getSysSizes(theme).components.buttonSmallMinHeight
+				? sisSizes(theme).components.buttonSmallMinHeight
 				: size === "medium"
-					? getSysSizes(theme).spacingRem.xl
-					: getSysSizes(theme).components.buttonMediumMinHeight,
+					? sisSizes(theme).spacingRem.xl
+					: sisSizes(theme).components.buttonMediumMinHeight,
 		"borderRadius": "50%",
 		"border": !activateOutline ? "none" : `2px solid ${theme?.palette.common.white}`,
 		"display": "flex",
 		"overflow": "hidden",
 		"alignItems": "center",
 		"justifyContent": "center",
-		"padding": !activateOutline ? "none" : getSysSizes(theme).spacingFixed.xs,
+		"padding": !activateOutline ? "none" : sisSizes(theme).spacingFixed.xs,
 		"cursor": cursorPointer ? "pointer" : "inherit",
 		"flexShrink": 0,
-		"minWidth": activateOutline ? getSysSizes(theme).components.buttonMediumMinHeight : "auto",
-		"minHeight": activateOutline ? getSysSizes(theme).components.buttonMediumMinHeight : "auto",
+		"minWidth": activateOutline ? sisSizes(theme).components.buttonMediumMinHeight : "auto",
+		"minHeight": activateOutline ? sisSizes(theme).components.buttonMediumMinHeight : "auto",
 		"& .MuiAvatar-root": {
 			margin: 0
 		}

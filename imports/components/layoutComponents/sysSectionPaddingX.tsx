@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@mui/material/styles/styled";
-import { getSysSizes } from "/imports/theme/sizes";
+import { sisSizes } from "/imports/theme/sizes";
 import Box, { BoxProps } from "@mui/material/Box";
 
 interface ISysSectionPaddingXProps extends BoxProps {}
@@ -13,8 +13,8 @@ const SysSectionPaddingX = styled(Box)<ISysSectionPaddingXProps>(({ theme }) => 
 		paddingRight: "5vw"
 	},
 	[theme.breakpoints.down("sm")]: {
-		paddingLeft: `${getSysSizes(theme).spacingFixed.md}`,
-		paddingRight: `${getSysSizes(theme).spacingFixed.md}`
+		paddingLeft: `${sisSizes(theme).spacingFixed.md}`,
+		paddingRight: `${sisSizes(theme).spacingFixed.md}`
 	}
 }));
 

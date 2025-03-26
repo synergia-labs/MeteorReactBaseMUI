@@ -1,7 +1,7 @@
 import React, { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
-import { getSysSizes } from "../../../../../../theme/sizes";
+import { sisSizes } from "../../../../../../theme/sizes";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -11,7 +11,7 @@ interface IStyles {
 
 const forgotPasswordStyle: IStyles = {
 	container: styled(Box)(({ theme }) => ({
-		gap: getSysSizes(theme).spacingFixed.xl,
+		gap: sisSizes(theme).spacingFixed.xl,
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center"
@@ -26,7 +26,7 @@ const forgotPasswordStyle: IStyles = {
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
-		gap: getSysSizes(theme).spacingFixed.md,
+		gap: sisSizes(theme).spacingFixed.md,
 		justifyContent: "space-between"
 	}))
 };

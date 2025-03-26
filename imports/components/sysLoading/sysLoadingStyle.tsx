@@ -2,7 +2,7 @@ import { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import { keyframes } from "@mui/system";
-import { getSysSizes } from "../../theme/sizes";
+import { sisSizes } from "../../theme/sizes";
 
 const spin = keyframes`
     from {
@@ -35,7 +35,7 @@ const LoadingStyle: ILoadingStyle = {
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		gap: getSysSizes(theme).spacingRem.sm
+		gap: sisSizes(theme).spacingRem.sm
 	}))
 };
 
