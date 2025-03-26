@@ -8,7 +8,7 @@ interface IStyles {
 }
 
 const VerifyEmailStyles: IStyles = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box)(() => ({
 		width: "100%",
 		display: "flex",
 		flexDirection: "column",

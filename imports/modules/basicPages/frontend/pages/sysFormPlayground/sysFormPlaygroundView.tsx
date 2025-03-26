@@ -96,7 +96,7 @@ const SysFormPlaygroundView: React.FC = () => {
 			</Description>
 
 			<Typography variant="h5">Playground</Typography>
-			<Box sx={{ display: "flex", flexDirection: "column", gap: (theme) => sysSizes.spacingFixed.lg }}>
+			<Box sx={{ display: "flex", flexDirection: "column", gap: sysSizes.spacingFixed.lg }}>
 				<Typography variant="subtitle1">schema</Typography>
 				<SchemaContainer>
 					<SyntaxHighlighter language="typescript" style={transparentTheme}>

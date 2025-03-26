@@ -63,7 +63,7 @@ const ShowNotificationStyles: IShowNotificationStyles = {
 			}
 		})
 	})),
-	Header: styled(Box)(({ theme }) => ({
+	Header: styled(Box)(() => ({
 		padding: `${sysSizes.spacingFixed.xs} ${sysSizes.spacingFixed.sm}`
 	})),
 	Body: styled(Box)(({ theme }) => ({

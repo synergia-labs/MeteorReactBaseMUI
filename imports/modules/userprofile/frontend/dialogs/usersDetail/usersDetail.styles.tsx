@@ -9,7 +9,7 @@ interface IStyles {
 }
 
 const userDetailStyles: IStyles = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box)(() => ({
 		padding: sysSizes.spacingFixed.lg,
 		gap: sysSizes.spacingFixed.md,
 		display: "flex",
@@ -20,7 +20,7 @@ const userDetailStyles: IStyles = {
 		maxHeight: "100%",
 		maxWidth: "100%"
 	})),
-	footer: styled(Box)(({ theme }) => ({
+	footer: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-end",

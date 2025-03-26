@@ -30,7 +30,7 @@ const LoadingStyle: ILoadingStyle = {
 		animation: `${spin} linear infinite 1s`
 	})),
 
-	Container: styled(Box)(({ theme }) => ({
+	Container: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",

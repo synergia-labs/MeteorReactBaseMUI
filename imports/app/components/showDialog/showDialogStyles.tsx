@@ -29,21 +29,21 @@ const showDialogStyles: IStyles = {
 			minHeight: "auto"
 		}
 	})),
-	messageContent: styled(Box)(({ theme }) => ({
+	messageContent: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
 		alignItems: "stretch",
 		gap: sysSizes.spacingFixed.md
 	})),
-	header: styled(Box)(({ theme }) => ({
+	header: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-start",
 		alignItems: "center",
 		gap: sysSizes.spacingFixed.md
 	})),
-	footer: styled(Box)(({ theme }) => ({
+	footer: styled(Box)(() => ({
 		gap: sysSizes.spacingRem.md,
 		display: "flex",
 		flexDirection: "row",

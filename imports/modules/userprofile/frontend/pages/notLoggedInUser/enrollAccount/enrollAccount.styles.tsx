@@ -10,7 +10,7 @@ interface IStyles {
 }
 
 const enrollAccountStyle: IStyles = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box)(() => ({
 		gap: sysSizes.spacingFixed.xl,
 		display: "flex",
 		flexDirection: "column",
@@ -24,7 +24,7 @@ const enrollAccountStyle: IStyles = {
 		width: "100%",
 		gap: theme.spacing(2)
 	})),
-	footer: styled(Box)(({ theme }) => ({
+	footer: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",

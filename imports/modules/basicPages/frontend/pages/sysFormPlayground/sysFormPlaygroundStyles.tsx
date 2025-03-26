@@ -17,12 +17,12 @@ interface ISysFormPlaygroundStyles {
 }
 
 const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
-	Container: styled(SysSectionPaddingXY)(({ theme }) => ({
+	Container: styled(SysSectionPaddingXY)(() => ({
 		gap: sysSizes.spacingFixed.md,
 		display: "flex",
 		flexDirection: "column"
 	})),
-	Description: styled(Box)(({ theme }) => ({
+	Description: styled(Box)(() => ({
 		textAlign: "justify",
 		display: "flex",
 		flexDirection: "column",
@@ -37,7 +37,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 			flexDirection: "column-reverse"
 		}
 	})),
-	FormContainer: styled(Box)(({ theme }) => ({
+	FormContainer: styled(Box)(() => ({
 		flex: 1,
 		display: "flex",
 		flexDirection: "column",
@@ -64,7 +64,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		maxHeight: "350px",
 		padding: sysSizes.spacingFixed.md
 	})),
-	ButtonContainer: styled(Box)(({ theme }) => ({
+	ButtonContainer: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "row",
 		flexWrap: "wrap",
@@ -72,7 +72,7 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		rowGap: sysSizes.spacingRem.md,
 		columnGap: sysSizes.spacingRem.md
 	})),
-	RowElement: styled(Box)(({ theme }) => ({
+	RowElement: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "row",
 		gap: sysSizes.spacingFixed.md,

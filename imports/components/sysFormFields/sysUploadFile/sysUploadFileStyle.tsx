@@ -15,7 +15,7 @@ interface ISysUploadFileStyle {
 }
 
 const SysUploadFileStyle: ISysUploadFileStyle = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "column",
 		width: "100%",

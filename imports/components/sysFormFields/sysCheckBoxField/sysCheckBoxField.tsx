@@ -125,7 +125,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				showTooltip={showTooltip}
 				tooltipMessage={tooltipMessage}
 				tooltipPosition={tooltipPosition}>
-				<FormGroup sx={{ flexDirection: childrenAlignment, gap: (theme) => sysSizes.spacingRem.md, ...sxMap?.formGroup }}>
+				<FormGroup sx={{ flexDirection: childrenAlignment, gap: sysSizes.spacingRem.md, ...sxMap?.formGroup }}>
 					{optionsState?.map((opt) => (
 						<FormControlLabel
 							key={opt.value}

@@ -11,7 +11,7 @@ interface IStyles {
 }
 
 const usersListStyles: IStyles = {
-	container: styled(SysSectionPaddingXY)(({ theme }) => ({
+	container: styled(SysSectionPaddingXY)(() => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
@@ -28,7 +28,7 @@ const usersListStyles: IStyles = {
 		marginBottom: sysSizes.spacingFixed.md,
 		[theme.breakpoints.down("sm")]: { flexDirection: "column" }
 	})),
-	listContainer: styled(Box)(({ theme }) => ({
+	listContainer: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "column",
 		gap: sysSizes.spacingFixed.md,

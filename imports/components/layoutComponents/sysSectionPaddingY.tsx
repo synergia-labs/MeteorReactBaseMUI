@@ -5,7 +5,7 @@ import Box, { BoxProps } from "@mui/material/Box";
 
 interface ISysSectionPaddingYProps extends BoxProps {}
 
-const SysSectionPaddingY = styled(Box)<ISysSectionPaddingYProps>(({ theme }) => ({
+const SysSectionPaddingY = styled(Box)<ISysSectionPaddingYProps>(() => ({
 	paddingTop: `${sysSizes.content.pt}`,
 	paddingBottom: `${sysSizes.content.pb}`
 }));

@@ -9,7 +9,7 @@ interface ISignInStyles {
 }
 
 const CreateAdminUserStyles: ISignInStyles = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box)(() => ({
 		width: "100%",
 		display: "flex",
 		flexDirection: "column",

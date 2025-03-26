@@ -10,7 +10,7 @@ interface ISignInStyles {
 }
 
 const SignInStyles: ISignInStyles = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box)(() => ({
 		width: "100%",
 		display: "flex",
 		flexDirection: "column",

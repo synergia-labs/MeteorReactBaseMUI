@@ -99,7 +99,7 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 			background: theme.palette.sysBackground?.bg1
 		})),
 
-		cardInfo: styled(Box)<ICardStyle>(({ typeview, theme }) => ({
+		cardInfo: styled(Box)<ICardStyle>(({ typeview }) => ({
 			display: "block",
 			width: "100%",
 			gap: sysSizes.spacingRem.xs,
