@@ -6,7 +6,7 @@ import { SysNavLink } from "../../../../../components/sysNavLink/sysNavLink";
 import SysMenu from "../../../../../components/sysMenu/sysMenuProvider";
 import SysAvatar from "../../../../../components/sysAvatar/sysAvatar";
 import { hasValue } from "/imports/libs/hasValue";
-import { RouterContext } from "../../../components/routesProvider";
+import { RouterContext } from "/imports/app/routes/components/routesProvider";
 
 interface ISysAppBar {
 	logo?: ReactNode;

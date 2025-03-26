@@ -1,14 +1,14 @@
 import React, { ReactNode, useCallback, useContext, useRef } from "react";
 import Context, { ISysAppBarContext } from "./sysAppBarContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import SysAppBarView from "./sysAppBarView";
 import AuthContext from "/imports/app/authProvider/authContext";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 import { hasValue } from "/imports/libs/hasValue";
-import { RouterContext } from "../../../components/routesProvider";
 import { ISysMenuItem, ISysMenuRef } from "/imports/components/sysMenu/sysMenuProvider";
 import SysAvatar from "/imports/components/sysAvatar/sysAvatar";
 import SysIcon from "/imports/components/sysIcon/sysIcon";
+import { RouterContext } from "/imports/app/routes/components/routesProvider";
+import SysAppBarView from "./sysAppBarView";
 
 interface ISysAppBarController {
 	logo?: ReactNode;

@@ -2,7 +2,6 @@ import React, { createContext } from "react";
 import { IShowNotificationProps } from "../components/showNotification/showNotification";
 import { IShowDialogProps } from "../components/showDialog/showDialog";
 import { IShowDrawerProps } from "../components/showDrawer/showDrawer";
-import { ISysTemplate } from "../routes/templates/getTemplate";
 
 interface ICloseNotification {
 	event?: React.SyntheticEvent | Event;
@@ -25,7 +24,6 @@ interface ISysThemeOptions {
 }
 
 interface IAppLayoutContext extends ISysThemeOptions {
-	readonly defaultTemplate: ISysTemplate;
 	showNotification: (options: IShowNotificationProps) => void;
 	closeNotification: (props?: ICloseNotification | {}) => void;
 	showDialog: (options: IShowDialogProps) => void;
