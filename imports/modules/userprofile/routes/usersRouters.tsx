@@ -1,14 +1,14 @@
 import React, { lazy } from "react";
 import { RouteType } from "../../../app/routes/types/routeType";
 import SysIcon from "../../../components/sysIcon/sysIcon";
-import { enumSysTemplateOptions } from "/imports/app/routes/templates/enum/sysTemplateOptions";
 import enumUserRoles from "../common/enums/enumUserRoles";
+import { enumSysTemplateOptions } from "/imports/app/templates/enum/sysTemplateOptions";
 
 const usersRouterList: Array<RouteType> = [
 	{
 		path: "users",
 		element: lazy(() => import("../frontend/pages/loggedInUser/loggedInUser.container")),
-		roles: [enumUserRoles.ADMIN],
+		templateVariant: enumSysTemplateOptions.APPBAR,
 		children: [
 			{
 				name: "Usuários",

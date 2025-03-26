@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { ISysTemplateProps } from "../getTemplate";
+import { ISysTemplateProps } from "../../templateProvider";
 import Styles from "./templateLoginStyles";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";

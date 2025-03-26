@@ -13,8 +13,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import getTheme from "../../theme";
 import CssBaseline from "@mui/material/CssBaseline";
-import { ISysTemplate } from "../routes/templates/getTemplate";
-import { enumSysTemplateOptions } from "../routes/templates/enum/sysTemplateOptions";
+
 import IAppComponents from "/imports/types/appCompontent";
 
 const defaultState: IAppComponents = { open: false };
@@ -155,15 +154,9 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 		[darkThemeMode, fontScale, deviceType]
 	);
 
-	const defaultTemplate: ISysTemplate = {
-		variant: enumSysTemplateOptions.APPBAR,
-		props: undefined
-	} as const;
-
 	const contextValues: IAppLayoutContext = useMemo(
 		() => ({
 			...themeOptions,
-			defaultTemplate: defaultTemplate,
 			showNotification: handleShowNotification,
 			closeNotification: handleCloseNotification,
 			showDrawer: handleShowDrawer,

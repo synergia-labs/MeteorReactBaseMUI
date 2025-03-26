@@ -1,6 +1,6 @@
 import React from "react";
 import { TemplateNoneContainer } from "./templateNoneStyles";
-import { ISysTemplateProps } from "../getTemplate";
+import { ISysTemplateProps } from "../../templateProvider";
 
 export interface ITemplateNone extends ISysTemplateProps {}
 
