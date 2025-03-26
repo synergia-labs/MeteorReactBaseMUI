@@ -13,7 +13,7 @@ const rl = readline.createInterface({
 const TEMPLATE_DIR = "./.module/simple";
 const MODULES_DIR = "./imports/modules";
 const REGISTER_ROUTE_PATH = "./imports/app/routes/register.ts";
-const REGISTER_SERVER_PATH = "./imports/server/registerApi.ts";
+const REGISTER_SERVER_PATH = "./server/main.ts";
 
 // Função para perguntar algo ao usuário
 const askQuestion = (query) => new Promise((resolve) => rl.question(query, resolve));

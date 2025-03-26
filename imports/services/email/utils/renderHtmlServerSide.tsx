@@ -10,23 +10,22 @@ import juice from "juice";
 
 const cache = createCache({ key: "css" });
 const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
-const theme = getTheme({ darkMode: false, fontScale: 1 });
 
 const convertHtmlToInlineStyles = (html: string, css: string): string => {
 	const fullHtml = `
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset="utf-8" />
-            <style>
-              ${css}
-            </style>
-          </head>
-          <body>
-            <div id="root">${html}</div>
-          </body>
-        </html>
-      `;
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8" />
+	<style>
+	${css}
+	</style>
+	</head>
+	<body>
+	<div id="root">${html}</div>
+	</body>
+	</html>
+	`;
 
 	const htmlWithInlineStyles = juice(fullHtml);
 	return htmlWithInlineStyles;
@@ -34,6 +33,7 @@ const convertHtmlToInlineStyles = (html: string, css: string): string => {
 
 const renderHtmlServerSide = (element: ReactNode): string => {
 	if (Meteor.isClient) throw new Meteor.Error("O método renderHtmlServerSide não pode ser chamado no lado do cliente.");
+	const theme = getTheme({ darkMode: false, fontScale: 1 });
 	const html = renderToString(
 		<CacheProvider value={cache}>
 			<ThemeProvider theme={theme}>

@@ -1,4 +1,3 @@
-import exampleRouterList from "/imports/modules/example/routes";
 import { RouteType } from "./types/routeType";
 import usersRouterList from "/imports/modules/userprofile/routes/usersRouters";
 import basicPagesRouterList from "/imports/modules/basicPages/routes";
@@ -14,10 +13,6 @@ function addFullPathToRoutes(routes: Array<RouteType>, parentPath = ""): Array<R
 	});
 }
 
-export const sysRoutesList: Array<RouteType> = addFullPathToRoutes([
-	...basicPagesRouterList,
-	...exampleRouterList,
-	...usersRouterList
-]);
+export const sysRoutesList: Array<RouteType> = addFullPathToRoutes([...basicPagesRouterList, ...usersRouterList]);
 
 addFullPathToRoutes(sysRoutesList);
