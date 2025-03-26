@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import Typography, { TypographyProps } from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { sisSizes } from "../../../../../theme/sizes";
+import { sysSizes } from "../../../../../theme/sizes";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -14,8 +14,8 @@ const userCardStyles: IStyles = {
 	container: styled(Box)(({ theme }) => ({
 		"width": "100%",
 		"backgroundColor": theme.palette.background.default,
-		"borderRadius": sisSizes(theme).radius.sm,
-		"padding": sisSizes(theme).spacingFixed.md,
+		"borderRadius": sysSizes.radius.sm,
+		"padding": sysSizes.spacingFixed.md,
 		"boxShadow": theme.shadows[2],
 		"display": "grid",
 		"gap": "0.75rem 1.25rem",
@@ -38,7 +38,7 @@ const userCardStyles: IStyles = {
 		"gridArea": "actions",
 		"display": "flex",
 		"justifyContent": "end",
-		"gap": sisSizes(theme).spacingFixed.md,
+		"gap": sysSizes.spacingFixed.md,
 		"> svg": {
 			cursor: "pointer",
 			color: theme.palette.sysAction?.primaryIcon

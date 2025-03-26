@@ -1,6 +1,6 @@
 import { ElementType } from "react";
 import { Box, BoxProps, IconButton, IconButtonProps, styled } from "@mui/material";
-import { sisSizes } from "../../../../../theme/sizes";
+import { sysSizes } from "../../../../../theme/sizes";
 
 interface ISysAppBarStyles {
 	wrapper: ElementType<BoxProps>;
@@ -25,18 +25,18 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		flexShrink: 0,
 		alignItems: "center",
 		justifyContent: "space-between",
-		maxWidth: sisSizes(theme).maxDisplayWidth,
-		padding: `${sisSizes(theme).spacingFixed.sm} ${sisSizes(theme).content.px}`,
+		maxWidth: sysSizes.maxDisplayWidth,
+		padding: `${sysSizes.spacingFixed.sm} ${sysSizes.content.px}`,
 		transition: "padding 0.3s ease",
-		[theme.breakpoints.down("sm")]: { padding: sisSizes(theme).spacingFixed.sm }
+		[theme.breakpoints.down("sm")]: { padding: sysSizes.spacingFixed.sm }
 	})),
 	navContainerDesktop: styled(Box)(({ theme }) => ({
 		flex: 1,
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "flex-end",
-		gap: sisSizes(theme).spacingRem.md,
-		paddingRight: sisSizes(theme).spacingFixed.md,
+		gap: sysSizes.spacingRem.md,
+		paddingRight: sysSizes.spacingFixed.md,
 		[theme.breakpoints.down("md")]: { display: "none" }
 	})),
 	navContainerMobile: styled(Box)(({ theme }) => ({
@@ -44,7 +44,7 @@ const SysAppBarStyles: ISysAppBarStyles = {
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "flex-end",
-		paddingRight: sisSizes(theme).spacingFixed.md,
+		paddingRight: sysSizes.spacingFixed.md,
 		[theme.breakpoints.down("md")]: { display: "flex" }
 	})),
 	iconButton: styled(IconButton)(({ theme }) => ({

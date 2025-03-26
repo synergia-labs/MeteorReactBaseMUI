@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@mui/material/styles/styled";
 import Box, { BoxProps } from "@mui/material/Box";
 import { FilesViewType } from "../acceptableTypes";
-import { sisSizes } from "../../../../theme/sizes";
+import { sysSizes } from "../../../../theme/sizes";
 
 interface ISysUploadFileStyle {
 	container: React.ComponentType<ICardStyle>;
@@ -13,7 +13,7 @@ interface ICardStyle extends BoxProps {
 }
 
 const SysUploadFileStyle: ISysUploadFileStyle = {
-	container: styled(Box)<ICardStyle>(({ typeview, ismultiple, theme }) => ({
+	container: styled(Box)<ICardStyle>(({ typeview, ismultiple }) => ({
 		width: "100%",
 		...(ismultiple == "true"
 			? {
@@ -27,8 +27,8 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 					display: "flex",
 					justifyContent: "center"
 				}),
-		gap: sisSizes(theme).spacingRem.xs,
-		padding: sisSizes(theme).spacingRem.xs,
+		gap: sysSizes.spacingRem.xs,
+		padding: sysSizes.spacingRem.xs,
 		...(ismultiple === "true" ? { minHeight: "100px" } : {})
 	}))
 };

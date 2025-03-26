@@ -11,7 +11,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { hasValue } from "../../../libs/hasValue";
 import { ISysFormComponentRef } from "../../sysForm/typings";
 import { SysViewField } from "../sysViewField/sysViewField";
-import { sisSizes } from "../../../theme/sizes";
+import { sysSizes } from "../../../theme/sizes";
 
 interface ISysCheckBox extends SysFormComponentType<CheckboxProps> {
 	/** Estilo do componente.*/
@@ -125,8 +125,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				showTooltip={showTooltip}
 				tooltipMessage={tooltipMessage}
 				tooltipPosition={tooltipPosition}>
-				<FormGroup
-					sx={{ flexDirection: childrenAlignment, gap: (theme) => sisSizes(theme).spacingRem.md, ...sxMap?.formGroup }}>
+				<FormGroup sx={{ flexDirection: childrenAlignment, gap: sysSizes.spacingRem.md, ...sxMap?.formGroup }}>
 					{optionsState?.map((opt) => (
 						<FormControlLabel
 							key={opt.value}

@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { styled } from "@mui/material/styles";
 import Box, { BoxProps } from "@mui/material/Box";
-import { sisSizes } from "../../../../../theme/sizes";
+import { sysSizes } from "../../../../../theme/sizes";
 import SysSectionPaddingXY from "/imports/components/layoutComponents/sectionPaddingXY";
 
 interface ISysFormPlaygroundStyles {
@@ -17,40 +17,40 @@ interface ISysFormPlaygroundStyles {
 }
 
 const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
-	Container: styled(SysSectionPaddingXY)(({ theme }) => ({
-		gap: sisSizes(theme).spacingFixed.md,
+	Container: styled(SysSectionPaddingXY)(() => ({
+		gap: sysSizes.spacingFixed.md,
 		display: "flex",
 		flexDirection: "column"
 	})),
-	Description: styled(Box)(({ theme }) => ({
+	Description: styled(Box)(() => ({
 		textAlign: "justify",
 		display: "flex",
 		flexDirection: "column",
-		gap: sisSizes(theme).spacingFixed.sm
+		gap: sysSizes.spacingFixed.sm
 	})),
 	Playground: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "row",
 		gap: "32px 64px",
-		marginTop: sisSizes(theme).spacingFixed.lg,
+		marginTop: sysSizes.spacingFixed.lg,
 		[theme.breakpoints.down("md")]: {
 			flexDirection: "column-reverse"
 		}
 	})),
-	FormContainer: styled(Box)(({ theme }) => ({
+	FormContainer: styled(Box)(() => ({
 		flex: 1,
 		display: "flex",
 		flexDirection: "column",
-		gap: sisSizes(theme).spacingFixed.md,
+		gap: sysSizes.spacingFixed.md,
 		height: "fit-content"
 	})),
 	ControlerContainer: styled(Box)(({ theme }) => ({
 		flex: 1,
 		display: "flex",
 		flexDirection: "column",
-		gap: sisSizes(theme).spacingFixed.lg,
-		borderRadius: sisSizes(theme).radius.sm,
-		padding: sisSizes(theme).spacingFixed.md,
+		gap: sysSizes.spacingFixed.lg,
+		borderRadius: sysSizes.radius.sm,
+		padding: sysSizes.spacingFixed.md,
 		backgroundColor: theme.palette.sysAction?.primaryBgHover,
 		height: "fit-content"
 	})),
@@ -59,30 +59,30 @@ const SysFormPlaygroundStyles: ISysFormPlaygroundStyles = {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		backgroundColor: theme.palette.sysBackground?.default,
-		borderRadius: sisSizes(theme).radius.sm,
+		borderRadius: sysSizes.radius.sm,
 		minHeight: "157px",
 		maxHeight: "350px",
-		padding: sisSizes(theme).spacingFixed.md
+		padding: sysSizes.spacingFixed.md
 	})),
-	ButtonContainer: styled(Box)(({ theme }) => ({
+	ButtonContainer: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "row",
 		flexWrap: "wrap",
 		justifyContent: "flex-start",
-		rowGap: sisSizes(theme).spacingRem.md,
-		columnGap: sisSizes(theme).spacingRem.md
+		rowGap: sysSizes.spacingRem.md,
+		columnGap: sysSizes.spacingRem.md
 	})),
-	RowElement: styled(Box)(({ theme }) => ({
+	RowElement: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "row",
-		gap: sisSizes(theme).spacingFixed.md,
+		gap: sysSizes.spacingFixed.md,
 		alignItems: "start"
 	})),
 	SchemaContainer: styled(Box)(({ theme }) => ({
 		display: "flex",
 		flexDirection: "column",
-		borderRadius: sisSizes(theme).radius.sm,
-		padding: sisSizes(theme).spacingFixed.md,
+		borderRadius: sysSizes.radius.sm,
+		padding: sysSizes.spacingFixed.md,
 		backgroundColor: theme.palette.sysBackground?.default,
 		border: `1px solid ${theme.palette.divider}`,
 		overflow: "auto"

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Components, Theme } from "@mui/material";
 import { sysShadows } from "./shadows";
-import { sisSizes } from "./sizes";
+import { sysSizes } from "./sizes";
 
 const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => ({
 	MuiAutocomplete: {
@@ -16,7 +16,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 			},
 			endAdornment: {
 				top: "unset",
-				right: sisSizes(theme).spacingRem.sm
+				right: sysSizes.spacingRem.sm
 			},
 			inputRoot: {
 				padding: ".3125rem 0.75rem"
@@ -43,7 +43,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 		},
 		styleOverrides: {
 			root: {
-				"borderRadius": sisSizes(theme).radius.sm,
+				"borderRadius": sysSizes.radius.sm,
 				"margin": 0,
 				"textTransform": "none",
 				"&:focus": {
@@ -101,34 +101,34 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 				}
 			},
 			sizeMedium: {
-				padding: `${sisSizes(theme).components.buttonMediumPy} ${sisSizes(theme).components.buttonMediumPx}`,
-				minHeight: sisSizes(theme).components.buttonMediumMinHeight,
+				padding: `${sysSizes.components.buttonMediumPy} ${sysSizes.components.buttonMediumPx}`,
+				minHeight: sysSizes.components.buttonMediumMinHeight,
 				lineHeight: `calc(${1.5 * fontScale}rem)`
 			},
 			sizeSmall: {
-				padding: `${sisSizes(theme).components.buttonSmallPy} ${sisSizes(theme).components.buttonSmallPx}`,
-				minHeight: sisSizes(theme).components.buttonSmallMinHeight,
+				padding: `${sysSizes.components.buttonSmallPy} ${sysSizes.components.buttonSmallPx}`,
+				minHeight: sysSizes.components.buttonSmallMinHeight,
 				...theme.typography.button2,
 				lineHeight: `calc(${1.125 * fontScale}rem)`
 			},
 			startIcon: {
 				margin: 0,
-				marginRight: sisSizes(theme).components.buttonGap,
+				marginRight: sysSizes.components.buttonGap,
 				padding: 0
 			},
 			endIcon: {
 				margin: 0,
-				marginLeft: sisSizes(theme).components.buttonGap,
+				marginLeft: sysSizes.components.buttonGap,
 				padding: 0
 			},
 			iconSizeSmall: {
 				"& .MuiSvgIcon-root": {
-					fontSize: sisSizes(theme).components.iconSizeSmall
+					fontSize: sysSizes.components.iconSizeSmall
 				}
 			},
 			iconSizeMedium: {
 				"& .MuiSvgIcon-root": {
-					fontSize: sisSizes(theme).components.iconSize
+					fontSize: sysSizes.components.iconSize
 				}
 			}
 		}
@@ -167,7 +167,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 		},
 		styleOverrides: {
 			root: {
-				"gap": sisSizes(theme).components.buttonGap,
+				"gap": sysSizes.components.buttonGap,
 				"textTransform": "none",
 				"boxShadow": sysShadows.shadow6,
 				"&.Mui-disabled": {
@@ -191,13 +191,13 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 				}
 			},
 			sizeMedium: {
-				padding: `${sisSizes(theme).components.buttonMediumPy} ${sisSizes(theme).components.buttonMediumPx}`,
-				minHeight: sisSizes(theme).components.buttonMediumMinHeight,
+				padding: `${sysSizes.components.buttonMediumPy} ${sysSizes.components.buttonMediumPx}`,
+				minHeight: sysSizes.components.buttonMediumMinHeight,
 				lineHeight: `calc(${1.5 * fontScale}rem)`
 			},
 			sizeSmall: {
-				padding: `${sisSizes(theme).components.buttonSmallPy} ${sisSizes(theme).components.buttonSmallPx}`,
-				minHeight: sisSizes(theme).components.buttonSmallMinHeight,
+				padding: `${sysSizes.components.buttonSmallPy} ${sysSizes.components.buttonSmallPx}`,
+				minHeight: sysSizes.components.buttonSmallMinHeight,
 				...theme.typography.button2,
 				lineHeight: `calc(${1.125 * fontScale}rem)`
 			}
@@ -211,11 +211,11 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 		},
 		styleOverrides: {
 			root: {
-				"padding": `${sisSizes(theme).components.inputPy} ${sisSizes(theme).components.inputPx}`,
-				"gap": sisSizes(theme).components.inputGap,
+				"padding": `${sysSizes.components.inputPy} ${sysSizes.components.inputPx}`,
+				"gap": sysSizes.components.inputGap,
 				"backgroundColor": theme.palette.sysBackground?.default,
 				"color": theme.palette.sysText?.body,
-				"borderRadius": sisSizes(theme).radius.sm,
+				"borderRadius": sysSizes.radius.sm,
 				"border": `1px solid ${theme.palette.divider}`,
 				"transition": "all 150ms linear",
 				"& .MuiSvgIcon-root": {
@@ -256,7 +256,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 			input: {
 				"color": theme.palette.sysText?.body,
 				"padding": 0,
-				"height": sisSizes(theme).components.iconSize,
+				"height": sysSizes.components.iconSize,
 				"&.Mui-disabled": {
 					color: theme.palette.sysText?.disabled,
 					WebkitTextFillColor: theme.palette.sysText?.disabled
@@ -295,7 +295,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 		},
 		styleOverrides: {
 			root: {
-				"padding": sisSizes(theme).spacingRem.xs,
+				"padding": sysSizes.spacingRem.xs,
 				"&.Mui-disabled": {
 					color: theme.palette.sysAction?.disabled
 				}
@@ -336,12 +336,12 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 	MuiMenu: {
 		styleOverrides: {
 			paper: {
-				borderRadius: sisSizes(theme).radius.md,
+				borderRadius: sysSizes.radius.md,
 				boxShadow: sysShadows.shadow6
 			},
 			list: {
-				padding: `${sisSizes(theme).spacingFixed.md} 0`,
-				gap: sisSizes(theme).spacingFixed.md
+				padding: `${sysSizes.spacingFixed.md} 0`,
+				gap: sysSizes.spacingFixed.md
 			}
 		}
 	},
@@ -349,9 +349,9 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 	MuiMenuItem: {
 		styleOverrides: {
 			root: {
-				"padding": `${sisSizes(theme).spacingRem.sm} ${sisSizes(theme).spacingFixed.lg}`,
+				"padding": `${sysSizes.spacingRem.sm} ${sysSizes.spacingFixed.lg}`,
 				"color": theme.palette.sysText?.body,
-				"gap": `${sisSizes(theme).spacingRem.sm}`,
+				"gap": `${sysSizes.spacingRem.sm}`,
 				"width": "100%",
 				"transition": "all 150ms linear",
 				"&:hover, &:focus, &:focus-visible": {
@@ -411,13 +411,13 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 			},
 			select: {
 				"width": "100%",
-				"padding": `${sisSizes(theme).components.inputPy} ${sisSizes(theme).components.inputPx}`,
-				"height": sisSizes(theme).components.iconSize,
+				"padding": `${sysSizes.components.inputPy} ${sysSizes.components.inputPx}`,
+				"height": sysSizes.components.iconSize,
 				"transition": "all 150ms linear",
 				"&:focus": {
 					backgroundColor: theme.palette.sysBackground?.bg1,
 					transition: "all 150ms linear",
-					borderRadius: sisSizes(theme).radius.sm
+					borderRadius: sysSizes.radius.sm
 				},
 				...theme.typography.body1
 			}
@@ -510,7 +510,7 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 			root: {
 				"textColor": theme.palette.sysText?.body,
 				"textTransform": "none",
-				"padding": `${sisSizes(theme).radius.sm} ${sisSizes(theme).radius.lg}`,
+				"padding": `${sysSizes.radius.sm} ${sysSizes.radius.lg}`,
 				"minHeight": 0,
 				"lineHeight": "normal",
 				"transition": "all 150ms linear",
@@ -587,8 +587,8 @@ const getSysComponentsStyles = (theme: Theme, fontScale: number): Components => 
 			tooltip: {
 				backgroundColor: theme.palette.sysAction?.auxiliary,
 				color: theme.palette.sysText?.base,
-				borderRadius: sisSizes(theme).radius.xs,
-				padding: `${sisSizes(theme).spacingRem.xs} ${sisSizes(theme).spacingRem.sm}`,
+				borderRadius: sysSizes.radius.xs,
+				padding: `${sysSizes.spacingRem.xs} ${sysSizes.spacingRem.sm}`,
 				...theme.typography.caption
 			}
 		}

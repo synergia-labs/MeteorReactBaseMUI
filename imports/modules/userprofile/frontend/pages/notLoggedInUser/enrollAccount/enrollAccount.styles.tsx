@@ -1,7 +1,7 @@
 import React, { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
-import { sisSizes } from "../../../../../../theme/sizes";
+import { sysSizes } from "../../../../../../theme/sizes";
 
 interface IStyles {
 	container: ElementType<BoxProps>;
@@ -10,8 +10,8 @@ interface IStyles {
 }
 
 const enrollAccountStyle: IStyles = {
-	container: styled(Box)(({ theme }) => ({
-		gap: sisSizes(theme).spacingFixed.xl,
+	container: styled(Box)(() => ({
+		gap: sysSizes.spacingFixed.xl,
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -24,11 +24,11 @@ const enrollAccountStyle: IStyles = {
 		width: "100%",
 		gap: theme.spacing(2)
 	})),
-	footer: styled(Box)(({ theme }) => ({
+	footer: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
-		gap: sisSizes(theme).spacingFixed.md,
+		gap: sysSizes.spacingFixed.md,
 		justifyContent: "space-between"
 	}))
 };

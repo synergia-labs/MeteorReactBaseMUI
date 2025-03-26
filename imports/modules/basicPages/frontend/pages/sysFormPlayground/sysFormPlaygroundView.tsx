@@ -19,7 +19,7 @@ import { SysRadioButton } from "../../../../../components/sysFormFields/sysRadio
 import { SysCheckBox } from "../../../../../components/sysFormFields/sysCheckBoxField/sysCheckBoxField";
 import { SysDatePickerField } from "../../../../../components/sysFormFields/sysDatePickerField/sysDatePickerField";
 import { SysLocationField } from "../../../../../components/sysFormFields/sysLocationField/sysLocationField";
-import { sisSizes } from "../../../../../theme/sizes";
+import { sysSizes } from "../../../../../theme/sizes";
 
 const SysFormPlaygroundView: React.FC = () => {
 	const controller = useContext(SysFormPlaygroundContext);
@@ -96,7 +96,7 @@ const SysFormPlaygroundView: React.FC = () => {
 			</Description>
 
 			<Typography variant="h5">Playground</Typography>
-			<Box sx={{ display: "flex", flexDirection: "column", gap: (theme) => sisSizes(theme).spacingFixed.lg }}>
+			<Box sx={{ display: "flex", flexDirection: "column", gap: sysSizes.spacingFixed.lg }}>
 				<Typography variant="subtitle1">schema</Typography>
 				<SchemaContainer>
 					<SyntaxHighlighter language="typescript" style={transparentTheme}>

@@ -1,6 +1,3 @@
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { Theme } from "@mui/material";
-
 type MediaQueriesType = "xs" | "sm" | "md" | "lg";
 
 interface IRadius {
@@ -139,49 +136,6 @@ const content = createUniformSizes<IContent>({
 	pb: baseFixedSizes[4]
 });
 
-function useMediaQueryBreakpoint(theme?: Theme): MediaQueriesType {
-	if (!theme) throw new Error("Theme is not defined");
-	const matchesLg = useMediaQuery(theme.breakpoints.up("lg"));
-	const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
-	const matchesSm = useMediaQuery(theme.breakpoints.up("sm"));
-
-	if (matchesLg) return "lg";
-	if (matchesMd) return "md";
-	if (matchesSm) return "sm";
-	return "xs";
-}
-
-function sisSizes(theme?: Theme): ISysSizes {
-	try {
-		const mediaQuery = useMediaQueryBreakpoint(theme);
-		return {
-			radius: radius[mediaQuery],
-			spacingRem: spacingRem[mediaQuery],
-			spacingFixed: spacingFixed[mediaQuery],
-			components: components[mediaQuery],
-			content: content[mediaQuery],
-			base: {
-				rem: baseRemSizes,
-				fixed: baseFixedSizes
-			},
-			maxDisplayWidth: "1920px"
-		};
-	} catch (e) {
-		return {
-			radius: radius.lg,
-			spacingRem: spacingRem.lg,
-			spacingFixed: spacingFixed.lg,
-			components: components.lg,
-			content: content.lg,
-			base: {
-				rem: baseRemSizes,
-				fixed: baseFixedSizes
-			},
-			maxDisplayWidth: "1920px"
-		};
-	}
-}
-
 const sysSizes = {
 	radius: radius.lg,
 	spacingRem: spacingRem.lg,
@@ -195,4 +149,4 @@ const sysSizes = {
 	maxDisplayWidth: "1920px"
 };
 
-export { useMediaQueryBreakpoint, sisSizes, ISysSizes, sysSizes };
+export { ISysSizes, sysSizes };

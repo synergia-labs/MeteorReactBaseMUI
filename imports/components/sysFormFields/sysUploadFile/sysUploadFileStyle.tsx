@@ -4,7 +4,7 @@ import styled from "@mui/material/styles/styled";
 import Box, { BoxProps } from "@mui/material/Box";
 import Button, { ButtonProps } from "@mui/material/Button";
 import Typography, { TypographyProps } from "@mui/material/Typography";
-import { sisSizes } from "../../../theme/sizes";
+import { sysSizes } from "../../../theme/sizes";
 
 interface ISysUploadFileStyle {
 	container: React.ComponentType<BoxProps>;
@@ -15,13 +15,13 @@ interface ISysUploadFileStyle {
 }
 
 const SysUploadFileStyle: ISysUploadFileStyle = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "column",
 		width: "100%",
 		minWidth: "279px",
-		padding: sisSizes(theme).spacingRem.md,
-		gap: sisSizes(theme).spacingFixed.sm
+		padding: sysSizes.spacingRem.md,
+		gap: sysSizes.spacingFixed.sm
 	})),
 	loadingContainer: styled(Box)(() => ({
 		position: "absolute",
@@ -38,10 +38,10 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 		"height": "96px",
 		"display": "flex",
 		"flexDirection": "column",
-		"gap": sisSizes(theme).spacingFixed.sm,
+		"gap": sysSizes.spacingFixed.sm,
 		"alignItems": "center",
 		"justifyContent": "center",
-		"borderRadius": sisSizes(theme).radius.xs,
+		"borderRadius": sysSizes.radius.xs,
 		"border": `1px dashed ${theme.palette.divider}`,
 		"cursor": "pointer",
 		"&: hover": {
@@ -59,7 +59,7 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 		color: theme.palette.primary.dark,
 		display: "flex",
 		alignItems: "center",
-		gap: sisSizes(theme).components.buttonGap
+		gap: sysSizes.components.buttonGap
 	}))
 };
 

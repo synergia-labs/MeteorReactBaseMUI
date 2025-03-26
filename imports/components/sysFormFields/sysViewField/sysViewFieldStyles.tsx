@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { sisSizes } from "../../../theme/sizes";
+import { sysSizes } from "../../../theme/sizes";
 
 interface IInfo {
 	type: "label" | "placeholder";
@@ -9,10 +9,10 @@ interface IInfo {
 }
 
 export const SysViewFieldStyle = {
-	Container: styled(Box)(({ theme }) => ({
+	Container: styled(Box)(() => ({
 		display: "flex",
 		flexDirection: "column",
-		gap: sisSizes(theme).spacingFixed.xs
+		gap: sysSizes.spacingFixed.xs
 	})),
 
 	Info: styled(Typography)<IInfo>(({ theme, type, disabled }) => ({

@@ -12,7 +12,7 @@ import { AppRouterSwitch } from "../../routes/components/appRouterSwitch";
 import Styles from "./showDialogStyles";
 import { Button, ButtonProps } from "@mui/material";
 import IAppComponents from "/imports/types/appCompontent";
-import { sisSizes } from "../../../theme/sizes";
+import { sysSizes } from "../../../theme/sizes";
 
 export interface IShowDialogProps extends IAppComponents, Omit<DialogProps, "open" | "title"> {
 	open?: boolean;
@@ -96,7 +96,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 			open={open ?? false}
 			onClose={closeDialog}
 			TransitionComponent={DialogTransitions(transition ?? "zoom")}
-			PaperProps={dialogProps.PaperProps ?? { sx: { borderRadius: sisSizes().radius.lg, ...sx } }}
+			PaperProps={dialogProps.PaperProps ?? { sx: { borderRadius: sysSizes.radius.lg, ...sx } }}
 			sx={backgroundSx}
 			fullScreen={fullScreen || (!!fullScreenMediaQuery && isFullScreen)}>
 			{urlPath ? (

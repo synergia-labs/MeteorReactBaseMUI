@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import styled from "@mui/material/styles/styled";
-import { sisSizes } from "../../../../theme/sizes";
+import { sysSizes } from "../../../../theme/sizes";
 
 interface ITemplateAppBarStyles {
 	container: ElementType<BoxProps>;
@@ -35,7 +35,7 @@ const TemplateAppBarStyles: ITemplateAppBarStyles = {
 		justifyContent: "flex-start",
 		alignItems: "flex-start",
 		flex: 1,
-		maxWidth: sisSizes().maxDisplayWidth
+		maxWidth: sysSizes.maxDisplayWidth
 	})
 };
 

@@ -6,7 +6,7 @@ import Typography, { TypographyProps } from "@mui/material/Typography";
 import { SvgIconProps } from "@mui/material";
 import { FilesViewType } from "../../acceptableTypes";
 import SysIcon from "../../../../sysIcon/sysIcon";
-import { sisSizes } from "../../../../../theme/sizes";
+import { sysSizes } from "../../../../../theme/sizes";
 
 interface ISysUploadFileStyle {
 	withIcons: {
@@ -46,11 +46,11 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 		alignContent: "center",
 		justifyItems: "center",
 		alignItems: "center",
-		gap: sisSizes(theme).spacingRem.md,
-		padding: sisSizes(theme).spacingRem.md,
+		gap: sysSizes.spacingRem.md,
+		padding: sysSizes.spacingRem.md,
 		backgroundColor: theme.palette.background.default,
 		border: `1px solid ${theme.palette.divider}`,
-		borderRadius: sisSizes(theme).radius.sm,
+		borderRadius: sysSizes.radius.sm,
 		position: "relative"
 	})),
 
@@ -99,10 +99,10 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 			background: theme.palette.sysBackground?.bg1
 		})),
 
-		cardInfo: styled(Box)<ICardStyle>(({ typeview, theme }) => ({
+		cardInfo: styled(Box)<ICardStyle>(({ typeview }) => ({
 			display: "block",
 			width: "100%",
-			gap: sisSizes(theme).spacingRem.xs,
+			gap: sysSizes.spacingRem.xs,
 			marginTop: typeview == "column" ? "0" : "10px",
 			marginRight: typeview == "column" ? "25px" : "0"
 		})),
@@ -117,7 +117,7 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 			position: "relative",
 			width: "300px",
 			height: canedit == "true" ? "210px" : "169px",
-			borderRadius: sisSizes(theme).radius.sm,
+			borderRadius: sysSizes.radius.sm,
 			border: `1px solid ${theme.palette.divider}`,
 			backgroundColor: theme.palette.sysAction?.primaryHover,
 			backgroundImage: `url(${url})`,
@@ -129,7 +129,7 @@ const SysUploadFileStyle: ISysUploadFileStyle = {
 		body: styled(Box)(({ theme }) => ({
 			display: "flex",
 			height: "42px",
-			padding: sisSizes(theme).components.buttonSmallPy,
+			padding: sysSizes.components.buttonSmallPy,
 			width: "100%",
 			backgroundColor: theme.palette.sysBackground?.default,
 			justifyContent: "center",

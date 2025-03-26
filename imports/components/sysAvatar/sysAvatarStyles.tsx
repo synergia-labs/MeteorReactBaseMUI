@@ -2,7 +2,7 @@ import React, { ElementType } from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import styled from "@mui/material/styles/styled";
 import Avatar, { AvatarProps } from "@mui/material/Avatar";
-import { sisSizes } from "../../theme/sizes";
+import { sysSizes } from "../../theme/sizes";
 
 interface IContainer extends BoxProps {
 	cursorPointer?: boolean;
@@ -20,27 +20,27 @@ const SysAvatarStyles: ISysAvatarStyles = {
 	})<IContainer>(({ theme, cursorPointer, size, activateOutline }) => ({
 		"width":
 			size === "small"
-				? sisSizes(theme).components.buttonSmallMinHeight
+				? sysSizes.components.buttonSmallMinHeight
 				: size === "medium"
-					? sisSizes(theme).spacingRem.xl
-					: sisSizes(theme).components.buttonMediumMinHeight,
+					? sysSizes.spacingRem.xl
+					: sysSizes.components.buttonMediumMinHeight,
 		"height":
 			size === "small"
-				? sisSizes(theme).components.buttonSmallMinHeight
+				? sysSizes.components.buttonSmallMinHeight
 				: size === "medium"
-					? sisSizes(theme).spacingRem.xl
-					: sisSizes(theme).components.buttonMediumMinHeight,
+					? sysSizes.spacingRem.xl
+					: sysSizes.components.buttonMediumMinHeight,
 		"borderRadius": "50%",
 		"border": !activateOutline ? "none" : `2px solid ${theme?.palette.common.white}`,
 		"display": "flex",
 		"overflow": "hidden",
 		"alignItems": "center",
 		"justifyContent": "center",
-		"padding": !activateOutline ? "none" : sisSizes(theme).spacingFixed.xs,
+		"padding": !activateOutline ? "none" : sysSizes.spacingFixed.xs,
 		"cursor": cursorPointer ? "pointer" : "inherit",
 		"flexShrink": 0,
-		"minWidth": activateOutline ? sisSizes(theme).components.buttonMediumMinHeight : "auto",
-		"minHeight": activateOutline ? sisSizes(theme).components.buttonMediumMinHeight : "auto",
+		"minWidth": activateOutline ? sysSizes.components.buttonMediumMinHeight : "auto",
+		"minHeight": activateOutline ? sysSizes.components.buttonMediumMinHeight : "auto",
 		"& .MuiAvatar-root": {
 			margin: 0
 		}
