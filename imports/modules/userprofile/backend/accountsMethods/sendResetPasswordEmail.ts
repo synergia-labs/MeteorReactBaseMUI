@@ -4,11 +4,12 @@ import { IContext } from "../../../../types/context";
 import enumUserRoles from "../../common/enums/enumUserRoles";
 import { hasValue } from "/imports/libs/hasValue";
 import { UsersServer } from "../server";
+import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
 
 class SendResetPasswordEmail extends MethodBase<UsersServer, string, void> {
 	constructor() {
 		super({
-			name: "accounts.sendResetPasswordEmail",
+			name: enumUserProfileRegisterMethods.sendResetPasswordEmail,
 			paramSch: z.string().email(),
 			returnSch: z.void(),
 			roles: [enumUserRoles.PUBLIC]

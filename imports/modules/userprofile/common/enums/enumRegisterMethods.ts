@@ -5,7 +5,8 @@ const getName = (name: string): string => `${EnumUserProfileSettings.MODULE_NAME
 const enumUserProfileRegisterMethods = {
 	checkIfHasAdminUser: getName("checkIfHasAdminUser"),
 	create: getName("create"),
-	getUserPhoto: getName("getUserPhoto")
+	getUserPhoto: getName("getUserPhoto"),
+	sendResetPasswordEmail: getName("sendResetPasswordEmail")
 } as const;
 
 const enumUserProfileRegisterPrivateMethods = {} as const;

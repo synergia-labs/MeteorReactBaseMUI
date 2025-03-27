@@ -79,7 +79,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				fieldsWithOptions: fieldsWithOptions
 			});
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 		}
 	}, []);
 
@@ -112,7 +112,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 					mapperSysForm: mapperSysForm
 				};
 			} catch (error: any) {
-				__onFailure(error);
+				_onFailure(error);
 			}
 		},
 		[]
@@ -127,7 +127,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 		try {
 			refButton.current = button;
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 		}
 	}, []);
 
@@ -156,7 +156,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 
 				onChange?.(newDoc);
 			} catch (error: any) {
-				__onFailure(error);
+				_onFailure(error);
 			}
 		},
 		[onChange]
@@ -177,7 +177,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				refComponent.current.setVisible?.(isVisible);
 			}
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 		}
 	}, []);
 
@@ -192,7 +192,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 			}
 			return true;
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 			return false;
 		}
 	}, []);
@@ -220,7 +220,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				delete fieldsWithErrors.current[componentRef.current.name];
 			}
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 		}
 	}, []);
 
@@ -241,7 +241,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				refComponent.current.clearValue?.();
 			}
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 		}
 	}, []);
 
@@ -254,7 +254,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				fieldsWithErrors
 			});
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 			throw error;
 		}
 	}, []);
@@ -266,7 +266,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 			const fieldsFilled = checkIfAllRequiredFieldsAreFilled();
 			refButton.current?.current?.setDisabled?.(!fieldsFilled);
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 			throw error;
 		}
 	}, []);
@@ -281,7 +281,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 			}
 			onSubmit?.(newDoc);
 		} catch (error: any) {
-			__onFailure(error);
+			_onFailure(error);
 			throw error;
 		}
 	}, []);
@@ -304,7 +304,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				try {
 					return SysFormMethods.getRefComponentByName(refComponents.current, name);
 				} catch (error: any) {
-					__onFailure(error);
+					_onFailure(error);
 					return { current: {} as ISysFormComponentRef };
 				}
 			},
@@ -313,7 +313,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				try {
 					return checkIfErrorExists(SysFormMethods.getRefComponentByName(refComponents.current, name));
 				} catch (error: any) {
-					__onFailure(error);
+					_onFailure(error);
 					throw error;
 				}
 			},
@@ -326,7 +326,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 						name
 					);
 				} catch (error: any) {
-					__onFailure(error);
+					_onFailure(error);
 					return true;
 				}
 			}
