@@ -1,10 +1,10 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 import AuthContext, { IAuthContext } from "/imports/app/authProvider/authContext";
-import usersApi from "../../api/api";
 import { CreateUserType } from "../../../common/types/createUser";
 import Context, { INotLoggedInUserContext } from "./notLoggedInUser.context";
 import { useNavigate } from "react-router-dom";
+import usersApi from "../../api";
 
 interface INotLoggedInUserContainerProps {
 	children?: ReactNode;

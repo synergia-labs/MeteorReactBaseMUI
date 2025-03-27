@@ -1,10 +1,10 @@
-import ApiBase from "../../../../base/api/api.base";
 import { Mongo } from "meteor/mongo";
-import enumUserProfileRegisterMethods from "../../common/enums/enumRegisterMethods";
-import enumUsersRegisterPublications from "../../common/enums/enumRegisterPublications";
 import { Meteor } from "meteor/meteor";
-import { UsersApiMethodsType } from "../../common/interfaces/methods";
-import IUsersApiPublication from "../../common/interfaces/publications";
+import enumUserProfileRegisterMethods from "../common/enums/enumRegisterMethods";
+import enumUsersRegisterPublications from "../common/enums/enumRegisterPublications";
+import ApiBase from "/imports/base/api/api.base";
+import { UsersApiMethodsType } from "../common/interfaces/methods";
+import IUsersApiPublication from "../common/interfaces/publications";
 
 class UsersApi extends ApiBase {
 	public mongoInstance: Mongo.Collection<Meteor.User>;

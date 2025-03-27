@@ -5,7 +5,7 @@ import { IOption } from "../../../../../components/InterfaceBaseSimpleFormCompon
 import securityApi from "../../../../../services/security/security.api";
 import AppLayoutContext from "/imports/app/appLayoutProvider/appLayoutContext";
 import { IUserDetailFrontSchema } from "./usersDetail.schema";
-import usersApi from "../../api/api";
+import usersApi from "../../api";
 
 interface IUserDetailModalProps {
 	userId?: string;

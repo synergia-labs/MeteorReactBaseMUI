@@ -13,6 +13,7 @@ import sendResetPasswordInstance from "./accountsMethods/sendResetPasswordEmail"
 import resetUserPasswordInstance from "./accountsMethods/resetUserPassword";
 import { getUsersListPublication } from "./publications/usersList.publication";
 import validateLoginAttemptInstance from "./accountsMethods/validateLoginAttempt";
+import getUserPhotoCallMethodInstance from "./methods/getUserPhoto";
 
 /**Array com as instâncias de todas as classes de método do módulo */
 const _methodInstances: Array<MethodBase<any, any, any>> = [
@@ -23,7 +24,8 @@ const _methodInstances: Array<MethodBase<any, any, any>> = [
 	onLoginInstance,
 	onLogoutInstance,
 	resetUserPasswordInstance,
-	validateLoginAttemptInstance
+	validateLoginAttemptInstance,
+	getUserPhotoCallMethodInstance
 ] as const;
 
 /**Array com as instâncias de todas as classes de publicação do módulo */

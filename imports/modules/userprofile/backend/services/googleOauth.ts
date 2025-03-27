@@ -1,7 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import OAuthBase from "./oAuth.base";
 import { GoogleServiceDataType, googleServiceDataSchema } from "../../common/types/serviceGoogleData";
-import { hasValue } from "/imports/libs/hasValue";
 
 class GoogleOAuth extends OAuthBase<GoogleServiceDataType> {
 	constructor() {
@@ -15,7 +14,7 @@ class GoogleOAuth extends OAuthBase<GoogleServiceDataType> {
 
 	public async onUserMatched(serviceData: GoogleServiceDataType): Promise<Meteor.User | null> {
 		const user = (await Accounts.findUserByEmail(serviceData.email)) as Meteor.User;
-		if (user && serviceData.picture && !hasValue(user.profile?.photo))
+		if (user && serviceData.picture && user.profile?.photo === undefined)
 			await Meteor.users.updateAsync({ _id: user._id }, { $set: { "profile.photo": serviceData.picture } });
 		return user ?? null;
 	}

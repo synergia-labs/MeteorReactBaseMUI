@@ -1,7 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import OAuthBase from "./oAuth.base";
 import { githubServiceDataSchema, ServiceGithubDataType } from "../../common/types/serviceGithubData";
-import { hasValue } from "/imports/libs/hasValue";
 
 class GithubOAuth extends OAuthBase<ServiceGithubDataType> {
 	constructor() {
@@ -15,7 +14,7 @@ class GithubOAuth extends OAuthBase<ServiceGithubDataType> {
 
 	public async onUserMatched(serviceData: ServiceGithubDataType): Promise<Meteor.User | null> {
 		const user = (await Accounts.findUserByEmail(serviceData.email)) as Meteor.User;
-		if (user && serviceData.avatar && !hasValue(user.profile?.photo))
+		if (user && serviceData.avatar && user.profile?.photo === undefined)
 			await Meteor.users.updateAsync({ _id: user._id }, { $set: { "profile.photo": serviceData.avatar } });
 		return user ?? null;
 	}

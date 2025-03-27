@@ -1,6 +1,6 @@
 import { RouteType } from "./types/routeType";
-import usersRouterList from "/imports/modules/userprofile/routes/usersRouters";
 import basicPagesRouterList from "/imports/modules/basicPages/routes";
+import usersRouterList from "/imports/modules/userprofile/usersRouters";
 
 export const sysRoutesListFullPaths: Array<string> = [];
 
