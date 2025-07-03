@@ -35,6 +35,7 @@ abstract class OAuthBase<T> {
 	}
 
 	public getServiceName = (): string => this.serviceName;
+	k;
 	public getClientId = (): string => this.cliendId;
 	public getSecret = (): string => this.secret;
 	public getLoginStyle = (): string => this.loginStyle;
