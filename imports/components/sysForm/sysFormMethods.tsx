@@ -240,11 +240,11 @@ class SysFormMethods {
 		if (hasValue(fieldsWithErrors.current))
 			throw new Error(`
                 Erro nos campos: ${Object.keys(fieldsWithErrors.current)
-									.map((key) => {
-										const path = key.split(".");
-										return path[path.length - 1];
-									})
-									.join(", ")}
+																	.map((key) => {
+																		const path = key.split(".");
+																		return path[path.length - 1];
+																	})
+																	.join(", ")}
             `);
 	};
 

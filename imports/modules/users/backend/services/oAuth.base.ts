@@ -99,10 +99,7 @@ abstract class OAuthBase<T> {
 			this.schema.parse(_serviceData);
 			return await this.onUserMatched(_serviceData, options);
 		} catch (error) {
-			console.error(
-				` Erro ao validar os dados do serviço de autenticação ${this.serviceName}:`,
-				(error as any).message
-			);
+			console.error(` Erro ao validar os dados do serviço de autenticação ${this.serviceName}:`, (error as any).message);
 			return null;
 		}
 	}
