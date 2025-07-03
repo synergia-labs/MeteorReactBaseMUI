@@ -71,9 +71,7 @@ const ProdMappingLegend = forwardRef<IProdMappingLegendHandle, IProdMappingLegen
 									</Styles.oneAutonomyContainer>
 								</Styles.twoAutonomyIndicatorContainer>
 								<Styles.twoAutonomyDescriptionContainer autonomy={autonomy}>
-									<Typography variant="caption1">
-										{commonT(`components.prodMappingLegend.${autonomy}.right`)}
-									</Typography>
+									<Typography variant="caption1">{commonT(`components.prodMappingLegend.${autonomy}.right`)}</Typography>
 								</Styles.twoAutonomyDescriptionContainer>
 							</Styles.twoAutonomyContainer>
 						</Styles.fourAutonomyContainer>

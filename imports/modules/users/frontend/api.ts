@@ -14,11 +14,7 @@ class UsersApi extends ApiBase {
 		this.mongoInstance = Meteor.users;
 	}
 
-	resetForgotPassword = async (
-		token: string,
-		newPassword: string,
-		callback: (error?: Error | Meteor.Error) => void
-	) => {
+	resetForgotPassword = async (token: string, newPassword: string, callback: (error?: Error | Meteor.Error) => void) => {
 		Accounts.resetPassword(token, newPassword, callback);
 	};
 

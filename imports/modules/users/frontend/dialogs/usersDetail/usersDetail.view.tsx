@@ -20,9 +20,7 @@ const UserDetailView: React.FC = () => {
 				<SysLoading sxMap={{ container: { margin: "auto" } }} label="Carregando informações..." />
 			) : (
 				<>
-					<Typography variant="subtitle1">
-						{context.state === "create" ? "Adicionar usuário" : "Editar usuário"}
-					</Typography>
+					<Typography variant="subtitle1">{context.state === "create" ? "Adicionar usuário" : "Editar usuário"}</Typography>
 					<SysForm schema={userDetailFrontSchema} onSubmit={context.onSubmit} loading={context.loadingRequest}>
 						<SysTextField name="name" placeholder="Ex.: José da Silva" />
 						<SysTextField name="email" placeholder="Ex.: jose.silva@email.com" />

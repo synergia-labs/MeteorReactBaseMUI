@@ -80,12 +80,7 @@ export const ProdCardMappingView: React.FC = () => {
 							<Styles.title edit={edit} ref={quillRefs?.title} variant="subtitle1" onChange={onChange.title} />
 						</Styles.titleMultiMappingDimensionNameContainer>
 						<Collapse in={expanded}>
-							<Styles.description
-								edit={edit}
-								ref={quillRefs?.description}
-								variant="body2"
-								onChange={onChange.description}
-							/>
+							<Styles.description edit={edit} ref={quillRefs?.description} variant="body2" onChange={onChange.description} />
 						</Collapse>
 					</Styles.titleMultiMappingContainer>
 					{autonomies.map((autonomy) => (
@@ -169,12 +164,7 @@ export const ProdCardMappingView: React.FC = () => {
 			{!onSimulMapping && (
 				<Collapse in={expanded}>
 					<Styles.contentContainer>
-						<Styles.description
-							edit={edit}
-							ref={quillRefs?.description}
-							variant="body2"
-							onChange={onChange.description}
-						/>
+						<Styles.description edit={edit} ref={quillRefs?.description} variant="body2" onChange={onChange.description} />
 						<Styles.divider />
 						<Styles.dimensionsContainer>
 							{autonomies.map((autonomy) => (
@@ -187,11 +177,7 @@ export const ProdCardMappingView: React.FC = () => {
 										language={language}
 									/>
 									{onIndividualMapping && (
-										<MappingBar
-											mapping={autonomyEnumToMappingEnum(autonomy)}
-											autonomy={globalAutonomy}
-											onClick={onClick}
-										/>
+										<MappingBar mapping={autonomyEnumToMappingEnum(autonomy)} autonomy={globalAutonomy} onClick={onClick} />
 									)}
 								</Styles.dimensionsFragment>
 							))}

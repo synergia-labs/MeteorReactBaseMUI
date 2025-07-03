@@ -38,9 +38,7 @@ function RecursiveMenuItem({
 
 	return (
 		<div onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-			<RenderWithPermission
-				functionalities={item.functionalities ?? []}
-				fallback={<MenuItemT {...item} disable={true} />}>
+			<RenderWithPermission functionalities={item.functionalities ?? []} fallback={<MenuItemT {...item} disable={true} />}>
 				<MenuItemT
 					{...item}
 					onClick={handleClick}

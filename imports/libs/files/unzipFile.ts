@@ -37,7 +37,8 @@ import { deleteFile } from "./deleteFile"; // Assume que deleteFile está no mes
  */
 export function unzipFile(zipPath: string, dest: string): Promise<void> {
 	return new Promise((resolve, reject) => {
-		fs.createReadStream(zipPath)
+		fs
+			.createReadStream(zipPath)
 			.pipe(unzipper.Extract({ path: dest }))
 			.on("close", () => {
 				deleteFile(zipPath);

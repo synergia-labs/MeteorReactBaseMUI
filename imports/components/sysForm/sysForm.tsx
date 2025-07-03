@@ -150,8 +150,7 @@ const SysForm: ForwardRefRenderFunction<ISysFormRef, ISysForm> = (
 				refComponent.current.value = value;
 				if (
 					(!Array.isArray(validateOnChangeRef.current) && validateOnChangeRef.current) ||
-					(Array.isArray(validateOnChangeRef.current) &&
-						validateOnChangeRef.current.includes(refComponent.current.name)) ||
+					(Array.isArray(validateOnChangeRef.current) && validateOnChangeRef.current.includes(refComponent.current.name)) ||
 					hasValue(fieldsWithErrors.current[refComponent.current.name])
 				)
 					checkIfErrorExists(refComponent);

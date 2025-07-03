@@ -125,11 +125,7 @@ export default function SysUploadFileBasic({
 	return (
 		<Box sx={{ position: "relative" }}>
 			<FormControl error={!!errorState}>
-				<SysLabelView
-					label={label}
-					disabled={disabled}
-					sxMap={sxMap}
-					showLabelAdornment={!required && showLabelAdornment}>
+				<SysLabelView label={label} disabled={disabled} sxMap={sxMap} showLabelAdornment={!required && showLabelAdornment}>
 					<Styles.container sx={sxMap?.container}>
 						<Styles.button {...getRootProps()} disabled={disabled} sx={sxMap?.button}>
 							<input {...getInputProps()} />

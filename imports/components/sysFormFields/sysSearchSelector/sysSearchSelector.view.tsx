@@ -213,28 +213,23 @@ export function SysSearchSelector({
 						)}
 						<Collapse in={isListOpen && !disabled} unmountOnExit sx={{ width: "100%" }}>
 							<Style.list.container>
-								{multiple &&
-									typeof multiple != "boolean" &&
-									items?.length > 0 &&
-									!loading &&
-									hasValue(multiple?.label) && (
-										<>
-											<Style.list.header.container>
-												<Style.list.header.text variant="body1">
-													{multiple?.label + " " + selectedItems?.length + "/" + multiple.max}
-												</Style.list.header.text>
-											</Style.list.header.container>
-											<Style.list.divider />
-										</>
-									)}
+								{multiple && typeof multiple != "boolean" && items?.length > 0 && !loading && hasValue(multiple?.label) && (
+									<>
+										<Style.list.header.container>
+											<Style.list.header.text variant="body1">
+												{multiple?.label + " " + selectedItems?.length + "/" + multiple.max}
+											</Style.list.header.text>
+										</Style.list.header.container>
+										<Style.list.divider />
+									</>
+								)}
 								{loading ? (
 									<SysLoading size="medium" withLabel={true} />
 								) : items?.length > 0 ? (
 									<Style.list.body.container>
 										{items.map((item, _) => {
 											const isChecked = selectedItems.some(
-												(selectedItem) =>
-													hasValue(selectedItem) && selectedItem?.[config.valueField] === item?.[config.valueField]
+												(selectedItem) => hasValue(selectedItem) && selectedItem?.[config.valueField] === item?.[config.valueField]
 											);
 											return (
 												<SysSearchSelectorItem
@@ -271,11 +266,7 @@ export function SysSearchSelector({
 					</Style.container>
 					{hasValue(create) && !disabled && (
 						<RenderWithPermission functionalities={create?.functionalities ?? []}>
-							<Style.create.button
-								size="small"
-								startIcon={<Style.create.icon />}
-								variant="text"
-								onClick={create!.function}>
+							<Style.create.button size="small" startIcon={<Style.create.icon />} variant="text" onClick={create!.function}>
 								{create!.label}
 							</Style.create.button>
 						</RenderWithPermission>
