@@ -1,0 +1,119 @@
+{
+	"common": {
+		"components": {
+			"prodCardMapping": {
+				"publish": "Publicar",
+				"published": "Publicado"
+			},
+			"prodMappingLegend": {
+				"low": {
+					"left": "Beginner",
+					"right": "Advanced beginner"
+				},
+				"medium": {
+					"left": "Competent",
+					"right": "Proficient"
+				},
+				"high": {
+					"left": "Expert",
+					"right": "Reference"
+				}
+			}
+		},
+		"config": {
+			"appName": "Tacito"
+		},
+		"errors": {
+			"forbidden": {
+				"message": "Sorry, you are not allowed to access this feature.",
+				"title": "Access denied"
+			},
+			"generic": {
+				"message": "Sorry, something went wrong. Please try again later.",
+				"title": "An unexpected error occurred"
+			},
+			"publishTransformNotImplemented": {
+				"message": "An error occurred when trying to seek the data. \nPlease contact the support.",
+				"title": "Transformation of not implemented publication"
+			},
+			"schemaError": {
+				"message": "The documents are not in accordance with Schema: \n\n{{Schema}}",
+				"title": "Validation error with Schema"
+			},
+			"serverMethodOnClient": {
+				"message": "This action cannot be performed. \nPlease contact the support.",
+				"title": "This method cannot be called on the client"
+			},
+			"serverNotFound": {
+				"message": "Sorry, we couldn't find the server. \nPlease check your internet connection.",
+				"title": "Server not found"
+			},
+			"unregisteredMethod": {
+				"message": "Tried to get server instance from unregistered method.",
+				"title": "Unregistered method."
+			}
+		},
+		"generics": {
+			"action": {
+				"add": "To add",
+				"cancel": "Cancel",
+				"close": "To close",
+				"confirm": "Confirm",
+				"delete": "Delete",
+				"edit": "Edit",
+				"remove": "Remove",
+				"save": "Save",
+				"select": "Select",
+				"loading": "Loading...",
+				"loadMore": "Load more"
+			},
+			"callbacks": {
+				"empty": "No item found"
+			}
+		}
+	},
+	"internationalization": {
+		"components": {
+			"translateItem": {
+				"notSpecified": "Unspecified",
+				"translateTooltip": "Suggest translation"
+			}
+		},
+		"config": {
+			"name": "Internationalization"
+		},
+		"dialogs": {
+			"confirmChanges": {
+				"message": "We detect {{Totalchanges}} Change (ES). \nPlease review everything carefully before continuing export.",
+				"table": {
+					"header": {
+					"after": "After",
+					"before": "Before",
+					"identificator": "Identifier"
+					}
+				},
+				"title": "Confirm changes"
+			}
+		},
+		"languages": {
+			"en": "English",
+			"pt": "Portuguese"
+		},
+		"pages": {
+			"translate": {
+				"empty": "Select a translation file to edit",
+				"exportButtonMessage": "Export changes",
+				"identificator": "Identifier",
+				"searchPlaceholder": "Search by term, phrase or text",
+				"title": "Translation editor"
+			}
+		}
+	},
+	"storage": {
+		"errors": {
+			"videoUploadFailed": {
+				"title": "Error when performing operation"
+			}
+		}
+	}
+}

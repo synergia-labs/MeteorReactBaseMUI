@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { MutableRefObject } from "react";
 import { IDocRef, IDocValues, ISysFormComponentRef } from "./typings";
 import { hasValue } from "../../libs/hasValue";
@@ -29,13 +28,14 @@ class SysFormMethods {
 			if (!name) throw new Error("nome do componente não informado não informado.");
 
 			const path = name.split(".");
-
-			if (path.length === 1) {
-				if (hasValue(mainRef[name])) return mainRef;
+			if (path.length == 0) return mainRef;
+			if (path.length == 1) {
+				const newValue = componentRef.current.value ?? initialDefaultValues?.[name];
+				if (hasValue(mainRef[name]) && newValue == (mainRef[name].current as any)?.value) return mainRef;
 				if (!schema[name]) throw new Error(`${name} não encontrado no schema.`);
 				componentRef.current = {
 					...componentRef.current,
-					value: componentRef.current.value || initialDefaultValues?.[name],
+					value: newValue,
 					isVisible: schema[name].visibilityFunction?.(initialDefaultValues),
 					schema: schema[name],
 					options: schema[name].options?.(initialDefaultValues)
@@ -77,8 +77,8 @@ class SysFormMethods {
 		if (!schema) throw new Error("schema não informado ou incompleto.");
 		for (const key in schema) {
 			const { defaultValue, optional, visibilityFunction, subSchema } = schema[key];
-			if (!subSchema) {
-				const value = doc[key] || defaultValue;
+			if (!hasValue(subSchema)) {
+				const value = doc[key] ?? defaultValue;
 				initialDefaultValues[key] = value;
 				if (!optional) initialRequiredFields.push(key);
 				if (visibilityFunction) fieldsWithVisibilityFunction.push(key);
@@ -87,7 +87,7 @@ class SysFormMethods {
 					initialDefaultValues: subInitialDefaultValues,
 					initialRequiredFields: subInitialRequiredFields,
 					fieldsWithVisibilityFunction: subFieldsWithVisibilityFunction
-				} = SysFormMethods.getInitialParams(subSchema, doc[key] || {});
+				} = SysFormMethods.getInitialParams(subSchema!, doc[key] || {});
 				initialDefaultValues[key] = subInitialDefaultValues;
 				initialRequiredFields.push(...subInitialRequiredFields.map((field) => `${key}.${field}`));
 				fieldsWithVisibilityFunction.push(...subFieldsWithVisibilityFunction.map((field) => `${key}.${field}`));
@@ -169,6 +169,7 @@ class SysFormMethods {
 			if (!doc) return;
 			if (!ref) return;
 			for (const key in schema) {
+				if (!hasValue(doc[key])) continue;
 				const { subSchema } = schema[key];
 				if (subSchema) {
 					SysFormMethods.updateDoc(doc[key] as IDocValues, subSchema, ref[key] as IDocRef);
@@ -188,22 +189,29 @@ class SysFormMethods {
 		schema,
 		doc,
 		requiredFields,
-		fieldsWithErrors
+		fieldsWithErrors,
+		values
 	}: {
 		schema: ISchema<any>;
 		doc: IDocRef;
 		requiredFields: string[];
 		fieldsWithErrors: MutableRefObject<{ [key: string]: string }>;
+		values: IDocValues;
 	}) => {
 		if (!doc) return;
 		for (const key in schema) {
 			const { subSchema } = schema[key];
 			if (subSchema) {
-				SysFormMethods.validate({ schema: subSchema, doc: doc[key] as IDocRef, requiredFields, fieldsWithErrors });
+				SysFormMethods.validate({
+					schema: subSchema,
+					doc: doc[key] as IDocRef,
+					requiredFields,
+					values,
+					fieldsWithErrors
+				});
 				continue;
 			}
-
-			const isVisible = SysFormMethods.checkIfFieldIsVisible(schema, SysFormMethods.getDocValues(doc, schema), key);
+			const isVisible = SysFormMethods.checkIfFieldIsVisible(schema, values, key);
 			if (!isVisible) continue;
 
 			const ref = doc[key] as MutableRefObject<ISysFormComponentRef>;
@@ -216,7 +224,7 @@ class SysFormMethods {
 			if (isOptional && !hasValue(value)) continue;
 
 			const errorMessage =
-				schema[key].validationFunction?.(value, SysFormMethods.getDocValues(doc, schema)) ??
+				schema[key].validationFunction?.(value, values) ??
 				(!isOptional && !hasValue(value) ? "Campo obrigatório." : undefined);
 
 			ref.current.error = errorMessage;
@@ -228,14 +236,15 @@ class SysFormMethods {
 				if (hasValue(fieldsWithErrors.current[ref.current.name])) delete fieldsWithErrors.current[ref.current.name];
 			}
 		}
+
 		if (hasValue(fieldsWithErrors.current))
 			throw new Error(`
                 Erro nos campos: ${Object.keys(fieldsWithErrors.current)
-																	.map((key) => {
-																		const path = key.split(".");
-																		return path[path.length - 1];
-																	})
-																	.join(", ")}
+									.map((key) => {
+										const path = key.split(".");
+										return path[path.length - 1];
+									})
+									.join(", ")}
             `);
 	};
 

@@ -1,13 +1,11 @@
 interface IOption {
-	/** Label do elemento.*/
 	label: string;
-	/** Valor do elemento.*/
 	value: any;
 	description?: string;
 }
 
 export interface IBaseSimpleFormComponent {
-	name: string;
+	name?: string;
 	label?: string | undefined;
 	value?: any;
 	defaultValue?: any;
@@ -21,6 +19,7 @@ export interface IBaseSimpleFormComponent {
 	labelAdornment?: string;
 	showTooltip?: boolean;
 	tooltipMessage?: string;
+	placeholder?: string;
 	tooltipPosition?:
 		| "bottom-end"
 		| "bottom-start"

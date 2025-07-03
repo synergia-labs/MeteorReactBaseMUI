@@ -10,7 +10,7 @@ import { previewCss } from "../utils/previewCssFiles";
 import { IArchive } from "../common/types/archive.type";
 import { previewDefaultFile } from "../utils/previewDefaultFile";
 import { ParamGetArchiveType, ReturnGetArchiveType } from "../common/types/getArchive";
-import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class GetDocument extends GetStorageBase {
 	constructor() {
@@ -60,16 +60,16 @@ class GetDocument extends GetStorageBase {
 
 	async action(param: ParamGetArchiveType, _context: IContext): Promise<ReturnGetArchiveType> {
 		const { response: res, request: req } = _context;
-		const documentCollection = this.getServerInstance()?.getDocumentCollection();
+		const documentCollection = this.getServerInstance(_context).getDocumentCollection();
 
 		const file = await documentCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			this.generateError({ _message: "Documento não encontrado" }, _context);
+			this.generateError({ key: "documentNotFound" }, _context);
 		}
 
 		if (file?.meta?.isRestricted && (!_context.user?._id || _context.user._id !== file.meta.createdBy))
-			this.generateError({ _message: "Você não tem permissão para acessar este documento" }, _context);
+			this.generateError({ key: "documentPermissionDenied" }, _context);
 
 		const isForcedDownload = param.dl == 1;
 		const withPreview = req.query.preview == 1;

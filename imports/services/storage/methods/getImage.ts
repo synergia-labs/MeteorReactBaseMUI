@@ -2,10 +2,10 @@ import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamGetArchiveType, ReturnGetArchiveType } from "../common/types/getArchive";
 import { enumResolution } from "../common/types/resolution.type";
 import { GetStorageBase } from "./bases/get";
-import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "../../../types/context";
 import fs from "fs";
 import sharp from "sharp";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class GetImage extends GetStorageBase {
 	constructor() {
@@ -17,16 +17,16 @@ class GetImage extends GetStorageBase {
 	}
 
 	async action(param: ParamGetArchiveType, _context: IContext): Promise<ReturnGetArchiveType> {
-		const imageCollection = this.getServerInstance()?.getImageCollection();
+		const imageCollection = this.getServerInstance(_context).getImageCollection();
 		const file = await imageCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			this.generateError({ _message: "Imagem não encontrada" }, _context);
+			this.generateError({ key: "imageNotFound" }, _context);
 		}
 
 		if (file?.meta?.isRestricted) {
-			if (!_context.user._id) this.generateError({ _message: "User not authorized" }, _context);
-			if (_context.user._id != file.meta.createdBy) this.generateError({ _message: "User not authorized" }, _context);
+			if (!_context.user._id) this.generateError({ key: "notLoggedUser", namespace: "users" }, _context);
+			if (_context.user._id != file.meta.createdBy) this.generateError({ key: "imagePermissionDenied" }, _context);
 		}
 
 		// Configurar o cabeçalho correto para exibir a imagem no navegador

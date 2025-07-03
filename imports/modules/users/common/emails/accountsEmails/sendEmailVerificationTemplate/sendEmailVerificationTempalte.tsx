@@ -1,0 +1,41 @@
+import React from "react";
+import { Meteor } from "meteor/meteor";
+import renderHtmlServerSide from "../../../../../../services/email/utils/renderHtmlServerSide";
+import Styles from "./sendEmailVerificationTempalteStyles";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import BaseUserEmails from "../baseUserEmails";
+
+interface ISendEmailVerificationProps {
+	user: Meteor.User;
+	url: string;
+}
+
+const SendEmailVerification: React.FC<ISendEmailVerificationProps> = ({ user, url }) => {
+	return (
+		<BaseUserEmails title={`Olá, ${user.profile?.name || user?.emails?.[0]?.address}`}>
+			<Typography>
+				Seja bem vindo ao <strong> {Meteor.settings.public.appName} </strong>
+			</Typography>
+			<Typography>Para confirmar seu endereço de e-mail, clique no botão abaixo:</Typography>
+			<Link href={url}>
+				<Styles.buttonContainer>Confirmar e-mail</Styles.buttonContainer>
+			</Link>
+			<Typography variant="caption" color={(theme) => theme.palette.sysText?.auxiliary}>
+				Agradecemos por se cadastrar no <strong>{Meteor.settings.public.appName}</strong>. Esta é uma mensagem gerada
+				automaticamente. Por favor, não responda a este e-mail.
+			</Typography>
+		</BaseUserEmails>
+	);
+};
+
+const verificationEmailTemplate = (): EmailFields => ({
+	subject() {
+		return `${Meteor.settings.public.appName} - Confirme seu endereço de e-mail`;
+	},
+	html(user, url) {
+		return renderHtmlServerSide(<SendEmailVerification user={user as Meteor.User} url={url} />);
+	}
+});
+
+export default verificationEmailTemplate;

@@ -1,10 +1,10 @@
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
-import usersServer from "/imports/modules/userprofile/backend/server";
-import { externalLoginServicesInstances } from "/imports/modules/userprofile/backend/services/register";
-import verificationEmailTemplate from "/imports/modules/userprofile/common/emails/accountsEmails/sendEmailVerificationTemplate/sendEmailVerificationTempalte";
-import resetPasswordEmailTemplate from "/imports/modules/userprofile/common/emails/accountsEmails/sendEmailResetPasswordTemplate/sendEmailResetPasswordTemplate.view";
-import enrollAccountEmailTemplate from "/imports/modules/userprofile/common/emails/accountsEmails/sendEmailEnrollAccountTemplate/sendEmailEnrollAccountTemplate.view";
+import usersServer from "/imports/modules/users/backend/server";
+import { externalLoginServicesInstances } from "/imports/modules/users/backend/services/register";
+import enrollAccountEmailTemplate from "/imports/modules/users/common/emails/accountsEmails/sendEmailEnrollAccountTemplate/sendEmailEnrollAccountTemplate.view";
+import resetPasswordEmailTemplate from "/imports/modules/users/common/emails/accountsEmails/sendEmailResetPasswordTemplate/sendEmailResetPasswordTemplate.view";
+import verificationEmailTemplate from "/imports/modules/users/common/emails/accountsEmails/sendEmailVerificationTemplate/sendEmailVerificationTempalte";
 
 export async function initAccounts() {
 	//region Configuração de contas
@@ -36,12 +36,29 @@ export async function initAccounts() {
 	//region Configuração de autenticação externa
 	for (const oAuthInstance of externalLoginServicesInstances) await oAuthInstance.register();
 
+	Accounts.onCreateUser(async (options, user) => {
+		if (user.services) {
+			const services = Object.keys(user.services);
+			if (services.length > 0) {
+				for (const service of services) {
+					const oAuthInstance = externalLoginServicesInstances.find(
+						(oAuthInstance) => oAuthInstance.getServiceName() === service
+					);
+					if (!oAuthInstance) continue;
+					user = (await oAuthInstance.onCreateUser(user, options)) as Meteor.User;
+				}
+			}
+		}
+
+		return await usersServer.onCreateUser.bind(usersServer)({ user, options });
+	});
+
 	(Accounts as any).setAdditionalFindUserOnExternalLogin(
-		async ({ serviceName, serviceData }: { serviceName: string; serviceData: any }) => {
+		async ({ serviceName, serviceData, options }: { serviceName: string; serviceData: any; options: any }) => {
 			const authInstance = externalLoginServicesInstances.find(
 				(oAuthInstance) => oAuthInstance.getServiceName() === serviceName
 			);
-			if (authInstance) return await authInstance.additionalFindUserOnExternalLogin(serviceData);
+			if (authInstance) return await authInstance.additionalFindUserOnExternalLogin(serviceData, options);
 		}
 	);
 }

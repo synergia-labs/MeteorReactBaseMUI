@@ -20,7 +20,7 @@ export const sendEmailSchema = z.object({
 	from: z
 		.string()
 		.email({ message: "Endereço de email do remetente inválido " })
-		.default(Meteor.settings.email.system_sender)
+		.default(Meteor.settings?.email?.system_sender)
 		.optional(),
 	subject: z.string().nonempty({ message: "O email deve possuir um título" }),
 	tempalte: z.nativeEnum(enumEmailTemplate),

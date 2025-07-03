@@ -19,7 +19,7 @@ const SysMenuView: React.FC<Omit<MenuProps, "open" | "anchorEl" | "onClose">> = 
 			) : (
 				<ContentContainer>
 					{context?.options?.map((option) => {
-						const Component: ElementType = option?.component || context?.menuItemDedaultComponent || SysMenuItemDefault;
+						const Component: ElementType = option?.component || context?.menuItemDefaultComponent || SysMenuItemDefault;
 
 						return <Component key={option?.key} onClick={option.onClick} {...option?.otherProps} />;
 					})}

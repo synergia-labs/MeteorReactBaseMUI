@@ -1,0 +1,19 @@
+{
+	"templates": {
+		"config": {},
+		"actions": {},
+		"components": {},
+		"dialogs": {},
+		"emails": {},
+		"errors": {},
+		"pages": {
+			"appBar": {
+				"components": {
+					"contact": "Contato",
+					"wip": "Funcionalidade em desenvolvimento",
+					"logout": "Sair"
+				}
+			}
+		}
+	}
+}

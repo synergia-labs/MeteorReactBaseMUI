@@ -56,12 +56,24 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	min,
 	showNumberCharactersTyped,
 	sxMap,
+	placeholder,
 	...otherProps
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
 	const inSysFormContext = hasValue(controllerSysForm);
 
-	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
+	const convertValue = (value: any) => {
+		if (Array.isArray(value)) return value.join(", ");
+		if (typeof value === "object") return JSON.stringify(value);
+		if (typeof value === "string") return value;
+		if (typeof value === "number") return value.toString();
+		if (typeof value === "boolean") return value ? "true" : "false";
+		return undefined;
+	};
+
+	const refObject = !inSysFormContext
+		? null
+		: useRef<ISysFormComponentRef>({ name: name ?? "", value: convertValue(value) || convertValue(defaultValue) });
 	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 	const schema = refObject?.current.schema;
 
@@ -72,11 +84,13 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	readOnly = readOnly || controllerSysForm.mode === "view" || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
-	defaultValue = defaultValue || refObject?.current.value || schema?.defaultValue;
+	defaultValue = convertValue(defaultValue || refObject?.current.value || schema?.defaultValue);
 	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
-	if (mask) defaultValue = generalMask(defaultValue, mask);
+	placeholder = placeholder || schema?.placeholder;
 
-	const [valueState, setValueState] = useState<string | undefined>(defaultValue);
+	if (mask) defaultValue = generalMask(convertValue(defaultValue), mask);
+
+	const [valueState, setValueState] = useState<string | undefined>(convertValue(defaultValue));
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 
@@ -84,7 +98,8 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 		controllerSysForm.setInteractiveMethods({
 			componentRef: refObject!,
 			clearMethod: () => setValueState(""),
-			setValueMethod: (value) => (mask ? setValueState(generalMask(value, mask)) : setValueState(value)),
+			setValueMethod: (value) =>
+				mask ? setValueState(generalMask(convertValue(value), mask)) : setValueState(convertValue(value)),
 			changeVisibilityMethod: (visible) => setVisibleState(visible),
 			setErrorMethod: (error) => setErrorState(error)
 		});
@@ -93,13 +108,13 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 		const newValue = e.target.value;
 		if (!!max && newValue.length > max) return;
 		if (mask) {
-			const inputValue = generalMask(newValue, mask);
-			const transformedValue = textNoFormatting(inputValue);
+			const inputValue = generalMask(convertValue(newValue), mask);
+			const transformedValue = textNoFormatting(convertValue(inputValue) as string);
 			setValueState(inputValue);
 			if (inSysFormContext)
 				controllerSysForm.onChangeComponentValue({ refComponent: refObject!, value: transformedValue });
 		} else {
-			setValueState(newValue);
+			setValueState(convertValue(newValue));
 			if (inSysFormContext) controllerSysForm.onChangeComponentValue({ refComponent: refObject!, value: newValue });
 		}
 		onChange?.(e);
@@ -145,6 +160,8 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 				name={name}
 				id={name}
 				key={name}
+				placeholder={placeholder}
+				variant="filled"
 				sx={sxMap?.textField}
 				value={valueState || ""}
 				onChange={onFieldChange}

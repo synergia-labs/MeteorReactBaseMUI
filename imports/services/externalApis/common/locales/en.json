@@ -1,0 +1,13 @@
+{
+	"ExternalApiService": {
+		"config": {
+			"name": "externalApi"
+		},
+		"actions": {},
+		"components": {},
+		"dialogs": {},
+		"emails": {},
+		"errors": {},
+		"pages": {}
+	}
+}

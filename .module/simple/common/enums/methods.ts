@@ -1,10 +1,6 @@
-import { enumModuleNameSettings } from "./settings";
-
-function getName(name: string) {
-	return `${enumModuleNameSettings.MODULE_NAME}.${name}`;
-}
+import { getModuleNameActionName } from "../utils/getActionName";
 
 export const enumModuleNameMethods = {
 	// Example of method definition
-	exampleMethod: getName("methodExample") // Delete this line when starting to use this module
+	exampleMethod: getModuleNameActionName("methodExample") // Delete this line when starting to use this module
 };

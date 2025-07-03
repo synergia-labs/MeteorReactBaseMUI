@@ -6,10 +6,17 @@
 	},
 	"auth": {
 		"google": {
+			"serviceName": "google",
 			"clientId": "",
 			"secret": ""
 		},
 		"github": {
+			"serviceName": "github",
+			"clientId": "",
+			"secret": ""
+		},
+		"microsoft": {
+			"serviceName": "microsoft",
 			"clientId": "",
 			"secret": ""
 		}

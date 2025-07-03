@@ -9,8 +9,8 @@ import { SecurityServer } from "../security.server";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
 import { AuditType } from "../../../../types/audit";
 import { textNormalize } from "/imports/libs/textUtilities";
-import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "../../../../types/context";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeInsertType, ReturnMethodSafeInsertType> {
 	constructor() {
@@ -18,28 +18,34 @@ class MethodSafeInsert extends CreateMethodBase<SecurityServer, ParamMethodSafeI
 			name: enumSecurityMethods.methodSafeInsert,
 			paramSch: paramMethodSafeInsertSch,
 			returnSch: returnMethodSafeInsertSch,
-			roles: [enumUserRoles.ADMIN],
-			description: "Insert a new method to a specific referred"
+			canRegister: false,
+			roles: [enumUserRoles.ADMIN]
 		});
 	}
 
 	protected async onError(
 		_param: ParamMethodSafeInsertType & AuditType,
 		_context: IContext,
-		_error: Error
+		_error: unknown
 	): Promise<void> {
-		this.generateError({ _message: _error.message }, _context);
+		this.generateError({ key: "", error: _error }, _context);
+	}
+
+	protected async beforeAction(param: ParamMethodSafeInsertType & AuditType, _context: IContext): Promise<void> {
+		param._id = `${param.referred}.${textNormalize(param.name)}`;
+		await super.beforeAction(param, _context);
 	}
 
 	async action(_param: ParamMethodSafeInsertType & AuditType, _context: IContext): Promise<ReturnMethodSafeInsertType> {
-		const methodCollection = this.getServerInstance()?.getMethodCollection();
-		if (!methodCollection) this.generateError({ _message: "Method collection not found" }, _context);
-
-		const _id = `${_param.referred}.${textNormalize(_param.name)}`;
-		const method = await methodCollection!.findOneAsync({ _id });
-		if (method) this.generateError({ _message: "Method already exists" }, _context);
+		const methodCollection = this.getServerInstance(_context).getMethodCollection();
+		const method = await methodCollection.findOneAsync({ _id: _param._id });
+		if (method)
+			this.generateError(
+				{ key: "methodAlreadyExists", params: { method: method.name }, namespace: "SecurityService" },
+				_context
+			);
 		_param.isProtected = _param.isProtected ?? false;
-		const result = await methodCollection!.insertAsync({ _id, ..._param });
+		const result = await methodCollection.insertAsync(_param);
 		return { _id: result };
 	}
 }

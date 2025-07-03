@@ -59,13 +59,14 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 		callBack?.(event, reason);
 	}, []);
 
-	const handleShowNotification = useCallback(({ onOpen, onClose, ...props }: IShowNotificationProps) => {
+	const handleShowNotification = useCallback(({ onOpen, onClose, ...props }: IShowNotificationProps = {}) => {
 		handleCloseNotification();
 		onOpen?.();
 		setShowNotification({
 			...showNotification,
 			...props,
-			close: ({ event, reason }: ICloseNotification) => handleCloseNotification({ event, reason, callBack: onClose }),
+			close: ({ event, reason }: ICloseNotification = {}) =>
+				handleCloseNotification({ event, reason, callBack: onClose }),
 			open: true
 		});
 	}, []);
@@ -82,7 +83,7 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 		setShowDrawer({
 			...showDrawer,
 			...props,
-			close: ({ event, reason }: ICloseDialog) => handleCloseDrawer({ event, reason, callBack: onClose }),
+			close: ({ event, reason }: ICloseDialog = {}) => handleCloseDrawer({ event, reason, callBack: onClose }),
 			open: true
 		});
 	}, []);
@@ -100,7 +101,7 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 		setShowDialog({
 			...showDialog,
 			...props,
-			close: ({ event, reason }: ICloseDialog) => handleCloseDrawer({ event, reason, callBack: onClose }),
+			close: ({ event, reason }: ICloseDialog = {}) => handleCloseDrawer({ event, reason, callBack: onClose }),
 			open: true
 		});
 	}, []);
@@ -118,7 +119,7 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 		setShowModal({
 			...showDialog,
 			...props,
-			close: ({ event, reason }: ICloseDialog) => handleCloseDrawer({ event, reason, callBack: onClose }),
+			close: ({ event, reason }: ICloseDialog = {}) => handleCloseDrawer({ event, reason, callBack: onClose }),
 			open: true
 		});
 	}, []);
@@ -130,14 +131,15 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 		callBack?.(event, reason);
 	}, []);
 
-	const handleShowWindow = useCallback(({ onOpen, onClose, ...props }: IShowDialogProps) => {
+	const handleShowWindow = useCallback(({ onOpen, onClose, ...props }: IShowDialogProps = {}) => {
 		onOpen?.();
 		handleCloseNotification();
 		setShowWindow({
-			...showDialog,
-			...props,
-			close: ({ event, reason }: ICloseDialog) => handleCloseDrawer({ event, reason, callBack: onClose }),
 			fullScreen: true,
+			...showDialog,
+			sx: { borderRadius: 0 },
+			...props,
+			close: ({ event, reason }: ICloseDialog = {}) => handleCloseDrawer({ event, reason, callBack: onClose }),
 			open: true
 		});
 	}, []);

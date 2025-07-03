@@ -1,0 +1,73 @@
+{
+	"SecurityService": {
+		"components": {},
+		"config": {},
+		"dialogs": {},
+		"emails": {},
+		"methods": {
+			"checkMethodPermission": {
+				"name": "Check method permission",
+				"description": "Checks if the user has permission to execute the method."
+			},
+			"getMethod": {
+				"name": "Get method",
+				"description": "Gets the method based on the name and a specific reference."
+			},
+			"getRole": {
+				"name": "Get user profile",
+				"description": "Gets the user profile based on the name and a specific reference."
+			},
+			"getRolesListNames": {
+				"name": "Get list of user profile names",
+				"description": "Gets the list of user profile names for a specific reference."
+			},
+			"methodSafeInsert": {
+				"name": "Insert safe method",
+				"description": "Inserts a new method into the method collection."
+			},
+			"roleSafeInsert": {
+				"name": "Insert safe user profile",
+				"description": "Inserts a new user profile for a specific reference."
+			},
+			"getAllMethods": {
+				"name": "Get all methods",
+				"description": "Returns all available methods for a specific reference."
+			},
+			"getAllRoles": {
+				"name": "Get all user profiles",
+				"description": "Returns all available user profiles for a specific reference."
+			}
+		},
+		"errors": {
+			"collectionMethodsNotFound": {
+				"message": "The method collection was not found. \nMake sure the collection name is correct and if the collection exists in the database.",
+				"title": "Collection of methods not found"
+			},
+			"collectionRoleNotFound": {
+				"message": "The user profile collection was not found. \nMake sure the collection name is correct and if the collection exists in the database.",
+				"title": "User profile collection not found"
+			},
+			"methodAlreadyExists": {
+				"message": "The method {{method}} already exists. \nMake sure the method name is correct and if the method was not created earlier.",
+				"title": "Method already exists"
+			},
+			"methodNotFound": {
+				"message": "The {{method}} method was not found. \nMake sure the method name is correct and if the method exists in the collection.",
+				"title": "Method not found"
+			},
+			"protectedMethod": {
+				"message": "You do not have access to this functionality. \nContact the system administrator for more information.",
+				"title": "Restricted access"
+			},
+			"roleAlreadyExists": {
+				"message": "The user profile {{role}} already exists. \nMake sure the user profile name is correct and the user profile was not created before.",
+				"title": "User profile already exists"
+			},
+			"roleNotFound": {
+				"message": "There is no definition for your user profile. \nContact the system administrator for more information.",
+				"title": "User profile not found"
+			}
+		},
+		"pages": {}
+	}
+}

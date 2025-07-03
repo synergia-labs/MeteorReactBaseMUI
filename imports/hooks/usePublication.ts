@@ -8,7 +8,8 @@ function useSubscribe<MethodBase extends PublicationType<any>, ReturnType>({
 	param,
 	options,
 	onReady,
-	onStop
+	onStop,
+	callBack
 }: {
 	method: MethodBase;
 	findFunction?: () => ReturnType;
@@ -16,37 +17,40 @@ function useSubscribe<MethodBase extends PublicationType<any>, ReturnType>({
 	options?: Parameters<MethodBase>[1];
 	onReady?: () => void;
 	onStop?: (error: Meteor.Error) => void;
+	callBack?: (error?: Meteor.Error, result?: ReturnType, loading?: boolean) => void;
 }): {
 	data: ReturnType | undefined;
 	loading: boolean;
 	error: Meteor.Error | undefined;
 } {
-	const [data, setData] = useState<ReturnType | undefined>(undefined);
-	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<Meteor.Error | undefined>(undefined);
 
-	useTracker(() => {
-		setLoading(true);
-		const handle = method(param || {}, {
+	const { data, isLoading } = useTracker(() => {
+		const handle = method(param || {}, options, {
 			onStop: (error: Meteor.Error) => {
-				setLoading(false);
 				setError(error);
 				onStop?.(error);
 			},
 			onReady: () => {
 				onReady?.();
-			},
-			...(options || {})
+			}
 		});
-		if (!handle?.ready()) return;
-		setLoading(false);
-		const dataList = findFunction?.();
-		setData(dataList);
-	}, []);
+
+		const ready = handle?.ready() || false;
+
+		const result = ready && findFunction ? findFunction() : undefined;
+
+		if (callBack && ready) callBack(error, result, isLoading);
+
+		return {
+			data: result,
+			isLoading: !ready
+		};
+	}, [JSON.stringify(param), JSON.stringify(options)]);
 
 	return {
 		data: data,
-		loading: data == undefined && loading,
+		loading: isLoading,
 		error: error
 	};
 }

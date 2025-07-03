@@ -7,7 +7,7 @@ import {
 import { StorageServer } from "../../storage.server";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
 import { IMethodBase } from "/imports/base/server/methods/method.base";
-import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../../modules/users/common/enums/enumUserRoles";
 import { IContext } from "../../../../types/context";
 import { Buffer } from "buffer";
 

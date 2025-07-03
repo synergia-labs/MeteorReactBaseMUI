@@ -1,0 +1,7 @@
+echo "🔍 Verificando código com ESLint e Prettier..."
+
+npm run lint || { echo "❌ Corrija os erros do ESLint antes de continuar."; exit 1; }
+
+npx lint-staged || { echo "❌ Problemas de formatação encontrados e corrigidos. Adicione os arquivos novamente."; exit 1; }
+
+echo "✅ Tudo certo para o commit!"

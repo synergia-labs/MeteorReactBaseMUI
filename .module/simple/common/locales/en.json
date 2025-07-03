@@ -1,0 +1,15 @@
+{
+	"moduleName": {
+		"config": {
+			"name": "ModuleName"
+		},
+		"actions": {},
+		"components": {
+			"hello": "Hello from your new module!"
+		},
+		"dialogs": {},
+		"emails": {},
+		"errors": {},
+		"pages": {}
+	}
+}

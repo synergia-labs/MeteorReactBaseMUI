@@ -4,8 +4,8 @@ import { enumSecurityMethods } from "../../common/enums/methods";
 import { ParamGetType, returnGetMethodSch, ReturnGetMethodType } from "../../common/types/get";
 import { SecurityServer } from "../security.server";
 import MethodBase from "/imports/base/server/methods/method.base";
-import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "../../../../types/context";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethodType> {
 	constructor() {
@@ -13,21 +13,19 @@ class GetMethod extends MethodBase<SecurityServer, ParamGetType, ReturnGetMethod
 			name: enumSecurityMethods.getMethod,
 			paramSch: paramGetArchiveSch,
 			returnSch: returnGetMethodSch,
-			roles: [enumUserRoles.ADMIN],
-			description: "Get method by name and referred"
+			roles: [enumUserRoles.ADMIN]
 		});
 	}
 
 	async action(_param: ParamGetType, _context: IContext): Promise<ReturnGetMethodType> {
-		const methodCollection = this.getServerInstance()?.getMethodCollection();
-		if (!methodCollection) this.generateError({ _message: "Method collection not found" }, _context);
+		const methodCollection = this.getServerInstance(_context).getMethodCollection();
 
 		const _id = `${_param.referred ?? enumSecurityConfig.API_NAME}.${_param.name}`;
-		const method = await methodCollection!.findOneAsync({ _id });
-		if (!method) this.generateError({ _message: "Method not found" }, _context);
+		const method = await methodCollection.findOneAsync({ _id });
+		if (!method) this.generateError({ key: "methodNotFound", params: { method: method } }, _context);
 
 		if (method.isProtected && !_context.user.profile?.roles.includes(enumUserRoles.ADMIN))
-			this.generateError({ _message: "Method is protected" }, _context);
+			this.generateError({ key: "protectedMethod" }, _context);
 
 		return method;
 	}

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button, { ButtonProps } from "@mui/material/Button";
 import { SysFormContext } from "../../sysForm/sysForm";
@@ -9,18 +9,21 @@ const SysFormButton: React.FC<ButtonProps> = (props) => {
 	const sysFormController = useContext(SysFormContext);
 	const inSysFormContext = hasValue(sysFormController);
 
-	const buttonRef = !inSysFormContext ? null : useRef<ISysFormButtonRef>({});
-	if (inSysFormContext) sysFormController?.setButtonRef(buttonRef!);
+	const buttonRef = useRef<ISysFormButtonRef>({} as ISysFormButtonRef);
 
-	const [disabled, setDisabled] = useState(buttonRef?.current.disabled ?? false);
+	const [disabled, setDisabled] = useState(buttonRef?.current?.disabled ?? !!props.disabled);
 
-	if (inSysFormContext && !!buttonRef)
-		buttonRef.current.setDisabled = (value: boolean) => {
-			setDisabled(value);
-		};
+	useEffect(() => {
+		if (inSysFormContext && buttonRef.current) {
+			buttonRef.current!.setDisabled = (value: boolean) => {
+				setDisabled(value);
+			};
+			sysFormController.setButtonRef(buttonRef);
+		}
+	}, [sysFormController?.setButtonRef]);
 
 	const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-		buttonRef?.current.onClick?.();
+		buttonRef?.current?.onClick?.();
 		props.onClick?.(e);
 	};
 
@@ -28,8 +31,9 @@ const SysFormButton: React.FC<ButtonProps> = (props) => {
 	return (
 		<Button
 			{...props}
+			ref={buttonRef}
 			onClick={onClickButton}
-			disabled={props.disabled ?? (disabled || sysFormController?.disabled || sysFormController?.loading)}
+			disabled={disabled || props.disabled || sysFormController?.disabled}
 			startIcon={sysFormController?.loading ? <CircularProgress size={20} /> : props.startIcon}
 		/>
 	);

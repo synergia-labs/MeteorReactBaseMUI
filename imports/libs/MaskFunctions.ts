@@ -1,4 +1,3 @@
-/* eslint-disable */
 export const mascaraValorMonetario = (value: string): string => {
 	let valor = value;
 
@@ -48,77 +47,74 @@ export const mascaraPontosFixos = (value: string | undefined): string => {
 };
 
 export const generalMask = (inputValue?: string, mask?: string): string => {
+	// Se não houver máscara, retorna o valor de entrada original
 	if (!mask) return inputValue || "";
+	if (!inputValue) return "";
 
-	let text: string = "";
-	const data: string | undefined = inputValue;
-	let c: string | undefined;
+	let result = "";
+	let valueIndex = 0;
 
-	let m: string | undefined;
-
-	let i: number;
-
-	let x: number;
-
-	let valueCharCount: number = 0;
-	for (i = 0, x = 1; x && i < (mask ? mask.length : 0); ++i) {
-		c = data?.charAt(valueCharCount);
-		m = mask.charAt(i);
-
-		if (valueCharCount >= (data?.length || 0)) {
-			break;
+	// Itera por cada caractere da máscara
+	for (let i = 0; i < mask.length; i++) {
+		// Se já percorremos todos os caracteres do valor de entrada, mas a máscara tem mais caracteres fixos,
+		// continuamos adicionando os caracteres fixos da máscara
+		if (valueIndex >= inputValue.length) {
+			// Verifica se o caractere atual da máscara é um caractere fixo (não um símbolo de substituição)
+			const maskChar = mask.charAt(i);
+			if (!["#", "9", "A", "8", "N", "7", "X", "6"].includes(maskChar)) {
+				result += maskChar;
+			}
+			continue;
 		}
 
-		switch (mask.charAt(i)) {
-			case "9": // Number
-			case "#": // Number
-				if (/\d/.test(c || "")) {
-					text += c || "";
-					valueCharCount++;
-				} else {
-					x = 0;
+		const currentChar = inputValue.charAt(valueIndex);
+		const maskChar = mask.charAt(i);
+
+		switch (maskChar) {
+			// Dígitos
+			case "#":
+			case "9":
+				if (/\d/.test(currentChar)) {
+					result += currentChar;
+					valueIndex++;
 				}
 				break;
 
-			case "8": // Alphanumeric
-			case "A": // Alphanumeric
-				if (/[a-z]/i.test(c || "")) {
-					text += c || "";
-					valueCharCount++;
-				} else {
-					x = 0;
+			// Letras
+			case "A":
+			case "8":
+				if (/[a-z]/i.test(currentChar)) {
+					result += currentChar;
+					valueIndex++;
 				}
 				break;
 
-			case "7": // Number or Alphanumeric
-			case "N": // Number or Alphanumeric
-				if (/[a-z0-9]/i.test(c || "")) {
-					text += c || "";
-					valueCharCount++;
-				} else {
-					x = 0;
+			// Alfanuméricos
+			case "N":
+			case "7":
+				if (/[a-z0-9]/i.test(currentChar)) {
+					result += currentChar;
+					valueIndex++;
 				}
 				break;
 
-			case "6": // Any
-			case "X": // Any
-				text += c || "";
-				valueCharCount++;
-
+			// Qualquer caractere
+			case "X":
+			case "6":
+				result += currentChar;
+				valueIndex++;
 				break;
 
+			// Caracteres fixos da máscara
 			default:
-				if (m === c) {
-					text += m;
-					valueCharCount++;
-				} else {
-					text += m;
+				result += maskChar;
+				// Só avança no valor de entrada se o caractere atual corresponder ao caractere da máscara
+				if (currentChar === maskChar) {
+					valueIndex++;
 				}
-
 				break;
 		}
 	}
-	return text;
-};
 
-/* eslint-enable */
+	return result;
+};

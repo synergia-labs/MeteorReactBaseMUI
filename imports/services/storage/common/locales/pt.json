@@ -1,0 +1,78 @@
+{
+	"storage": {
+		"components": {},
+		"config": {},
+		"dialogs": {},
+		"emails": {},
+		"errors": {
+			"audioNotFound": {
+				"title": "Erro ao realizar operação",
+				"message": "O áudio não foi encontrado."
+			},
+			"audioDeletePermissionDenied": {
+				"title": "Erro ao realizar operação",
+				"message": "Permissão negada para acessar o áudio."
+			},
+			"audioPermissionDenied": {
+				"title": "Não foi possível exibir o áudio",
+				"message": "Permissão negada para acessar o áudio."
+			},
+			"audioUploadFailed": {
+				"title": "Erro ao realizar operação",
+				"message": "Falha ao fazer upload do áudio."
+			},
+
+			"documentNotFound": {
+				"title": "Erro ao realizar operação",
+				"message": "O documento não foi encontrado."
+			},
+			"documentDeletePermissionDenied": {
+				"title": "Falha ao excluir o documento",
+				"message": "Permissão negada."
+			},
+			"documentPermissionDenied": {
+				"title": "Não foi possível exibir o documento",
+				"message": "Permissão negada para acessar o documento."
+			},
+			"documentUploadFailed": {
+				"title": "Erro ao realizar operação",
+				"message": "Falha ao fazer upload do documento."
+			},
+
+			"imageNotFound": {
+				"title": "Erro ao realizar operação",
+				"message": "A imagem não foi encontrada."
+			},
+			"imageDeletePermissionDenied": {
+				"title": "Falha ao excluir a imagem",
+				"message": "Permissão negada."
+			},
+			"imagePermissionDenied": {
+				"title": "Não foi possível exibir a imagem",
+				"message": "Permissão negada para acessar a imagem."
+			},
+			"imageUploadFailed": {
+				"title": "Erro ao realizar operação",
+				"message": "Falha ao fazer upload da imagem."
+			},
+
+			"videoNotFound": {
+				"title": "Erro ao realizar operação",
+				"message": "O vídeo não foi encontrado."
+			},
+			"videoDeletePermissionDenied": {
+				"title": "Falha ao excluir o vídeo",
+				"message": "Permissão negada."
+			},
+			"videoPermissionDenied": {
+				"title": "Não foi possível exibir o vídeo",
+				"message": "Permissão negada para acessar o vídeo."
+			},
+			"videoUploadFailed": {
+				"title": "Erro ao realizar operação",
+				"message": "Falha ao fazer upload do vídeo."
+			}
+		},
+		"pages": {}
+	}
+}

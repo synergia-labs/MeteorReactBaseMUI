@@ -5,6 +5,7 @@ import Box, { BoxProps } from "@mui/material/Box";
 interface ISysLabelViewStyles {
 	Container: ElementType<BoxProps>;
 	Header: ElementType<BoxProps>;
+	ChildrenContainer: ElementType<BoxProps>;
 }
 
 const SysLabelViewStyles: ISysLabelViewStyles = {
@@ -22,6 +23,12 @@ const SysLabelViewStyles: ISysLabelViewStyles = {
 		alignItems: "center",
 		justifyContent: "flex-start",
 		gap: "4px"
+	})),
+	ChildrenContainer: styled(Box)(({ theme }) => ({
+		width: "100%",
+		display: "flex",
+		flexDirection: "column",
+		gap: theme.spacing(1)
 	}))
 };
 

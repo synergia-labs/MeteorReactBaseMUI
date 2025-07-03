@@ -5,7 +5,7 @@ import { UploadStorageBase } from "./bases/upload";
 import { Buffer } from "buffer";
 import { enumFileType } from "../common/types/file.type";
 import { ParamUploadArchiveType, ReturnUploadArchiveType } from "../common/types/uploadArchive";
-import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class UploadAudio extends UploadStorageBase {
 	constructor() {
@@ -17,7 +17,7 @@ class UploadAudio extends UploadStorageBase {
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
 		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== "archive"));
-		const audioCollection = this.getServerInstance()?.getAudioCollection();
+		const audioCollection = this.getServerInstance(_context).getAudioCollection();
 
 		// Faz o upload do arquivo na coleção de áudios
 		const objec = await audioCollection?.write(param.archive.content as Buffer, {
@@ -27,9 +27,7 @@ class UploadAudio extends UploadStorageBase {
 			size: param.archive.size
 		});
 
-		if (!objec) {
-			this.generateError({ _message: "Failed to upload audio" }, _context);
-		}
+		if (!objec) this.generateError({ key: "audioUploadFailed" }, _context);
 
 		const path = storageServer.getUrl({
 			_id: objec._id,

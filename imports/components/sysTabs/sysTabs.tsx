@@ -1,13 +1,13 @@
 import React from "react";
 import SysTabsStyles from "./sysTabsStyles";
-import { SxProps, Theme } from "@mui/system";
+import { SxProps, Theme } from "@mui/material";
 
 const { Container, Tab, Tabs } = SysTabsStyles;
 
 /**
  * Interface para representar uma aba em um sistema de abas.
  */
-interface IAba {
+export interface ISysTabaAba {
 	/** O rótulo da aba. */
 	label: string;
 	/** O valor associado à aba. */
@@ -25,7 +25,7 @@ interface IAba {
  */
 interface ISysTabs {
 	/** Lista de abas a serem exibidas. */
-	abas: IAba[];
+	abas: ISysTabaAba[];
 	/** O valor da aba selecionada. */
 	value: string;
 	/** Função de retorno de chamada chamada quando uma aba é alterada. */
@@ -53,6 +53,7 @@ interface ISysTabs {
 		/** Estilos personalizados para uma aba individual. */
 		tab?: SxProps<Theme>;
 	};
+	disabled?: boolean;
 }
 
 /**
@@ -70,6 +71,7 @@ export const SysTabs: React.FC<ISysTabs> = ({
 	allowScrollButtonsMobile = false,
 	scrollButtons = "auto",
 	orientation = "horizontal",
+	disabled,
 	sxMap
 }) => {
 	return (
@@ -90,7 +92,7 @@ export const SysTabs: React.FC<ISysTabs> = ({
 						label={aba.label}
 						value={aba.value}
 						key={aba.value}
-						disabled={aba.disabled}
+						disabled={disabled || aba.disabled}
 						sx={sxMap?.tab}
 						icon={typeof aba.icon === "string" ? aba.icon : ""}
 						iconPosition={aba?.iconPosition}

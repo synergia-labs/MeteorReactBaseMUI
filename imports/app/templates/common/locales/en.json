@@ -1,0 +1,19 @@
+{
+	"templates": {
+		"config": {},
+		"actions": {},
+		"components": {},
+		"dialogs": {},
+		"emails": {},
+		"errors": {},
+		"pages": {
+			"appBar": {
+				"components": {
+					"contact": "Contact",
+					"wip": "Work in progress",
+					"logout": "Logout"
+				}
+			}
+		}
+	}
+}

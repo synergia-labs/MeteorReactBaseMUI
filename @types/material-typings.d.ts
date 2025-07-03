@@ -4,15 +4,15 @@ import { PaletteColor } from "@mui/material";
 
 declare module "@mui/material/styles" {
 	interface ISysText {
-		body?: string;
-		title?: string;
-		base?: string;
-		baseContrast?: string;
-		auxiliary?: string;
-		primary?: string;
-		secondary?: string;
-		tertiary?: string;
-		disabled?: string;
+		body: string;
+		title: string;
+		base: string;
+		baseContrast: string;
+		auxiliary: string;
+		primary: string;
+		secondary: string;
+		tertiary: string;
+		disabled: string;
 	}
 
 	interface ISysBackground {
@@ -49,26 +49,26 @@ declare module "@mui/material/styles" {
 
 	interface Palette {
 		tertiary: PaletteColor;
-		sysText?: ISysText;
-		sysBackground?: ISysBackground;
-		sysAction?: ISysAction;
+		sysText: ISysText;
+		sysBackground: ISysBackground;
+		sysAction: ISysAction;
 	}
 
 	interface PaletteOptions {
-		tertiary?: PaletteColor;
-		sysText?: Partial<ISysText>;
-		sysBackground?: Partial<ISysBackground>;
-		sysAction?: Partial<ISysAction>;
+		tertiary: PaletteColor;
+		sysText: Partial<ISysText>;
+		sysBackground: Partial<ISysBackground>;
+		sysAction: Partial<ISysAction>;
 	}
 
 	interface TypographyVariants {
-		link?: React.CSSProperties;
-		button2?: React.CSSProperties;
+		link: React.CSSProperties;
+		button2: React.CSSProperties;
 	}
 
 	interface TypographyVariantsOptions {
-		link?: React.CSSProperties;
-		button2?: React.CSSProperties;
+		link: React.CSSProperties;
+		button2: React.CSSProperties;
 	}
 }
 

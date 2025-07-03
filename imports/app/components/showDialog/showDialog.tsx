@@ -13,16 +13,18 @@ import Styles from "./showDialogStyles";
 import { Button, ButtonProps } from "@mui/material";
 import IAppComponents from "/imports/types/appCompontent";
 import { sysSizes } from "../../../theme/sizes";
+import { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
 
 export interface IShowDialogProps extends IAppComponents, Omit<DialogProps, "open" | "title"> {
 	open?: boolean;
 	close?: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
 	onOpen?: () => void;
 	onClose?: () => void;
-	title?: ReactNode;
+	title?: ReactNode | ((t: TFunction) => ReactNode);
 	prefixIcon?: ReactNode;
 	sufixIcon?: ReactNode;
-	message?: string;
+	message?: string | ((t: TFunction) => string);
 	header?: ReactNode;
 	body?: ReactNode;
 	actions?: ReactNode;
@@ -38,6 +40,7 @@ export interface IShowDialogProps extends IAppComponents, Omit<DialogProps, "ope
 	confirmButtonProps?: ButtonProps;
 	cancelButtonProps?: ButtonProps;
 	closeOnConfirm?: boolean;
+	disableMaxWidth?: boolean;
 }
 
 export const ShowDialog: FC<IShowDialogProps> = ({
@@ -63,6 +66,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 	confirmButtonProps,
 	cancelButtonProps,
 	closeOnConfirm = true,
+	disableMaxWidth = false,
 	...dialogProps
 }: IShowDialogProps) => {
 	useEffect(() => {
@@ -76,6 +80,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 
 	const theme = useTheme();
 	const isFullScreen = useMediaQuery(theme.breakpoints.down(fullScreenMediaQuery ?? "xs"));
+	const { t } = useTranslation();
 
 	const closeDialog = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		close?.({}, "backdropClick");
@@ -107,7 +112,7 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 				</DialogContentStyled>
 			) : (
 				children || (
-					<Styles.container>
+					<Styles.container disableMaxWidth={disableMaxWidth}>
 						<Styles.messageContent>
 							{header || (
 								<Styles.header>
@@ -116,6 +121,8 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 										<Typography variant="subtitle1" color={(theme) => theme.palette.sysText?.body}>
 											{title}
 										</Typography>
+									) : typeof title === "function" ? (
+										title(t)
 									) : (
 										title
 									)}
@@ -123,7 +130,12 @@ export const ShowDialog: FC<IShowDialogProps> = ({
 									{sufixIcon && sufixIcon}
 								</Styles.header>
 							)}
-							{body || (message && <Typography color={(theme) => theme.palette.sysText?.auxiliary}>{message}</Typography>)}
+							{body ||
+								(message && (
+									<Typography color={(theme) => theme.palette.sysText?.auxiliary} textAlign="justify">
+										{typeof message === "string" ? message : typeof message === "function" ? message(t) : message}
+									</Typography>
+								))}
 						</Styles.messageContent>
 						{actions ||
 							((confirmButtonLabel || cancelButtonLabel) && (

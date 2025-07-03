@@ -5,9 +5,14 @@ import { TransformServerToApiMethodsType } from "/imports/types/serverApiMethods
     You need to declare the module methods here with the same name as the enum/methods.ts (keyName).
     This is necessary to be able to use the methods in the backend/frontend linked with typescript.
 */
-interface IModuleNameServerMethodsType extends Record<string, (...args: any) => any> {
-	//methodbase: MethodType<typeof methodbase>; // ModuleName of method definition
+interface IModuleNameMethodsTypeRegistered extends Record<string, (...args: any) => any> {
+	//methodbase: MethodType<typeof methodbase>; // Alerts of method definition
+}
+// Methods declared here will not be registered in the server (cant be called by the client)
+interface IModuleNameMethodsTypeNotRegistered extends Record<string, (...args: any) => any> {
+	//methodbase: MethodType<typeof methodbase>; // Alerts of method definition
 }
 
-type ModuleNameApiMethodsType = TransformServerToApiMethodsType<IModuleNameServerMethodsType>;
-export type { IModuleNameServerMethodsType, ModuleNameApiMethodsType };
+type ModuleNameApiMethodsType = TransformServerToApiMethodsType<IModuleNameMethodsTypeRegistered>;
+type ModuleNameMethodsType = IModuleNameMethodsTypeRegistered & IModuleNameMethodsTypeNotRegistered;
+export type { ModuleNameMethodsType, ModuleNameApiMethodsType };

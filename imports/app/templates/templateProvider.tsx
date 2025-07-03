@@ -1,19 +1,23 @@
 import React, { ReactNode } from "react";
 import { enumSysTemplateOptions } from "./enum/sysTemplateOptions";
 import { SysTemplateContext } from "./templateContext";
-import { enumSysTemplates } from "./enum/sysTamplates";
+import { enumSysTemplates } from "./enum/sysTemplates";
+
+export interface ISysTemplateProps {
+	children: ReactNode;
+}
 
 export function TemplateProvider({ children }: { children: ReactNode }) {
-	const [variante, setVariante] = React.useState(enumSysTemplateOptions.NONE);
+	const [variant, setVariant] = React.useState(enumSysTemplateOptions.NONE);
 	const propsRef = React.useRef<Record<string, any> | undefined>(undefined);
 
 	function setTemplateDef({ variant, props }: { variant: enumSysTemplateOptions; props?: Record<string, any> }) {
 		propsRef.current = props;
-		setVariante(variant);
+		setVariant(variant);
 	}
 
-	function getTemplate({ children, variante }: { children: ReactNode; variante: enumSysTemplateOptions }) {
-		const Template = enumSysTemplates[variante];
+	function getTemplate({ children, variant }: { children: ReactNode; variant: enumSysTemplateOptions }) {
+		const Template = enumSysTemplates[variant];
 		if (!Template) return <>{children}</>;
 		return <Template {...propsRef.current}>{children}</Template>;
 	}
@@ -23,7 +27,7 @@ export function TemplateProvider({ children }: { children: ReactNode }) {
 			value={{
 				setTemplate: setTemplateDef
 			}}>
-			{getTemplate({ children, variante })}
+			{getTemplate({ children, variant })}
 		</SysTemplateContext.Provider>
 	);
 }

@@ -7,7 +7,7 @@ interface ISysMenuContext {
 	closeMenu: () => void;
 	activeArrow: boolean;
 	options?: Array<ISysMenuItem>;
-	menuItemDedaultComponent?: ElementType;
+	menuItemDefaultComponent?: ElementType;
 	contentContainer?: ElementType;
 }
 

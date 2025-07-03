@@ -1,6 +1,6 @@
 import React from "react";
 import SysProgressBarStyles from "./sysProgressBarStyle";
-import { SxProps, Theme } from "@mui/system";
+import { SxProps, Theme } from "@mui/material";
 
 const { Container, ProgressBar } = SysProgressBarStyles;
 /**

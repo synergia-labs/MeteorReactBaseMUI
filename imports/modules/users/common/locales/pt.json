@@ -1,0 +1,246 @@
+{
+	"users": {
+		"components": {
+			"userCard": {
+				"menu": {
+					"enable": "Ativar usuário",
+					"disable": "Desativar usuário",
+					"verificationEmail": "Enviar email de verificação",
+					"resetPassword": "Enviar email de redefinição de senha",
+					"enrolEmail": "Enviar email de definição de senha",
+					"successMessage": {
+						"enableUser": {
+							"title": "Usuário habilitado",
+							"message": "O usuário foi habilitado com sucesso."
+						},
+						"disableUser": {
+							"title": "Usuário desativado",
+							"message": "O usuário foi desativado com sucesso."
+						},
+						"verificationEmail": {
+							"title": "Email de verificação enviado",
+							"message": "O email de verificação foi enviado com sucesso."
+						},
+						"resetPassword": {
+							"title": "Email de redefinição de senha enviado",
+							"message": "O email de redefinição de senha foi enviado com sucesso."
+						},
+						"enrolEmail": {
+							"title": "Email de definição de senha enviado",
+							"message": "O email de definição de senha foi enviado com sucesso."
+						}
+					}
+				}
+			}
+		},
+		"config": {
+			"name": "Usuários"
+		},
+		"dialogs": {},
+		"emails": {
+			"baseEmail": {
+				"ignoreMessage": "Se você não solicitou este e-mail, ignore esta mensagem.",
+				"helpMessage": "Precisa de ajuda? Acesse nossa <a href=\"https://www.synergia.dcc.ufmg.br/\">Central de Suporte</a>.",
+				"copyright": "© {{currentYear}} Synergia. Todos os direitos reservados."
+			},
+			"resetPassword": {
+				"subject": "{{appName}} - Redefinição de senha",
+				"title": "Olá, {{userName}}",
+				"body1": "Sua senha de acesso ao <strong>{{appName}}<strong> será alterada.",
+				"body2": "Clique no link abaixo e informe uma nova senha:",
+				"button": "Alterar senha",
+				"footer": "Agradecemos por se cadastrar no <strong>{{appName}}<strong>. Esta é uma mensagem gerada automaticamente. Por favor, não responda a este e-mail."
+			},
+			"enrollAccount": {
+				"subject": "{{appName}} - Cadastro de usuário",
+				"title": "Olá, {{userName}}",
+				"body1": "Seu cadastro no <strong>{{appName}}</strong> foi realizado por um administrador.",
+				"body2": "Clique no link abaixo para criar sua senha de acesso:",
+				"button": "Definir senha",
+				"footer": "Agradecemos por se cadastrar no <strong>{{appName}}</strong>. Esta é uma mensagem gerada automaticamente. Por favor, não responda a este e-mail."
+			}
+		},
+		"methods": {
+			"getUsersListPublication": {
+				"name": "Buscar lista de usuários",
+				"description": "Publicação que retorna todos os usuários cadastrados no sistema"
+			},
+			"getUserPhoto": {
+				"name": "Buscar foto do usuário",
+				"description": "Método que retorna a foto de perfil do usuário"
+			},
+			"create": {
+				"name": "Criar usuário",
+				"description": "Método que cria um novo usuário"
+			},
+			"checkIfHasAdminUser": {
+				"name": "Verificar se existe usuário administrador",
+				"description": "Método que verifica se existe algum usuário administrador no sistema"
+			},
+			"sendResetPasswordEmail": {
+				"name": "Enviar email de redefinição de senha",
+				"description": "Método que envia um email para redefinir a senha do usuário"
+			},
+			"updateUser": {
+				"name": "Atualizar usuário",
+				"description": "Permite editar as informações do usuário (pessoa) da Empresa"
+			},
+			"getUserBySimilarity": {
+				"name": "Busca usuário por similaridade",
+				"description": "Método que busca todos os usuários da empresa do usuário logado de acordo com a similaridade do nome digitado"
+			}
+		},
+		"errors": {
+			"notFound": {
+				"message": "Usuário não encontrado",
+				"title": "Erro ao buscar usuário"
+			},
+			"notLoggedUser": {
+				"title": "Falha de autenticação",
+				"message": "Você não está autenticado. Por favor, faça login para continuar."
+			},
+			"invalidCredentials": {
+				"title": "Credenciais inválidas",
+				"message": "Falha de verificação de credenciais. Por favor, verifique seu nome de usuário e senha."
+			},
+			"emailNotVerified": {
+				"title": "Email não verificado",
+				"message": "O email {{email}} ainda não foi verificado. Por favor, verifique seu email e clique no link de verificação."
+			},
+			"onlyAdmCanCreateAdm": {
+				"title": "Erro ao criar usuário administrador",
+				"message": "Apenas usuários administradores podem criar outro usuário administrador."
+			},
+			"createUser": {
+				"message": "Não foi possível criar o usuário.",
+				"title": "Erro ao criar usuário"
+			},
+			"getRolesListNames": {
+				"message": "Um erro ocorreu ao buscar os perfis de usuário: {{error}}",
+				"title": "Erro ao buscar perfis de usuário"
+			},
+			"getUsersListPublication": {
+				"message": "Um erro ocorreu ao buscar os usuários: {{error}}",
+				"title": "Erro ao buscar usuários"
+			},
+			"emailRequired": {
+				"title": "Email obrigatório",
+				"message": "O email é obrigatório."
+			},
+			"userDisabled": {
+				"title": "Você não tem permissão para acessar o sistema",
+				"message": "Seu usuário está desativado. Entre em contato com o administrador do sistema."
+			},
+			"userAlreadyDisabled": {
+				"title": "Usuário já desativado",
+				"message": "O usuário já está desativado."
+			},
+			"userAlreadyEnabled": {
+				"title": "Usuário já ativado",
+				"message": "O usuário já está ativado."
+			},
+			"userEmailalreadyVerified": {
+				"title": "Email já verificado",
+				"message": "O email {{email}} já foi verificado."
+			},
+			"userCannotDisableSelf": {
+				"title": "Erro ao desativar usuário",
+				"message": "Você não pode desativar seu próprio usuário."
+			},
+			"userCannotEnableSelf": {
+				"title": "Erro ao ativar usuário",
+				"message": "Você não pode ativar seu próprio usuário."
+			},
+			"userCannotDisableAdmin": {
+				"title": "Erro ao desativar usuário",
+				"message": "Você não pode desativar o usuário administrador."
+			}
+		},
+		"pages": {
+			"userList": {
+				"addButton": "Adicionar",
+				"searchPlaceholder": "Pesquisar por nome",
+				"selectLabel": "Filtrar por perfil",
+				"selectPlaceholder": "Selecionar",
+				"title": "Lista de usuários",
+				"loading": "Carregando usuários..."
+			},
+			"createAdminUser": {
+				"title": "Registro de usuário administrador",
+				"description": "Não foi encontrado nenhum usuário administrador cadastrado no sistema. Por favor, registre um novo usuário administrador.",
+				"nameLabel": "Nome",
+				"namePlaceholder": "Digite seu nome",
+				"emailLabel": "Email",
+				"emailPlaceholder": "Digite seu email",
+				"passwordLabel": "Senha",
+				"passwordPlaceholder": "Digite sua senha",
+				"submit": "Cadastrar"
+			},
+			"signIn": {
+				"welcome": "Bem vindo",
+				"subWelcome": "Entre com seus dados para acessar sua conta",
+				"emailLabel": "Email",
+				"emailPlaceholder": "Digite seu email",
+				"passwordLabel": "Senha",
+				"passwordPlaceholder": "Digite sua senha",
+				"forgotPassword": "Esqueci minha senha",
+				"signInButton": "Entrar",
+				"gitHub": "GitHub",
+				"google": "Google",
+				"microsoftEntra": "Entra",
+				"emailInvalid": "Email inválido",
+				"passwordMinLength": "A senha deve ter no mínimo 6 caracteres"
+			},
+			"forgotPassword": {
+				"awaitingEmail": "Agora é só aguardar!",
+				"title": "Esqueceu sua senha?",
+				"emailSentMessage": "Caso o e-mail informado esteja cadastrado no sistema, enviaremos um link para a redefinição de sua senha.",
+				"emailConfirmationMessage": "Confirme seu e-mail abaixo para receber um link de redefinição da sua senha.",
+				"backToLoginButton": "Voltar para o Login",
+				"cancelButton": "Cancelar",
+				"confirmButton": "Confirmar",
+				"emailPlaceholder": "Ex.: jose@email.com",
+				"emailInvalid": "Email inválido"
+			},
+			"resetPassword": {
+				"title": "Redefinição de senha",
+				"passwordLabel": "Senha",
+				"passwordPlaceholder": "Digite uma senha segura",
+				"confirmPasswordLabel": "Confirmar senha",
+				"confirmPasswordPlaceholder": "Confirme a senha",
+				"confirmButton": "Confirmar",
+				"resetPasswordFailTitle": "Falha ao redefinir senha",
+				"resetPasswordFailMessage": "Mensagem de erro: {{errorMessage}}",
+				"minimum6": "A senha deve ter no mínimo 6 caracteres",
+				"dontMatch": "As senhas não conferem"
+			},
+			"enrollAccount": {
+				"title": "Definição de senha",
+				"welcomeMessage": "Seja bem-vindo ao {{appName}}. Para continuar, defina uma nova senha.",
+				"passwordPlaceholder": "Digite uma senha segura",
+				"confirmPasswordPlaceholder": "Confirme a senha",
+				"confirmButton": "Confirmar",
+				"passwordLabel": "Senha",
+				"confirmPasswordLabel": "Confirmar senha",
+				"passwordMinLength": "A senha deve ter no mínimo 6 caracteres",
+				"passwordsDontMatch": "As senhas não conferem",
+				"resetPasswordFailTitle": "Falha ao redefinir senha",
+				"resetPasswordFailMessage": "Mensagem de erro: {{errorMessage}}"
+			},
+			"notLoggedInUser": {
+				"notifications": {
+					"userCreatedTitle": "Usuário criado",
+					"userCreatedMessage": "O usuário {{userName}} foi criado com sucesso.",
+					"resetPasswordSuccessTitle": "Senha alterada",
+					"resetPasswordSuccessMessage": "Sua senha foi alterada com sucesso. Seja bem-vindo de volta!",
+					"enrollAccountSuccessTitle": "Senha definida",
+					"enrollAccountSuccessMessage": "Sua senha foi definida com sucesso.",
+					"defaultErrorMessage": "Ocorreu um erro inesperado."
+				},
+				"dialogs": {
+					"okButton": "Ok"
+				}
+			}
+		}
+	}
+}

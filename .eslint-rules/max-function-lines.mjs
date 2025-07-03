@@ -53,7 +53,32 @@ export default function createRuleMaxLines(options) {
 					}
 
 					const lines = sourceCode.getText(node).split("\n");
-					const filteredLines = lines.filter((line) => !/^\s*['"`]/.test(line));
+
+					// Flags para rastrear se estamos dentro de um template literal (`string multilinha`)
+					let insideTemplateLiteral = false;
+
+					const filteredLines = lines.filter((line) => {
+						const trimmedLine = line.trim();
+
+						// Ignora linhas de comentário
+						if (/^\/\//.test(trimmedLine) || /^\/\*.*\*\/$/.test(trimmedLine)) {
+							return false;
+						}
+
+						// Alterna a flag quando encontra um template literal (`) no início ou fim
+						const backtickMatches = trimmedLine.match(/`/g);
+						if (backtickMatches && backtickMatches.length % 2 !== 0) {
+							insideTemplateLiteral = !insideTemplateLiteral;
+						}
+
+						// Ignora linha dentro de um template literal
+						if (insideTemplateLiteral) {
+							return false;
+						}
+
+						// Mantém todas as outras linhas
+						return true;
+					});
 
 					if (filteredLines.length > maxLines) {
 						context.report({

@@ -19,7 +19,7 @@ interface ISysMenuController extends Omit<MenuProps, "open" | "onClose" | "ancho
 	/**Lista de opções que serão convertidas em itens no menu */
 	options?: Array<ISysMenuItem>;
 	/**Componente default que será exibido quando não existir itens no menu */
-	menuItemDedaultComponent?: ElementType;
+	menuItemDefaultComponent?: ElementType;
 	/**Elemento que contem a lista a ser renderizada do menu */
 	contentContainer?: ElementType;
 	/** Conteúdo do menu: Quando existe tem prioridade sobre os itens passados como opcoes*/
@@ -34,14 +34,14 @@ interface ISysMenuRef {
 
 interface ISysMenuItem {
 	key: string;
-	onClick?: () => void;
+	onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 	component?: ElementType;
 	resources?: Array<string>;
 	otherProps?: Record<string, any>;
 }
 
 const SysMenu: ForwardRefRenderFunction<ISysMenuRef, ISysMenuController> = (
-	{ onCloseCallback, options, activeArrow, menuItemDedaultComponent, contentContainer, ...menuProps },
+	{ onCloseCallback, options, activeArrow, menuItemDefaultComponent, contentContainer, ...menuProps },
 	ref
 ) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -74,7 +74,7 @@ const SysMenu: ForwardRefRenderFunction<ISysMenuRef, ISysMenuController> = (
 		closeMenu: handleCloseMenu,
 		activeArrow: activeArrow || false,
 		options: options,
-		menuItemDedaultComponent: menuItemDedaultComponent,
+		menuItemDefaultComponent: menuItemDefaultComponent,
 		contentContainer: contentContainer
 	};
 

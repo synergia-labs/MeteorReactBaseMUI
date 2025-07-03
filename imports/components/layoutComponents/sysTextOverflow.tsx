@@ -13,6 +13,7 @@ const SysTextOverflow = styled(Typography, {
 		display: "-webkit-box",
 		WebkitLineClamp: maxLines,
 		WebkitBoxOrient: "vertical",
+		textAlign: "start",
 		overflow: "hidden",
 		textOverflow: "ellipsis",
 		whiteSpace: "normal",

@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 import SysLabelViewStyles from "./sysLabelViewStyle";
-import { SxProps, Theme } from "@mui/material";
+import { FormHelperText, SxProps, Theme } from "@mui/material";
 import Tooltip, { TooltipProps } from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SysIcon from "../sysIcon/sysIcon";
@@ -14,6 +14,7 @@ interface ISysLabelView extends Omit<TooltipProps, "children" | "title" | "place
 	showTooltip?: boolean;
 	tooltipMessage?: string;
 	tooltipPosition?: string | undefined;
+	helperText?: string;
 	sxMap?: {
 		container?: SxProps<Theme>;
 		header?: SxProps<Theme>;
@@ -21,7 +22,7 @@ interface ISysLabelView extends Omit<TooltipProps, "children" | "title" | "place
 	};
 }
 
-const { Container, Header } = SysLabelViewStyles;
+const { Container, Header, ChildrenContainer } = SysLabelViewStyles;
 
 const SysLabelView: React.FC<ISysLabelView> = ({
 	label,
@@ -32,29 +33,39 @@ const SysLabelView: React.FC<ISysLabelView> = ({
 	showTooltip,
 	tooltipMessage,
 	tooltipPosition,
-	sxMap
+	sxMap,
+	helperText
 }) => {
-	return (
-		<Container sx={sxMap?.container}>
-			{(!!label || showTooltip) && (
-				<Tooltip title={tooltipMessage} placement={tooltipPosition as any}>
-					<Header sx={sxMap?.header}>
-						<Typography
-							variant="body2"
-							color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}>
-							{label} {showLabelAdornment && labelAdornment}
-						</Typography>
-						{showTooltip && (
-							<SysIcon
-								name={"help"}
-								sx={{ color: (theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary) }}
-							/>
-						)}
-					</Header>
-				</Tooltip>
-			)}
+	const component = (
+		<ChildrenContainer>
 			{children}
+			{helperText && <FormHelperText>{helperText}</FormHelperText>}
+		</ChildrenContainer>
+	);
+
+	return !!label || showTooltip ? (
+		<Container sx={sxMap?.container}>
+			<Tooltip title={tooltipMessage} placement={tooltipPosition as any}>
+				<Header sx={sxMap?.header}>
+					<Typography
+						variant="body2"
+						color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}>
+						{label} {showLabelAdornment && labelAdornment}
+					</Typography>
+					{showTooltip && (
+						<SysIcon
+							name={"help"}
+							sx={{
+								color: (theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)
+							}}
+						/>
+					)}
+				</Header>
+			</Tooltip>
+			{component}
 		</Container>
+	) : (
+		component
 	);
 };
 

@@ -1,6 +1,7 @@
 import { Mongo } from "meteor/mongo";
+import { Document } from "mongodb";
 
-export class MongoBase extends Mongo.Collection<any> {
+export class MongoBase<T extends Document> extends Mongo.Collection<T> {
 	private collectionName: string;
 
 	constructor(collectionName: string) {

@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import Radio, { RadioProps } from "@mui/material/Radio";
 import { SysFormContext } from "../../sysForm/sysForm";
 import { IOption, SysFormComponentType } from "../../InterfaceBaseSimpleFormComponent";
-import { SxProps, Theme } from "@mui/material";
+import { Box, SxProps, Theme, Typography } from "@mui/material";
 import { SysViewField } from "../sysViewField/sysViewField";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,7 +11,6 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import { hasValue } from "../../../libs/hasValue";
 import { ISysFormComponentRef } from "../../sysForm/typings";
-import { sysSizes } from "../../../theme/sizes";
 
 interface ISysRadioProps extends SysFormComponentType<RadioProps> {
 	/** Estilo do componente.*/
@@ -46,7 +45,9 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	const controllerSysForm = useContext(SysFormContext);
 	const inSysFormContext = hasValue(controllerSysForm);
 
-	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
+	const refObject = !inSysFormContext
+		? null
+		: useRef<ISysFormComponentRef>({ name: name ?? "radioButton", value: value || defaultValue });
 	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 	const schema = refObject?.current.schema;
 
@@ -55,10 +56,10 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 	readOnly = readOnly || controllerSysForm.mode === "view" || schema?.readOnly;
 	disabled = disabled || controllerSysForm.disabled;
 	loading = loading || controllerSysForm.loading;
-	defaultValue = refObject?.current.value || schema?.defaultValue;
+	defaultValue = refObject?.current.value || defaultValue || schema?.defaultValue;
 	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
-	const [valueState, setValueState] = useState<string>(defaultValue || "");
+	const [valueState, setValueState] = useState<string>(defaultValue ?? "");
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
 	const [errorState, setErrorState] = useState<string | undefined>(error);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
@@ -105,24 +106,45 @@ export const SysRadioButton: React.FC<ISysRadioProps> = ({
 				tooltipMessage={tooltipMessage}
 				tooltipPosition={tooltipPosition}>
 				<RadioGroup
-					value={valueState || ""}
+					value={valueState}
 					name="controlled-radio-buttons-group"
 					onChange={onFieldChange}
 					sx={[
 						{
 							flexDirection: childrenAlignment,
 							flexWrap: "wrap",
-							gap: sysSizes.spacingRem.md
+							gap: 1
 						},
 						...(Array.isArray(sxMap?.radioGroup) ? sxMap?.radioGroup : [sxMap?.radioGroup])
 					]}>
 					{optionsState &&
-						optionsState.map((opt) => (
+						optionsState.map(({ label, value, description }) => (
 							<FormControlLabel
-								key={opt.value}
-								value={opt.value || ""}
+								key={value + "sysRadioButton"}
+								value={value}
 								control={<Radio {...otherProps} />}
-								label={opt.label}
+								label={
+									hasValue(description) ? (
+										<Box
+											sx={{
+												display: "flex",
+												flexDirection: "column"
+											}}>
+											<Typography variant="subtitle1">{label}</Typography>
+											<Typography
+												variant="body2"
+												title={description}
+												textAlign={"justify"}
+												color={(theme) => theme.palette.sysText.body}>
+												{description}
+											</Typography>
+										</Box>
+									) : (
+										<Typography variant="body2" color={(theme) => theme.palette.sysText.body}>
+											{label}
+										</Typography>
+									)
+								}
 								disabled={disabled || loading}
 							/>
 						))}

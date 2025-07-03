@@ -1,0 +1,73 @@
+{
+	"SecurityService": {
+		"components": {},
+		"config": {},
+		"dialogs": {},
+		"emails": {},
+		"methods": {
+			"checkMethodPermission": {
+				"name": "Verificar permissão de método",
+				"description": "Verifica se o usuário tem permissão para executar o método."
+			},
+			"getMethod": {
+				"name": "Obter método",
+				"description": "Obtém o método com base no nome uma determinada referência"
+			},
+			"getRole": {
+				"name": "Obter perfil de usuário",
+				"description": "Obtém o perfil de usuário com base no nome e uma determinada referência."
+			},
+			"getRolesListNames": {
+				"name": "Obter lista de nomes de perfis de usuário",
+				"description": "Obtém a lista de nomes de perfis de usuário para uma determinada referência."
+			},
+			"methodSafeInsert": {
+				"name": "Inserir método seguro",
+				"description": "Insere um novo método na coleção de métodos."
+			},
+			"roleSafeInsert": {
+				"name": "Inserir perfil de usuário seguro",
+				"description": "Insere um novo perfil de usuário para uma determinada referência."
+			},
+			"getAllMethods": {
+				"name": "Obter todos os métodos",
+				"description": "Retorna todos os métodos disponíveis para uma determinada referência"
+			},
+			"getAllRoles": {
+				"name": "Obter todos os perfis de usuário",
+				"description": "Retorna todos os perfis de usuário disponíveis para uma determinada referência"
+			}
+		},
+		"errors": {
+			"collectionMethodsNotFound": {
+				"title": "Coleção de métodos não encontrada",
+				"message": "A coleção de métodos não foi encontrada. Verifique se o nome da coleção está correto e se a coleção existe no banco de dados."
+			},
+			"methodNotFound": {
+				"title": "Método não encontrado",
+				"message": "O método {{method}} não foi encontrado. Verifique se o nome do método está correto e se o método existe na coleção."
+			},
+			"protectedMethod": {
+				"title": "Acesso restringido",
+				"message": "Você não tem acesso a essa funcionalidade. Entre em contato com o administrador do sistema para obter mais informações."
+			},
+			"methodAlreadyExists": {
+				"title": "Método já existe",
+				"message": "O método {{method}} já existe. Verifique se o nome do método está correto e se o método não foi criado anteriormente."
+			},
+			"collectionRoleNotFound": {
+				"title": "Coleção de perfil de usuário não encontrada",
+				"message": "A coleção de perfil de usuário não foi encontrada. Verifique se o nome da coleção está correto e se a coleção existe no banco de dados."
+			},
+			"roleNotFound": {
+				"title": "Perfil de usuário não encontrado",
+				"message": "Não há definição para o seu perfil de usuário. Entre em contato com o administrador do sistema para obter mais informações."
+			},
+			"roleAlreadyExists": {
+				"title": "Perfil de usuário já existe",
+				"message": "O perfil de usuário {{role}} já existe. Verifique se o nome do perfil de usuário está correto e se o perfil de usuário não foi criado anteriormente."
+			}
+		},
+		"pages": {}
+	}
+}

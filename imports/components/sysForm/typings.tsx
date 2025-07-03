@@ -1,4 +1,4 @@
-import { MutableRefObject } from "react";
+import { MutableRefObject, RefObject } from "react";
 import { IOption } from "../InterfaceBaseSimpleFormComponent";
 import { IDefField, ISchema } from "../../types/schema";
 import React from "react";
@@ -24,9 +24,11 @@ interface ISysForm {
 	submitWithKeyEnter?: boolean;
 	validateOnChange?: boolean | Array<string>;
 	children?: React.ReactNode;
+	onFalure?: (error: any, fieldsWithErrors: { [key: string]: string }) => void;
 }
 
 interface ISysFormRef {
+	setValue: (name: string, value: any) => void;
 	getFieldWithErrors(): { [key: string]: string };
 
 	getDocValues(): IDocValues;
@@ -53,7 +55,7 @@ interface ISysFormContext {
 	disabled: boolean;
 	docId?: string;
 	setRefComponent: (component: MutableRefObject<ISysFormComponentRef>) => void;
-	setButtonRef: (button: MutableRefObject<ISysFormButtonRef>) => void;
+	setButtonRef: (button: RefObject<ISysFormButtonRef>) => void;
 	onChangeComponentValue: ({
 		refComponent,
 		value
@@ -95,8 +97,8 @@ interface ISysFormComponentRef {
 	mapperSysForm?: (value: any) => any;
 }
 
-interface ISysFormButtonRef {
-	disabled?: boolean;
+interface ISysFormButtonRef extends HTMLButtonElement {
+	// disabled?: boolean;
 	setDisabled?: (disabled: boolean) => void;
 	onClick?: () => void;
 }

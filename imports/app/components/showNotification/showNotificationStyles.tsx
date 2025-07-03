@@ -1,64 +1,64 @@
-import React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper, { PaperProps } from "@mui/material/Paper";
+import React, { ElementType } from "react";
+import styled from "@mui/material/styles/styled";
+import Box, { BoxProps } from "@mui/material/Box";
 import { sysSizes } from "../../../theme/sizes";
 
 interface IShowNotificationStyles {
-	Container: React.ElementType;
+	Container: ElementType<IContainer>;
 	Header: React.ElementType;
 	Body: React.ElementType;
 }
 
-interface IContainer extends PaperProps {
+interface IContainer extends BoxProps {
 	type: "success" | "error" | "warning" | "default";
 }
 
 const ShowNotificationStyles: IShowNotificationStyles = {
-	Container: styled(Paper, {
+	Container: styled(Box, {
 		shouldForwardProp: (prop) => prop !== "type"
 	})<IContainer>(({ theme, type }) => ({
-		"minWidth": "440px",
-		"minHeight": "80px",
-		"borderRadius": sysSizes.radius.sm,
-		"display": "flex",
-		"flexDirection": "column",
-		"overflow": "hidden",
+		minWidth: "200px",
+		width: "min(90vw, 500px)",
+		minHeight: "80px",
+		borderRadius: sysSizes.radius.sm,
+		display: "flex",
+		flexDirection: "column",
+		overflow: "hidden",
 
-		"& .MuiSvgIcon-root": {
+		["& .MuiButton-root"]: {
 			width: "24px",
 			height: "24px"
 		},
 
 		...(type === "success" && {
-			"backgroundColor": theme.palette.success.main,
-			"color": theme.palette.success.contrastText,
-			"border": `1px solid ${theme.palette.success.main}`,
-			"& .MuiSvgIcon-root": {
+			backgroundColor: theme.palette.success.main,
+			color: theme.palette.success.contrastText,
+			border: `1px solid ${theme.palette.success.main}`,
+			["& .MuiSvgIcon-root"]: {
 				color: theme.palette.success.main
 			}
 		}),
 		...(type === "error" && {
-			"backgroundColor": theme.palette.error.main,
-			"color": theme.palette.error.contrastText,
-			"border": `1px solid ${theme.palette.error.main}`,
-			"& .MuiSvgIcon-root": {
+			backgroundColor: theme.palette.error.main,
+			color: theme.palette.error.contrastText,
+			border: `1px solid ${theme.palette.error.main}`,
+			["& .MuiSvgIcon-root"]: {
 				color: theme.palette.error.main
 			}
 		}),
 		...(type === "warning" && {
-			"backgroundColor": theme.palette.warning.main,
-			"color": theme.palette.warning.contrastText,
-			"border": `1px solid ${theme.palette.warning.main}`,
-			"& .MuiSvgIcon-root": {
+			backgroundColor: theme.palette.warning.main,
+			color: theme.palette.warning.contrastText,
+			border: `1px solid ${theme.palette.warning.main}`,
+			["& .MuiSvgIcon-root"]: {
 				color: theme.palette.warning.dark
 			}
 		}),
 		...(type === "default" && {
-			"backgroundColor": theme.palette.sysAction?.primary,
-			"color": theme.palette.sysText?.base,
-			"border": `1px solid ${theme.palette.sysAction?.primary}`,
-			"& .MuiSvgIcon-root": {
+			backgroundColor: theme.palette.sysAction?.primary,
+			color: theme.palette.sysText?.base,
+			border: `1px solid ${theme.palette.sysAction?.primary}`,
+			["& .MuiSvgIcon-root"]: {
 				color: theme.palette.sysAction?.primary
 			}
 		})

@@ -49,7 +49,9 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	const controllerSysForm = useContext(SysFormContext);
 	const inSysFormContext = hasValue(controllerSysForm);
 
-	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
+	const refObject = !inSysFormContext
+		? null
+		: useRef<ISysFormComponentRef>({ name: name ?? "", value: value || defaultValue });
 	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 
 	const schema = refObject?.current.schema;

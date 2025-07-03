@@ -5,7 +5,7 @@ import { UploadStorageBase } from "./bases/upload";
 import { Buffer } from "buffer";
 import { enumFileType } from "../common/types/file.type";
 import { ParamUploadArchiveType, ReturnUploadArchiveType } from "../common/types/uploadArchive";
-import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../modules/users/common/enums/enumUserRoles";
 
 class UploadDocument extends UploadStorageBase {
 	constructor() {
@@ -17,7 +17,7 @@ class UploadDocument extends UploadStorageBase {
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
 		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== "archive"));
-		const documentCollection = this.getServerInstance()?.getDocumentCollection();
+		const documentCollection = this.getServerInstance(_context).getDocumentCollection();
 
 		// Faz o upload do arquivo na coleção de documentos
 		const objec = await documentCollection?.write(param.archive.content as Buffer, {
@@ -27,9 +27,7 @@ class UploadDocument extends UploadStorageBase {
 			size: param.archive.size
 		});
 
-		if (!objec) {
-			this.generateError({ _message: "Failed to upload document" }, _context);
-		}
+		if (!objec) this.generateError({ key: "documentUploadFailed" }, _context);
 
 		const path = storageServer.getUrl({
 			_id: objec._id,

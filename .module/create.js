@@ -14,6 +14,7 @@ const TEMPLATE_DIR = "./.module/simple";
 const MODULES_DIR = "./imports/modules";
 const REGISTER_ROUTE_PATH = "./imports/app/routes/register.ts";
 const REGISTER_SERVER_PATH = "./server/main.ts";
+const REGISTER_I18N_PATH = "./imports/services/internationalization/index.ts";
 
 // Função para perguntar algo ao usuário
 const askQuestion = (query) => new Promise((resolve) => rl.question(query, resolve));
@@ -64,7 +65,7 @@ function replaceInFiles(refString, newString, modulePath) {
 
 			if (stats.isDirectory()) {
 				processDirectory(filePath); // Recursão para subdiretórios
-			} else if (/\.(js|ts|jsx|tsx)$/.test(file)) {
+			} else if (/\.(js|ts|jsx|tsx|json)$/.test(file)) {
 				let content = fs.readFileSync(filePath, "utf8");
 
 				if (content.includes(refString)) {
@@ -122,6 +123,43 @@ function updateRegisterRouteFile(moduleName) {
 	console.log(`✅ O módulo ${moduleName} foi adicionado ao register.ts com sucesso!`);
 }
 
+function updateRegisterI18nFile(moduleName) {
+	if (!fs.existsSync(REGISTER_I18N_PATH)) {
+		console.log("❌ Erro: O arquivo de registro de traduções não foi encontrado.");
+		return;
+	}
+
+	let content = fs.readFileSync(REGISTER_I18N_PATH, "utf8");
+
+	// Criar a string do novo import
+	const importStatement = `import ${moduleName} from "/imports/modules/${moduleName}/common/locales";\n`;
+
+	// Verifica se o import já existe
+	if (content.includes(importStatement.trim())) {
+		console.log(`⚠️ O módulo ${moduleName} já está registrado.`);
+		return;
+	}
+
+	// Adiciona o import no topo do arquivo
+	content = importStatement + content;
+
+	// Encontrar a linha onde registerModules é declarado
+	const registerModulesRegex = /const registerModules: Array<Record<enumSupportedLanguages, any>> = \[(.*?)\];/s;
+	const match = content.match(registerModulesRegex);
+
+	if (!match) return console.log("❌ Erro: Não foi possível encontrar a declaração registerModules.");
+	const currentModules = match[1].trim();
+	const updatedModules = `${currentModules}, ${moduleName}`;
+	content = content.replace(
+		registerModulesRegex,
+		`const registerModules: Array<Record<enumSupportedLanguages, any>> = [${updatedModules}];`
+	);
+
+	// Escreve de volta no arquivo
+	fs.writeFileSync(REGISTER_I18N_PATH, content, "utf8");
+	console.log(`✅ O módulo ${moduleName} foi adicionado ao registro de traduções com sucesso!`);
+}
+
 // Adiciona um novo módulo ao arquivo register.ts.
 function updateRegisterServerFile(moduleName) {
 	if (!fs.existsSync(REGISTER_SERVER_PATH)) {
@@ -132,7 +170,7 @@ function updateRegisterServerFile(moduleName) {
 	let content = fs.readFileSync(REGISTER_SERVER_PATH, "utf8");
 
 	// Criar a string do novo import
-	const importStatement = `import "../modules/${moduleName}/backend/server";\n`;
+	const importStatement = `import "../imports/modules/${moduleName}/backend/server";\n`;
 
 	// Verifica se o import já existe
 	if (content.includes(importStatement.trim())) {
@@ -173,6 +211,7 @@ function updateRegisterServerFile(moduleName) {
 	// Registra as rotas e API do modulo
 	updateRegisterRouteFile(toCamelCase(moduleName));
 	updateRegisterServerFile(toCamelCase(moduleName));
+	updateRegisterI18nFile(toCamelCase(moduleName));
 
 	console.log(`✅ Módulo '${moduleName}' criado com sucesso em '${newModulePath}'!`);
 	rl.close();

@@ -17,6 +17,7 @@ export interface IDefField<C> {
 	optional?: boolean;
 	mask?: string;
 	subSchema?: ISchema<any>;
+	placeholder?: string;
 	visibilityFunction?: (doc: C) => boolean;
 	validationFunction?: (value: any, doc?: C) => string | undefined;
 	isImage?: boolean;

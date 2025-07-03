@@ -1,4 +1,4 @@
-import React, { ElementType, useContext, Suspense, useEffect } from "react";
+import React, { ElementType, useContext, Suspense, useEffect, ReactNode } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { hasValue } from "/imports/libs/hasValue";
 import NotFoundErrorPage from "../../../modules/basicPages/frontend/pages/error/notFoundErrorPage";
@@ -84,11 +84,17 @@ export const AppRouterSwitch: React.FC = React.memo(() => {
 		}
 	};
 
+	const renderErrorRoute = (children: ReactNode) => (
+		<RouteWrapper canUpdateTemplate={true} variant={enumSysTemplateOptions.NONE}>
+			<Suspense fallback={<LinearIndeterminateLoading isLoading={true} />}>{children}</Suspense>
+		</RouteWrapper>
+	);
+
 	return (
 		<Routes>
 			{getRecursiveRoutes(routes)}
-			<Route path="/forbidden" element={<ForbiddenErrorPage />} />
-			<Route path="*" element={<NotFoundErrorPage />} />
+			<Route path="/forbidden" element={renderErrorRoute(<ForbiddenErrorPage />)} />
+			<Route path="*" element={renderErrorRoute(<NotFoundErrorPage />)} />
 		</Routes>
 	);
 });

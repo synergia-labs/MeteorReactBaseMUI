@@ -9,14 +9,13 @@ import {
 import { SecurityServer } from "../security.server";
 import { _checkPermission } from "../utils/checkPermission";
 import MethodBase from "/imports/base/server/methods/method.base";
-import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "../../../../types/context";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class CheckMethodPermission extends MethodBase<SecurityServer, ParamCheckPermissionType, ReturnCheckPermissionType> {
 	constructor() {
 		super({
 			name: enumSecurityMethods.checkMethodPermission,
-			description: "Check if user has permission to execute a method",
 			roles: [enumUserRoles.PUBLIC],
 			paramSch: paramCheckPermissionSch,
 			returnSch: returnCheckPermissionSch

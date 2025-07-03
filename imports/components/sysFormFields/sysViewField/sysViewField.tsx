@@ -75,13 +75,17 @@ export const SysViewField: React.FC<ISysViewField> = ({
 	return (
 		<Container sx={sxMap?.container}>
 			{/* Exibe o rótulo */}
-			<Info variant="body2" sx={sxMap?.label} type={"label"} disabled={disabled || false}>
-				{`${label} ${showLabelAdornment ? labelAdornment : ""}`}
-			</Info>
+			{label && (
+				<Info variant="body2" sx={sxMap?.label} type={"label"} disabled={disabled || false}>
+					{`${label} ${showLabelAdornment ? labelAdornment : ""}`}
+				</Info>
+			)}
 			{/* Exibe o espaço reservado */}
-			<Info variant="body1" sx={sxMap?.placeholder} type={"placeholder"} disabled={disabled || false}>
-				{placeholder}
-			</Info>
+			{placeholder && (
+				<Info variant="body1" sx={sxMap?.placeholder} type={"placeholder"} disabled={disabled || false}>
+					{placeholder}
+				</Info>
+			)}
 		</Container>
 	);
 };

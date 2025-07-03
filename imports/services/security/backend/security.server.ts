@@ -12,6 +12,8 @@ import { roleSafeInsert } from "./methods/roleSafeInsert";
 import { getAllMethodsPublication } from "./publications/getAllMethods";
 import { getAllRolesPublication } from "./publications/getAllRoles";
 import { getRolesListNames } from "./methods/getRolesListNames";
+import { ParamMethodSafeInsertType } from "../common/types/methodSafeInsert";
+import { ParamRoleSafeInsertType } from "../common/types/roleSafeInsert";
 
 const _methodInstances: Array<MethodBase<any, any, any>> = [
 	roleSafeInsert,
@@ -28,8 +30,8 @@ const _publicationInstances: Array<PublicationBase<any, any, any>> = [
 ] as const;
 
 export class SecurityServer extends ServerBase {
-	static mongoRole = new MongoBase(enumSecurityConfig.ROLE_COLLECTION_NAME);
-	static mongoMethod = new MongoBase(enumSecurityConfig.METHOD_COLLECTION_NAME);
+	static mongoRole = new MongoBase<ParamRoleSafeInsertType>(enumSecurityConfig.ROLE_COLLECTION_NAME);
+	static mongoMethod = new MongoBase<ParamMethodSafeInsertType>(enumSecurityConfig.METHOD_COLLECTION_NAME);
 
 	constructor() {
 		super(enumSecurityConfig.API_NAME);
@@ -37,8 +39,8 @@ export class SecurityServer extends ServerBase {
 		this.registerPublications(_publicationInstances, this);
 	}
 
-	getRoleCollection = () => SecurityServer.mongoRole;
-	getMethodCollection = () => SecurityServer.mongoMethod;
+	getRoleCollection = (): MongoBase<ParamRoleSafeInsertType> => SecurityServer.mongoRole;
+	getMethodCollection = (): MongoBase<ParamMethodSafeInsertType> => SecurityServer.mongoMethod;
 }
 
 const securityServer = new SecurityServer() as SecurityServer & ISecurityServerMethods;

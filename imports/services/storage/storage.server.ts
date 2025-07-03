@@ -20,6 +20,7 @@ import { getDocument } from "./methods/getDocument";
 import { uploadDocument } from "./methods/uploadDocument";
 import { deleteDocument } from "./methods/deleteDocument";
 import { IStorageServerMethods } from "./common/interfaces/methods";
+import { hasValue } from "/imports/libs/hasValue";
 
 /**
  * Lista de métodos disponíveis para manipulação de arquivos no servidor de armazenamento.
@@ -96,9 +97,21 @@ export class StorageServer extends ServerBase {
 
 		// Registra os endpoints REST para obtenção de arquivos.
 		this.addRestEndpoints([
-			[enumEndpointType.enum.GET, getImage.execute.bind(getImage) as MethodType<typeof getImage>, enumFileType.enum.IMAGE],
-			[enumEndpointType.enum.GET, getAudio.execute.bind(getAudio) as MethodType<typeof getAudio>, enumFileType.enum.AUDIO],
-			[enumEndpointType.enum.GET, getVideo.execute.bind(getVideo) as MethodType<typeof getVideo>, enumFileType.enum.VIDEO],
+			[
+				enumEndpointType.enum.GET,
+				getImage.execute.bind(getImage) as MethodType<typeof getImage>,
+				enumFileType.enum.IMAGE
+			],
+			[
+				enumEndpointType.enum.GET,
+				getAudio.execute.bind(getAudio) as MethodType<typeof getAudio>,
+				enumFileType.enum.AUDIO
+			],
+			[
+				enumEndpointType.enum.GET,
+				getVideo.execute.bind(getVideo) as MethodType<typeof getVideo>,
+				enumFileType.enum.VIDEO
+			],
 			[
 				enumEndpointType.enum.GET,
 				getDocument.execute.bind(getDocument) as MethodType<typeof getDocument>,
@@ -125,6 +138,7 @@ export class StorageServer extends ServerBase {
 	 * @returns A URL do arquivo como string.
 	 */
 	public getUrl(params: GetFileUrlType): string {
+		if (!hasValue(params._id)) return "";
 		// Valida os parâmetros usando o esquema Zod.
 		params = getFileUrlSch.parse(params);
 		const { _id, type, resolution, isDownload, withPreview } = params;

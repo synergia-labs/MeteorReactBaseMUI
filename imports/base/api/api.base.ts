@@ -31,8 +31,12 @@ abstract class ApiBase {
 	 */
 	private registerPublications(publicationName: string, subscribeName: string): void {
 		if (hasValue((this as any)[publicationName])) return;
-		(this as any)[publicationName] = (param: any, options: Mongo.Options<any>): Meteor.SubscriptionHandle => {
-			return Meteor.subscribe(subscribeName, param || {}, options || {});
+		(this as any)[publicationName] = (
+			param: any,
+			options: Mongo.Options<any>,
+			config?: any
+		): Meteor.SubscriptionHandle => {
+			return Meteor.subscribe(subscribeName, param || {}, options || {}, config);
 		};
 	}
 }

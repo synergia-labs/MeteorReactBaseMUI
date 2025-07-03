@@ -18,7 +18,6 @@ export const SysViewFieldStyle = {
 	Info: styled(Typography)<IInfo>(({ theme, type, disabled }) => ({
 		display: "flex",
 		alignItems: "center",
-		height: type === "label" ? "21px" : "25px",
 		color: disabled
 			? theme.palette.sysText?.disabled
 			: type == "label"

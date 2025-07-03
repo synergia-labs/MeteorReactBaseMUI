@@ -1,5 +1,5 @@
 import { getDefaultAdminContext } from "/imports/base/server/utils/defaultContexts";
-import enumUserRoles from "/imports/modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 import { sysRoutesList } from "/imports/app/routes/register";
 import { RouteType } from "/imports/app/routes/types/routeType";
 import { methodSafeInsert } from "/imports/services/security/backend/methods/methodSafeInsert";

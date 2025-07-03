@@ -1,8 +1,8 @@
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamDeleteArchiveType, ReturnDeleteArchiveType } from "../common/types/deleteArchive";
 import { DeleteStorageBase } from "./bases/delete";
-import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "../../../types/context";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class DeleteVideo extends DeleteStorageBase {
 	constructor() {
@@ -13,12 +13,12 @@ class DeleteVideo extends DeleteStorageBase {
 	}
 
 	async action(_param: ParamDeleteArchiveType, _context: IContext): Promise<ReturnDeleteArchiveType> {
-		const videoCollection = this.getServerInstance()?.getVideoCollection();
+		const videoCollection = this.getServerInstance(_context).getVideoCollection();
 		const file = await videoCollection?.findOneAsync({ _id: _param._id });
 
-		if (!file) this.generateError({ _message: "Vídeo não encontrado" }, _context);
+		if (!file) this.generateError({ key: "videoNotFound" }, _context);
 		if (file.meta?.isRestricted && file.meta?.createdBy !== _context.user._id)
-			this.generateError({ _message: "Você não tem permissão para deletar este vídeo" }, _context);
+			this.generateError({ key: "videoDeletePermissionDenied" }, _context);
 
 		await videoCollection?.removeAsync({ _id: _param._id });
 

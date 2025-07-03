@@ -2,7 +2,7 @@ import { IContext } from "../../../types/context";
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { UploadStorageBase } from "./bases/upload";
 import { Buffer } from "buffer";
-import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
+import enumUserRoles from "../../../modules/users/common/enums/enumUserRoles";
 import storageServer from "../storage.server";
 import { enumFileType } from "../common/types/file.type";
 import { ParamUploadArchiveType, ReturnUploadArchiveType } from "../common/types/uploadArchive";
@@ -16,19 +16,17 @@ class UploadImage extends UploadStorageBase {
 	}
 
 	async action(param: ParamUploadArchiveType, _context: IContext): Promise<ReturnUploadArchiveType> {
-		const imageCollection = this.getServerInstance()?.getImageCollection();
+		const imageCollection = this.getServerInstance(_context).getImageCollection();
 		const partialDoc = Object.fromEntries(Object.entries(param).filter(([key]) => key !== "archive"));
 
-		const objec = await imageCollection?.write(param.archive.content as Buffer, {
+		const objec = await imageCollection?.writeAsync(param.archive.content as Buffer, {
 			meta: partialDoc,
 			name: param.archive.name,
 			type: param.archive.type,
 			size: param.archive.size
 		});
 
-		if (!objec) {
-			this.generateError({ _message: "Failed to upload image" }, _context);
-		}
+		if (!objec) this.generateError({ key: "imageUploadFailed" }, _context);
 
 		const path = storageServer.getUrl({
 			_id: objec._id,

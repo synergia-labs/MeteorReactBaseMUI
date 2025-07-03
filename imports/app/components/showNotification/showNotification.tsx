@@ -8,6 +8,9 @@ import { hasValue } from "../../../libs/hasValue";
 import Styles from "./showNotificationStyles";
 import SysIcon from "../../../components/sysIcon/sysIcon";
 import IAppComponents from "/imports/types/appCompontent";
+import convertI18Error from "/imports/services/internationalization/utils/convertI18Error";
+import { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
 
 export interface IShowNotificationProps extends IAppComponents {
 	/**Exibe um botão para fechar a notificação.*/
@@ -17,9 +20,9 @@ export interface IShowNotificationProps extends IAppComponents {
 	/**Especifica o tipo da notificação, como sucesso, erro, informação ou aviso.*/
 	type?: "success" | "error" | "warning" | "default";
 	/** Define o título da notificação, destacado na parte superior.*/
-	title?: string;
+	title?: string | ((t: TFunction) => string);
 	/**Estabelece a mensagem principal da notificação.*/
-	message?: string;
+	message?: string | ((t: TFunction) => string);
 	/**Posicionamento horizontal da notificação na tela.*/
 	horizontal?: "left" | "center" | "right";
 	/**Posicionamento vertical da notificação na tela.*/
@@ -27,7 +30,7 @@ export interface IShowNotificationProps extends IAppComponents {
 	/**Permite a inclusão de um ícone personalizado na notificação.*/
 	icon?: React.ReactNode;
 	/**Exibe um botão de ação na notificação, com um texto personalizado.*/
-	actionButtonTex?: string;
+	actionButtonTex?: string | ((t: TFunction) => string);
 	/**Define a ação a ser executada ao clicar no botão de ação.*/
 	onClickActionButton?: () => void;
 	/** Adiciona uma ação personalizada, como um botão ou link, na notificação.*/
@@ -38,6 +41,7 @@ export interface IShowNotificationProps extends IAppComponents {
 		header?: SxProps<Theme>;
 		body?: SxProps<Theme>;
 	};
+	error?: unknown;
 	/**
 	 * A propriedade 'children' permite a inserção de um elemento JSX personalizado na snackBar.
 	 * Utilize esta propriedade para customizar o conteúdo da snackBar, adicionando elementos específicos
@@ -91,14 +95,21 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 	actionButtonTex,
 	onClickActionButton,
 	action,
+	error,
 	children
 }) => {
+	const { t } = useTranslation();
 	const icons = {
 		success: <SysIcon name={"check"} />,
 		error: <SysIcon name={"errorCircle"} />,
 		warning: <SysIcon name={"warningAmber"} />,
 		default: <SysIcon name={"notification"} />
 	};
+
+	const convertedError = hasValue(error) ? convertI18Error(error) : undefined;
+
+	title = hasValue(title) ? title : convertedError?.title;
+	message = hasValue(message) ? message : convertedError?.message;
 
 	return (
 		<Snackbar
@@ -114,12 +125,12 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 			) : (
 				<Styles.Container type={type} sx={sxMap?.container}>
 					<Styles.Header sx={sxMap?.header}>
-						<Typography variant="subtitle1">{title}</Typography>
+						<Typography variant="subtitle1">{typeof title === "function" ? title(t) : title}</Typography>
 					</Styles.Header>
 					<Styles.Body sx={sxMap?.body}>
 						{showStartIcon && (hasValue(icon) ? icon : icons[type])}
 						<Typography variant="body1" color="textPrimary" sx={{ flexGrow: 1 }}>
-							{message}
+							{typeof message === "function" ? message(t) : message}
 						</Typography>
 						{hasValue(action)
 							? action
@@ -137,7 +148,7 @@ export const ShowNotification: React.FC<IShowNotificationProps> = ({
 														? theme.palette.warning.dark
 														: theme.palette[type].main
 										}}>
-										{actionButtonTex || "Ação"}
+										{typeof actionButtonTex === "function" ? actionButtonTex(t) : actionButtonTex || "Ação"}
 									</Button>
 								)}
 						{showCloseButton && (

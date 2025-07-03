@@ -1,5 +1,3 @@
-type MediaQueriesType = "xs" | "sm" | "md" | "lg";
-
 interface IRadius {
 	xs: string;
 	sm: string;
@@ -80,41 +78,34 @@ const baseFixedSizes: Record<number, string> = {
 	12: "192px"
 } as const;
 
-const createUniformSizes = <T>(values: T): Record<MediaQueriesType, T> => ({
-	lg: values,
-	md: values,
-	sm: values,
-	xs: values
-});
-
-const radius = createUniformSizes<IRadius>({
+const radius: IRadius = {
 	xs: baseFixedSizes[0.25],
 	sm: baseFixedSizes[0.5],
 	md: baseFixedSizes[1],
 	lg: baseFixedSizes[1.5],
 	xl: baseFixedSizes[2],
 	infinite: "800px"
-});
+};
 
-const spacingRem = createUniformSizes<ISpacing>({
+const spacingRem: ISpacing = {
 	xs: baseRemSizes[0.25],
 	sm: baseRemSizes[0.5],
 	md: baseRemSizes[1],
 	lg: baseRemSizes[1.5],
 	xl: baseRemSizes[2],
 	xxl: baseRemSizes[3]
-});
+};
 
-const spacingFixed = createUniformSizes<ISpacing>({
+const spacingFixed: ISpacing = {
 	xs: baseFixedSizes[0.25],
 	sm: baseFixedSizes[0.5],
 	md: baseFixedSizes[1],
 	lg: baseFixedSizes[1.5],
 	xl: baseFixedSizes[2],
 	xxl: baseFixedSizes[3]
-});
+};
 
-const components = createUniformSizes<IComponents>({
+const components: IComponents = {
 	buttonMediumPy: baseRemSizes[0.5],
 	buttonSmallPy: baseRemSizes[0.25],
 	buttonMediumPx: baseRemSizes[1.5],
@@ -128,20 +119,20 @@ const components = createUniformSizes<IComponents>({
 	inputGap: baseRemSizes[0.5],
 	inputPx: baseRemSizes[1],
 	inputPy: baseRemSizes[0.5]
-});
+};
 
-const content = createUniformSizes<IContent>({
-	px: baseFixedSizes[1],
+const content: IContent = {
+	px: "136px",
 	pt: baseFixedSizes[2],
 	pb: baseFixedSizes[4]
-});
+};
 
 const sysSizes = {
-	radius: radius.lg,
-	spacingRem: spacingRem.lg,
-	spacingFixed: spacingFixed.lg,
-	components: components.lg,
-	content: content.lg,
+	radius: radius,
+	spacingRem: spacingRem,
+	spacingFixed: spacingFixed,
+	components: components,
+	content: content,
 	base: {
 		rem: baseRemSizes,
 		fixed: baseFixedSizes

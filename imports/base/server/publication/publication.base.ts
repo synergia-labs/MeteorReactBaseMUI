@@ -1,9 +1,11 @@
 import ServerBase from "../server.base";
 import ActionsBase, { IActionsBase } from "../actions.base";
 import { Mongo } from "meteor/mongo";
-import { Meteor, Subscription } from "meteor/meteor";
+import { Subscription } from "meteor/meteor";
 import { IContext } from "../../../types/context";
 import { z } from "zod";
+import GenerateI18nErrorType from "/imports/services/internationalization/common/types/generateI18nErrorType";
+import generateI18nError from "/imports/services/internationalization/utils/generateI18nError";
 
 interface IPublicationBase extends IActionsBase {
 	enableCountPublication?: boolean;
@@ -45,7 +47,6 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		_param: [Param, Mongo.Options<Return>],
 		_context: IContext
 	): Promise<Mongo.Cursor<Return, Return>> {
-		// console.log('context on Publication', _context);
 		return await super.execute(_param, _context);
 	}
 
@@ -53,21 +54,12 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		if (this.paramPubliSch) {
 			this.paramPubliSch.parse(_param[0]);
 		}
-		super.beforeAction(_param, _context);
+		await super.beforeAction(_param, _context);
 	}
 
-	protected generateError(
-		{
-			_message,
-			_code = "500"
-		}: {
-			_message: string;
-			_code?: string;
-		},
-		_context: IContext
-	): void {
-		console.error(`Erro :>> [${this.getName()}] ${_message}`);
-		(_context?.meteorInstance as Subscription)?.error(new Meteor.Error(_code, _message));
+	protected generateError(params: GenerateI18nErrorType, _context?: IContext): void {
+		super.includeAuditError(params, _context);
+		(_context?.meteorInstance as Subscription)?.error(generateI18nError({ ...params, context: _context }));
 	}
 
 	abstract action(_params: Param, _options: Mongo.Options<Return>, _context: IContext): Promise<Mongo.Cursor<Return>>;
@@ -90,7 +82,9 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 			if (errors.length > 0) {
 				this.generateError(
 					{
-						_message: `Os documentos não estão de acordo com o schema: \n${errors.join("\n")}`
+						key: "schemaError",
+						params: { schema: errors.join("\n") },
+						code: "500"
 					},
 					_context
 				);
@@ -99,12 +93,15 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		super.afterAction(_param, _result, _context);
 	}
 
-	protected actionBaseMethod(_param: [Param, Mongo.Options<Return>], _context: IContext): Promise<Mongo.Cursor<Return>> {
+	protected actionBaseMethod(
+		_param: [Param, Mongo.Options<Return>],
+		_context: IContext
+	): Promise<Mongo.Cursor<Return>> {
 		return this.action(_param[0], _param[1], _context);
 	}
 
 	async transformPublication(_doc: Return, _context: IContext): Promise<Return | void> {
-		return this.generateError({ _message: "Transformação de publicação não implementada" }, _context);
+		return this.generateError({ key: "publishTransformNotImplemented", code: "501" }, _context);
 	}
 }
 

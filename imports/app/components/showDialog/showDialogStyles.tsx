@@ -5,14 +5,20 @@ import Box, { BoxProps } from "@mui/material/Box";
 import { sysSizes } from "../../../theme/sizes";
 
 interface IStyles {
-	container: ElementType<BoxProps>;
+	container: ElementType<IContainer>;
 	messageContent: ElementType<BoxProps>;
 	header: ElementType<BoxProps>;
 	footer: ElementType<BoxProps>;
 }
 
+interface IContainer extends BoxProps {
+	disableMaxWidth?: boolean;
+}
+
 const showDialogStyles: IStyles = {
-	container: styled(Box)(({ theme }) => ({
+	container: styled(Box, {
+		shouldForwardProp: (prop) => prop !== "disableMaxWidth"
+	})<IContainer>(({ theme, disableMaxWidth }) => ({
 		padding: sysSizes.spacingFixed.lg,
 		borderRadius: sysSizes.radius.lg,
 		gap: sysSizes.spacingFixed.lg,
@@ -22,7 +28,7 @@ const showDialogStyles: IStyles = {
 		alignItems: "stretch",
 		minWidth: "500px",
 		minHeight: "160px",
-		maxWidth: "550px",
+		maxWidth: disableMaxWidth ? "auto" : "550px",
 
 		[theme.breakpoints.down("sm")]: {
 			minWidth: "auto",

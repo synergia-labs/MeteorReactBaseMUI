@@ -22,7 +22,7 @@ abstract class MethodBase<Server extends ServerBase, Param = unknown, Return = u
 	}
 
 	protected async beforeAction(_param: Param, _context: IContext): Promise<void> {
-		super.beforeAction(_param, _context, false);
+		await super.beforeAction(_param, _context, this.canRegister);
 	}
 
 	abstract action(_param: Param, _context: IContext): Promise<Return> | Return;

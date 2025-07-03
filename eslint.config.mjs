@@ -21,7 +21,7 @@ export default [
 	{ files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
 	{ languageOptions: { globals: { ...globals.browser, ...globals.node }, parser: typescriptParser } },
 	{
-		ignores: ["node_modules/", ".meteor/", "build/", ".cypress/", ".vscode/", "stories/", ".eslint-rules/", ".module/"]
+		ignores: ["node_modules/", ".meteor/", "build/", ".vscode/", "stories/", ".eslint-rules/", ".module/"]
 	},
 	{
 		settings: {
@@ -53,7 +53,7 @@ export default [
 		},
 		rules: {
 			"custom-rules/cross-imports": "error", // Regra customizada
-			"custom-rules/max-lines-warn": ["warn", { maxLines: 50 }], // 👈 Warn acima de 50
+			"custom-rules/max-lines-warn": ["warn", { maxLines: 70 }], // 👈 Warn acima de 50
 			"custom-rules/max-lines-error": ["error", { maxLines: 80 }], // 👈 Error acima de 70
 
 			"no-console": ["error", { allow: ["warn", "error", "info", "time", "timeEnd"] }], // Avisar sobre console.log

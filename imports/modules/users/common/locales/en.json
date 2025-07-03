@@ -1,0 +1,172 @@
+{
+	"users": {
+		"components": {},
+		"config": {
+			"name": "Users"
+		},
+		"dialogs": {},
+		"emails": {
+			"baseEmail": {
+				"ignoreMessage": "If you did not request this email, please disregard this message.",
+				"helpMessage": "Need help? Access our <a href=\"https://www.synergia.dcc.ufmg.br/\">Support Center</a>.",
+				"copyright": "© {{currentYear}} Synergia. All rights reserved."
+			},
+			"resetPassword": {
+				"subject": "{{appName}} - Password Reset",
+				"title": "Hello, {{userName}}",
+				"body1": "Your access password for <strong>{{appName}}</strong> will be changed.",
+				"body2": "Click the link below and enter a new password:",
+				"button": "Change password",
+				"footer": "Thank you for registering with <strong>{{appName}}</strong>. This is an automatically generated message. Please do not reply to this email."
+			},
+			"enrollAccount": {
+				"subject": "{{appName}} - User Registration",
+				"title": "Hello, {{userName}}",
+				"body1": "Your registration at <strong>{{appName}}</strong> was carried out by an administrator.",
+				"body2": "Click the link below to create your access password:",
+				"button": "Set password",
+				"footer": "Thank you for registering with <strong>{{appName}}</strong>. This is an automatically generated message. Please do not reply to this email."
+			}
+		},
+		"methods": {
+			"getUsersListPublication": {
+				"name": "Fetch user list",
+				"description": "Publication that returns all users registered in the system"
+			},
+			"getUserPhoto": {
+				"name": "Fetch user photo",
+				"description": "Method that returns the user's profile photo"
+			},
+			"create": {
+				"name": "Create user",
+				"description": "Method that creates a new user"
+			},
+			"checkIfHasAdminUser": {
+				"name": "Check if there is an admin user",
+				"description": "Method that checks if there is any admin user in the system"
+			},
+			"sendResetPasswordEmail": {
+				"name": "Send password reset email",
+				"description": "Method that sends an email to reset the user's password"
+			}
+		},
+		"errors": {
+			"createUser": {
+				"message": "It was not possible to create the user.",
+				"title": "Error Creating User"
+			},
+			"emailNotVerified": {
+				"message": "The email {{email}} has not yet been checked. Please check your email and click the check link.",
+				"title": "UNCREAMED EMAIL"
+			},
+			"getRolesListNames": {
+				"message": "An error occurred when searching for user profiles: {{error}}",
+				"title": "Error when searching for user profiles"
+			},
+			"getUsersListPublication": {
+				"message": "An error occurred when seeking users: {{error}}",
+				"title": "Error when seeking users"
+			},
+			"invalidCredentials": {
+				"message": "Credential verification failure. Please check your username and password.",
+				"title": "Invalid credentials"
+			},
+			"notFound": {
+				"message": "User not found",
+				"title": "Error seeking user"
+			},
+			"notLoggedUser": {
+				"message": "You are not authenticated. \nPlease login to continue."
+			},
+			"onlyAdmCanCreateAdm": {
+				"message": "Only administrative users can create another administrator user.",
+				"title": "Error creating administrator user"
+			}
+		},
+		"pages": {
+			"userList": {
+				"addButton": "To add",
+				"searchPlaceholder": "Name by name",
+				"selectLabel": "Profile",
+				"selectPlaceholder": "Select",
+				"title": "List of users"
+			},
+			"createAdminUser": {
+				"title": "Admin User Registration",
+				"description": "No administrator user was found registered in the system. Please register a new administrator user.",
+				"nameLabel": "Name",
+				"namePlaceholder": "Enter your name",
+				"emailLabel": "Email",
+				"emailPlaceholder": "Enter your email",
+				"passwordLabel": "Password",
+				"passwordPlaceholder": "Enter your password",
+				"submit": "Register"
+			},
+			"signIn": {
+				"welcome": "Welcome",
+				"subWelcome": "Sign in with your data to access your account",
+				"emailLabel": "Email",
+				"emailPlaceholder": "Enter your email",
+				"passwordLabel": "Password",
+				"passwordPlaceholder": "Enter your password",
+				"forgotPassword": "Forgot my password",
+				"signInButton": "Sign In",
+				"gitHub": "GitHub",
+				"google": "Google",
+				"microsoftEntra": "Entra",
+				"emailInvalid": "Invalid email",
+				"passwordMinLength": "Password must be at least 6 characters long"
+			},
+			"forgotPassword": {
+				"awaitingEmail": "Just a moment!",
+				"title": "Forgot your password?",
+				"emailSentMessage": "If the email provided is registered in the system, we will send a link to reset your password.",
+				"emailConfirmationMessage": "Confirm your email below to receive a password reset link.",
+				"backToLoginButton": "Back to Login",
+				"cancelButton": "Cancel",
+				"confirmButton": "Confirm",
+				"emailPlaceholder": "Ex.: jose@email.com",
+				"emailInvalid": "Invalid email"
+			},
+			"resetPassword": {
+				"title": "Password Reset",
+				"passwordLabel": "Password",
+				"passwordPlaceholder": "Enter a secure password",
+				"confirmPasswordLabel": "Confirm password",
+				"confirmPasswordPlaceholder": "Confirm password",
+				"confirmButton": "Confirm",
+				"resetPasswordFailTitle": "Failed to reset password",
+				"resetPasswordFailMessage": "Error message: {{errorMessage}}",
+				"minimum6": "Password must be at least 6 characters long",
+				"dontMatch": "Passwords do not match"
+			},
+			"enrollAccount": {
+				"title": "Password Definition",
+				"welcomeMessage": "Welcome to {{appName}}. To continue, please set a new password.",
+				"passwordPlaceholder": "Enter a secure password",
+				"confirmPasswordPlaceholder": "Confirm password",
+				"confirmButton": "Confirm",
+				"passwordLabel": "Password",
+				"confirmPasswordLabel": "Confirm password",
+				"passwordMinLength": "Password must be at least 6 characters long",
+				"passwordsDontMatch": "Passwords do not match",
+				"resetPasswordFailTitle": "Failed to reset password",
+				"resetPasswordFailMessage": "Error message: {{errorMessage}}"
+			},
+			"notLoggedInUser": {
+				"notifications": {
+					"userCreatedTitle": "User created",
+					"userCreatedMessage": "User {{userName}} has been created successfully.",
+					"resetPasswordSuccessTitle": "Password changed",
+					"resetPasswordSuccessMessage": "Your password has been changed successfully. Welcome back!",
+					"enrollAccountSuccessTitle": "Password set",
+					"enrollAccountSuccessMessage": "Your password has been set successfully.",
+					"defaultErrorMessage": "An unexpected error occurred."
+				},
+				"dialogs": {
+					"okButton": "Ok"
+				}
+			}
+		}
+	}
+}

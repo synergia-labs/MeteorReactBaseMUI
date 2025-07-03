@@ -1,9 +1,9 @@
 import { enumStorageMethods } from "../common/enums/methods.enum";
 import { ParamGetArchiveType, ReturnGetArchiveType } from "../common/types/getArchive";
 import { GetStorageBase } from "./bases/get";
-import enumUserRoles from "../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "../../../types/context";
 import fs from "fs";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class GetAudio extends GetStorageBase {
 	constructor() {
@@ -15,18 +15,17 @@ class GetAudio extends GetStorageBase {
 	}
 
 	async action(param: ParamGetArchiveType, _context: IContext): Promise<ReturnGetArchiveType> {
-		const audioCollection = this.getServerInstance()?.getAudioCollection();
+		const audioCollection = this.getServerInstance(_context).getAudioCollection();
 		const file = await audioCollection?.findOneAsync({ _id: param._id });
 
 		if (!file || !fs.existsSync(file.path)) {
-			this.generateError({ _message: "Áudio não encontrado" }, _context);
+			this.generateError({ key: "audioNotFound" }, _context);
 		}
 
 		// Verifica se o áudio é restrito
 		if (file?.meta?.isRestricted) {
-			if (!_context.user._id) this.generateError({ _message: "Usuário não autenticado" }, _context);
-			if (_context.user._id !== file.meta.createdBy)
-				this.generateError({ _message: "Você não tem permissão para acessar este áudio" }, _context);
+			if (!_context.user._id) this.generateError({ key: "notLoggedUser", namespace: "users" }, _context);
+			if (_context.user._id !== file.meta.createdBy) this.generateError({ key: "audioPermissionDenied" }, _context);
 		}
 
 		// Obtém estatísticas do arquivo para Content-Length (opcional)

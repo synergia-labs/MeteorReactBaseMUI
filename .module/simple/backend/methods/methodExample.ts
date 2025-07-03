@@ -5,11 +5,11 @@ import {
 	returnMethodExampleSch,
 	ReturnMethodExampleType
 } from "../../common/types/methodExample";
-import { ModuleNameServer } from "../server";
+import { ModuleNameServerType } from "../server";
 import MethodBase from "/imports/base/server/methods/method.base";
 import { IContext } from "/imports/types/context";
 
-class MethodExample extends MethodBase<ModuleNameServer, ParamMethodExampleType, ReturnMethodExampleType> {
+class MethodExample extends MethodBase<ModuleNameServerType, ParamMethodExampleType, ReturnMethodExampleType> {
 	constructor() {
 		super({
 			name: enumModuleNameMethods.exampleMethod,

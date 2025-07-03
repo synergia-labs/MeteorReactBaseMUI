@@ -9,8 +9,8 @@ import { SecurityServer } from "../security.server";
 import { CreateMethodBase } from "/imports/base/server/methods/create.method.base";
 import { AuditType } from "../../../../types/audit";
 import { textNormalize } from "/imports/libs/textUtilities";
-import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "../../../../types/context";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInsertType, ReturnRoleSafeInsertType> {
 	constructor() {
@@ -19,28 +19,30 @@ class RoleSafeInsert extends CreateMethodBase<SecurityServer, ParamRoleSafeInser
 			paramSch: paramRoleSafeInsertSch,
 			returnSch: returnRoleSafeInsertSch,
 			roles: [enumUserRoles.ADMIN],
-			description: "Insert a new role to a specific referred"
+			canRegister: false
 		});
 	}
 
 	protected async onError(
 		_param: ParamRoleSafeInsertType & AuditType,
 		_context: IContext,
-		_error: Error
+		_error: unknown
 	): Promise<void> {
-		this.generateError({ _message: _error.message }, _context);
+		this.generateError({ key: "", error: _error }, _context);
+	}
+
+	protected async beforeAction(param: ParamRoleSafeInsertType & AuditType, _context: IContext): Promise<void> {
+		param._id = `${param.referred}.${textNormalize(param.name)}`;
+		await super.beforeAction(param, _context);
 	}
 
 	async action(_param: ParamRoleSafeInsertType & AuditType, _context: IContext): Promise<ReturnRoleSafeInsertType> {
-		const roleCollection = this.getServerInstance()?.getRoleCollection();
-		if (!roleCollection) this.generateError({ _message: "Role collection not found" }, _context);
+		const roleCollection = this.getServerInstance(_context).getRoleCollection();
+		const role = await roleCollection.findOneAsync({ _id: _param._id });
 
-		const _id = `${_param.referred}.${textNormalize(_param.name)}`;
-		const role = await roleCollection!.findOneAsync({ _id });
+		if (role) this.generateError({ key: "roleAlreadyExists", namespace: "SecurityService" }, _context);
 
-		if (role) this.generateError({ _message: "Role already exists" }, _context);
-
-		const result = await roleCollection!.insertAsync({ _id, ..._param });
+		const result = await roleCollection.insertAsync(_param);
 		return { _id: result };
 	}
 }

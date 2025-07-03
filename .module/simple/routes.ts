@@ -2,6 +2,8 @@ import React, { lazy } from "react";
 import { RouteType } from "/imports/app/routes/types/routeType";
 import { enumModuleNameSettings } from "./common/enums/settings";
 import { enumSysTemplateOptions } from "/imports/app/templates/enum/sysTemplateOptions";
+import i18n from "/imports/services/internationalization";
+import enumUserRoles from "../users/common/enums/enumUserRoles";
 
 const moduleNameRouterList: Array<RouteType> = [
 	{
@@ -11,9 +13,10 @@ const moduleNameRouterList: Array<RouteType> = [
 		children: [
 			{
 				path: "hello",
-				name: enumModuleNameSettings.MODULE_NAME,
+				name: i18n.t(enumModuleNameSettings.MODULE_NAME),
 				element: lazy(() => import("./frontend/pages/example/example.view")),
-				isProtected: true
+				isProtected: true,
+				roles: [enumUserRoles.ADMIN]
 			}
 		]
 	}

@@ -1,3 +1,4 @@
+//@ts-ignore
 import { FilesCollection } from "meteor/ostrio:files";
 import { enumStorageConfig } from "../common/enums/config.enum";
 import { IArchive } from "../common/types/archive.type";

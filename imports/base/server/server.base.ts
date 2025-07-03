@@ -9,11 +9,15 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { EndpointType } from "../../types/serverParams";
 import { MethodType } from "../../types/method";
-import enumUserRoles from "../../modules/userprofile/common/enums/enumUserRoles";
 import { getDefaultAdminContext, getDefaultPublicContext } from "./utils/defaultContexts";
 import { methodSafeInsert } from "../../services/security/backend/methods/methodSafeInsert";
 import { enumSecurityConfig } from "../../services/security/common/enums/config";
 import { enumMethodTypes, MethodEnumType } from "../../services/security/common/enums/methodTypes";
+import { prometheusMetrics } from "/imports/services/prometheus/prometheusMetrics";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
+import { firstLetterUppercase } from "/imports/libs/string/firstLetterUpercase";
+import { hasValue } from "/imports/libs/hasValue";
+import enumSupportedLanguages from "/imports/services/internationalization/common/enum/supportedLanguages";
 
 WebApp.connectHandlers.use(cors());
 WebApp.connectHandlers.use(bodyParser.json({ limit: "50mb" }));
@@ -89,16 +93,44 @@ class ServerBase {
 				const endpointType = method.getEndpointType();
 
 				async function methodFunction(...param: [any]) {
-					console.info(`Call Method: ${methodName}`);
+					const start = performance.now();
 
 					// @ts-ignore
-					const meteorInstance: Meteor.MethodThisType = this;
+					if (Meteor.isDevelopment && hasValue(this?.connection?.httpHeaders))
+						console.info(`Call Method: ${methodName}`);
 
-					const meteorContext = await self._createContext({ action: methodName, meteorInstance: meteorInstance });
-					return await method.execute(...param, meteorContext);
+					try {
+						// @ts-ignore
+						const meteorInstance: Meteor.MethodThisType = this;
+
+						const meteorContext = await self._createContext({ action: methodName, meteorInstance: meteorInstance });
+						return await method.execute(...param, meteorContext);
+					} catch (error) {
+						throw error;
+					} finally {
+						prometheusMetrics.createHistogramMetric(
+							{
+								name: `${self.apiName}_Calls_Server`,
+								help: `time of all call functions of ${self.apiName} service by client in ms`,
+								labelNames: ["method"],
+								buckets: [100, 300, 500, 1000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000]
+							},
+							{
+								labels: {
+									method: methodName
+								},
+								value: performance.now() - start
+							}
+						);
+					}
 				}
 
-				const rawName = methodName.split(".")[1];
+				const rawName = methodName
+					.split(".")
+					.splice(1)
+					.map((item, idx) => (idx == 0 ? item : firstLetterUppercase(item)))
+					.join("");
+
 				if (!rawName) throw new Meteor.Error("500", "Nome do método inválido");
 				(classInstance as any)[rawName] = methodFunction;
 
@@ -113,6 +145,7 @@ class ServerBase {
 		} catch (error) {
 			console.error(`Falha ao registrar os métodos: ${error}`);
 			throw error;
+		} finally {
 		}
 	}
 	//endregion
@@ -144,7 +177,7 @@ class ServerBase {
 				);
 
 				async function publicationFunction(...param: any) {
-					console.info(`Call Publication: ${publicationName}`);
+					if (Meteor.isDevelopment) console.info(`Call Publication: ${publicationName}`);
 
 					// @ts-ignore
 					const meteorInstance: Subscription = this;
@@ -171,22 +204,24 @@ class ServerBase {
 				if (!transformedFunction) Meteor.publish(publicationName, publicationFunction);
 				else
 					Meteor.publish(publicationName, async function (query, options) {
-						const subHandle = await (
-							await publicationFunction(query, options)
+						const publicationFunctionWithContext = publicationFunction.bind(this);
+
+						const subHandle: Meteor.LiveQueryHandle = await (
+							await publicationFunctionWithContext(query, options)
 						)?.observe({
-							added: async (document: Return) => {
+							added: Meteor.bindEnvironment(async (document: Return) => {
 								this.added(self.apiName, (document as any)._id, await transformedFunction(document));
-							},
-							changed: async (newDocument: Return) => {
+							}),
+							changed: Meteor.bindEnvironment(async (newDocument: Return) => {
 								this.changed(self.apiName, (newDocument as any)._id, await transformedFunction(newDocument));
-							},
+							}),
 							removed: (oldDocument: Return) => {
 								this.removed(self.apiName, (oldDocument as any)._id);
 							}
 						});
 						this.ready();
 						this.onStop(() => {
-							subHandle && subHandle.stop();
+							subHandle?.stop();
 						});
 					});
 			});
@@ -196,6 +231,20 @@ class ServerBase {
 		}
 	}
 	//endregion
+
+	private getUser = async (): Promise<Meteor.User> => {
+		try {
+			return (await Meteor.userAsync()) ?? ({ profile: { roles: [enumUserRoles.PUBLIC] } } as Meteor.User);
+		} catch (err) {
+			if (
+				err instanceof Meteor.Error ||
+				(err instanceof Error && err.message.includes("Meteor.userId can only be invoked"))
+			) {
+				return { profile: { roles: [enumUserRoles.PUBLIC] } } as Meteor.User;
+			}
+			throw err;
+		}
+	};
 
 	// #region _createContext
 	/**
@@ -216,8 +265,41 @@ class ServerBase {
 		user?: Meteor.User;
 		meteorInstance?: Subscription | Meteor.MethodThisType;
 	}): Promise<IContext> {
-		user = user ?? ((await Meteor.userAsync()) || ({ profile: { roles: [enumUserRoles.PUBLIC] } } as Meteor.User));
-		return { apiName: this.apiName, action, user, meteorInstance };
+		user = user ?? (await this.getUser());
+
+		function getPreferredLanguage(
+			acceptLanguageHeader: string | undefined,
+			defaultLanguage: enumSupportedLanguages = enumSupportedLanguages.EN
+		): enumSupportedLanguages {
+			if (!acceptLanguageHeader) {
+				return defaultLanguage;
+			}
+
+			const parsedLanguages = acceptLanguageHeader
+				.split(",")
+				.map((langPart) => {
+					const parts = langPart.trim().split(";");
+					const lang = parts[0];
+					const q = parts[1] && parts[1].startsWith("q=") ? parseFloat(parts[1].substring(2)) : 1.0;
+					return { lang, q };
+				})
+				.filter((pref) => pref.lang.length > 0)
+				.sort((a, b) => b.q - a.q);
+
+			for (const userPref of parsedLanguages) {
+				const userLangBase = userPref.lang.split("-")[0].toLowerCase();
+				for (const lang of Object.values(enumSupportedLanguages)) {
+					if (userLangBase === lang) {
+						return lang;
+					}
+				}
+			}
+
+			return defaultLanguage;
+		}
+
+		const language = getPreferredLanguage(meteorInstance?.connection?.httpHeaders?.["accept-language"]);
+		return { apiName: this.apiName, action, user, meteorInstance, language };
 	}
 	// #endregion
 
@@ -255,7 +337,11 @@ class ServerBase {
 				};
 
 				const params = this._convertToInt(
-					Object.assign(endpointContext.queryParams || {}, endpointContext.urlParams || {}, endpointContext.bodyParams || {})
+					Object.assign(
+						endpointContext.queryParams || {},
+						endpointContext.urlParams || {},
+						endpointContext.bodyParams || {}
+					)
 				);
 
 				const _context: IContext = getDefaultPublicContext({

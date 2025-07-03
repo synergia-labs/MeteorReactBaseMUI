@@ -1,0 +1,86 @@
+{
+  "storage": {
+    "components": {
+    },
+    "config": {
+    },
+    "dialogs": {
+    },
+    "emails": {
+    },
+    "errors": {
+      "audioDeletePermissionDenied": {
+        "message": "Denied permission to access the audio.",
+        "title": "Error when performing operation"
+      },
+      "audioNotFound": {
+        "message": "The audio was not found.",
+        "title": "Error when performing operation"
+      },
+      "audioPermissionDenied": {
+        "message": "Denied permission to access the audio.",
+        "title": "It was not possible to display audio"
+      },
+      "audioUploadFailed": {
+        "message": "Failure to upload the audio.",
+        "title": "Error when performing operation"
+      },
+      "documentDeletePermissionDenied": {
+        "message": "Permission denied.",
+        "title": "Failure when deleting the document"
+      },
+      "documentNotFound": {
+        "message": "The document was not found.",
+        "title": "Error when performing operation"
+      },
+      "documentPermissionDenied": {
+        "message": "Denied permission to access the document.",
+        "title": "It was not possible to display the document"
+      },
+      "documentUploadFailed": {
+        "message": "Failure to upload the document.",
+        "title": "Error when performing operation"
+      },
+      "imageDeletePermissionDenied": {
+        "message": "Permission denied.",
+        "title": "Failure when deleting the image"
+      },
+      "imageNotFound": {
+        "message": "The image was not found.",
+        "title": "Error when performing operation"
+      },
+      "imagePermissionDenied": {
+        "message": "Denied permission to access the image.",
+        "title": "It was not possible to display the image"
+      },
+      "imageUploadFailed": {
+        "message": "Failure to upload the image.",
+        "title": "Error when performing operation"
+      },
+      "videoDeletePermissionDenied": {
+        "message": "Permission denied.",
+        "title": "Failure to delete the video"
+      },
+      "videoNotFound": {
+        "message": "The video was not found.",
+        "title": "Error when performing operation"
+      },
+      "videoPermissionDenied": {
+        "message": "Denied permission to access the video.",
+        "title": "It was not possible to display the video"
+      },
+      "videoUploadFailed": {
+        "message": "Failure to upload the video."
+      }
+    },
+    "pages": {
+    }
+  },
+  "users": {
+    "errors": {
+      "notLoggedUser": {
+        "title": "Authentication Failure"
+      }
+    }
+  }
+}

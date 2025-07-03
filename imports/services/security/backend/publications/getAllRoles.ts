@@ -3,14 +3,13 @@ import { enumSecurityPublications } from "../../common/enums/publications";
 import { paramGetAllSch, ParamGetAllType, returnGetRoleSch, ReturnGetRoleType } from "../../common/types/get";
 import { SecurityServer } from "../security.server";
 import PublicationBase from "/imports/base/server/publication/publication.base";
-import enumUserRoles from "../../../../modules/userprofile/common/enums/enumUserRoles";
 import { IContext } from "../../../../types/context";
+import enumUserRoles from "/imports/modules/users/common/enums/enumUserRoles";
 
 class GetAllRolesPublication extends PublicationBase<SecurityServer, ParamGetAllType, ReturnGetRoleType> {
 	constructor() {
 		super({
 			name: enumSecurityPublications.getAllRolesPublication,
-			description: "Retorna todas as roles disponíveis para uma determinada referência",
 			roles: [enumUserRoles.ADMIN],
 			paramSch: paramGetAllSch,
 			returnSch: returnGetRoleSch,
@@ -20,16 +19,12 @@ class GetAllRolesPublication extends PublicationBase<SecurityServer, ParamGetAll
 	}
 
 	async action(_params: ParamGetAllType, _options: Mongo.Options<ReturnGetRoleType>, _context: IContext): Promise<any> {
-		const server = this.getServerInstance()?.getRoleCollection();
-		if (!server) this.generateError({ _message: "Server não encontrado" }, _context);
-		const alreadyFound: Array<string> = [];
+		const server = this.getServerInstance(_context).getRoleCollection();
 
-		const referredVarCursor = await server!.find({ referred: _params.referred }).fetchAsync();
-		referredVarCursor.forEach((doc) => {
-			alreadyFound.push(doc.name);
-		});
+		const referredVarCursor = await server.find({ referred: _params.referred }).fetchAsync();
+		const alreadyFound: Array<string> = referredVarCursor.map((doc) => doc.name);
 
-		const cursor = server!.find({
+		const cursor = server.find({
 			$or: [{ referred: _params.referred }, { referred: enumSecurityConfig.API_NAME, name: { $nin: alreadyFound } }]
 		});
 

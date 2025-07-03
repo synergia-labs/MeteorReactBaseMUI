@@ -48,11 +48,6 @@ body {
 		url("../fonts/poppins-v20-latin-600.ttf") format("truetype");
 }
 
-/* Ensure that the max height respects the viewport height */
-.MuiModal-root .MuiBox-root {
-	max-height: calc(100vh - (100vh - 100%));
-}
-
 .loadingText {
 	font-size: 16px;
 	color: var(--loading-color);
@@ -66,6 +61,22 @@ body {
 	border-radius: 50%;
 	border-top: 10px solid var(--loading-color);
 	animation: loading 1s linear infinite;
+}
+
+/* Desabilitar fontes do Slick e usar Unicode */
+.slick-prev:before {
+	content: "←" !important;
+	font-family: "Poppins", sans-serif !important;
+}
+
+.slick-next:before {
+	content: "→" !important;
+	font-family: "Poppins", sans-serif !important;
+}
+
+.slick-dots li button:before {
+	content: "•" !important;
+	font-family: "Poppins", sans-serif !important;
 }
 
 @keyframes loading {

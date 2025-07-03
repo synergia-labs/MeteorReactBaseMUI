@@ -1,0 +1,148 @@
+{
+	"internationalization": {
+		"config": {
+			"name": "Internacionalização"
+		},
+		"languages": {
+			"en": "Inglês",
+			"pt": "Português"
+		},
+		"pages": {
+			"translate": {
+				"title": "Editor de traduções",
+				"identificator": "Identificador",
+				"empty": "Selecione um arquivo de tradução para editar",
+				"searchPlaceholder": "Pesquisar por termo, frase ou texto",
+				"exportButtonMessage": "Exportar alterações"
+			}
+		},
+		"dialogs": {
+			"confirmChanges": {
+				"title": "Confirmar alterações",
+				"message": "Detectamos {{totalChanges}} alteração(es). Por favor, revise tudo com atenção antes de continuar com a exportação.",
+				"table": {
+					"header": {
+						"identificator": "Identificador",
+						"before": "Antes",
+						"after": "Depois"
+					}
+				}
+			}
+		},
+		"components": {
+			"translateItem": {
+				"notSpecified": "Não especificado",
+				"translateTooltip": "Sugerir tradução",
+				"deletedKeys": "Chave deletadas: {{deletedKeys}}"
+			}
+		}
+	},
+	"common": {
+		"config": {
+			"appName": "Tacito"
+		},
+		"errors": {
+			"generic": {
+				"title": "Um erro inexperado ocorreu",
+				"message": "Desculpe, algo deu errado. Por favor, tente novamente mais tarde."
+			},
+			"serverNotFound": {
+				"title": "Servidor não encontrado",
+				"message": "Desculpe, não conseguimos encontrar o servidor. Por favor, verifique sua conexão com a internet."
+			},
+			"forbidden": {
+				"title": "Acesso negado",
+				"message": "Desculpe, você não tem permissão para acessar este recurso."
+			},
+			"serverMethodOnClient": {
+				"title": "Este método não pode ser chamado no cliente",
+				"message": "Essa ação não pode ser realizada. Por favor, entre em contato com o suporte."
+			},
+			"schemaError": {
+				"title": "Erro de validação com o schema",
+				"message": "Os documentos não estão de acordo com o schema: \n{{disagreement}}"
+			},
+			"publishTransformNotImplemented": {
+				"title": "Transformação de publicação não implementada",
+				"message": "Um erro ocorreu ao tentar buscar os dados. Por favor, entre em contato com o suporte."
+			},
+			"unregisteredMethod": {
+				"message": "Tentativa de obter a instância do servidor a partir de um método não registrado.",
+				"title": "Método não registrado."
+			},
+			"missingParameters": {
+				"title": "Parâmetro ausente",
+				"message": "Os parâmetros {{missingParameters}} estão ausentes."
+			},
+			"notFound": {
+				"title": "Não encontrado",
+				"message": "Desculpe, não conseguimos encontrar o que você estava procurando."
+			},
+			"notCreated": {
+				"title": "Falha ao criar",
+				"message": "Desculpe, não conseguimos criar o que você estava tentando criar. Por favor, tente novamente mais tarde. Se o problema persistir, entre em contato com o suporte."
+			},
+			"notUpdated": {
+				"title": "Falha ao atualizar",
+				"message": "Desculpe, não conseguimos atualizar o que você estava tentando atualizar. Por favor, tente novamente mais tarde. Se o problema persistir, entre em contato com o suporte."
+			},
+			"notDeleted": {
+				"title": "Falha ao deletar",
+				"message": "Desculpe, não conseguimos deletar o que você estava tentando deletar. Por favor, tente novamente mais tarde. Se o problema persistir, entre em contato com o suporte."
+			}
+		},
+		"generics": {
+			"action": {
+				"confirm": "Confirmar",
+				"cancel": "Cancelar",
+				"close": "Fechar",
+				"save": "Salvar",
+				"edit": "Editar",
+				"delete": "Deletar",
+				"add": "Adicionar",
+				"remove": "Remover",
+				"select": "Selecionar",
+				"loading": "Carregando...",
+				"loadMore": "Carregar mais"
+			},
+			"callbacks": {
+				"empty": "Nenhum item encontrado"
+			}
+		},
+		"components": {
+			"prodCardMapping": {
+				"publish": "Publicar",
+				"published": "Publicado"
+			},
+			"buttonAutonomy": {
+				"none": "Sem experiência",
+				"low": "Baixa expertise",
+				"medium": "Média expertise",
+				"high": "Alta expertise"
+			},
+			"prodTags": {
+				"default": "Default",
+				"P1": "Prioridade 1",
+				"P2": "Prioridade 2",
+				"P3": "Prioridade 3",
+				"low": "Baixa expertise planejada",
+				"medium": "Média expertise planejada",
+				"high": "Alta expertise planejada"
+			},
+			"prodMappingLegend": {
+				"low": {
+					"left": "Iniciante",
+					"right": "Iniciante avançado"
+				},
+				"medium": {
+					"left": "Competente",
+					"right": "Proficiente"
+				},
+				"high": {
+					"left": "Expert",
+					"right": "Referência"
+				}
+			}
+		}
+	}
+}

@@ -5,12 +5,12 @@ import {
 	returnPublicationExampleSch,
 	ReturnPublicationExampleType
 } from "../../common/types/publicationExample";
-import { ModuleNameServer } from "../server";
+import { ModuleNameServerType } from "../server";
 import PublicationBase from "/imports/base/server/publication/publication.base";
 import { IContext } from "/imports/types/context";
 
 class PublicationExample extends PublicationBase<
-	ModuleNameServer,
+	ModuleNameServerType,
 	ParamPublicationExampleType,
 	ReturnPublicationExampleType
 > {

@@ -1,0 +1,38 @@
+{
+	"ExternalApiService": {
+		"config": {
+			"name": "externalApi"
+		},
+		"actions": {},
+		"components": {
+			"groupCard": {
+				"nameLabel": "Nome do grupo"
+			}
+		},
+		"dialogs": {},
+		"emails": {},
+		"errors": {
+			"accessToken": {
+				"title": "Erro ao obter o token de acesso",
+				"message": "Um erro ocorreu ao obter o token de acesso ao serviço externo."
+			},
+			"companyInfo": {
+				"title": "Erro ao obter informações da empresa",
+				"message": "Um erro ocorreu ao obter as informações da empresa: {{error}}"
+			},
+			"userInfo": {
+				"title": "Erro ao obter informações do usuário",
+				"message": "Um erro ocorreu ao obter as informações do usuário: {{error}}"
+			},
+			"userPhoto": {
+				"title": "Erro ao obter a foto do usuário",
+				"message": "Um erro ocorreu ao obter a foto do usuário: {{error}}"
+			},
+			"tenantIdNotFound": {
+				"title": "Tenant ID não encontrado",
+				"message": "Este tenant ID não está vinculado a nenhuma empresa, ou você não tem permissão para acessá-lo. Verifique se o Tenant ID está correto e se você tem as permissões necessárias para acessá-lo."
+			}
+		},
+		"pages": {}
+	}
+}

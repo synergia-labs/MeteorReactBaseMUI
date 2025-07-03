@@ -2,129 +2,387 @@
 	"name": "meteor-react-base-mui",
 	"private": true,
 	"scripts": {
-		"start": "chmod +x .github/init-setup.sh && ./.github/init-setup.sh && meteor run --settings settings.json",
+		"start": "meteor run --settings settings.json",
 		"visualize": "meteor --production --extra-packages bundle-visualizer",
 		"lint": "npx eslint .",
 		"lint:fix": "npx eslint . --fix",
-		"newModule": "node ./.module/create.js"
+		"newModule": "node ./.module/create.js",
+		"prepare": "husky",
+		"commit": "node -e \"const args = process.argv.slice(2).join(' '); require('child_process').execSync('git add ' + (args || '.') + ' && cz', {stdio: 'inherit'});\"",
+		"commitlint": "commitlint --edit"
+	},
+	"meteor": {
+		"modern": true
 	},
 	"dependencies": {
-		"@babel/runtime": "^7.25.0",
-		"@date-io/date-fns": "^3.0.0",
+		"@azure/msal-node": "^3.5.0",
+		"@dnd-kit/core": "^6.3.1",
+		"@dnd-kit/sortable": "^10.0.0",
+		"@emotion/cache": "^11.14.0",
 		"@emotion/css": "^11.13.5",
-		"@emotion/react": "^11.13.0",
+		"@emotion/react": "^11.14.0",
 		"@emotion/server": "^11.11.0",
-		"@emotion/styled": "^11.13.0",
-		"@emotion/utils": "^1.4.2",
-		"@mui/icons-material": "^5.16.6",
-		"@mui/material": "^5.16.6",
-		"@mui/x-data-grid": "^7.12.0",
-		"@types/quill": "^2.0.14",
-		"@types/sharp": "^0.32.0",
-		"awesome-notifications": "^3.1.3",
-		"babel-loader": "^9.1.3",
-		"bcrypt": "^5.1.1",
-		"body-parser": "^1.20.2",
+		"@emotion/styled": "^11.14.0",
+		"@microsoft/microsoft-graph-client": "^3.0.7",
+		"@mui/icons-material": "^5.17.1",
+		"@mui/material": "^5.17.1",
+		"@mui/system": "^7.0.1",
+		"@mui/x-charts": "^8.5.0",
+		"@mui/x-data-grid": "^7.28.2",
+		"@mui/x-tree-view": "^7.28.1",
+		"@types/react-router-dom": "^5.3.3",
+		"@unly/universal-language-detector": "^2.0.3",
+		"axios": "^1.8.4",
+		"body-parser": "^2.2.0",
 		"connect-route": "^0.1.5",
 		"cors": "^2.8.5",
 		"csv-parse": "^5.6.0",
-		"date-fns": "^3.6.0",
-		"eslint": "^9.22.0",
 		"express": "^4.21.2",
-		"html-docx-js": "^0.3.1",
-		"idb-keyval": "^6.2.1",
+		"i18next": "^24.2.3",
 		"immer": "^10.1.1",
-		"inline-css": "^4.0.3",
 		"jiti": "^2.4.2",
 		"jquery": "^3.7.1",
 		"juice": "^11.0.1",
+		"keen-slider": "^6.8.6",
 		"later": "^1.2.0",
 		"lodash": "^4.17.21",
 		"mammoth": "^1.9.0",
-		"meteor-node-stubs": "^1.2.13",
-		"nanoid": "^5.0.7",
+		"nanoid": "^5.1.5",
 		"neo4j-driver": "^5.28.1",
+		"node-cron": "^3.0.3",
+		"papaparse": "^5.5.3",
 		"prom-client": "^15.1.3",
-		"prop-types": "^15.8.1",
-		"quill": "^2.0.2",
-		"react": "^18.3.1",
-		"react-addons-pure-render-mixin": "^15.6.3",
-		"react-avatar-editor": "^13.0.2",
-		"react-dom": "^18.3.1",
-		"react-dropzone": "^14.2.3",
-		"react-file-input-previews-base64": "^1.0.8",
-		"react-loadable": "^5.5.0",
-		"react-number-format": "^5.4.0",
-		"react-router-dom": "^6.26.2",
-		"react-sortablejs": "^6.1.4",
-		"react-syntax-highlighter": "^15.5.0",
-		"react-transition-group": "^4.4.5",
-		"request": "^2.88.2",
+		"quill": "^2.0.3",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"react-dropzone": "^14.3.8",
+		"react-i18next": "^15.4.1",
+		"react-is": "^19.1.0",
+		"react-responsive-carousel": "^3.2.23",
+		"react-router-dom": "^6.30.0",
+		"react-slick": "^0.30.3",
 		"sharp": "^0.33.5",
-		"sortablejs": "^1.15.2",
-		"typescript-eslint": "^8.27.0",
-		"unidecode": "^1.1.0",
-		"webpack": "^5.93.0",
-		"xlsx": "^0.18.5",
-		"zipson": "^0.2.12",
+		"slick-carousel": "^1.8.1",
+		"translate": "^3.0.1",
+		"trigram-similarity": "^1.0.7",
+		"unzipper": "^0.12.3",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.25.2",
-		"@storybook/addon-essentials": "^8.2.7",
-		"@storybook/addon-interactions": "^8.2.7",
-		"@storybook/addon-links": "^8.2.7",
-		"@storybook/addon-onboarding": "^8.2.7",
-		"@storybook/addon-themes": "^8.2.7",
-		"@storybook/blocks": "^8.2.7",
-		"@storybook/react": "^8.2.7",
-		"@storybook/react-webpack5": "^8.2.7",
-		"@storybook/test": "^8.2.7",
+		"@commitlint/cli": "^19.8.0",
+		"@commitlint/config-conventional": "^19.8.0",
+		"@microsoft/microsoft-graph-types": "^2.40.0",
 		"@types/body-parser": "^1.19.5",
 		"@types/connect-route": "^0.1.0",
 		"@types/cors": "^2.8.17",
-		"@types/inline-css": "^3.0.3",
-		"@types/lodash": "^4.17.7",
+		"@types/express": "^5.0.1",
+		"@types/later": "^1.2.9",
+		"@types/lodash": "^4.17.16",
 		"@types/meteor": "^2.9.8",
-		"@types/mocha": "^10.0.7",
-		"@types/mongodb": "^4.0.6",
-		"@types/node": "^22.1.0",
-		"@types/react": "^18.3.3",
-		"@types/react-dom": "^18.3.0",
-		"@types/react-router-dom": "^5.3.3",
-		"@types/react-syntax-highlighter": "^15.5.13",
-		"@types/sortablejs": "^1.15.8",
-		"@typescript-eslint/eslint-plugin": "^8.27.0",
-		"@typescript-eslint/parser": "^8.27.0",
+		"@types/mime-types": "^3.0.0",
+		"@types/mocha": "^10.0.10",
+		"@types/node": "^22.13.14",
+		"@types/node-cron": "^3.0.11",
+		"@types/papaparse": "^5.3.16",
+		"@types/react": "^19.0.12",
+		"@types/react-dom": "^19.0.4",
+		"@types/react-is": "^19.0.0",
+		"@types/unzipper": "^0.10.11",
+		"@types/react-slick": "^0.23.13",
+		"@typescript-eslint/parser": "^8.28.0",
 		"babel-plugin-import": "^1.13.8",
-		"babel-plugin-lodash": "^3.3.4",
-		"cypress": "^13.13.2",
-		"cypress-cucumber-preprocessor": "^4.3.1",
-		"cypress-file-upload": "^5.0.8",
-		"cypress-xpath": "^2.0.1",
+		"commitizen": "^4.3.1",
+		"cz-emoji": "^1.3.2-canary.2",
+		"eslint": "^9.23.0",
 		"eslint-config-prettier": "^10.1.1",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-meteor": "^7.3.0",
-		"eslint-plugin-prettier": "^5.2.3",
+		"eslint-plugin-prettier": "^5.2.5",
 		"eslint-plugin-react": "^7.37.4",
 		"globals": "^16.0.0",
-		"less": "^4.2.0",
-		"lint-staged": "^15.2.8",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.5.0",
 		"prettier": "^3.5.3",
-		"pretty-quick": "^4.0.0",
-		"storybook": "^8.2.7",
-		"typescript": "^5.5.4"
-	},
-	"cypress-cucumber-preprocessor": {
-		"step_definitions": ".cypress/support/step_definitions/",
-		"cucumberJson": {
-			"generate": true,
-			"outputFolder": ".cypress/cucumber-json",
-			"filePrefix": "",
-			"fileSuffix": ".cucumber"
-		}
+		"typescript": "^5.8.2",
+		"typescript-eslint": "^8.28.0"
 	},
 	"lint-staged": {
 		"**/*": "prettier --write --ignore-unknown"
+	},
+	"cz-emoji": {
+		"symbol": true,
+		"conventional": true
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-emoji"
+		},
+		"cz-emoji": {
+			"conventional": true,
+			"skipQuestions": [
+				"breaking"
+			],
+			"questions": {
+				"type": "Selecione o tipo de mudança que você está enviando:",
+				"scope": "Informe o nome da branch: ",
+				"subject": "Defina um título curto e imperativo para suas mudanças (ex: 'Configura o ESLint')",
+				"body": "Forneça uma descrição mais detalhada das mudanças (opcional). Use '|' para quebrar linhas:",
+				"issue": "Caso haja outro número de tarefa ou notificação associada, adicione aqui: ex: #TAREFA-1234, #NOTIFICAÇÃO-5678"
+			},
+			"types": [
+				{
+					"emoji": "🚧",
+					"code": ":construction:",
+					"description": "Trabalho em andamento. (ignora verificações da estrutura do commit)",
+					"name": "wip"
+				},
+				{
+					"emoji": "✨",
+					"code": ":sparkles:",
+					"description": "Adicionando novas funcionalidades.",
+					"name": "feature"
+				},
+				{
+					"emoji": "🐛",
+					"code": ":bug:",
+					"description": "Corrigindo um bug.",
+					"name": "fix"
+				},
+				{
+					"emoji": "💄",
+					"code": ":lipstick:",
+					"description": "Atualizando arquivos de estilo e interface.",
+					"name": "ui"
+				},
+				{
+					"emoji": "♻️",
+					"code": ":recycle:",
+					"description": "Refatorando código.",
+					"name": "refactoring"
+				},
+				{
+					"emoji": "👌",
+					"code": ":ok_hand:",
+					"description": "Atualizando código após revisão.",
+					"name": "review"
+				},
+				{
+					"emoji": "🩹",
+					"code": ":adhesive_bandage:",
+					"description": "Correção simples para um problema não crítico.",
+					"name": "adhesive-bandage"
+				},
+				{
+					"emoji": "⏪",
+					"code": ":rewind:",
+					"description": "Revertendo alterações.",
+					"name": "revert"
+				},
+				{
+					"emoji": "🔀",
+					"code": ":twisted_rightwards_arrows:",
+					"description": "Mesclando branches.",
+					"name": "merge"
+				},
+				{
+					"emoji": "🚑",
+					"code": ":ambulance:",
+					"description": "Correção crítica e urgente.",
+					"name": "quickfix"
+				},
+				{
+					"emoji": "📝",
+					"code": ":pencil:",
+					"description": "Escrevendo ou atualizando documentações.",
+					"name": "docs"
+				},
+				{
+					"emoji": "🎨",
+					"code": ":art:",
+					"description": "Melhorando a estrutura/formatação do código.",
+					"name": "style"
+				},
+				{
+					"emoji": "⚡️",
+					"code": ":zap:",
+					"description": "Melhorando o desempenho.",
+					"name": "perf"
+				},
+				{
+					"emoji": "🔥",
+					"code": ":fire:",
+					"description": "Removendo código ou arquivos.",
+					"name": "prune"
+				},
+				{
+					"emoji": "🎉",
+					"code": ":tada:",
+					"description": "Commit inicial.",
+					"name": "init"
+				},
+				{
+					"emoji": "✅",
+					"code": ":white_check_mark:",
+					"description": "Adicionando testes.",
+					"name": "test"
+				},
+				{
+					"emoji": "🚀",
+					"code": ":rocket:",
+					"description": "Fazendo deploy de algo.",
+					"name": "deploy"
+				},
+				{
+					"emoji": "💚",
+					"code": ":green_heart:",
+					"description": "Corrigindo a build da integração contínua (CI).",
+					"name": "fix-ci"
+				},
+				{
+					"emoji": "⬇️",
+					"code": ":arrow_down:",
+					"description": "Rebaixando dependências.",
+					"name": "downgrade"
+				},
+				{
+					"emoji": "⬆️",
+					"code": ":arrow_up:",
+					"description": "Atualizando dependências.",
+					"name": "upgrade"
+				},
+				{
+					"emoji": "📌",
+					"code": ":pushpin:",
+					"description": "Fixando dependências em versões específicas.",
+					"name": "pushpin"
+				},
+				{
+					"emoji": "👷",
+					"code": ":construction_worker:",
+					"description": "Adicionando sistema de CI.",
+					"name": "ci"
+				},
+				{
+					"emoji": "📈",
+					"code": ":chart_with_upwards_trend:",
+					"description": "Adicionando código de análise ou rastreamento.",
+					"name": "analytics"
+				},
+				{
+					"emoji": "🐳",
+					"code": ":whale:",
+					"description": "Trabalhando com Docker.",
+					"name": "docker"
+				},
+				{
+					"emoji": "➕",
+					"code": ":heavy_plus_sign:",
+					"description": "Adicionando uma dependência.",
+					"name": "dep-add"
+				},
+				{
+					"emoji": "➖",
+					"code": ":heavy_minus_sign:",
+					"description": "Removendo uma dependência.",
+					"name": "dep-rm"
+				},
+				{
+					"emoji": "🔧",
+					"code": ":wrench:",
+					"description": "Alterando arquivos de configuração.",
+					"name": "config"
+				},
+				{
+					"emoji": "🌐",
+					"code": ":globe_with_meridians:",
+					"description": "Internacionalização e localização.",
+					"name": "i18n"
+				},
+				{
+					"emoji": "✏️",
+					"code": ":pencil2:",
+					"description": "Corrigindo erros de digitação.",
+					"name": "typo"
+				},
+				{
+					"emoji": "💩",
+					"code": ":poop:",
+					"description": "Escrevendo código ruim que precisa ser melhorado.",
+					"name": "poo"
+				},
+				{
+					"emoji": "👽",
+					"code": ":alien:",
+					"description": "Atualizando código por causa de mudanças em APIs externas.",
+					"name": "compat"
+				},
+				{
+					"emoji": "🚚",
+					"code": ":truck:",
+					"description": "Movendo ou renomeando arquivos.",
+					"name": "mv"
+				},
+				{
+					"emoji": "🔊",
+					"code": ":loud_sound:",
+					"description": "Adicionando logs.",
+					"name": "log-add"
+				},
+				{
+					"emoji": "🔇",
+					"code": ":mute:",
+					"description": "Removendo logs.",
+					"name": "log-rm"
+				},
+				{
+					"emoji": "🏗",
+					"code": ":building_construction:",
+					"description": "Fazendo alterações na arquitetura.",
+					"name": "arch"
+				},
+				{
+					"emoji": "📱",
+					"code": ":iphone:",
+					"description": "Trabalhando em design responsivo.",
+					"name": "iphone"
+				},
+				{
+					"emoji": "🗑️",
+					"code": ":wastebasket:",
+					"description": "Marcando código como obsoleto para futura remoção.",
+					"name": "wastebasket"
+				},
+				{
+					"emoji": "🛂",
+					"code": ":passport_control:",
+					"description": "Trabalhando em código relacionado a permissões, papéis e autenticação.",
+					"name": "passport-control"
+				},
+				{
+					"emoji": "🧑‍💻",
+					"code": ":technologist:",
+					"description": "Melhorando a experiência do desenvolvedor.",
+					"name": "technologist"
+				},
+				{
+					"emoji": "⚰️",
+					"code": ":coffin:",
+					"description": "Removendo código obsoleto.",
+					"name": "coffin"
+				},
+				{
+					"emoji": "👔",
+					"code": ":necktie:",
+					"description": "Adicionando ou atualizando regras de negócio.",
+					"name": "necktie"
+				},
+				{
+					"emoji": "🩺",
+					"code": ":stethoscope:",
+					"description": "Adicionando ou atualizando healthchecks.",
+					"name": "stethoscope"
+				}
+			]
+		}
 	}
 }
