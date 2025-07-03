@@ -8,13 +8,11 @@ import AppLayoutContext, {
 import { IShowNotificationProps, ShowNotification } from "../components/showNotification/showNotification";
 import { IShowDrawerProps, ShowDrawer } from "../components/showDrawer/showDrawer";
 import { IShowDialogProps, ShowDialog } from "../components/showDialog/showDialog";
-import GlobalStyles from "@mui/material/GlobalStyles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import getTheme from "../../theme";
-import CssBaseline from "@mui/material/CssBaseline";
 
 import IAppComponents from "/imports/types/appCompontent";
+import { GlobalStyles, ThemeProvider, useMediaQuery } from "@mui/system";
+import { CssBaseline } from "@mui/material";
 
 const defaultState: IAppComponents = { open: false };
 
@@ -65,8 +63,7 @@ const AppLayoutProvider: React.FC<{ children?: ReactNode }> = ({ children }) => 
 		setShowNotification({
 			...showNotification,
 			...props,
-			close: ({ event, reason }: ICloseNotification = {}) =>
-				handleCloseNotification({ event, reason, callBack: onClose }),
+			close: ({ event, reason }: ICloseNotification = {}) => handleCloseNotification({ event, reason, callBack: onClose }),
 			open: true
 		});
 	}, []);

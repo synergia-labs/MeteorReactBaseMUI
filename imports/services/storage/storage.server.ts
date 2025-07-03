@@ -97,21 +97,9 @@ export class StorageServer extends ServerBase {
 
 		// Registra os endpoints REST para obtenção de arquivos.
 		this.addRestEndpoints([
-			[
-				enumEndpointType.enum.GET,
-				getImage.execute.bind(getImage) as MethodType<typeof getImage>,
-				enumFileType.enum.IMAGE
-			],
-			[
-				enumEndpointType.enum.GET,
-				getAudio.execute.bind(getAudio) as MethodType<typeof getAudio>,
-				enumFileType.enum.AUDIO
-			],
-			[
-				enumEndpointType.enum.GET,
-				getVideo.execute.bind(getVideo) as MethodType<typeof getVideo>,
-				enumFileType.enum.VIDEO
-			],
+			[enumEndpointType.enum.GET, getImage.execute.bind(getImage) as MethodType<typeof getImage>, enumFileType.enum.IMAGE],
+			[enumEndpointType.enum.GET, getAudio.execute.bind(getAudio) as MethodType<typeof getAudio>, enumFileType.enum.AUDIO],
+			[enumEndpointType.enum.GET, getVideo.execute.bind(getVideo) as MethodType<typeof getVideo>, enumFileType.enum.VIDEO],
 			[
 				enumEndpointType.enum.GET,
 				getDocument.execute.bind(getDocument) as MethodType<typeof getDocument>,

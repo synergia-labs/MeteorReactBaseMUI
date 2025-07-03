@@ -35,11 +35,7 @@ export const Toolbar = (props: IToolbarProps) => {
 			<Box sx={{ mr: { xs: "auto", sm: "0" } }}>
 				{selectColumns ? (
 					// @ts-ignore
-					<GridToolbarColumnsButton
-						disableRipple
-						variant={buttonVariant ?? "outlined"}
-						style={{ marginRight: "1rem" }}
-					/>
+					<GridToolbarColumnsButton disableRipple variant={buttonVariant ?? "outlined"} style={{ marginRight: "1rem" }} />
 				) : null}
 				{density ? (
 					// @ts-ignore

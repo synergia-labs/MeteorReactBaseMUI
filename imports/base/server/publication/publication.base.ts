@@ -93,10 +93,7 @@ abstract class PublicationBase<Server extends ServerBase, Param, Return> extends
 		super.afterAction(_param, _result, _context);
 	}
 
-	protected actionBaseMethod(
-		_param: [Param, Mongo.Options<Return>],
-		_context: IContext
-	): Promise<Mongo.Cursor<Return>> {
+	protected actionBaseMethod(_param: [Param, Mongo.Options<Return>], _context: IContext): Promise<Mongo.Cursor<Return>> {
 		return this.action(_param[0], _param[1], _context);
 	}
 

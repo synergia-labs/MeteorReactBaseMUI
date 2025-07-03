@@ -27,12 +27,7 @@ class GetAzureUserList extends MethodBase<
 		});
 	}
 
-	private getDefaultSelect = (): Array<keyof AzureUser | "*"> => [
-		"displayName",
-		"id",
-		"userPrincipalName",
-		"givenName"
-	];
+	private getDefaultSelect = (): Array<keyof AzureUser | "*"> => ["displayName", "id", "userPrincipalName", "givenName"];
 
 	async action(
 		{ tenantId, accessToken, select, count, top, nextLink }: GetAzureUserListParamType,

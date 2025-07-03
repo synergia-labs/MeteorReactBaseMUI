@@ -1,8 +1,6 @@
 // login page overrides the form’s submit event and call Meteor’s loginWithPassword()
 // Authentication errors modify the component’s state to be displayed
 import React, { useContext, useState } from "react";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import { useNavigate, useParams } from "react-router-dom";
 import Styles from "./forgotPassword.styles";
 import SysForm from "../../../../../../components/sysForm/sysForm";
@@ -10,8 +8,8 @@ import SysTextField from "../../../../../../components/sysFormFields/sysTextFiel
 import emailValidator from "/imports/libs/validators/email";
 import SysIcon from "../../../../../../components/sysIcon/sysIcon";
 import Context, { INotLoggedInUserContext } from "../notLoggedInUser.context";
-import Collapse from "@mui/material/Collapse";
 import { useTranslation } from "react-i18next";
+import { Typography, Collapse, Button } from "@mui/material";
 
 export const ForgotPasswordPage: React.FC = () => {
 	const { email } = useParams();
@@ -53,9 +51,7 @@ export const ForgotPasswordPage: React.FC = () => {
 			<SysForm schema={schema} onSubmit={handleSubmit} debugAlerts={false} loading={loading} doc={{ email }}>
 				<Styles.body>
 					<Typography textAlign="center" color={(theme) => theme.palette.sysText?.body}>
-						{isEmailSent
-							? t("pages.forgotPassword.emailSentMessage")
-							: t("pages.forgotPassword.emailConfirmationMessage")}
+						{isEmailSent ? t("pages.forgotPassword.emailSentMessage") : t("pages.forgotPassword.emailConfirmationMessage")}
 					</Typography>
 					<Collapse in={!isEmailSent} sx={{ width: "100%" }}>
 						<SysTextField name="email" placeholder={t("pages.forgotPassword.emailPlaceholder")} />
