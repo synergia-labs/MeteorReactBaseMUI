@@ -107,7 +107,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 		this.addPublication('userProfileList', (filter = {}) => {
 			return this.defaultListCollectionPublication(filter, {
-				projection: { email: 1, username: 1, status: 1, roles: 1, createdat: 1 }
+				projection: { email: 1, username: 1, status: 1, roles: 1, createdAt: 1 }
 			});
 		});
 
@@ -277,8 +277,8 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	async _includeAuditData(doc: IDoc, action: string, defaultUser: string = 'Anonymous') {
 		const user: IUserProfile = await getUserServer();
 		if (action === 'insert') {
-			doc.createdby = user ? user._id : defaultUser;
-			doc.createdat = new Date();
+			doc.createdBy = user ? user._id : defaultUser;
+			doc.createdAt = new Date();
 			doc.lastupdate = new Date();
 		} else {
 			doc.lastupdate = new Date();
