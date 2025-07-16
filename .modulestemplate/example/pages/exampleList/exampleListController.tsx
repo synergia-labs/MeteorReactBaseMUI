@@ -29,7 +29,7 @@ export const ExampleListControllerContext = React.createContext<IExampleListCont
 );
 
 const initialConfig = {
-	sortProperties: { field: 'createdat', sortAscending: true },
+	sortProperties: { field: 'createdAt', sortAscending: true },
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false
@@ -39,7 +39,7 @@ const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 
 	const { title, type, typeMulti } = exampleApi.getSchema();
-	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
+	const exampleSchReduzido = { title, type, typeMulti, createdAt: { type: Date, label: 'Criado em' } };
 	const navigate = useNavigate();
 
 	const { sortProperties, filter } = config;

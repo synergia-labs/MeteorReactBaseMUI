@@ -51,7 +51,7 @@ async function validateSocialLoginAndUpdateProfile(
 	if (!userProfile) {
 		user.roles = ['Usuario'];
 		user.otheraccounts = [{ _id: user._id, service: serviceName }];
-		user.createdat = new Date();
+		user.createdAt = new Date();
 		user.lastupdate = new Date();
 		const userProfileID = await userprofileServerApi.getCollectionInstance().insertAsync(user);
 		delete user.otheraccounts;

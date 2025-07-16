@@ -71,7 +71,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	counts: Mongo.Collection<any>;
 	apiRestImage?: IApiRestImage | undefined;
 	apiRestAudio?: IApiRestAudio | undefined;
-	auditFields = ['createdby', 'createdat', 'lastupdate', 'updatedby', 'sincronizadoEm', 'idAparelho'];
+	auditFields = ['createdBy', 'createdAt', 'lastupdate', 'updatedby', 'sincronizadoEm', 'idAparelho'];
 	defaultResources?: any;
 	// @ts-ignore
 	collectionInstance: Mongo.Collection<any>;
@@ -372,8 +372,8 @@ export class ServerApiBase<Doc extends IDoc> {
 	async _includeAuditData(doc: Doc | Partial<Doc>, action: string, defaultUser: string = 'Anonymous') {
 		const userId = (await getUserServer()) ? await getUserServer()?._id : defaultUser;
 		if (action === 'insert') {
-			doc.createdby = userId;
-			doc.createdat = new Date();
+			doc.createdBy = userId;
+			doc.createdAt = new Date();
 			doc.lastupdate = new Date();
 			doc.updatedby = userId;
 		} else {
@@ -394,7 +394,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			} else {
 				if (
 					key !== '_id' &&
-					['lastupdate', 'createdat', 'createdby', 'updatedby'].indexOf(key) === -1 &&
+					['lastupdate', 'createdAt', 'createdBy', 'updatedby'].indexOf(key) === -1 &&
 					!isDate &&
 					isObject(docData) &&
 					!isArray(docData) &&
