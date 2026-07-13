@@ -75,9 +75,9 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 };
 
 const SYSTEM_USER: Readonly<{
-	createdat: Date;
+	createdAt: Date;
 	blocked: boolean;
-	createdby: string;
+	createdBy: string;
 	_id: string;
 	email: string;
 	username: string;
@@ -86,8 +86,8 @@ const SYSTEM_USER: Readonly<{
 	username: 'Sistema',
 	_id: 'SYSTEM',
 	blocked: false,
-	createdat: new Date(),
-	createdby: 'SYSTEM'
+	createdAt: new Date(),
+	createdBy: 'SYSTEM'
 });
 
 /**

@@ -29,7 +29,7 @@ export const AniversarioListControllerContext = React.createContext<IAniversario
 );
 
 const initialConfig = {
-	sortProperties: { field: 'createdat', sortAscending: true },
+	sortProperties: { field: 'createdAt', sortAscending: true },
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false

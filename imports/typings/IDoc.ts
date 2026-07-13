@@ -1,8 +1,8 @@
 export interface IDoc {
 	_id?: string | undefined;
-	createdat?: Date;
+	createdAt?: Date;
 	updatedby?: string | null;
-	createdby?: string | null;
+	createdBy?: string | null;
 	lastupdate?: Date;
 	sincronizadoEm?: Date;
 	needSync?: boolean;

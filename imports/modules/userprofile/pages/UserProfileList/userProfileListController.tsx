@@ -38,7 +38,7 @@ const initialConfig = {
 		currentPage: 1,
 		pageSize: 25
 	},
-	sortProperties: { field: 'createdat', sortAscending: true },
+	sortProperties: { field: 'createdAt', sortAscending: true },
 	filter: {},
 	searchBy: null,
 	viewComplexTable: false
