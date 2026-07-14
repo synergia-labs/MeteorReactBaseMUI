@@ -9,5 +9,12 @@ cypress/screenshots
 cypress/videos
 node_modules
 npm-debug.log*
+settings.json
+.env
+.env.*
+.github
+.cypress
+cypress.config.ts
+melhorias.md
 storybook-static
 tsconfig.tsbuildinfo

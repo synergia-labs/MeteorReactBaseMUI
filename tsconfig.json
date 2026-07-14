@@ -1,21 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "ignoreDeprecations": "6.0",
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "baseUrl": "./",
-    "jsx": "react",
-    "paths": {
-      "/imports/*": ["imports/*"]
-    }
-  },
-  "exclude": [
-    "node_modules",
-    ".meteor"
-  ],
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "Preserve",
+		"moduleResolution": "Bundler",
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"incremental": false,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"jsx": "react-jsx",
+		"paths": {
+			"/imports/*": ["./imports/*"]
+		}
+	},
+	"exclude": ["node_modules", ".meteor"]
 }

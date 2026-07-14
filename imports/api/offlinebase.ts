@@ -306,16 +306,17 @@ class PersistentMinimongoStorage {
 		const seconds = self.lastCallInit ? (new Date().getTime() - self.lastCallInit.getTime()) / 1000 : 61;
 
 		if (seconds > 60 && (!!callback || !this.inited.get())) {
-			this.updateKeys((e, r) => {
+			this.updateKeys(async (e, r) => {
 				if (r) {
 					self.cachedCollection.remove_({});
-					self.list.forEach(async (key, i) => {
-						const res = await get(key, self.customStore).then((result) => {
+					await Promise.all(
+						self.list.map(async (key) => {
+							const result = await get(key, self.customStore);
 							const docR = parse(result);
 							const doc = self.updateDateOnJson(docR);
 							self.cachedCollection.update_({ _id: doc._id }, { $set: doc }, { upsert: true });
-						});
-					});
+						})
+					);
 					self.inited.set(true);
 					if (callback) {
 						callback(null, true);
@@ -350,19 +351,19 @@ class PersistentMinimongoStorage {
 
 	getDocs = (filter = {}, callback = () => {}) => {
 		const self = this;
-		const matchFilter = (o1, o2) =>
-			Object.keys(o1).map((k) => _.isEqual(o1[k], o2[k]).filter((o) => !!o).length === Object.keys(o1).length);
-		this.updateKeys((e, r) => {
+		const matchFilter = (o1, o2) => Object.keys(o1).every((key) => _.isEqual(o1[key], o2[key]));
+		this.updateKeys(async (e, r) => {
 			const result = [];
 			if (r) {
-				self.list.forEach(async (key, i) => {
-					const res = await get(key, self.customStore).then((result) => {
-						const docR = parse(result);
+				await Promise.all(
+					self.list.map(async (key) => {
+						const storedValue = await get(key, self.customStore);
+						const docR = parse(storedValue);
 						if (matchFilter(filter, docR)) {
 							result.push(self.updateDateOnJson(docR));
 						}
-					});
-				});
+					})
+				);
 			}
 
 			callback(e, result);

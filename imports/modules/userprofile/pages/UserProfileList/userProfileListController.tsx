@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import UserProfileListView from './userProfileListView';
 import { IUserProfile } from '../../api/userProfileSch';
@@ -8,6 +8,7 @@ import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
 import UserProfileDetailController from '../UserProfileDetail/userProfileDetailController';
 import { sysSizing } from '../../../../ui/materialui/styles';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import { escapeRegExp } from '/imports/libs/escapeRegExp';
 
 interface IInitialConfig {
 	pageProperties: {
@@ -46,6 +47,8 @@ const initialConfig = {
 
 const UserProfileListController = () => {
 	const [config, setConfig] = useState<IInitialConfig>(initialConfig);
+	const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+	useEffect(() => () => searchTimer.current && clearTimeout(searchTimer.current), []);
 	const { showNotification, showDialog } = useContext<IAppLayoutContext>(AppLayoutContext);
 
 	const { sortProperties, filter, pageProperties } = config;
@@ -64,7 +67,7 @@ const UserProfileListController = () => {
 		userList: IUserProfile[];
 		total: number;
 	} = useTracker(() => {
-		const searchFilter = config.searchBy ? { username: { $regex: config.searchBy, $options: 'i' } } : {};
+		const searchFilter = config.searchBy ? { username: { $regex: escapeRegExp(config.searchBy), $options: 'i' } } : {};
 		const subHandle = userprofileApi.subscribe(
 			'userProfileList',
 			{ ...filter, ...searchFilter },
@@ -130,14 +133,14 @@ const UserProfileListController = () => {
 	}, [userList]);
 
 	const onSearch = useCallback((username: string | undefined) => {
-		const searchUsername = username !== undefined ? username.trim() : '';
-		const delayedSearch = setTimeout(() => {
+		const searchUsername = username !== undefined ? username.trim().slice(0, 100) : '';
+		if (searchTimer.current) clearTimeout(searchTimer.current);
+		searchTimer.current = setTimeout(() => {
 			setConfig((prevConfig) => ({
 				...prevConfig,
 				searchBy: searchUsername !== '' ? searchUsername : null
 			}));
-		}, 1000);
-		return () => clearTimeout(delayedSearch);
+		}, 400);
 	}, []);
 
 	const onSetFilter = useCallback(

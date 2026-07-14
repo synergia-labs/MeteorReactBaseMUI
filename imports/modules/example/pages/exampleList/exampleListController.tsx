@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import ExampleListView from './exampleListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { ISchema } from '../../../../typings/ISchema';
 import { IExample } from '../../api/exampleSch';
 import { exampleApi } from '../../api/exampleApi';
+import { escapeRegExp } from '../../../../libs/escapeRegExp';
 
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean };
@@ -37,6 +38,8 @@ const initialConfig = {
 
 const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
+	const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+	useEffect(() => () => searchTimer.current && clearTimeout(searchTimer.current), []);
 
 	const { title, type, typeMulti } = exampleApi.getSchema();
 	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };
@@ -71,13 +74,14 @@ const ExampleListController = () => {
 
 	const onChangeTextField = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
-		const delayedSearch = setTimeout(() => {
+		if (searchTimer.current) clearTimeout(searchTimer.current);
+		searchTimer.current = setTimeout(() => {
+			const search = value.trim().slice(0, 100);
 			setConfig((prev) => ({
 				...prev,
-				filter: { ...prev.filter, title: { $regex: value.trim(), $options: 'i' } }
+				filter: search ? { ...prev.filter, title: { $regex: escapeRegExp(search), $options: 'i' } } : {}
 			}));
-		}, 1000);
-		return () => clearTimeout(delayedSearch);
+		}, 400);
 	}, []);
 
 	const onSelectedCategory = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {

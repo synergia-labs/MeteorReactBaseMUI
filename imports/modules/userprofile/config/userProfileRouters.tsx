@@ -1,6 +1,8 @@
-import UserProfileContainer from '../userProfileContainer';
 import { IRoute } from '../../../modules/modulesTypings';
 import { Recurso } from './recurso';
+import asyncComponent from '../../../libs/asyncComponent';
+
+const UserProfileContainer = asyncComponent(() => import('../userProfileContainer'));
 
 export const userProfileRouterList: (IRoute | null)[] = [
 	{

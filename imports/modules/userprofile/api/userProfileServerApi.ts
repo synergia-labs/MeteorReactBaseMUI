@@ -4,7 +4,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { IMeteorUser, IUserProfile, userProfileSch } from './userProfileSch';
 import { userprofileData } from '../../../libs/getUser';
 import { serverSettings as settings } from '/imports/config/serverSettings';
-import { check } from 'meteor/check';
+import { check, Match } from 'meteor/check';
 import { IContext } from '../../../typings/IContext';
 import { IDoc } from '../../../typings/IDoc';
 import { ProductServerBase } from '../../../api/productServerBase';
@@ -12,27 +12,16 @@ import { EnumUserRoles } from './enumUser';
 import { nanoid } from 'nanoid';
 import User = Meteor.User;
 
-const emailMethodRateLimitWindowMs = Number(process.env.EMAIL_METHOD_RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000);
-const emailMethodRateLimitMax = Number(process.env.EMAIL_METHOD_RATE_LIMIT_MAX || 5);
-const emailMethodAttempts = new Map<string, { count: number; resetAt: number }>();
-
 const isAdminUser = (user?: IUserProfile | null) => user?.roles?.includes(EnumUserRoles.ADMINISTRADOR) || false;
-
-const assertRateLimit = (key: string) => {
-	const now = Date.now();
-	const current = emailMethodAttempts.get(key);
-
-	if (!current || current.resetAt <= now) {
-		emailMethodAttempts.set(key, { count: 1, resetAt: now + emailMethodRateLimitWindowMs });
-		return;
-	}
-
-	if (current.count >= emailMethodRateLimitMax) {
-		throw new Meteor.Error('rate-limit-exceeded', 'Muitas tentativas. Tente novamente mais tarde.');
-	}
-
-	current.count++;
-};
+const emailRequestPattern = Match.Where((value: unknown) => {
+	if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+	const data = value as Record<string, unknown>;
+	if (Object.keys(data).some((key) => !['_id', 'email'].includes(key))) return false;
+	return (
+		(typeof data._id === 'string' && data._id.length > 0) ||
+		(typeof data.email === 'string' && data.email.length <= 254)
+	);
+});
 
 interface IUserProfileEstendido extends IUserProfile {
 	password?: string;
@@ -42,7 +31,7 @@ interface IUserProfileEstendido extends IUserProfile {
  * Return Logged User if exists.
  * @return {Object} Logged User
  */
-export const getUserServer = async (connection?: { id: string } | null): IUserProfile => {
+export const getUserServer = async (connection?: { id: string } | null): Promise<IUserProfile> => {
 	const user: (User & IMeteorUser) | null = await Meteor.userAsync();
 	const d = new Date();
 	const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
@@ -98,10 +87,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		this.afterInsert = this.afterInsert.bind(this);
 
 		this.registerMethod('sendVerificationEmail', async (userData: IUserProfile, context: IContext) => {
-			check(userData, Object);
-			assertRateLimit(
-				`verify:${context.connection?.id || context.user?._id || 'anonymous'}:${userData.email || userData._id}`
-			);
+			check(userData, emailRequestPattern);
 			if (Meteor.isServer && userData) {
 				const user = userData._id
 					? await Meteor.users.findOneAsync({ _id: userData._id })
@@ -117,16 +103,13 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 					throw new Meteor.Error('Acesso negado', 'Você não tem permissão para reenviar este email.');
 				}
 
-				Accounts.sendVerificationEmail(user._id);
+				await Accounts.sendVerificationEmail(user._id);
 			}
 			return true;
 		});
 
 		this.registerMethod('sendResetPasswordEmail', async (userData: IUserProfile, context: IContext) => {
-			check(userData, Object);
-			assertRateLimit(
-				`reset:${context.connection?.id || context.user?._id || 'anonymous'}:${userData.email || userData._id}`
-			);
+			check(userData, emailRequestPattern);
 			if (Meteor.isServer && userData) {
 				const user = userData._id
 					? await Meteor.users.findOneAsync({ _id: userData._id })
@@ -135,7 +118,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 						: null;
 
 				if (user) {
-					Accounts.sendResetPasswordEmail(user._id);
+					await Accounts.sendResetPasswordEmail(user._id);
 				}
 			}
 			return true;
@@ -153,12 +136,14 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			return this.defaultDetailCollectionPublication(filter, {});
 		});
 
-		this.addPublication('getListOfusers', (filter = {}) => {
+		this.addPublication('getListOfusers', async () => {
+			const user = await getUserServer();
+			if (!isAdminUser(user)) return this.collectionInstance.find({ _id: '__denied__' });
 			const queryOptions = {
-				fields: { photo: 1, email: 1, username: 1 }
+				fields: { email: 1, username: 1, status: 1 }
 			};
 
-			return this.collectionInstance.find(Object.assign({}, { ...filter }), queryOptions);
+			return this.collectionInstance.find({}, queryOptions);
 		});
 
 		this.addPublication('getLoggedUserProfile', async () => {
@@ -179,13 +164,13 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	registrarUserProfileNoMeteor = async (userprofile: IUserProfileEstendido) => {
 		if (Meteor.isServer) {
 			if (userprofile.password) {
-				userprofile._id = await Accounts.createUser({
+				userprofile._id = await Accounts.createUserAsync({
 					username: userprofile.email,
 					password: userprofile.password,
 					email: userprofile.email
 				});
 			} else {
-				userprofile._id = await Accounts.createUser({
+				userprofile._id = await Accounts.createUserAsync({
 					username: userprofile.email,
 					email: userprofile.email
 				});
@@ -410,9 +395,9 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	async afterInsert(doc: IUserProfileEstendido, _context: IContext) {
 		if (Meteor.isServer) {
 			if (doc.password) {
-				Accounts.sendVerificationEmail(doc._id!);
+				await Accounts.sendVerificationEmail(doc._id!);
 			} else {
-				Accounts.sendEnrollmentEmail(doc._id!);
+				await Accounts.sendEnrollmentEmail(doc._id!);
 			}
 		}
 	}

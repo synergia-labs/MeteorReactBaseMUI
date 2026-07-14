@@ -1,6 +1,8 @@
-import ExampleContainer from '../exampleContainer';
 import { Recurso } from './recursos';
 import { IRoute } from '../../../modules/modulesTypings';
+import asyncComponent from '../../../libs/asyncComponent';
+
+const ExampleContainer = asyncComponent(() => import('../exampleContainer'));
 
 export const exampleRouterList: (IRoute | null)[] = [
 	{

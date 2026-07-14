@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 
-ARG NODE_VERSION=22
-ARG METEOR_VERSION=3.4.1
+ARG NODE_VERSION=24.15.0
+ARG METEOR_VERSION=3.5
 
 FROM node:${NODE_VERSION}-bookworm-slim AS builder
 
@@ -43,7 +43,6 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /opt/build/bundle /app
-COPY settings.json /app/settings.json
 COPY docker/entrypoint.sh /usr/local/bin/docker-entrypoint
 
 RUN mkdir -p /app/uploads \

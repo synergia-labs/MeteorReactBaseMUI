@@ -1,0 +1,5 @@
+cypress.config.ts
+.cypress/
+.github/
+melhorias.md
+scripts/

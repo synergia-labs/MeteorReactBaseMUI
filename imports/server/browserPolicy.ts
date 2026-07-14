@@ -27,9 +27,7 @@ Meteor.startup(() => {
 	});
 
 	const allowFontOrigin = ['fonts.googleapis.com', 'fonts.gstatic.com', 'localhost:3000', `${Meteor.absoluteUrl()}`];
-	allowFontOrigin.forEach((o) => {
-		return BrowserPolicy.content.allowDataUrlForAll(o);
-	});
+	if (allowFontOrigin.length > 0) BrowserPolicy.content.allowDataUrlForAll();
 
 	const allowAll = [
 		'fonts.googleapis.com',
@@ -45,20 +43,29 @@ Meteor.startup(() => {
 		return BrowserPolicy.content.allowOriginForAll(o);
 	});
 
-	BrowserPolicy.content.allowInlineScripts('fonts.gstatic.com', 'localhost:3000', `${Meteor.absoluteUrl()}`);
+	if (process.env.NODE_ENV !== 'production') BrowserPolicy.content.allowInlineScripts();
 	BrowserPolicy.content.allowOriginForAll('blob:');
 
 	// Additional security headers
 	WebApp.connectHandlers.use((req, res, next) => {
+		const production = process.env.NODE_ENV === 'production';
 		res.setHeader(
 			'Content-Security-Policy',
-			"default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.googletagmanager.com *.googleapis.com *.gstatic.com; style-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com; font-src 'self' data: *.gstatic.com; img-src 'self' data: blob: *.googleusercontent.com *.gstatic.com *.googleapis.com; connect-src 'self' *.googleapis.com *.gstatic.com; frame-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests;"
+			`default-src 'self'; script-src 'self'${production ? '' : " 'unsafe-inline' 'unsafe-eval'"} *.googletagmanager.com *.googleapis.com *.gstatic.com; style-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com; font-src 'self' data: *.gstatic.com; img-src 'self' data: blob: *.googleusercontent.com *.gstatic.com *.googleapis.com; connect-src 'self' wss: *.googleapis.com *.gstatic.com; frame-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';${production ? ' upgrade-insecure-requests;' : ''}`
 		);
-		res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
-		res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+		if (
+			/\.(?:js|css|woff2?|png|jpe?g|gif|webp|svg)(?:\?|$)/i.test(req.url || '') &&
+			/[?&](?:hash|v)=/i.test(req.url || '')
+		) {
+			res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+		} else {
+			res.setHeader('Cache-Control', 'no-store');
+		}
+		if (production) res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 		res.setHeader('X-Content-Type-Options', 'nosniff');
 		res.setHeader('X-Frame-Options', 'DENY');
-		res.setHeader('X-XSS-Protection', '1; mode=block');
+		res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+		res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
 
 		next();
 	});

@@ -2,6 +2,7 @@ import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
 import { IConnection } from './IConnection';
 import { ISchema } from './ISchema';
 import { Validador } from '../libs/Validador';
+import type { ClientSession } from 'mongodb';
 
 export interface IContext {
 	docId?: string;
@@ -12,5 +13,5 @@ export interface IContext {
 	connection?: IConnection;
 	validador: Validador;
 	schema: ISchema<any>;
-	session: any;
+	session?: ClientSession;
 }

@@ -1,10 +1,30 @@
 import { FilesCollection } from 'meteor/ostrio:files';
 import { Meteor } from 'meteor/meteor';
+import { check, Match } from 'meteor/check';
+import { Random } from 'meteor/random';
 
-let uploadPaths = null;
+const MAX_UPLOAD_BYTES = Number(process.env.MAX_UPLOAD_BYTES || 15 * 1024 * 1024);
+const ALLOWED_UPLOADS: Record<string, ReadonlySet<string>> = {
+	png: new Set(['image/png']),
+	jpg: new Set(['image/jpeg']),
+	jpeg: new Set(['image/jpeg']),
+	gif: new Set(['image/gif']),
+	bmp: new Set(['image/bmp']),
+	pdf: new Set(['application/pdf']),
+	txt: new Set(['text/plain']),
+	csv: new Set(['text/csv', 'application/csv', 'text/plain']),
+	xls: new Set(['application/vnd.ms-excel']),
+	xlsx: new Set(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']),
+	doc: new Set(['application/msword']),
+	docx: new Set(['application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
+	odt: new Set(['application/vnd.oasis.opendocument.text']),
+	ods: new Set(['application/vnd.oasis.opendocument.spreadsheet'])
+};
+
+let uploadPaths: string | null = null;
 if (Meteor.isServer) {
 	const fs = require('fs');
-	const defaultUploadPath = `${Meteor.absolutePath.split('/').slice(0, -1).join('/')}/uploads/meteorUploads`;
+	const defaultUploadPath = `${process.cwd()}/uploads/meteorUploads`;
 
 	uploadPaths = process.env.UPLOADS_DIR || defaultUploadPath;
 
@@ -14,6 +34,8 @@ if (Meteor.isServer) {
 }
 
 class AttachmentsCollection {
+	attachments: FilesCollection;
+
 	constructor() {
 		/**
 		 * Don't forget to change the path to the server path
@@ -21,27 +43,23 @@ class AttachmentsCollection {
 		// const storagePath = path: '/home/servicedesk/DEPLOY/LINIO_SERVICEDESK_PRODUCAO/bundle/uploads'
 		this.attachments = new FilesCollection({
 			collectionName: 'Attachments',
-			allowClientCode: false, // actions from client
+			allowClientCode: false,
 			// Mudar a cada versão
 			// ToDo Colocar em uma variável de ambiente
 			storagePath: uploadPaths,
-			onBeforeUpload(file) {
-				// Allow upload files under 10MB, and only in png/jpg/jpeg formats
-				if (
-					file.size <= 1048576 * 15 && // (15MB)
-					/xlsx|xls|jpeg|png|jpg|svg|bmp|gif|doc|docx|odt|ods|txt|pdf|csv|zip|rar|gz/i.test(file.extension)
-				) {
-					return true;
-				}
-				return 'Please upload image, with size equal or less than 10MB';
+			onBeforeUpload(file: any) {
+				const extension = String(file.extension || '').toLowerCase();
+				const mime = String(file.type || '').toLowerCase();
+				const ownerMatches = Boolean(this.userId && file.meta?.userId === this.userId);
+				const allowedMime = ALLOWED_UPLOADS[extension]?.has(mime);
+
+				if (ownerMatches && file.size > 0 && file.size <= MAX_UPLOAD_BYTES && allowedMime) return true;
+				return 'Arquivo não autorizado, tipo inválido ou tamanho acima do limite.';
+			},
+			protected(file: any) {
+				return Boolean(this.userId && file?.meta?.userId === this.userId);
 			}
 		});
-		if (Meteor.isServer) {
-			/* Allow all
-			 * @see http://docs.meteor.com/#/full/allow
-			 */
-			this.attachments.allowClient();
-		}
 		this.applyPublication();
 		this.serverGetFileFileByDocId('MapaCalorConfig');
 	}
@@ -50,30 +68,32 @@ class AttachmentsCollection {
 		const self = this;
 		if (Meteor.isServer) {
 			Meteor.methods({
-				RemoveFile: (id) => {
+				async RemoveFile(id) {
 					check(id, String);
-					try {
-						const file = self.attachments.findOne({ _id: id });
-						if (file) {
-							file.remove();
-						}
-					} catch (e) {
-						// console.log('Error on Remove File',e);
-						return true;
-					}
+					if (!this.userId) throw new Meteor.Error('not-authorized', 'Autenticação obrigatória.');
+					const file = await self.attachments.collection.findOneAsync({ _id: id });
+					if (!file) return false;
+					if (file.meta?.userId !== this.userId)
+						throw new Meteor.Error('not-authorized', 'Arquivo fora do seu escopo.');
+					await self.attachments.removeAsync(id);
+					return true;
 				}
 			});
 
-			Meteor.publish('files-attachments', (filter) => {
-				check(filter, Object);
-				return self.attachments.collection.find({ ...filter });
+			Meteor.publish('files-attachments', function (filter) {
+				check(filter, Match.ObjectIncluding({ 'meta.docId': String }));
+				if (!this.userId) return this.ready();
+				return self.attachments.collection.find(
+					{ 'meta.docId': filter['meta.docId'], 'meta.userId': this.userId },
+					{ fields: { name: 1, size: 1, type: 1, extension: 1, meta: 1, versions: 1 } }
+				);
 			});
 		}
 	};
 
-	find = (filter) => this.attachments.collection.find(filter);
+	find = (filter: any) => this.attachments.collection.find(filter);
 
-	getAttachmentDoc = (doc) => ({
+	getAttachmentDoc = (doc: any) => ({
 		_id: doc._id,
 		size: doc.size,
 		type: 'application/octet-stream',
@@ -105,21 +125,21 @@ class AttachmentsCollection {
 		public: false
 	});
 
-	serverInsert = (doc) => {
-		this.attachments.collection.insert(doc);
+	serverInsert = async (doc: any) => {
+		return this.attachments.collection.insertAsync(doc);
 	};
 
-	serverGetFileFileByDocId = (id) => {
-		const docFile = this.find({ 'meta.docId': id }).fetch()[0];
-		return docFile && docFile.path ? docFile.path : null;
+	serverGetFileFileByDocId = async (id: string) => {
+		const docFile = await this.find({ 'meta.docId': id }).fetchAsync();
+		return docFile[0]?.path || null;
 	};
 
-	serverSaveCSVFile = async (file, fileName) => {
+	serverSaveCSVFile = async (file: string | Buffer, fileName?: string) => {
 		if (Meteor.isServer) {
-			const fileId = shortid.generate();
+			const fileId = Random.id();
 			const nameFile = `${fileName ? fileName : fileId}.csv`;
 			const fs = require('fs').promises;
-			const fileSave = await fs.writeFile(`${uploadPaths}/${nameFile}`, file);
+			await fs.writeFile(`${uploadPaths}/${nameFile}`, file);
 			const fileStat = await fs.stat(`${uploadPaths}/${nameFile}`);
 			const fileData = {
 				_id: fileId,
@@ -127,12 +147,12 @@ class AttachmentsCollection {
 				size: fileStat.size,
 				path: `${uploadPaths}/${nameFile}`
 			};
-			this.serverInsert(this.getAttachmentDoc(fileData));
+			await this.serverInsert(this.getAttachmentDoc(fileData));
 			return `${Meteor.absoluteUrl()}cdn/storage/Attachments/${fileId}/original/${nameFile}`;
 		}
 	};
 
-	findOne = (filter) => this.attachments.findOne(filter);
+	findOne = (filter: any) => this.attachments.findOne(filter);
 
 	getCollection = () => this.attachments;
 }

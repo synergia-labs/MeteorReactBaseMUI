@@ -1,21 +1,47 @@
 import { Meteor } from 'meteor/meteor';
 import assert from 'assert';
+import { hasValue } from '../imports/libs/hasValue';
+import { Validador } from '../imports/libs/Validador';
+import { escapeRegExp } from '../imports/libs/escapeRegExp';
+import { sanitizeHtml } from '../imports/libs/sanitizeHtml';
 
-describe('typescriptApp', function () {
-  it('package.json has correct name', async function () {
-    const { name } = await import('../package.json');
-    assert.strictEqual(name, 'typescriptApp');
-  });
+describe('meteor-react-base-mui', function () {
+	it('package.json has correct name', async function () {
+		const { name } = await import('../package.json');
+		assert.strictEqual(name, 'meteor-react-base-mui');
+	});
 
-  if (Meteor.isClient) {
-    it('client is not server', function () {
-      assert.strictEqual(Meteor.isServer, false);
-    });
-  }
+	it('recognizes meaningful values without treating zero and false as empty', function () {
+		assert.strictEqual(hasValue(0), true);
+		assert.strictEqual(hasValue(false), true);
+		assert.strictEqual(hasValue('  '), false);
+		assert.strictEqual(hasValue([]), false);
+	});
 
-  if (Meteor.isServer) {
-    it('server is not client', function () {
-      assert.strictEqual(Meteor.isClient, false);
-    });
-  }
+	it('throws accumulated validation errors', function () {
+		const validator = new Validador();
+		validator.validar(false, 'invalid', 'Valor inválido');
+		assert.throws(() => validator.lancarErroSeHouver(), /errosValidacao/);
+	});
+
+	it('escapes user input before building a Mongo regular expression', function () {
+		assert.strictEqual(escapeRegExp('a.*(b)'), 'a\\.\\*\\(b\\)');
+	});
+
+	it('does not return executable HTML when no browser DOM is available', function () {
+		if (Meteor.isServer)
+			assert.strictEqual(sanitizeHtml('<script>alert(1)</script>'), '&lt;script&gt;alert(1)&lt;/script&gt;');
+	});
+
+	if (Meteor.isClient) {
+		it('client is not server', function () {
+			assert.strictEqual(Meteor.isServer, false);
+		});
+	}
+
+	if (Meteor.isServer) {
+		it('server is not client', function () {
+			assert.strictEqual(Meteor.isClient, false);
+		});
+	}
 });

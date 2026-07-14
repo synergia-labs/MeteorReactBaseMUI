@@ -1,4 +1,7 @@
+import './environment';
+import './health';
 import './browserPolicy';
+import './rateLimits';
 import './databaseIndexes';
 import './registerApi';
 import './fixtures';

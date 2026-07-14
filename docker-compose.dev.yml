@@ -30,6 +30,7 @@ services:
       MAIL_NO_REPLY: "${MAIL_NO_REPLY:-}"
       MAIL_SYSTEM: "${MAIL_SYSTEM:-}"
       CORS_ORIGINS: "${CORS_ORIGINS:-}"
+      MEDIA_ACCESS_TOKEN: "${MEDIA_ACCESS_TOKEN:-development-only-media-token}"
       GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID:-}"
       GOOGLE_CLIENT_SECRET: "${GOOGLE_CLIENT_SECRET:-}"
       GOOGLE_VALID_CLIENT_IDS: "${GOOGLE_VALID_CLIENT_IDS:-}"
@@ -41,7 +42,7 @@ services:
       - dev_meteor_local:/app/.meteor/local
       - dev_uploads:/app/uploads
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health/ready').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
       interval: 30s
       timeout: 5s
       retries: 5

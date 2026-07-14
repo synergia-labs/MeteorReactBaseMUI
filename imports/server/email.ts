@@ -1,13 +1,18 @@
-import { Meteor } from 'meteor/meteor';
 import { Email } from 'meteor/email';
+import { Meteor } from 'meteor/meteor';
 import { serverSettings as settings } from '/imports/config/serverSettings';
 
+declare const SSR: {
+	compileTemplate(name: string, content: string): void;
+	render(name: string, data: Record<string, unknown>): string;
+};
+declare const Assets: { getText(path: string): string };
+
 const configureMailServer = () => {
-	// process.env.MAIL_URL = 'smtp://192.168.0.13:25';
-	process.env.MAIL_URL = settings.mail_url_smtp;
+	if (settings.mail_url_smtp) process.env.MAIL_URL = settings.mail_url_smtp;
 };
 
-export const getHTMLEmailTemplate = (title = settings.name, text = 'Message', footer) => {
+export const getHTMLEmailTemplate = (title = settings.name, text = 'Message', footer = '') => {
 	SSR.compileTemplate('htmlEmail', Assets.getText('templateEmail.html'));
 	const email = SSR.render('htmlEmail', {
 		title,
@@ -17,30 +22,24 @@ export const getHTMLEmailTemplate = (title = settings.name, text = 'Message', fo
 	return email;
 };
 
-function sendEmail(to, from, subject, msg, attachments = [], callback) {
-	// Make sure that all arguments are strings.
-	check([to, from, subject, msg], [String]);
-	// Let other method calls from the same client start running, without
-	// waiting for the email sending to complete.
-	// this.unblock();
-	try {
-		const a = Email.send({
-			to,
-			from,
-			subject,
-			replyTo: settings.mail_no_reply,
-			html: getHTMLEmailTemplate(subject, msg),
-			attachments
-		});
-		return 'EMAIL OK';
-	} catch (e) {
-		throw e;
-	}
-}
+type SystemEmail = {
+	to: string;
+	subject: string;
+	message: string;
+};
 
-Meteor.methods({
-	sendEmail
-});
+/** Server-only primitive. Client methods must expose named business actions, never arbitrary email content. */
+export const sendSystemEmail = async ({ to, subject, message }: SystemEmail) => {
+	if (!to || !subject || !message) throw new Error('E-mail incompleto.');
+
+	await Email.sendAsync({
+		to,
+		from: settings.mail_system || settings.mail_no_reply,
+		replyTo: settings.mail_no_reply,
+		subject,
+		html: getHTMLEmailTemplate(subject, message)
+	});
+};
 
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {

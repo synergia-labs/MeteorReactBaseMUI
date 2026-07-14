@@ -39,13 +39,87 @@ const allowedCorsOrigins = (process.env.CORS_ORIGINS || '')
 	.split(',')
 	.map((origin) => origin.trim())
 	.filter(Boolean);
-const defaultAllowedCorsOrigins = new Set([absoluteOrigin, 'http://localhost:3000', 'http://127.0.0.1:3000']);
+const defaultAllowedCorsOrigins = new Set([absoluteOrigin]);
+if (process.env.NODE_ENV !== 'production') {
+	defaultAllowedCorsOrigins.add('http://localhost:3000');
+	defaultAllowedCorsOrigins.add('http://127.0.0.1:3000');
+}
 allowedCorsOrigins.forEach((origin) => defaultAllowedCorsOrigins.add(origin));
 
 const clampLimit = (limit: number | undefined, defaultLimit = maxPublicationLimit, maxLimit = maxPublicationLimit) => {
 	if (limit === 0) return 0;
 	if (!limit || limit < 0) return defaultLimit;
 	return Math.min(limit, maxLimit);
+};
+
+const allowedMongoOperators = new Set([
+	'$and',
+	'$or',
+	'$eq',
+	'$ne',
+	'$in',
+	'$nin',
+	'$gt',
+	'$gte',
+	'$lt',
+	'$lte',
+	'$exists',
+	'$regex',
+	'$options'
+]);
+
+const assertSafeMongoValue = (value: unknown, allowedFields: Set<string>, depth = 0): void => {
+	if (depth > 5) throw new Meteor.Error('validation-error', 'Filtro excede a profundidade permitida.');
+	if (value == null || ['string', 'number', 'boolean'].includes(typeof value) || value instanceof Date) return;
+	if (value instanceof RegExp) {
+		if (value.source.length > 128) throw new Meteor.Error('validation-error', 'Expressão de busca muito longa.');
+		return;
+	}
+	if (Array.isArray(value)) {
+		if (value.length > 50) throw new Meteor.Error('validation-error', 'Filtro contém itens demais.');
+		value.forEach((item) => assertSafeMongoValue(item, allowedFields, depth + 1));
+		return;
+	}
+	if (Object.getPrototypeOf(value) !== Object.prototype) {
+		throw new Meteor.Error('validation-error', 'Valor de filtro inválido.');
+	}
+
+	const entries = Object.entries(value as Record<string, unknown>);
+	if (entries.length > 50) throw new Meteor.Error('validation-error', 'Filtro contém campos demais.');
+	for (const [key, item] of entries) {
+		if (key.startsWith('$')) {
+			if (!allowedMongoOperators.has(key)) throw new Meteor.Error('validation-error', `Operador não permitido: ${key}`);
+			if (key === '$regex' && typeof item === 'string' && item.length > 128) {
+				throw new Meteor.Error('validation-error', 'Expressão de busca muito longa.');
+			}
+		} else if (!allowedFields.has(key.split('.')[0])) {
+			throw new Meteor.Error('validation-error', `Campo de filtro não permitido: ${key}`);
+		}
+		assertSafeMongoValue(item, allowedFields, depth + 1);
+	}
+};
+
+const assertSafePublicationOptions = (options: Record<string, any>, allowedFields: Set<string>) => {
+	const allowedOptions = new Set(['limit', 'skip', 'sort', 'projection', 'fields']);
+	if (Object.keys(options).some((key) => !allowedOptions.has(key))) {
+		throw new Meteor.Error('validation-error', 'Opção de consulta não permitida.');
+	}
+	for (const numeric of ['limit', 'skip']) {
+		if (options[numeric] !== undefined && (!Number.isInteger(options[numeric]) || options[numeric] < 0)) {
+			throw new Meteor.Error('validation-error', `${numeric} inválido.`);
+		}
+	}
+	for (const optionName of ['sort', 'projection', 'fields']) {
+		const option = options[optionName];
+		if (!option) continue;
+		if (Object.getPrototypeOf(option) !== Object.prototype)
+			throw new Meteor.Error('validation-error', `${optionName} inválido.`);
+		for (const [field, direction] of Object.entries(option)) {
+			if (!allowedFields.has(field.split('.')[0]) || ![1, -1, 0].includes(direction as number)) {
+				throw new Meteor.Error('validation-error', `${optionName} contém campo ou direção inválida.`);
+			}
+		}
+	}
 };
 
 const parseThumbnailDimension = (value: string | undefined) => {
@@ -71,6 +145,7 @@ const writeMediaAccessDenied = (res: any) => {
 const isAdmin = (user?: IUserProfile | null) => user?.roles?.includes('Administrador') || false;
 
 WebApp.connectHandlers.use(
+	'/api',
 	cors({
 		credentials: true,
 		origin(origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) {
@@ -82,7 +157,7 @@ WebApp.connectHandlers.use(
 		}
 	})
 );
-WebApp.connectHandlers.use(bodyParser.json({ limit: jsonBodyLimit }));
+WebApp.connectHandlers.use('/api', bodyParser.json({ limit: jsonBodyLimit, type: 'application/json' }));
 
 const getNoImage = (isAvatar = false) => {
 	if (!isAvatar) {
@@ -482,7 +557,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		connection?: IConnection,
 		userProfile?: IUserProfile,
 		validadorArg?: Validador,
-		session?: MongoInternals.MongoConnection
+		session?: ClientSession
 	): Promise<IContext> {
 		const user: IUserProfile = userProfile || (await getUserServer(connection));
 
@@ -498,36 +573,33 @@ export class ServerApiBase<Doc extends IDoc> {
 		};
 	}
 
-	protected _executarTransacao(asyncRawMongoOperations: (session: ClientSession) => any) {
+	protected async _executarTransacao<T>(asyncRawMongoOperations: (session: ClientSession) => Promise<T>): Promise<T> {
 		const { client } = MongoInternals.defaultRemoteCollectionDriver().mongo;
-		const execucaoTransacaoAssincrona = async (client: MongoClient, callback: Function) => {
-			let erro = null,
-				resultado = null;
-			const session = await client.startSession();
-			await session.startTransaction();
-			try {
-				resultado = await asyncRawMongoOperations(session);
-				await session.commitTransaction();
-			} catch (e: any) {
-				await session.abortTransaction();
-				console.error('Erro durante transacao', e);
-				if (e.name === 'MongoError' && e.codeName == 'WriteConflict') {
-					erro = new Meteor.Error('mongo.WriteConflict', 'Não foi possivel realizar a operação. Tente novamente.');
-				}
-				if (e instanceof Meteor.Error) {
-					erro = e;
-				} else {
-					erro = new Meteor.Error('erroOperacao', e.message || e);
-				}
-			} finally {
-				session.endSession();
+		const session = (client as MongoClient).startSession();
+
+		try {
+			return (await session.withTransaction<T>(async () => asyncRawMongoOperations(session))) as T;
+		} catch (error: any) {
+			console.error('Erro durante transação', {
+				collection: this.collectionName,
+				name: error?.name,
+				codeName: error?.codeName
+			});
+
+			if (error?.codeName === 'WriteConflict') {
+				throw new Meteor.Error('mongo.WriteConflict', 'Não foi possível realizar a operação. Tente novamente.');
 			}
-			callback(erro, resultado);
-		};
-
-		const sincronizarExecucao = Meteor.wrapAsync(execucaoTransacaoAssincrona);
-
-		return sincronizarExecucao(client);
+			if (error instanceof Meteor.Error) {
+				throw error;
+			}
+			throw new Meteor.Error('erroOperacao', 'Não foi possível concluir a operação.');
+		} finally {
+			try {
+				await session.endSession();
+			} catch (endSessionError) {
+				console.error('Erro ao encerrar sessão Mongo', { collection: this.collectionName, endSessionError });
+			}
+		}
 	}
 
 	//**API REST**
@@ -537,10 +609,10 @@ export class ServerApiBase<Doc extends IDoc> {
 		types: string[] = ['get', 'post'],
 		apiOptions: {
 			apiVersion: number;
-			authFunction: (headers: any, params: any) => Boolean;
+			authFunction: (headers: any, params: any) => boolean | Promise<boolean>;
 		} = {
 			apiVersion: 1,
-			authFunction: () => true
+			authFunction: () => false
 		}
 	) {
 		if (Meteor.isServer) {
@@ -550,7 +622,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			}
 			const endpoinUrl = `/api/v${apiOptions.apiVersion || 1}/${this.collectionName}/${route}`;
 
-			const handleFunc = (type: string) => (req: any, res: any) => {
+			const handleFunc = (type: string) => async (req: any, res: any) => {
 				const endpointContext = {
 					urlParams: req.params,
 					queryParams: req.query,
@@ -559,12 +631,11 @@ export class ServerApiBase<Doc extends IDoc> {
 					response: res
 				};
 
-				const params = Object.assign(
-					{},
-					endpointContext.queryParams || {},
-					endpointContext.urlParams || {},
-					endpointContext.bodyParams || {}
-				);
+				const params = {
+					path: endpointContext.urlParams || {},
+					query: endpointContext.queryParams || {},
+					body: endpointContext.bodyParams || {}
+				};
 
 				const context = {
 					type,
@@ -572,45 +643,39 @@ export class ServerApiBase<Doc extends IDoc> {
 					response: endpointContext.response
 				};
 
-				if (apiOptions.authFunction && !apiOptions.authFunction(req.headers, params)) {
-					res.writeHead(403, {
-						'Content-Type': 'application/json'
-					});
-					res.write('Access denied');
-					res.end();
-					return;
-				}
-
 				try {
-					res.writeHead(200, {
-						'Content-Type': 'application/json'
-					});
+					if (!(await apiOptions.authFunction(req.headers, params))) {
+						res.writeHead(403, { 'Content-Type': 'application/json; charset=utf-8' });
+						res.end(JSON.stringify({ error: 'access-denied' }));
+						return;
+					}
 
-					const result = func(params, context);
+					const result = await func(params, context);
 
-					res.write(typeof result === 'object' ? JSON.stringify(result) : `${result ? result.toString() : '-'}`);
-					res.end(); // Must call this immediately before return!
+					res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+					res.end(JSON.stringify(result ?? null));
 					return;
-				} catch (e) {
-					console.log(`API ERROR:${this.collectionName}|${route} - `, e);
-					res.writeHead(403, {
-						'Content-Type': 'application/json'
-					});
-					res.write('Error');
-					res.end();
+				} catch (error) {
+					console.error(`API ERROR:${this.collectionName}|${route}`, error);
+					if (res.headersSent) return;
+					res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+					res.end(JSON.stringify({ error: 'internal-error' }));
 					return;
 				}
 			};
 
 			if (types) {
-				types.forEach((type) => {
-					console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
-					WebApp.connectHandlers.use(
-						connectRoute((router: any) => {
-							router[type](endpoinUrl, handleFunc(type));
-						})
-					);
-				});
+				types
+					.map((type) => type.toLowerCase())
+					.filter((type) => ['get', 'post', 'put', 'patch', 'delete'].includes(type))
+					.forEach((type) => {
+						console.log(`CREATE ENDPOINT ${type.toUpperCase()} ${endpoinUrl}`);
+						WebApp.connectHandlers.use(
+							connectRoute((router: any) => {
+								router[type](endpoinUrl, handleFunc(type));
+							})
+						);
+					});
 			}
 		}
 	}
@@ -952,6 +1017,9 @@ export class ServerApiBase<Doc extends IDoc> {
 
 	//**DEFAULT PUBLICATIONS**
 	async defaultCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
+		const allowedFields = new Set(Object.keys(this.schema).concat(this.auditFields, ['_id']));
+		assertSafeMongoValue(filter, allowedFields);
+		assertSafePublicationOptions((optionsPub || {}) as Record<string, any>, allowedFields);
 		if (!optionsPub) {
 			optionsPub = { limit: maxPublicationLimit, skip: 0 };
 		}
@@ -1060,60 +1128,13 @@ export class ServerApiBase<Doc extends IDoc> {
 	}
 
 	defaultCounterCollectionPublication = (collection: any, publishName: string) =>
-		async function (...params: any) {
-			// `observeChanges` only returns after the initial `added` callbacks have run.
-			// Until then, we don't want to send a lot of `changed` messages—hence
-			// tracking the `initializing` state.
+		async function (this: { added: Function; ready: Function }, ...params: any) {
 			let handlePub = await collection.publications[publishName](...params, { limit: maxCounterLimit });
-			if (handlePub) {
-				if (Array.isArray(handlePub)) {
-					handlePub = handlePub[0];
-				}
-				let count = 0;
-				let loaded = false;
-
-				if (!!handlePub) {
-					const observer = await handlePub.observeChanges(
-						{
-							added: () => {
-								if (loaded) {
-									count++;
-									// @ts-ignore
-									this.changed('counts', `${publishName}Total`, { count });
-								}
-							},
-							removed: () => {
-								if (loaded) {
-									count--;
-									// @ts-ignore
-									this.changed('counts', `${publishName}Total`, { count });
-								}
-							}
-						},
-						{
-							nonMutatingCallbacks: true
-						}
-					);
-					count = await handlePub.countAsync(false);
-					// @ts-ignore
-					this.added('counts', `${publishName}Total`, { count });
-					loaded = true;
-					// @ts-ignore
-					this.ready();
-					this.onStop(() => {
-						if (observer && typeof observer.stop === 'function') {
-							observer.stop();
-						}
-					});
-					return;
-				} else {
-					// @ts-ignore
-					this.added('counts', `${publishName}Total`, { count: 0 });
-					// @ts-ignore
-					this.ready();
-					return;
-				}
-			}
+			if (Array.isArray(handlePub)) handlePub = handlePub[0];
+			const count = handlePub ? await handlePub.countAsync(false) : 0;
+			// Counter snapshots avoid one long-lived Mongo observer per subscriber.
+			this.added('counts', `${publishName}Total`, { count });
+			this.ready();
 		};
 
 	async defaultListCollectionPublication(filter = {}, optionsPub: Partial<IMongoOptions<Doc>>) {
@@ -1182,9 +1203,9 @@ export class ServerApiBase<Doc extends IDoc> {
 
 					// Here With pass the new Metoer Method with the framework
 					// security and the meteor _context.
-					const functionResult = func(...param, meteorContext);
+					const functionResult = await func(...param, meteorContext);
 					if (action === 'insert') {
-						meteorContext.docId = functionResult;
+						meteorContext.docId = typeof functionResult === 'string' ? functionResult : undefined;
 					}
 					meteorContext.validador.lancarErroSeHouver();
 					return functionResult;
@@ -1199,7 +1220,7 @@ export class ServerApiBase<Doc extends IDoc> {
 		}
 	};
 
-	registerTransactionMethod = async (name: string, func: Function) => {
+	registerTransactionMethod = (name: string, func: Function) => {
 		const self = this;
 		const action = name;
 		const collection = this.collectionName || '';
@@ -1216,31 +1237,24 @@ export class ServerApiBase<Doc extends IDoc> {
 				// @ts-ignore
 				connection = selfMeteor.connection;
 
-				// @ts-ignore
-				await self._executarTransacao(async (session: MongoInternals.MongoConnection) => {
-					try {
-						const meteorContext = await self._createContext(
-							schema,
-							collection,
-							action,
-							connection,
-							undefined,
-							undefined,
-							session
-						);
+				return self._executarTransacao(async (session: ClientSession) => {
+					const meteorContext = await self._createContext(
+						schema,
+						collection,
+						action,
+						connection,
+						undefined,
+						undefined,
+						session
+					);
 
-						// Here With pass the new Metoer Method with the framework
-						// security and the meteor _context.
-						const functionResult = func(...param, meteorContext);
+					const functionResult = await func(...param, meteorContext);
 
-						if (action === 'insert') {
-							meteorContext.docId = functionResult;
-						}
-						meteorContext.validador.lancarErroSeHouver();
-						return functionResult;
-					} catch (error) {
-						throw error;
+					if (action === 'insert') {
+						meteorContext.docId = typeof functionResult === 'string' ? functionResult : undefined;
 					}
+					meteorContext.validador.lancarErroSeHouver();
+					return functionResult;
 				});
 			}
 		};
@@ -1570,7 +1584,7 @@ export class ServerApiBase<Doc extends IDoc> {
 			skip: Math.max(optionsPub?.skip || 0, 0)
 		};
 
-		const result = this.publications[publicationName](filter, safeOptions);
+		const result = await this.publications[publicationName](filter, safeOptions);
 		if (result) {
 			return await result.fetchAsync();
 		} else {

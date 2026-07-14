@@ -2,51 +2,61 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { userprofileServerApi } from '../modules/userprofile/api/userProfileServerApi';
 
-async function createDefautUser() {
-	// if (Meteor.isDevelopment && Meteor.users.find().count() === 0) {
-	if ((await Meteor.users.find({}).countAsync()) === 0) {
-		const defaultAdminUsername = process.env.DEFAULT_ADMIN_USERNAME || 'Administrador';
-		const defaultAdminEmail = process.env.DEFAULT_ADMIN_EMAIL || 'admin@mrb.com';
-		const defaultAdminPassword = process.env.DEFAULT_ADMIN_PASSWORD || 'admin@mrb.com';
+async function createDefaultUser() {
+	const defaultAdminUsername = process.env.DEFAULT_ADMIN_USERNAME;
+	const defaultAdminEmail = process.env.DEFAULT_ADMIN_EMAIL?.trim().toLowerCase();
+	const defaultAdminPassword = process.env.DEFAULT_ADMIN_PASSWORD;
+	const suppliedValues = [defaultAdminUsername, defaultAdminEmail, defaultAdminPassword].filter(Boolean).length;
 
-		if (!process.env.DEFAULT_ADMIN_PASSWORD) {
-			console.warn(
-				'DEFAULT_ADMIN_PASSWORD não foi definida. Usando a senha fallback do boilerplate para o usuário administrador.'
-			);
-		}
+	if (suppliedValues === 0) {
+		console.info('Bootstrap administrativo desabilitado; nenhuma credencial inicial foi fornecida.');
+		return;
+	}
+	if (suppliedValues !== 3 || !defaultAdminUsername || !defaultAdminEmail || !defaultAdminPassword) {
+		throw new Error('Defina DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_EMAIL e DEFAULT_ADMIN_PASSWORD em conjunto.');
+	}
+	if (defaultAdminPassword.length < 14) {
+		throw new Error('DEFAULT_ADMIN_PASSWORD deve ter pelo menos 14 caracteres.');
+	}
 
-		let createdUserId = '';
-		createdUserId = await Accounts.createUserAsync({
-			username: defaultAdminUsername,
-			email: defaultAdminEmail,
-			password: defaultAdminPassword
-		});
+	const existingUser = await Accounts.findUserByEmail(defaultAdminEmail);
+	if (existingUser) return;
 
-		await Meteor.users.upsertAsync(
-			{ _id: createdUserId },
-			{
-				$set: {
-					'emails.0.verified': true,
-					profile: {
-						name: defaultAdminUsername,
-						email: defaultAdminEmail
-					}
+	const createdUserId = await Accounts.createUserAsync({
+		username: defaultAdminUsername,
+		email: defaultAdminEmail,
+		password: defaultAdminPassword
+	});
+
+	await Meteor.users.upsertAsync(
+		{ _id: createdUserId },
+		{
+			$set: {
+				'emails.0.verified': true,
+				profile: {
+					name: defaultAdminUsername,
+					email: defaultAdminEmail
 				}
 			}
-		);
+		}
+	);
 
-		await userprofileServerApi.getCollectionInstance().insertAsync({
-			_id: createdUserId,
-			username: defaultAdminUsername,
-			email: defaultAdminEmail,
-			roles: ['Administrador']
-		});
-	}
+	await userprofileServerApi.getCollectionInstance().upsertAsync(
+		{ _id: createdUserId },
+		{
+			$set: {
+				_id: createdUserId,
+				username: defaultAdminUsername,
+				email: defaultAdminEmail,
+				roles: ['Administrador']
+			}
+		}
+	);
 }
 
 // if the database is empty on server start, create some sample data.
 Meteor.startup(async () => {
 	console.log('fixtures Meteor.startup');
 	// Add default admin account
-	await createDefautUser();
+	await createDefaultUser();
 });

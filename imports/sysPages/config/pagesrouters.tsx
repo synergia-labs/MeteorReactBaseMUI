@@ -1,13 +1,23 @@
-import Home from '../../sysPages/pages/home/home';
-import { SignUp } from '../../sysPages/pages/signUp/signUp';
-import { EmailVerify } from '../../sysPages/pages/emailVerify/emailVerify';
-import { ResetPassword } from '../../sysPages/pages/resetPassword/resetPassword';
-import { PasswordRecovery } from '../../sysPages/pages/recoveryPassword/passwordRecovery';
 import { IRoute } from '../../modules/modulesTypings';
-import { NoPermission } from '../../sysPages/pages/noPermission/noPermission';
-import SignInPage from '../pages/signIn/signIn';
 import { HomeResources, SysFormTestPageResources } from './resources';
-import SysFormPlayground from '../../sysPages/pages/sysFormPlayground/sysFormPlayground';
+import asyncComponent from '../../libs/asyncComponent';
+
+const Home = asyncComponent(() => import('../pages/home/home'));
+const SignUp = asyncComponent(() => import('../pages/signUp/signUp').then(({ SignUp }) => ({ default: SignUp })));
+const EmailVerify = asyncComponent(() =>
+	import('../pages/emailVerify/emailVerify').then(({ EmailVerify }) => ({ default: EmailVerify }))
+);
+const ResetPassword = asyncComponent(() =>
+	import('../pages/resetPassword/resetPassword').then(({ ResetPassword }) => ({ default: ResetPassword }))
+);
+const PasswordRecovery = asyncComponent(() =>
+	import('../pages/recoveryPassword/passwordRecovery').then(({ PasswordRecovery }) => ({ default: PasswordRecovery }))
+);
+const NoPermission = asyncComponent(() =>
+	import('../pages/noPermission/noPermission').then(({ NoPermission }) => ({ default: NoPermission }))
+);
+const SignInPage = asyncComponent(() => import('../pages/signIn/signIn'));
+const SysFormPlayground = asyncComponent(() => import('../pages/sysFormPlayground/sysFormPlayground'));
 
 export const pagesRouterList: (IRoute | null)[] = [
 	{

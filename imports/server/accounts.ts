@@ -230,9 +230,10 @@ Meteor.startup(() => {
 		params.connection.onClose(
 			Meteor.bindEnvironment(() => {
 				if (userProfile)
-					userprofileServerApi
+					void userprofileServerApi
 						.getCollectionInstance()
-						.updateAsync({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: false } });
+						.updateAsync({ _id: userProfile._id }, { $set: { lastacess: new Date(), connected: false } })
+						.catch((error) => console.error('Falha ao registrar desconexão de usuário', error));
 			})
 		);
 	});
@@ -253,8 +254,9 @@ Meteor.startup(() => {
 		forbidClientAccountCreation: process.env.ALLOW_CLIENT_ACCOUNT_CREATION !== 'true'
 	});
 
-	Accounts.validateLoginAttempt(({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {
+	Accounts.validateLoginAttempt(async ({ user, allowed }: { user: Meteor.User; allowed: boolean }) => {
 		if (!allowed) return allowed;
+		if (!user) return false;
 
 		// ################################ FACEBOOK ################################################
 		if (user.services.facebook) {
@@ -262,14 +264,14 @@ Meteor.startup(() => {
 				name: user.services.facebook.name,
 				email: user.services.facebook.email
 			};
-			return validateLoginFacebook(user);
+			return await validateLoginFacebook(user);
 		} else if (user.services.google) {
 			// ################################ GOOGLE ################################################
 			user.profile = {
 				name: user.services.google.name,
 				email: user.services.google.email
 			};
-			return validateLoginGoogle(user);
+			return await validateLoginGoogle(user);
 		}
 		if (!user || !user.emails || !user.emails[0].verified) {
 			throw new Meteor.Error('Email ñao verificado', `Este email ainda não foi verificado!`);

@@ -1,110 +1,81 @@
-// server/imports/oauth-facebook.js
-
 import { ServiceConfiguration } from 'meteor/service-configuration';
 import { Accounts } from 'meteor/accounts-base';
 import { OAuth } from 'meteor/oauth';
-import { HTTP } from 'meteor/http';
+import { Meteor } from 'meteor/meteor';
 import crypto from 'crypto';
-import _ from 'lodash';
 import { serverSettings as settings } from '/imports/config/serverSettings';
 
-const whitelistedFields = ['id', 'email', 'name', 'first_name', 'last_name', 'link', 'gender', 'locale', 'age_range'];
+const oauthTimeoutMs = Number(process.env.OAUTH_HTTP_TIMEOUT_MS || 8000);
+const facebookFields = ['id', 'email', 'name', 'first_name', 'last_name', 'link', 'locale'] as const;
 
-// Taken from Meteor 1.5.1 facebook-oauth
-const getIdentity = async (accessToken, fields) => {
-	const config = await ServiceConfiguration.configurations.findOneAsync({
-		service: 'facebook'
-	});
-
-	if (!config) {
-		throw new ServiceConfiguration.ConfigError();
-	}
-
-	const hmac = crypto.createHmac('sha256', OAuth.openSecret(config.secret));
-	hmac.update(accessToken);
-
+const fetchJson = async (url: URL, init?: RequestInit) => {
+	const controller = new AbortController();
+	const timeout = setTimeout(() => controller.abort(), oauthTimeoutMs);
 	try {
-		return HTTP.get('https://graph.facebook.com/v2.8/me', {
-			params: {
-				access_token: accessToken,
-				appsecret_proof: hmac.digest('hex'),
-				fields: fields.join(',')
-			}
-		}).data;
-	} catch (err) {
-		throw Object.assign(new Error(`Failed to fetch identity from Facebook. ${err.message}`), {
-			response: err.response
-		});
+		const response = await fetch(url, { ...init, signal: controller.signal });
+		if (!response.ok)
+			throw new Meteor.Error('oauth-provider-error', `Facebook respondeu com status ${response.status}.`);
+		return await response.json();
+	} finally {
+		clearTimeout(timeout);
 	}
 };
 
-// Taken from Meteor 1.5.1 facebook-oauth
-const handleAuthFromAccessToken = async (accessToken, expiresAt) => {
-	const identity = await getIdentity(accessToken, whitelistedFields);
+const getIdentity = async (accessToken: string) => {
+	const config: any = await ServiceConfiguration.configurations.findOneAsync({ service: 'facebook' });
+	if (!config) throw new ServiceConfiguration.ConfigError();
+	const secret = OAuth.openSecret(config.secret);
+	const appsecretProof = crypto.createHmac('sha256', secret).update(accessToken).digest('hex');
 
-	const serviceData = {
-		accessToken,
-		expiresAt
-	};
+	const debugUrl = new URL('https://graph.facebook.com/debug_token');
+	debugUrl.searchParams.set('input_token', accessToken);
+	debugUrl.searchParams.set('access_token', `${config.appId}|${secret}`);
+	const debug = await fetchJson(debugUrl);
+	if (!debug.data?.is_valid || debug.data?.app_id !== config.appId || !debug.data?.user_id) {
+		throw new Meteor.Error('oauth-invalid-token', 'Token Facebook inválido.');
+	}
 
-	const fields = _.pick(identity, whitelistedFields);
-	Object.assign(serviceData, fields);
-
-	return {
-		serviceData,
-		options: { profile: { name: identity.name, email: serviceData.email } }
-	};
+	const identityUrl = new URL('https://graph.facebook.com/me');
+	identityUrl.searchParams.set('access_token', accessToken);
+	identityUrl.searchParams.set('appsecret_proof', appsecretProof);
+	identityUrl.searchParams.set('fields', facebookFields.join(','));
+	const identity = await fetchJson(identityUrl);
+	if (identity.id !== debug.data.user_id || !identity.email) {
+		throw new Meteor.Error('oauth-identity-mismatch', 'A identidade Facebook não pôde ser confirmada.');
+	}
+	return identity;
 };
 
 const registerFacebookMobileLoginHandler = () => {
-	Accounts.registerLoginHandler('facebookMobileLogin', async (params) => {
-		const data = params.facebookMobileLogin;
-
-		console.log('>>>Data:', data);
-
-		if (!data) {
-			return undefined;
+	Accounts.registerLoginHandler('facebookMobileLogin', async (request: any) => {
+		const data = request.facebookMobileLogin;
+		if (!data) return undefined;
+		if (typeof data.accessToken !== 'string') {
+			throw new Meteor.Error('oauth-invalid-request', 'Credencial Facebook incompleta.');
 		}
 
-		const identity = await handleAuthFromAccessToken(data.accessToken, +new Date() + 1000 * data.expirationTime);
-
-		console.log('>>>identity:', identity);
-
-		const facebookUser = Accounts.updateOrCreateUserFromExternalService(
-			'facebook',
-			{
-				...identity.serviceData
-			},
-			identity.options
-		);
-		const user = { ...facebookUser };
-
-		user.username = identity.serviceData.name;
-		user.emails = [{ address: identity.serviceData.email }];
-		user.email = identity.serviceData.email;
-		user._id = user.userId;
-		user.roles = ['Usuario'];
-		user.profile = {
-			name: identity.serviceData.name,
-			email: identity.serviceData.email
+		const identity = await getIdentity(data.accessToken);
+		const serviceData: Record<string, unknown> = {
+			accessToken: data.accessToken,
+			expiresAt: Date.now() + Math.max(0, Number(data.expirationTime || 0)) * 1000
 		};
-		return facebookUser;
+		for (const field of facebookFields) {
+			if (identity[field] !== undefined) serviceData[field] = identity[field];
+		}
+
+		return await Accounts.updateOrCreateUserFromExternalService('facebook', serviceData, {
+			profile: { name: identity.name, email: identity.email }
+		});
 	});
 };
 
 const init = async () => {
-	if (!settings || !settings.settingsFacebook?.appId || !settings.settingsFacebook?.secret) return;
-
+	const facebook = settings.settingsFacebook;
+	if (!facebook?.appId || !facebook?.secret) return;
 	await ServiceConfiguration.configurations.upsertAsync(
 		{ service: 'facebook' },
-		{
-			$set: {
-				appId: settings.settingsFacebook.appId,
-				secret: settings.settingsFacebook.secret
-			}
-		}
+		{ $set: { appId: facebook.appId, secret: facebook.secret } }
 	);
-
 	registerFacebookMobileLoginHandler();
 };
 

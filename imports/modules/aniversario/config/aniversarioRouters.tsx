@@ -1,6 +1,8 @@
-import AniversarioContainer from '../aniversarioContainer';
 import { Recurso } from './recursos';
 import { IRoute } from '/imports/modules/modulesTypings';
+import asyncComponent from '/imports/libs/asyncComponent';
+
+const AniversarioContainer = asyncComponent(() => import('../aniversarioContainer'));
 
 export const aniversarioRouterList: (IRoute | null)[] = [
 	{

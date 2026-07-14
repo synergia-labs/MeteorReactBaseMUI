@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import AniversarioListView from './aniversarioListView';
 import { nanoid } from 'nanoid';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { ISchema } from '/imports/typings/ISchema';
 import { IAniversario } from '../../api/aniversarioSch';
 import { aniversarioApi } from '../../api/aniversarioApi';
+import { escapeRegExp } from '/imports/libs/escapeRegExp';
 
 interface IInitialConfig {
 	sortProperties: { field: string; sortAscending: boolean };
@@ -37,6 +38,8 @@ const initialConfig = {
 
 const AniversarioListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
+	const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+	useEffect(() => () => searchTimer.current && clearTimeout(searchTimer.current), []);
 
 	const { name, birthday, delivery } = aniversarioApi.getSchema();
 	const aniversarioSchReduzido = { birthday, name, delivery };
@@ -70,13 +73,14 @@ const AniversarioListController = () => {
 
 	const onChangeTextField = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
-		const delayedSearch = setTimeout(() => {
+		if (searchTimer.current) clearTimeout(searchTimer.current);
+		searchTimer.current = setTimeout(() => {
+			const search = value.trim().slice(0, 100);
 			setConfig((prev) => ({
 				...prev,
-				filter: { ...prev.filter, name: { $regex: value.trim(), $options: 'i' } }
+				filter: search ? { ...prev.filter, name: { $regex: escapeRegExp(search), $options: 'i' } } : {}
 			}));
-		}, 1000);
-		return () => clearTimeout(delayedSearch);
+		}, 400);
 	}, []);
 
 	const onSelectedCategory = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
