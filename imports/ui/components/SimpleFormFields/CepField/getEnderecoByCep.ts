@@ -1,40 +1,19 @@
 import { fetch } from 'meteor/fetch';
 
-async function getData(url, data) {
-	const response = await fetch(url);
-	try {
-		return response.json();
-	} catch (e) {
-		console.log('Error API Correiors', e);
-		return null;
-	}
-}
+type CepCallback = (error: any, response: any) => void;
 
-export const getEnderecoByCep = (cepParam, callback) => {
-	//Nova variável "cep" somente com dígitos.
+export const getEnderecoByCep = async (cepParam: string, callback: CepCallback): Promise<void> => {
 	const cep = cepParam.replace(/\D/g, '');
-
-	//Verifica se campo cep possui valor informado.
-	if (cep.trim().length > 0) {
-		//Expressão regular para validar o CEP.
-		const validacep = /^[0-9]{8}$/;
-
-		//Valida o formato do CEP.
-		if (validacep.test(cep)) {
-			getData('//viacep.com.br/ws/' + cep + '/json')
-				.then((r) => {
-					console.log('R', r);
-					callback(null, r);
-				})
-				.catch((e) => {
-					console.log('ERROR', e);
-					callback(e, null);
-				});
-		} //end if.
-		else {
-			callback('Formato de CEP inválido.', null);
-		}
-	} else {
+	if (!/^[0-9]{8}$/.test(cep)) {
 		callback('Formato de CEP inválido.', null);
+		return;
+	}
+
+	try {
+		const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+		if (!response.ok) throw new Error(`ViaCEP respondeu com status ${response.status}`);
+		callback(null, await response.json());
+	} catch (error) {
+		callback(error, null);
 	}
 };

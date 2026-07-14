@@ -20,12 +20,7 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
 	const [loading, setLoading] = React.useState<boolean>(false);
 
 	const { token } = useParams();
-  const {
-    Container,
-    Content,
-    FormContainer,
-    FormWrapper,
-  } = SignInStyles;
+	const { Container, Content, FormContainer, FormWrapper } = SignInStyles;
 
 	const handleSubmit = (doc: { password: string; repassword: string }) => {
 		const { password, repassword } = doc;
@@ -71,7 +66,7 @@ export const ResetPassword = (props: IDefaultContainerProps) => {
 		<Container>
 			<Content>
 				<Typography variant="h1" display={'inline-flex'} gap={1}>
-					<Typography variant="inherit" color={(theme) => theme.palette.sysText?.tertiary}>
+					<Typography variant="inherit" sx={{ color: (theme) => theme.palette.sysText?.tertiary }}>
 						{'{'}
 					</Typography>
 					Boilerplate

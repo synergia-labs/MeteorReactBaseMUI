@@ -13,17 +13,17 @@ import { ISxStyleObject } from '/imports/typings/ISxStyleObject';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface ISubFormArrayComponent {
-	reactElement: (React.ComponentType | React.ReactElement<any>) & {
-		props: { [key: string]: any };
-	};
-	childrensElements: React.ReactNode | React.ReactNode[];
+	id?: string;
+	reactElement: React.ReactElement<any>;
+	childrensElements: React.ReactNode;
 	name: string;
 	mode: string;
-	fieldSchema: { type?: BooleanConstructor; label: string; subSchema: Object };
+	fieldSchema?: Record<string, any>;
 	initialValue?: any;
-	setDoc: ({}) => void;
-	setFieldMethods: ({}) => any;
-	addElement?: React.Component | JSX.Element;
+	setDoc: (doc: Record<string, any>) => void;
+	getDoc?: () => Record<string, any>;
+	setFieldMethods: (methods: Record<string, any>) => any;
+	addElement?: React.ReactElement;
 	disableSort?: boolean;
 	removeIcon?: React.ReactNode;
 	noItensText?: string;
@@ -237,24 +237,27 @@ export const SubFormArrayComponent = ({
 			<div style={simpleFormStyle.containerForm}>
 				<ReactSortable disabled={mode === 'view'} list={value || []} setList={onSortDocs} handle={'.dragButton'}>
 					{(value || []).map((subForm: (IElementProps & { _id?: string }) | undefined, subFormIndex: any) => {
-						if (subForm && (subForm.id || subForm._id)) {
+						const subFormId = subForm?.id || subForm?._id;
+						if (subForm && subFormId) {
 							return (
-								<div key={subForm.id || subForm._id} style={simpleFormStyle.containerSubForm}>
+								<div key={subFormId} style={simpleFormStyle.containerSubForm}>
 									<SimpleForm
 										isSubForm
-										ref={(refForm) => (formRefs[subForm.id || subForm._id] = refForm)}
-										key={subForm.id || subForm._id}
+										ref={(refForm) => {
+											formRefs[subFormId] = refForm;
+										}}
+										key={subFormId}
 										mode={mode}
-										schema={props.fieldSchema && props.fieldSchema.subSchema ? props.fieldSchema.subSchema : undefined}
+										schema={props.fieldSchema?.subSchema || {}}
 										doc={subForm}
-										onFormChange={onFormChangeHandle(subForm.id || subForm._id)}>
+										onFormChange={onFormChangeHandle(subFormId)}>
 										{childrensElements}
 									</SimpleForm>
 
 									{mode !== 'view' ? (
 										<div style={iconButtonContainerStyle ? iconButtonContainerStyle : simpleFormStyle.buttonForm}>
 											<Tooltip title={'Remover'}>
-												<IconButton sx={removeIconButtonSx} onClick={onClickDelete(subForm.id || subForm._id)}>
+												<IconButton sx={removeIconButtonSx} onClick={onClickDelete(subFormId)}>
 													{removeIcon || <SysIcon name={'delete'} />}
 												</IconButton>
 											</Tooltip>

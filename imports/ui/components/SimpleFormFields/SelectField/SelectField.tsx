@@ -76,9 +76,9 @@ export default ({
 						}}>
 						{value === '-'
 							? '-'
-							: value.map((val, index) => {
+							: value.map((val: any, index: number) => {
 									const objValue = options
-										? options.find((object) => object.value === val || object === val)
+										? options.find((object: IOption) => object.value === val || object === val)
 										: hasValue(val) && val;
 									return (
 										<Chip
@@ -94,7 +94,7 @@ export default ({
 			);
 		}
 		let objValue = options
-			? options.find((object) => object.value === value || object === value)
+			? options.find((object: IOption) => object.value === value || object === value)
 			: hasValue(value) && value;
 		if (multiple) {
 			objValue = hasValue(value) && renderValue ? renderValue(value) : undefined;
@@ -137,8 +137,8 @@ export default ({
 				}}>
 				{label && !otherProps.rounded ? <SimpleLabelView label={label} help={help} disabled={readOnly} /> : null}
 				<SimpleLabelView
-					id={name}
 					key={name}
+					label=""
 					disabled={readOnly}
 					value={value === '-' ? '-' : objValue && objValue.label ? objValue.label : objValue}
 				/>
@@ -146,28 +146,28 @@ export default ({
 		);
 	}
 
-	const onChangeSelect = (event) => {
+	const onChangeSelect = (event: { target: { value: any } }) => {
 		if (event.target.value === '#-#') {
-			onChange({ name, target: { name, value: undefined } }, { name, value: undefined });
+			onChange?.({ name, target: { name, value: undefined } }, { name, value: undefined });
 			return;
 		}
 		if (!readOnly) {
-			onChange({ name, target: { name, value: event.target.value } }, { name, value: event.target.value });
+			onChange?.({ name, target: { name, value: event.target.value } }, { name, value: event.target.value });
 		}
 	};
 
-	const getLabelFromValue = (value) => {
+	const getLabelFromValue = (value: any) => {
 		const objValue = otherProps.options
 			? otherProps.options.find((object) => object.value === value || object === value)
-			: schema.options.find((object) => object.value === value || object === value);
+			: schema?.options?.find((object: IOption) => object.value === value || object === value);
 		return (objValue && (objValue.label || objValue.value)) || value;
 	};
 
-	const defaultRenderValue = (values) => {
+	const defaultRenderValue = (values: any) => {
 		if (multiple) {
 			return (
 				<div>
-					{values.map((value) => (
+					{values.map((value: any) => (
 						<Chip key={value} label={getLabelFromValue(value)} />
 					))}
 				</div>
@@ -194,9 +194,8 @@ export default ({
 			<Select
 				displayEmpty
 				labelId={`${label}${name}`}
-				key={{ name }}
+				key={name}
 				id={name}
-				placeholder={placeholder}
 				sx={{
 					...(style
 						? style
@@ -215,7 +214,7 @@ export default ({
 				renderValue={multiple ? renderValue || defaultRenderValue : undefined}
 				{...omit(otherProps, ['options'])}>
 				{menuNone && !multiple && (
-					<MenuItem id={'-'} key={'-'} value={undefined}>
+					<MenuItem id={'-'} key={'-'} value="">
 						{<em>Nenhum</em>}
 					</MenuItem>
 				)}
@@ -233,12 +232,12 @@ export default ({
 				{(options || []).map((opt: IOption) => {
 					return (
 						<MenuItem
-							id={hasValue(opt.value) ? opt.value : opt}
-							key={hasValue(opt.value) ? opt.value + '' : opt}
-							value={hasValue(opt.value) ? opt.value : opt}>
+							id={String(hasValue(opt.value) ? opt.value : opt.label)}
+							key={String(hasValue(opt.value) ? opt.value : opt.label)}
+							value={(hasValue(opt.value) ? opt.value : opt.label) as any}>
 							{multiple && <Checkbox checked={hasValue(value) && value.includes(opt.value || opt)} />}
 							<ListItemText
-								primary={opt.label ? opt.label : opt}
+								primary={opt.label || String(opt.value ?? '')}
 								secondary={opt.description ? opt.description : ''}
 								style={{
 									width: style?.listItemWidth ? style.listItemWidth : 'unset',

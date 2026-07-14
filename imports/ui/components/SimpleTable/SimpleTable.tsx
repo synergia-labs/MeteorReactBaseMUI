@@ -114,7 +114,7 @@ const EnhancedTableHead = (props: IEnhancedTableHead) => {
 						) : (
 							<TableSortLabel
 								active={orderBy === (headCell.sortField || headCell.field)}
-								direction={orderBy === (headCell.sortField || headCell.field) ? order : 'asc'}
+								direction={orderBy === (headCell.sortField || headCell.field) ? order || undefined : 'asc'}
 								onClick={createSortHandler(headCell.sortField || headCell.field)}>
 								{headCell.label}
 								{orderBy === (headCell.sortField || headCell.field) ? (
@@ -362,7 +362,7 @@ export const SimpleTable = React.memo((props: ISimpleTable) => {
 						key={col.name + col.label}
 						style={{
 							...simpleTableStyle.tableCell,
-							textAlign: col.type === 'image' || col.type === 'dom' ? 'flex-start' : undefined,
+							textAlign: col.type === 'image' || col.type === 'dom' ? 'left' : undefined,
 							// display: col.type === 'dom' ? 'flex' : undefined,
 							justifyContent: col.type === 'dom' ? 'flex-start' : undefined,
 							flexDirection: col.type === 'dom' ? 'row' : undefined

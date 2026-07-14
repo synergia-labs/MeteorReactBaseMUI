@@ -18,7 +18,8 @@ interface IAutoCompleteField extends IBaseSimpleFormComponent {
 }
 
 export const AutoCompleteField = (props: IAutoCompleteField) => {
-	const { onChange, label, help, autocompleteOptions, readOnly, options, placeholder, value, ...otherProps } = props;
+	const { name, onChange, label, help, autocompleteOptions, readOnly, options, placeholder, value, ...otherProps } =
+		props;
 
 	const [autocompleteValue, setAutocomplete] = useState<null | Option>(null);
 

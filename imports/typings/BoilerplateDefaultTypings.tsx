@@ -26,6 +26,7 @@ export interface ISysGeneralComponentsCommon {
 }
 
 export interface IBoilerplateShowMethods {
+	showNotification?: (options?: Object) => void;
 	showModal?: (options?: Object) => void;
 	showCompartilhar?: (anchorEl: any, link: string) => void;
 	showDialog?: (options?: Object) => void;

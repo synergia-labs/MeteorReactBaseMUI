@@ -1,8 +1,8 @@
 import React, { ComponentType, lazy, Suspense } from 'react';
 import { SysLoading } from '/imports/ui/components/sysLoading/sysLoading';
 
-type ImportedComponent<TProps> = Promise<{ default: ComponentType<TProps> }>;
-type ComponentImporter<TProps> = (() => ImportedComponent<TProps>) | ImportedComponent<TProps>;
+type ImportedComponent = Promise<{ default: ComponentType<any> }>;
+type ComponentImporter = (() => ImportedComponent) | ImportedComponent;
 
 class AsyncErrorBoundary extends React.Component<React.PropsWithChildren, { failed: boolean }> {
 	state = { failed: false };
@@ -19,13 +19,13 @@ class AsyncErrorBoundary extends React.Component<React.PropsWithChildren, { fail
 	}
 }
 
-const asyncComponent = <TProps extends object = Record<string, never>>(
-	importingComponent: ComponentImporter<TProps>,
+const asyncComponent = (
+	importingComponent: ComponentImporter,
 	LoadingComponent: ComponentType = () => React.createElement(SysLoading)
 ) => {
 	const LazyComponent = lazy(typeof importingComponent === 'function' ? importingComponent : () => importingComponent);
 
-	function AsyncComponent(props: TProps) {
+	function AsyncComponent(props: Record<string, unknown>) {
 		return React.createElement(
 			AsyncErrorBoundary,
 			null,

@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-import bemculturalLocalidade from '/imports/modules/bemcultural/api/distritos.json';
+import localidades from '/imports/ui/components/SimpleFormFields/SelectLocalizacaoField/localidades.json';
 
 import RadioButtonField from '/imports/ui/components/SimpleFormFields/RadioButtonField/RadioButtonField';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
@@ -10,8 +10,17 @@ import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelV
 import { selectAutoCompleteStyle } from './SelectAutoCompleteFieldStyle';
 import { hasValue } from '/imports/libs/hasValue';
 import * as appStyle from '/imports/ui/materialui/styles';
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 
-function downloadObjectAsJson(exportObj, exportName) {
+interface Localidade {
+	u: string;
+	m: string;
+	d?: string;
+}
+
+const bemculturalLocalidade = localidades as Localidade[];
+
+function downloadObjectAsJson(exportObj: unknown, exportName: string) {
 	const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(exportObj))}`;
 	const downloadAnchorNode = document.createElement('a');
 	downloadAnchorNode.setAttribute('href', dataStr);
@@ -22,23 +31,7 @@ function downloadObjectAsJson(exportObj, exportName) {
 }
 
 export const getLocalidade = () => {
-	const newLocalidade = bemculturalLocalidade.map((l) => {
-		const uf =
-			l.municipio.microrregiao && l.municipio.microrregiao.mesorregiao && l.municipio.microrregiao.mesorregiao.UF
-				? l.municipio.microrregiao.mesorregiao.UF.sigla
-				: l['regiao-imediata'] &&
-					  l.municipio['regiao-imediata']['regiao-intermediaria'] &&
-					  l.municipio['regiao-imediata']['regiao-intermediaria'].UF
-					? l.municipio['regiao-imediata']['regiao-intermediaria'].UF.sigla
-					: null;
-
-		return {
-			u: uf,
-			m: l.nome === l.municipio.nome ? l.nome : l.municipio.nome,
-			d: l.nome !== l.municipio.nome ? l.nome : undefined
-		};
-	});
-	downloadObjectAsJson(newLocalidade, 'localidades');
+	downloadObjectAsJson(bemculturalLocalidade, 'localidades');
 };
 
 interface IOtherProps {
@@ -50,6 +43,7 @@ interface IOtherProps {
 	estadoOn: boolean;
 	distritoOn: boolean;
 	municipioOn: boolean;
+	showRadios?: boolean;
 }
 
 export default ({
@@ -80,28 +74,23 @@ export default ({
 		}
 	];
 
-	const municipios =
-		value.estado && value.estado.id
-			? bemculturalLocalidade.filter(
-					(x) => x.municipio.microrregiao.mesorregiao.UF.id === value.estado.id && x.municipio.nome === x.nome
-				)
-			: bemculturalLocalidade.filter((x) => x.municipio.nome === x.nome);
+	const municipios = bemculturalLocalidade
+		.filter((x) => (!value.estado?.sigla || x.u === value.estado.sigla) && !x.d)
+		.map((x) => ({ nome: x.m }));
 
-	const distritos = (municipio) =>
+	const distritos = (municipio: { nome?: string } | undefined) =>
 		municipio && municipio.nome
-			? bemculturalLocalidade.filter(
-					(x) => x.municipio.nome === value.municipio.nome && x.nome !== value.municipio.nome
-				)
+			? bemculturalLocalidade.filter((x) => x.m === municipio.nome && !!x.d).map((x) => ({ nome: x.d ?? '' }))
 			: [];
-	const onChangeFields = (evt: React.BaseSyntheticEvent, nameField: string, values: [string]) => {
-		onChange(
+	const onChangeFields = (_evt: React.SyntheticEvent, nameField: string, values: unknown) => {
+		onChange?.(
 			{ name, target: { name, value: { ...value, [nameField]: values } } },
 			{ name, value: { ...value, [nameField]: values } }
 		);
 	};
 
 	const onChangeOrigem = (evt: React.BaseSyntheticEvent) => {
-		onChange(
+		onChange?.(
 			{
 				name,
 				target: {
@@ -125,10 +114,10 @@ export default ({
 							...appStyle.fieldContainer
 						}}
 						key={name}>
-						<SimpleLabelView label={label} disabled={readOnly} />
-						{value.distrito && <SimpleLabelView value={value.distrito.nome} disabled={readOnly} />}
-						{value.municipio && <SimpleLabelView value={value.municipio.nome} disabled={readOnly} />}
-						{value.estado && <SimpleLabelView value={value.estado.nome} disabled={readOnly} />}
+						<SimpleLabelView label={label ?? ''} disabled={readOnly} />
+						{value.distrito && <SimpleLabelView label="" value={value.distrito.nome} disabled={readOnly} />}
+						{value.municipio && <SimpleLabelView label="" value={value.municipio.nome} disabled={readOnly} />}
+						{value.estado && <SimpleLabelView label="" value={value.estado.nome} disabled={readOnly} />}
 					</div>
 				) : (
 					<div style={selectAutoCompleteStyle.containerEmptyItens}>{'Não identificada'}</div>
@@ -160,13 +149,11 @@ export default ({
 					{estadoOn && (
 						<Autocomplete
 							key={'estado'}
-							name={'estado'}
 							options={opcoesEstados}
 							getOptionLabel={(option) => option.nome}
-							getOptionSelected={(option) => option.nome}
+							isOptionEqualToValue={(option, selected) => option.nome === selected.nome}
 							style={{ width: 300, backgroundColor: '#f2f2f2' }}
 							onChange={(e, v) => onChangeFields(e, 'estado', v)}
-							error={!!error}
 							disabled={!!readOnly}
 							renderInput={(params) => <TextField {...params} label={'Estado'} />}
 							defaultValue={
@@ -176,34 +163,26 @@ export default ({
 					)}
 
 					<Autocomplete
-						name={'municipio'}
 						options={municipios}
 						getOptionLabel={(option) => option.nome}
 						style={{ width: 300, backgroundColor: '#f2f2f2' }}
 						onChange={(e, v) => onChangeFields(e, 'municipio', v)}
-						error={!!error}
 						disabled={!!readOnly}
 						renderInput={(params) => <TextField {...params} label={null} />}
-						defaultValue={
-							value && value.municipio
-								? bemculturalLocalidade.find((x) => x.municipio.nome === value.municipio.nome)
-								: bemculturalLocalidade
-						}
+						defaultValue={value && value.municipio ? municipios.find((x) => x.nome === value.municipio.nome) : null}
 					/>
 					{hasValue(value.municipio) && distritoOn && municipioOn && (
 						<Autocomplete
-							name={'distrito'}
 							options={distritos(value.municipio)}
 							getOptionLabel={(option) => option.nome}
-							getOptionSelected={(option) => option.value === value}
+							isOptionEqualToValue={(option, selected) => option.nome === selected.nome}
 							style={{ width: 300, backgroundColor: '#f2f2f2' }}
 							onChange={(e, v) => onChangeFields(e, 'distrito', v)}
-							error={!!error}
 							disabled={!!readOnly}
 							renderInput={(params) => <TextField {...params} label={'Distrito (Opcional)'} />}
 							defaultValue={
 								value && value.distrito
-									? bemculturalLocalidade.find((x) => x.nome === value.distrito.nome)
+									? distritos(value.municipio).find((x) => x.nome === value.distrito.nome)
 									: { nome: '' }
 							}
 						/>

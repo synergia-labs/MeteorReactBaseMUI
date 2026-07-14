@@ -13,7 +13,7 @@ export const EmailVerify = (props: IDefaultContainerProps) => {
 	Accounts.verifyEmail(token!, (err: any) => {
 		if (err) {
 			if (!emailVerified) {
-				props.showNotification({
+				props.showNotification?.({
 					type: 'warning',
 					title: 'Problema com o Token!',
 					description: 'Email não verificado. Solicite um novo token!'
@@ -22,7 +22,7 @@ export const EmailVerify = (props: IDefaultContainerProps) => {
 			}
 		} else {
 			emailVerified = true;
-			showNotification({
+			showNotification?.({
 				type: 'success',
 				title: 'Email Verificado',
 				description: 'Seu e-mail foi verificado com sucesso, seja bem vindo!'

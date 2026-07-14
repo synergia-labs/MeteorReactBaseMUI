@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Chip from '@mui/material/Chip';
-import { hasValue } from '../imports/libs/hasValue';
+import { hasValue } from '/imports/libs/hasValue';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
@@ -28,8 +28,8 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 	};
 
 	const handleInsert = (chipText: string) => {
-		const verifyItemInList = (value && value.find((chip) => chip === chipText)) || [];
-		if (isFieldValid(chipText) && verifyItemInList.length === 0) {
+		const verifyItemInList = (value as string[] | undefined)?.some((chip: string) => chip === chipText) ?? false;
+		if (isFieldValid(chipText) && !verifyItemInList) {
 			onChange &&
 				onChange(
 					// @ts-ignore
@@ -49,15 +49,15 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 
 	return (
 		<div style={styles.container}>
-			<SimpleLabelView style={styles.title} label={label} disabled={readOnly} />
+			<SimpleLabelView style={styles.title} label={label ?? ''} disabled={readOnly} />
 			{!readOnly ? (
 				<div style={styles.input}>
 					<TextField
 						placeholder={otherProps.placeHolder}
 						value={chipText}
 						onChange={handleOnChange}
-						onKeyDown={(e) => {
-							if (e.keyCode === 13 && e.target.value) {
+						onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+							if (e.key === 'Enter' && e.currentTarget.value) {
 								handleInsert(chipText);
 							}
 						}}
@@ -70,7 +70,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 							startAdornment: (
 								<div>
 									{hasValue(value) &&
-										value.map((chip: string, index) => (
+										(value as string[]).map((chip: string, index: number) => (
 											<Chip
 												key={chip + index}
 												variant="outlined"
@@ -93,7 +93,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 			<div>
 				{readOnly &&
 					hasValue(value) &&
-					value.map((chip: string, index) => (
+					(value as string[]).map((chip: string, index: number) => (
 						<Chip
 							key={chip + index}
 							variant="outlined"

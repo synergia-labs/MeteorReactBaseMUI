@@ -80,7 +80,7 @@ export default ({
 			? { ...otherProps.inputProps, maxLength: maxLength }
 			: { maxLength: maxLength });
 
-	let validateMsg = invalidate(fieldValue, label);
+	let validateMsg = invalidate(fieldValue, label ?? '');
 	error = error || !!validateMsg;
 
 	if (typeof validateMsg !== 'string') {
@@ -138,8 +138,7 @@ export default ({
 				disabled={!!readOnly}
 				id={name}
 				name={name}
-				label={otherProps.labelDisable ? undefined : label}
-				{...otherProps}
+				inputProps={otherProps.inputProps}
 			/>
 		);
 	}

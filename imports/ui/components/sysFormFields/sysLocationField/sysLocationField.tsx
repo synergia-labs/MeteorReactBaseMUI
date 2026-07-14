@@ -83,7 +83,7 @@ export const SysLocationField: React.FC<ISysLocationField> = ({
 
 	const [valueState, setValueState] = useState<ILocation | null>(defaultValue || null);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current?.isVisible ?? true);
-	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [errorState, setErrorState] = useState<string | undefined>(typeof error === 'string' ? error : undefined);
 
 	if (inSysFormContext) {
 		controllerSysForm.setRefComponent(refObject!);

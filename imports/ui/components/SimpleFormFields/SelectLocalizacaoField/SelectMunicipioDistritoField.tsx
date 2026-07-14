@@ -1,13 +1,26 @@
 import React from 'react';
-
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-
 import localidades from './localidades.json';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import * as appStyle from '/imports/ui/materialui/styles';
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 
-const filterOptions = createFilterOptions({
+interface LocationValue {
+	municipio: string;
+	distrito?: string | null;
+	estado?: string;
+}
+
+interface LocationOption extends LocationValue {
+	label: string;
+}
+
+interface Props extends IBaseSimpleFormComponent {
+	estado?: string;
+	value?: LocationValue;
+}
+
+const filterOptions = createFilterOptions<LocationOption>({
 	matchFrom: 'any',
 	stringify: (option) => option.label,
 	ignoreAccents: true,
@@ -15,157 +28,50 @@ const filterOptions = createFilterOptions({
 	limit: 100
 });
 
-interface IOtherProps {
-	options: {
-		value: any;
-		label: string;
-	}[];
-	mode: any;
-	estadoOn: boolean;
-	distritoOn: boolean;
-	municipioOn: boolean;
-}
-
-export default ({
-	estadoOn = true,
-	showRadios = true,
-	distritoOn = true,
-	municipioOn = true,
+export default function SelectMunicipioDistritoField({
 	name,
 	label,
 	estado,
-	value = {},
+	value,
 	style,
 	onChange,
 	readOnly,
 	help,
-	error,
-	...otherProps
-}: IBaseSimpleFormComponent & IOtherProps) => {
-	const handleOnChange = (evt, selected) => {
-		if (!selected) {
-			onChange({ name, target: { name, value: undefined } }, { name, value: undefined });
-		} else {
-			const value = JSON.parse(selected.value);
-			onChange({ name, target: { name, value } }, { name, value });
-		}
-	};
-
-	if (readOnly) {
-		return (
-			<div
-				key={name}
-				style={{
-					width: '100%',
-					display: 'flex',
-					flexDirection: 'column',
-					...appStyle.fieldContainer
-				}}
-				key={name}>
-				<SimpleLabelView help={help} label={label} disabled={readOnly} />
-				<TextField value={value && value.municipio ? value : '-'} disabled label={null} />
-			</div>
-		);
-	}
-
-	const initialValue =
-		!!value && Object.keys(value).length > 0
-			? `${value.municipio} ${value.distrito ? ' - ' + value.distrito : ''}`
-			: undefined;
-
-	const fieldProps = {
-		inputValue: initialValue,
-		value: !!value && Object.keys(value).length > 0 ? JSON.stringify(value) : undefined,
-		defaultValue: !!value && Object.keys(value).length > 0 ? JSON.stringify(value) : undefined
-	};
-
-	if (!initialValue) {
-		delete fieldProps.inputValue;
-		delete fieldProps.value;
-		delete fieldProps.defaultValue;
-	}
-
-	if (readOnly) {
-	}
+	error
+}: Props) {
+	const options: LocationOption[] = (localidades as Array<{ u: string; m: string; d?: string }>)
+		.filter((entry) => entry.u === estado)
+		.map((entry) => ({
+			municipio: entry.m,
+			distrito: entry.d ?? null,
+			estado,
+			label: `${entry.m}${entry.d ? ` - ${entry.d}` : ''}`
+		}));
+	const selected =
+		options.find((option) => option.municipio === value?.municipio && option.distrito === (value?.distrito ?? null)) ??
+		null;
 
 	return (
-		<div
-			style={{
-				width: '100%',
-				display: 'flex',
-				flexDirection: 'column',
-				...appStyle.fieldContainer
-			}}
-			key={name + initialValue ? 'hasValue' : 'noValue'}>
+		<div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
 			{label ? <SimpleLabelView help={help} label={label} disabled={readOnly} /> : null}
-			{initialValue ? (
-				<Autocomplete
-					key={name + 'hasValue'}
-					id={name}
-					name={name}
-					noOptionsText={'Nenhuma opção'}
-					autoSelect={true}
-					clearOnEscape={true}
-					filterOptions={filterOptions}
-					options={localidades
-						.filter(function (entry) {
-							return entry.u == estado;
-						})
-						.map((l) => ({
-							value: JSON.stringify({
-								municipio: l.m,
-								distrito: l.d ? l.d : null
-							}),
-							label: `${l.m} ${l.d ? ' - ' + l.d : ''}`
-						}))}
-					getOptionLabel={(option) => (option.label ? option.label : '')}
-					style={style}
-					onChange={handleOnChange}
-					error={!!error}
-					disabled={!!readOnly}
-					renderInput={(params) => (
-						<TextField error={!!error} {...params} key={name + 'inputHasValue'} id={name + 'input'} label={null} />
-					)}
-					{...fieldProps}
-				/>
+			{readOnly ? (
+				<TextField value={selected?.label ?? '-'} disabled />
 			) : (
-				<Autocomplete
-					key={name + 'noValue'}
+				<Autocomplete<LocationOption>
 					id={name}
-					name={name}
-					noOptionsText={'Nenhuma opção'}
-					autoSelect={true}
-					clearOnEscape={true}
-					openOnFocus={true}
-					blurOnSelect={true}
+					options={options}
+					value={selected}
 					filterOptions={filterOptions}
-					options={localidades
-						.filter(function (entry) {
-							return entry.u == estado;
-						})
-						.map((l) => ({
-							value: JSON.stringify({
-								municipio: l.m,
-								distrito: l.d ? l.d : null
-							}),
-							label: `${l.m} ${l.d ? ' - ' + l.d : ''}`
-						}))}
-					getOptionLabel={(option) => (option.label ? option.label : '')}
-					style={
-						style || {
-							width: '100%',
-							backgroundColor: '#FFF',
-							height: 38
-						}
-					}
-					onChange={handleOnChange}
-					error={!!error}
-					disabled={!!readOnly}
-					renderInput={(params) => (
-						<TextField error={!!error} key={name + 'inputNoValue'} id={name + 'input'} {...params} label={null} />
-					)}
+					getOptionLabel={(option) => option.label}
+					isOptionEqualToValue={(option, selectedOption) => option.label === selectedOption.label}
+					onChange={(_event, option) => {
+						const newValue = option ? { municipio: option.municipio, distrito: option.distrito, estado } : undefined;
+						onChange?.({ name, target: { name, value: newValue } }, { name, value: newValue });
+					}}
+					sx={style}
+					renderInput={(params) => <TextField {...params} error={!!error} />}
 				/>
 			)}
 		</div>
 	);
-};
+}

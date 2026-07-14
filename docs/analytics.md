@@ -1,24 +1,46 @@
-# Eventos de Analytics
+# Eventos de analytics
 
-O arquivo [`analyticsSubscriber.ts`](../imports/analytics/analyticsSubscriber.ts) cria quatro `Subjects` do RxJS:
+[`analyticsSubscriber.ts`](../imports/analytics/analyticsSubscriber.ts) expõe quatro `Subject`s RxJS no cliente:
 
-- **subjectRouter** – emite a cada mudança de rota, recebendo o caminho acessado e dados do usuário logado.
-- **subjectCallMethod** – dispara antes de cada chamada de método Meteor enviada por `ProductBase`.
-- **subjectSubscribe** – dispara antes de cada subscribe criado pelo `ProductBase`.
-- **subjectComponents** – pode ser utilizado por componentes de UI para registrar eventos específicos.
+| Subject             | Evento                                         |
+| ------------------- | ---------------------------------------------- |
+| `subjectRouter`     | mudança de rota e estado de autenticação       |
+| `subjectCallMethod` | chamada de método iniciada pela API de cliente |
+| `subjectSubscribe`  | subscription iniciada pela API de cliente      |
+| `subjectComponents` | evento funcional emitido por componentes       |
 
-No lado cliente você pode assinar esses `Subjects` para enviar eventos a um serviço externo de analytics:
+As opções `enableCallMethodObserver` e `enableSubscribeObserver` de `ProductBase` controlam a emissão automática dos
+dois eventos de API.
+
+## Integração
+
+Centralize as assinaturas no bootstrap de analytics e sempre mantenha o retorno de `subscribe` para liberar recursos:
 
 ```ts
-import { subjectCallMethod, subjectRouter } from '/imports/analytics/analyticsSubscriber';
+import { subjectRouter } from '/imports/analytics/analyticsSubscriber';
 
-subjectRouter.subscribe(({ pathname }) => {
-  console.log('Rota acessada:', pathname);
+const routerSubscription = subjectRouter.subscribe((event) => {
+	analytics.track('route_changed', {
+		pathname: event.pathname
+	});
 });
 
-subjectCallMethod.subscribe(({ methodName, params }) => {
-  console.log('Método chamado:', methodName, params);
-});
+// No encerramento do provider/integrador:
+routerSubscription.unsubscribe();
 ```
 
-Ative as opções `enableCallMethodObserver` e `enableSubscribeObserver` ao instanciar uma classe derivada de `ProductBase` para que os eventos sejam emitidos automaticamente.
+Não crie a assinatura dentro de um render. Em componentes React, faça-a em `useEffect` e retorne o `unsubscribe` no
+cleanup.
+
+## Privacidade
+
+Eventos são observabilidade, não uma cópia dos payloads. Antes de encaminhar dados a um provedor externo:
+
+- use uma allowlist de propriedades;
+- remova senhas, tokens, cookies, e-mail e documentos pessoais;
+- não envie o objeto `params` completo de métodos;
+- pseudonimize o identificador do usuário quando possível;
+- respeite consentimento, retenção e requisitos legais do produto;
+- desabilite logs de console em produção.
+
+Falhas do provedor de analytics não devem interromper navegação, método ou subscription da aplicação.

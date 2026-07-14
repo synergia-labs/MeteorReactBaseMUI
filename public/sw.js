@@ -1,121 +1,106 @@
-const HTMLToCache = "/";
-const version = "MSW V0.3";
+const CACHE_PREFIX = 'meteor-react-base-';
+const CACHE_NAME = `${CACHE_PREFIX}static-v1`;
+const LEGACY_CACHE_PREFIX = 'MSW V';
+const OFFLINE_URL = '/offline.html';
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(version).then((cache) => {
-      cache.add(HTMLToCache).then(self.skipWaiting());
-    })
-  );
+const PUBLIC_ASSET_DIRECTORIES = ['/fonts/', '/images/'];
+const PUBLIC_ASSET_FILES = new Set(['/manifest.json']);
+const CACHEABLE_DESTINATIONS = new Set(['font', 'image', 'script', 'style']);
+
+self.addEventListener('install', (event) => {
+	event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.add(new Request(OFFLINE_URL, { cache: 'reload' }))));
 });
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches
-      .keys()
-      .then((cacheNames) =>
-        Promise.all(
-          cacheNames.map((cacheName) => {
-            if (version !== cacheName) return caches.delete(cacheName);
-          })
-        )
-      )
-      .then(self.clients.claim())
-  );
+self.addEventListener('activate', (event) => {
+	event.waitUntil(
+		caches
+			.keys()
+			.then((cacheNames) =>
+				Promise.all(
+					cacheNames
+						.filter(
+							(cacheName) =>
+								(cacheName.startsWith(CACHE_PREFIX) && cacheName !== CACHE_NAME) ||
+								cacheName.startsWith(LEGACY_CACHE_PREFIX)
+						)
+						.map((cacheName) => caches.delete(cacheName))
+				)
+			)
+			.then(() => self.clients.claim())
+	);
 });
 
-self.addEventListener("fetch", (event) => {
-  const requestToFetch = event.request.clone();
-  event.respondWith(
-    caches.match(event.request.clone()).then((cached) => {
-      // We don't return cached HTML (except if fetch failed)
-      if (cached) {
-        const resourceType = cached.headers.get("content-type");
-        // We only return non css/js/html cached response e.g images
-        if (!hasHash(event.request.url) && !/text\/html/.test(resourceType)) {
-          return cached;
-        }
-
-        // If the CSS/JS didn't change since it's been cached, return the cached version
-        if (
-          hasHash(event.request.url) &&
-          hasSameHash(event.request.url, cached.url)
-        ) {
-          return cached;
-        }
-      }
-      return fetch(requestToFetch)
-        .then((response) => {
-          const clonedResponse = response.clone();
-          const contentType = clonedResponse.headers.get("content-type");
-
-          if (
-            !clonedResponse ||
-            clonedResponse.status !== 200 ||
-            clonedResponse.type !== "basic" ||
-            /\/sockjs\//.test(event.request.url)
-          ) {
-            return response;
-          }
-
-          if (/html/.test(contentType)) {
-            caches
-              .open(version)
-              .then((cache) => cache.put(HTMLToCache, clonedResponse));
-          } else {
-            // Delete old version of a file
-            if (hasHash(event.request.url)) {
-              caches.open(version).then((cache) =>
-                cache.keys().then((keys) =>
-                  keys.forEach((asset) => {
-                    if (
-                      new RegExp(removeHash(event.request.url)).test(
-                        removeHash(asset.url)
-                      )
-                    ) {
-                      cache.delete(asset);
-                    }
-                  })
-                )
-              );
-            }
-
-            caches
-              .open(version)
-              .then((cache) => cache.put(event.request, clonedResponse));
-          }
-          return response;
-        })
-        .catch(() => {
-          if (hasHash(event.request.url))
-            return caches.match(event.request.url);
-          // If the request URL hasn't been served from cache and isn't sockjs we suppose it's HTML
-          else if (!/\/sockjs\//.test(event.request.url))
-            return caches.match(HTMLToCache);
-          // Only for sockjs
-          return new Response("No connection to the server", {
-            status: 503,
-            statusText: "No connection to the server",
-            headers: new Headers({ "Content-Type": "text/plain" }),
-          });
-        });
-    })
-  );
+self.addEventListener('message', (event) => {
+	if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
-function removeHash(element) {
-  if (typeof element === "string") return element.split("?hash=")[0];
-}
+self.addEventListener('fetch', (event) => {
+	const { request } = event;
+	if (request.method !== 'GET') return;
 
-function hasHash(element) {
-  if (typeof element === "string") return /\?hash=.*/.test(element);
-}
+	const url = new URL(request.url);
+	if (url.origin !== self.location.origin) return;
 
-function hasSameHash(firstUrl, secondUrl) {
-  if (typeof firstUrl === "string" && typeof secondUrl === "string") {
-    return /\?hash=(.*)/.exec(firstUrl)[1] === /\?hash=(.*)/.exec(secondUrl)[1];
-  }
-}
+	if (request.mode === 'navigate') {
+		event.respondWith(networkNavigationOrOffline(request));
+		return;
+	}
 
-// Service worker created by Ilan Schemoul alias NitroBAY as a specific Service Worker for Meteor
-// Please see https://github.com/NitroBAY/meteor-service-worker for the official project source
+	if (!isPublicCacheableAsset(request, url)) return;
+
+	event.respondWith(url.searchParams.has('hash') ? cacheFirst(request) : networkFirst(request));
+});
+
+const networkNavigationOrOffline = async (request) => {
+	try {
+		return await fetch(request);
+	} catch {
+		return (
+			(await caches.match(OFFLINE_URL)) ||
+			new Response('Aplicação indisponível sem conexão.', {
+				status: 503,
+				headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+			})
+		);
+	}
+};
+
+const cacheFirst = async (request) => {
+	const cached = await caches.match(request);
+	if (cached) return cached;
+	return fetchAndCache(request);
+};
+
+const networkFirst = async (request) => {
+	try {
+		return await fetchAndCache(request);
+	} catch (error) {
+		const cached = await caches.match(request);
+		if (cached) return cached;
+		throw error;
+	}
+};
+
+const fetchAndCache = async (request) => {
+	const response = await fetch(request);
+	if (!canStoreResponse(response)) return response;
+
+	const cache = await caches.open(CACHE_NAME);
+	await cache.put(request, response.clone());
+	return response;
+};
+
+const isPublicCacheableAsset = (request, url) => {
+	if (url.searchParams.has('hash')) return CACHEABLE_DESTINATIONS.has(request.destination);
+	if (PUBLIC_ASSET_FILES.has(url.pathname)) return true;
+	return (
+		CACHEABLE_DESTINATIONS.has(request.destination) &&
+		PUBLIC_ASSET_DIRECTORIES.some((directory) => url.pathname.startsWith(directory))
+	);
+};
+
+const canStoreResponse = (response) => {
+	if (!response.ok || response.type !== 'basic') return false;
+	const cacheControl = response.headers.get('cache-control')?.toLowerCase() || '';
+	return !cacheControl.includes('no-store') && !cacheControl.includes('private');
+};

@@ -17,6 +17,9 @@
 const toggleSwitchStyle = {
 	fieldError: {
 		border: '1px solid red'
+	},
+	checksList: {
+		marginLeft: 0
 	}
 };
 

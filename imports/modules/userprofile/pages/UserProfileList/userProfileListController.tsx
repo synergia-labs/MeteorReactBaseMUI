@@ -48,7 +48,12 @@ const initialConfig = {
 const UserProfileListController = () => {
 	const [config, setConfig] = useState<IInitialConfig>(initialConfig);
 	const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-	useEffect(() => () => searchTimer.current && clearTimeout(searchTimer.current), []);
+	useEffect(
+		() => () => {
+			if (searchTimer.current) clearTimeout(searchTimer.current);
+		},
+		[]
+	);
 	const { showNotification, showDialog } = useContext<IAppLayoutContext>(AppLayoutContext);
 
 	const { sortProperties, filter, pageProperties } = config;

@@ -7,7 +7,7 @@ import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 export const NotFound: React.FC = () => {
 	const navigate = useNavigate();
-  const { Container, } = NotFoundStyles;
+	const { Container } = NotFoundStyles;
 	const backToHome = () => navigate('/');
 
 	return (
@@ -19,7 +19,7 @@ export const NotFound: React.FC = () => {
 			<Typography variant="body1" textAlign={'center'} sx={{ mt: 2, mb: 5 }}>
 				A página que você está tentando acessar não existe ou se encontra indisponível.
 			</Typography>
-			<Button startIcon={<SysIcon name={'replyAll'} />} onClick={backToHome}>
+			<Button startIcon={<SysIcon name={'replayAll'} />} onClick={backToHome}>
 				Voltar para a página inicial
 			</Button>
 		</Container>

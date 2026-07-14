@@ -1,9 +1,14 @@
-export const hideComponent = (location, rotas: string[], bloqueia: string[]) => {
+export const hideComponent = (
+	location: { pathname?: string } | null | undefined,
+	rotas: string[],
+	bloqueia: string[]
+) => {
 	if (rotas.length === 0) return false;
+	const pathname = location?.pathname ?? '';
 
-	if (location && location.pathname && location.pathname.indexOf('customize') !== -1) return true;
-	if (location && location.pathname && location.pathname.indexOf('create') !== -1) return true;
+	if (pathname.includes('customize')) return true;
+	if (pathname.includes('create')) return true;
 
-	const tab = rotas.includes(location?.pathname);
-	return !!tab && !bloqueia.find((rota) => location?.pathname.includes(rota));
+	const tab = rotas.includes(pathname);
+	return tab && !bloqueia.some((rota) => pathname.includes(rota));
 };

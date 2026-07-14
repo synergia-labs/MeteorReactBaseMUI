@@ -23,7 +23,7 @@ const fetchJson = async (url: URL, init?: RequestInit) => {
 
 const getIdentity = async (accessToken: string) => {
 	const config: any = await ServiceConfiguration.configurations.findOneAsync({ service: 'facebook' });
-	if (!config) throw new ServiceConfiguration.ConfigError();
+	if (!config) throw new Meteor.Error('oauth-not-configured', 'Facebook OAuth não configurado.');
 	const secret = OAuth.openSecret(config.secret);
 	const appsecretProof = crypto.createHmac('sha256', secret).update(accessToken).digest('hex');
 
@@ -47,7 +47,7 @@ const getIdentity = async (accessToken: string) => {
 };
 
 const registerFacebookMobileLoginHandler = () => {
-	Accounts.registerLoginHandler('facebookMobileLogin', async (request: any) => {
+	(Accounts.registerLoginHandler as any)('facebookMobileLogin', async (request: any) => {
 		const data = request.facebookMobileLogin;
 		if (!data) return undefined;
 		if (typeof data.accessToken !== 'string') {
@@ -63,7 +63,7 @@ const registerFacebookMobileLoginHandler = () => {
 			if (identity[field] !== undefined) serviceData[field] = identity[field];
 		}
 
-		return await Accounts.updateOrCreateUserFromExternalService('facebook', serviceData, {
+		return await (Accounts as any).updateOrCreateUserFromExternalService('facebook', serviceData, {
 			profile: { name: identity.name, email: identity.email }
 		});
 	});

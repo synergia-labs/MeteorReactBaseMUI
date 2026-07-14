@@ -8,9 +8,11 @@ import { userprofileApi } from '/imports/modules/userprofile/api/userProfileApi'
 import { hasValue } from '/imports/libs/hasValue';
 import { parse, stringify } from 'zipson';
 import { IMeteorError } from '/imports/typings/IMeteorError';
+import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 const accountStore = createStore(`${publicSettings.name}_UserAccount`, 'store');
-const cachedUser = new ReactiveVar(null);
+const cachedUser = new ReactiveVar<Meteor.User | null>(null);
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	const { user, userLoading, isLoggedIn } = useTracker(() => {

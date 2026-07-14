@@ -1,5 +1,9 @@
 import { Ref } from 'react';
-import { IConteudo } from '../modules/conteudo/api/conteudoSch';
+
+export interface IConteudo {
+	_id?: string;
+	[key: string]: unknown;
+}
 
 export interface IContentType {
 	type:

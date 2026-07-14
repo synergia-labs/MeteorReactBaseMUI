@@ -98,9 +98,9 @@ export default ({
 		return text;
 	};
 
-	const onFieldChange = (e) => {
+	const onFieldChange = (e: any) => {
 		const newValue = e.target.value;
-		onChange({ name, target: { name, value: newValue } }, { name, value: newValue });
+		onChange?.({ name, target: { name, value: newValue } }, { name, value: newValue });
 	};
 
 	const handleApplyMask = (event: React.BaseSyntheticEvent) => {
@@ -108,9 +108,9 @@ export default ({
 
 		if (mask) {
 			const inputValue = applyMask(event.target.value, mask);
-			onFieldChange({ name, target: { name, value: inputValue } }, { name, value: inputValue });
+			onFieldChange({ name, target: { name, value: inputValue } });
 		} else {
-			onFieldChange({ name, target: { name, value: event.target.value } }, { name, value: event.target.value });
+			onFieldChange({ name, target: { name, value: event.target.value } });
 		}
 	};
 
@@ -157,8 +157,7 @@ export default ({
 				disabled={!!readOnly}
 				id={name}
 				name={name}
-				label={otherProps.labelDisable ? undefined : label}
-				{...otherProps}
+				inputProps={otherProps.inputProps}
 			/>
 		);
 	}
@@ -171,7 +170,7 @@ export default ({
 				flexDirection: 'column',
 				...appStyle.fieldContainer
 			}}>
-			<SimpleLabelView label={label} disabled={readOnly} />
+			<SimpleLabelView label={label ?? ''} disabled={readOnly} />
 			<TextField
 				{...otherProps}
 				key={name}
@@ -182,9 +181,8 @@ export default ({
 				id={name}
 				name={name}
 				label={null}
-				help={help}
 				placeholder={placeholder}
-				style={style ? { displayLabel: style.displayLabel } : undefined}
+				style={style?.input}
 			/>
 		</div>
 	);

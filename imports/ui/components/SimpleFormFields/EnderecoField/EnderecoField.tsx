@@ -62,7 +62,7 @@ export const EnderecoField = ({ value, name, onChange, error, readOnly, schema }
 	const [cepError, setCepError] = React.useState<boolean>(false);
 
 	const isValidCep = endereco?.cep && endereco.cep.length === 9;
-	const isRequired = schema.optional === false;
+	const isRequired = schema?.optional === false;
 
 	React.useEffect(() => {
 		const { cep } = endereco;

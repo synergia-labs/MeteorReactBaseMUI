@@ -43,7 +43,7 @@ const SignInPage: React.FC = () => {
 		<Container>
 			<Content>
 				<Typography variant="h1" display={'inline-flex'} gap={1}>
-					<Typography variant="inherit" color={(theme) => theme.palette.sysText?.tertiary}>
+					<Typography variant="inherit" sx={{ color: (theme) => theme.palette.sysText?.tertiary }}>
 						{'{'}
 					</Typography>
 					Boilerplate

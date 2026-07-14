@@ -45,7 +45,7 @@ const getIdentity = (accessToken: string) =>
 	});
 
 const registerGoogleMobileLoginHandler = () => {
-	Accounts.registerLoginHandler('googleMobileLogin', async (request: any) => {
+	(Accounts.registerLoginHandler as any)('googleMobileLogin', async (request: any) => {
 		const loginRequest = request.google;
 		if (!loginRequest) return undefined;
 		if (typeof loginRequest.idToken !== 'string' || typeof loginRequest.accessToken !== 'string') {
@@ -53,7 +53,7 @@ const registerGoogleMobileLoginHandler = () => {
 		}
 
 		const config: any = await ServiceConfiguration.configurations.findOneAsync({ service: 'google' });
-		if (!config) throw new ServiceConfiguration.ConfigError();
+		if (!config) throw new Meteor.Error('oauth-not-configured', 'Google OAuth não configurado.');
 		const validClientIds = Array.from(new Set([config.clientId, ...(config.validClientIds || [])].filter(Boolean)));
 		const token = await validateIdToken(loginRequest.idToken, validClientIds);
 		const identity = await getIdentity(loginRequest.accessToken);
@@ -72,7 +72,7 @@ const registerGoogleMobileLoginHandler = () => {
 			if (identity[field] !== undefined) serviceData[field] = identity[field];
 		}
 
-		return await Accounts.updateOrCreateUserFromExternalService('google', serviceData, {
+		return await (Accounts as any).updateOrCreateUserFromExternalService('google', serviceData, {
 			profile: { name: identity.name, email: identity.email }
 		});
 	});

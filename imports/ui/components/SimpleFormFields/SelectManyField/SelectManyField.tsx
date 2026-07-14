@@ -85,7 +85,7 @@ export const SelectManyField = ({
 		);
 	}
 
-	const onChangeSelect = (event: SelectChangeEvent) => {
+	const onChangeSelect = (event: SelectChangeEvent<string[]>) => {
 		if (!readOnly) {
 			onChange &&
 				onChange(
@@ -109,8 +109,8 @@ export const SelectManyField = ({
 
 	const getLabelFromValue = (value: string) => {
 		const objValue = otherProps.options
-			? otherProps.options.find((object) => object.value === value || object === value)
-			: schema.options.find((object: any) => object.value === value || object === value);
+			? otherProps.options.find((object) => object.value === value)
+			: schema?.options?.find((object: IOption) => object.value === value);
 		return (objValue && (objValue.label || objValue.value)) || value;
 	};
 
@@ -224,12 +224,11 @@ export const SelectManyField = ({
 				<InputLabel style={{ backgroundColor: 'white', marginLeft: 4 }}>{label}</InputLabel>
 			) : null}
 
-			<Select
+			<Select<string[]>
 				displayEmpty
 				labelId={`${label}${name}`}
 				key={name + 'key'}
 				id={name}
-				placeholder={placeholder}
 				style={{
 					...(style
 						? style
@@ -249,20 +248,25 @@ export const SelectManyField = ({
 				//input={<InputBase />}
 				multiple
 				renderValue={(selected: string | string[]) => {
-					if (selected.length === 0) {
+					const selectedValues = Array.isArray(selected) ? selected : [selected];
+					if (selectedValues.length === 0) {
 						return (
 							<Typography
 								sx={{
 									overflow: 'hidden',
 									textOverflow: 'ellipsis',
-									color: appStyle.cinzaClaro
+									color: '#9e9e9e'
 								}}>
 								{placeholder}
 							</Typography>
 						);
 					}
 
-					return multiple ? renderValue || defaultRenderValue(selected) : undefined;
+					return multiple
+						? renderValue
+							? renderValue(selectedValues)
+							: defaultRenderValue(selectedValues)
+						: undefined;
 				}}
 				{...omit(otherProps, ['options'])}>
 				{options?.length > 0 && (
@@ -278,13 +282,13 @@ export const SelectManyField = ({
 				{(options || []).map((opt: IOption, index: number) => {
 					return (
 						<MenuItem
-							id={hasValue(opt.value) ? opt.value : opt}
-							key={hasValue(opt.value) ? opt.value + '' : 'MenuItemkey' + index}
-							value={hasValue(opt.value) ? opt.value : opt}>
-							<Checkbox checked={(hasValue(value) && value.includes(opt.value || opt)) || flagAllOptions} />
+							id={String(opt.value)}
+							key={hasValue(opt.value) ? String(opt.value) : 'MenuItemkey' + index}
+							value={String(opt.value)}>
+							<Checkbox checked={(hasValue(value) && value.includes(opt.value)) || flagAllOptions} />
 
 							<ListItemText
-								primary={opt.label ? opt.label : opt}
+								primary={opt.label}
 								secondary={opt.description ? opt.description : ''}
 								style={{
 									width: style?.listItemWidth ? style.listItemWidth : 'unset',

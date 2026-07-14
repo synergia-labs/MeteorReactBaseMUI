@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
@@ -12,33 +13,33 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 
 	const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
 		if (!readOnly) {
-			const newValue = typeof value === 'object' ? value : {};
+			const newValue: Record<string, boolean> = typeof value === 'object' && value !== null ? { ...value } : {};
 			newValue[itemCheck] = event.target.checked;
-			onChange({ target: { value: newValue } }, { name, value: newValue });
+			onChange?.({ target: { value: newValue } }, { name, value: newValue });
 			setLoadRender(loadRender + 1);
 		}
 	};
 
 	const handleChangeSwitch = (event: React.BaseSyntheticEvent) => {
 		if (!readOnly) {
-			const value = {};
+			const value: Record<string, boolean> = {};
 			value[name] = event.target.checked;
-			onChange({ target: { value } }, { name, value });
+			onChange?.({ target: { value } }, { name, value });
 		}
 	};
 
 	return (
 		<div style={error ? toggleSwitchStyle.fieldError : undefined}>
-			<SimpleLabelView label={label} />
+			<SimpleLabelView label={label ?? ''} />
 
 			{otherProps && hasValue(otherProps.checksList) ? (
 				<div>
-					{otherProps.checksList.map((itemCheck) => (
+					{(otherProps.checksList as string[]).map((itemCheck: string) => (
 						<FormControlLabel
 							style={toggleSwitchStyle.checksList}
 							control={
 								<Checkbox
-									checked={!!value[itemCheck]}
+									checked={!!value?.[itemCheck]}
 									name={itemCheck}
 									onChange={(event) => handleChangeCheck(event, itemCheck)}
 								/>
@@ -54,7 +55,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 			) : (
 				<FormControlLabel
 					style={toggleSwitchStyle.checksList}
-					control={<Switch checked={!!value[name]} onChange={handleChangeSwitch} name={name} />}
+					control={<Switch checked={!!value?.[name]} onChange={handleChangeSwitch} name={name} />}
 					key={name}
 					value={value}
 					id={name}

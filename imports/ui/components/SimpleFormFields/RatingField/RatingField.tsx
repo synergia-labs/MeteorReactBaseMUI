@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 interface IRatingField {
 	name: string;
@@ -36,7 +37,7 @@ export const RatingField = ({
 
 	const handleChange = () => {
 		//@ts-ignore
-		onChange({ name, target: { name, value: ratingValue } }, { name, value: ratingValue });
+		onChange?.({ name, target: { name, value: ratingValue } }, { name, value: ratingValue });
 	};
 
 	return (

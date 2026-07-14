@@ -125,9 +125,11 @@ async function validateSocialLoginAndUpdateProfile(
 }
 
 async function validateLoginGoogle(user: Meteor.User & { name?: string; email?: string }) {
-	user.username = `${user.services.google.name}`;
-	user.name = `${user.services.google.name}`;
-	user.email = user.services.google.email;
+	const google = user.services?.google;
+	if (!google?.email) throw new Meteor.Error('invalid-social-profile', 'O Google não retornou um e-mail válido.');
+	user.username = `${google.name ?? google.email}`;
+	user.name = `${google.name ?? google.email}`;
+	user.email = google.email;
 	const serviceName = 'google';
 	const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
 		email: user.email
@@ -138,9 +140,11 @@ async function validateLoginGoogle(user: Meteor.User & { name?: string; email?: 
 
 async function validateLoginFacebook(user: Meteor.User & { name?: string; email?: string }): Promise<Boolean> {
 	const serviceName = 'facebook';
-	user.username = `${user.services.facebook.name}_facebook`;
-	user.name = `${user.services.facebook.name}`;
-	user.email = user.services.facebook.email;
+	const facebook = user.services?.facebook;
+	if (!facebook?.email) throw new Meteor.Error('invalid-social-profile', 'O Facebook não retornou um e-mail válido.');
+	user.username = `${facebook.name ?? facebook.email}_facebook`;
+	user.name = `${facebook.name ?? facebook.email}`;
+	user.email = facebook.email;
 	const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
 		email: user.email
 	});
@@ -259,13 +263,13 @@ Meteor.startup(() => {
 		if (!user) return false;
 
 		// ################################ FACEBOOK ################################################
-		if (user.services.facebook) {
+		if (user.services?.facebook) {
 			user.profile = {
 				name: user.services.facebook.name,
 				email: user.services.facebook.email
 			};
 			return await validateLoginFacebook(user);
-		} else if (user.services.google) {
+		} else if (user.services?.google) {
 			// ################################ GOOGLE ################################################
 			user.profile = {
 				name: user.services.google.name,

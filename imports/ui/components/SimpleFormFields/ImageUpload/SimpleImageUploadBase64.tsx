@@ -1,4 +1,6 @@
 import React from 'react';
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 // @ts-ignore
 import FileInputComponent from 'react-file-input-previews-base64';
 import { hasValue } from '../../../../libs/hasValue';
@@ -16,22 +18,22 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 			} else {
 				imgValue = fileData.base64;
 			}
-			onChange({ name, target: { name, value: imgValue } }, { name, value: imgValue });
+			onChange?.({ name, target: { name, value: imgValue } }, { name, value: imgValue });
 		}
 	};
 
 	if (!readOnly) {
 		return (
 			<div key={name} style={simpleImageStyle.containerImage}>
-				<SimpleLabelView label={label} disabled={readOnly} />
-				<Avatar src={value} size="big" style={simpleImageStyle.containerShowImage} />
+				<SimpleLabelView label={label ?? ''} disabled={readOnly} />
+				<Avatar src={value} style={simpleImageStyle.containerShowImage} />
 			</div>
 		);
 	}
 
 	return (
 		<div>
-			<SimpleLabelView label={label} disabled={readOnly} />
+			<SimpleLabelView label={label ?? ''} disabled={readOnly} />
 			<FileInputComponent
 				defaultFiles={hasValue(value) ? [value] : undefined}
 				labelText={''}
@@ -44,11 +46,10 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 				buttonComponent={
 					<Button
 						variant="contained"
-						color="default"
+						color="inherit"
 						style={simpleImageStyle.selectImage}
 						startIcon={<SysIcon name={'photoCamera'} />}
-						label="Selecionar imagem"
-						arialabel="Selecionar imagem"
+						aria-label="Selecionar imagem"
 						id="Selecionar imagem">
 						{'Selecionar imagem'}
 					</Button>

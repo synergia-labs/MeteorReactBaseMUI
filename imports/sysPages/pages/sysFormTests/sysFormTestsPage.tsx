@@ -18,6 +18,16 @@ import { SysUploadFile } from '/imports/ui/components/sysFormFields/sysUploadFil
 import { SysLocationField } from '/imports/ui/components/sysFormFields/sysLocationField/sysLocationField';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
+import { styled } from '@mui/material/styles';
+
+const SysFormTestsStyles = {
+	container: styled(Box)({ display: 'flex', flexDirection: 'column', gap: 16, width: '100%' }),
+	header: styled(Box)({ display: 'flex', flexDirection: 'column', gap: 8 }),
+	schemaAndValues: styled(Box)({ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 16 }),
+	controllersContainer: styled(Box)({ display: 'flex', flexWrap: 'wrap', gap: 8 }),
+	sysFormContainer: styled(Box)({ width: '100%' }),
+	erroContainer: styled(Box)({ maxHeight: 400, overflow: 'auto' })
+};
 
 const SysFormTestsPage: React.FC = () => {
 	const [dados, setDados] = useState<{ [key: string]: any }>({});

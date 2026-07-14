@@ -4,6 +4,7 @@ import { hasValue } from '../imports/libs/hasValue';
 import { Validador } from '../imports/libs/Validador';
 import { escapeRegExp } from '../imports/libs/escapeRegExp';
 import { sanitizeHtml } from '../imports/libs/sanitizeHtml';
+import { normalizeCheckBoxValue } from '../imports/ui/components/sysFormFields/sysCheckBoxField/normalizeCheckBoxValue';
 
 describe('meteor-react-base-mui', function () {
 	it('package.json has correct name', async function () {
@@ -31,6 +32,12 @@ describe('meteor-react-base-mui', function () {
 	it('does not return executable HTML when no browser DOM is available', function () {
 		if (Meteor.isServer)
 			assert.strictEqual(sanitizeHtml('<script>alert(1)</script>'), '&lt;script&gt;alert(1)&lt;/script&gt;');
+	});
+
+	it('normalizes malformed checkbox values without treating objects as iterable lists', function () {
+		assert.deepStrictEqual(normalizeCheckBoxValue({}), []);
+		assert.deepStrictEqual(normalizeCheckBoxValue(undefined), []);
+		assert.deepStrictEqual(normalizeCheckBoxValue(['Grupo 1']), ['Grupo 1']);
 	});
 
 	if (Meteor.isClient) {

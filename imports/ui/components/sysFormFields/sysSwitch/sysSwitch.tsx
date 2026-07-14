@@ -54,7 +54,7 @@ const SysSwitch: React.FC<ISysSwitchProps> = ({
 
 	const [valueState, setValueState] = useState<boolean | undefined>(defaultValue);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
-	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [errorState, setErrorState] = useState<string | undefined>(typeof error === 'string' ? error : undefined);
 
 	if (!visibleState) return null;
 

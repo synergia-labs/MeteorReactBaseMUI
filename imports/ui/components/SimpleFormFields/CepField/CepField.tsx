@@ -244,7 +244,7 @@ export const CepField = ({
 			  }
 			| undefined
 	) => {
-		onChange({ name, target: { name, value: endereco } }, { name, value: endereco });
+		onChange?.({ name, target: { name, value: endereco } }, { name, value: endereco });
 	};
 
 	const handleChangeCep = (value: string) => {

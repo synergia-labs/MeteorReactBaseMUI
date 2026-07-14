@@ -1,12 +1,16 @@
 import { getUser } from '../libs/getUser';
-import { EnumUserRoles } from '../modules/userprofile/api/EnumUser';
+import { EnumUserRoles } from '../modules/userprofile/api/enumUser';
 
-const checkPermissionSuperAdmin = (id) => {
+interface InstituicaoRef {
+	_id?: string;
+}
+
+const checkPermissionSuperAdmin = (_id?: string) => {
 	const userLogged = getUser();
 	return userLogged.roles && userLogged.roles.indexOf(EnumUserRoles.SUPERADMINISTRADOR) !== -1;
 };
 
-const checkPermissionAdmin = (instituicao) => {
+const checkPermissionAdmin = (instituicao?: InstituicaoRef) => {
 	const userLogged = getUser();
 	if (checkPermissionSuperAdmin()) {
 		return true;
@@ -16,7 +20,7 @@ const checkPermissionAdmin = (instituicao) => {
 		userLogged.roles &&
 		userLogged.roles.indexOf(EnumUserRoles.ADMINISTRADOR) !== -1 &&
 		instituicao &&
-		userLogged.instituicaoId === instituicao._id
+		(userLogged as typeof userLogged & { instituicaoId?: string }).instituicaoId === instituicao._id
 	);
 };
 

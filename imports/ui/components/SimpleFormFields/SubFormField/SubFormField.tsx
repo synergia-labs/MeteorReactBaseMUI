@@ -1,4 +1,5 @@
 import React from 'react';
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
 import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextField';
 
@@ -11,7 +12,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 
 	// console.log(categoria);
 
-	const handleOnChange = (evt) => {
+	const handleOnChange = (_evt: unknown) => {
 		// onChange(
 		//   { name, target: { name, value: evt.target.value } },
 		//   { name, value: evt.target.value });
@@ -20,10 +21,10 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 		value.nomeArq = 'nome arq';
 		value.descricaoArq = 'desc arq';
 		// value.descricaoArq = 'desc arq';
-		onChange({ nomeArq, target: { nomeArq, value } }, { nomeArq, value });
+		onChange?.({ nomeArq, target: { nomeArq, value } }, { name: nomeArq, value });
 	};
 
-	const getSubSchemaFromName = (name) => {
+	const getSubSchemaFromName = (name: string) => {
 		const category = name;
 
 		// console.log(name);
@@ -71,7 +72,7 @@ export default ({ name, label, value, onChange, readOnly, error, ...otherProps }
 
 	return (
 		<div>
-			<SimpleLabelView label={label} disabled={readOnly} />
+			<SimpleLabelView label={label ?? ''} disabled={readOnly} />
 			{getSubSchemaFromName(name)}
 		</div>
 	);

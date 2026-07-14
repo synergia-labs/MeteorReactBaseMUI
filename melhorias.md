@@ -6,16 +6,13 @@ Data da análise: 14/07/2026
 
 O boilerplate tem uma base arquitetural útil: separação entre cliente e servidor, módulos por domínio, ACL por papéis/recursos, bloqueio de escrita direta nas coleções principais, limites iniciais de publicação, container de produção sem `root`, replica set do MongoDB e alguns cuidados recentes contra SSRF e exposição de imagens.
 
-No estado atual, porém, ele **não deve ser considerado pronto para produção**. A atualização do número da versão do Meteor não foi acompanhada por uma migração completa do modelo assíncrono nem pela atualização das barreiras de qualidade. Há falhas que podem permitir abuso de e-mail e anexos, operações assíncronas não aguardadas, APIs síncronas de servidor que não funcionam corretamente no Meteor 3, publicações genéricas excessivamente permissivas, senha administrativa padrão e ausência de testes automatizados efetivos.
+Desde a auditoria inicial, os bloqueadores técnicos mais imediatos foram corrigidos: Meteor/Node foram alinhados, a base
+assíncrona foi migrada, e-mail e anexos foram restringidos, o bootstrap inseguro foi removido e TypeScript/testes/build
+passaram a ser gates de CI. Isso reduz substancialmente o risco do estado originalmente analisado.
 
-Os bloqueadores mais importantes são:
-
-1. Fechar o método de envio de e-mail e a API de anexos.
-2. Corrigir os wrappers assíncronos de métodos, transações, REST, OAuth e Accounts.
-3. Validar e limitar estritamente argumentos, filtros, ordenações e projeções recebidos do cliente.
-4. Remover a senha administrativa fallback e tornar o bootstrap atômico/idempotente.
-5. Fazer TypeScript, testes Meteor e Cypress voltarem a ser gates reais de CI.
-6. Atualizar de Meteor 3.4.1 para 3.5.0 somente junto com a atualização do runtime para Node 24 e testes de regressão.
+O boilerplate ainda **não deve ser promovido sem validar as regras do produto**. Os riscos remanescentes mais importantes
+são a autorização documental específica por domínio/tenant, a consistência entre identidade e perfil, a arquitetura de
+mídia privada, inspeção de conteúdo de uploads, observabilidade e cobertura negativa/E2E completa.
 
 ## Status da implementação
 
@@ -33,13 +30,14 @@ Concluído nesta rodada:
 - Filtros/opções das publicações genéricas agora rejeitam campos, operadores, profundidade, projeções e sorts não permitidos.
 - Sanitização própria substituída por DOMPurify com allowlist; links externos recebem `noopener noreferrer`.
 - Rotas principais usam code splitting; buscas têm debounce cancelável, limite e regex escapada; contadores viraram snapshots sem observer por assinante.
-- Cypress migrado para a configuração atual, artefatos gerados removidos e testes Meteor passaram de zero para seis testes server-side.
+- Service worker passou a usar allowlist de assets públicos, fallback offline apenas para navegação, ciclo seguro de atualização e rede obrigatória para API, DDP, uploads e conteúdo privado; em desenvolvimento ele é removido automaticamente.
+- Cypress migrado para a configuração atual, artefatos gerados removidos e testes Meteor passaram de zero para sete testes server-side.
 - CI, `.env.example`, lockfile atualizado, auditoria de dependências, isolamento de ferramentas do bundle e baseline TypeScript sem regressão foram adicionados.
 - Pacotes legados `http`, jQuery, `reactive-dict`, `promise`, Webpack/Babel loader e plugins Babel não usados foram removidos.
 
 Ainda pendente e, portanto, não deve ser interpretado como concluído:
 
-- O TypeScript ainda possui 1.211 erros legados. O CI impede aumentar esse número, mas a meta continua sendo zero; `OfflineBase` e a UI MUI antiga concentram a maior parte da dívida.
+- Os componentes legados ainda devem ser simplificados gradualmente, embora novas incompatibilidades TypeScript já bloqueiem a validação.
 - A autorização documental das publicações precisa ser convertida de infraestrutura genérica para DTO/policy específica por domínio e tenant.
 - Identidade em `Meteor.users` e `userprofile` ainda precisa de migração transacional/reconciliação, inclusive para concorrência entre provedores sociais.
 - Mídia base64 e o token global de mídia ainda devem migrar para object storage/GridFS e URLs assinadas curtas por recurso/usuário.
@@ -50,16 +48,16 @@ Ainda pendente e, portanto, não deve ser interpretado como concluído:
 
 ## Estado verificado
 
-| Item                     | Estado encontrado                                                | Avaliação                                                                                                                    |
-| ------------------------ | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Meteor                   | `.meteor/release` = `METEOR@3.4.1`                               | Não é mais a versão atual. O changelog oficial indica 3.5.0, lançado em 30/06/2026.                                          |
-| Node                     | Docker usa Node 22; Meteor 3.4.1 usa Node 22.22.1                | Compatível com 3.4.1. Meteor 3.5 passa a usar Node 24.15.0; atualizar builder e runtime juntos.                              |
-| React/MUI                | React 19.2 e MUI 7.3                                             | Código ainda contém muitos padrões/tipos de versões anteriores.                                                              |
-| TypeScript               | npm = 6.0.3, pacote Meteor = 5.10.0, `@types/meteor` = 2.9.11    | Toolchain desalinhada. `tsc --noEmit` encontrou **1.302 erros**.                                                             |
-| Testes Meteor            | Comando executado em porta livre                                 | **0 testes executados**. `tests/main.ts` é ignorado pelo modo de teste do Meteor e ainda espera um nome de pacote incorreto. |
-| Cypress                  | Cypress 15 com `cypress.json`, plugins e diretórios do Cypress 9 | Configuração incompatível: `cypress.json` deixou de ser suportado no Cypress 10.                                             |
-| Dependências de produção | `npm audit --omit=dev`                                           | 5 alertas: 3 moderados e 2 baixos; incluem `react-router`, `qs`, `quill` e Babel.                                            |
-| Cobertura/CI             | Nenhuma configuração de CI ou limiar de cobertura encontrada     | Não há gate automático contra regressões.                                                                                    |
+| Item                     | Estado atual                                                    | Avaliação                                                                                                    |
+| ------------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Meteor                   | `.meteor/release` = `METEOR@3.5`                                | Atualizado; build e runtime usam a linha compatível.                                                         |
+| Node                     | Docker e CI usam Node 24.15.0                                   | Builder e runtime alinhados ao Meteor 3.5.                                                                   |
+| React/MUI                | React 19.2, MUI 7.3 e MUI X 8.28                                | Tipos corrigidos; componentes legados ainda podem ser simplificados.                                         |
+| TypeScript               | `tsc --noEmit`                                                  | Zero erro e sem baseline permissivo.                                                                         |
+| Testes Meteor            | Sete testes server-side                                         | Descoberta corrigida; cobertura por domínio ainda precisa crescer.                                           |
+| Cypress                  | Cypress 15 com `cypress.config.ts`                              | Configuração migrada; execução deve ocorrer em runner/binário suportado.                                     |
+| Dependências de produção | `npm audit --omit=dev`                                          | Restam alertas conhecidos de Quill e árvore interna de `meteor-node-stubs`, pendentes de upstream/mitigação. |
+| Cobertura/CI             | Workflow executa install, typecheck, testes, build e audit high | Ainda falta limiar de cobertura e E2E no CI.                                                                 |
 
 Referências oficiais usadas na avaliação:
 
@@ -84,6 +82,9 @@ Referências oficiais usadas na avaliação:
 Esses mecanismos devem ser mantidos, mas não substituem validação por operação, autorização por documento e testes de segurança.
 
 ## Prioridade P0 — corrigir antes de qualquer produção
+
+> As evidências abaixo registram o estado encontrado na auditoria original. Consulte **Status da implementação** e
+> **Estado verificado** acima para saber o que já foi corrigido; itens remanescentes continuam válidos como backlog.
 
 ### SEC-01 — Fechar o método `sendEmail`
 
@@ -295,10 +296,10 @@ Meteor 3.5 habilita Change Streams por padrão; o Mongo 7 com replica set já at
 
 ### PERF-07 — Cache HTTP e PWA coerentes
 
-O service worker está desabilitado no entrypoint, mas `public/sw.js` continua servido com lógica antiga e bugs de Promise/Content-Type. Decidir explicitamente:
-
-- Se PWA não é requisito, remover service worker/manifest e limpar registrations existentes.
-- Se é requisito, usar integração Workbox suportada pelo stack atual, versionar caches, nunca cachear DDP/API autenticada, definir fallback offline explícito e testar atualização/hot code push.
+**Implementado:** o registro agora é explícito, exclusivo de produção e configurável. O worker usa cache versionado com
+prefixo próprio, allowlist de assets públicos, fallback offline exclusivo para navegação e rede obrigatória para API,
+DDP, uploads, conteúdo privado e requisições diferentes de `GET`. Atualizações aguardam confirmação antes de
+`skipWaiting`, e o ambiente de desenvolvimento remove registrations e caches legados.
 
 ## Prioridade P2 — manutenção e evolução
 

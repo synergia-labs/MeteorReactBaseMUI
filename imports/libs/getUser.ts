@@ -1,16 +1,17 @@
 import { nanoid } from 'nanoid';
 import { Meteor } from 'meteor/meteor';
-import { get, set, Store } from 'idb-keyval';
+import { createStore, get, set } from 'idb-keyval';
 import { parse, stringify } from 'zipson';
 import { EnumUserRoles } from '../modules/userprofile/api/enumUser';
 import { publicSettings } from '/imports/config/publicSettings';
 import { IUserProfile } from '../modules/userprofile/api/userProfileSch';
+import type { Mongo } from 'meteor/mongo';
 
 class LoggedUserStore {
-	userStore = new Store(`${publicSettings.name}_` + 'loggedUser', 'LoggedUser-store');
-	updateDateOnJson = (object) => {
-		function reviver(key, value) {
-			if (`${value}`.length === 24 && !!Date.parse(value)) {
+	userStore = createStore(`${publicSettings.name}_loggedUser`, 'LoggedUser-store');
+	updateDateOnJson = (object: unknown) => {
+		function reviver(_key: string, value: unknown) {
+			if (typeof value === 'string' && value.length === 24 && !!Date.parse(value)) {
 				return new Date(value);
 			}
 			return value;
@@ -18,13 +19,14 @@ class LoggedUserStore {
 
 		return JSON.parse(JSON.stringify(object), reviver);
 	};
-	getUser = async () => await get('user', this.userStore).then((result) => this.updateDateOnJson(parse(result)));
-	setUser = (userDoc) => {
-		set('user', stringify(userDoc), this.userStore);
+	getUser = async () =>
+		get<string>('user', this.userStore).then((result) => (result ? this.updateDateOnJson(parse(result)) : undefined));
+	setUser = async (userDoc: IUserProfile) => {
+		await set('user', stringify(userDoc), this.userStore);
 	};
 }
 
-export const userprofileData = {
+export const userprofileData: { collectionInstance?: Mongo.Collection<IUserProfile> } = {
 	collectionInstance: undefined
 };
 
@@ -34,7 +36,7 @@ export const userprofileData = {
  */
 export const getUser = (connection?: { id: string } | null): IUserProfile => {
 	if (Meteor.isClient && Meteor.status().status !== 'connected') {
-		if (!!window && !!window.$app && !!window.$app.user) {
+		if (window.$app?.user) {
 			return window.$app.user;
 		}
 	}
@@ -43,10 +45,18 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 
 	try {
 		if (!userprofileData.collectionInstance) {
-			return user;
+			if (user) {
+				return {
+					_id: user._id,
+					username: user.username ?? '',
+					email: user.profile?.email ?? user.emails?.[0]?.address ?? '',
+					roles: (user as Meteor.User & { roles?: string[] }).roles ?? [EnumUserRoles.PUBLICO]
+				};
+			}
+			throw new Error('Usuário não autenticado');
 		}
 		const userProfile = userprofileData.collectionInstance.findOne({
-			email: user.profile.email
+			email: user?.profile?.email ?? user?.emails?.[0]?.address ?? ''
 		});
 
 		if (userProfile) {
@@ -67,8 +77,9 @@ export const getUser = (connection?: { id: string } | null): IUserProfile => {
 		const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
 		const id = connection && connection.id ? simpleDate + connection.id : nanoid();
 		return {
-			id,
 			_id: id,
+			email: '',
+			username: '',
 			roles: [EnumUserRoles.PUBLICO]
 		};
 	}

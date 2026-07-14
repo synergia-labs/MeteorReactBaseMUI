@@ -15,7 +15,7 @@ export interface IElementProps {
 	ref?: any;
 	mode?: string;
 	formType: string;
-	children: React.ElementType | React.ReactNode | React.ReactNode[];
+	children: React.ReactNode;
 	noItensText: string;
 	addElement: any;
 	disableSort: boolean;
@@ -28,13 +28,14 @@ interface ISubFormComponent {
 	id?: string;
 	ref?: any;
 	reactElement: React.ReactElement<any>;
-	childrensElements: React.ReactNode | React.ReactNode[] | undefined | null;
+	childrensElements: React.ReactNode;
 	name: string;
-	mode: string;
-	fieldSchema: { type?: BooleanConstructor; label: string; subSchema: {} | [] };
+	mode?: string;
+	fieldSchema: Record<string, any>;
 	initialValue?: any;
-	setDoc: ({}) => void;
-	setFieldMethods: ({}) => any;
+	setDoc: (doc: Record<string, any>) => void;
+	getDoc?: () => Record<string, any>;
+	setFieldMethods: (methods: Record<string, any>) => any;
 }
 
 const SubFormComponent = ({ reactElement, childrensElements, name, ...props }: ISubFormComponent) => {
@@ -43,11 +44,7 @@ const SubFormComponent = ({ reactElement, childrensElements, name, ...props }: I
 	const [mode, setMode] = React.useState(props.mode || 'edit');
 	const [changeByUser, setChangeByUser] = React.useState(false);
 
-	// @ts-ignore
-	let formRef: {
-		updateField: (p: { name: string; value: any }) => void;
-		validate(): Boolean;
-	} | null = {};
+	let formRef: SimpleForm | null = null;
 
 	React.useEffect(() => {
 		if (!changeByUser && (!hasValue(value) || value !== props.initialValue) && !!hasValue(props.initialValue)) {
@@ -55,7 +52,7 @@ const SubFormComponent = ({ reactElement, childrensElements, name, ...props }: I
 		}
 
 		if (mode !== props.mode) {
-			setMode(props.mode);
+			setMode(props.mode || 'edit');
 			if (props.mode === 'view') {
 				setChangeByUser(false);
 			}
@@ -67,7 +64,7 @@ const SubFormComponent = ({ reactElement, childrensElements, name, ...props }: I
 
 	props.setFieldMethods({
 		updateField: (name: string, value: any) => {
-			formRef.updateField(name, value);
+			formRef?.updateField(name, value);
 		},
 		validateRequired: () => {
 			if (!hasValue(value)) {
@@ -79,7 +76,7 @@ const SubFormComponent = ({ reactElement, childrensElements, name, ...props }: I
 		validateRequiredSubForm: () => {
 			let result = true;
 
-			if (!formRef.validate()) {
+			if (!formRef?.validate()) {
 				setError(true);
 				result = false;
 			}
@@ -158,9 +155,11 @@ const SubFormComponent = ({ reactElement, childrensElements, name, ...props }: I
 			<div style={simpleFormStyle.containerChildrenElements}>
 				<SimpleForm
 					isSubForm
-					ref={(fRef) => (formRef = fRef)}
+					ref={(fRef) => {
+						formRef = fRef;
+					}}
 					mode={mode}
-					schema={props.fieldSchema && props.fieldSchema.subSchema ? props.fieldSchema.subSchema : undefined}
+					schema={props.fieldSchema?.subSchema || {}}
 					doc={value}
 					onFormChange={onFormChangeHandle}>
 					{childrensElements}
@@ -177,23 +176,25 @@ interface ISimpleFormProps {
 	ref?: any;
 	dontReloadOnView?: boolean;
 	errorStyles?: object;
-	children?: object[] | object | undefined | null;
-	doc?: object;
+	children?: React.ReactNode;
+	doc?: Record<string, any>;
 	isSubForm?: boolean;
 	loading?: boolean | null;
 	mode?: string;
 	validaImportacao?: boolean;
-	schema?: [] | {};
-	styles?: object;
+	schema: Record<string, any>;
+	styles?: React.CSSProperties;
 	onFormChange?: any;
 	onSubmit?: (submit: any) => void;
 	showNotification?: (data: { type: string; title: string; description: string }) => void;
+	submitVisibleFields?: boolean;
 }
 
 class SimpleForm extends Component<ISimpleFormProps> {
-	docValue = { ...(this.props.doc || {}) };
-	fields = {};
-	hiddenFields = {};
+	docValue: Record<string, any> = { ...(this.props.doc || {}) };
+	fields: Record<string, any> = {};
+	hiddenFields: Record<string, any> = {};
+	formElements: React.ReactNode[] | null = null;
 	state = {
 		error: null,
 		mode: this.props.mode || 'edit',
@@ -239,7 +240,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 		this.initFormElements(true);
 	};
 
-	setDoc = (newDoc) => {
+	setDoc = (newDoc: Record<string, any>) => {
 		const self = this;
 		this.docValue = { ...this.docValue, ...newDoc };
 		let hasVisibilityUpdate = false;
@@ -329,7 +330,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 
 	getDoc = () => this.docValue;
 
-	initialValueDefault = (schema) => {
+	initialValueDefault = (schema: Record<string, any>) => {
 		if (schema && hasValue(schema.defaultValue)) {
 			return schema.defaultValue;
 		}
@@ -339,8 +340,9 @@ class SimpleForm extends Component<ISimpleFormProps> {
 		return '';
 	};
 
-	wrapElement = (element, index) => {
+	wrapElement = (element: any, index: number): React.ReactNode => {
 		const self = this;
+		if (!React.isValidElement<any>(element)) return element;
 
 		if (
 			!element.type &&
@@ -354,7 +356,11 @@ class SimpleForm extends Component<ISimpleFormProps> {
 				onClick: this.onSubmitForm,
 				disabled: !this.fieldsRequired
 			});
-		} else if (element.type && element.type.displayName && element.type.displayName.indexOf('Button') !== -1) {
+		} else if (
+			element.type &&
+			(element.type as any).displayName &&
+			(element.type as any).displayName.indexOf('Button') !== -1
+		) {
 			return element;
 		}
 
@@ -367,7 +373,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 				delete self.fields[element.props.name];
 				self.hiddenFields[element.props.name] = {
 					name: element.props.name,
-					type: element.type && element.type.name,
+					type: element.type && (element.type as any).name,
 					element: element,
 					index: index
 				};
@@ -393,7 +399,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 					reactElement={element}
 					setDoc={this.setDoc}
 					getDoc={this.getDoc}
-					mode={self.props.mode}
+					mode={self.props.mode || 'edit'}
 					setFieldMethods={(methods) => (self.fields[element.props.name] = { ...methods })}
 				/>
 			);
@@ -419,7 +425,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 					disableSort={element.props.disableSort}
 					setDoc={this.setDoc}
 					getDoc={this.getDoc}
-					mode={self.props.mode}
+					mode={self.props.mode || 'edit'}
 					setFieldMethods={(methods) =>
 						(self.fields[element.props.name] = {
 							...self.fields[element.props.name],
@@ -429,14 +435,14 @@ class SimpleForm extends Component<ISimpleFormProps> {
 				/>
 			);
 		} else if (
-			element.type.name === 'FormGroup' ||
-			element.type.name === 'Segment' ||
+			(element.type as any).name === 'FormGroup' ||
+			(element.type as any).name === 'Segment' ||
 			React.Children.toArray(element.props.children).length > 0
 		) {
-			const subElements = React.Children.toArray(element.props.children).map((element, index) =>
+			const subElements: React.ReactNode[] = React.Children.toArray(element.props.children).map((element, index) =>
 				self.wrapElement(element, index)
 			);
-			const newElement = React.cloneElement(element, {
+			const newElement: React.ReactElement = React.cloneElement(element, {
 				key: `el${index}`,
 				children: subElements
 			});
@@ -459,7 +465,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 				reactElement={element}
 				setDoc={self.setDoc}
 				getDoc={this.getDoc}
-				mode={self.props.mode}
+				mode={self.props.mode || 'edit'}
 				setFieldMethods={(methods) => {
 					self.fields[element.props.name] = {
 						...self.fields[element.props.name],
@@ -575,7 +581,7 @@ class SimpleForm extends Component<ISimpleFormProps> {
 		this.docValue = { ...this.docValue, ...(this.props.doc || {}) };
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps: Readonly<ISimpleFormProps>) {
 		const isDocDifferent = !_.isEqual(this.props.doc, prevProps.doc);
 		const isModeDifferent = this.props.mode !== prevProps.mode;
 

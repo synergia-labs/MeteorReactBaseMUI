@@ -1,4 +1,6 @@
 import React from 'react';
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -9,6 +11,10 @@ import * as appStyle from '/imports/ui/materialui/styles';
 import { radioButtonStyle } from './RadioButtonFieldStyle';
 
 import { Typography } from '@mui/material';
+
+type LegacyOption = string | { label: string; value: string };
+const optionValue = (option: LegacyOption) => (typeof option === 'string' ? option : option.value);
+const optionLabel = (option: LegacyOption) => (typeof option === 'string' ? option : option.label);
 
 export default ({
 	name,
@@ -21,15 +27,15 @@ export default ({
 	help,
 	...otherProps
 }: IBaseSimpleFormComponent) => {
-	const list =
+	const list: LegacyOption[] | null =
 		otherProps.options && hasValue(otherProps.options)
-			? otherProps.options
+			? (otherProps.options as LegacyOption[])
 			: schema && hasValue(schema.options)
-				? schema.options
+				? (schema.options as LegacyOption[])
 				: null;
 
 	const handleChangeCheck = (event: React.BaseSyntheticEvent, itemCheck: string) => {
-		onChange({ name, target: { name, value: itemCheck } }, { name, value: itemCheck });
+		onChange?.({ name, target: { name, value: itemCheck } }, { name, value: itemCheck });
 	};
 
 	const valueRadio = Array.isArray(value) ? value[0] && value[0] : value;
@@ -44,14 +50,19 @@ export default ({
 			{label ? <SimpleLabelView label={label} help={help} disabled={readOnly} /> : null}
 			{!readOnly && list ? (
 				<RadioGroup id="radioGroup" value={valueRadio} onChange={handleChangeCheck} style={radioButtonStyle.radio}>
-					{list.map((itemCheck, index) => (
+					{list.map((itemCheck: LegacyOption, index: number) => (
 						<FormControlLabel
-							key={itemCheck.value}
-							value={itemCheck.value}
-							id={itemCheck.value}
-							label={itemCheck.label}
+							key={optionValue(itemCheck)}
+							value={optionValue(itemCheck)}
+							id={optionValue(itemCheck)}
+							label={optionLabel(itemCheck)}
 							control={
-								<Radio key={`${index}`} color="secondary" size="small" inputProps={{ 'aria-label': itemCheck.label }} />
+								<Radio
+									key={`${index}`}
+									color="secondary"
+									size="small"
+									inputProps={{ 'aria-label': optionLabel(itemCheck) }}
+								/>
 							}
 						/>
 					))}
@@ -67,16 +78,16 @@ export default ({
 						width: '100%'
 					}}>
 					{list
-						.filter((itemCheck) => !!value && (value === itemCheck || value === itemCheck.value))
-						.map((itemCheck, index) => (
+						.filter((itemCheck: LegacyOption) => !!value && value === optionValue(itemCheck))
+						.map((itemCheck: LegacyOption, index: number) => (
 							<div
 								key={`${index}`}
 								style={{
-									color: value !== itemCheck && value !== itemCheck.value ? '#999' : undefined,
+									color: value !== optionValue(itemCheck) ? '#999' : undefined,
 									display: 'flex'
 								}}>
-								{value === itemCheck || value === itemCheck.value ? <SysIcon name={'check'} style={{ paddingRight: 10 }} /> : ''}
-								<Typography component={'p'}>{itemCheck.label || itemCheck}</Typography>
+								{value === optionValue(itemCheck) ? <SysIcon name={'check'} style={{ paddingRight: 10 }} /> : null}
+								<Typography component={'p'}>{optionLabel(itemCheck)}</Typography>
 							</div>
 						))}
 				</div>

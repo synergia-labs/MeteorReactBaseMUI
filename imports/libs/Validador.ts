@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import type { IDoc } from '/imports/typings/IDoc';
 
 export type ValidadorError = {
 	tipoErro: string | number;

@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import LoadingStyle from './sysLoadingStyle';
 import { SxProps, Theme } from '@mui/material';
 
-
 const { Container, Loading } = LoadingStyle;
 
 /**
@@ -36,7 +35,9 @@ export const SysLoading: React.FC<ISysLoading> = ({ label, size = 'medium', sxMa
 		<Container sx={sxMap?.container}>
 			<Loading sx={sxMap?.loading} size={size} />
 			{label && (
-				<Typography variant={size === 'small' ? 'caption' : 'body1'} color={(theme) => theme.palette.sysText?.primary}>
+				<Typography
+					variant={size === 'small' ? 'caption' : 'body1'}
+					sx={{ color: (theme) => theme.palette.sysText?.primary }}>
 					{label}
 				</Typography>
 			)}

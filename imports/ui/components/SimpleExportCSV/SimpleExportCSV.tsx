@@ -20,7 +20,7 @@ const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) =
 			<Alert
 				id={'message-id'}
 				icon={false}
-				arialabel={'message-id'}
+				aria-label={'message-id'}
 				onClose={() => setShowLoading(false)}
 				color={'info'}
 				severity={'info'}
@@ -42,7 +42,7 @@ const SimpleExportCSV = ({ filter, options, publishName, api, filename }: any) =
 	);
 
 	const downloadCSV = () => {
-		api.downloadCSV(publishName, filter, options, (err: boolean, csvLink) => {
+		api.downloadCSV(publishName, filter, options, (err: boolean, csvLink: string) => {
 			if (err) {
 				console.log(err);
 			} else {

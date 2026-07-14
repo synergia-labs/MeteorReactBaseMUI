@@ -1,44 +1,27 @@
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
-import { CirclePicker } from 'react-color';
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 
-export default ({ name, renderValue, label, value, onChange, readOnly, error, ...otherProps }) => {
-	const handleChange = (color) => {
-		if (color) {
-			console.log('Color', color);
-			onChange({ name, target: { name, value: color.hex } });
-		}
-	};
-
-	if (readOnly) {
-		return (
-			<FormControl key={name}>
-				<SimpleLabelView label={label} disabled={readOnly} />
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'row',
-						alignItems: 'center'
-					}}>
-					<div
-						style={{
-							marginRight: 8,
-							width: 40,
-							height: 25,
-							backgroundColor: value || '#FFF'
-						}}
-					/>
-					{value || '#FFF'}
-				</div>
-			</FormControl>
-		);
-	}
+export default function ColorPicker({ name, label, value, onChange, readOnly, error }: IBaseSimpleFormComponent) {
+	const color = typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value) ? value : '#ffffff';
 
 	return (
-		<FormControl key={name}>
-			<SimpleLabelView label={label} />
-			<CirclePicker name={'color'} color={value || '#FFF'} onChange={handleChange} {...otherProps} />
+		<FormControl key={name} error={!!error} sx={{ gap: 1 }}>
+			<SimpleLabelView label={label ?? ''} disabled={readOnly} />
+			<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+				<input
+					aria-label={label ?? 'Cor'}
+					type="color"
+					name={name}
+					value={color}
+					disabled={readOnly}
+					onChange={(event) =>
+						onChange?.({ name, target: { name, value: event.target.value } }, { name, value: event.target.value })
+					}
+				/>
+				<span>{color}</span>
+			</div>
 		</FormControl>
 	);
-};
+}

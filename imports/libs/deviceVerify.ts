@@ -1,18 +1,22 @@
-export const iOS = process.browser && /iPad|iPhone|iPod/.test(window.$isMobile || navigator.userAgent);
-export const isMobile = /iPhone|iPad|iPod|Android/i.test(window.$isMobile || navigator.userAgent);
+const userAgent = typeof navigator === 'undefined' ? '' : navigator.userAgent;
 
-export const setUserAgent = (window, userAgent) => {
+export const iOS = /iPad|iPhone|iPod/.test(userAgent);
+export const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent);
+
+export const setUserAgent = (targetWindow: Window, nextUserAgent: string) => {
 	const userAgentProp = {
 		get() {
-			return userAgent;
+			return nextUserAgent;
 		}
 	};
 	try {
-		Object.defineProperty(window.navigator, 'userAgent', userAgentProp);
+		Object.defineProperty(targetWindow.navigator, 'userAgent', userAgentProp);
 	} catch (e) {
 		console.error('#>ERROR>>:', e);
-		window.navigator = Object.create(navigator, {
-			userAgent: userAgentProp
+		Object.defineProperty(targetWindow, 'navigator', {
+			value: Object.create(navigator, {
+				userAgent: userAgentProp
+			})
 		});
 	}
 };

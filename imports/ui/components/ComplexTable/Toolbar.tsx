@@ -34,11 +34,7 @@ export const Toolbar = (props: IToolbarProps) => {
 				<Box sx={{ mr: { xs: 'auto', sm: '0' } }}>
 					{!!selectColumns ? (
 						// @ts-ignore
-						<GridToolbarColumnsButton
-							disableRipple
-							variant={buttonVariant ?? 'outlined'}
-							style={{ marginRight: '1rem' }}
-						/>
+						<GridToolbarColumnsButton />
 					) : null}
 					{!!density ? (
 						// @ts-ignore
@@ -60,7 +56,7 @@ export const Toolbar = (props: IToolbarProps) => {
 							width: { xs: '100%', sm: 'auto' },
 							display: { xs: 'inline-flex', sm: 'inherit' }
 						}}>
-						<GridToolbarQuickFilter variant="filled" sx={toolbarStyle.searchFilter} />
+						<GridToolbarQuickFilter />
 						{!hideFilterIcon && !!openFilterModal ? (
 							<IconButton sx={{ ml: '0.3em' }} onClick={openFilterModal}>
 								<SysIcon name={'filterAltFilled'} />

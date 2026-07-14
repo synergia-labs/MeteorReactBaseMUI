@@ -52,7 +52,7 @@ const SysSlider: React.FC<ISysSliderProps> = ({
 
 	const [valueState, setValueState] = useState<number>(defaultValue || 0);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
-	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [errorState, setErrorState] = useState<string | undefined>(typeof error === 'string' ? error : undefined);
 
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({

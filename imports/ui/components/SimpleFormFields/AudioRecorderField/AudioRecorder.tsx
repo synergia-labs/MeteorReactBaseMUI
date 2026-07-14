@@ -5,7 +5,7 @@ import Fab from '@mui/material/Fab';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import { audioRecorderStyle } from './AudioRecorderStyle';
 import { hasValue } from '/imports/libs/hasValue';
-
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 
 export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFormComponent) => {
 	const [values, setValues] = React.useState({
@@ -18,10 +18,10 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 	const [minutes, setMinutes] = React.useState(0);
 	const [hours, setHours] = React.useState(0);
 
-	let recorder: any = null;
+	const recorderRef = React.useRef<MediaRecorder | null>(null);
 
 	const deleteAudio = () => {
-		onChange({ target: { value: '-' } }, { name, value: '-' });
+		onChange?.({ target: { value: '-' } }, { name, value: '-' });
 
 		setValues({
 			...values,
@@ -32,10 +32,11 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 		});
 	};
 
-	const onSuccess = (stream: any) => {
-		recorder = new MediaRecorder(stream, {
-			type: 'audio/ogg; codecs=opus'
+	const onSuccess = (stream: MediaStream) => {
+		const recorder = new MediaRecorder(stream, {
+			mimeType: 'audio/ogg; codecs=opus'
 		});
+		recorderRef.current = recorder;
 
 		recorder.start(); // Starting the record
 
@@ -44,14 +45,14 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 			const reader = new FileReader();
 			reader.onloadend = () => {
 				// console.log(reader.result);
-				onChange({ name, target: { name, value: reader.result } }, { name, value: reader.result }); // You can upload the base64 to server here.
+				onChange?.({ name, target: { name, value: reader.result } }, { name, value: reader.result });
 			};
 
 			reader.readAsDataURL(e.data);
 		};
 	};
 
-	const handleRecordAudio = () => {
+	const handleRecordAudio = async () => {
 		setValues({
 			...values,
 			recordButton: false,
@@ -60,25 +61,12 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 			deleteButton: false
 		});
 
-		navigator.getUserMedia =
-			navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-		navigator.getUserMedia(
-			{
-				audio: true
-			},
-			onSuccess,
-			(e) => {
-				console.log(e);
-			}
-		);
-
-		const stop = document.querySelector('.stop');
-		stop.onclick = function () {
-			if (recorder) {
-				recorder.stop();
-			}
-		};
+		try {
+			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+			onSuccess(stream);
+		} catch (error) {
+			console.error('Não foi possível acessar o microfone', error);
+		}
 	};
 
 	React.useEffect(() => {
@@ -106,6 +94,8 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 	});
 
 	const handleStopRecordAudio = () => {
+		recorderRef.current?.stop();
+		recorderRef.current?.stream.getTracks().forEach((track) => track.stop());
 		setValues({
 			...values,
 			recordButton: true,
@@ -118,17 +108,11 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 	if (readOnly) {
 		return (
 			<div key={name}>
-				<SimpleLabelView label={label} disabled={readOnly} />
+				<SimpleLabelView label={label ?? ''} disabled={readOnly} />
 
 				{hasValue(value) && value != '-' ? (
 					<p>
-						<audio
-							src={value}
-							controlsList={'nodownload'}
-							controls="controls"
-							autobuffer="autobuffer"
-							style={audioRecorderStyle.buttonOptions}
-						/>
+						<audio src={value} controlsList={'nodownload'} controls style={audioRecorderStyle.buttonOptions} />
 					</p>
 				) : (
 					<div style={audioRecorderStyle.containerEmptyAudio}>{'Não há aúdio'}</div>
@@ -139,20 +123,19 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 
 	return (
 		<div key={name} style={error ? audioRecorderStyle.containerRecordError : audioRecorderStyle.containerRecord}>
-			<SimpleLabelView label={label} disabled={readOnly} />
+			<SimpleLabelView label={label ?? ''} disabled={readOnly} />
 			<div style={audioRecorderStyle.subContainerRecord}>
 				{!hasValue(value) || value == '-' ? (
 					<span style={audioRecorderStyle.subContainerRecord}>
 						<Fab
 							color="secondary"
 							onClick={handleRecordAudio}
-							value={values.recordButton}
 							aria-label="record"
 							className="record"
 							id="record"
 							disabled={!values.recordButton}
 							style={audioRecorderStyle.buttonOptions}>
-							<SysIcon name={'KeyboardVoice'} />
+							<SysIcon name={'keyboardVoice'} />
 						</Fab>
 
 						<Fab
@@ -160,7 +143,6 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 							aria-label="play"
 							className="stop"
 							onClick={handleStopRecordAudio}
-							value={values.stopButton}
 							disabled={!values.stopButton}
 							style={audioRecorderStyle.buttonOptions}>
 							<SysIcon name={'stop'} />
@@ -169,7 +151,7 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 						{values.recordButton ? (
 							''
 						) : (
-							<Fab variant="outlined" color="#5a9902" style={audioRecorderStyle.buttonCountOptions}>
+							<Fab color="secondary" style={audioRecorderStyle.buttonCountOptions}>
 								{`${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
 									seconds < 10 ? `0${seconds}` : seconds
 								}`}
@@ -178,13 +160,7 @@ export default ({ name, label, value, onChange, readOnly, error }: IBaseSimpleFo
 					</span>
 				) : (
 					<span style={audioRecorderStyle.subContainerRecord}>
-						<audio
-							src={value}
-							controlsList={'nodownload'}
-							controls="controls"
-							autobuffer="autobuffer"
-							style={audioRecorderStyle.buttonOptions}
-						/>
+						<audio src={value} controlsList={'nodownload'} controls style={audioRecorderStyle.buttonOptions} />
 						<Fab
 							color="secondary"
 							aria-label="delete"

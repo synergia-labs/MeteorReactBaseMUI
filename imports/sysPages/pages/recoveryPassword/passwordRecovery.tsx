@@ -7,7 +7,6 @@ import TextField from '/imports/ui/components/SimpleFormFields/TextField/TextFie
 import Button from '@mui/material/Button';
 import SimpleForm from '/imports/ui/components/SimpleForm/SimpleForm';
 
-
 import { IDefaultContainerProps } from '/imports/typings/BoilerplateDefaultTypings';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -19,19 +18,13 @@ import { sysSizing } from '/imports/ui/materialui/styles';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 import AppLayoutContext from '/imports/app/appLayoutProvider/appLayoutContext';
 
-
 export const PasswordRecovery = (props: IDefaultContainerProps) => {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [msg, setMsg] = React.useState<boolean>(false);
 
 	const { showNotification } = useContext(AppLayoutContext);
 	const navigate = useNavigate();
-  const {
-    Container,
-    Content,
-    FormContainer,
-    FormWrapper,
-  } = SignInStyles;
+	const { Container, Content, FormContainer, FormWrapper } = SignInStyles;
 
 	const handleSubmit = (doc: { email: string }) => {
 		const { email } = doc;
@@ -80,7 +73,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 		<Container>
 			<Content>
 				<Typography variant="h1" display={'inline-flex'} gap={1}>
-					<Typography variant="inherit" color={(theme) => theme.palette.sysText?.tertiary}>
+					<Typography variant="inherit" sx={{ color: (theme) => theme.palette.sysText?.tertiary }}>
 						{'{'}
 					</Typography>
 					Boilerplate
@@ -90,11 +83,11 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 				</Typography>
 
 				<FormContainer>
-					<Typography variant="h5" color={(theme) => theme.palette.sysText?.title}>
+					<Typography variant="h5" sx={{ color: (theme) => theme.palette.sysText?.title }}>
 						{!msg ? 'Esqueceu sua senha?' : 'Agora é só aguardar!'}
 					</Typography>
 
-					<Typography variant="body1" color={(theme) => theme.palette.sysText?.body} sx={{ textAlign: 'center' }}>
+					<Typography variant="body1" sx={{ color: (theme) => theme.palette.sysText?.body, textAlign: 'center' }}>
 						{!msg
 							? 'Confirme seu e-mail abaixo para receber um link de redefinição da sua senha'
 							: 'Caso o e-mail informado esteja cadastrado no sistema, enviaremos um link para a redefinição de sua senha'}
@@ -137,7 +130,7 @@ export const PasswordRecovery = (props: IDefaultContainerProps) => {
 						variant="contained"
 						color="primary"
 						id="cancelar"
-						startIcon={<SysIcon name={'arrowBack'}/>}
+						startIcon={<SysIcon name={'arrowBack'} />}
 						sx={{ transition: 'all 0.3s ease', display: !msg ? 'none' : 'flex' }}>
 						{loading ? <CircularProgress size={24} /> : 'Voltar para o Login'}
 					</Button>

@@ -5,7 +5,7 @@ import { ISysFormRef } from '/imports/ui/components/sysForm/typings';
 
 interface ISysFormPlaygroundContext {
 	schema: ISchema<ISysFormPlaygroundSch>;
-	sysFormRef: RefObject<ISysFormRef>;
+	sysFormRef: RefObject<ISysFormRef | null>;
 	validateIndividualField: (name: string) => void;
 	doc: ISysFormPlaygroundSch;
 	updateRealTime: boolean;

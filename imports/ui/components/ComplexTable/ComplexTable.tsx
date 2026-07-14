@@ -11,6 +11,7 @@ import {
 	GridRowIdGetter,
 	GridRowParams,
 	GridRowSelectionModel,
+	GridColumnGroupingModel,
 	MuiEvent
 } from '@mui/x-data-grid';
 import Typography from '@mui/material/Typography';
@@ -18,7 +19,6 @@ import Checkbox from '@mui/material/Checkbox';
 import { TypographyVariant } from '@mui/material/styles';
 import { ComplexTableContainer, ComplexTableRenderImg, ComplexTableRowText } from './ComplexTableStyle';
 import { Toolbar } from './Toolbar';
-import { GridColumnGroupingModel } from '@mui/x-data-grid/models/gridColumnGrouping';
 import { IconButton, Tooltip } from '@mui/material';
 import { ptBR } from '@mui/x-data-grid/locales';
 import SysIcon from '../../../../imports/ui/components/sysIcon/sysIcon';
@@ -267,11 +267,13 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	const renderHeader = (params: GridColumnHeaderParams) => (
 		<Tooltip title={params.colDef.headerName} arrow={true}>
 			<Typography
-				sx={{
-					textOverflow: 'ellipsis',
-					overflow: 'hidden',
-					whiteSpace: 'nowrap'
-				}}
+				sx={
+					{
+						textOverflow: 'ellipsis',
+						overflow: 'hidden',
+						whiteSpace: 'nowrap'
+					} as any
+				}
 				variant="subtitle2">
 				{params.colDef.headerName}
 			</Typography>
@@ -283,13 +285,13 @@ export const ComplexTable = (props: IComplexTableProps) => {
 	);
 
 	const transformGroup = (params: GridColumnGroupingModel) => {
-		return params.map((value) => {
+		return params.map((value: GridColumnGroupingModel[number]) => {
 			return !value.renderHeaderGroup ? { ...value, renderHeaderGroup } : value;
 		});
 	};
 
 	const groupIds = (value: GridColumnGroupingModel) => {
-		return value.map((group) => group);
+		return value.map((group: GridColumnGroupingModel[number]) => group);
 	};
 
 	const groupColumsTransform = groupColumns ? transformGroup(groupColumns) : undefined;
@@ -446,43 +448,47 @@ export const ComplexTable = (props: IComplexTableProps) => {
 						: undefined
 				}
 				getRowHeight={() => 'auto'}
-				slots={{
-					toolbar: Toolbar,
-					baseSwitch: Checkbox
-				}}
-				slotProps={{
-					toolbar: {
-						buttonVariant,
-						toolbarOptions: toolbar,
-						openFilterModal,
-						filterIconWidth
-					},
-					columnsPanel: {
-						sx: {
-							'& .MuiInputBase-root': {
-								border: 'none'
-							},
-							'& .MuiDataGrid-panelHeader': {
-								margin: '0.5rem 0.5rem 0.25rem 0.5rem'
-							},
-							'& .MuiDataGrid-columnsPanel ': {
-								margin: '0 0.25rem 0 0.25rem'
-							},
-							'& .MuiDataGrid-panelFooter': {
-								margin: '0.75rem'
+				slots={
+					{
+						toolbar: Toolbar as React.JSXElementConstructor<any>,
+						baseSwitch: Checkbox
+					} as any
+				}
+				slotProps={
+					{
+						toolbar: {
+							buttonVariant,
+							toolbarOptions: toolbar,
+							openFilterModal,
+							filterIconWidth
+						},
+						columnsPanel: {
+							sx: {
+								'& .MuiInputBase-root': {
+									border: 'none'
+								},
+								'& .MuiDataGrid-panelHeader': {
+									margin: '0.5rem 0.5rem 0.25rem 0.5rem'
+								},
+								'& .MuiDataGrid-columnsPanel ': {
+									margin: '0 0.25rem 0 0.25rem'
+								},
+								'& .MuiDataGrid-panelFooter': {
+									margin: '0.75rem'
+								}
 							}
+						},
+						baseButton: {
+							sx: {
+								pb: '0.3em',
+								pt: '0.3em'
+							}
+						},
+						pagination: {
+							labelRowsPerPage: 'Itens por página'
 						}
-					},
-					baseButton: {
-						sx: {
-							pb: '0.3em',
-							pt: '0.3em'
-						}
-					},
-					pagination: {
-						labelRowsPerPage: 'Itens por página'
-					}
-				}}
+					} as any
+				}
 				filterMode={!!onFilterChange ? 'server' : 'client'}
 				onFilterModelChange={
 					!!onFilterChange

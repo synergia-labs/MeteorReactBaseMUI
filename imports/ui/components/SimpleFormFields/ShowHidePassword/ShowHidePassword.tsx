@@ -3,18 +3,20 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelView';
+import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
+import type { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 
-export const ShowHidePassword = ({ name, onChange, error, placeholder, style, label }) => {
+export const ShowHidePassword = ({ name, onChange, error, placeholder, style, label }: IBaseSimpleFormComponent) => {
 	const [values, setValues] = useState({
 		password: '',
 		showPassword: false
 	});
 
-	const handleChange = (prop) => (event) => {
+	const handleChange = (prop: 'password') => (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValues({ ...values, [prop]: event.target.value });
 	};
 	useEffect(() => {
-		onChange({ name, target: { name, value: values.password } }, { name, value: values.password });
+		onChange?.({ name, target: { name, value: values.password } }, { name, value: values.password });
 	}, [values.password]);
 
 	const handleClickShowPassword = () => {
@@ -24,13 +26,13 @@ export const ShowHidePassword = ({ name, onChange, error, placeholder, style, la
 		});
 	};
 
-	const handleMouseDownPassword = (event) => {
+	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 	};
 
 	return (
 		<div>
-			<SimpleLabelView label={label} />
+			<SimpleLabelView label={label ?? ''} />
 			<OutlinedInput
 				type={values.showPassword ? 'text' : 'password'}
 				value={values.password}
@@ -46,7 +48,7 @@ export const ShowHidePassword = ({ name, onChange, error, placeholder, style, la
 							onClick={handleClickShowPassword}
 							onMouseDown={handleMouseDownPassword}
 							edge="end">
-							{values.showPassword ? <Visibility SysIcon name={'visibility'} /> : <SysIcon name={'visibilityOff'} />}
+							<SysIcon name={values.showPassword ? 'visibility' : 'visibilityOff'} />
 						</IconButton>
 					</InputAdornment>
 				}

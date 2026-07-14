@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import React from 'react';
 
 interface IAutoComplete {
+	[key: string]: any;
 	onlyEstado: boolean;
 	renderInput: (arg0: AutocompleteRenderInputParams) => React.ReactNode;
 	options: any[];

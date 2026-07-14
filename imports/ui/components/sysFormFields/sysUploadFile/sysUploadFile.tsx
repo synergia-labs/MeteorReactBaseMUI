@@ -82,7 +82,7 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	loading = loading || controllerSysForm.loading;
 	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
-	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [errorState, setErrorState] = useState<string | undefined>(typeof error === 'string' ? error : undefined);
 	const [valueState, setValueState] = useState<string>(defaultValue || '');
 
 	if (inSysFormContext)

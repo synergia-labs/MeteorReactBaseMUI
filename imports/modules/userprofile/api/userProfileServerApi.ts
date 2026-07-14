@@ -32,7 +32,7 @@ interface IUserProfileEstendido extends IUserProfile {
  * @return {Object} Logged User
  */
 export const getUserServer = async (connection?: { id: string } | null): Promise<IUserProfile> => {
-	const user: (User & IMeteorUser) | null = await Meteor.userAsync();
+	const user = (await Meteor.userAsync()) as IMeteorUser | null;
 	const d = new Date();
 	const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
 	const id = connection && connection.id ? simpleDate + connection.id : nanoid();
@@ -62,8 +62,9 @@ export const getUserServer = async (connection?: { id: string } | null): Promise
 		};
 	} catch (e) {
 		return {
-			id,
 			_id: id,
+			email: '',
+			username: '',
 			roles: [EnumUserRoles.PUBLICO]
 		};
 	}
@@ -147,7 +148,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		});
 
 		this.addPublication('getLoggedUserProfile', async () => {
-			const user: IMeteorUser | null = await Meteor.userAsync();
+			const user = (await Meteor.userAsync()) as IMeteorUser | null;
 
 			if (!user) {
 				return;
@@ -212,7 +213,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		let insertId = null;
 		try {
 			const { password } = dataObj;
-			dataObj = await this._checkDataBySchema(dataObj);
+			dataObj = (await this._checkDataBySchema(dataObj)) as IUserProfileEstendido & { otheraccounts: any };
 			if (password) {
 				dataObj = Object.assign({}, dataObj, { password });
 			}

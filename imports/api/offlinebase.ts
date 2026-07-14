@@ -1,28 +1,32 @@
 import { createStore, del, get, keys, set } from 'idb-keyval';
 import { parse, stringify } from 'zipson';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { _ } from 'lodash';
+import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
+import _ from 'lodash';
 
 import { publicSettings } from '/imports/config/publicSettings';
 import { ApiBase } from './base';
 
+type OfflineDoc = Record<string, any> & { _id: string; lastupdate?: Date; removeOnly?: boolean };
+type OfflineCallback<T = any> = (error: any, result: T | null) => void | Promise<void>;
+
 class PersistentMinimongoStorage {
-	constructor(collectionName, collectionInstance) {
+	[key: string]: any;
+
+	constructor(collectionName: string, collectionInstance: any) {
 		const self = this;
 		self.collectionName = collectionName;
-		self.customStore = new createStore(`${publicSettings.name}_${collectionName}`, `${collectionName}-store`);
-		self.controlStore = new createStore(
-			`${publicSettings.name}_${collectionName}_Control`,
-			`${collectionName}-control`
-		);
+		self.customStore = createStore(`${publicSettings.name}_${collectionName}`, `${collectionName}-store`);
+		self.controlStore = createStore(`${publicSettings.name}_${collectionName}_Control`, `${collectionName}-control`);
 		self.collection = collectionInstance;
 
 		self.inited = new ReactiveVar(false);
-		self.cachedCollection = new Meteor.Collection(null);
+		self.cachedCollection = new Mongo.Collection(null);
 
 		self.cachedCollection.insert_ = self.cachedCollection.insert;
 		delete self.cachedCollection.insert;
-		self.cachedCollection.insert = (doc, callback = () => {}, updateFromSync = false) => {
+		self.cachedCollection.insert = (doc: OfflineDoc, callback: OfflineCallback = () => {}, updateFromSync = false) => {
 			if (!doc || Object.keys(doc).length === 0) {
 				return;
 			}
@@ -46,7 +50,13 @@ class PersistentMinimongoStorage {
 
 		self.cachedCollection.update_ = self.cachedCollection.update;
 		delete self.cachedCollection.update;
-		self.cachedCollection.update = (selector, modifier, options, callback = () => {}, updateFromSync = false) => {
+		self.cachedCollection.update = (
+			selector: any,
+			modifier: any,
+			options: any,
+			callback: OfflineCallback = () => {},
+			updateFromSync = false
+		) => {
 			if (!modifier || Object.keys(modifier).length === 0) {
 				return;
 			}
@@ -70,14 +80,18 @@ class PersistentMinimongoStorage {
 
 		self.cachedCollection.remove_ = self.cachedCollection.remove;
 		delete self.cachedCollection.remove;
-		self.cachedCollection.remove = (doc, callback = () => {}, removeFromSync = false) => {
+		self.cachedCollection.remove = (
+			doc: OfflineDoc,
+			callback: OfflineCallback<boolean> = () => {},
+			removeFromSync = false
+		) => {
 			if (!doc || Object.keys(doc).length === 0) {
 				return;
 			}
 			try {
 				self.cachedCollection.remove_(doc._id);
 				if (!doc.removeOnly) {
-					self.list = self.list.filter((key) => key !== doc._id);
+					self.list = self.list.filter((key: IDBValidKey) => key !== doc._id);
 					del(doc._id, self.customStore);
 					self.delUpdatedDocsIntoControlStoreData(doc);
 					if (!removeFromSync) {
@@ -92,7 +106,7 @@ class PersistentMinimongoStorage {
 
 		self.cachedCollection.clear = () => {
 			if (self.list.length > 0) {
-				self.list.forEach((key) => {
+				self.list.forEach((key: IDBValidKey) => {
 					del(key, self.customStore).then((result) => {
 						self.cachedCollection.remove_(key);
 					});
@@ -120,7 +134,7 @@ class PersistentMinimongoStorage {
 
 		if (self.collection) {
 			self.collection.find({}).observe({
-				added(doc) {
+				added(doc: OfflineDoc) {
 					// add document id to tracking list and store
 					if (!_.includes(self.list, doc._id)) {
 						self.list.push(doc._id);
@@ -131,7 +145,7 @@ class PersistentMinimongoStorage {
 					++self.stats.added;
 				},
 
-				removed(doc, ...params) {
+				removed(doc: OfflineDoc, ...params: any[]) {
 					// if not in list, nothing to do
 					// if(!_.includes(self.list, doc._id)) {
 					//     return;
@@ -142,7 +156,7 @@ class PersistentMinimongoStorage {
 					++self.stats.removed;
 				},
 
-				changed(newDoc, oldDoc) {
+				changed(newDoc: OfflineDoc, oldDoc: OfflineDoc) {
 					const doc = _.merge(oldDoc, newDoc);
 					// update document in local storage
 					if (_.includes(self.list, doc._id)) {
@@ -158,8 +172,8 @@ class PersistentMinimongoStorage {
 		}
 	};
 
-	updateDateOnJson = (object) => {
-		function reviver(key, value) {
+	updateDateOnJson = (object: any) => {
+		function reviver(key: string, value: any) {
 			if (`${value}`.length === 24 && !!Date.parse(value)) {
 				return new Date(value);
 			}
@@ -169,7 +183,7 @@ class PersistentMinimongoStorage {
 		return JSON.parse(JSON.stringify(object), reviver);
 	};
 
-	initControlStore = (callback = () => {}) => {
+	initControlStore = (callback: OfflineCallback = () => {}) => {
 		const self = this;
 		if (self.controlStoreData) {
 			return self.controlStoreData;
@@ -202,7 +216,7 @@ class PersistentMinimongoStorage {
 			lastClientSync: new Date()
 		};
 
-	updateControlStoreData = (newData) => {
+	updateControlStoreData = (newData: any) => {
 		const self = this;
 		const newControlStoreDate = {
 			...(this.controlStoreData || {}),
@@ -213,7 +227,7 @@ class PersistentMinimongoStorage {
 		return newControlStoreDate;
 	};
 
-	addUpdatedDocsIntoControlStoreData = (doc, historyItem) => {
+	addUpdatedDocsIntoControlStoreData = (doc: OfflineDoc, historyItem?: any) => {
 		const self = this;
 		const controlStore = self.getControlStoreData();
 		if (!controlStore.updatedDocs) {
@@ -224,7 +238,7 @@ class PersistentMinimongoStorage {
 			self.updateControlStoreData(controlStore);
 			return true;
 		}
-		controlStore.updatedDocs = controlStore.updatedDocs.filter((d) => d._id !== doc._id);
+		controlStore.updatedDocs = controlStore.updatedDocs.filter((d: OfflineDoc) => d._id !== doc._id);
 		controlStore.updatedDocs.push(doc);
 		if (historyItem) {
 			controlStore.syncnavigate(historyItem);
@@ -234,13 +248,13 @@ class PersistentMinimongoStorage {
 		return true;
 	};
 
-	delUpdatedDocsIntoControlStoreData = (doc, historyItem) => {
+	delUpdatedDocsIntoControlStoreData = (doc: OfflineDoc, historyItem?: any) => {
 		const self = this;
 		const controlStore = self.getControlStoreData();
 		if (!controlStore.updatedDocs) {
 			return false;
 		}
-		controlStore.updatedDocs = controlStore.updatedDocs.filter((d) => d._id !== doc._id);
+		controlStore.updatedDocs = controlStore.updatedDocs.filter((d: OfflineDoc) => d._id !== doc._id);
 		if (historyItem) {
 			controlStore.syncnavigate(historyItem);
 		}
@@ -248,7 +262,7 @@ class PersistentMinimongoStorage {
 		return true;
 	};
 
-	addRemovedDocIntoControlStoreData = (doc, historyItem) => {
+	addRemovedDocIntoControlStoreData = (doc: OfflineDoc, historyItem?: any) => {
 		const self = this;
 		const controlStore = self.getControlStoreData();
 		if (!controlStore.removedDocs) {
@@ -262,13 +276,13 @@ class PersistentMinimongoStorage {
 		self.updateControlStoreData(controlStore);
 		return true;
 	};
-	delRemovedDocIntoControlStoreData = (doc, historyItem) => {
+	delRemovedDocIntoControlStoreData = (doc: OfflineDoc, historyItem?: any) => {
 		const self = this;
 		const controlStore = self.getControlStoreData();
 		if (!controlStore.removedDocs) {
 			return false;
 		}
-		controlStore.removedDocs = controlStore.removedDocs.filter((d) => d !== doc._id);
+		controlStore.removedDocs = controlStore.removedDocs.filter((d: string) => d !== doc._id);
 		if (historyItem) {
 			controlStore.syncnavigate(historyItem);
 		}
@@ -276,7 +290,7 @@ class PersistentMinimongoStorage {
 		return true;
 	};
 
-	updateSyncHistory = (historyItem) => {
+	updateSyncHistory = (historyItem: any) => {
 		const self = this;
 		const controlStore = self.getControlStoreData();
 		if (historyItem) {
@@ -300,17 +314,17 @@ class PersistentMinimongoStorage {
 		); // greater than 15 days
 	};
 
-	initCachedMinimongo = (callback) => {
+	initCachedMinimongo = (callback?: OfflineCallback<boolean>) => {
 		const self = this;
 
 		const seconds = self.lastCallInit ? (new Date().getTime() - self.lastCallInit.getTime()) / 1000 : 61;
 
 		if (seconds > 60 && (!!callback || !this.inited.get())) {
-			this.updateKeys(async (e, r) => {
+			this.updateKeys(async (e: any, r: boolean | null) => {
 				if (r) {
 					self.cachedCollection.remove_({});
 					await Promise.all(
-						self.list.map(async (key) => {
+						self.list.map(async (key: IDBValidKey) => {
 							const result = await get(key, self.customStore);
 							const docR = parse(result);
 							const doc = self.updateDateOnJson(docR);
@@ -335,7 +349,7 @@ class PersistentMinimongoStorage {
 	};
 
 	updateKeys = (
-		callback = (e) => {
+		callback: OfflineCallback<boolean> = (e: any) => {
 			if (e) {
 			}
 		}
@@ -349,14 +363,15 @@ class PersistentMinimongoStorage {
 			.catch((err) => callback(err, null));
 	};
 
-	getDocs = (filter = {}, callback = () => {}) => {
+	getDocs = (filter: Record<string, any> = {}, callback: OfflineCallback<OfflineDoc[]> = () => {}) => {
 		const self = this;
-		const matchFilter = (o1, o2) => Object.keys(o1).every((key) => _.isEqual(o1[key], o2[key]));
-		this.updateKeys(async (e, r) => {
-			const result = [];
+		const matchFilter = (o1: Record<string, any>, o2: Record<string, any>) =>
+			Object.keys(o1).every((key) => _.isEqual(o1[key], o2[key]));
+		this.updateKeys(async (e: any, r: boolean | null) => {
+			const result: OfflineDoc[] = [];
 			if (r) {
 				await Promise.all(
-					self.list.map(async (key) => {
+					self.list.map(async (key: IDBValidKey) => {
 						const storedValue = await get(key, self.customStore);
 						const docR = parse(storedValue);
 						if (matchFilter(filter, docR)) {
@@ -370,11 +385,11 @@ class PersistentMinimongoStorage {
 		});
 	};
 
-	syncRemovedDocs = (removeDocFunc = () => {}) => {
+	syncRemovedDocs = (removeDocFunc: (doc: { _id: string }, callback: OfflineCallback) => void = () => {}) => {
 		const self = this;
 		const controlStoreData = this.getControlStoreData();
-		(controlStoreData.removedDocs || []).forEach((docId) => {
-			removeDocFunc({ _id: docId }, (e, r) => {
+		(controlStoreData.removedDocs || []).forEach((docId: string) => {
+			removeDocFunc({ _id: docId }, (e: any) => {
 				if (!e) {
 					self.delRemovedDocIntoControlStoreData(
 						{ _id: docId },
@@ -397,12 +412,12 @@ class PersistentMinimongoStorage {
 			});
 		});
 	};
-	syncUpdatedDocs = (updateDocFunc = () => {}) => {
+	syncUpdatedDocs = (updateDocFunc: (doc: OfflineDoc, callback: OfflineCallback<OfflineDoc>) => void = () => {}) => {
 		const self = this;
 		const controlStoreData = this.getControlStoreData();
 		console.log('#syncUpdatedDocs', controlStoreData);
-		(controlStoreData.updatedDocs || []).forEach((doc) => {
-			updateDocFunc(doc, (e, serverDoc) => {
+		(controlStoreData.updatedDocs || []).forEach((doc: OfflineDoc) => {
+			updateDocFunc(doc, (e: any, serverDoc: any) => {
 				if (!e) {
 					if (!!serverDoc && !!serverDoc.removedServer) {
 						this.cachedCollection.remove(serverDoc, undefined, true);
@@ -429,14 +444,14 @@ class PersistentMinimongoStorage {
 		});
 	};
 
-	syncFromClient = (removeFunction, updateFunction) => {
+	syncFromClient = (removeFunction: any, updateFunction: any) => {
 		removeFunction && this.syncRemovedDocs(removeFunction);
 		updateFunction && this.syncUpdatedDocs(updateFunction);
 		this.updateControlStoreData({ lastClientSync: new Date() });
 	};
 
-	syncFromServer = (serverDocs) => {
-		serverDocs.forEach((doc) => {
+	syncFromServer = (serverDocs: OfflineDoc[]) => {
+		serverDocs.forEach((doc: OfflineDoc) => {
 			if (!doc || !doc._id) {
 				return;
 			}
@@ -449,8 +464,10 @@ class PersistentMinimongoStorage {
 	};
 }
 
-export class OfflineBaseApi extends ApiBase {
-	constructor(apiName, apiSch, options) {
+export class OfflineBaseApi extends ApiBase<any> {
+	[key: string]: any;
+
+	constructor(apiName: string, apiSch: any, options?: any) {
 		super(apiName, apiSch, options);
 		this.subscribe = this.subscribe.bind(this);
 		this.findOne = this.findOne.bind(this);
@@ -469,7 +486,7 @@ export class OfflineBaseApi extends ApiBase {
 	 * @param  {Object} query - Params to query a document.
 	 * @param  {Object} projection - Params to define which fiedls will return.
 	 */
-	find(query, projection = {}) {
+	find(query: any, projection: any = {}) {
 		if (Meteor.isClient) {
 			return this.persistentCollectionInstance.find(query, projection);
 		}
@@ -483,7 +500,7 @@ export class OfflineBaseApi extends ApiBase {
 	 * @param  {Object} query - Params to query a document.
 	 * @param  {Object} projection - Params to define which fiedls will return.
 	 */
-	findOne(query = {}, projection = {}) {
+	findOne(query: any = {}, projection: any = {}) {
 		if (Meteor.isClient) {
 			return this.persistentCollectionInstance.findOne(query, projection);
 		}
@@ -495,7 +512,7 @@ export class OfflineBaseApi extends ApiBase {
 	 * @param  {} api='default'
 	 * @param  {} ...param
 	 */
-	subscribe(api = 'default', ...param) {
+	subscribe(api = 'default', ...param: any[]): { total: number; stop(): void; ready: () => boolean } | null {
 		const self = this;
 		if (Meteor.isClient) {
 			if (Meteor.status().status !== 'waiting') {
@@ -506,17 +523,19 @@ export class OfflineBaseApi extends ApiBase {
 
 				// ##################################################################
 
-				return Meteor.subscribe(`${self.collectionName}.${api}`, ...param);
+				return { ...Meteor.subscribe(`${self.collectionName}.${api}`, ...param), total: 0 };
 			}
 
 			return {
+				total: 0,
+				stop: () => undefined,
 				ready: () => self.minimongoStorage.initCachedMinimongo().get()
 			};
 		}
 		return null;
 	}
 
-	callOfflineMethod = (name, docObj, callback = () => {}) => {
+	callOfflineMethod = (name: string, docObj: any, callback: (...args: any[]) => void = () => {}) => {
 		if (name === 'update') {
 			const oldDoc = Meteor.status().connected
 				? this.getCollectionInstance().findOne({ _id: docObj._id })
@@ -534,14 +553,14 @@ export class OfflineBaseApi extends ApiBase {
 	 * @param  {String} name - Meteor method name defin
 	 * @param  {Object} ...params - Parameters for this meteor method.
 	 */
-	callMethod(name, ...params) {
+	callMethod(name: string, ...params: any[]) {
 		const self = this;
 
 		if (Meteor.status().connected) {
 			Meteor.call(`${this.collectionName}.${name}`, ...params);
 		} else if (Meteor.status().status === 'waiting') {
 			if (name === 'insert' || name === 'update' || name === 'remove') {
-				self.callOfflineMethod(name, ...params);
+				self.callOfflineMethod(name, params[0], params[1]);
 			} else {
 				console.log('Sem Conexão com o Servidor');
 			}

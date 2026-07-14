@@ -75,7 +75,7 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 
 	const [valueState, setValueState] = useState<string | undefined>(defaultValue);
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
-	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [errorState, setErrorState] = useState<string | undefined>(typeof error === 'string' ? error : undefined);
 
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({
@@ -105,8 +105,11 @@ const SysTextField: React.FC<ISysTextFieldProps> = ({
 	const ShowNumberCaracteres: React.FC = () => (
 		<Typography
 			variant="caption"
-			color={(theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary)}
-			sx={{ width: '100%', textAlign: 'right' }}>
+			sx={{
+				color: (theme) => (disabled ? theme.palette.sysText?.disabled : theme.palette.sysText?.auxiliary),
+				width: '100%',
+				textAlign: 'right'
+			}}>
 			{`${valueState?.length || 0}${max ? `/${max}` : ''}`}
 		</Typography>
 	);

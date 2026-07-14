@@ -60,7 +60,7 @@ export const SysDatePickerField: React.FC<ISysDatePickerField> = ({
 
 	//const [valueState, setValueState] = useState<string>(defaultValue || '');
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
-	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [errorState, setErrorState] = useState<string | undefined>(typeof error === 'string' ? error : undefined);
 	const [dateValue, setDateValue] = useState(defaultValue);
 
 	if (inSysFormContext)

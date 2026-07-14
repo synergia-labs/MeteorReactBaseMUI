@@ -2,10 +2,11 @@ import React from 'react';
 import { hasValue, isBoolean } from '/imports/libs/hasValue';
 
 interface IFieldComponent {
+	id?: string;
 	reactElement: any;
 	name: string;
 	mode: string;
-	fieldSchema: {
+	fieldSchema?: {
 		optional?: Boolean;
 		type?: BooleanConstructor;
 		visibilityFunction: (x: Object) => boolean;
@@ -13,9 +14,9 @@ interface IFieldComponent {
 		readOnly: boolean;
 	};
 	initialValue?: any;
-	setDoc: ({}) => void;
-	getDoc: () => object;
-	setFieldMethods: ({}) => any;
+	setDoc: (doc: Record<string, any>) => void;
+	getDoc: () => Record<string, any>;
+	setFieldMethods: (methods: Record<string, any>) => any;
 }
 
 export const FieldComponent = ({ reactElement, name, ...otherProps }: IFieldComponent) => {

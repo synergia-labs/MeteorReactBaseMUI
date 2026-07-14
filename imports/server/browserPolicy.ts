@@ -58,6 +58,8 @@ Meteor.startup(() => {
 			/[?&](?:hash|v)=/i.test(req.url || '')
 		) {
 			res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+		} else if (/^\/(?:images|fonts)\//i.test(req.url || '') || /^\/manifest\.json(?:\?|$)/i.test(req.url || '')) {
+			res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
 		} else {
 			res.setHeader('Cache-Control', 'no-store');
 		}

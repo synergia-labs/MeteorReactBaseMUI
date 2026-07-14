@@ -2,6 +2,7 @@ import { mapRolesRecursos } from '/imports/security/config/mapRolesRecursos';
 import { Meteor } from 'meteor/meteor';
 import { getSystemUserProfile } from '/imports/libs/getUser';
 import { IUserProfile } from '/imports/modules/userprofile/api/userProfileSch';
+import { RoleType } from '/imports/security/config/roleType';
 
 type Recurso = string;
 
@@ -15,9 +16,10 @@ class SegurancaApi {
 		const resources = new Set<string>();
 
 		roles.forEach((role) => {
-			let recursosRole = mapRolesRecursos[role];
+			if (!Object.values(RoleType).includes(role as RoleType)) return;
+			const recursosRole = mapRolesRecursos[role as RoleType];
 			if (recursosRole) {
-				recursosRole.forEach((x) => resources.add(x));
+				recursosRole.forEach((resource: string) => resources.add(resource));
 			}
 		});
 		return resources;

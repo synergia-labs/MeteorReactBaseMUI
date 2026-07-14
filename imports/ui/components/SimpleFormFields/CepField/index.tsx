@@ -9,6 +9,7 @@ import TextField from '../TextField/TextField';
 import TextMaskField from '../TextMaskField/TextMaskField';
 
 interface IresponseCep {
+	[key: string]: unknown;
 	endereco: object;
 	cep: string;
 	logradouro: string;
@@ -27,8 +28,8 @@ interface IValue {
 	cep?: string;
 	logradouro?: string;
 	bairro?: string;
-	estado: string;
-	municipio: string;
+	estado?: string;
+	municipio?: string;
 	distrito?: string;
 }
 
@@ -52,9 +53,9 @@ export const CepField = ({
 	readOnly,
 	isRequired = true,
 	noShowMsgError
-}: ICepField): JSX.Element => {
-	const [endereco, setEndereco] = React.useState(value || {});
-	const [readOnlyFlag, setreadOnlyFlag] = React.useState<object>();
+}: ICepField): React.JSX.Element => {
+	const [endereco, setEndereco] = React.useState<IValue>(value || {});
+	const [readOnlyFlag, setreadOnlyFlag] = React.useState<Record<string, boolean>>({});
 	const [cepError, setCepError] = React.useState<boolean>(false);
 
 	const { cep, logradouro, bairro, estado, municipio, distrito } = endereco;
@@ -125,7 +126,7 @@ export const CepField = ({
 	React.useEffect(() => {
 		if (screenState === 'edit' || screenState === 'view') {
 			if (
-				hasValue(value) &&
+				value &&
 				(value.cep !== cep ||
 					value.logradouro !== logradouro ||
 					value.bairro !== bairro ||
@@ -201,7 +202,7 @@ export const CepField = ({
 			  }
 			| undefined
 	) => {
-		onChange({ name, target: { name, value: endereco } }, { name, value: endereco });
+		onChange?.({ name, target: { name, value: endereco } }, { name, value: endereco });
 	};
 
 	const handleChangeCep = (value: string) => {
@@ -217,7 +218,7 @@ export const CepField = ({
 		setEndereco({ ...endereco, logradouro: value });
 	};
 
-	const handleChageLocalizacao = (event) => {
+	const handleChageLocalizacao = (event: { target: { value?: Partial<IValue> } }) => {
 		if (event.target.value) {
 			setEndereco({
 				...endereco,

@@ -1,6 +1,12 @@
 import sysMainSizes from './sysSizes';
+import type { CSSProperties } from 'react';
 
 export const sysSizing = { ...sysMainSizes };
+
+export const secondaryOnHover = '#1976d2';
+export const secondary = '#1976d2';
+export const onBackground = '#1976d2';
+export const fieldContainer: CSSProperties = { width: '100%' };
 
 export const sysShadows = {
 	shadow1: '0px 1px 4px 0px rgba(0, 0, 0, 0.12), 0px 1px 1px 0px rgba(0, 0, 0, 0.14)',

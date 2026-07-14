@@ -7,7 +7,7 @@ import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
 export const NoPermission: React.FC = () => {
 	const navigate = useNavigate();
-  const { Container } = NoPermissionStyles;
+	const { Container } = NoPermissionStyles;
 	const backToHome = () => navigate('/');
 
 	return (
@@ -19,7 +19,7 @@ export const NoPermission: React.FC = () => {
 			<Typography variant="body1" textAlign={'center'} sx={{ mt: 2, mb: 5 }}>
 				A página que você está tentando acessar não permite a sua visualização.
 			</Typography>
-			<Button startIcon={<SysIcon name={'replyAll'} />} onClick={backToHome}>
+			<Button startIcon={<SysIcon name={'replayAll'} />} onClick={backToHome}>
 				Voltar para a página inicial
 			</Button>
 		</Container>

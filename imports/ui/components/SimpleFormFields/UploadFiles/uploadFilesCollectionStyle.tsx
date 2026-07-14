@@ -14,13 +14,10 @@
 
  */
 
-import {secondary} from '/imports/ui/materialui/styles';
+import { secondary } from '/imports/ui/materialui/styles';
 
 const backgroundColor = 'rgba(255,255,255,0.3)';
-const uploadFilesStyle: {
-	[key: string]: { [key: string]: React.CSSProperties } | React.CSSProperties;
-} = {
-	iconBackgroundColor: backgroundColor,
+const uploadFilesStyle = {
 	containerList: {
 		padding: '0px 8px'
 	},
@@ -72,6 +69,6 @@ const uploadFilesStyle: {
 		backgroundColor: backgroundColor,
 		color: secondary
 	}
-};
+} satisfies Record<string, React.CSSProperties>;
 
 export { uploadFilesStyle };

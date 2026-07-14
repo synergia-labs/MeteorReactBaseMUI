@@ -1,0 +1,14 @@
+{
+	"public": {
+		"name": "MeteorReactBase-MUI",
+		"maps": {
+			"api": ""
+		},
+		"serviceWorker": {
+			"enabled": true
+		}
+	},
+	"private": {
+		"service": "MeteorReactBase-MUI"
+	}
+}

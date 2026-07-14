@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Typography from '@mui/material/Typography';
 
 import { hasValue } from '/imports/libs/hasValue';
@@ -11,7 +11,7 @@ import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 interface ISimpleLabelView {
 	label: string;
 	value?: string;
-	style?: object;
+	style?: CSSProperties & { displayLabel?: CSSProperties; displayValue?: CSSProperties };
 	help?: string;
 	disabled?: boolean;
 }
@@ -34,7 +34,7 @@ export default ({ label, value, help, style, disabled }: ISimpleLabelView) => {
 							sx={{ marginBottom: '4px' }}
 							component={'p'}
 							color={disabled ? 'cinza60' : 'cinza40'}
-							variant={'bodyMedium'}>
+							variant={'body2'}>
 							{label}
 						</Typography>
 					</label>
@@ -48,7 +48,7 @@ export default ({ label, value, help, style, disabled }: ISimpleLabelView) => {
 			{hasValue(value) ? (
 				<Typography
 					component={'p'}
-					variant={'labelMedium'}
+					variant={'caption'}
 					color={'textSecondary'}
 					style={style && style.displayValue ? style.displayValue : simpleLabelStyle.displayLabel}>
 					{value}

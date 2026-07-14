@@ -7,11 +7,11 @@ import { simpleLabelListStyle } from './SimpleLabelViewListStyle';
 import Tooltip from '@mui/material/Tooltip';
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
 
-
 interface ISimpleLabelView {
 	label: string;
 	value?: string;
 	style?: object;
+	help?: string;
 }
 
 export default ({ label, value, help, style }: ISimpleLabelView) => {

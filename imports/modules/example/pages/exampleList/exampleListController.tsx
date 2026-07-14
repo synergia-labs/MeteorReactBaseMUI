@@ -39,7 +39,12 @@ const initialConfig = {
 const ExampleListController = () => {
 	const [config, setConfig] = React.useState<IInitialConfig>(initialConfig);
 	const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-	useEffect(() => () => searchTimer.current && clearTimeout(searchTimer.current), []);
+	useEffect(
+		() => () => {
+			if (searchTimer.current) clearTimeout(searchTimer.current);
+		},
+		[]
+	);
 
 	const { title, type, typeMulti } = exampleApi.getSchema();
 	const exampleSchReduzido = { title, type, typeMulti, createdat: { type: Date, label: 'Criado em' } };

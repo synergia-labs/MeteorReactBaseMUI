@@ -1,4 +1,4 @@
-export const downloadFile = (url, name) => {
+export const downloadFile = (url: string, name?: string) => {
 	const urlPart = url.split('/');
 
 	const fileName = name || urlPart[urlPart.length - 1];

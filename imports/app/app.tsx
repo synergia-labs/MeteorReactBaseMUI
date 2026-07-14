@@ -8,7 +8,7 @@ export const App = () => {
 	return (
 		<AuthProvider>
 			<AppLayoutProvider>
-				<Router>
+				<Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
 					<AppRouterSwitch />
 				</Router>
 			</AppLayoutProvider>

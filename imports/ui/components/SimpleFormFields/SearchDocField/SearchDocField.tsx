@@ -8,11 +8,10 @@ import SimpleLabelView from '/imports/ui/components/SimpleLabelView/SimpleLabelV
 import { Mongo } from 'meteor/mongo';
 import { IBaseSimpleFormComponent } from '/imports/ui/components/InterfaceBaseSimpleFormComponent';
 import { SxProps } from '@mui/system';
-import { IDoc } from '/imports/api/IDoc';
+import { IDoc } from '/imports/typings/IDoc';
 import * as appStyle from '/imports/ui/materialui/styles';
 import Selector = Mongo.Selector;
 import SysIcon from '/imports/ui/components/sysIcon/sysIcon';
-
 
 interface SearchDocApiProps<T extends IDoc> extends IBaseSimpleFormComponent {
 	api: ApiBase<T>;
@@ -88,34 +87,32 @@ export default function SearchDocField<T extends IDoc>({
 	const [text, setText] = useState('');
 	const unidecode = require('unidecode');
 
-	const { loading, options, valueDoc }: { loading: boolean; options: Selector<T>; valueDoc: Partial<T> | null } =
-		useTracker(() => {
-			const isTextLengthGreaterThanMin = showAll ? true : (text && text.length > 1) || false;
+	const { loading, options, valueDoc }: { loading: boolean; options: T[]; valueDoc: T | null } = useTracker(() => {
+		const isTextLengthGreaterThanMin = showAll ? true : (text && text.length > 1) || false;
 
-			const ready = isTextLengthGreaterThanMin
-				? api.subscribe(subscribe, { $or: [textToQueryFilter(text), { _id: docId }], ...additionalFilter })?.ready()
-				: !!docId
-					? api.subscribe(subscribe, { $or: [{ _id: docId }], ...additionalFilter })?.ready()
-					: true;
+		const ready = isTextLengthGreaterThanMin
+			? api.subscribe(subscribe, { $or: [textToQueryFilter(text), { _id: docId }], ...additionalFilter })?.ready()
+			: !!docId
+				? api.subscribe(subscribe, { $or: [{ _id: docId }], ...additionalFilter })?.ready()
+				: true;
 
-			const sortCondition = sort || {};
+		const sortCondition = sort || {};
 
-			const optionsSemValidar =
-				ready && isTextLengthGreaterThanMin ? api.find({}, { sort: sortCondition }).fetch() : [];
+		const optionsSemValidar = ready && isTextLengthGreaterThanMin ? api.find({}, { sort: sortCondition }).fetch() : [];
 
-			const options = optionsSemValidar.filter((word) => {
-				return isSearchId
-					? unidecode(word.codigo).toLowerCase().includes(unidecode(text).toLowerCase())
-					: unidecode(word.nome).toLowerCase().includes(unidecode(text).toLowerCase());
-			});
+		const options = optionsSemValidar.filter((word) => {
+			return isSearchId
+				? unidecode(word.codigo).toLowerCase().includes(unidecode(text).toLowerCase())
+				: unidecode(word.nome).toLowerCase().includes(unidecode(text).toLowerCase());
+		});
 
-			if (sortFront) options.sort(sortFront);
+		if (sortFront) options.sort(sortFront);
 
-			if (options.length === 0) setText('');
+		if (options.length === 0) setText('');
 
-			const valueDoc = ready && docId ? api.findOne(docId) : null;
-			return { loading: !ready, options, valueDoc };
-		}, [text, docId, textToQueryFilter, additionalFilter]);
+		const valueDoc = ready && docId ? ((api.findOne(docId) as T | undefined) ?? null) : null;
+		return { loading: !ready, options, valueDoc };
+	}, [text, docId, textToQueryFilter, additionalFilter]);
 
 	useEffect(() => {
 		onDocLoad(valueDoc, lastDoc);
@@ -125,7 +122,7 @@ export default function SearchDocField<T extends IDoc>({
 		setText('');
 	}, [additionalFilter]);
 
-	const handleChange = (_event: React.BaseSyntheticEvent, doc: T) => {
+	const handleChange = (_event: React.SyntheticEvent, doc: T | null) => {
 		setLastDoc(valueDoc);
 		setDocId(doc?._id || null);
 		if (onChange) {

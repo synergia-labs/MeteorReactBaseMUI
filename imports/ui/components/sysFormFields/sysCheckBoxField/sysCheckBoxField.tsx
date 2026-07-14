@@ -12,6 +12,7 @@ import { hasValue } from '../../../../libs/hasValue';
 import { ISysFormComponentRef } from '../../sysForm/typings';
 import { SysViewField } from '../sysViewField/sysViewField';
 import { sysSizing } from '../../../../ui/materialui/styles';
+import { normalizeCheckBoxValue } from './normalizeCheckBoxValue';
 
 interface ISysCheckBox extends ISysFormComponent<CheckboxProps> {
 	/** Estilo do componente.*/
@@ -49,23 +50,24 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	const controllerSysForm = useContext(SysFormContext);
 	const inSysFormContext = hasValue(controllerSysForm);
 
-	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
+	const localRef = useRef<ISysFormComponentRef>({ name, value: value ?? defaultValue });
+	const refObject = inSysFormContext ? localRef : null;
 	if (inSysFormContext) controllerSysForm.setRefComponent(refObject!);
 
 	const schema = refObject?.current.schema;
 
 	label = label || schema?.label;
-	defaultValue = refObject?.current.value || schema?.defaultValue;
+	defaultValue = refObject?.current.value ?? schema?.defaultValue ?? defaultValue;
 	readOnly = readOnly || controllerSysForm?.mode === 'view' || schema?.readOnly;
 	options = options || refObject?.current?.options || ([] as any);
 	showLabelAdornment = showLabelAdornment ?? (!!schema && !!schema?.optional);
 
-	const [valueState, setValueState] = useState<Array<string>>(defaultValue || []);
+	const [valueState, setValueState] = useState<unknown[]>(() => normalizeCheckBoxValue(defaultValue));
 	const [visibleState, setVisibleState] = useState<boolean>(refObject?.current.isVisible ?? true);
-	const [errorState, setErrorState] = useState<string | undefined>(error);
+	const [errorState, setErrorState] = useState<string | undefined>(typeof error === 'string' ? error : undefined);
 	const [optionsState, setOptionsState] = useState<Array<IOption> | undefined>(options);
 
-	const [selectedOptions, setSelectedOptions] = useState<any[]>([] || [...defaultValue]);
+	const [selectedOptions, setSelectedOptions] = useState<unknown[]>(() => normalizeCheckBoxValue(defaultValue));
 
 	if (inSysFormContext)
 		controllerSysForm.setInteractiveMethods({
@@ -74,7 +76,11 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 				setValueState([]);
 				setSelectedOptions([]);
 			},
-			setValueMethod: (value) => setValueState(value),
+			setValueMethod: (value) => {
+				const normalizedValue = normalizeCheckBoxValue(value);
+				setValueState(normalizedValue);
+				setSelectedOptions(normalizedValue);
+			},
 			changeVisibilityMethod: (visible) => setVisibleState(visible),
 			setErrorMethod: (error) => setErrorState(error),
 			setOptionsMethod: (options) => setOptionsState(options)
@@ -86,6 +92,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 		const value = optionsState?.find((item) => item.label === event.target.name)?.value;
 		if (!hasValue(value)) return;
 		const updatedOptions = checked ? [...selectedOptions, value] : selectedOptions.filter((option) => option !== value);
+		setValueState(updatedOptions);
 		setSelectedOptions(updatedOptions);
 		if (inSysFormContext)
 			controllerSysForm?.onChangeComponentValue?.({ refComponent: refObject!, value: updatedOptions });
@@ -93,9 +100,7 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	};
 
 	React.useEffect(() => {
-		if (valueState?.length > 0) {
-			setSelectedOptions(valueState);
-		}
+		setSelectedOptions(valueState);
 	}, [valueState]);
 
 	if (!visibleState || optionsState?.length === 0) return null;
@@ -103,11 +108,11 @@ export const SysCheckBox: React.FC<ISysCheckBox> = ({
 	if (readOnly) {
 		return (
 			<SysViewField
-				label={label}
+				label={label ?? ''}
 				placeholder={
 					valueState && valueState?.map
 						? valueState?.map((value) => optionsState?.find((opt) => opt.value === value)?.label).join?.(', ') || '-'
-						: undefined
+						: '-'
 				}
 				showLabelAdornment={showLabelAdornment}
 				labelAdornment={labelAdornment}
