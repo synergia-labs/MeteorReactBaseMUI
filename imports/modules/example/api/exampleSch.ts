@@ -67,7 +67,21 @@ export const exampleSch: ISchema<IExample> = {
 	files: {
 		type: [Object],
 		label: 'Anexos',
-		defaultValue: '',
+		defaultValue: [],
+		optional: true,
+		isUpload: true
+	},
+	images: {
+		type: [Object],
+		label: 'Imagens',
+		defaultValue: [],
+		optional: true,
+		isUpload: true
+	},
+	audios: {
+		type: [Object],
+		label: 'Áudios',
+		defaultValue: [],
 		optional: true,
 		isUpload: true
 	},
@@ -166,6 +180,8 @@ export interface IExample extends IDoc {
 	typeMulti: string;
 	date: Date;
 	files: object[];
+	images: object[];
+	audios: object[];
 	chip: string[];
 	contacts: object;
 	tasks: object[];

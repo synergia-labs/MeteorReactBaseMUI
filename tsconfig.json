@@ -15,5 +15,5 @@
 			"/imports/*": ["./imports/*"]
 		}
 	},
-	"exclude": ["node_modules", ".meteor"]
+	"exclude": ["node_modules", ".meteor", "jatai-web"]
 }

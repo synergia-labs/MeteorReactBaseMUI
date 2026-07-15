@@ -1,5 +1,6 @@
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
+import MuiButton from '@mui/material/Button';
 import { FileWithPath, useDropzone } from 'react-dropzone';
 import { attachmentsCollection } from '../../../../api/attachmentsCollection';
 import { SysFormContext } from '../../sysForm/sysForm';
@@ -43,6 +44,8 @@ interface ISysUploadFile extends ISysFormComponent<any> {
 		boxIconsCard?: SxProps<Theme>;
 	};
 	btnTextDesc?: string;
+	enableAudioRecording?: boolean;
+	moduleName?: string;
 }
 
 export const SysUploadFile: React.FC<ISysUploadFile> = ({
@@ -61,12 +64,18 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 	tooltipPosition,
 	sxMap,
 	btnTextDesc = 'Arraste o arquivo até aqui ou clique abaixo',
+	enableAudioRecording = false,
+	moduleName,
 	validTypes = ['text', 'audio', 'image', 'video', 'application'] // Caso queira adicionar outras extensoes, adicione tambem ao arquivo attachment Collection.js
 }) => {
 	const controllerSysForm = useContext(SysFormContext);
 	const inSysFormContext = hasValue(controllerSysForm);
 
 	const [files, setFiles] = useState<IArquivo[]>(value || defaultValue || []);
+	const recorderRef = useRef<MediaRecorder | null>(null);
+	const streamRef = useRef<MediaStream | null>(null);
+	const chunksRef = useRef<Blob[]>([]);
+	const [recording, setRecording] = useState(false);
 	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
 
 	const refObject = !inSysFormContext ? null : useRef<ISysFormComponentRef>({ name, value: value || defaultValue });
@@ -94,45 +103,103 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 			setErrorMethod: (error) => setErrorState(error)
 		});
 
-	const { getRootProps, getInputProps } = useDropzone({
-		onDrop: useCallback((acceptedFiles: FileWithPath[], rejectedFiles: any[]) => {
-			acceptedFiles.forEach((file) => {
-				const type = file.type.split('/')[0];
-				if (!validTypes.includes(type) || file.size > maxSize) {
-					showNotification({
-						type: 'error',
-						title: 'Arquivo inválido',
-						message: `O arquivo "${file.name}" é inválido.`
-					});
+	const uploadFile = useCallback(
+		(file: FileWithPath | File) => {
+			const type = file.type.split('/')[0];
+			if (!validTypes.includes(type) || file.size > maxSize) {
+				showNotification({
+					type: 'error',
+					title: 'Arquivo inválido',
+					message: `O arquivo "${file.name}" é inválido.`
+				});
+				return;
+			}
+			const newFile: IArquivo = { name: file.name, type: file.type, size: file.size };
+
+			const uploadInstance = attachmentsCollection.attachments.insert({
+				file,
+				meta: {
+					...(moduleName ? { module: moduleName } : {}),
+					fieldName: name,
+					docId: controllerSysForm.docId || 'Error',
+					kind: name === 'images' ? 'image' : name === 'audios' ? 'audio' : 'attachment',
+					userId: Meteor.userId()
+				},
+				chunkSize: 'dynamic',
+				allowWebWorkers: true
+			});
+
+			uploadInstance.on('uploaded', (error: string | null) => {
+				if (error) {
+					showNotification({ type: 'error', title: 'Falha no upload', message: String(error) });
 					return;
 				}
-
-				const newFile: IArquivo = {
-					name: file.name,
-					type: file.type,
-					size: file.size
-				};
-
-				const uploadInstance = attachmentsCollection.attachments.insert({
-					file,
-					meta: {
-						fieldName: name,
-						docId: controllerSysForm.docId || 'Error',
-						userId: Meteor.userId()
-					},
-					chunkSize: 'dynamic',
-					allowWebWorkers: true
-				});
-
-				uploadInstance.on('uploaded', (error: string | null) => {
-					if (error) {
-						console.error(`Error during upload: ${error}`);
-						return;
-					}
-					setFiles((prevFiles) => [...prevFiles, newFile]);
-				});
+				setFiles((prevFiles) => [...prevFiles, newFile]);
 			});
-		}, [])
+		},
+		[controllerSysForm.docId, moduleName, name, showNotification, validTypes]
+	);
+
+	const toggleRecording = useCallback(async () => {
+		if (recording) {
+			recorderRef.current?.stop();
+			setRecording(false);
+			return;
+		}
+		try {
+			if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') {
+				throw new Error('Este navegador não oferece suporte à gravação de áudio.');
+			}
+			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+			streamRef.current = stream;
+			chunksRef.current = [];
+			const preferredMimeType = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg'].find((mimeType) =>
+				MediaRecorder.isTypeSupported(mimeType)
+			);
+			const recorder = new MediaRecorder(stream, preferredMimeType ? { mimeType: preferredMimeType } : undefined);
+			recorderRef.current = recorder;
+			recorder.ondataavailable = (event) => {
+				if (event.data.size) chunksRef.current.push(event.data);
+			};
+			recorder.onstop = () => {
+				const mimeType = recorder.mimeType || preferredMimeType || 'audio/webm';
+				const extension = mimeType.startsWith('audio/ogg') ? 'ogg' : 'webm';
+				const blob = new Blob(chunksRef.current, { type: mimeType });
+				uploadFile(new File([blob], `gravacao-${Date.now()}.${extension}`, { type: mimeType }));
+				streamRef.current?.getTracks().forEach((track) => track.stop());
+				streamRef.current = null;
+			};
+			recorder.start(1000);
+			setRecording(true);
+		} catch (error: any) {
+			streamRef.current?.getTracks().forEach((track) => track.stop());
+			streamRef.current = null;
+			showNotification({
+				type: 'error',
+				title: 'Microfone indisponível',
+				message: error?.message || 'Não foi possível iniciar a gravação.'
+			});
+		}
+	}, [recording, showNotification, uploadFile]);
+
+	useEffect(
+		() => () => {
+			if (recorderRef.current?.state === 'recording') {
+				recorderRef.current.onstop = null;
+				recorderRef.current.stop();
+			}
+			streamRef.current?.getTracks().forEach((track) => track.stop());
+		},
+		[]
+	);
+
+	const { getRootProps, getInputProps } = useDropzone({
+		onDrop: useCallback(
+			(acceptedFiles: FileWithPath[]) => {
+				acceptedFiles.forEach(uploadFile);
+			},
+			[uploadFile]
+		)
 	});
 
 	const { loadingAttachments, attachments, attachmentsExists } = useTracker(() => {
@@ -156,15 +223,20 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 		};
 	});
 
+	const getFileUrl = (item: IArquivo) =>
+		`${Meteor.absoluteUrl()}${item._downloadRoute}/${item._collectionName}/${item._id}/original/${encodeURIComponent(item.name)}`;
+
 	const downloadURI = (item: IArquivo) => {
 		const link = document.createElement('a');
 		link.download = item.name;
-		link.href = `${Meteor.absoluteUrl()}${item._downloadRoute}/${item._collectionName}/${item._id}/original/${item.name}`;
+		link.href = getFileUrl(item);
 		link.click();
 	};
 
 	const deleteFile = (id: string | undefined) => {
-		Meteor.call('RemoveFile', id, (err: boolean) => {
+		const method = moduleName === 'example' ? 'example.removeAsset' : 'RemoveFile';
+		const argument = moduleName === 'example' ? { assetId: id } : id;
+		Meteor.call(method, argument, (err: Error | undefined) => {
 			if (err) {
 				console.error(err);
 				return;
@@ -187,14 +259,26 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 				tooltipPosition={tooltipPosition}>
 				<Container readOnly={readOnly} sx={sxMap?.container}>
 					{!readOnly && (
-						<Button {...getRootProps()} disabled={disabled || loading} sx={sxMap?.button}>
-							<input {...getInputProps()} />
-							<TypographyInfo variant="caption">{btnTextDesc}</TypographyInfo>
-							<TypographyAdd variant="button2">
-								<SysIcon name={'add'} />
-								Adicionar
-							</TypographyAdd>
-						</Button>
+						<>
+							<Button {...getRootProps()} disabled={disabled || loading || recording} sx={sxMap?.button}>
+								<input {...getInputProps()} />
+								<TypographyInfo variant="caption">{btnTextDesc}</TypographyInfo>
+								<TypographyAdd variant="button2">
+									<SysIcon name={'add'} />
+									Adicionar
+								</TypographyAdd>
+							</Button>
+							{enableAudioRecording && (
+								<MuiButton
+									type="button"
+									variant={recording ? 'contained' : 'outlined'}
+									onClick={toggleRecording}
+									disabled={disabled || loading}
+									sx={{ mt: 1 }}>
+									{recording ? 'Parar e anexar gravação' : 'Gravar áudio pelo microfone'}
+								</MuiButton>
+							)}
+						</>
 					)}
 
 					{loadingAttachments && <SysLoading />}
@@ -202,15 +286,28 @@ export const SysUploadFile: React.FC<ISysUploadFile> = ({
 						<SysUploadFileStyle.itenList sx={sxMap?.itenList}>
 							{attachments.map((item: IArquivo) => (
 								<BoxItem key={item._id} sx={sxMap?.boxItem}>
-									<BoxIcon sx={sxMap?.boxIcon}>{getIcon(item.type)}</BoxIcon>
+									<BoxIcon sx={sxMap?.boxIcon}>
+										{item.type?.startsWith('image/') && item._id ? (
+											<img
+												alt={item.name}
+												src={getFileUrl(item)}
+												style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover' }}
+											/>
+										) : (
+											getIcon(item.type)
+										)}
+									</BoxIcon>
 
 									<CardInfo sx={sxMap?.cardInfo}>
 										<ElipsesText variant="body2" sx={sxMap?.cardTitle}>
 											{item.name}
 										</ElipsesText>
 										<Typography variant="caption" sx={sxMap?.cardDesc}>
-											{item.size}Kb
+											{Math.max(1, Math.round(item.size / 1024))} KB
 										</Typography>
+										{item.type?.startsWith('audio/') && item._id && (
+											<audio controls preload="metadata" src={getFileUrl(item)} style={{ maxWidth: '100%' }} />
+										)}
 									</CardInfo>
 
 									<BoxIconsCard sx={sxMap?.boxIconsCard}>

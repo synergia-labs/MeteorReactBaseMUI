@@ -8,6 +8,7 @@ import { IExample } from '../../api/exampleSch';
 import { ISchema } from '../../../../typings/ISchema';
 import { IMeteorError } from '../../../../typings/BoilerplateDefaultTypings';
 import AppLayoutContext, { IAppLayoutContext } from '/imports/app/appLayoutProvider/appLayoutContext';
+import { Random } from 'meteor/random';
 
 interface IExampleDetailContollerContext {
 	closePage: () => void;
@@ -26,6 +27,7 @@ const ExampleDetailController = () => {
 	const navigate = useNavigate();
 	const { id, state } = useContext(ExampleModuleContext);
 	const { showNotification } = useContext<IAppLayoutContext>(AppLayoutContext);
+	const draftId = React.useMemo(() => id || Random.id(), [id]);
 
 	const { document, loading } = useTracker(() => {
 		const subHandle = !!id ? exampleApi.subscribe('exampleDetail', { _id: id }) : null;
@@ -67,7 +69,7 @@ const ExampleDetailController = () => {
 		<ExampleDetailControllerContext.Provider
 			value={{
 				closePage,
-				document: { ...document, _id: id },
+				document: { ...document, _id: draftId },
 				loading,
 				schema: exampleApi.getSchema(),
 				onSubmit,

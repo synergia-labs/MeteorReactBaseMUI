@@ -69,6 +69,44 @@ por um servidor estático separado.
 arbitrários do cliente nem usada como modelo para anexos privados de usuário sem antes definir `meta.userId` e
 `meta.docId` corretos.
 
+## Integração offline-first com Flutter
+
+O módulo `Example` expõe um contrato DDP adicional para clientes mobile. O Flutter gera o `_id` antes de sincronizar,
+mantém documentos e metadados em SQLite e usa estes métodos:
+
+| Método                     | Responsabilidade                                                         |
+| -------------------------- | ------------------------------------------------------------------------ |
+| `example.mobilePull`       | Alterações incrementais e tombstones, paginados por `lastupdate`         |
+| `example.mobileGet`        | Snapshot completo usado na resolução de conflito                         |
+| `example.mobileUpsert`     | Insert/update idempotente com controle otimista por `baseVersion`        |
+| `example.mobileAssetsPage` | Catálogo paginado de imagens, áudios, anexos e mídias legadas            |
+| `example.uploadAssetChunk` | Upload retomável em blocos de até 192 KiB, validado por offset e SHA-256 |
+| `example.removeAsset`      | Remoção idempotente de um asset autorizado                               |
+
+Há três categorias de asset: `image`, `audio` e `attachment`. Imagens e áudios podem ser baixados automaticamente pelo
+app para uso offline; anexos sincronizam metadados e URL e são baixados sob demanda. Os campos base64 legados `image` e
+`audio` continuam disponíveis no catálogo por URLs `/img` e `/audio`, mas não são enviados dentro de `mobilePull`.
+
+O upload mobile deve informar `assetId`, `exampleId`, `name`, `mimeType`, `kind`, `size`, `checksum`, `offset`, `data`
+(base64) e `isLast`. O servidor mantém o `.part` em diretório temporário isolado por usuário/documento, confirma o
+próximo offset e só promove o arquivo ao storage persistente depois de validar tamanho e SHA-256.
+
+As URLs retornadas no catálogo carregam `MEDIA_ACCESS_TOKEN` quando a proteção está ativa, inclusive para arquivos do
+`ostrio:files`. Isso permite que o cliente HTTP do Flutter faça streaming sem tornar o diretório de uploads público. Em
+produção, configure um token estável; caso ele mude após reiniciar o servidor, URLs guardadas no cache mobile deixam de
+ser válidas até o próximo `mobileAssetsPage`.
+
+Ao excluir um Example, o backend grava um tombstone e remove seus assets. Mantenha os índices de `lastupdate`,
+`deletedAt/documentId` e `meta.docId/meta.fieldName/uploadedAt`, criados em `imports/server/databaseIndexes.ts`.
+
+### Fluxo de validação
+
+1. Salve um Example na Web com imagem, áudio gravado e PDF.
+2. Sincronize no Flutter e confirme imagem/áudio offline e PDF sob demanda.
+3. No Flutter offline, edite o documento e adicione mídia; reconecte e confirme o upload retomável na Web.
+4. Edite o mesmo registro na Web e no Flutter antes de sincronizar e confirme o erro `sync-conflict`.
+5. Exclua mídia e o documento em cada cliente e confirme a remoção no outro após `mobilePull`.
+
 ## Limitações conhecidas
 
 A validação atual compara extensão e MIME declarado, mas ainda não verifica magic bytes nem executa antivírus. Para

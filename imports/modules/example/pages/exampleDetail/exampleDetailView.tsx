@@ -59,7 +59,20 @@ const ExampleDetailView = () => {
 							showNumberCharactersTyped
 							max={200}
 						/>
-						<SysUploadFile name="files" />
+						<SysUploadFile
+							name="images"
+							moduleName="example"
+							validTypes={['image']}
+							btnTextDesc="Selecione ou arraste imagens"
+						/>
+						<SysUploadFile
+							name="audios"
+							moduleName="example"
+							validTypes={['audio']}
+							enableAudioRecording
+							btnTextDesc="Selecione um áudio ou grave pelo microfone"
+						/>
+						<SysUploadFile name="files" moduleName="example" btnTextDesc="Anexos disponíveis para download" />
 						<SysSlider name="slider" />
 						<SysLocationField name="address" />
 					</FormColumn>

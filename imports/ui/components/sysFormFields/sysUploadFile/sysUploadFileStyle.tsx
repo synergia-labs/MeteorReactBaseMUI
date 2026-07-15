@@ -61,7 +61,8 @@ const SysUploadFileStyle = {
 
 	BoxItem: styled(Box)(({ theme }) => ({
 		width: '100%',
-		height: '80px',
+		minHeight: '80px',
+		height: 'auto',
 		display: 'flex',
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -85,7 +86,8 @@ const SysUploadFileStyle = {
 		width: '60%',
 		maxWidth: '286px',
 		minWidth: '150px',
-		height: '43px',
+		minHeight: '43px',
+		height: 'auto',
 		display: 'flex',
 		flexDirection: 'column',
 		flexShrink: 0,

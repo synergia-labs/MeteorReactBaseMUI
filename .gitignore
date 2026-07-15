@@ -2,6 +2,7 @@
 .idea/*
 .meteor/local
 node_modules
+jatai-web/
 .vscode
 .cypress/cucumber-json/
 .cypress/results/

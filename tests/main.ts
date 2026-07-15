@@ -5,6 +5,7 @@ import { Validador } from '../imports/libs/Validador';
 import { escapeRegExp } from '../imports/libs/escapeRegExp';
 import { sanitizeHtml } from '../imports/libs/sanitizeHtml';
 import { normalizeCheckBoxValue } from '../imports/ui/components/sysFormFields/sysCheckBoxField/normalizeCheckBoxValue';
+import { isAllowedAttachment } from '../imports/api/attachmentsCollection';
 
 describe('meteor-react-base-mui', function () {
 	it('package.json has correct name', async function () {
@@ -38,6 +39,14 @@ describe('meteor-react-base-mui', function () {
 		assert.deepStrictEqual(normalizeCheckBoxValue({}), []);
 		assert.deepStrictEqual(normalizeCheckBoxValue(undefined), []);
 		assert.deepStrictEqual(normalizeCheckBoxValue(['Grupo 1']), ['Grupo 1']);
+	});
+
+	it('accepts supported Flutter media and rejects MIME/extension mismatches', function () {
+		assert.strictEqual(
+			isAllowedAttachment({ name: 'gravacao.webm', mimeType: 'audio/webm;codecs=opus', size: 1024 }),
+			true
+		);
+		assert.strictEqual(isAllowedAttachment({ name: 'foto.jpg', mimeType: 'application/pdf', size: 1024 }), false);
 	});
 
 	if (Meteor.isClient) {

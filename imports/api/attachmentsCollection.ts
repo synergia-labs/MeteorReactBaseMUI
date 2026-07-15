@@ -3,13 +3,20 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { Random } from 'meteor/random';
 
-const MAX_UPLOAD_BYTES = Number(process.env.MAX_UPLOAD_BYTES || 15 * 1024 * 1024);
+export const MAX_UPLOAD_BYTES = Number(process.env.MAX_UPLOAD_BYTES || 15 * 1024 * 1024);
 const ALLOWED_UPLOADS: Record<string, ReadonlySet<string>> = {
 	png: new Set(['image/png']),
 	jpg: new Set(['image/jpeg']),
 	jpeg: new Set(['image/jpeg']),
 	gif: new Set(['image/gif']),
 	bmp: new Set(['image/bmp']),
+	webp: new Set(['image/webp']),
+	mp3: new Set(['audio/mpeg']),
+	m4a: new Set(['audio/mp4', 'audio/x-m4a']),
+	aac: new Set(['audio/aac']),
+	wav: new Set(['audio/wav', 'audio/x-wav']),
+	ogg: new Set(['audio/ogg']),
+	webm: new Set(['audio/webm']),
 	pdf: new Set(['application/pdf']),
 	txt: new Set(['text/plain']),
 	csv: new Set(['text/csv', 'application/csv', 'text/plain']),
@@ -19,6 +26,36 @@ const ALLOWED_UPLOADS: Record<string, ReadonlySet<string>> = {
 	docx: new Set(['application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
 	odt: new Set(['application/vnd.oasis.opendocument.text']),
 	ods: new Set(['application/vnd.oasis.opendocument.spreadsheet'])
+};
+
+const attachmentMediaToken = Meteor.isServer ? process.env.MEDIA_ACCESS_TOKEN || Random.id(43) : '';
+const attachmentMediaTokenEnabled = process.env.DISABLE_MEDIA_TOKEN !== 'true';
+
+const normalizeMimeType = (mimeType: unknown) =>
+	String(mimeType || '')
+		.split(';', 1)[0]
+		.trim()
+		.toLowerCase();
+
+export const isAllowedAttachment = ({
+	name,
+	extension,
+	mimeType,
+	size
+}: {
+	name?: string;
+	extension?: string;
+	mimeType: string;
+	size: number;
+}) => {
+	const normalizedExtension = String(extension || name?.split('.').pop() || '').toLowerCase();
+	const normalizedMimeType = normalizeMimeType(mimeType);
+	return (
+		Number.isInteger(size) &&
+		size >= 0 &&
+		size <= MAX_UPLOAD_BYTES &&
+		Boolean(ALLOWED_UPLOADS[normalizedExtension]?.has(normalizedMimeType))
+	);
 };
 
 let uploadPaths: string | null = null;
@@ -48,16 +85,24 @@ class AttachmentsCollection {
 			// ToDo Colocar em uma variável de ambiente
 			storagePath: uploadPaths,
 			onBeforeUpload(file: any) {
-				const extension = String(file.extension || '').toLowerCase();
-				const mime = String(file.type || '').toLowerCase();
 				const ownerMatches = Boolean(this.userId && file.meta?.userId === this.userId);
-				const allowedMime = ALLOWED_UPLOADS[extension]?.has(mime);
+				const allowed = isAllowedAttachment({
+					name: file.name,
+					extension: file.extension,
+					mimeType: file.type,
+					size: file.size
+				});
 
-				if (ownerMatches && file.size > 0 && file.size <= MAX_UPLOAD_BYTES && allowedMime) return true;
+				if (ownerMatches && file.size > 0 && allowed) return true;
 				return 'Arquivo não autorizado, tipo inválido ou tamanho acima do limite.';
 			},
 			protected(file: any) {
-				return Boolean(this.userId && file?.meta?.userId === this.userId);
+				const token = (this.params as any)?.query?.token;
+				const ownerMatches = Boolean(this.userId && file?.meta?.userId === this.userId);
+				const tokenMatches = Boolean(
+					attachmentMediaTokenEnabled && attachmentMediaToken && token === attachmentMediaToken
+				);
+				return !attachmentMediaTokenEnabled || ownerMatches || tokenMatches;
 			}
 		});
 		this.applyPublication();
@@ -91,7 +136,7 @@ class AttachmentsCollection {
 		}
 	};
 
-	find = (filter: any) => this.attachments.collection.find(filter);
+	find = (filter: any, options: any = {}) => this.attachments.collection.find(filter, options);
 
 	getAttachmentDoc = (doc: any) => ({
 		_id: doc._id,
@@ -103,8 +148,10 @@ class AttachmentsCollection {
 		extensionWithDot: '.csv',
 		mime: '',
 		'mime-type': '',
-		userId: 'B2WZtLcLjeAoadsML',
+		userId: doc.meta?.userId || null,
 		path: doc.path,
+		uploadedAt: doc.uploadedAt || new Date(),
+		meta: doc.meta || {},
 		versions: {
 			original: {
 				path: doc.path,
@@ -125,13 +172,94 @@ class AttachmentsCollection {
 		public: false
 	});
 
+	getFileLink = (doc: any) => {
+		if (!doc?._id || !doc?.name) return null;
+		const route = doc._downloadRoute || '/cdn/storage';
+		const collection = doc._collectionName || 'Attachments';
+		const tokenQuery = attachmentMediaTokenEnabled ? `?token=${encodeURIComponent(attachmentMediaToken)}` : '';
+		return `${Meteor.absoluteUrl()}${route.replace(/^\//, '')}/${collection}/${doc._id}/original/${encodeURIComponent(doc.name)}${tokenQuery}`;
+	};
+
+	/** Move um upload em blocos já validado para o storage persistente. */
+	serverSaveFileFromPath = async ({
+		id,
+		tempPath,
+		name,
+		mimeType,
+		size,
+		meta
+	}: {
+		id: string;
+		tempPath: string;
+		name: string;
+		mimeType: string;
+		size: number;
+		meta: Record<string, any>;
+	}) => {
+		if (!Meteor.isServer || !uploadPaths) return null;
+		const fs = require('fs').promises;
+		const path = require('path');
+		const safeName = path.basename(name).replace(/[^A-Za-z0-9._-]/g, '_');
+		const extension = String(safeName.split('.').pop() || '').toLowerCase();
+		const type = normalizeMimeType(mimeType);
+		if (!safeName || !isAllowedAttachment({ name: safeName, mimeType: type, size })) {
+			throw new Meteor.Error('invalid-upload', 'Tipo, extensão ou tamanho do arquivo não permitido.');
+		}
+
+		const finalPath = path.join(uploadPaths, `${id}-${safeName}`);
+		try {
+			try {
+				await fs.rename(tempPath, finalPath);
+			} catch (error: any) {
+				if (error?.code !== 'EXDEV') throw error;
+				await fs.copyFile(tempPath, finalPath);
+				await fs.unlink(tempPath);
+			}
+			const stat = await fs.stat(finalPath);
+			if (size !== stat.size) {
+				throw new Meteor.Error('upload-size-mismatch', 'O tamanho final do arquivo não confere.');
+			}
+			const fileDoc = {
+				_id: id,
+				name: safeName,
+				size: stat.size,
+				type,
+				extension,
+				extensionWithDot: extension ? `.${extension}` : '',
+				uploadedAt: new Date(),
+				path: finalPath,
+				meta: meta || {},
+				versions: { original: { path: finalPath, size: stat.size, type, extension } },
+				_downloadRoute: '/cdn/storage',
+				_collectionName: 'Attachments',
+				isVideo: type.startsWith('video/'),
+				isAudio: type.startsWith('audio/'),
+				isImage: type.startsWith('image/'),
+				isText: type.startsWith('text/'),
+				isJSON: type === 'application/json',
+				isPDF: type === 'application/pdf',
+				_storagePath: uploadPaths,
+				public: false,
+				userId: meta?.userId || null
+			};
+			await this.serverInsert(fileDoc);
+			return { ...fileDoc, url: this.getFileLink(fileDoc) };
+		} catch (error) {
+			await fs.unlink(finalPath).catch(() => undefined);
+			throw error;
+		}
+	};
+
 	serverInsert = async (doc: any) => {
 		return this.attachments.collection.insertAsync(doc);
 	};
 
 	serverGetFileFileByDocId = async (id: string) => {
-		const docFile = await this.find({ 'meta.docId': id }).fetchAsync();
-		return docFile[0]?.path || null;
+		const docFile = await this.attachments.collection.findOneAsync(
+			{ 'meta.docId': id },
+			{ sort: { uploadedAt: -1, _id: -1 } }
+		);
+		return docFile?.path || null;
 	};
 
 	serverSaveCSVFile = async (file: string | Buffer, fileName?: string) => {
