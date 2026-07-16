@@ -24,7 +24,11 @@ const UserProfileDetailView = () => {
 			<SysForm schema={schema} doc={user} mode={mode} onSubmit={onSubmit} ref={sysFormRef} loading={loading}>
 				<FieldsForm>
 					<SysTextField name="username" placeholder="Ex.: José da Silva" />
-					<SysTextField name="email" placeholder="Ex.: jose.silva@email.com" />
+					<SysTextField
+						name="email"
+						placeholder="Ex.: jose.silva@email.com"
+						disabled={mode === 'edit'}
+					/>
 					<SysSelectField name="roles" placeholder="Selecionar" />
 					<Actions>
 						<Button variant="outlined" startIcon={<SysIcon name={'close'} />} onClick={closeDialog}>

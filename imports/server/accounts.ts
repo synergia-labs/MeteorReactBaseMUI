@@ -1,6 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { userprofileServerApi } from '../modules/userprofile/api/userProfileServerApi';
+import { getUserProfileSelector, userprofileServerApi } from '../modules/userprofile/api/userProfileServerApi';
 import { getHTMLEmailTemplate } from './email';
 import { serverSettings as settings } from '/imports/config/serverSettings';
 import { Mongo } from 'meteor/mongo';
@@ -82,6 +82,7 @@ async function validateSocialLoginAndUpdateProfile(
 ) {
 	if (!userProfile) {
 		user.roles = ['Usuario'];
+		user.status = 'active';
 		user.otheraccounts = [{ _id: user._id, service: serviceName }];
 		user.createdat = new Date();
 		user.lastupdate = new Date();
@@ -268,17 +269,26 @@ Meteor.startup(() => {
 				name: user.services.facebook.name,
 				email: user.services.facebook.email
 			};
-			return await validateLoginFacebook(user);
+			if (!(await validateLoginFacebook(user))) return false;
 		} else if (user.services?.google) {
 			// ################################ GOOGLE ################################################
 			user.profile = {
 				name: user.services.google.name,
 				email: user.services.google.email
 			};
-			return await validateLoginGoogle(user);
-		}
-		if (!user || !user.emails || !user.emails[0].verified) {
+			if (!(await validateLoginGoogle(user))) return false;
+		} else if (!user.emails || !user.emails[0].verified) {
 			throw new Meteor.Error('Email ñao verificado', `Este email ainda não foi verificado!`);
+		}
+
+		const profile = await userprofileServerApi.getCollectionInstance().findOneAsync(getUserProfileSelector(user), {
+			fields: { _id: 1, status: 1 }
+		});
+		if (!profile) {
+			throw new Meteor.Error('profile-not-found', 'Não existe um perfil vinculado a esta conta.');
+		}
+		if (profile.status === 'disabled') {
+			throw new Meteor.Error('user-disabled', 'Este usuário está desativado.');
 		}
 		return true;
 	});

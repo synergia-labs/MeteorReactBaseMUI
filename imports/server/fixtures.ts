@@ -48,7 +48,8 @@ async function createDefaultUser() {
 				_id: createdUserId,
 				username: defaultAdminUsername,
 				email: defaultAdminEmail,
-				roles: ['Administrador']
+				roles: ['Administrador'],
+				status: 'active'
 			}
 		}
 	);

@@ -11,6 +11,7 @@ type Recurso = string;
  */
 class SegurancaApi {
 	_getRecursosUsuario(user: IUserProfile | (Meteor.User & { roles?: string[] | undefined }) | undefined): Set<Recurso> {
+		if ((user as IUserProfile | undefined)?.status === 'disabled') return new Set<string>();
 		let roles = user && user.roles;
 		if (!roles) roles = ['Public'];
 		const resources = new Set<string>();

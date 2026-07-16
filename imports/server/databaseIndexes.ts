@@ -10,6 +10,7 @@ Meteor.startup(async () => {
 		userProfiles.createIndexAsync({ username: 1 }),
 		userProfiles.createIndexAsync({ status: 1, createdat: -1 }),
 		userProfiles.createIndexAsync({ roles: 1 }),
+		userProfiles.createIndexAsync({ 'otheraccounts._id': 1 }),
 		exampleServerApi.getCollectionInstance().createIndexAsync({ lastupdate: 1, _id: 1 }),
 		exampleServerApi.tombstones.createIndexAsync({ deletedAt: 1, documentId: 1 }),
 		attachmentsCollection.attachments.collection.createIndexAsync({

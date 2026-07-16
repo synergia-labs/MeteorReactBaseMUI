@@ -202,7 +202,7 @@ export class ServerApiBase<Doc extends IDoc> {
 	counts: Mongo.Collection<any>;
 	apiRestImage?: IApiRestImage | undefined;
 	apiRestAudio?: IApiRestAudio | undefined;
-	auditFields = ['createdby', 'createdat', 'lastupdate', 'updatedby', 'sincronizadoEm', 'idAparelho'];
+	auditFields = ['createdby', 'createdat', 'lastupdate', 'updatedby', 'sincronizadoEm', 'needSync', 'idAparelho'];
 	defaultResources?: any;
 	// @ts-ignore
 	collectionInstance: Mongo.Collection<any>;
@@ -1129,7 +1129,10 @@ export class ServerApiBase<Doc extends IDoc> {
 
 	defaultCounterCollectionPublication = (collection: any, publishName: string) =>
 		async function (this: { added: Function; ready: Function }, ...params: any) {
-			let handlePub = await collection.publications[publishName](...params, { limit: maxCounterLimit });
+			let handlePub = await collection.publications[publishName].apply(this, [
+				...params,
+				{ limit: maxCounterLimit }
+			]);
 			if (Array.isArray(handlePub)) handlePub = handlePub[0];
 			const count = handlePub ? await handlePub.countAsync(false) : 0;
 			// Counter snapshots avoid one long-lived Mongo observer per subscriber.
@@ -1370,8 +1373,9 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @returns {Boolean} - Returns true for any action.
 	 */
 	async beforeInsert(_docObj: Doc | Partial<Doc>, _context: IContext) {
-		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_CREATE`]) {
-			segurancaApi.validarAcessoRecursos(_context.user, [`${this.collectionName?.toUpperCase()}_CREATE`]);
+		const resource = this.defaultResources?.[`${this.collectionName?.toUpperCase()}_CREATE`];
+		if (resource) {
+			segurancaApi.validarAcessoRecursos(_context.user, [resource]);
 		}
 
 		return true;
@@ -1465,8 +1469,9 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @returns {Boolean} - Returns true for any action.
 	 */
 	async beforeUpdate(_docObj: Doc | Partial<Doc>, _context: IContext) {
-		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_UPDATE`]) {
-			segurancaApi.validarAcessoRecursos(_context.user, [`${this.collectionName?.toUpperCase()}_UPDATE`]);
+		const resource = this.defaultResources?.[`${this.collectionName?.toUpperCase()}_UPDATE`];
+		if (resource) {
+			segurancaApi.validarAcessoRecursos(_context.user, [resource]);
 		}
 		return true;
 	}
@@ -1538,8 +1543,9 @@ export class ServerApiBase<Doc extends IDoc> {
 	 * @returns {Boolean} - Returns true for any action.
 	 */
 	async beforeRemove(_docObj: Doc | Partial<Doc>, _context: IContext) {
-		if (this.defaultResources && this.defaultResources[`${this.collectionName?.toUpperCase()}_REMOVE`]) {
-			segurancaApi.validarAcessoRecursos(_context.user, [`${this.collectionName?.toUpperCase()}_REMOVE`]);
+		const resource = this.defaultResources?.[`${this.collectionName?.toUpperCase()}_REMOVE`];
+		if (resource) {
+			segurancaApi.validarAcessoRecursos(_context.user, [resource]);
 		}
 		return true;
 	}

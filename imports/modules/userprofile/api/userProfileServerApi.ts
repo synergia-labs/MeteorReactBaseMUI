@@ -10,9 +10,38 @@ import { IDoc } from '../../../typings/IDoc';
 import { ProductServerBase } from '../../../api/productServerBase';
 import { EnumUserRoles } from './enumUser';
 import { nanoid } from 'nanoid';
+import { Recurso } from '../config/recurso';
 import User = Meteor.User;
 
-const isAdminUser = (user?: IUserProfile | null) => user?.roles?.includes(EnumUserRoles.ADMINISTRADOR) || false;
+const userProfileResources = {
+	USERPROFILE_VIEW: Recurso.USUARIO_VIEW,
+	USERPROFILE_CREATE: Recurso.USUARIO_CREATE,
+	USERPROFILE_UPDATE: Recurso.USUARIO_UPDATE,
+	USERPROFILE_REMOVE: Recurso.USUARIO_REMOVE
+};
+
+const isAdminUser = (user?: IUserProfile | null) =>
+	user?.status !== 'disabled' && (user?.roles?.includes(EnumUserRoles.ADMINISTRADOR) || false);
+
+export const getUserProfileSelector = (user: {
+	_id: string;
+	profile?: { email?: string };
+	emails?: Array<{ address: string }>;
+}) => {
+	const email = user.profile?.email || user.emails?.[0]?.address;
+	const selectors: Record<string, unknown>[] = [{ _id: user._id }, { 'otheraccounts._id': user._id }];
+	if (email) selectors.push({ email });
+	return { $or: selectors };
+};
+
+const getProfileAccountIds = (profile: IUserProfile & { otheraccounts?: Array<{ _id?: string }> }) =>
+	Array.from(
+		new Set(
+			[profile._id, ...(profile.otheraccounts || []).map((account) => account._id)].filter(
+				(accountId): accountId is string => typeof accountId === 'string' && accountId.length > 0
+			)
+		)
+	);
 const emailRequestPattern = Match.Where((value: unknown) => {
 	if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
 	const data = value as Record<string, unknown>;
@@ -37,7 +66,7 @@ export const getUserServer = async (connection?: { id: string } | null): Promise
 	const simpleDate = `${d.getFullYear()}${d.getMonth() + 1}${d.getDay()}`;
 	const id = connection && connection.id ? simpleDate + connection.id : nanoid();
 
-	if (!user?.profile?.email) {
+	if (!user) {
 		return {
 			email: '',
 			username: '',
@@ -47,9 +76,7 @@ export const getUserServer = async (connection?: { id: string } | null): Promise
 	}
 
 	try {
-		const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync({
-			email: user.profile.email
-		});
+		const userProfile = await userprofileServerApi.getCollectionInstance().findOneAsync(getUserProfileSelector(user));
 
 		if (userProfile) {
 			return userProfile;
@@ -72,7 +99,7 @@ export const getUserServer = async (connection?: { id: string } | null): Promise
 
 class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	constructor() {
-		super('userprofile', userProfileSch);
+		super('userprofile', userProfileSch, { resources: userProfileResources });
 		this.addPublicationMeteorUsers();
 		this.addUserProfileProfilePublication();
 		this.serverInsert = this.serverInsert.bind(this);
@@ -127,13 +154,19 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 
 		this.registerMethod('ChangeUserStatus', this.changeUserStatus);
 
-		this.addPublication('userProfileList', (filter = {}) => {
-			return this.defaultListCollectionPublication(filter, {
+		this.addPublication('userProfileList', async (filter = {}) => {
+			const user = await getUserServer();
+			const authorizedFilter = isAdminUser(user) ? filter : { ...filter, _id: user._id };
+			return this.defaultListCollectionPublication(authorizedFilter, {
 				projection: { email: 1, username: 1, status: 1, roles: 1, createdat: 1 }
 			});
 		});
 
-		this.addPublication('userProfileDetail', (filter = {}) => {
+		this.addPublication('userProfileDetail', async (filter = {}) => {
+			const user = await getUserServer();
+			if (!isAdminUser(user) && (filter as Partial<IUserProfile>)._id !== user._id) {
+				return this.collectionInstance.find({ _id: '__denied__' });
+			}
 			return this.defaultDetailCollectionPublication(filter, {});
 		});
 
@@ -147,15 +180,40 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 			return this.collectionInstance.find({}, queryOptions);
 		});
 
-		this.addPublication('getLoggedUserProfile', async () => {
-			const user = (await Meteor.userAsync()) as IMeteorUser | null;
+		const self = this;
+		this.addPublication('getLoggedUserProfile', async function (this: { userId: string | null; ready: () => void }) {
+			if (!this.userId) return this.ready();
+			const meteorUser = (await Meteor.users.findOneAsync(
+				{ _id: this.userId },
+				{ fields: { _id: 1, 'profile.email': 1, 'emails.address': 1 } }
+			)) as IMeteorUser | null;
+			if (!meteorUser) return this.ready();
 
-			if (!user) {
-				return;
-			}
-			return this.collectionInstance.find({
-				email: user && user.profile && user.profile.email ? user.profile.email : null
+			const profile = await self.collectionInstance.findOneAsync(getUserProfileSelector(meteorUser), {
+				fields: { _id: 1, status: 1 }
 			});
+			if (!profile || profile.status === 'disabled') return this.ready();
+
+			return self.defaultCollectionPublication(
+				{ _id: profile._id },
+				{
+					limit: 1,
+					projection: {
+						photo: 1,
+						username: 1,
+						email: 1,
+						phone: 1,
+						roles: 1,
+						status: 1,
+						createdat: 1,
+						createdby: 1,
+						lastupdate: 1,
+						updatedby: 1,
+						sincronizadoEm: 1,
+						needSync: 1
+					}
+				}
+			);
 		});
 
 		// @ts-ignore
@@ -201,6 +259,14 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 						}
 					}
 				);
+				if (newStatus === 'disabled') {
+					const accountIds = getProfileAccountIds(user);
+					await Meteor.users.updateAsync(
+						{ _id: { $in: accountIds } },
+						{ $set: { 'services.resume.loginTokens': [] } },
+						{ multi: true }
+					);
+				}
 				return true;
 			}
 		} catch (error) {
@@ -249,7 +315,8 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 								profile: {
 									name: dataObj.username,
 									email: dataObj.email
-								}
+								},
+								roles: dataObj.roles
 							}
 						}
 					);
@@ -387,6 +454,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	};
 
 	async beforeInsert(docObj: IUserProfile, context: IContext) {
+		if (!docObj.status) docObj.status = 'disabled';
 		if (!isAdminUser(context.user)) {
 			docObj.roles = [EnumUserRoles.USUARIO];
 		}
@@ -404,7 +472,7 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 	}
 
 	async beforeUpdate(docObj: IUserProfile, context: IContext) {
-		const user: IUserProfile = await getUserServer();
+		const user = context.user;
 		if (
 			!docObj._id ||
 			(user && user._id !== docObj._id && user && user.roles && user.roles.indexOf('Administrador') === -1)
@@ -415,17 +483,50 @@ class UserProfileServerApi extends ProductServerBase<IUserProfile> {
 		if (user && user.roles && user.roles.indexOf('Administrador') === -1) {
 			// prevent user change your self roles
 			if (docObj && docObj.roles) delete docObj.roles;
+			if (docObj && docObj.status) delete docObj.status;
+		}
+
+		const storedProfile = await this.collectionInstance.findOneAsync({ _id: docObj._id });
+		if (storedProfile && docObj.email && storedProfile.email.toLowerCase() !== docObj.email.toLowerCase()) {
+			throw new Meteor.Error(
+				'email-change-not-supported',
+				'O email de acesso não pode ser alterado pela edição do perfil.'
+			);
 		}
 
 		return await super.beforeUpdate(docObj, context);
+	}
+
+	async afterUpdate(docObj: IUserProfile, context: IContext) {
+		const profile = (await this.collectionInstance.findOneAsync({ _id: docObj._id })) as
+			| (IUserProfile & { otheraccounts?: Array<{ _id?: string }> })
+			| undefined;
+		if (profile) {
+			await Meteor.users.updateAsync(
+				{ _id: { $in: getProfileAccountIds(profile) } },
+				{
+					$set: {
+						'profile.name': profile.username,
+						'profile.email': profile.email,
+						roles: profile.roles || []
+					}
+				},
+				{ multi: true }
+			);
+		}
+		return super.afterUpdate(docObj, context);
 	}
 
 	async beforeRemove(docObj: IUserProfile, context: IContext) {
 		if (!isAdminUser(context.user)) {
 			throw new Meteor.Error('Acesso negado', `Vocẽ não tem permissão para alterar esses dados`);
 		}
+		if (!docObj._id) throw new Meteor.Error('validation-error', 'O identificador do usuário é obrigatório.');
 		await super.beforeRemove(docObj, context);
-		await Meteor.users.removeAsync({ _id: docObj._id });
+		const storedProfile = (await this.collectionInstance.findOneAsync({ _id: docObj._id })) as
+			| (IUserProfile & { otheraccounts?: Array<{ _id?: string }> })
+			| undefined;
+		await Meteor.users.removeAsync({ _id: { $in: storedProfile ? getProfileAccountIds(storedProfile) : [docObj._id] } });
 		return true;
 	}
 }

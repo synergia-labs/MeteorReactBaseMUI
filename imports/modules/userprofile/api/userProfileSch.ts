@@ -55,7 +55,7 @@ export const userProfileSch: ISchema<IUserProfile> = {
 		]
 	},
 	status: {
-		type: [String],
+		type: String,
 		label: 'Status',
 		defaultValue: 'disabled',
 		optional: true,

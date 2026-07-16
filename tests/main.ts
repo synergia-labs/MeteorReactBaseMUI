@@ -6,6 +6,8 @@ import { escapeRegExp } from '../imports/libs/escapeRegExp';
 import { sanitizeHtml } from '../imports/libs/sanitizeHtml';
 import { normalizeCheckBoxValue } from '../imports/ui/components/sysFormFields/sysCheckBoxField/normalizeCheckBoxValue';
 import { isAllowedAttachment } from '../imports/api/attachmentsCollection';
+import { userProfileSch } from '../imports/modules/userprofile/api/userProfileSch';
+import { segurancaApi } from '../imports/security/api/segurancaApi';
 
 describe('meteor-react-base-mui', function () {
 	it('package.json has correct name', async function () {
@@ -47,6 +49,26 @@ describe('meteor-react-base-mui', function () {
 			true
 		);
 		assert.strictEqual(isAllowedAttachment({ name: 'foto.jpg', mimeType: 'application/pdf', size: 1024 }), false);
+	});
+
+	it('keeps user profile status as a scalar string', function () {
+		assert.strictEqual(userProfileSch.status.type, String);
+	});
+
+	it('does not grant resources to disabled profiles', function () {
+		assert.strictEqual(
+			segurancaApi.podeAcessarRecurso(
+				{
+					_id: 'disabled-user',
+					username: 'Usuário desativado',
+					email: 'disabled@example.com',
+					roles: ['Administrador'],
+					status: 'disabled'
+				},
+				'USUARIO_VIEW'
+			),
+			false
+		);
 	});
 
 	if (Meteor.isClient) {
