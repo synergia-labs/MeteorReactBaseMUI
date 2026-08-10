@@ -49,23 +49,43 @@ cp -a $originalModulePath $newModulePath
 # Entra no diretório de destino
 cd $newModulePath
 
-# Função para renomear arquivos
-rename_files() {
-    find . -type f | while read file; do
-        newname=$(echo "$file" | sed "s/$1/$2/")
-        if [ "$file" != "$newname" ]; then
-            mv "$file" "$newname"
-        fi
-    done
-}
+# Renomeia os diretórios (subpastas) primeiro, do mais aninhado para o menos aninhado
+find . -depth -type d -name "*${origem}*" | while read dir;
+do
+    newdir=$(echo "$dir" | sed "s/${origem}/${destino}/g")
+    if [ "$dir" != "$newdir" ]; then
+        mv "$dir" "$newdir"
+    fi
+done
+
+find . -depth -type d -name "*${origem_LetraMaiuscula}*" | while read dir;
+do
+    newdir=$(echo "$dir" | sed "s/${origem_LetraMaiuscula}/${destino_LetraMaiuscula}/g")
+    if [ "$dir" != "$newdir" ]; then
+        mv "$dir" "$newdir"
+    fi
+done
 
 # Renomeia os arquivos
-rename_files $origem $destino
-rename_files $origem_LetraMaiuscula $destino_LetraMaiuscula
+find . -type f -name "*${origem}*" | while read file;
+do
+    newname=$(echo "$file" | sed "s/${origem}/${destino}/g")
+    if [ "$file" != "$newname" ]; then
+        mv "$file" "$newname"
+    fi
+done
+
+find . -type f -name "*${origem_LetraMaiuscula}*" | while read file;
+do
+    newname=$(echo "$file" | sed "s/${origem_LetraMaiuscula}/${destino_LetraMaiuscula}/g")
+    if [ "$file" != "$newname" ]; then
+        mv "$file" "$newname"
+    fi
+done
 
 # Atualiza o conteúdo dos arquivos
-find ./ -type f -exec sed -i  "s/${origem}/${destino}/g" {} \;
-find ./ -type f -exec sed -i  "s/${origem_LetraMaiuscula}/${destino_LetraMaiuscula}/g" {} \;
+find . -type f -exec sed -i "s/${origem}/${destino}/g" {} +
+find . -type f -exec sed -i "s/${origem_LetraMaiuscula}/${destino_LetraMaiuscula}/g" {} +
 
 # Pergunta ao usuário se deseja registrar o módulo no servidor
 respostaRegistro=$(valida_resposta "Deseja registrar a api do seu módulo no servidor? (s/n) ")
@@ -79,5 +99,6 @@ fi
 # Move o diretório para a localização final no projeto
 mv ../${destino}/ ../../imports/modules/
 
-echo "Módulo '$destino' criado com sucesso em ../../imports/modules/$destino"
-echo "Não se esqueça de adicionar o módulo no arquivo /imports/modules/index.ts" 
+echo "Módulo \'$destino\' criado com sucesso em ../../imports/modules/$destino"
+echo "Não se esqueça de adicionar o módulo no arquivo /imports/modules/index.ts"
+
